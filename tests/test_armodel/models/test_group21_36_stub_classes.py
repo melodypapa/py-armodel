@@ -466,9 +466,9 @@ STUBS = [
         "CpSoftwareClusterResource",
     ),
     (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage",
+        "armodel.models.M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster",
         "CpSoftwareClusterMappingSet",
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage",
+        "armodel.models.M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster",
         "ARElement",
     ),
     (

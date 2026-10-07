@@ -562,6 +562,9 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     CpSoftwareClusterResource,
+    CpSoftwareClusterToResourceMapping,
+    PortElementToCommunicationResourceMapping,
+    SwcToApplicationPartitionMapping,
     Describable,
     DiagnosticAuthTransmitCertificateEvaluation,
     DiagnosticDataElement,
@@ -899,6 +902,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate import (
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster import CpSoftwareClusterToEcuInstanceMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster import CpSoftwareClusterResourceToApplicationPartitionMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster import CpSoftwareClusterToApplicationPartitionMapping
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster import CpSoftwareClusterMappingSet
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
     ClientServerToSignalMapping,
     DataMapping,
@@ -14005,8 +14009,10 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     self.notImplemented("Unsupported ResourceToApplicationPartitionMapping %s" % type(resource_mapping))
 
-    def writeCpSoftwareClusterToApplicationPartitionMapping(self, element: ET.Element, mapping: CpSoftwareClusterToApplicationPartitionMapping):
-        child_element = ET.SubElement(element, "CP-SOFTWARE-CLUSTER-TO-APPLICATION-PARTITION-MAPPING")
+    def writeCpSoftwareClusterToApplicationPartitionMapping(
+        self, element: ET.Element, mapping: CpSoftwareClusterToApplicationPartitionMapping, tag_name: str = "CP-SOFTWARE-CLUSTER-TO-APPLICATION-PARTITION-MAPPING"
+    ):
+        child_element = ET.SubElement(element, tag_name)
         self.writeIdentifiable(child_element, mapping)
         refs = mapping.getApplicationPartitionRefs()
         if len(refs) > 0:
@@ -14024,6 +14030,48 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeCpSoftwareClusterToApplicationPartitionMapping(mappings_tag, sc_mapping)
                 else:
                     self.notImplemented("Unsupported SoftwareClusterToApplicationPartitionMapping %s" % type(sc_mapping))
+
+    def writeCpSoftwareClusterMappingSet(self, element: ET.Element, mapping_set: CpSoftwareClusterMappingSet):
+        child_element = ET.SubElement(element, "CP-SOFTWARE-CLUSTER-MAPPING-SET")
+        self.writeARElement(child_element, mapping_set)
+        port_mappings = mapping_set.getPortElementToComResourceMappings()
+        if len(port_mappings) > 0:
+            mappings_tag = ET.SubElement(child_element, "PORT-ELEMENT-TO-COM-RESOURCE-MAPPINGS")
+            for port_mapping in port_mappings:
+                if isinstance(port_mapping, PortElementToCommunicationResourceMapping):
+                    port_element = ET.SubElement(mappings_tag, "PORT-ELEMENT-TO-COMMUNICATION-RESOURCE-MAPPING")
+                    self.writeIdentifiable(port_element, port_mapping)
+                else:
+                    self.notImplemented("Unsupported PortElementToComResourceMapping %s" % type(port_mapping))
+        res_mappings = mapping_set.getResourceToApplicationPartitionMappings()
+        if len(res_mappings) > 0:
+            mappings_tag = ET.SubElement(child_element, "RESOURCE-TO-APPLICATION-PARTITION-MAPPINGS")
+            for resource_mapping in res_mappings:
+                if isinstance(resource_mapping, CpSoftwareClusterResourceToApplicationPartitionMapping):
+                    self.writeCpSoftwareClusterResourceToApplicationPartitionMapping(mappings_tag, resource_mapping)
+                else:
+                    self.notImplemented("Unsupported ResourceToApplicationPartitionMapping %s" % type(resource_mapping))
+        sc_mapping = mapping_set.getSoftwareClusterToApplicationPartitionMapping()
+        if sc_mapping is not None:
+            self.writeCpSoftwareClusterToApplicationPartitionMapping(child_element, sc_mapping, tag_name="SOFTWARE-CLUSTER-TO-APPLICATION-PARTITION-MAPPING")
+        scr_mappings = mapping_set.getSoftwareClusterToResourceMappings()
+        if len(scr_mappings) > 0:
+            mappings_tag = ET.SubElement(child_element, "SOFTWARE-CLUSTER-TO-RESOURCE-MAPPINGS")
+            for scr_mapping in scr_mappings:
+                if isinstance(scr_mapping, CpSoftwareClusterToResourceMapping):
+                    scr_element = ET.SubElement(mappings_tag, "CP-SOFTWARE-CLUSTER-TO-RESOURCE-MAPPING")
+                    self.writeIdentifiable(scr_element, scr_mapping)
+                else:
+                    self.notImplemented("Unsupported SoftwareClusterToResourceMapping %s" % type(scr_mapping))
+        swc_mappings = mapping_set.getSwcToApplicationPartitionMappings()
+        if len(swc_mappings) > 0:
+            mappings_tag = ET.SubElement(child_element, "SWC-TO-APPLICATION-PARTITION-MAPPINGS")
+            for swc_mapping in swc_mappings:
+                if isinstance(swc_mapping, SwcToApplicationPartitionMapping):
+                    swc_element = ET.SubElement(mappings_tag, "SWC-TO-APPLICATION-PARTITION-MAPPING")
+                    self.writeIdentifiable(swc_element, swc_mapping)
+                else:
+                    self.notImplemented("Unsupported SwcToApplicationPartitionMapping %s" % type(swc_mapping))
 
     def writeSystem(self, element: ET.Element, system: System):
         self.logger.debug("Write System %s" % system.getShortName())
@@ -17854,6 +17902,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeClientIdDefinitionSet(element, ar_element)
         elif isinstance(ar_element, CpSoftwareCluster):
             self.writeCpSoftwareCluster(element, ar_element)
+        elif isinstance(ar_element, CpSoftwareClusterMappingSet):
+            self.writeCpSoftwareClusterMappingSet(element, ar_element)
         elif isinstance(ar_element, InterpolationRoutineMappingSet):
             self.writeInterpolationRoutineMappingSet(element, ar_element)
         elif isinstance(ar_element, System):

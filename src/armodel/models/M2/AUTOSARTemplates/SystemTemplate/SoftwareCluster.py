@@ -1,9 +1,12 @@
-from typing import List, Optional
+from typing import List, Optional, cast
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    CpSoftwareClusterToResourceMapping,
     Identifiable,
+    PortElementToCommunicationResourceMapping,
+    SwcToApplicationPartitionMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, RefType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
@@ -317,3 +320,122 @@ class CpSoftwareClusterToApplicationPartitionMapping(Identifiable):
         if value is not None:
             self.softwareClusterRef = value
         return self
+
+
+class CpSoftwareClusterMappingSet(ARElement):
+    """
+    This meta-class represents the ability to aggregate a collection of CP Software Cluster relevant mappings. This is applicable if a CP Software Cluster is described besides a concrete System, e.g. a reusable CP Software Cluster. Tags: atp.recommendedPackage=CpSoftwareClusterMappingSets
+    """
+
+    # CpSoftwareClusterMappingSet method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 5.49, p.285
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getPortElementToComResourceMappings           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createPortElementToComResourceMapping         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getResourceToApplicationPartitionMappings     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createResourceToApplicationPartitionMapping   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSoftwareClusterToApplicationPartitionMapping [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createSoftwareClusterToApplicationPartitionMapping [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSoftwareClusterToResourceMappings          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createSoftwareClusterToResourceMapping        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwcToApplicationPartitionMappings          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createSwcToApplicationPartitionMapping        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # maps a communication resource to CP Software Clusters Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=portElementToComResourceMapping.shortName, portElementToComResourceMapping.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        self.portElementToComResourceMappings: List[PortElementToCommunicationResourceMapping] = []
+
+        # Maps a Software Cluster resource to an Application Partition to restrict the usage. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=resourceToApplicationPartitionMapping.shortName, resourceToApplicationPartitionMapping.variationPoint.shortLabel vh.latestBindingTime=systemDesignTime
+        self.resourceToApplicationPartitionMappings: List[CpSoftwareClusterResourceToApplicationPartitionMapping] = []
+
+        # Maps a Software Cluster to an Application Partition to restrict the usage.
+        self.softwareClusterToApplicationPartitionMapping: Optional[CpSoftwareClusterToApplicationPartitionMapping] = None
+
+        # maps a service resource to CP Software Clusters Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=softwareClusterToResourceMapping.shortName, softwareClusterToResourceMapping.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+        self.softwareClusterToResourceMappings: List[CpSoftwareClusterToResourceMapping] = []
+
+        # maps SwComponentPrototypes in a CP Software Cluster to ApplicationPartitions Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=swcToApplicationPartitionMapping.shortName, swcToApplicationPartitionMapping.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        self.swcToApplicationPartitionMappings: List[SwcToApplicationPartitionMapping] = []
+
+    def getPortElementToComResourceMappings(self) -> List[PortElementToCommunicationResourceMapping]:
+        """
+        maps a communication resource to CP Software Clusters Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=portElementToComResourceMapping.shortName, portElementToComResourceMapping.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
+        return self.portElementToComResourceMappings
+
+    def createPortElementToComResourceMapping(self, short_name: str) -> PortElementToCommunicationResourceMapping:
+        """
+        maps a communication resource to CP Software Clusters Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=portElementToComResourceMapping.shortName, portElementToComResourceMapping.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
+        if not self.IsReferrableElementExists(short_name, PortElementToCommunicationResourceMapping):
+            mapping = PortElementToCommunicationResourceMapping(self, short_name)
+            self.addReferrableElement(mapping)
+            self.portElementToComResourceMappings.append(mapping)
+        return cast(PortElementToCommunicationResourceMapping, self.getReferrableElement(short_name, PortElementToCommunicationResourceMapping))
+
+    def getResourceToApplicationPartitionMappings(self) -> List[CpSoftwareClusterResourceToApplicationPartitionMapping]:
+        """
+        Maps a Software Cluster resource to an Application Partition to restrict the usage. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=resourceToApplicationPartitionMapping.shortName, resourceToApplicationPartitionMapping.variationPoint.shortLabel vh.latestBindingTime=systemDesignTime
+        """
+        return self.resourceToApplicationPartitionMappings
+
+    def createResourceToApplicationPartitionMapping(self, short_name: str) -> CpSoftwareClusterResourceToApplicationPartitionMapping:
+        """
+        Maps a Software Cluster resource to an Application Partition to restrict the usage. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=resourceToApplicationPartitionMapping.shortName, resourceToApplicationPartitionMapping.variationPoint.shortLabel vh.latestBindingTime=systemDesignTime
+        """
+        if not self.IsReferrableElementExists(short_name, CpSoftwareClusterResourceToApplicationPartitionMapping):
+            mapping = CpSoftwareClusterResourceToApplicationPartitionMapping(self, short_name)
+            self.addReferrableElement(mapping)
+            self.resourceToApplicationPartitionMappings.append(mapping)
+        return cast(CpSoftwareClusterResourceToApplicationPartitionMapping, self.getReferrableElement(short_name, CpSoftwareClusterResourceToApplicationPartitionMapping))
+
+    def getSoftwareClusterToApplicationPartitionMapping(self) -> Optional[CpSoftwareClusterToApplicationPartitionMapping]:
+        """
+        Maps a Software Cluster to an Application Partition to restrict the usage.
+        """
+        return self.softwareClusterToApplicationPartitionMapping
+
+    def createSoftwareClusterToApplicationPartitionMapping(self, short_name: str) -> CpSoftwareClusterToApplicationPartitionMapping:
+        """
+        Maps a Software Cluster to an Application Partition to restrict the usage.
+        """
+        if self.getSoftwareClusterToApplicationPartitionMapping() is None:
+            mapping = CpSoftwareClusterToApplicationPartitionMapping(self, short_name)
+            self.addReferrableElement(mapping)
+            self.softwareClusterToApplicationPartitionMapping = mapping
+        return cast(CpSoftwareClusterToApplicationPartitionMapping, self.getSoftwareClusterToApplicationPartitionMapping())
+
+    def getSoftwareClusterToResourceMappings(self) -> List[CpSoftwareClusterToResourceMapping]:
+        """
+        maps a service resource to CP Software Clusters Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=softwareClusterToResourceMapping.shortName, softwareClusterToResourceMapping.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+        """
+        return self.softwareClusterToResourceMappings
+
+    def createSoftwareClusterToResourceMapping(self, short_name: str) -> CpSoftwareClusterToResourceMapping:
+        """
+        maps a service resource to CP Software Clusters Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=softwareClusterToResourceMapping.shortName, softwareClusterToResourceMapping.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+        """
+        if not self.IsReferrableElementExists(short_name, CpSoftwareClusterToResourceMapping):
+            mapping = CpSoftwareClusterToResourceMapping(self, short_name)
+            self.addReferrableElement(mapping)
+            self.softwareClusterToResourceMappings.append(mapping)
+        return cast(CpSoftwareClusterToResourceMapping, self.getReferrableElement(short_name, CpSoftwareClusterToResourceMapping))
+
+    def getSwcToApplicationPartitionMappings(self) -> List[SwcToApplicationPartitionMapping]:
+        """
+        maps SwComponentPrototypes in a CP Software Cluster to ApplicationPartitions Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=swcToApplicationPartitionMapping.shortName, swcToApplicationPartitionMapping.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
+        return self.swcToApplicationPartitionMappings
+
+    def createSwcToApplicationPartitionMapping(self, short_name: str) -> SwcToApplicationPartitionMapping:
+        """
+        maps SwComponentPrototypes in a CP Software Cluster to ApplicationPartitions Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=swcToApplicationPartitionMapping.shortName, swcToApplicationPartitionMapping.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
+        if not self.IsReferrableElementExists(short_name, SwcToApplicationPartitionMapping):
+            mapping = SwcToApplicationPartitionMapping(self, short_name)
+            self.addReferrableElement(mapping)
+            self.swcToApplicationPartitionMappings.append(mapping)
+        return cast(SwcToApplicationPartitionMapping, self.getReferrableElement(short_name, SwcToApplicationPartitionMapping))

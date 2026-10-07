@@ -28,6 +28,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SignalPaths import Common
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import ApplicationPartitionToEcuPartitionMapping, SwcToEcuMapping, SwcToImplMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster import (
     CpSoftwareCluster,
+    CpSoftwareClusterMappingSet,
     CpSoftwareClusterResourceToApplicationPartitionMapping,
     CpSoftwareClusterToApplicationPartitionMapping,
     CpSoftwareClusterToEcuInstanceMapping,
@@ -977,6 +978,7 @@ __all__ = [
     "CpSoftwareClusterToEcuInstanceMapping",
     "CpSoftwareClusterResourceToApplicationPartitionMapping",
     "CpSoftwareClusterToApplicationPartitionMapping",
+    "CpSoftwareClusterMappingSet",
     "TriggerInSystemInstanceRef",
     "TriggerToSignalMapping",
     "CpSoftwareCluster",

@@ -1086,6 +1086,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate import (
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster import CpSoftwareClusterToEcuInstanceMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster import CpSoftwareClusterResourceToApplicationPartitionMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster import CpSoftwareClusterToApplicationPartitionMapping
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster import CpSoftwareClusterMappingSet
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
     ClientServerToSignalMapping,
     DataMapping,
@@ -17084,6 +17085,25 @@ class ARXMLParser(AbstractARXMLParser):
             self.readCpSoftwareClusterToApplicationPartitionMapping(child_element, sc_mapping)
             mapping.addSoftwareClusterToApplicationPartitionMapping(sc_mapping)
 
+    def readCpSoftwareClusterMappingSet(self, element: ET.Element, mapping_set: CpSoftwareClusterMappingSet):
+        self.readARElement(element, mapping_set)
+        for child_element in self.findall(element, "PORT-ELEMENT-TO-COM-RESOURCE-MAPPINGS/PORT-ELEMENT-TO-COMMUNICATION-RESOURCE-MAPPING"):
+            port_mapping = mapping_set.createPortElementToComResourceMapping(self.getShortName(child_element))
+            self.readIdentifiable(child_element, port_mapping)
+        for child_element in self.findall(element, "RESOURCE-TO-APPLICATION-PARTITION-MAPPINGS/CP-SOFTWARE-CLUSTER-RESOURCE-TO-APPLICATION-PARTITION-MAPPING"):
+            resource_mapping = mapping_set.createResourceToApplicationPartitionMapping(self.getShortName(child_element))
+            self.readCpSoftwareClusterResourceToApplicationPartitionMapping(child_element, resource_mapping)
+        sc_mapping_element = self.find(element, "SOFTWARE-CLUSTER-TO-APPLICATION-PARTITION-MAPPING")
+        if sc_mapping_element is not None:
+            sc_mapping = mapping_set.createSoftwareClusterToApplicationPartitionMapping(self.getShortName(sc_mapping_element))
+            self.readCpSoftwareClusterToApplicationPartitionMapping(sc_mapping_element, sc_mapping)
+        for child_element in self.findall(element, "SOFTWARE-CLUSTER-TO-RESOURCE-MAPPINGS/CP-SOFTWARE-CLUSTER-TO-RESOURCE-MAPPING"):
+            scr_mapping = mapping_set.createSoftwareClusterToResourceMapping(self.getShortName(child_element))
+            self.readIdentifiable(child_element, scr_mapping)
+        for child_element in self.findall(element, "SWC-TO-APPLICATION-PARTITION-MAPPINGS/SWC-TO-APPLICATION-PARTITION-MAPPING"):
+            swc_mapping = mapping_set.createSwcToApplicationPartitionMapping(self.getShortName(child_element))
+            self.readIdentifiable(child_element, swc_mapping)
+
     def readSystem(self, element: ET.Element, system: System):
         self.logger.debug("Read System <%s>" % system.getShortName())
         self.readIdentifiable(element, system)
@@ -17541,6 +17561,8 @@ class ARXMLParser(AbstractARXMLParser):
                 self.readClientIdDefinitionSet(child_element, id_definition_set)
             elif tag_name == "CP-SOFTWARE-CLUSTER":
                 self.readCpSoftwareCluster(child_element, parent.createCpSoftwareCluster(self.getShortName(child_element)))
+            elif tag_name == "CP-SOFTWARE-CLUSTER-MAPPING-SET":
+                self.readCpSoftwareClusterMappingSet(child_element, parent.createCpSoftwareClusterMappingSet(self.getShortName(child_element)))
             elif tag_name == "INTERPOLATION-ROUTINE-MAPPING-SET":
                 self.readInterpolationRoutineMappingSet(child_element, parent.createInterpolationRoutineMappingSet(self.getShortName(child_element)))
             elif tag_name == "SYSTEM":
