@@ -15,7 +15,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
     PortElementToCommunicationResourceMapping,
-    SwcToApplicationPartitionMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import (
     VariationPointCapable,
@@ -48,6 +47,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster import (
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import (
     ApplicationPartitionToEcuPartitionMapping,
     EcuResourceEstimation,
+    SwcToApplicationPartitionMapping,
     SwcToEcuMapping,
     SwcToImplMapping,
 )

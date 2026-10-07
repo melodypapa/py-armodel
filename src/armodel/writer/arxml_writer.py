@@ -586,7 +586,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DdsCpQosProfile,
     DdsCpTopic,
     PortElementToCommunicationResourceMapping,
-    SwcToApplicationPartitionMapping,
     Describable,
     DiagnosticAuthTransmitCertificateEvaluation,
     DiagnosticDataElement,
@@ -1273,7 +1272,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import 
     UdpNmEcu,
     UdpNmNode,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import ApplicationPartitionToEcuPartitionMapping, EcuResourceEstimation, SwcToImplMapping
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import ApplicationPartitionToEcuPartitionMapping, EcuResourceEstimation, SwcToApplicationPartitionMapping, SwcToImplMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.PncMapping import PncMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     BufferProperties,
@@ -14250,8 +14249,14 @@ class ARXMLWriter(AbstractARXMLWriter):
         if len(swc_mappings) > 0:
             mappings_tag = ET.SubElement(element, "SWC-TO-APPLICATION-PARTITION-MAPPINGS")
             for swc_mapping in swc_mappings:
-                child_element = ET.SubElement(mappings_tag, "SWC-TO-APPLICATION-PARTITION-MAPPING")
-                self.writeIdentifiable(child_element, swc_mapping)
+                self.writeSwcToApplicationPartitionMapping(mappings_tag, swc_mapping)
+
+    def writeSwcToApplicationPartitionMapping(self, element: ET.Element, mapping: SwcToApplicationPartitionMapping):
+        child_element = ET.SubElement(element, "SWC-TO-APPLICATION-PARTITION-MAPPING")
+        self.writeIdentifiable(child_element, mapping, write_variation_point=False)
+        self.setChildElementOptionalRefType(child_element, "APPLICATION-PARTITION-REF", mapping.getApplicationPartitionRef())
+        self.setComponentInSystemInstanceRef(child_element, "SW-COMPONENT-PROTOTYPE-IREF", mapping.getSwComponentPrototypeIRef())
+        self.writeVariationPointCapable(child_element, mapping)
 
     def writeSwcToImplMapping(self, element: ET.Element, mapping: SwcToImplMapping):
         if mapping is not None:
@@ -14812,8 +14817,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             mappings_tag = ET.SubElement(child_element, "SWC-TO-APPLICATION-PARTITION-MAPPINGS")
             for swc_mapping in swc_mappings:
                 if isinstance(swc_mapping, SwcToApplicationPartitionMapping):
-                    swc_element = ET.SubElement(mappings_tag, "SWC-TO-APPLICATION-PARTITION-MAPPING")
-                    self.writeIdentifiable(swc_element, swc_mapping)
+                    self.writeSwcToApplicationPartitionMapping(mappings_tag, swc_mapping)
                 else:
                     self.notImplemented("Unsupported SwcToApplicationPartitionMapping %s" % type(swc_mapping))
 

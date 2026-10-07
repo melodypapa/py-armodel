@@ -68,6 +68,62 @@ class SwcToImplMapping(Identifiable, VariationPointCapable):
         return self
 
 
+class SwcToApplicationPartitionMapping(Identifiable, VariationPointCapable):
+    """
+    Allows to map a given SwComponentPrototype to a formally defined partition at a point in time when the corresponding EcuInstance is not yet known or defined.
+    """
+
+    # SwcToApplicationPartitionMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 5.4, p.200
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getApplicationPartitionRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setApplicationPartitionRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwComponentPrototypeIRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwComponentPrototypeIRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent, short_name):
+        super().__init__(parent, short_name)
+
+        # Reference to an ApplicationPartition to which a SwComponentPrototype is mapped.
+        self.applicationPartitionRef: Optional[RefType] = None
+
+        # References to the software component instances that are mapped to the referenced ApplicationPartition. If the component prototype referenced is a composition, this indicates that all atomic software components within the composition are mapped to the ApplicationPartition. If there is additionally a mapping of some SwComponentPrototype INSIDE the Composition to another ApplicationPartition the inner mapping overrides the outer mapping. InstanceRef implemented by: ComponentInSystemInstanceRef
+        self.swComponentPrototypeIRef: Optional[ComponentInSystemInstanceRef] = None
+
+    def getApplicationPartitionRef(self) -> Optional[RefType]:
+        """
+        Reference to an ApplicationPartition to which a SwComponentPrototype is mapped.
+        """
+        return self.applicationPartitionRef
+
+    def setApplicationPartitionRef(self, value: Optional[RefType]) -> "SwcToApplicationPartitionMapping":
+        """
+        Reference to an ApplicationPartition to which a SwComponentPrototype is mapped.
+
+        A None value is a no-op and does not overwrite an existing applicationPartitionRef.
+        """
+        if value is not None:
+            self.applicationPartitionRef = value
+        return self
+
+    def getSwComponentPrototypeIRef(self) -> Optional[ComponentInSystemInstanceRef]:
+        """
+        References to the software component instances that are mapped to the referenced ApplicationPartition. If the component prototype referenced is a composition, this indicates that all atomic software components within the composition are mapped to the ApplicationPartition. If there is additionally a mapping of some SwComponentPrototype INSIDE the Composition to another ApplicationPartition the inner mapping overrides the outer mapping. InstanceRef implemented by: ComponentInSystemInstanceRef
+        """
+        return self.swComponentPrototypeIRef
+
+    def setSwComponentPrototypeIRef(self, value: Optional[ComponentInSystemInstanceRef]) -> "SwcToApplicationPartitionMapping":
+        """
+        References to the software component instances that are mapped to the referenced ApplicationPartition. If the component prototype referenced is a composition, this indicates that all atomic software components within the composition are mapped to the ApplicationPartition. If there is additionally a mapping of some SwComponentPrototype INSIDE the Composition to another ApplicationPartition the inner mapping overrides the outer mapping. InstanceRef implemented by: ComponentInSystemInstanceRef
+
+        A None value is a no-op and does not overwrite an existing swComponentPrototypeIRef.
+        """
+        if value is not None:
+            self.swComponentPrototypeIRef = value
+        return self
+
+
 class SwcToEcuMapping(Identifiable, VariationPointCapable):
     """
     This meta-class is used: • to map SwComponentPrototypes to a specific ECU Instance unit, • optionally to map SwComponentPrototypes to a HwElement with category ProcessingUnit, • optionally to map SwComponentPrototypes typed by SensorActuatorSwComponentType to a Hw Element with category SensorActuator. For each combination of ECUInstance and the optional ProcessingUnit and the optional SensorActuator only one SwcToEcuMapping shall be used.

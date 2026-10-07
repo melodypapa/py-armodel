@@ -6,13 +6,13 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     CpSoftwareClusterToResourceMapping,
     PortElementToCommunicationResourceMapping,
-    SwcToApplicationPartitionMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster import (
     CpSoftwareClusterMappingSet,
     CpSoftwareClusterResourceToApplicationPartitionMapping,
     CpSoftwareClusterToApplicationPartitionMapping,
 )
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import SwcToApplicationPartitionMapping
 
 
 class TestCpSoftwareClusterMappingSet:

@@ -1914,16 +1914,62 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 9 — 9a passed 2026-10-07 (22099 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit a9b3162cc
 
 - [ ] `SwcToApplicationPartitionMapping` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 5.4, p.200
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - module: M2/AUTOSARTemplates/SystemTemplate/SWmapping.py (moved from the
+    Identifiable.py hint)
+  - Step 1 finding: Class table confirmed (not Enumeration). Package row
+    `M2::AUTOSARTemplates::SystemTemplate::SWmapping` → Rule 0007 placement is the
+    leaf-package module `SystemTemplate/SWmapping.py` next to the stamped siblings
+    SwcToImplMapping (Table 5.3) / SwcToEcuMapping (Table 5.2) / ApplicationPartitionTo
+    EcuPartitionMapping (Table 5.6) — the Identifiable.py module hint in the queue row
+    was wrong per the same precedent as the UserDefined family (moved to
+    Fibex/CddSupport.py); the identity-only stub is moved out of Identifiable.py and the
+    SWmapping module wins. Base row `ARObject, Identifiable, MultilanguageReferrable,
+    Referrable` → most-derived MODELED ancestor `Identifiable`, kept alongside the
+    `VariationPointCapable` mixin (the XSD SWC-TO-APPLICATION-PARTITION-MAPPING group
+    ends with a VARIATION-POINT anchor — "Applicable for:
+    CpSoftwareClusterMappingSet.swcToApplicationPartitionMapping,
+    SystemMapping.swcToApplicationPartitionMapping" — and readIdentifiable/
+    writeIdentifiable handle it for VariationPointCapable instances; same shape as the
+    two stamped siblings). 2 attribute rows (displayed order):
+    applicationPartition (ApplicationPartition, 0..1, ref → applicationPartitionRef:
+    Optional[RefType]) and swComponentPrototype (SwComponentPrototype, 0..1, iref
+    "InstanceRef implemented by: ComponentInSystemInstanceRef" → swComponentPrototype
+    IRef: Optional[ComponentInSystemInstanceRef]); XSD element order (reader/writer):
+    APPLICATION-PARTITION-REF, SW-COMPONENT-PROTOTYPE-IREF, VARIATION-POINT (last,
+    sequenceOffset=10000).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - Step 8: No accepted deviations from Table 5.4 — both attributes modeled (0..1 ref
+    → applicationPartitionRef: Optional[RefType]; 0..1 iref → swComponentPrototypeIRef:
+    Optional[ComponentInSystemInstanceRef]), verbatim Notes, full reader+writer coverage.
+    No stale legacy marker existed (the pre-sync stub was a bare `pass` in
+    Identifiable.py — no checklist, no `# Spec verified:` line, so Rule 0023 removal was
+    a no-op); the checklist is fresh 6-column format. Placement MOVE per Rule 0007 (not a
+    deviation): Identifiable.py hint → SystemTemplate/SWmapping.py (Package row
+    `M2::AUTOSARTemplates::SystemTemplate::SWmapping`, leaf package, stamped siblings
+    already live there); imports re-pointed in SystemTemplate/__init__.py,
+    SoftwareCluster.py, arxml_writer.py (parser gained its first SWmapping-type import
+    for the reader annotation), and the test_group21_36_stub_classes.py STUBS tuple
+    module was updated to the new defining module. Wiring upgrade (clears the
+    identity-only debt the SystemMapping row Step 8 recorded):
+    readSystemMappingSwcToApplicationPartitionMappings /
+    writeSystemMappingSwcToApplicationPartitionMappings and the
+    CpSoftwareClusterMappingSet reader/writer branches now dispatch to the dedicated
+    read/writeSwcToApplicationPartitionMapping level. Referenced-but-missing class
+    (Rule 0001.10, reported not blocking): SwComponentMappingConstraints — named in the
+    Table 5.4 "Aggregated by" row, no model class exists anywhere (not queued in this
+    batch). Remark: ref target ApplicationPartition is queued in this batch (Table 5.5
+    row); the iref element type ComponentInSystemInstanceRef exists in
+    SystemTemplate/InstanceRefs.py. The `# Spec verified:` marker is deferred to the
+    batch 9b stamp per user instruction (Step 7 wrote the 6-column checklist without it;
+    audit STAMP INFO as expected).
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-07 (22113 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 8166698df
 
 - [ ] `ApplicationPartition` — ARElement — R23-11 CP_TPS_SystemTemplate Table 5.5, p.201
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py

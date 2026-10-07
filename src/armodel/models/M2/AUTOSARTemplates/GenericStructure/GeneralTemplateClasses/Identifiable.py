@@ -1928,10 +1928,6 @@ class SomeipTpChannel(Identifiable):
     pass
 
 
-class SwcToApplicationPartitionMapping(Identifiable):
-    pass
-
-
 class UserDefinedGlobalTimeSlave(Identifiable):
     pass
 

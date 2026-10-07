@@ -17,10 +17,9 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     PortElementToCommunicationResourceMapping,
-    SwcToApplicationPartitionMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate import System, SystemMapping
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import SwcToEcuMapping
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import SwcToApplicationPartitionMapping, SwcToEcuMapping
 from armodel.parser.arxml_parser import ARXMLParser
 
 NS = "http://autosar.org/schema/r4.0"

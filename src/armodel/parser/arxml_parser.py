@@ -1524,7 +1524,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import 
     UdpNmEcu,
     UdpNmNode,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import ApplicationPartitionToEcuPartitionMapping, EcuResourceEstimation, SwcToImplMapping
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import ApplicationPartitionToEcuPartitionMapping, EcuResourceEstimation, SwcToApplicationPartitionMapping, SwcToImplMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.PncMapping import PncMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     BufferProperties,
@@ -17529,7 +17529,12 @@ class ARXMLParser(AbstractARXMLParser):
     def readSystemMappingSwcToApplicationPartitionMappings(self, element: ET.Element, mapping: SystemMapping):
         for child_element in self.findall(element, "SWC-TO-APPLICATION-PARTITION-MAPPINGS/SWC-TO-APPLICATION-PARTITION-MAPPING"):
             swc_mapping = mapping.createSwcToApplicationPartitionMapping(self.getShortName(child_element))
-            self.readIdentifiable(child_element, swc_mapping)
+            self.readSwcToApplicationPartitionMapping(child_element, swc_mapping)
+
+    def readSwcToApplicationPartitionMapping(self, element: ET.Element, mapping: SwcToApplicationPartitionMapping):
+        self.readIdentifiable(element, mapping)
+        mapping.setApplicationPartitionRef(self.getChildElementOptionalRefType(element, "APPLICATION-PARTITION-REF"))
+        mapping.setSwComponentPrototypeIRef(self.getComponentInSystemInstanceRef(cast(ET.Element, self.find(element, "SW-COMPONENT-PROTOTYPE-IREF"))))
 
     def readSwcToImplMapping(self, element: ET.Element, mapping: SwcToImplMapping):
         self.readIdentifiable(element, mapping)
@@ -17994,7 +17999,7 @@ class ARXMLParser(AbstractARXMLParser):
             self.readIdentifiable(child_element, scr_mapping)
         for child_element in self.findall(element, "SWC-TO-APPLICATION-PARTITION-MAPPINGS/SWC-TO-APPLICATION-PARTITION-MAPPING"):
             swc_mapping = mapping_set.createSwcToApplicationPartitionMapping(self.getShortName(child_element))
-            self.readIdentifiable(child_element, swc_mapping)
+            self.readSwcToApplicationPartitionMapping(child_element, swc_mapping)
 
     def readSystem(self, element: ET.Element, system: System):
         self.logger.debug("Read System <%s>" % system.getShortName())
