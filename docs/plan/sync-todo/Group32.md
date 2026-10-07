@@ -536,15 +536,29 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `ProvidedServiceInstance` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.160, p.486
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Step 1 — spec `Base` row = ARObject, AbstractServiceInstance, Identifiable, MultilanguageReferrable,
+    Referrable → most-derived base AbstractServiceInstance (synced this batch); todo row's "ARObject"
+    predated it. Old checklist cited the WRONG table (Swc TPS Table E.37) — corrected to Table 6.160 p.486.
+    Rule 0023 drift: stale marker removed, block rewritten 6-column in source order. Rule 0015 removals:
+    allowedServiceConsumer (XSD atp.Status=draft) and autoAvailable are absent from Table 6.160 and no
+    integration fixture carries them — fields, accessors, reader/writer lines and tests removed (not
+    deviations). Invented list-setter shapes (setLocalUnicastAddressRefs/setRemoteMulticastSubscriptionAddressRefs/
+    setRemoteUnicastAddressRefs/setAllowedServiceConsumerRefs) removed per Rule 0001.6; untyped accessors
+    typed (Rule 0003). Reader delegates to readAbstractServiceInstance (base, exactly once); writer XSD
+    group order: ABSTRACT-SERVICE-INSTANCE group (via writeAbstractServiceInstance) → EVENT-HANDLERS →
+    INSTANCE-IDENTIFIER → … → SERVICE-IDENTIFIER. sdServerTimerConfig stays a RefType ref
+    (SomeipSdServerServiceInstanceConfig remains an unsynced stub — Table 6.169 queued; identity debt
+    recorded per Rule 0001.7). Markdown cell wraps ("SOME/ IP", "sdServerTimer Config") reconciled via
+    XSD tags.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `PduActivationRoutingGroup` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 6.161, p.489
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py
