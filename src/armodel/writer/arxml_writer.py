@@ -10603,6 +10603,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         if connection is not None:
             child_element = ET.SubElement(element, "ETH-TP-CONNECTION")
             self.writeTpConnection(child_element, connection)
+            tp_sdu_refs = connection.getTpSduRefs()
+            if len(tp_sdu_refs) > 0:
+                sdus_element = ET.SubElement(child_element, "TP-SDU-REFS")
+                for ref in tp_sdu_refs:
+                    self.setChildElementOptionalRefType(sdus_element, "TP-SDU-REF", ref)
 
     def writeEthTpConfigTpConnections(self, element: ET.Element, config: EthTpConfig):
         connections = config.getTpConnections()

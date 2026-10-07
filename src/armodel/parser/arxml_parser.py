@@ -14376,6 +14376,8 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readEthTpConnection(self, element: ET.Element, connection: EthTpConnection):
         self.readTpConnection(element, connection)
+        for ref in self.getChildElementRefTypeList(element, "TP-SDU-REFS/TP-SDU-REF"):
+            connection.addTpSduRef(ref)
 
     def readEthTpConfigTpConnections(self, element: ET.Element, config: EthTpConfig):
         for child_element in self.findall(element, "TP-CONNECTIONS/*"):

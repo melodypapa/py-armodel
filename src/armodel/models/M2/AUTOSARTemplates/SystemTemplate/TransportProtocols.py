@@ -2017,7 +2017,37 @@ class EthTpConfig(TpConfig):
 
 
 class EthTpConnection(TpConnection):
-    pass
+    """
+    A connection identifies which PduTriggerings shall be handled using the "TP" semantics.
+    """
+
+    # EthTpConnection method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.263, p.618
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addTpSduRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTpSduRefs   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # Reference to a PduTriggering that shall be transported using the "TP" semantics.
+        self.tpSduRefs: List[RefType] = []
+
+    def addTpSduRef(self, value: Optional[RefType]) -> EthTpConnection:
+        """
+        Reference to a PduTriggering that shall be transported using the "TP" semantics.
+        A None value is a no-op and is not appended to tpSduRefs.
+        """
+        if value is not None:
+            self.tpSduRefs.append(value)
+        return self
+
+    def getTpSduRefs(self) -> List[RefType]:
+        """
+        Reference to a PduTriggering that shall be transported using the "TP" semantics.
+        """
+        return self.tpSduRefs
 
 
 class SomeipTpConfig(TpConfig):

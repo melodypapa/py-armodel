@@ -452,15 +452,21 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `EthTpConnection` — TpConnection — R23-11 CP_TPS_SystemTemplate Table 6.263, p.618
   - module: M2/AUTOSARTemplates/SystemTemplate/DiagnosticConnection.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note: rehoused from the DiagnosticConnection.py stub to TransportProtocols.py (spec Package row =
+    SystemTemplate::TransportProtocols, Rule 0007; stub rehousing + tuple removal landed with the
+    FlexrayTpConnection commit); base is most-derived TpConnection per the spec Base row, and the XSD
+    group ETH-TP-CONNECTION carries no VARIATION-POINT, so no VariationPointCapable mixin. Single spec
+    attr tpSdu (`*` ref to PduTriggering) modeled as tpSduRefs (TP-SDU-REFS/TP-SDU-REF wrapper,
+    empty-wrapper case covered); dispatch already exists at the EthTpConfig level.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `SomeipTpConfig` — FibexElement — R23-11 CP_TPS_SystemTemplate Table 6.264, p.619
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/__init__.py
