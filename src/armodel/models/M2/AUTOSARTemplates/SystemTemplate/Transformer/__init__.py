@@ -1299,17 +1299,21 @@ class DataPrototypeInPortInterfaceRef(DataPrototypeReference):
 
     # DataPrototypeInPortInterfaceRef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.19, p.788
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getDataPrototypeInClientServerInterface [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setDataPrototypeInClientServerInterface [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDataPrototypeInClientServerInterface   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataPrototypeInClientServerInterface   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDataPrototypeInSenderReceiverInterface [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataPrototypeInSenderReceiverInterface [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
         # This element defines a reference to a DataPrototype in the context of a ClientServerInterface. InstanceRef implemented by: DataPrototypeInClientServerInterfaceInstanceRef
         self.dataPrototypeInClientServerInterface: Optional[DataPrototypeInClientServerInterfaceInstanceRef] = None
+
+        # This element defines a reference to a DataPrototype in the context of a SenderReceiverInterface. InstanceRef implemented by: DataPrototypeInSenderReceiverInterfaceInstanceRef
+        self.dataPrototypeInSenderReceiverInterface: Optional[DataPrototypeInSenderReceiverInterfaceInstanceRef] = None
 
     def getDataPrototypeInClientServerInterface(self) -> Optional[DataPrototypeInClientServerInterfaceInstanceRef]:
         """
@@ -1324,6 +1328,21 @@ class DataPrototypeInPortInterfaceRef(DataPrototypeReference):
         """
         if value is not None:
             self.dataPrototypeInClientServerInterface = value
+        return self
+
+    def getDataPrototypeInSenderReceiverInterface(self) -> Optional[DataPrototypeInSenderReceiverInterfaceInstanceRef]:
+        """
+        This element defines a reference to a DataPrototype in the context of a SenderReceiverInterface. InstanceRef implemented by: DataPrototypeInSenderReceiverInterfaceInstanceRef
+        """
+        return self.dataPrototypeInSenderReceiverInterface
+
+    def setDataPrototypeInSenderReceiverInterface(self, value: Optional[DataPrototypeInSenderReceiverInterfaceInstanceRef]) -> DataPrototypeInPortInterfaceRef:
+        """
+        This element defines a reference to a DataPrototype in the context of a SenderReceiverInterface. InstanceRef implemented by: DataPrototypeInSenderReceiverInterfaceInstanceRef
+        A None value is a no-op and does not overwrite an existing dataPrototypeInSenderReceiverInterface.
+        """
+        if value is not None:
+            self.dataPrototypeInSenderReceiverInterface = value
         return self
 
 

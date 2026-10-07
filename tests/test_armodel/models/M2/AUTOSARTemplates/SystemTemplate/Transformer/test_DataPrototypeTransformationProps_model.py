@@ -118,6 +118,7 @@ class TestDataPrototypeInPortInterfaceRef:
 
         assert isinstance(ref, DataPrototypeReference)
         assert ref.getDataPrototypeInClientServerInterface() is None
+        assert ref.getDataPrototypeInSenderReceiverInterface() is None
 
     def test_get_set_data_prototype_in_client_server_interface(self):
         ref = DataPrototypeInPortInterfaceRef()
@@ -132,6 +133,20 @@ class TestDataPrototypeInPortInterfaceRef:
 
         assert ref == ref.setDataPrototypeInClientServerInterface(None)  # None no-op
         assert ref.getDataPrototypeInClientServerInterface() == cs
+
+    def test_get_set_data_prototype_in_sender_receiver_interface(self):
+        ref = DataPrototypeInPortInterfaceRef()
+        sr = DataPrototypeInSenderReceiverInterfaceInstanceRef()
+        sr.setTargetDataPrototypeInSrRef(RefType().setValue("/Sr/MyVar"))
+
+        assert ref == ref.setDataPrototypeInSenderReceiverInterface(None)
+        assert ref.getDataPrototypeInSenderReceiverInterface() is None
+
+        assert ref == ref.setDataPrototypeInSenderReceiverInterface(sr)
+        assert ref.getDataPrototypeInSenderReceiverInterface() == sr
+
+        assert ref == ref.setDataPrototypeInSenderReceiverInterface(None)  # None no-op
+        assert ref.getDataPrototypeInSenderReceiverInterface() == sr
 
 
 class TestDataPrototypeInSenderReceiverInterfaceInstanceRef:

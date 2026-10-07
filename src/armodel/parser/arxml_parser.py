@@ -16611,11 +16611,16 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readDataPrototypeInPortInterfaceRef(self, element: ET.Element, ref: DataPrototypeInPortInterfaceRef):
         self.readDataPrototypeReference(element, ref)
-        child_element = self.find(element, "DATA-PROTOTYPE-IN-CLIENT-SERVER-INTERFACE-REF")
+        child_element = self.find(element, "DATA-PROTOTYPE-IN-CLIENT-SERVER-INTERFACE-IREF")
         if child_element is not None:
             cs_ref = DataPrototypeInClientServerInterfaceInstanceRef()
             self.readDataPrototypeInClientServerInterfaceInstanceRef(child_element, cs_ref)
             ref.setDataPrototypeInClientServerInterface(cs_ref)
+        child_element = self.find(element, "DATA-PROTOTYPE-IN-SENDER-RECEIVER-INTERFACE-IREF")
+        if child_element is not None:
+            sr_ref = DataPrototypeInSenderReceiverInterfaceInstanceRef()
+            self.readDataPrototypeInSenderReceiverInterfaceInstanceRef(child_element, sr_ref)
+            ref.setDataPrototypeInSenderReceiverInterface(sr_ref)
 
     def readDataPrototypeInSenderReceiverInterfaceInstanceRef(self, element: ET.Element, iref: DataPrototypeInSenderReceiverInterfaceInstanceRef):
         self.readARObject(element, iref)
