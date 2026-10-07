@@ -838,39 +838,39 @@ Status: **16/16** completed
 
 ## Group20
 
-Status: **7/29** completed
+Status: **29/29** completed
 
-| Class Name                         | Status       | Commit ID  |
-| ---------------------------------- | ------------ | ---------- |
-| `DoIpLogicAddress`                 | [ ] Pending* | a5671c229e |
-| `DoIpTpConnection`                 | [ ] Pending* | 0abdd0dba4 |
-| `CryptoKeySlotTypeEnum`            | [ ] Pending* | 4ea5cb5b45 |
-| `CryptoObjectTypeEnum`             | [ ] Pending* | 5b42d57569 |
-| `CryptoKeySlotAllowedModification` | [ ] Pending* | c535a86fd6 |
-| `CryptoKeySlotContentAllowedUsage` | [ ] Pending* | 6fe403d35e |
-| `DataLinkLayerRule`                | [ ] Pending* | 0d343df2a7 |
-| `NetworkLayerRule`                 | [ ] Pending* | 529858d9c9 |
-| `TransportLayerRule`               | [ ] Pending* | cb197c6b8b |
-| `PayloadBytePatternRule`           | [ ] Pending* | 8f863fe9dd |
-| `SomeipProtocolRule`               | [ ] Pending* | c18aa8d400 |
-| `SomeipSdRule`                     | [ ] Pending* | 17b563a730 |
-| `DoIpRule`                         | [ ] Pending* | ebd95cd8f9 |
-| `MemorySection`                    | [ ] Pending* | a579a3592e |
-| `SectionNamePrefix`                | [ ] Pending* | 0e26482636 |
-| `HardwareConfiguration`            | [ ] Pending* | 35bfb17b7a |
-| `SoftwareContext`                  | [ ] Pending* | 23884479e9 |
-| `SoAdRoutingGroup`                 | [ ] Pending* | 89363ebe2b |
-| `StackUsage`                       | [ ] Pending* | 9ce364e249 |
-| `MeasuredStackUsage`               | [ ] Pending* | adc2e5eeb7 |
-| `RoughEstimateStackUsage`          | [ ] Pending* | 3db474b11a |
-| `WorstCaseStackUsage`              | [ ] Pending* | a0cbd41d08 |
-| `MacAddressString`                 | [x] Done*    | 1fd0b00607 |
-| `PayloadBytePatternRulePart`       | [x] Done*    | 8c72c71709 |
-| `TcpRule`                          | [x] Done*    | d3902d0e67 |
-| `IcmpRule`                         | [x] Done*    | 5ddaf1cf94 |
-| `Ipv4Rule`                         | [x] Done*    | b4096068d6 |
-| `Ipv6Rule`                         | [x] Done*    | 18ee06b97c |
-| `UdpRule`                          | [x] Done*    | 29cbfb7bbd |
+| Class Name                         | Status   | Commit ID  |
+| ---------------------------------- | -------- | ---------- |
+| `DoIpLogicAddress`                 | [x] Done | 20e0dbf1db |
+| `DoIpTpConnection`                 | [x] Done | b71da200f5 |
+| `CryptoKeySlotTypeEnum`            | [x] Done | cda30aac65 |
+| `CryptoObjectTypeEnum`             | [x] Done | 4ee3d9b33c |
+| `CryptoKeySlotAllowedModification` | [x] Done | 1b9c5d5f92 |
+| `CryptoKeySlotContentAllowedUsage` | [x] Done | 0b871a8e8c |
+| `DataLinkLayerRule`                | [x] Done | e65b8c621c |
+| `NetworkLayerRule`                 | [x] Done | 68f8744c75 |
+| `TransportLayerRule`               | [x] Done | 39d8f23c1d |
+| `PayloadBytePatternRule`           | [x] Done | d77a6727fc |
+| `SomeipProtocolRule`               | [x] Done | ebb82db445 |
+| `SomeipSdRule`                     | [x] Done | 16c6ec4955 |
+| `DoIpRule`                         | [x] Done | e1ebf1c4c5 |
+| `MemorySection`                    | [x] Done | 6d92ecd979 |
+| `SectionNamePrefix`                | [x] Done | bc26545b98 |
+| `HardwareConfiguration`            | [x] Done | 3f0dca5050 |
+| `SoftwareContext`                  | [x] Done | 45cf952f36 |
+| `SoAdRoutingGroup`                 | [x] Done | 24f9dd86bd |
+| `StackUsage`                       | [x] Done | 85a243308b |
+| `MeasuredStackUsage`               | [x] Done | 05f494e759 |
+| `RoughEstimateStackUsage`          | [x] Done | 575bb536fe |
+| `WorstCaseStackUsage`              | [x] Done | 5692e873a3 |
+| `MacAddressString`                 | [x] Done | 8b633b6dd3 |
+| `PayloadBytePatternRulePart`       | [x] Done | 0cc195ce8e |
+| `TcpRule`                          | [x] Done | 06d3147f65 |
+| `IcmpRule`                         | [x] Done | c839e30e0e |
+| `Ipv4Rule`                         | [x] Done | 817cf1a5de |
+| `Ipv6Rule`                         | [x] Done | 38bc83357c |
+| `UdpRule`                          | [x] Done | c871945ce1 |
 
 ## Group21
 
