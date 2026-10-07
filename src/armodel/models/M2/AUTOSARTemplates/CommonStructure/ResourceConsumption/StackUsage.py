@@ -20,6 +20,7 @@ class StackUsage(Identifiable, VariationPointCapable, ABC):
 
     # StackUsage method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 8.9, p.149
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getExecutableEntityRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
