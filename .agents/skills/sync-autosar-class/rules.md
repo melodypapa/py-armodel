@@ -930,6 +930,17 @@ is one ordered procedure per class (Rule 0006's mechanical check only confirms t
   confirms), not in
   Step 4/7/8 — a file that hasn't passed 9b carries the `# Spec:` line and method rows
   but no marker. Verify during every sync pass.
+- **Exactly one provenance marker per block, and it must certify every row.** Stamping
+  is a single action, taken once in 9b, so a later drift or extension re-stamp must
+  **replace** the existing marker line rather than append a second one. Two markers mean
+  two passes each believed they owned the class, and the block's provenance — the one
+  signal the whole workflow rests on (Rule 0012.1) — becomes ambiguous. Before writing
+  the marker, re-read the block: if a `# Spec verified:` or `# XSD verified:` line is
+  already there, edit that line in place. `audit_class.py`'s STAMP check fails a block
+  carrying more than one marker, and fails a marker sitting over any `[ ]` row, because a
+  stamp must never certify work that is not done. Found in the wild: `DoIpConfig`
+  (`AUTOSAR_CP_TPS_SystemTemplate.pdf`, Table 6.202) carried two identical
+  `# Spec verified: R23-11` lines, left by two separate stamping passes.
 - **The marker is the single review gate.** A class is reviewed/synced iff its source
   carries `# Spec verified: <RELEASE>`; a fully-`[x]` checklist, passing tests, or a
   clean round-trip do **not** by themselves certify a class. **No marker ⇒ sync from
@@ -1017,6 +1028,13 @@ before the new-release text is written, so stale sentences cannot survive the up
 **Re-run the full Step 9b checklist** (the old `# Spec verified:` marker is not
 proof — see Rule 0006.1), then update the marker, run tests, commit with the spec
 notes.
+
+**The marker is honored only if the class still passes the mechanical audit.** Before
+skipping a stamped class (Rule 0017.1 resume, or any "already verified" short-circuit),
+run `audit_class.py <Class>`. A FAIL means the class was certified under an older bar
+(legacy/5-column checklist, missing base reader/writer call, rows ≠ methods) → treat it
+as drift and re-sync from Step 1. Skipping on the strength of the marker alone is what
+let exactly those defects survive to 9b.
 
 ---
 
@@ -1451,6 +1469,13 @@ state (queue, Skip/XSD decisions) is lost the moment a session dies.
   9-step workflow for that one class. Do **not** re-run Phase 0, re-collect the
   closure, or re-ask the 16.2/16.4 gates — they were already confirmed when the
   file was written. **File missing ⇒ run Phase 0** (which ends by writing it).
+- **Audit before Step 1 — move the gate to the front.** Before starting the row's
+  class — and before honoring any short-circuit on an already-stamped class — run
+  `audit_class.py <ClassName>`. A FAIL (BLOCK / ROWS / BASE / STAMP) means the class is
+  not synced under the current bar: treat it as drift (Rule 0012.3) and run the full
+  9-step workflow regardless of its marker. Doing this at entry is the whole point — it
+  is the cheapest moment to learn the class is stale, instead of discovering it at 9b
+  after the session has already been spent.
 - **One class per session.** After finishing a class (17.2), stop and tell the
   user to start a new session for the next class — even when the context "still
   feels fresh". A session may run Phase 0 (then stop) or exactly one 9-step
@@ -1888,7 +1913,7 @@ must equal the getter return type. This is the mechanical, repo-wide form of Rul
 
 ---
 
-## Rule 0023 — Legacy checklist format (rows ending at `test`) forces a full re-sync *(added after the skill-format review, 2026-10-01)*
+## Rule 0023 — Legacy checklist format (rows ending at `test`, or any non-6-column block) forces a full re-sync *(added after the skill-format review, 2026-10-01; scope widened 2026-10-07)*
 
 A checklist whose method rows **end at the `test` column** — `# [x] __init__  [x] impl
 [x] docstring  [x] test` — with **no `reader`/`writer` columns and no per-row release
@@ -1896,6 +1921,12 @@ token** is **legacy format** (it predates the 6-column format of Rule 0002; the 
 usually also lacks the `(RELEASE)` suffix on the `# Spec:` line). Found in the wild:
 `MeasuredHeapUsage` (`BSWModuleDescriptionTemplate`, Table 8.15) and dozens of sibling
 blocks across `src/armodel/models/**`.
+
+**The same applies to a 5-column block** — one that carries `reader`/`writer` but
+**omits the per-row `release` token**. It predates Rule 0002's 6-column format just as
+much, and `audit_class.py`'s ROWS check treats the two identically (both fail). Do not
+treat "it has reader/writer columns" as "not legacy" — the release token is part of the
+bar, and a block without it was certified under an older one.
 
 **The stamp does not exempt it.** `# Spec verified:` on a legacy block certifies the
 **old** pass only — that pass predates the reader/writer ownership columns (Rules 0006 /
@@ -1918,11 +1949,15 @@ stamp is refreshed. Do **not** merely re-format the block — the missing column
 exactly the reader/writer coverage the re-run must prove; reformatting without the
 re-sync is a Step 9b finding.
 
-**Mechanical inventory (non-blocking):** `scripts/eval_skill_static_checks.py` scans
-`src/armodel/models/**` and lists every legacy-format block (file → class → stale
-`Spec verified`/`XSD verified` marker) under
-*Legacy-format checklists (Rule 0023 re-sync inventory)*. Drain it through per-class
-sync sessions, one at a time; the inventory never fails the checker by itself.
+**Single mechanical authority.** "Legacy" is defined by `audit_class.py`'s ROWS check:
+any checklist that is not the current 6-column form — a row missing the per-row
+`release` token, whether it stops at `test` or at `writer` — fails ROWS and marks the
+class not-synced. The former narrower scan in `scripts/eval_skill_static_checks.py`
+(rows ending at `test` only) has been **removed**: two definitions of "legacy" let
+5-column blocks — reader/writer present, only the release token missing — escape both
+gates, which is exactly how the Group21 blocks survived. Run `audit_class.py <Class>`
+**at session entry** (Rule 0017.1) and drain failures through per-class sync sessions,
+one at a time.
 
 ## Rule 0024 — The class checklist is one contiguous block above `__init__` *(added after the Group16 batch-9b closeout, 2026-10-05)*
 

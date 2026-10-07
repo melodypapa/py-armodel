@@ -120,9 +120,12 @@ session** (Rule 0017).
 - **Entry (every session):** the user invokes the skill (e.g. `/sync-autosar-class
   <ClassName>` or "continue the sync"). If `docs/plan/sync-todo/<ClassName>.md`
   exists, **resume — do NOT re-run Phase 0** (the closure was already confirmed;
-  re-running it re-asks the interactive gates for nothing). Read the todo file,
-  take the **first row still `[ ]`**, and run the 9-step workflow for that one
-  class. If the file does not exist, run Phase 0 first.
+  re-running it re-asks the interactive gates for nothing). Read the todo file and
+  take the **first row still `[ ]`**. Then, **before Step 1, run `audit_class.py
+  <Class>`** — a FAIL means the class is stale under the current bar (drift, Rule
+  0012.3), so run the full 9-step workflow; the same audit is required before honoring
+  any short-circuit on an already-stamped class. Then run the 9-step workflow for that
+  one class. If the file does not exist, run Phase 0 first.
 - **One class per session.** Never sync two classes in one session, even when the
   context still feels fresh — the 9b verbatim-diff work degrades silently under a
   loaded context. After a class finishes (below), stop and tell the user to start
@@ -169,6 +172,12 @@ Rule 0016.3 fallback). These markers are the
 provenance signal — nothing else (a fully-`[x]` checklist, passing tests, or a clean
 round-trip) certifies a class as reviewed.
 
+- **Audit before honoring the marker.** The marker is proof of a 9b pass under *some*
+  bar, not the current one. Before skipping a stamped class, run `audit_class.py
+  <Class>`; a FAIL (legacy/5-column checklist, missing base reader/writer call, rows ≠
+  methods) means it is not synced under the current bar → treat as drift and run the
+  full workflow. This is the entry-time gate (Rule 0017.1) that keeps stale classes out
+  of 9b.
 - **Has the marker** → the class has been synced. Treat its fields, checklist,
   docstrings, and reader/writer coverage as authoritative. Re-run the workflow only when
   the spec changes (Rule 0012.3 drift) or when extending the class. A **legacy 4-column
@@ -207,7 +216,7 @@ round-trip) certifies a class as reviewed.
 | page-number script | `python .claude/skills/sync-autosar-class/pdf_page.py <ClassName>` — **the only way to get `p.NN`**. Scans every `autosar/R*/pdf/*.pdf` (R23-11, R4.3.1, R4.4.0, …) and prints one line per match: `<release>/<pdf> | Table N.M: <ClassName> | p.<page>`. `--pdf PATH` searches one PDF (any path); `--table <N.M>` searches by table id; the per-PDF index is cached (`.pdf_table_cache.json` at the repo root, keyed by the PDF's mtime) and `--refresh` rebuilds it after corpus updates. Use it in Steps 1/4 whenever the `# Spec:` line needs `p.NN` |
 | deviation records | the project deviation tracker (format in *Rule 0014*) |
 | XSD ground truth | per synced release: `autosar/R23-11/xsd/AUTOSAR_00052.xsd` · `autosar/R4.3.1/xsd/AUTOSAR_00044.xsd` |
-| **pre-stamp audit script** | `python .agents/skills/sync-autosar-class/audit_class.py <ClassName> [<ClassName> ...]` — **the mechanical gate for the checks a 9b reviewer cannot eyeball reliably**: `BLOCK` (checklist is one contiguous run above `__init__`, no rows scattered in the class body), `ROWS` (block rows == methods, source order, AST), `BASE` (the reader/writer entry point calls a base helper, so `S`/`T`/UUID/`SHORT-NAME-FRAGMENTS` round-trip), `DOC` (no `Tags:`/`Stereotypes:` tail in class/member/accessor docstrings), `SPECLINE` (`# Spec:` in Rule-0002 form), `STAMP` (marker present iff all rows `[x]`). `--all` sweeps the tree, `--file` narrows the search, `--json` is machine-readable. Exits 1 on any `FAIL`; `WARN`/`INFO` never fail the run. **Run it at Step 7 and again at 9a** (*Rules 0024–0026*) |
+| **pre-stamp audit script** | `python .agents/skills/sync-autosar-class/audit_class.py <ClassName> [<ClassName> ...]` — **the mechanical gate for the checks a 9b reviewer cannot eyeball reliably**: `BLOCK` (checklist is one contiguous run above `__init__`, no rows scattered in the class body), `ROWS` (block rows == methods, source order, AST), `BASE` (the reader/writer entry point calls a base helper — directly or within 3 delegations — so `S`/`T`/UUID/`SHORT-NAME-FRAGMENTS` round-trip; a miss on a *confirmed* `read<Cls>`/`write<Cls>` fails, a miss on a name-matched guess only warns), `CITATION` (the `# Spec:` table id really exists in the cited document and is captioned for this class — table ids are unique only *per document*), `SPACING` (`__init__` attribute blocks blank-line separated, Rule 0008 — invisible to the AST and to every formatter), `DOCTAIL` (an `atp.`/`Stereotypes:` tail on the `__init__` comment also reaches the accessor docstrings, Rule 0012.2.5.3; dropped `xml.*` plumbing only warns), `DOC` (no `__init__` docstring), `SPECLINE` (`# Spec:` in Rule-0002 form), `STAMP` (exactly one marker, present iff all rows `[x]`). `--all` sweeps the tree, `--file` narrows the search, `--json` is machine-readable. Exits 1 on any `FAIL`; `WARN`/`INFO` never fail the run. **Run it at Step 7 and again at 9a** (*Rules 0024–0026*) |
 
 ### The 9-step workflow (TDD, per class)
 
@@ -431,6 +440,10 @@ detail: *Rule 0002*.
 - **Trusting a pre-existing `# Spec verified:` stamp and skipping 9b** — the marker is
   the *output* of 9b, not a substitute for it; on any re-sync/drift pass, re-run the full
   9b checklist before re-stamping (*Rule 0006.1*, *Rule 0012.3*).
+- **Re-stamping by appending a second marker line** — stamping is one action, taken once
+  in 9b. On a drift/extension pass, *replace* the existing `# Spec verified:` line rather
+  than adding another: a block with two markers fails the audit's STAMP check, and a
+  marker sitting over a `[ ]` row claims work that was never done (*Rule 0012.1*).
 - **Class `Note` written into the `__init__` docstring** — the class-level `Note` belongs
   in the **class docstring** only; `__init__` carries inline per-attribute comments and
   **no docstring** (Rule 0012.2.4 / 0012.2.5.2).

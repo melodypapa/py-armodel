@@ -216,6 +216,56 @@
     "Checks the same class's reader and writer independently rather than assuming symmetry",
     "Does NOT stamp the class as ready"
    ]
+  },
+  {
+   "id": 18,
+   "prompt": "Using the sync-autosar-class skill (read .agents/skills/sync-autosar-class/SKILL.md and rules.md first), Repo root: /Users/ray/Workspace/py-armodel. Our todo marks `AliasNameSet` as done - `[x]` with a `# Spec verified: R23-11` marker - so I was going to skip it and start the next class. Before I do, sanity-check it: is `AliasNameSet` actually synced under the current rules, or do I have to re-sync it? Read-only: do NOT modify any source files.",
+   "expected_output": "A verdict that AliasNameSet is NOT synced under the current bar - its `[x]` row and `# Spec verified: R23-11` marker are stale - so it has to be re-synced, backed by the mechanical audit output (ROWS: the checklist row order does not match the source method order).",
+   "expectations": [
+    "Runs the skill's mechanical audit (`audit_class.py AliasNameSet`) and cites its result",
+    "Concludes AliasNameSet is not synced and needs a re-sync, rather than 'fine, skip it'",
+    "Names the failing check: checklist row order does not match the source (AST) method order (ROWS)",
+    "Does not accept the `# Spec verified: R23-11` marker on its own as proof of a current-bar review",
+    "Does NOT stamp, re-stamp, or modify any file under src/armodel/ or tests/"
+   ]
+  },
+  {
+   "id": 19,
+   "prompt": "Using the sync-autosar-class skill (read .agents/skills/sync-autosar-class/SKILL.md and rules.md first), Repo root: /Users/ray/Workspace/py-armodel. I found `AbstractAccessPoint` in src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/AccessCount.py - it carries a `# Spec verified: R23-11` marker, so I assume it is done. Am I right, or does it need re-syncing under the current rules? Read-only: do NOT modify any source files.",
+   "expected_output": "A verdict that AbstractAccessPoint needs a full re-sync: its checklist is legacy / not the current 6-column form (rows end at `test`, no per-row release token), so the marker only certifies an older bar (Rule 0023), backed by the audit's ROWS failure.",
+   "expectations": [
+    "Runs the mechanical audit for AbstractAccessPoint and cites its ROWS failure",
+    "Identifies the checklist as legacy / not the current 6-column form (rows end at `test`, no per-row release token)",
+    "States the `# Spec verified: R23-11` marker does not certify the class under the current rules (Rule 0023)",
+    "Notes Steps 5/6 are not N/A here because the class owns XML-bearing attributes and needs its own reader/writer helpers (Rule 0001.7)",
+    "Does NOT stamp, re-stamp, or modify any file under src/armodel/ or tests/"
+   ]
+  },
+  {
+   "id": 20,
+   "prompt": "Using the sync-autosar-class skill (read .agents/skills/sync-autosar-class/SKILL.md and rules.md first), Repo root: /Users/ray/Workspace/py-armodel. Resume the AUTOSAR class sync from `docs/plan/sync-todo/Group23.md`. What is the next class, what is its current state, and what should I do first? Read-only: do NOT modify any source files.",
+   "expected_output": "The next open row's class (`DiagEventDebounceTimeBased`), plus an entry-time mechanical audit of that class reported BEFORE any syncing begins - it currently FAILs BASE (`readDiagEventDebounceTimeBased` / `setDiagEventDebounceTimeBased` call no base reader/writer helper, Rule 0025) - so the first action is to close the base-call gap, not to start Step 1.",
+   "expectations": [
+    "Identifies `DiagEventDebounceTimeBased` as the next class (the first `[ ]` row in Group23.md)",
+    "Runs the mechanical audit (`audit_class.py DiagEventDebounceTimeBased`) BEFORE starting Step 1 or any syncing",
+    "Reports that the class currently FAILs the audit, naming the BASE check (reader/writer never call a base reader/writer helper, Rule 0025)",
+    "Treats `[x]` rows carrying `# Spec verified:` markers in the same file as unverified rather than self-validating",
+    "Does NOT stamp the class as ready",
+    "Does NOT modify any file under src/armodel/ or tests/"
+   ]
+  },
+  {
+   "id": 21,
+   "prompt": "Using the sync-autosar-class skill (read .agents/skills/sync-autosar-class/SKILL.md and rules.md first), Repo root: /Users/ray/Workspace/py-armodel. I'm about to re-sync `MacSecKayParticipant` (src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/SecureCommunication.py) and want to keep its existing `# Spec:` citation, which reads `AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.122, p.60`. Can you sanity-check that citation against the R23-11 spec corpus before I trust it? Read-only: do NOT modify any source files.",
+   "expected_output": "A verdict that the citation is dangling: `AUTOSAR_CP_TPS_SystemTemplate` has no Table 3.122, so the class's `# Spec:` pointer cannot be resolved and must be corrected to the table that really defines it. The agent should grep the markdown corpus rather than assume the citation is right, and note that table ids are only unique within a document.",
+   "expectations": [
+    "Checks the citation against the spec corpus (autosar/R23-11/markdown) instead of accepting it",
+    "Reports that AUTOSAR_CP_TPS_SystemTemplate has no Table 3.122 - the citation is dangling",
+    "Treats an unresolvable citation as blocking verification of the class, not a cosmetic nit",
+    "Notes that a table id is only meaningful together with its document (ids repeat across documents)",
+    "Does NOT stamp the class as ready",
+    "Does NOT modify any file under src/armodel/ or tests/"
+   ]
   }
  ]
 }

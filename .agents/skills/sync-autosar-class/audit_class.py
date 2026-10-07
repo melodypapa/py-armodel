@@ -49,9 +49,11 @@ import ast
 import json
 import re
 import sys
+from functools import lru_cache
 from pathlib import Path
 from typing import Dict, List, Optional, Sequence, Set, Tuple
 
+_REPO_ROOT = Path(__file__).resolve().parents[3]
 MODELS_DIR = Path("src/armodel/models")
 PARSER = Path("src/armodel/parser/arxml_parser.py")
 WRITER = Path("src/armodel/writer/arxml_writer.py")
@@ -316,12 +318,175 @@ def check_rows(rep: Report, cls: str, node: ast.ClassDef, blk_lines: Sequence[st
         rep.ok("ROWS", "checklist == methods, %d rows in source order" % len(rows))
 
 
+def check_spacing(rep: Report, lines: Sequence[str], start: int, end: int) -> None:
+    """Rule 0008: every `__init__` attribute block must be separated by a blank line.
+
+    Black and ruff cap the *maximum* blank lines, never a *minimum*, so glued-together
+    fields pass every other check in this file. That is why this reads the raw text:
+    the AST cannot see blank lines at all.
+    """
+    init = init_line(lines, start, end)
+    if init == -1:
+        return
+    stop = init + 1
+    while stop < end and not re.match(r"^\s{4}def\s", lines[stop]):
+        stop += 1
+    attr = re.compile(r"^\s+self\.\w+\s*[:=]")
+    offenders: List[str] = []
+    prev: Optional[int] = None
+    for i in range(init + 1, stop):
+        if not attr.match(lines[i]):
+            continue
+        if prev is not None and not any(not lines[j].strip() for j in range(prev + 1, i)):
+            offenders.append(lines[prev].strip())
+        prev = i
+    if offenders:
+        rep.fail("SPACING", "Rule 0008: `__init__` attribute blocks must be separated by a blank line; %d glued pair(s), first: %s" % (len(offenders), offenders[0]))
+    else:
+        rep.ok("SPACING", "`__init__` attribute blocks are blank-line separated")
+
+
+def _docstring_of(node: ast.ClassDef, name: str) -> Optional[str]:
+    for fn in node.body:
+        if isinstance(fn, (ast.FunctionDef, ast.AsyncFunctionDef)) and fn.name == name:
+            return ast.get_docstring(fn)
+    return None
+
+
+def check_doc_tail(rep: Report, node: ast.ClassDef, lines: Sequence[str], start: int, end: int) -> None:
+    """Rule 0012.2.5.3: a `Tags:`/`Stereotypes:` tail belongs at *every* level.
+
+    The spec `Note` is copied verbatim, tail included, onto the `__init__` comment, the
+    getter and the setter. A tail that reaches the comment but not the accessors is
+    still a verbatim-fidelity defect, and one no existing check can see.
+    """
+    # Two patterns on purpose. A docstring's tail sits on an inner line, so the
+    # presence test must not be `$`-anchored (that was a real false-positive bug:
+    # it failed every accessor whose tail was followed by a Returns: block).
+    # The content pattern is only ever applied to a single comment line.
+    tail_line = re.compile(r"\b(?:Tags|Stereotypes):(.*)$")
+    tail_any = re.compile(r"\b(?:Tags|Stereotypes):")
+    init = init_line(lines, start, end)
+    if init == -1:
+        return
+    stop = init + 1
+    while stop < end and not re.match(r"^\s{4}def\s", lines[stop]):
+        stop += 1
+    semantic: List[str] = []
+    schema: List[str] = []
+    for i in range(init + 1, stop):
+        m = re.match(r"^\s+self\.(\w+)\s*[:=]", lines[i])
+        if not m:
+            continue
+        comment = ""
+        j = i - 1
+        while j > init and lines[j].strip().startswith("#"):
+            comment = lines[j].strip() + " " + comment
+            j -= 1
+        tm = tail_line.search(comment)
+        if not tm:
+            continue
+        member = m.group(1)
+        acc = member[0].upper() + member[1:]
+        names = [n for n in ("get" + acc, "set" + acc, "add" + acc) if any(isinstance(f, (ast.FunctionDef, ast.AsyncFunctionDef)) and f.name == n for f in node.body)]
+        for n in names:
+            doc = _docstring_of(node, n) or ""
+            if tail_any.search(doc):
+                continue
+            # atp.* / Stereotypes: carry meaning (enum indexes, stereotypes, split
+            # keys) and are part of the verbatim Note, so dropping them is a real
+            # fidelity defect. xml.* is schema plumbing — the accessor's job is the
+            # value, not the sequence offset — so that one only warns.
+            bucket = semantic if ("atp." in tm.group(1) or "Stereotypes" in comment) else schema
+            bucket.append("%s.%s" % (node.name, n))
+    if semantic:
+        rep.fail("DOCTAIL", "Rule 0012.2.5.3: the `atp.`/`Stereotypes:` tail is part of the verbatim Note and is kept on the `__init__` comment but missing from %d accessor docstring(s): %s" % (len(semantic), ", ".join(semantic[:4])))
+    if schema:
+        rep.warn("DOCTAIL", "%d accessor docstring(s) omit the `xml.*` schema tags carried by their `__init__` comment (cosmetic, not spec fidelity): %s" % (len(schema), ", ".join(schema[:4])))
+    if not semantic and not schema:
+        rep.ok("DOCTAIL", "`Tags:`/`Stereotypes:` tails reach every accessor docstring")
+
+
+@lru_cache(maxsize=None)
+def _spec_tables() -> Dict[str, Dict[str, List[str]]]:
+    """{corpus: {document: {table id: [captions]}}} built from the markdown corpus.
+
+    Table ids are only unique *within* a document — E.38 is `EnumerationMappingTable`
+    in GenericStructureTemplate and `Referrable` in SoftwareComponentTemplate — so a
+    citation can only be validated as a (document, table id) pair.
+    """
+    out: Dict[str, Dict[str, List[str]]] = {}
+    for corpus in ("R23-11", "R4.3.1"):
+        base = _REPO_ROOT / "autosar" / corpus / "markdown"
+        docs: Dict[str, List[str]] = {}
+        if not base.is_dir():
+            out[corpus] = {}
+            continue
+        for path in sorted(base.glob("*.md")):
+            found: Dict[str, List[str]] = {}
+            for m in re.finditer(r"^Table\s+([0-9A-Z]+\.[0-9]+):\s*(.+)$", path.read_text(encoding="utf-8", errors="replace"), re.M):
+                found.setdefault(m.group(1), []).append(m.group(2).strip())
+            docs[path.stem] = found
+        out[corpus] = docs
+    return out
+
+
+_CITATION_RE = re.compile(r"AUTOSAR_(?:(CP|FO|AP)_TPS_)?(\w+)\.pdf.*?Table\s+([0-9A-Z]+\.[0-9]+)")
+
+
+def check_citation(rep: Report, cls: str, blk_lines: Sequence[str]) -> None:
+    """Rule 0002: the `# Spec:` citation must name a table that really defines this class.
+
+    A citation is the only pointer from code back to the spec, so a dangling one makes
+    the whole class unverifiable. Aliases and cross-document reproductions are reported
+    as warnings rather than failures — they are legitimate, just not the defining table.
+    """
+    specs = [x for x in blk_lines if x.startswith("# Spec:")]
+    if not specs:
+        return
+    line = specs[0]
+    if "xsd" in line:  # XSD-only class: no PDF table by definition
+        rep.ok("CITATION", "XSD-only class — provenance is the schema, not a PDF table")
+        return
+    m = _CITATION_RE.search(line)
+    if not m:
+        rep.info("CITATION", "`# Spec:` line not in the `<pdf>, Table N.M` form — confirm the citation by hand")
+        return
+    platform, template, table_id = m.group(1), m.group(2), m.group(3)
+    corpus = "R4.3.1" if platform is None else "R23-11"
+    doc = f"AUTOSAR_{platform}_TPS_{template}" if platform else f"AUTOSAR_TPS_{template}"
+    docs = _spec_tables().get(corpus) or {}
+    if doc not in docs:
+        rep.info("CITATION", "cited document %s is not in the %s corpus — verify the citation by hand" % (doc, corpus))
+        return
+    if table_id not in docs[doc]:
+        rep.fail("CITATION", "`# Spec:` cites %s, Table %s, but that document has no such table — the citation cannot be verified" % (doc, table_id))
+        return
+    captions = docs[doc][table_id]
+    # A src name that is the spec caption plus a disambiguating prefix is a recorded
+    # rename (ARList for `List`), not a mis-citation.
+    if any(cls.lower() in c.lower() or cls.lower().endswith(c.lower()) for c in captions):
+        rep.ok("CITATION", "Table %s of %s defines %s" % (table_id, doc, cls))
+        return
+    # The caption is a different class. Either this class is documented elsewhere (a
+    # reproduction or a recorded rename) or the citation is simply wrong.
+    for other, tables in docs.items():
+        for tid, caps in tables.items():
+            if any(cls.lower() == c.lower() for c in caps):
+                rep.warn("CITATION", "Table %s of %s is captioned %s, not %s — %s is defined in %s Table %s (recorded rename or cross-document reproduction; prefer the defining table)" % (table_id, doc, "/".join(captions), cls, cls, other, tid))
+                return
+    rep.fail("CITATION", "`# Spec:` cites %s, Table %s, captioned %s — that table does not define %s and no other table in the corpus does either" % (doc, table_id, "/".join(captions), cls))
+
+
 def check_stamp(rep: Report, blk_lines: Sequence[str]) -> None:
     spec_ver = [x for x in blk_lines if x.startswith("# Spec verified:")]
     xsd_ver = [x for x in blk_lines if x.startswith("# XSD verified:")]
     markers = spec_ver + xsd_ver
     if len(markers) > 1:
         rep.fail("STAMP", "%d provenance markers in one block (%s) — exactly one is allowed" % (len(markers), "; ".join(markers)))
+        # Stop here: with two markers the block's provenance is ambiguous, so it is
+        # meaningless to go on and report the first one as a clean certification.
+        return
     ticks = [ROW_RE.match(x).group(1) for x in blk_lines if ROW_RE.match(x)]
     all_x = bool(ticks) and all(t == "x" for t in ticks)
     any_open = any(t != "x" for t in ticks)
@@ -397,8 +562,14 @@ def check_docs(rep: Report, node: ast.ClassDef, blk_lines: Sequence[str], enum: 
         rep.ok("DOC", "`__init__` has no docstring")
 
 
+@lru_cache(maxsize=None)
 def collect_calls(path: Path) -> Dict[str, Set[str]]:
-    """Map function name -> set of attribute/method names it calls."""
+    """Map function name -> set of attribute/method names it calls.
+
+    Cached: a whole-tree sweep calls this once per run, and re-parsing the
+    20k-line parser/writer for every class is what made repo-wide audits
+    quadratic.
+    """
     out: Dict[str, Set[str]] = {}
     if not path.exists():
         return out
@@ -417,6 +588,7 @@ def collect_calls(path: Path) -> Dict[str, Set[str]]:
     return out
 
 
+@lru_cache(maxsize=None)
 def _model_base_map() -> Dict[str, List[str]]:
     out: Dict[str, List[str]] = {}
     for p in MODELS_DIR.rglob("*.py"):
@@ -430,6 +602,7 @@ def _model_base_map() -> Dict[str, List[str]]:
     return out
 
 
+@lru_cache(maxsize=None)
 def known_helper_names(*paths: Path) -> Set[str]:
     """Every reader/writer helper name reachable from these modules, including
     the ones inherited from the abstract base classes."""
@@ -495,6 +668,49 @@ def _entry_points(mc: Dict[str, Set[str]], primaries: Sequence[str], hooks: Sequ
     return named
 
 
+# How far a reader/writer may delegate before we stop crediting it with the
+# inherited level. Measured against the tree: reachability saturates at 3 hops —
+# depth 5 and unbounded find nothing extra — so a deeper walk would only make the
+# check more permissive without surfacing another real gap.
+_REACH_DEPTH = 3
+
+
+@lru_cache(maxsize=None)
+def _reaches(side: str, fn: str, targets: frozenset) -> bool:
+    """Does `fn` call one of `targets`, directly or via <= _REACH_DEPTH helpers?
+
+    Delegation is normal in this codebase (a reader for a concrete class often
+    calls a helper for a base class, which is what calls readIdentifiable), so a
+    purely single-hop check reports inherited state as dropped when it is in fact
+    preserved — the false positive that made 93 classes look defective.
+    """
+    if fn in targets:
+        return True
+    graph = collect_calls(PARSER) if side == "parser" else collect_calls(WRITER)
+    seen = {fn}
+    frontier = [(fn, 0)]
+    while frontier:
+        cur, depth = frontier.pop()
+        if depth >= _REACH_DEPTH:
+            continue
+        for nxt in graph.get(cur, ()):
+            if nxt in targets:
+                return True
+            if nxt not in seen:
+                seen.add(nxt)
+                frontier.append((nxt, depth + 1))
+    return False
+
+
+def _reaches_any(side: str, entry_points: Sequence[str], targets: Set[str]) -> Optional[str]:
+    """The first entry point that reaches one of `targets`, directly or transitively."""
+    frozen = frozenset(targets)
+    for fn in entry_points:
+        if _reaches(side, fn, frozen):
+            return fn
+    return None
+
+
 def check_base(rep: Report, cls: str, node: ast.ClassDef, enum: bool) -> None:
     if enum:
         rep.ok("BASE", "enum — serialized as an attribute value, no reader/writer pair of its own")
@@ -533,32 +749,63 @@ def check_base(rep: Report, cls: str, node: ast.ClassDef, enum: bool) -> None:
             rep.warn("BASE", "ARLiteral %s has no dedicated %s/%s leaf pair — verify it is attribute/text-carried or add the pair (Rule 0013.2)" % (cls, r_name, w_name))
         return
 
+    # Entry-point confidence matters as much as reachability. A helper literally
+    # named read<Cls>/write<Cls>/get<Cls>/set<Cls> is this class's own reader, so a
+    # miss there is a real defect. Anything found by matching the class-name token
+    # is a guess — the token is generic ("Access" in "AccessCount" matches
+    # readAccessCountSets, a different class), so a miss proves nothing and must
+    # not block. Guessed-but-unconfirmed is reported as a warning instead.
+    confirmed_r = [f for f in ("read" + cls, "get" + cls) if f in pcalls]
+    confirmed_w = [f for f in ("write" + cls, "set" + cls) if f in wcalls]
     r_pts = _entry_points(pcalls, ("read" + cls, "get" + cls), (cls, "create" + cls, "get" + cls), cls)
-    w_pts = _entry_points(wcalls, ("write" + cls, "set" + cls), ("get" + cls, "set" + cls, "create" + cls, cls), cls)
-    if not r_pts:
+    w_pts = _entry_points(wcalls, ("write" + cls, "set" + cls), ("get" + cls, "set" + cls, "create" + cls), cls)
+
+    hit = _reaches_any("parser", confirmed_r or r_pts, want_r)
+    if hit:
+        if want_r & pcalls[hit]:
+            rep.ok("BASE", "reader entry point %s directly calls %s" % (hit, ", ".join(sorted(want_r))))
+        else:
+            # Say what was actually verified. This walk proves the call exists in the
+            # subtree; it does NOT prove the call receives *this* instance, so a base
+            # helper applied to some other object would also satisfy it. `TimeSynchronization`
+            # is the known case: the tree reaches readARObject, yet S/T do not survive the
+            # round-trip. Treat an indirect pass as a prompt to hand-verify, not a proof.
+            rep.warn("BASE", "reader entry point %s reaches %s within %d calls, but indirectly — confirm the base helper is applied to THIS instance (an indirect hit can target another object, which silently drops S/T)" % (hit, "/".join(sorted(want_r)), _REACH_DEPTH))
+    elif confirmed_r:
+        rep.fail(
+            "BASE",
+            "no reader entry point calls a base reader helper (expected one of {%s}; entry points tried: %s) — inherited `S`/`T`, UUID and SHORT-NAME-FRAGMENTS are silently dropped on round-trip"
+            % (", ".join(sorted(want_r)), ", ".join(confirmed_r[:4])),
+        )
+    elif r_pts:
+        rep.warn(
+            "BASE",
+            "%s has no reader of its own; the name-matched candidate(s) %s do not reach {%s} — confirm by hand that the aggregator reading it calls a base helper (Rule 0025)"
+            % (cls, ", ".join(r_pts[:3]), "/".join(sorted(want_r))),
+        )
+    else:
         rep.warn("BASE", "no reader entry point found for %s — verify the aggregator that builds it calls %s" % (cls, "/".join(sorted(want_r))))
-    else:
-        hit = [f for f in r_pts if want_r & pcalls[f]]
-        if not hit:
-            rep.fail(
-                "BASE",
-                "no reader entry point calls a base reader helper (expected one of {%s}; entry points tried: %s) — inherited `S`/`T`, UUID and SHORT-NAME-FRAGMENTS are silently dropped on round-trip"
-                % (", ".join(sorted(want_r)), ", ".join(r_pts[:4])),
-            )
+
+    hit = _reaches_any("writer", confirmed_w or w_pts, want_w)
+    if hit:
+        if want_w & wcalls[hit]:
+            rep.ok("BASE", "writer entry point %s directly calls %s" % (hit, ", ".join(sorted(want_w))))
         else:
-            rep.ok("BASE", "reader entry point(s) %s call %s" % (", ".join(hit), ", ".join(sorted(want_r & pcalls[hit[0]]))))
-    if not w_pts:
+            rep.warn("BASE", "writer entry point %s reaches %s within %d calls, but indirectly — confirm the base helper is applied to THIS instance" % (hit, "/".join(sorted(want_w)), _REACH_DEPTH))
+    elif confirmed_w:
+        rep.fail(
+            "BASE",
+            "no writer entry point calls a base writer helper (expected one of {%s}; entry points tried: %s) — reader/writer asymmetry drops inherited state on round-trip"
+            % (", ".join(sorted(want_w)), ", ".join(confirmed_w[:4])),
+        )
+    elif w_pts:
+        rep.warn(
+            "BASE",
+            "%s has no writer of its own; the name-matched candidate(s) %s do not reach {%s} — confirm by hand that the aggregator emitting it calls a base helper (Rule 0025)"
+            % (cls, ", ".join(w_pts[:3]), "/".join(sorted(want_w))),
+        )
+    else:
         rep.warn("BASE", "no writer entry point found for %s — verify the aggregator that emits it calls %s" % (cls, "/".join(sorted(want_w))))
-    else:
-        hit = [f for f in w_pts if want_w & wcalls[f]]
-        if not hit:
-            rep.fail(
-                "BASE",
-                "no writer entry point calls a base writer helper (expected one of {%s}; entry points tried: %s) — reader/writer asymmetry drops inherited state on round-trip"
-                % (", ".join(sorted(want_w)), ", ".join(w_pts[:4])),
-            )
-        else:
-            rep.ok("BASE", "writer entry point(s) %s call %s" % (", ".join(hit), ", ".join(sorted(want_w & wcalls[hit[0]]))))
 
 
 # --------------------------------------------------------------------------- #
@@ -589,7 +836,10 @@ def audit_one(cls: str, path: Path) -> Report:
     check_rows(rep, cls, node, blk_lines)
     check_stamp(rep, blk_lines)
     check_specline(rep, cls, blk_lines)
+    check_citation(rep, cls, blk_lines)
     check_docs(rep, node, blk_lines, enum)
+    check_spacing(rep, lines, start, end)
+    check_doc_tail(rep, node, lines, start, end)
     check_base(rep, cls, node, enum)
     return rep
 
