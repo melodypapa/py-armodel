@@ -33,7 +33,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — 9a passed 2026-10-06 (20358 passed / 0 failed); 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — 9a passed 2026-10-06 (20358 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit dccd25955
 
 - [ ] `CouplingElementEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 3.53, p.108
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
@@ -45,7 +45,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — 9a passed 2026-10-06 (20338 passed / 0 failed); 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — 9a passed 2026-10-06 (20338 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit cc75a503b
 
 - [ ] `CouplingPort` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.54, p.110
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
@@ -57,7 +57,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — 9a passed 2026-10-06 (20369 passed / 0 failed); 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — 9a passed 2026-10-06 (20369 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 51836c9a3
 
 - [ ] `EthernetConnectionNegotiationEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 3.55, p.110
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
@@ -69,7 +69,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — 9a passed 2026-10-06 (20371 passed / 0 failed); 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — 9a passed 2026-10-06 (20371 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit bc3d3386a
 
 - [ ] `EthernetMacLayerTypeEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 3.56, p.110
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
@@ -81,7 +81,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — 9a passed 2026-10-06 (20373 passed / 0 failed); 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — 9a passed 2026-10-06 (20373 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit d526c8ebc
 
 - [ ] `EthernetPhysicalLayerTypeEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 3.57, p.111
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
@@ -93,7 +93,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — 9a passed 2026-10-06 (20375 passed / 0 failed); 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — 9a passed 2026-10-06 (20375 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 5eba7c6ad
 
 - [ ] `EthernetSwitchVlanIngressTagEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 3.58, p.111
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
@@ -105,7 +105,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — 9a passed 2026-10-06 (20377 passed / 0 failed); 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — 9a passed 2026-10-06 (20377 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 0d682b979
 
 - [ ] `CouplingPortConnection` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.60, p.113
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
@@ -117,7 +117,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — 9a passed 2026-10-06 (20378 passed / 0 failed); 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — 9a passed 2026-10-06 (20378 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 754359658
 
 - [ ] `EthernetCommunicationController` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.61, p.116
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
@@ -129,7 +129,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — 9a passed 2026-10-06 (20378 passed / 0 failed); 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — 9a passed 2026-10-06 (20378 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 01e4db429
 
 - [ ] `EthernetCommunicationConnector` — CommunicationConnector — R23-11 CP_TPS_SystemTemplate Table 3.62, p.117
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
@@ -141,7 +141,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — 9a passed 2026-10-06 (20378 passed / 0 failed); 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — 9a passed 2026-10-06 (20378 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit d22193a7d
 
 - [ ] `CouplingPortDetails` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.63, p.122
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
@@ -153,7 +153,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — 9a passed 2026-10-06 (20379 passed / 0 failed); 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — 9a passed 2026-10-06 (20379 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 7a56601b3
 
 - [ ] `EthernetCouplingPortSchedulerEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 3.66, p.123
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
@@ -165,7 +165,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — 9a passed 2026-10-06 (20381 passed / 0 failed); 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — 9a passed 2026-10-06 (20381 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 909eb0ddc
 
 - [ ] `CouplingPortShaper` — CouplingPortStructuralElement — R23-11 CP_TPS_SystemTemplate Table 3.67, p.123
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
@@ -177,7 +177,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — 9a passed 2026-10-06 (20399 passed / 0 failed); 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — 9a passed 2026-10-06 (20399 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 5d3549490
 
 - [ ] `CouplingPortFifo` — CouplingPortStructuralElement — R23-11 CP_TPS_SystemTemplate Table 3.68, p.124
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
@@ -189,7 +189,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — 9a passed 2026-10-06 (20401 passed / 0 failed); 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — 9a passed 2026-10-06 (20401 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 365e7aec3
 
 - [ ] `CouplingPortRatePolicy` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.69, p.124
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
@@ -201,7 +201,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — 9a passed 2026-10-06 (20402 passed / 0 failed); 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — 9a passed 2026-10-06 (20402 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 9fafd3ebc
 
 - [ ] `CouplingPortRatePolicyActionEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 3.70, p.125
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
@@ -213,7 +213,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — 9a passed 2026-10-06 (20403 passed / 0 failed); 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — 9a passed 2026-10-06 (20403 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 3f2c27ef2
 
 - [ ] `CouplingPortTrafficClassAssignment` — Referrable — R23-11 CP_TPS_SystemTemplate Table 3.75, p.128
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
@@ -225,7 +225,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — 9a passed 2026-10-06 (20404 passed / 0 failed); 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — 9a passed 2026-10-06 (20404 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit aacc9860e
 
 - [ ] `EthernetSwitchVlanEgressTaggingEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 3.78, p.130
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
@@ -237,7 +237,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — 9a passed 2026-10-06 (20404 passed / 0 failed); 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — 9a passed 2026-10-06 (20404 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 41795ad4b
 
 - [ ] `DhcpServerConfiguration` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.79, p.131
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
@@ -249,7 +249,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — 9a passed 2026-10-06 (20405 passed / 0 failed); 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — 9a passed 2026-10-06 (20405 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 64d337c40
 
 - [ ] `Ipv4DhcpServerConfiguration` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.80, p.132
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
@@ -261,7 +261,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — 9a passed 2026-10-06 (20406 passed / 0 failed); 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — 9a passed 2026-10-06 (20406 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 920dc732d
 
 - [ ] `Ipv6DhcpServerConfiguration` — Describable — R23-11 CP_TPS_SystemTemplate Table 3.81, p.132
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
@@ -273,7 +273,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — 9a passed 2026-10-06 (20407 passed / 0 failed); 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — 9a passed 2026-10-06 (20407 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 49ad95dd4
 
 - [ ] `CouplingElementAbstractDetails` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 3.82, p.133
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
@@ -294,7 +294,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — 9a passed 2026-10-06 (20421 passed / 0 failed); 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — 9a passed 2026-10-06 (20421 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 9c78940aa
 
 - [ ] `CouplingElementSwitchDetails` — CouplingElementAbstractDetails — R23-11 CP_TPS_SystemTemplate Table 3.83, p.133
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
@@ -306,7 +306,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — 9a passed 2026-10-06 (20442 passed / 0 failed); 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — 9a passed 2026-10-06 (20442 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit d20dc6666
   - Follow-up resolved 2026-10-06: the identity-only placeholder for the SWITCH-STREAM-IDENTIFICATIONS
     children (SwitchStreamIdentification was still a stub) is cleared — SwitchStreamIdentification
     (Table 3.84) is synced and the reader dispatches `readSwitchStreamIdentification`, the writer
@@ -332,7 +332,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — 9a passed 2026-10-06 (20463 passed / 0 failed); 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — 9a passed 2026-10-06 (20463 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit aa06ec8a2
 
 - [ ] `SwitchStreamFilterRule` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 3.85, p.136
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
@@ -361,7 +361,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — 9a passed 2026-10-06 (20599 passed / 0 failed); 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — 9a passed 2026-10-06 (20599 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 4f467314c
 
 - [ ] `StreamFilterRuleDataLinkLayer` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.86, p.137
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
@@ -386,7 +386,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — 9a passed 2026-10-06 (20498 passed / 0 failed); 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — 9a passed 2026-10-06 (20498 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 65ab0bd89
 
 - [ ] `StreamFilterMACAddress` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.87, p.137
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
@@ -410,7 +410,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — 9a passed 2026-10-06 (20479 passed / 0 failed); 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — 9a passed 2026-10-06 (20479 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit c74b8e553
 
 - [ ] `StreamFilterRuleIpTp` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.88, p.138
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
@@ -439,7 +439,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — 9a passed 2026-10-06 (20518 passed / 0 failed); 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — 9a passed 2026-10-06 (20518 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 8989307d0
 
 - [ ] `StreamFilterIpv4Address` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.89, p.138
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
@@ -466,7 +466,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — 9a passed 2026-10-06 (20534 passed / 0 failed); 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — 9a passed 2026-10-06 (20534 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit da459aa3b
 
 - [ ] `StreamFilterIpv6Address` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.90, p.138
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
@@ -492,7 +492,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — 9a passed 2026-10-06 (20550 passed / 0 failed); 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — 9a passed 2026-10-06 (20550 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit ac34699c4
 
 - [ ] `StreamFilterPortRange` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.91, p.139
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
@@ -514,7 +514,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — 9a passed 2026-10-06 (20566 passed / 0 failed); 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — 9a passed 2026-10-06 (20566 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit c97f9dd4e
 
 - [ ] `StreamFilterIEEE1722Tp` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.92, p.139
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
@@ -535,7 +535,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — 9a passed 2026-10-06 (20579 passed / 0 failed); 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — 9a passed 2026-10-06 (20579 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit cc74587e4
 
 - [ ] `SwitchStreamFilterActionDestPortModification` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 3.93, p.140
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
@@ -547,7 +547,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — 9a passed 2026-10-06 (20623 passed / 0 failed); 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — 9a passed 2026-10-06 (20623 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit cbe98badf
 
 - [ ] `SwitchStreamFilterActionPortModificationEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 3.94, p.140
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
@@ -559,7 +559,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — 9a passed 2026-10-06 (20602 passed / 0 failed); 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — 9a passed 2026-10-06 (20602 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 8ca63a75f
 
 - [ ] `SwitchStreamFilterEntry` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 3.95, p.142
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
@@ -586,7 +586,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — 9a passed 2026-10-06 (20644 passed / 0 failed); 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — 9a passed 2026-10-06 (20644 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 8bc4f911f
 
 - [ ] `SwitchAsynchronousTrafficShaperGroupEntry` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 3.96, p.142
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
@@ -605,7 +605,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — 9a passed 2026-10-06 (20659 passed / 0 failed); 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — 9a passed 2026-10-06 (20659 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit dc9e5d6ce
 
 - [ ] `SwitchStreamGateEntry` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 3.97, p.143
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
@@ -626,7 +626,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — 9a passed 2026-10-06 (20674 passed / 0 failed); 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — 9a passed 2026-10-06 (20674 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit ac22e340e
 
 - [ ] `SwitchFlowMeteringEntry` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 3.98, p.143
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
@@ -651,7 +651,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — 9a passed 2026-10-06 (20694 passed / 0 failed); 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — 9a passed 2026-10-06 (20694 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 29385d65d
 
 - [ ] `FlowMeteringColorModeEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 3.99, p.144
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
@@ -671,7 +671,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — 9a passed 2026-10-06 (20697 passed / 0 failed); 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — 9a passed 2026-10-06 (20697 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit c140322c4
 
 - [ ] `EthIpProps` — ARElement — R23-11 CP_TPS_SystemTemplate Table 3.100, p.146
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
@@ -690,7 +690,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — 9a passed 2026-10-06 (20717 passed / 0 failed); 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — 9a passed 2026-10-06 (20717 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 324da359a
 
 - [ ] `Ipv4Props` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.101, p.146
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
@@ -720,7 +720,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — 9a passed 2026-10-06 (20738 passed / 0 failed); 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — 9a passed 2026-10-06 (20738 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 614927b0c
 
 - [ ] `Ipv4ArpProps` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.102, p.146
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
@@ -747,7 +747,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — 9a passed 2026-10-06 (20759 passed / 0 failed); 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — 9a passed 2026-10-06 (20759 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit fbb86c3fc
 
 - [ ] `Ipv4AutoIpProps` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.103, p.147
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
@@ -772,7 +772,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — 9a passed 2026-10-06 (20777 passed / 0 failed); 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — 9a passed 2026-10-06 (20777 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 926b146bc
 
 - [ ] `Ipv4FragmentationProps` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.104, p.147
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
@@ -801,7 +801,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — 9a passed 2026-10-06 (20798 passed / 0 failed); 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — 9a passed 2026-10-06 (20798 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit e16eb379e
 
 - [ ] `Ipv6Props` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.105, p.148
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
@@ -831,7 +831,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — 9a passed 2026-10-06 (20819 passed / 0 failed); 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — 9a passed 2026-10-06 (20819 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 05891c903
 
 - [ ] `Ipv6FragmentationProps` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.106, p.148
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
@@ -862,7 +862,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — 9a passed 2026-10-06 (20842 passed / 0 failed); 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — 9a passed 2026-10-06 (20842 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 772f5b9b2
 
 - [ ] `Dhcpv6Props` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.107, p.149
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
@@ -892,7 +892,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — 9a passed 2026-10-06 (20865 passed / 0 failed); 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — 9a passed 2026-10-06 (20865 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 58cbdb981
 
 - [ ] `Ipv6NdpProps` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.108, p.151
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
@@ -918,7 +918,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — 9a passed 2026-10-06 (20906 passed / 0 failed); 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — 9a passed 2026-10-06 (20906 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit f3c622bd6
 
 - [ ] `EthernetWakeupSleepOnDatalineConfig` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.115, p.159
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
@@ -952,7 +952,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — 9a passed 2026-10-07 (20922 passed / 0 failed); 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — 9a passed 2026-10-07 (20922 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit e795dd3dc
 
 - [ ] `EthernetWakeupSleepOnDatalineConfigSet` — FibexElement — R23-11 CP_TPS_SystemTemplate Table 3.116, p.159
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/__init__.py
