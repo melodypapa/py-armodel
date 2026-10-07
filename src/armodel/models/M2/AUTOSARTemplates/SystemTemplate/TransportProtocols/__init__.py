@@ -3059,3 +3059,8 @@ class SomeipTpConfig(TpConfig):
         if value is not None:
             self.tpConnections.append(value)
         return self
+
+
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols.IEEE1722Tp import (  # noqa: E402
+    IEEE1722TpConfig as IEEE1722TpConfig,
+)

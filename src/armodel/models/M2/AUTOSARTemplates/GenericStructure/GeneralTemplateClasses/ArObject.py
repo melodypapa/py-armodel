@@ -3244,10 +3244,6 @@ class IEEE1722TpAcfLin(ARObject):
     pass
 
 
-class IEEE1722TpConfig(ARObject):
-    pass
-
-
 class IdsmInstance(ARObject):
     pass
 

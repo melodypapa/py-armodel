@@ -1312,6 +1312,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import
     FlexrayTpEcu,
     FlexrayTpNode,
     FlexrayTpPduPool,
+    IEEE1722TpConfig,
     LinTpConfig,
     LinTpConnection,
     LinTpNode,
@@ -10744,6 +10745,20 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeSomeipTpConfigTpChannels(child_element, config)
         self.writeSomeipTpConfigTpConnections(child_element, config)
 
+    def writeIEEE1722TpConfigTpConnectionRefs(self, element: ET.Element, config: IEEE1722TpConfig):
+        refs = config.getTpConnectionRefs()
+        if len(refs) > 0:
+            child_element = ET.SubElement(element, "TP-CONNECTIONS")
+            for ref in refs:
+                conditional_element = ET.SubElement(child_element, "IEEE-1722-TP-CONNECTION-REF-CONDITIONAL")
+                self.setChildElementOptionalRefType(conditional_element, "IEEE-1722-TP-CONNECTION-REF", ref)
+
+    def writeIEEE1722TpConfig(self, element: ET.Element, config: IEEE1722TpConfig):
+        self.logger.debug("Write IEEE1722TpConfig <%s>" % config.getShortName())
+        child_element = ET.SubElement(element, "IEEE-1722-TP-CONFIG")
+        self.writeTpConfig(child_element, config)
+        self.writeIEEE1722TpConfigTpConnectionRefs(child_element, config)
+
     def writeFrameTriggering(self, element: ET.Element, triggering: FrameTriggering):
         self.writeIdentifiable(element, triggering)
         ref_list = triggering.getFramePortRefs()
@@ -19048,6 +19063,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeEthTpConfig(element, ar_element)
         elif isinstance(ar_element, SomeipTpConfig):
             self.writeSomeipTpConfig(element, ar_element)
+        elif isinstance(ar_element, IEEE1722TpConfig):
+            self.writeIEEE1722TpConfig(element, ar_element)
         elif isinstance(ar_element, LinCluster):
             self.writeLinCluster(element, ar_element)
         elif isinstance(ar_element, CanCluster):

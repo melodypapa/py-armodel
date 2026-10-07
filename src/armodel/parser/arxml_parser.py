@@ -1571,6 +1571,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import
     FlexrayTpEcu,
     FlexrayTpNode,
     FlexrayTpPduPool,
+    IEEE1722TpConfig,
     LinTpConfig,
     LinTpConnection,
     LinTpNode,
@@ -14501,6 +14502,15 @@ class ARXMLParser(AbstractARXMLParser):
         self.readSomeipTpConfigTpChannels(element, config)
         self.readSomeipTpConfigTpConnections(element, config)
 
+    def readIEEE1722TpConfigTpConnectionRefs(self, element: ET.Element, config: IEEE1722TpConfig):
+        for ref in self.getChildElementRefTypeList(element, "TP-CONNECTIONS/IEEE-1722-TP-CONNECTION-REF-CONDITIONAL/IEEE-1722-TP-CONNECTION-REF"):
+            config.addTpConnectionRef(ref)
+
+    def readIEEE1722TpConfig(self, element: ET.Element, config: IEEE1722TpConfig):
+        self.logger.debug("Read IEEE1722TpConfig <%s>" % config.getShortName())
+        self.readTpConfig(element, config)
+        self.readIEEE1722TpConfigTpConnectionRefs(element, config)
+
     def readCanFrame(self, element: ET.Element, frame: CanFrame):
         self.logger.debug("Read CanFrame <%s>" % frame.getShortName())
         self.readFrame(element, frame)
@@ -18647,6 +18657,8 @@ class ARXMLParser(AbstractARXMLParser):
                 self.readEthTpConfig(child_element, parent.createEthTpConfig(self.getShortName(child_element)))
             elif tag_name == "SOMEIP-TP-CONFIG":
                 self.readSomeipTpConfig(child_element, parent.createSomeipTpConfig(self.getShortName(child_element)))
+            elif tag_name == "IEEE-1722-TP-CONFIG":
+                self.readIEEE1722TpConfig(child_element, parent.createIEEE1722TpConfig(self.getShortName(child_element)))
             elif tag_name == "CLIENT-ID-DEFINITION-SET":
                 id_definition_set = parent.createClientIdDefinitionSet(self.getShortName(child_element))
                 self.readClientIdDefinitionSet(child_element, id_definition_set)
