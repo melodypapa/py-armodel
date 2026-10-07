@@ -562,7 +562,8 @@ class EvaluatedVariantSet(ARElement):
         Returns:
             self for method chaining
         """
-        self.approvalStatus = value
+        if value is not None:
+            self.approvalStatus = value
         return self
 
     def getEvaluatedElementRefs(self) -> List[RefType]:
@@ -584,7 +585,8 @@ class EvaluatedVariantSet(ARElement):
         Returns:
             self for method chaining
         """
-        self.evaluatedElementRefs.append(value)
+        if value is not None:
+            self.evaluatedElementRefs.append(value)
         return self
 
     def getEvaluatedVariantRefs(self) -> List[RefType]:
@@ -606,5 +608,6 @@ class EvaluatedVariantSet(ARElement):
         Returns:
             self for method chaining
         """
-        self.evaluatedVariantRefs.append(value)
+        if value is not None:
+            self.evaluatedVariantRefs.append(value)
         return self
