@@ -161,13 +161,12 @@ class IndentSample(ARObject):
 
     # IndentSample method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.13, p.297
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getItemLabelPos  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setItemLabelPos  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] addL2            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getL2s           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getItemLabelPos  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setItemLabelPos  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addL2            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getL2s           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self):
         super().__init__()
