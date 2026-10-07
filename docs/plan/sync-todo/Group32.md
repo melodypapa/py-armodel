@@ -276,16 +276,17 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `IPv6ExtHeaderFilterSet` — ARElement — R23-11 CP_TPS_SystemTemplate Table 6.120, p.455
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/IPv6HeaderFilterList.py
+  - Note: REHOUSED from the stub at GenericStructure/GeneralTemplateClasses/ARPackage.py — the spec `Package` row says `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::IPv6HeaderFilterList` (XSD complexType comment confirms `...IPv6HeaderFilterList::IPv6ExtHeaderFilterSet`) so the spec Package row wins (G30 precedent, Rule 0007); `armodel.IPv6ExtHeaderFilterSet` export chain verified intact (models/__init__.py already wildcards IPv6HeaderFilterList). Markdown rendering reconciliation (trap 12): Table 6.120's caption sits AFTER the class-level rows (pre-caption split) and its Class cell renders "IPv6ExtHeaderFilterList" — the rows (Package/Note/Base/Aggregated by/Attribute extHeaderFilterList) belong to IPv6ExtHeaderFilterSet; Table 6.120's own Base row = `ARElement, ARObject, CollectableElement, Identifiable, MultilanguageReferrable, PackageableElement, Referrable` → most-derived = `ARElement`; XSD complexType confirms. Attr `extHeaderFilterList` (IPv6ExtHeaderFilterList, `*` aggr — Identifiable child → `createExtHeaderFilterList(short_name)` + `getExtHeaderFilterLists()`, dedicated typed list field per Rule 0004; XSD wrapper `EXT-HEADER-FILTER-LISTS` with choice of `I-PV-6-EXT-HEADER-FILTER-LIST`). Aggregated by `ARPackage.element` → full 5-place dispatch: `createIPv6ExtHeaderFilterSet` factory on ARPackage (bottom-of-module cycle import per TcpOptionFilterSet precedent), reader `readIPv6ExtHeaderFilterSet` + `I-PV-6-EXT-HEADER-FILTER-SET` branch in `readARPackageElementsRest`, writer `writeIPv6ExtHeaderFilterSet` + isinstance branch, dispatch tests both sides (parser +2, writer round-trip +3 with field-value assertions incl. wrapper-empty omission). Member child IPv6ExtHeaderFilterList already synced/stamped (Table 6.121) — reader/writer helpers reused. Class `Note` carries `Tags: atp.recommendedPackage=IPv6ExtHeaderFilterSets` — kept verbatim. Stub tuple removed from `test_group21_36_stub_classes.py`. No deviations.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `ApplicationEndpoint` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.124, p.458
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py

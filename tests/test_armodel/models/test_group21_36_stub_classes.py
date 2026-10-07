@@ -2567,12 +2567,6 @@ STUBS = [
     ),
     (
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage",
-        "IPv6ExtHeaderFilterSet",
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage",
-        "ARElement",
-    ),
-    (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage",
         "IdsDesign",
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage",
         "ARElement",

@@ -999,6 +999,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.TcpO
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.IPv6HeaderFilterList import (
     IPv6ExtHeaderFilterList,
+    IPv6ExtHeaderFilterSet,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ObsoleteModel import (
     SoAdRoutingGroup,
@@ -11008,6 +11009,19 @@ class ARXMLWriter(AbstractARXMLWriter):
             for option in allowed_tcp_options:
                 self.setChildElementOptionalPositiveInteger(options_element, "ALLOWED-TCP-OPTION", cast(Integer, option))
 
+    def writeIPv6ExtHeaderFilterSet(self, element: ET.Element, ipv6_ext_header_filter_set: IPv6ExtHeaderFilterSet):
+        self.logger.debug("Write IPv6ExtHeaderFilterSet <%s>" % ipv6_ext_header_filter_set.getShortName())
+        child_element = ET.SubElement(element, "I-PV-6-EXT-HEADER-FILTER-SET")
+        self.writeIdentifiable(child_element, ipv6_ext_header_filter_set)
+        filter_lists = ipv6_ext_header_filter_set.getExtHeaderFilterLists()
+        if len(filter_lists) > 0:
+            lists_element = ET.SubElement(child_element, "EXT-HEADER-FILTER-LISTS")
+            for filter_list in filter_lists:
+                if isinstance(filter_list, IPv6ExtHeaderFilterList):
+                    self.writeIPv6ExtHeaderFilterList(lists_element, filter_list)
+                else:
+                    self.notImplemented("Unsupported IPv6ExtHeaderFilterList <%s>" % type(filter_list))
+
     def writeIPv6ExtHeaderFilterList(self, element: ET.Element, ipv6_ext_header_filter_list: IPv6ExtHeaderFilterList):
         child_element = ET.SubElement(element, "I-PV-6-EXT-HEADER-FILTER-LIST")
         self.writeIdentifiable(child_element, ipv6_ext_header_filter_list)
@@ -18677,6 +18691,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeSwcImplementation(element, ar_element)
         elif isinstance(ar_element, TcpOptionFilterSet):
             self.writeTcpOptionFilterSet(element, ar_element)
+        elif isinstance(ar_element, IPv6ExtHeaderFilterSet):
+            self.writeIPv6ExtHeaderFilterSet(element, ar_element)
         elif isinstance(ar_element, CompositionSwComponentType):
             self.writeCompositionSwComponentType(element, ar_element)
         elif isinstance(ar_element, ParameterSwComponentType):

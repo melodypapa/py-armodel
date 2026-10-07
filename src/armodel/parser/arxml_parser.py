@@ -1195,6 +1195,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.TcpO
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.IPv6HeaderFilterList import (
     IPv6ExtHeaderFilterList,
+    IPv6ExtHeaderFilterSet,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ObsoleteModel import (
     SoAdRoutingGroup,
@@ -10782,6 +10783,17 @@ class ARXMLParser(AbstractARXMLParser):
             for value in self.getChildElementPositiveIntegerValueList(options_element, "ALLOWED-TCP-OPTION"):
                 tcp_filter_list.addAllowedTcpOption(value)
 
+    def readIPv6ExtHeaderFilterSet(self, element: ET.Element, ipv6_ext_header_filter_set: IPv6ExtHeaderFilterSet):
+        self.logger.debug("Read IPv6ExtHeaderFilterSet <%s>" % ipv6_ext_header_filter_set.getShortName())
+        self.readIdentifiable(element, ipv6_ext_header_filter_set)
+        for child_element in self.findall(element, "EXT-HEADER-FILTER-LISTS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "I-PV-6-EXT-HEADER-FILTER-LIST":
+                filter_list = ipv6_ext_header_filter_set.createExtHeaderFilterList(self.getShortName(child_element))
+                self.readIPv6ExtHeaderFilterList(child_element, filter_list)
+            else:
+                self.notImplemented("Unsupported IPv6ExtHeaderFilterList <%s>" % tag_name)
+
     def readIPv6ExtHeaderFilterList(self, element: ET.Element, ipv6_ext_header_filter_list: IPv6ExtHeaderFilterList):
         self.readIdentifiable(element, ipv6_ext_header_filter_list)
         allowed_element = self.find(element, "ALLOWED-I-PV-6-EXT-HEADERS")
@@ -18821,6 +18833,9 @@ class ARXMLParser(AbstractARXMLParser):
         elif tag_name == "TCP-OPTION-FILTER-SET":
             tcp_option_filter_set = parent.createTcpOptionFilterSet(self.getShortName(child_element))
             self.readTcpOptionFilterSet(child_element, tcp_option_filter_set)
+        elif tag_name == "I-PV-6-EXT-HEADER-FILTER-SET":
+            ipv6_ext_header_filter_set = parent.createIPv6ExtHeaderFilterSet(self.getShortName(child_element))
+            self.readIPv6ExtHeaderFilterSet(child_element, ipv6_ext_header_filter_set)
         elif tag_name == "SOME-IP-SD-CLIENT-SERVICE-INSTANCE-CONFIG":
             config = parent.createSomeipSdClientServiceInstanceConfig(self.getShortName(child_element))
             self.readSomeipSdClientServiceInstanceConfig(child_element, config)
