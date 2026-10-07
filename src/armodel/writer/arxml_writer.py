@@ -15608,12 +15608,10 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeDataPrototypeInClientServerInterfaceInstanceRef(self, element: ET.Element, iref: DataPrototypeInClientServerInterfaceInstanceRef):
         child_element = ET.SubElement(element, "DATA-PROTOTYPE-IN-CLIENT-SERVER-INTERFACE-IREF")
         self.writeARObject(child_element, iref)
-        self.setChildElementOptionalRefType(child_element, "BASE", iref.getBaseRef())
+        self.setChildElementOptionalRefType(child_element, "ROOT-DATA-PROTOTYPE-IN-CS-REF", iref.getRootDataPrototypeInCsRef())
         for ctx in iref.getContextDataPrototypeInCsRefs():
-            ctx_element = ET.SubElement(child_element, "CONTEXT-DATA-PROTOTYPE-IN-CS")
-            self.setChildElementOptionalRefType(ctx_element, "CONTEXT-DATA-PROTOTYPE-IN-CS", ctx)
-        self.setChildElementOptionalRefType(child_element, "ROOT-DATA-PROTOTYPE-IN-CS", iref.getRootDataPrototypeInCsRef())
-        self.setChildElementOptionalRefType(child_element, "TARGET-DATA-PROTOTYPE-IN-CS", iref.getTargetDataPrototypeInCsRef())
+            self.setChildElementOptionalRefType(child_element, "CONTEXT-DATA-PROTOTYPE-IN-CS-REF", ctx)
+        self.setChildElementOptionalRefType(child_element, "TARGET-DATA-PROTOTYPE-IN-CS-REF", iref.getTargetDataPrototypeInCsRef())
 
     def writeDataPrototypeTransformationProps(self, element: ET.Element, props: DataPrototypeTransformationProps):
         child_element = ET.SubElement(element, "DATA-PROTOTYPE-TRANSFORMATION-PROPS")

@@ -16650,11 +16650,10 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readDataPrototypeInClientServerInterfaceInstanceRef(self, element: ET.Element, iref: DataPrototypeInClientServerInterfaceInstanceRef):
         self.readARObject(element, iref)
-        iref.setBaseRef(self.getChildElementOptionalRefType(element, "BASE"))
-        for ctx in self.findall(element, "CONTEXT-DATA-PROTOTYPE-IN-CS"):
-            iref.addContextDataPrototypeInCsRefs(self.getChildElementOptionalRefType(ctx, "CONTEXT-DATA-PROTOTYPE-IN-CS") or self.getChildElementOptionalRefType(ctx, "CONTEXT-DATA-PROTOTYPE"))
-        iref.setRootDataPrototypeInCsRef(self.getChildElementOptionalRefType(element, "ROOT-DATA-PROTOTYPE-IN-CS"))
-        iref.setTargetDataPrototypeInCsRef(self.getChildElementOptionalRefType(element, "TARGET-DATA-PROTOTYPE-IN-CS"))
+        iref.setRootDataPrototypeInCsRef(self.getChildElementOptionalRefType(element, "ROOT-DATA-PROTOTYPE-IN-CS-REF"))
+        for ctx in self.getChildElementRefTypeList(element, "CONTEXT-DATA-PROTOTYPE-IN-CS-REF"):
+            iref.addContextDataPrototypeInCsRefs(ctx)
+        iref.setTargetDataPrototypeInCsRef(self.getChildElementOptionalRefType(element, "TARGET-DATA-PROTOTYPE-IN-CS-REF"))
 
     def readDataPrototypeTransformationProps(self, element: ET.Element, props: DataPrototypeTransformationProps):
         self.readARObject(element, props)
