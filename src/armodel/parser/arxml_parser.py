@@ -1083,6 +1083,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate import (
     System,
     SystemMapping,
 )
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster import CpSoftwareClusterToEcuInstanceMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
     ClientServerToSignalMapping,
     DataMapping,
@@ -16925,6 +16926,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readSystemMappingRteEventSeparations(element, mapping)
         self.readSystemMappingRteEventToOsTaskProxyMappings(element, mapping)
         self.readSystemMappingSignalPathConstraints(element, mapping)
+        self.readSystemMappingSwClusterMappings(element, mapping)
         self.readSystemMappingSwImplMappings(element, mapping)
         self.readSystemMappingSwMappings(element, mapping)
 
@@ -17041,6 +17043,19 @@ class ARXMLParser(AbstractARXMLParser):
     def readSystemSwClusterRefs(self, element: ET.Element, system: System):
         for ref in self.getChildElementRefTypeList(element, "SW-CLUSTERS/CP-SOFTWARE-CLUSTER-REF-CONDITIONAL/CP-SOFTWARE-CLUSTER-REF"):
             system.addSwClusterRef(ref)
+
+    def readCpSoftwareClusterToEcuInstanceMapping(self, element: ET.Element, mapping: CpSoftwareClusterToEcuInstanceMapping):
+        self.readIdentifiable(element, mapping)
+        mapping.setEcuInstanceRef(self.getChildElementOptionalRefType(element, "ECU-INSTANCE-REF"))
+        mapping.setMachineId(self.getChildElementOptionalPositiveInteger(element, "MACHINE-ID"))
+        for ref in self.getChildElementRefTypeList(element, "SW-CLUSTERS/CP-SOFTWARE-CLUSTER-REF-CONDITIONAL/CP-SOFTWARE-CLUSTER-REF"):
+            mapping.addSwClusterRef(ref)
+
+    def readSystemMappingSwClusterMappings(self, element: ET.Element, mapping: SystemMapping):
+        for child_element in self.findall(element, "SW-CLUSTER-MAPPINGS/CP-SOFTWARE-CLUSTER-TO-ECU-INSTANCE-MAPPING"):
+            sw_cluster_mapping = CpSoftwareClusterToEcuInstanceMapping(mapping, self.getShortName(child_element))
+            self.readCpSoftwareClusterToEcuInstanceMapping(child_element, sw_cluster_mapping)
+            mapping.addSwClusterMapping(sw_cluster_mapping)
 
     def readSystem(self, element: ET.Element, system: System):
         self.logger.debug("Read System <%s>" % system.getShortName())

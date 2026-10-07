@@ -1471,10 +1471,6 @@ class CpSoftwareClusterToApplicationPartitionMapping(Identifiable):
     pass
 
 
-class CpSoftwareClusterToEcuInstanceMapping(Identifiable):
-    pass
-
-
 class CpSoftwareClusterToResourceMapping(Identifiable):
     pass
 

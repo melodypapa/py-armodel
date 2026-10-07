@@ -896,6 +896,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate import (
     System,
     SystemMapping,
 )
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster import CpSoftwareClusterToEcuInstanceMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
     ClientServerToSignalMapping,
     DataMapping,
@@ -13813,6 +13814,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeSystemMappingRteEventSeparations(child_element, mapping)
         self.writeSystemMappingRteEventToOsTaskProxyMappings(child_element, mapping)
         self.writeSystemMappingSignalPathConstraints(child_element, mapping)
+        self.writeSystemMappingSwClusterMappings(child_element, mapping)
         self.writeSystemMappingSwImplMappings(child_element, mapping)
         self.writeSystemMappingSwMappings(child_element, mapping)
 
@@ -13960,6 +13962,28 @@ class ARXMLWriter(AbstractARXMLWriter):
             for ref in refs:
                 child_element = ET.SubElement(sw_clusters_tag, "CP-SOFTWARE-CLUSTER-REF-CONDITIONAL")
                 self.setChildElementOptionalRefType(child_element, "CP-SOFTWARE-CLUSTER-REF", ref)
+
+    def writeCpSoftwareClusterToEcuInstanceMapping(self, element: ET.Element, mapping: CpSoftwareClusterToEcuInstanceMapping):
+        child_element = ET.SubElement(element, "CP-SOFTWARE-CLUSTER-TO-ECU-INSTANCE-MAPPING")
+        self.writeIdentifiable(child_element, mapping)
+        self.setChildElementOptionalRefType(child_element, "ECU-INSTANCE-REF", mapping.getEcuInstanceRef())
+        self.setChildElementOptionalPositiveInteger(child_element, "MACHINE-ID", mapping.getMachineId())
+        refs = mapping.getSwClusterRefs()
+        if len(refs) > 0:
+            sw_clusters_tag = ET.SubElement(child_element, "SW-CLUSTERS")
+            for ref in refs:
+                ref_conditional_tag = ET.SubElement(sw_clusters_tag, "CP-SOFTWARE-CLUSTER-REF-CONDITIONAL")
+                self.setChildElementOptionalRefType(ref_conditional_tag, "CP-SOFTWARE-CLUSTER-REF", ref)
+
+    def writeSystemMappingSwClusterMappings(self, element: ET.Element, mapping: SystemMapping):
+        mappings = mapping.getSwClusterMappings()
+        if len(mappings) > 0:
+            mappings_tag = ET.SubElement(element, "SW-CLUSTER-MAPPINGS")
+            for sw_cluster_mapping in mappings:
+                if isinstance(sw_cluster_mapping, CpSoftwareClusterToEcuInstanceMapping):
+                    self.writeCpSoftwareClusterToEcuInstanceMapping(mappings_tag, sw_cluster_mapping)
+                else:
+                    self.notImplemented("Unsupported SwClusterMapping %s" % type(sw_cluster_mapping))
 
     def writeSystem(self, element: ET.Element, system: System):
         self.logger.debug("Write System %s" % system.getShortName())

@@ -2,6 +2,7 @@ from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, RefType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import ComponentInSystemInstanceRef
@@ -124,4 +125,81 @@ class CpSoftwareCluster(ARElement):
         """
         if value is not None:
             self.swCompositionRefs.append(value)
+        return self
+
+
+class CpSoftwareClusterToEcuInstanceMapping(Identifiable):
+    """
+    This meta class maps a CpSoftwareCluster to a EcuInstance.
+    """
+
+    # CpSoftwareClusterToEcuInstanceMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 5.47, p.283
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getEcuInstanceRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEcuInstanceRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMachineId       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMachineId       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwClusterRefs   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addSwClusterRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Reference to a specific ECU Instance description.
+        self.ecuInstanceRef: Optional[RefType] = None
+
+        # Unique number of the (virtual or physical) machine to which the Software Cluster is mapped.
+        self.machineId: Optional[PositiveInteger] = None
+
+        # The mapped CP Software Cluster Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=swCluster.cpSoftwareCluster, sw Cluster.variationPoint.shortLabel vh.latestBindingTime=systemDesignTime
+        self.swClusterRefs: List[RefType] = []
+
+    def getEcuInstanceRef(self) -> Optional[RefType]:
+        """
+        Reference to a specific ECU Instance description.
+        """
+        return self.ecuInstanceRef
+
+    def setEcuInstanceRef(self, value: Optional[RefType]) -> "CpSoftwareClusterToEcuInstanceMapping":
+        """
+        Reference to a specific ECU Instance description.
+
+        A None value is a no-op and does not overwrite an existing ecuInstanceRef.
+        """
+        if value is not None:
+            self.ecuInstanceRef = value
+        return self
+
+    def getMachineId(self) -> Optional[PositiveInteger]:
+        """
+        Unique number of the (virtual or physical) machine to which the Software Cluster is mapped.
+        """
+        return self.machineId
+
+    def setMachineId(self, value: Optional[PositiveInteger]) -> "CpSoftwareClusterToEcuInstanceMapping":
+        """
+        Unique number of the (virtual or physical) machine to which the Software Cluster is mapped.
+
+        A None value is a no-op and does not overwrite an existing machineId.
+        """
+        if value is not None:
+            self.machineId = value
+        return self
+
+    def getSwClusterRefs(self) -> List[RefType]:
+        """
+        The mapped CP Software Cluster Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=swCluster.cpSoftwareCluster, sw Cluster.variationPoint.shortLabel vh.latestBindingTime=systemDesignTime
+        """
+        return self.swClusterRefs
+
+    def addSwClusterRef(self, value: Optional[RefType]) -> "CpSoftwareClusterToEcuInstanceMapping":
+        """
+        The mapped CP Software Cluster Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=swCluster.cpSoftwareCluster, sw Cluster.variationPoint.shortLabel vh.latestBindingTime=systemDesignTime
+
+        A None value is a no-op and does not add to swClusterRefs.
+        """
+        if value is not None:
+            self.swClusterRefs.append(value)
         return self
