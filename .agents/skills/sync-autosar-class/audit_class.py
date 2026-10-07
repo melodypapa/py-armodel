@@ -762,8 +762,15 @@ def check_base(rep: Report, cls: str, node: ast.ClassDef, enum: bool) -> None:
 
     hit = _reaches_any("parser", confirmed_r or r_pts, want_r)
     if hit:
-        how = "directly calls" if want_r & pcalls[hit] else "reaches (within %d calls) %s" % (_REACH_DEPTH, ", ".join(sorted(want_r)))
-        rep.ok("BASE", "reader entry point %s %s" % (hit, how))
+        if want_r & pcalls[hit]:
+            rep.ok("BASE", "reader entry point %s directly calls %s" % (hit, ", ".join(sorted(want_r))))
+        else:
+            # Say what was actually verified. This walk proves the call exists in the
+            # subtree; it does NOT prove the call receives *this* instance, so a base
+            # helper applied to some other object would also satisfy it. `TimeSynchronization`
+            # is the known case: the tree reaches readARObject, yet S/T do not survive the
+            # round-trip. Treat an indirect pass as a prompt to hand-verify, not a proof.
+            rep.warn("BASE", "reader entry point %s reaches %s within %d calls, but indirectly — confirm the base helper is applied to THIS instance (an indirect hit can target another object, which silently drops S/T)" % (hit, "/".join(sorted(want_r)), _REACH_DEPTH))
     elif confirmed_r:
         rep.fail(
             "BASE",
@@ -781,8 +788,10 @@ def check_base(rep: Report, cls: str, node: ast.ClassDef, enum: bool) -> None:
 
     hit = _reaches_any("writer", confirmed_w or w_pts, want_w)
     if hit:
-        how = "directly calls" if want_w & wcalls[hit] else "reaches (within %d calls) %s" % (_REACH_DEPTH, ", ".join(sorted(want_w)))
-        rep.ok("BASE", "writer entry point %s %s" % (hit, how))
+        if want_w & wcalls[hit]:
+            rep.ok("BASE", "writer entry point %s directly calls %s" % (hit, ", ".join(sorted(want_w))))
+        else:
+            rep.warn("BASE", "writer entry point %s reaches %s within %d calls, but indirectly — confirm the base helper is applied to THIS instance" % (hit, "/".join(sorted(want_w)), _REACH_DEPTH))
     elif confirmed_w:
         rep.fail(
             "BASE",
