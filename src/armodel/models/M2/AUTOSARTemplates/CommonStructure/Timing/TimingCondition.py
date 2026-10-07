@@ -195,13 +195,12 @@ class TimingModeInstance(Identifiable, VariationPointCapable):
 
     # TimingModeInstance method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.10, p.37
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getModeInstance          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setModeInstance          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getModeInstance  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setModeInstance  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
-    def __init__(self, parent, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
         # This refers to a specific mode declaration in the given context.
@@ -209,11 +208,17 @@ class TimingModeInstance(Identifiable, VariationPointCapable):
         self.modeInstance: Optional[ModeInSwcBswInstanceRef] = None
 
     def getModeInstance(self) -> Optional[ModeInSwcBswInstanceRef]:
-        """This refers to a specific mode declaration in the given context."""
+        """
+        This refers to a specific mode declaration in the given context.
+        """
         return self.modeInstance
 
     def setModeInstance(self, value: Optional[ModeInSwcBswInstanceRef]) -> TimingModeInstance:
-        """This refers to a specific mode declaration in the given context. A None value is a no-op and does not overwrite an existing modeInstance."""
+        """
+        This refers to a specific mode declaration in the given context.
+
+        A None value is a no-op and does not overwrite an existing modeInstance.
+        """
         if value is not None:
             self.modeInstance = value
         return self

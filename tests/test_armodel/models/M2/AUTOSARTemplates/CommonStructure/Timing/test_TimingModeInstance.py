@@ -39,3 +39,20 @@ class TestTimingModeInstance:
         obj.setModeInstance(iref)
         assert obj.setModeInstance(None) is obj
         assert obj.getModeInstance() is iref
+
+    def test_class_docstring_note(self):
+        import inspect
+
+        assert inspect.cleandoc(TimingModeInstance.__doc__) == (
+            "This class specifies the mode declaration to be checked in a specific instance of a mode "
+            "declaration group. This is used in a timing condition formula as an operand of the unary timing "
+            "function TIMEX_mode Active to check whether the mode declaration is active at the point in time "
+            "this expression is evaluated."
+        )
+
+    def test_member_docstrings_are_verbatim_spec_notes(self):
+        import inspect
+
+        note = "This refers to a specific mode declaration in the given context."
+        assert inspect.cleandoc(TimingModeInstance.getModeInstance.__doc__) == note
+        assert inspect.cleandoc(TimingModeInstance.setModeInstance.__doc__) == note + "\n\nA None value is a no-op and does not overwrite an existing modeInstance."
