@@ -15,7 +15,6 @@ AnyInstanceRef
 AnyServiceInstanceId
 AnyVersionString
 ApplicationCompositeElementInPortInterfaceInstanceRef
-ApplicationEndpoint
 ApplicationInterface
 ArbitraryEventTriggering
 ArgumentDirectionEnum
@@ -121,7 +120,6 @@ DisplayFormatString
 DltConfig
 DltDefaultTraceStateEnum
 DoIpConfig
-DoIpEntityRoleEnum
 DoIpServiceNeeds
 DoIpTpConfig
 DocRevision
@@ -389,7 +387,6 @@ TcpProps
 TcpRoleEnum
 TextTableMapping
 Tgroup
-TimeSyncTechnologyEnum
 TimingClock
 TimingClockSyncAccuracy
 TimingCondition
