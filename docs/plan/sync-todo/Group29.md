@@ -11,41 +11,46 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 ## Queue (page order per document segment)
 
-- [ ] `SwcExclusiveAreaPolicy` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 7.28, p.556
+- [x] `SwcExclusiveAreaPolicy` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 7.28, p.556
   - module: M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Audit-only flip (Rule 0023/0026, 2026-10-07): class already carries `# Spec verified: R23-11` in src (checklist provenance `95119649a`); audit_class.py initially FAILed on Rule 0025 — the SWC-EXCLUSIVE-AREA-POLICY reader/writer skipped readARObject/writeARObject (XSD complexType line 117026 chains the AR-OBJECT groups), so inherited S/T were silently dropped; both added + S/T round-trip pinned by new parser/writer tests; audit now PASS; queue row flipped citing the existing stamp; repair commit `8c2c65f8d`.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `RteApiReturnValueProvisionEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 7.32, p.562
+- [x] `RteApiReturnValueProvisionEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 7.32, p.562
   - module: M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/AccessCount.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Audit-only flip (Rule 0023/0026, 2026-10-07): class already carries `# Spec verified: R23-11` in src (checklist provenance `e3d1262da`); audit_class.py PASS (BLOCK/ROWS/BASE/DOC/SPECLINE/STAMP); queue row flipped citing the existing stamp — no re-sync.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
 
 - [ ] `ExternalTriggeringPoint` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 7.39, p.584
   - module: M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/Trigger.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Re-sync (Rule 0023/0012.3, 2026-10-07): the stale `# Spec verified: R23-11` marker sat on a legacy 5-column checklist (no release column, paraphrase docstrings with Returns: blocks, bare `ident` member annotation) — marker removed (re-stamp deferred to batch 9b per user instruction; row intentionally left `[ ]`), checklist rebuilt 6-column. Table 7.39 (p.584) Note + 2 attrs verbatim after wipe/rewrite — markdown wrap artifacts kept per Rule 0015/0001.4 (ident Note "ExternalTriggering Point", trigger Note "PTriggerInAtomicSwc TypeInstanceRef"); ident 0..1 → `Optional[ExternalTriggeringPointIdent]` PEP 526 (getter was bare-T, Rule 0001.4); member order = markdown row order.
+  - Step 6 (2026-10-07): XSD complexType EXTERNAL-TRIGGERING-POINT (AUTOSAR_00052.xsd line 58485) = AR-OBJECT group + own group + AR-OBJECT attributeGroup; group EXTERNAL-TRIGGERING-POINT (line 58447) = IDENT (sequenceOffset -100) → TRIGGER-IREF wrapper → VARIATION-POINT (10000, atpVariation present — VariationPointCapable kept per Rule 0020). Reader entry readRunnableEntityExternalTriggeringPoints gained readARObject + readReferrable on the IDENT (LinSlaveConfig precedent) + readVariationPointCapable; writer gained writeARObject + writeVariationPointCapable (VARIATION-POINT emitted last per XSD order) — inherited S/T, ident SHORT-NAME-FRAGMENTS and VP were all silently dropped before; new parser/writer tests pin S/T, fragments and the IDENT → TRIGGER-IREF → VARIATION-POINT element order; audit BASE now clean both directions.
+  - Step 8 (2026-10-07): no spec deviations. Member type ExternalTriggeringPointIdent is stamped R23-11 against its own Table 14.6, p.852 (RPTScenario-package caption class, RPTScenario.py home is per-spec). ident 0..1 aggr keeps the createIdent/getIdent shape (Referrable-derived child, Rule 0001.6).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-07 (full battery 20503/0 incl. new S/T + VP round-trip tests); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction); sync commit `49038a961`
 
 - [ ] `IncludedDataTypeSet` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 7.50, p.600
   - module: M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/IncludedDataTypes.py
@@ -75,17 +80,18 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-06 (11472 + 8688 + 13 passed / 0 failed: models full tree, parser+writer regression, integration round-trip); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction); sync commit `38630f7a8`
 
-- [ ] `SymbolicNameProps` — ImplementationProps — R23-11 CP_TPS_SoftwareComponentTemplate Table 7.59, p.610
+- [x] `SymbolicNameProps` — ImplementationProps — R23-11 CP_TPS_SoftwareComponentTemplate Table 7.59, p.610
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Audit-only flip (Rule 0023/0026, 2026-10-07): class already carries `# Spec verified: R23-11` in src (checklist provenance `16ed72ebe`); audit_class.py PASS (BLOCK/ROWS/BASE/DOC/SPECLINE/STAMP); queue row flipped citing the existing stamp — no re-sync.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
 
 - [ ] `VariationPointProxy` — Identifiable — R23-11 CP_TPS_SoftwareComponentTemplate Table 7.61, p.613
   - module: M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/VariantHandling.py
@@ -234,113 +240,122 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-06 (11465 passed / 0 failed: models full tree); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction); sync commit `b72807df6`
   - Step 8 (2026-10-06): no deviations — literals 1:1 with Table 12.4 (2 rows, XSD facet order), member values are the exact `ADDITIONAL-BINDING-TIME-ENUM--SIMPLE` facets, docstrings verbatim incl. the `atp.EnumerationLiteralIndex` Tags tails; no deviation-tracker entry needed.
 
-- [ ] `FunctionInhibitionAvailabilityNeeds` — ServiceNeeds — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.13, p.751
+- [x] `FunctionInhibitionAvailabilityNeeds` — ServiceNeeds — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.13, p.751
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Audit-only flip (Rule 0023/0026, 2026-10-07): class already carries `# Spec verified: R23-11` in src (checklist provenance `b41f6ecac`); audit_class.py PASS (BLOCK/ROWS/BASE/DOC/SPECLINE/STAMP); queue row flipped citing the existing stamp — no re-sync.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `DiagnosticOperationCycleNeeds` — DiagnosticCapabilityElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.24, p.761
+- [x] `DiagnosticOperationCycleNeeds` — DiagnosticCapabilityElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.24, p.761
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Audit-only flip (Rule 0023/0026, 2026-10-07): class already carries `# Spec verified: R23-11` in src (checklist provenance `b41f6ecac`); audit_class.py PASS (BLOCK/ROWS/BASE/DOC/SPECLINE/STAMP); queue row flipped citing the existing stamp — no re-sync.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `OperationCycleTypeEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.25, p.761
+- [x] `OperationCycleTypeEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.25, p.761
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Audit-only flip (Rule 0023/0026, 2026-10-07): class already carries `# Spec verified: R23-11` in src (checklist provenance `b41f6ecac`); audit_class.py PASS (BLOCK/ROWS/BASE/DOC/SPECLINE/STAMP); queue row flipped citing the existing stamp — no re-sync.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `DiagnosticEnableConditionNeeds` — DiagnosticCapabilityElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.26, p.762
+- [x] `DiagnosticEnableConditionNeeds` — DiagnosticCapabilityElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.26, p.762
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Audit-only flip (Rule 0023/0026, 2026-10-07): class already carries `# Spec verified: R23-11` in src (checklist provenance `b41f6ecac`); audit_class.py PASS (BLOCK/ROWS/BASE/DOC/SPECLINE/STAMP); queue row flipped citing the existing stamp — no re-sync.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `EventAcceptanceStatusEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.27, p.762
+- [x] `EventAcceptanceStatusEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.27, p.762
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Audit-only flip (Rule 0023/0026, 2026-10-07): class already carries `# Spec verified: R23-11` in src (checklist provenance `b41f6ecac`); audit_class.py PASS (BLOCK/ROWS/BASE/DOC/SPECLINE/STAMP); queue row flipped citing the existing stamp — no re-sync.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `DiagnosticStorageConditionNeeds` — DiagnosticCapabilityElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.28, p.762
+- [x] `DiagnosticStorageConditionNeeds` — DiagnosticCapabilityElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.28, p.762
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Audit-only flip (Rule 0023/0026, 2026-10-07): class already carries `# Spec verified: R23-11` in src (checklist provenance `b41f6ecac`); audit_class.py PASS (BLOCK/ROWS/BASE/DOC/SPECLINE/STAMP); queue row flipped citing the existing stamp — no re-sync.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `StorageConditionStatusEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.29, p.762
+- [x] `StorageConditionStatusEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.29, p.762
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Audit-only flip (Rule 0023/0026, 2026-10-07): class already carries `# Spec verified: R4.3.1` in src (checklist provenance `89407b6f0`); audit_class.py PASS (BLOCK/ROWS/BASE/DOC/SPECLINE/STAMP); queue row flipped citing the existing stamp — no re-sync.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `IndicatorStatusNeeds` — ServiceNeeds — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.30, p.766
+- [x] `IndicatorStatusNeeds` — ServiceNeeds — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.30, p.766
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Audit-only flip (Rule 0023/0026, 2026-10-07): class already carries `# Spec verified: R4.3.1` in src (checklist provenance `28746ce3c`); audit_class.py PASS (BLOCK/ROWS/BASE/DOC/SPECLINE/STAMP); queue row flipped citing the existing stamp — no re-sync.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `DiagnosticIndicatorTypeEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.31, p.766; also CP_TPS_DiagnosticExtractTemplate Table 4.200, p.203
+- [x] `DiagnosticIndicatorTypeEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.31, p.766; also CP_TPS_DiagnosticExtractTemplate Table 4.200, p.203
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Audit-only flip (Rule 0023/0026, 2026-10-07): class already carries `# Spec verified: R23-11` in src (checklist provenance `b41f6ecac`); audit_class.py initially FAILed on a Rule 0012.2.4 `__init__` docstring — removed in this pass; audit now PASS; queue row flipped citing the existing stamp; repair commit `9b2a75147`.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
 
 - [ ] `ObdRatioServiceNeeds` — DiagnosticCapabilityElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.44, p.795
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
@@ -354,77 +369,83 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (1897 + 8190 passed / 0 failed: models CommonStructure, parser+writer regression); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction); sync commit `86d72d7d2`
 
-- [ ] `ObdControlServiceNeeds` — DiagnosticCapabilityElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.45, p.796; also CP_TPS_DiagnosticExtractTemplate Table 5.11, p.233
+- [x] `ObdControlServiceNeeds` — DiagnosticCapabilityElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.45, p.796; also CP_TPS_DiagnosticExtractTemplate Table 5.11, p.233
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Audit-only flip (Rule 0023/0026, 2026-10-07): class already carries `# Spec verified: R23-11` in src (checklist provenance `7df83dbc9`); audit_class.py PASS (BLOCK/ROWS/BASE/DOC/SPECLINE/STAMP); queue row flipped citing the existing stamp — no re-sync.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `ObdRatioConnectionKindEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.46, p.796
+- [x] `ObdRatioConnectionKindEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.46, p.796
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Audit-only flip (Rule 0023/0026, 2026-10-07): class already carries `# Spec verified: R23-11` in src (checklist provenance `ed19e28c5`); audit_class.py PASS (BLOCK/ROWS/BASE/DOC/SPECLINE/STAMP); queue row flipped citing the existing stamp — no re-sync.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `ObdPidServiceNeeds` — DiagnosticCapabilityElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.47, p.797; also CP_TPS_DiagnosticExtractTemplate Table 5.10, p.233
+- [x] `ObdPidServiceNeeds` — DiagnosticCapabilityElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.47, p.797; also CP_TPS_DiagnosticExtractTemplate Table 5.10, p.233
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Audit-only flip (Rule 0023/0026, 2026-10-07): class already carries `# Spec verified: R23-11` in src (checklist provenance `4a01b231f`); audit_class.py PASS (BLOCK/ROWS/BASE/DOC/SPECLINE/STAMP); queue row flipped citing the existing stamp — no re-sync.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `ObdInfoServiceNeeds` — DiagnosticCapabilityElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.48, p.797; also CP_TPS_DiagnosticExtractTemplate Table 5.9, p.233
+- [x] `ObdInfoServiceNeeds` — DiagnosticCapabilityElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.48, p.797; also CP_TPS_DiagnosticExtractTemplate Table 5.9, p.233
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Audit-only flip (Rule 0023/0026, 2026-10-07): class already carries `# Spec verified: R23-11` in src (checklist provenance `4a01b231f`); audit_class.py PASS (BLOCK/ROWS/BASE/DOC/SPECLINE/STAMP); queue row flipped citing the existing stamp — no re-sync.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `ObdMonitorServiceNeeds` — DiagnosticCapabilityElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.49, p.798
+- [x] `ObdMonitorServiceNeeds` — DiagnosticCapabilityElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.49, p.798
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Audit-only flip (Rule 0023/0026, 2026-10-07): class already carries `# Spec verified: R23-11` in src (checklist provenance `4a01b231f`); audit_class.py PASS (BLOCK/ROWS/BASE/DOC/SPECLINE/STAMP); queue row flipped citing the existing stamp — no re-sync.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `DiagnosticMonitorUpdateKindEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.50, p.798
+- [x] `DiagnosticMonitorUpdateKindEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.50, p.798
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Audit-only flip (Rule 0023/0026, 2026-10-07): class already carries `# Spec verified: R23-11` in src (checklist provenance `4a01b231f`); audit_class.py initially FAILed on a Rule 0012.2.4 `__init__` docstring — removed in this pass; audit now PASS (BLOCK/ROWS/BASE/DOC/SPECLINE/STAMP); queue row flipped citing the existing stamp; repair commit `9bfa6326d`.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
 
 - [ ] `ObdRatioDenominatorNeeds` — DiagnosticCapabilityElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.51, p.803
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
@@ -438,17 +459,18 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (1898 + 8194 passed / 0 failed: models CommonStructure, parser+writer regression); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction); sync commit `c4b99a4cf`
 
-- [ ] `DiagnosticDenominatorConditionEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.52, p.803
+- [x] `DiagnosticDenominatorConditionEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.52, p.803
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Audit-only flip (Rule 0023/0026, 2026-10-07): class already carries `# Spec verified: R23-11` in src (checklist provenance `ed19e28c5`); audit_class.py PASS (BLOCK/ROWS/BASE/DOC/SPECLINE/STAMP); queue row flipped citing the existing stamp — no re-sync.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
 
 - [ ] `DiagnosticTestResult` — ARElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.53, p.804; also CP_TPS_DiagnosticExtractTemplate Table 4.201, p.204
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
@@ -538,17 +560,18 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-06 (1901 + 8206 passed / 0 failed: models CommonStructure, parser+writer regression); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction); sync commit `294106f57`
 
-- [ ] `VerificationStatusIndicationModeEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.69, p.824
+- [x] `VerificationStatusIndicationModeEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.69, p.824
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Audit-only flip (Rule 0023/0026, 2026-10-07): class already carries `# Spec verified: R23-11` in src (checklist provenance `ed19e28c5`); audit_class.py PASS (BLOCK/ROWS/BASE/DOC/SPECLINE/STAMP); queue row flipped citing the existing stamp — no re-sync.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
 
 - [ ] `IdsMgrNeeds` — ServiceNeeds — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.81, p.842
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py

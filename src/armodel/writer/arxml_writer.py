@@ -5382,6 +5382,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             points_tag = ET.SubElement(element, "EXTERNAL-TRIGGERING-POINTS")
             for point in points:
                 child_element = ET.SubElement(points_tag, "EXTERNAL-TRIGGERING-POINT")
+                self.writeARObject(child_element, point)
                 ident = point.getIdent()
                 if ident is not None:
                     ident_element = ET.SubElement(child_element, "IDENT")
@@ -5389,6 +5390,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 trigger = point.getTrigger()
                 if trigger is not None:
                     self.writePTriggerInAtomicSwcTypeInstanceRef(child_element, "TRIGGER-IREF", trigger)
+                self.writeVariationPointCapable(child_element, point)
 
     def writeInternalTriggeringPoint(self, element: ET.Element, point: InternalTriggeringPoint):
         if point is not None:
@@ -7097,6 +7099,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             for policy in policies:
                 if isinstance(policy, SwcExclusiveAreaPolicy):
                     policy_element = ET.SubElement(policies_tag, "SWC-EXCLUSIVE-AREA-POLICY")
+                    self.writeARObject(policy_element, policy)
                     self.setChildElementOptionalLiteral(policy_element, "API-PRINCIPLE", policy.getApiPrinciple())
                     self.setChildElementOptionalRefType(policy_element, "EXCLUSIVE-AREA-REF", policy.getExclusiveAreaRef())
 

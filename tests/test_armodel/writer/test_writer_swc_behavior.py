@@ -6,6 +6,7 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import TextValueSpecification  # noqa E501
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ApiPrincipleEnum  # noqa E501
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     DiagEventDebounceCounterBased,
     DiagEventDebounceMonitorInternal,
@@ -24,6 +25,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     String,
     TimeValue,
 )
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint  # noqa E501
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import (  # noqa E501  # noqa E501
     PModeGroupInAtomicSwcInstanceRef,
     POperationInAtomicSwcInstanceRef,
@@ -33,8 +35,9 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceR
     ROperationInAtomicSwcInstanceRef,
     RVariableInAtomicSwcInstanceRef,
 )
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import (
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import (  # noqa E501
     RunnableEntityArgument,
+    SwcExclusiveAreaPolicy,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import (  # noqa E501
     AutosarParameterRef,  # noqa E501
@@ -101,6 +104,14 @@ def _literal(value):
     lit = ARLiteral()
     lit.setValue(value)
     return lit
+
+
+def _variation_point():
+    variation_point = VariationPoint()
+    label = Identifier()
+    label.setValue("vp1")
+    variation_point.setShortLabel(label)
+    return variation_point
 
 
 def _time(value):
@@ -516,6 +527,31 @@ class TestWriterInternalBehavior:
         parent = _parent()
         writer.writeExclusiveAreas(parent, behavior)
         assert parent.find("EXCLUSIVE-AREAS") is None
+
+    def test_writeSwcInternalBehaviorExclusiveAreaPolicies_s_t(self, writer):
+        behavior = _make_behavior()
+        policy = SwcExclusiveAreaPolicy()
+        policy.setChecksum(String().setValue("9001"))
+        policy.setTimestamp(DateTime().setValue("2024-01-01T00:00:00Z"))
+        policy.setApiPrinciple(ApiPrincipleEnum().setValue(ApiPrincipleEnum.PER_EXECUTABLE))
+        policy.setExclusiveAreaRef(_ref("/ea1", "EXCLUSIVE-AREA"))
+        behavior.addExclusiveAreaPolicy(policy)
+        parent = _parent()
+        writer.writeSwcInternalBehaviorExclusiveAreaPolicies(parent, behavior)
+        wrapper = parent.find("EXCLUSIVE-AREA-POLICYS")
+        assert wrapper is not None
+        policy_element = wrapper.find("SWC-EXCLUSIVE-AREA-POLICY")
+        assert policy_element is not None
+        assert policy_element.attrib["S"] == "9001"
+        assert policy_element.attrib["T"] == "2024-01-01T00:00:00Z"
+        assert policy_element.find("API-PRINCIPLE").text == "PER-EXECUTABLE"
+        assert policy_element.find("EXCLUSIVE-AREA-REF").text == "/ea1"
+
+    def test_writeSwcInternalBehaviorExclusiveAreaPolicies_empty(self, writer):
+        behavior = _make_behavior()
+        parent = _parent()
+        writer.writeSwcInternalBehaviorExclusiveAreaPolicies(parent, behavior)
+        assert parent.find("EXCLUSIVE-AREA-POLICYS") is None
 
     def test_writeConstantValueMappingRefs(self, writer):
         behavior = _make_behavior()
@@ -1264,6 +1300,9 @@ class TestWriterRunnableEntity:
         trigger.setContextPPortRef(_ref("/pp"))
         trigger.setTargetTriggerRef(_ref("/trig"))
         point.setTrigger(trigger)
+        point.setChecksum(String().setValue("7001"))
+        point.setTimestamp(DateTime().setValue("2024-01-01T00:00:00Z"))
+        point.setVariationPoint(_variation_point())
         entity.addExternalTriggeringPoint(point)
         parent = _parent()
         writer.writeRunnableEntity(parent, entity)
@@ -1271,9 +1310,13 @@ class TestWriterRunnableEntity:
         points_tag = re_elem.find("EXTERNAL-TRIGGERING-POINTS")
         assert points_tag is not None
         etp = points_tag.find("EXTERNAL-TRIGGERING-POINT")
+        assert etp.attrib["S"] == "7001"
+        assert etp.attrib["T"] == "2024-01-01T00:00:00Z"
         assert etp.find("IDENT/SHORT-NAME").text == "ExtTrigger"
         assert etp.find("TRIGGER-IREF/CONTEXT-P-PORT-REF").text == "/pp"
         assert etp.find("TRIGGER-IREF/TARGET-TRIGGER-REF").text == "/trig"
+        assert [elem.tag for elem in etp] == ["IDENT", "TRIGGER-IREF", "VARIATION-POINT"]
+        assert etp.find("VARIATION-POINT").find("SHORT-LABEL").text == "vp1"
 
     def test_writeRunnableEntityExternalTriggeringPoints_empty(self, writer):
         behavior = _make_behavior()
