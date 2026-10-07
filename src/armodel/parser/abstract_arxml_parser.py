@@ -491,7 +491,7 @@ class AbstractARXMLParser(ABC):
         numerical = PositiveInteger()
         self.readARType(child_element, numerical)
         numerical.setValue(child_element.text)
-        value = numerical.getValue()
+        value = numerical.value
         if value is not None and value < 0:
             raise ValueError("Invalid PositiveInteger <%s>" % child_element.text)
         return numerical
@@ -505,7 +505,7 @@ class AbstractARXMLParser(ABC):
         numerical = PositiveUnlimitedInteger()
         self.readARType(child_element, numerical)
         numerical.setValue(child_element.text)
-        value = numerical.getValue()
+        value = numerical.value
         if value is not None and value < 0:
             raise ValueError("Invalid PositiveUnlimitedInteger <%s>" % child_element.text)
         return numerical
@@ -536,7 +536,7 @@ class AbstractARXMLParser(ABC):
         for child_element in child_elements:
             numerical = PositiveInteger()
             numerical.setValue(child_element.text)
-            value = numerical.getValue()
+            value = numerical.value
             if value is not None and value < 0:
                 raise ValueError("Invalid PositiveInteger <%s>" % child_element.text)
             results.append(numerical)

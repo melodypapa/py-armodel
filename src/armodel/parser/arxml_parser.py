@@ -8134,7 +8134,7 @@ class ARXMLParser(AbstractARXMLParser):
             return None
         tag_name = self.getTagName(child)
         if tag_name == "END-TO-END-TRANSFORMATION-COM-SPEC-PROPS":
-            props: Union[EndToEndTransformationComSpecProps, UserDefinedTransformationComSpecProps] = EndToEndTransformationComSpecProps()
+            props: TransformationComSpecProps = EndToEndTransformationComSpecProps()
             self.readTransformationComSpecProps(child, props)
             return props
         elif tag_name == "USER-DEFINED-TRANSFORMATION-COM-SPEC-PROPS":
@@ -14576,7 +14576,7 @@ class ARXMLParser(AbstractARXMLParser):
         nesting_contract = self.getChildElementOptionalLiteral(element, "DESTINATION-URI-NESTING-CONTRACT")
         if nesting_contract is not None:
             contract_enum = EcucDestinationUriNestingContractEnum()
-            contract_enum.setValue(nesting_contract)
+            contract_enum.setValue(nesting_contract.getValue())
             policy.setDestinationUriNestingContract(contract_enum)
         self.readEcucDestinationUriPolicyParameters(element, policy)
         self.readEcucDestinationUriPolicyReferences(element, policy)

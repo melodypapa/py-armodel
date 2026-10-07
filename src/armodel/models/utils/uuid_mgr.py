@@ -24,13 +24,11 @@ class UUIDMgr:
         uuid = obj.getUuid() if isinstance(obj, Identifiable) else None
         if uuid is None:
             return
-        uuid = uuid.getValue()
-        if uuid is None:
-            return
-        if uuid not in self.uuid_object_mappings:
-            self.uuid_object_mappings[uuid] = []
+        value = uuid.getValue()
+        if value not in self.uuid_object_mappings:
+            self.uuid_object_mappings[value] = []
 
-        uuid_obj_list = self.uuid_object_mappings[uuid]
+        uuid_obj_list = self.uuid_object_mappings[value]
         uuid_obj_list.append(obj)
 
     def getObjects(self, uuid: str):

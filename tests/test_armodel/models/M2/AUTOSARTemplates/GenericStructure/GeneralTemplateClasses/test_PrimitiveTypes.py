@@ -116,7 +116,6 @@ class TestARType:
         # Verify basic properties
         assert obj is not None
         assert obj.timestamp is None
-        assert obj._value is None
 
     def test_timestamp(self):
         """
@@ -130,12 +129,12 @@ class TestARType:
 
     def test_value_methods(self):
         """
-        Test value property and related methods.
+        Test value property and related methods on ARLiteral (ARType owns no value storage).
         """
-        obj = ARType()
+        obj = ARLiteral()
 
-        # Test initial value
-        assert obj.getValue() is None
+        # Test initial value (ARLiteral coerces an unset value to the empty string)
+        assert obj.getValue() == ""
 
         # Test setting value
         obj.setValue("test_value")
@@ -175,11 +174,11 @@ class TestNumerical:
 
     def test_value_property_int(self):
         """
-        Test value property with integer values.
+        Test value property with integer values (converted to float storage).
         """
         numerical = Numerical()
 
-        # Set integer value
+        # Set integer value — stored as float, rendered without the trailing .0
         numerical.value = 42
         assert numerical.value == 42
         assert str(numerical) == "42"
@@ -328,12 +327,17 @@ class TestTimeValue:
 
     def test_is_a_arliteral(self):
         """
-        Test that TimeValue derives from the ARLiteral hierarchy (Primitive table, no own attributes).
+        Test that TimeValue derives from the ARType hierarchy (Primitive table, no own attributes).
+        ARLiteral is str-only; the numeric family (Numerical/Float/TimeValue) derives from ARType directly.
         """
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+            ARLiteral,
+            ARType,
+        )
 
         time_val = TimeValue()
-        assert isinstance(time_val, ARLiteral)
+        assert isinstance(time_val, ARType)
+        assert not isinstance(time_val, ARLiteral)
 
 
 class TestARLiteral:
@@ -1353,11 +1357,11 @@ class TestCIdentifier:
 
     def test_arliteral_value_setter_with_non_string(self):
         """
-        Test ARLiteral value setter with non-string to cover line 245.
+        Test ARLiteral value setter rejects non-string values (ARLiteral is str-only).
         """
         literal = ARLiteral()
-        literal.value = 123  # non-string value that should be converted to string
-        assert literal.value == "123"
+        with pytest.raises(ValueError):
+            literal.value = 123
 
     def test_constructors_for_various_types(self):
         """
