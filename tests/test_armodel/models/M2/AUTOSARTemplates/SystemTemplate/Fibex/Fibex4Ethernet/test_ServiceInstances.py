@@ -776,15 +776,88 @@ def _ref(value):
 
 
 class TestConsumedEventGroup:
+    """Spec-sync tests for ConsumedEventGroup (R23-11 CP_TPS_SystemTemplate, Table 6.168, p.505)."""
+
+    MEMBERS = [
+        "applicationEndpointRef",
+        "autoRequire",
+        "eventGroupIdentifier",
+        "eventMulticastAddressRefs",
+        "pduActivationRoutingGroups",
+        "priority",
+        "routingGroupRefs",
+        "sdClientConfig",
+        "sdClientTimerConfigRef",
+    ]
+
+    APPLICATION_ENDPOINT_REF_NOTE = "Defines the application endpoint where the events of the event group are received in case of multicast reception. Tags: atp.Status=obsolete"
+    AUTO_REQUIRE_NOTE = (
+        "Defines that this ConsumedEventGroup shall be requested (subscribed) as soon as the corresponding ConsumedServiceInstance is requested. "
+        "This could be at ECU start, if ConsumedServiceInstance.autoRequire is set to TRUE or as soon as the ConsumedServiceInstance is requested by the application, "
+        "if ConsumedServiceInstance.autoRequire is set to FALSE."
+    )
+    EVENT_GROUP_IDENTIFIER_NOTE = "EventGroup ID. Shall be unique within one system to allow service discovery."
+    EVENT_MULTICAST_ADDRESS_NOTE = (
+        "This reference defines the multicast address or a multicast address resource where the events of the event group are received. "
+        "If the multicast address is determined via configuration and not at runtime via service discovery this reference points to the multicast address over which the events will be received. "
+        "If the multicast address is determined at runtime via service discovery this reference shall be used to define the necessary local multicast address resources, i.e. RAM space in the TcpIp module in which the multicast address is stored at runtime. "
+        "Please note that in this case the referenced address may be defined as ANY UDP port and ANY IP address since the multicast address will be received at runtime. "
+        "If several multicast addresses are considered to be used the ConsumedEventGroup shall point to different ApplicationEndpoint objects to reserve the necessary resources in the configuration. "
+        "Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=eventMulticastAddress.applicationEndpoint, eventMulticastAddress.variationPoint.shortLabel vh.latestBindingTime=postBuild"
+    )
+    PDU_ACTIVATION_ROUTING_GROUP_NOTE = "The ServiceDiscovery module is able to activate and deactivate the PDU routing for receiving events."
+    PRIORITY_NOTE = "Defines the frame priority where values from 0 (best effort) to 7 (highest) are allowed."
+    ROUTING_GROUP_NOTE = "The ServiceDiscovery module is able to activate and deactivate the PDU routing for receiving events. Tags: atp.Status=obsolete"
+    SD_CLIENT_CONFIG_NOTE = (
+        "The readiness to receive events is defined by the Service Discovery of the ConsumedEventGroup. "
+        "The Event Handler shall know about this announcement to decide about the submission of events. "
+        "Therefore the Event Handler may be configured with Service-Discovery Client attributes. Tags: atp.Status=obsolete"
+    )
+    SD_CLIENT_TIMER_CONFIG_NOTE = (
+        "Client Timing configuration settings that are EventGroup specific. "
+        "Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=sdClientTimerConfig.someipSdClientEventGroupTimingConfig, "
+        "sdClientTimerConfig.variationPoint.shortLabel vh.latestBindingTime=postBuild"
+    )
+
     def _group(self):
         return ConsumedEventGroup(MockParent(), "ceg")
 
-    def test_initialization(self):
-        """Test __init__ defaults for all fields (Table 6.168)."""
+    def test_inheritance(self):
         group = self._group()
 
         assert isinstance(group, Identifiable)
-        assert group.getShortName() == "ceg"
+
+    def test_rule_0015_removed_instance_identifier(self):
+        """instanceIdentifier is atp.Status=removed in the XSD group and absent from Table 6.168 - not modeled (Rule 0015)."""
+        group = self._group()
+
+        assert not hasattr(group, "instanceIdentifier")
+        assert not hasattr(group, "getInstanceIdentifier")
+
+    def test_init_parameter_annotations(self):
+        annotations = typing.get_type_hints(ConsumedEventGroup.__init__)
+
+        assert annotations["parent"] is ARObject
+        assert annotations["short_name"] is str
+
+    def test_member_annotations_match_getter_returns(self):
+        optional_hints = {
+            "getApplicationEndpointRef": RefType,
+            "getAutoRequire": Boolean,
+            "getEventGroupIdentifier": PositiveInteger,
+            "getPriority": PositiveInteger,
+            "getSdClientConfig": SdClientConfig,
+            "getSdClientTimerConfigRef": RefType,
+        }
+        for getter, expected in optional_hints.items():
+            assert typing.get_type_hints(getattr(ConsumedEventGroup, getter))["return"] == typing.Optional[expected]
+        assert typing.get_type_hints(ConsumedEventGroup.getEventMulticastAddressRefs)["return"] == typing.List[RefType]
+        assert typing.get_type_hints(ConsumedEventGroup.getPduActivationRoutingGroups)["return"] == typing.List[PduActivationRoutingGroup]
+        assert typing.get_type_hints(ConsumedEventGroup.getRoutingGroupRefs)["return"] == typing.List[RefType]
+
+    def test_initialization_defaults(self):
+        group = self._group()
+
         assert group.getApplicationEndpointRef() is None
         assert group.getAutoRequire() is None
         assert group.getEventGroupIdentifier() is None
@@ -795,19 +868,24 @@ class TestConsumedEventGroup:
         assert group.getSdClientConfig() is None
         assert group.getSdClientTimerConfigRef() is None
 
-    def test_get_set_applicationEndpointRef(self):
-        """Test get/set applicationEndpointRef with chaining and None no-op."""
+    def test_member_order(self):
+        group = self._group()
+
+        members = [k for k in vars(group) if k in set(self.MEMBERS)]
+        assert members == self.MEMBERS
+
+    def test_get_set_application_endpoint_ref(self):
         group = self._group()
         ref = _ref("/Ethernet/ApplicationEndpoint/AE1")
 
         assert group.setApplicationEndpointRef(ref) is group
         assert group.getApplicationEndpointRef() is ref
+        assert group.getApplicationEndpointRef().getValue() == "/Ethernet/ApplicationEndpoint/AE1"
 
         group.setApplicationEndpointRef(None)
         assert group.getApplicationEndpointRef() is ref
 
-    def test_get_set_autoRequire(self):
-        """Test get/set autoRequire with chaining and None no-op."""
+    def test_get_set_auto_require(self):
         group = self._group()
         value = Boolean().setValue("true")
 
@@ -818,8 +896,7 @@ class TestConsumedEventGroup:
         group.setAutoRequire(None)
         assert group.getAutoRequire() is value
 
-    def test_get_set_eventGroupIdentifier(self):
-        """Test get/set eventGroupIdentifier with chaining and None no-op."""
+    def test_get_set_event_group_identifier(self):
         group = self._group()
 
         assert group.setEventGroupIdentifier(PositiveInteger().setValue("42")) is group
@@ -828,8 +905,7 @@ class TestConsumedEventGroup:
         group.setEventGroupIdentifier(None)
         assert group.getEventGroupIdentifier().getValue() == 42
 
-    def test_add_get_eventMulticastAddressRefs(self):
-        """Test add/get eventMulticastAddressRefs append order and None no-op."""
+    def test_add_get_event_multicast_address_refs(self):
         group = self._group()
         ref1 = _ref("/Ethernet/ApplicationEndpoint/MC1")
         ref2 = _ref("/Ethernet/ApplicationEndpoint/MC2")
@@ -841,11 +917,10 @@ class TestConsumedEventGroup:
         group.addEventMulticastAddressRef(None)
         assert group.getEventMulticastAddressRefs() == [ref1, ref2]
 
-    def test_add_get_pduActivationRoutingGroups(self):
-        """Test add/get pduActivationRoutingGroups (placeholder child type) and None no-op."""
+    def test_add_get_pdu_activation_routing_groups(self):
         group = self._group()
-        routing_group1 = MockParent()
-        routing_group2 = MockParent()
+        routing_group1 = PduActivationRoutingGroup(group, "parg1")
+        routing_group2 = PduActivationRoutingGroup(group, "parg2")
 
         assert group.addPduActivationRoutingGroup(routing_group1) is group
         group.addPduActivationRoutingGroup(routing_group2)
@@ -855,7 +930,6 @@ class TestConsumedEventGroup:
         assert group.getPduActivationRoutingGroups() == [routing_group1, routing_group2]
 
     def test_get_set_priority(self):
-        """Test get/set priority with chaining and None no-op."""
         group = self._group()
 
         assert group.setPriority(PositiveInteger().setValue("5")) is group
@@ -864,8 +938,7 @@ class TestConsumedEventGroup:
         group.setPriority(None)
         assert group.getPriority().getValue() == 5
 
-    def test_add_get_routingGroupRefs(self):
-        """Test add/get routingGroupRefs append order and None no-op."""
+    def test_add_get_routing_group_refs(self):
         group = self._group()
         ref1 = _ref("/SoAd/RoutingGroup/RG1")
         ref2 = _ref("/SoAd/RoutingGroup/RG2")
@@ -877,8 +950,7 @@ class TestConsumedEventGroup:
         group.addRoutingGroupRef(None)
         assert group.getRoutingGroupRefs() == [ref1, ref2]
 
-    def test_get_set_sdClientConfig(self):
-        """Test get/set sdClientConfig with chaining and None no-op."""
+    def test_get_set_sd_client_config(self):
         group = self._group()
         config = SdClientConfig()
 
@@ -888,8 +960,7 @@ class TestConsumedEventGroup:
         group.setSdClientConfig(None)
         assert group.getSdClientConfig() is config
 
-    def test_get_set_sdClientTimerConfigRef(self):
-        """Test get/set sdClientTimerConfigRef with chaining and None no-op."""
+    def test_get_set_sd_client_timer_config_ref(self):
         group = self._group()
         ref = _ref("/SomeipSdTimingConfigs/Timing1")
 
@@ -898,6 +969,44 @@ class TestConsumedEventGroup:
 
         group.setSdClientTimerConfigRef(None)
         assert group.getSdClientTimerConfigRef() is ref
+
+    def test_class_docstring_note(self):
+        expected = "This element represents an event-group to which the service consumer wants to subscribe."
+        assert inspect.cleandoc(ConsumedEventGroup.__doc__) == expected
+
+    def test_notes_verbatim(self):
+        scalar_setters = {
+            self.APPLICATION_ENDPOINT_REF_NOTE: "applicationEndpointRef",
+            self.AUTO_REQUIRE_NOTE: "autoRequire",
+            self.EVENT_GROUP_IDENTIFIER_NOTE: "eventGroupIdentifier",
+            self.PRIORITY_NOTE: "priority",
+            self.SD_CLIENT_CONFIG_NOTE: "sdClientConfig",
+            self.SD_CLIENT_TIMER_CONFIG_NOTE: "sdClientTimerConfigRef",
+        }
+        list_adds = {
+            self.EVENT_MULTICAST_ADDRESS_NOTE: "eventMulticastAddressRefs",
+            self.PDU_ACTIVATION_ROUTING_GROUP_NOTE: "pduActivationRoutingGroups",
+            self.ROUTING_GROUP_NOTE: "routingGroupRefs",
+        }
+        accessors = {
+            self.APPLICATION_ENDPOINT_REF_NOTE: ("getApplicationEndpointRef", "setApplicationEndpointRef"),
+            self.AUTO_REQUIRE_NOTE: ("getAutoRequire", "setAutoRequire"),
+            self.EVENT_GROUP_IDENTIFIER_NOTE: ("getEventGroupIdentifier", "setEventGroupIdentifier"),
+            self.EVENT_MULTICAST_ADDRESS_NOTE: ("addEventMulticastAddressRef", "getEventMulticastAddressRefs"),
+            self.PDU_ACTIVATION_ROUTING_GROUP_NOTE: ("addPduActivationRoutingGroup", "getPduActivationRoutingGroups"),
+            self.PRIORITY_NOTE: ("getPriority", "setPriority"),
+            self.ROUTING_GROUP_NOTE: ("addRoutingGroupRef", "getRoutingGroupRefs"),
+            self.SD_CLIENT_CONFIG_NOTE: ("getSdClientConfig", "setSdClientConfig"),
+            self.SD_CLIENT_TIMER_CONFIG_NOTE: ("getSdClientTimerConfigRef", "setSdClientTimerConfigRef"),
+        }
+        for note, (getter, setter) in accessors.items():
+            assert inspect.cleandoc(getattr(ConsumedEventGroup, getter).__doc__).split("\nA None value")[0] == note
+            assert inspect.cleandoc(getattr(ConsumedEventGroup, setter).__doc__).split("\nA None value")[0] == note
+            assert note in inspect.getsource(ConsumedEventGroup.__init__)
+        for note, field in list_adds.items():
+            assert ("A None value is a no-op and does not append to %s." % field) in inspect.cleandoc(getattr(ConsumedEventGroup, accessors[note][0]).__doc__)
+        for note, field in scalar_setters.items():
+            assert ("A None value is a no-op and does not overwrite an existing %s." % field) in inspect.cleandoc(getattr(ConsumedEventGroup, accessors[note][1]).__doc__)
 
 
 class TestConsumedServiceInstance:

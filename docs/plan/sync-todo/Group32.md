@@ -664,15 +664,26 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `ConsumedEventGroup` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.168, p.505
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Step 1 — spec `Base` row = ARObject, Identifiable, MultilanguageReferrable, Referrable →
+    most-derived base Identifiable (row label "ARObject" was the chain head only). Rule 0023 drift:
+    stale `# Spec verified:` marker removed, legacy 5-column block rewritten 6-column in source order.
+    Docstrings wiped and rewritten with the `Tags:`/`Stereotypes:` tails verbatim (Rule 0012.2.5.3);
+    markdown mid-token wraps ("ConsumedService Instance.autoRequire", "someipSdClientEvent
+    GroupTimingConfig", "variation Point.shortLabel") reconciled against XSD group
+    CONSUMED-EVENT-GROUP (AUTOSAR_00052.xsd l.22376). XSD-only instanceIdentifier is
+    atp.Status=removed and absent from the table → not modeled (Rule 0015), pinned by test.
+    Reader/writer coverage already matched the XSD element order (verified; audit BASE green) —
+    no parser/writer source change needed; existing round-trip tests upgraded (enum constants per
+    Rule 0011, DEST=SO-AD-ROUTING-GROUP) + new parser tests with field-value assertions.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `SomeipSdServerServiceInstanceConfig` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.169, p.514
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
