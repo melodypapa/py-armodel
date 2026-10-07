@@ -384,30 +384,31 @@ class TimingExtensionResource(Identifiable):
 
     # TimingExtensionResource method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.9, p.36
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] createTimingArgument     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTimingArguments       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createTimingMode         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTimingModes           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createTimingVariable     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTimingVariables       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createTimingArgument  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimingArguments    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createTimingMode      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimingModes        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createTimingVariable  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimingVariables    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
-    def __init__(self, parent, short_name):
+    def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        # This refers to an instance reference of an argument of an operation call.
+        # This refers to an instance reference of an argument of an operation call. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=timingArgument.shortName, timing Argument.variationPoint.shortLabel vh.latestBindingTime=postBuild
         self.timingArguments: List[AutosarOperationArgumentInstance] = []
 
-        # This refers to an instance reference of a mode declaration.
+        # This refers to an instance reference of a mode declaration. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=timingMode.shortName, timing Mode.variationPoint.shortLabel vh.latestBindingTime=postBuild
         self.timingModes: List[TimingModeInstance] = []
 
-        # This refers to an instance reference of a variable.
+        # This refers to an instance reference of a variable. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=timingVariable.shortName, timing Variable.variationPoint.shortLabel vh.latestBindingTime=postBuild
         self.timingVariables: List[AutosarVariableInstance] = []
 
     def createTimingArgument(self, short_name: str) -> AutosarOperationArgumentInstance:
-        """This refers to an instance reference of an argument of an operation call."""
+        """
+        This refers to an instance reference of an argument of an operation call. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=timingArgument.shortName, timing Argument.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
         if not self.IsReferrableElementExists(short_name, AutosarOperationArgumentInstance):
             argument = AutosarOperationArgumentInstance(self, short_name)
             self.addReferrableElement(argument)
@@ -415,11 +416,15 @@ class TimingExtensionResource(Identifiable):
         return cast(AutosarOperationArgumentInstance, self.getReferrableElement(short_name, AutosarOperationArgumentInstance))
 
     def getTimingArguments(self) -> List[AutosarOperationArgumentInstance]:
-        """This refers to an instance reference of an argument of an operation call."""
+        """
+        This refers to an instance reference of an argument of an operation call. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=timingArgument.shortName, timing Argument.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
         return self.timingArguments
 
     def createTimingMode(self, short_name: str) -> TimingModeInstance:
-        """This refers to an instance reference of a mode declaration."""
+        """
+        This refers to an instance reference of a mode declaration. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=timingMode.shortName, timing Mode.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
         if not self.IsReferrableElementExists(short_name, TimingModeInstance):
             mode = TimingModeInstance(self, short_name)
             self.addReferrableElement(mode)
@@ -427,11 +432,15 @@ class TimingExtensionResource(Identifiable):
         return cast(TimingModeInstance, self.getReferrableElement(short_name, TimingModeInstance))
 
     def getTimingModes(self) -> List[TimingModeInstance]:
-        """This refers to an instance reference of a mode declaration."""
+        """
+        This refers to an instance reference of a mode declaration. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=timingMode.shortName, timing Mode.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
         return self.timingModes
 
     def createTimingVariable(self, short_name: str) -> AutosarVariableInstance:
-        """This refers to an instance reference of a variable."""
+        """
+        This refers to an instance reference of a variable. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=timingVariable.shortName, timing Variable.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
         if not self.IsReferrableElementExists(short_name, AutosarVariableInstance):
             variable = AutosarVariableInstance(self, short_name)
             self.addReferrableElement(variable)
@@ -439,5 +448,7 @@ class TimingExtensionResource(Identifiable):
         return cast(AutosarVariableInstance, self.getReferrableElement(short_name, AutosarVariableInstance))
 
     def getTimingVariables(self) -> List[AutosarVariableInstance]:
-        """This refers to an instance reference of a variable."""
+        """
+        This refers to an instance reference of a variable. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=timingVariable.shortName, timing Variable.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
         return self.timingVariables
