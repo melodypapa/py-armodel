@@ -1232,6 +1232,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     GenericTp,
     GlobalTimeCouplingPortProps,
     Dhcpv6Props,
+    HttpTp,
     Ieee1722Tp,
     Ipv4ArpProps,
     Ipv4AutoIpProps,
@@ -1244,6 +1245,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     Ipv6Props,
     MacMulticastGroup,
     PlcaProps,
+    RequestMethodEnum,
     RtpTp,
     SdClientConfig,
     SdServerConfig,
@@ -10841,6 +10843,22 @@ class ARXMLParser(AbstractARXMLParser):
         tp.setSubType(self.getChildElementOptionalPositiveInteger(element, "SUB-TYPE"))
         tp.setVersion(self.getChildElementOptionalPositiveInteger(element, "VERSION"))
 
+    def readHttpTp(self, element: ET.Element, tp: HttpTp):
+        self.readARObject(element, tp)
+        tp.setContentType(cast(Optional[String], self.getChildElementOptionalLiteral(element, "CONTENT-TYPE")))
+        tp.setProtocolVersion(cast(Optional[String], self.getChildElementOptionalLiteral(element, "PROTOCOL-VERSION")))
+        method_literal = self.getChildElementOptionalLiteral(element, "REQUEST-METHOD")
+        if method_literal is not None:
+            method = RequestMethodEnum()
+            method.setValue(method_literal.getValue())
+            tp.setRequestMethod(method)
+        config_element = self.find(element, "TCP-TP-CONFIG")
+        if config_element is not None:
+            config = TcpTp()
+            self.readTcpTp(config_element, config)
+            tp.setTcpTpConfig(config)
+        tp.setUri(self.getChildElementOptionalUriString(element, "URI"))
+
     def getTransportProtocolConfiguration(self, element: ET.Element, key: str) -> Optional[TransportProtocolConfiguration]:
         configuration: Optional[TransportProtocolConfiguration] = None
         child_element = self.find(element, "%s/*" % key)
@@ -10861,6 +10879,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "IEEE-1722-TP":
                 configuration = Ieee1722Tp()
                 self.readIeee1722Tp(child_element, configuration)
+            elif tag_name == "HTTP-TP":
+                configuration = HttpTp()
+                self.readHttpTp(child_element, configuration)
             else:
                 self.notImplemented("Unsupported TransportProtocolConfiguration <%s>" % tag_name)
         return configuration

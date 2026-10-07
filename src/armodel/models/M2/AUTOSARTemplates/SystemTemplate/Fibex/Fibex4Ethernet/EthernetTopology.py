@@ -23,6 +23,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     RefType,
     String,
     TimeValue,
+    UriString,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import FibexElement
@@ -7711,8 +7712,168 @@ class EthTcpIpIcmpProps(ARElement):
         return self
 
 
+class RequestMethodEnum(AREnum):
+    """
+    Available request methods for HTTPs.
+    """
+
+    # RequestMethodEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate, RequestMethodEnum, AUTOSAR_00052.xsd line 141655 (XSD-only; no own table in repo corpus; member of HttpTp.requestMethod, Table 6.132, p.461)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on HttpTp.requestMethod
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # The request method CONNECT establishes a tunnel to the server identified by the target resource. Tags: atp.EnumerationLiteralIndex=0 mmt.qualifiedName=RequestMethodEnum.connect
+    CONNECT = "CONNECT"
+
+    # The request method DELETE deletes the specified resource. Tags: atp.EnumerationLiteralIndex=1 mmt.qualifiedName=RequestMethodEnum.delete
+    DELETE = "DELETE"
+
+    # The request method GET requests a representation of the specified resource. Tags: atp.EnumerationLiteralIndex=2 mmt.qualifiedName=RequestMethodEnum.get
+    GET = "GET"
+
+    # The request method HEAD asks for a response identical to that of a GET request, but without the response body. Tags: atp.EnumerationLiteralIndex=3 mmt.qualifiedName=RequestMethodEnum.head
+    HEAD = "HEAD"
+
+    # The request method OPTIONS is used to describe the communication options for the target resource. Tags: atp.EnumerationLiteralIndex=4 mmt.qualifiedName=RequestMethodEnum.options
+    OPTIONS = "OPTIONS"
+
+    # The request method POST is used to submit an entity to the specified resource. Tags: atp.EnumerationLiteralIndex=5 mmt.qualifiedName=RequestMethodEnum.post
+    POST = "POST"
+
+    # The request method PUT replaces all current representations of the target resource with the request payload. Tags: atp.EnumerationLiteralIndex=6 mmt.qualifiedName=RequestMethodEnum.put
+    PUT = "PUT"
+
+    # The request method TRACE performs a message loopback test along the path to the target resource. Tags: atp.EnumerationLiteralIndex=7 mmt.qualifiedName=RequestMethodEnum.trace
+    TRACE = "TRACE"
+
+    def __init__(self):
+        super().__init__(
+            [
+                RequestMethodEnum.CONNECT,
+                RequestMethodEnum.DELETE,
+                RequestMethodEnum.GET,
+                RequestMethodEnum.HEAD,
+                RequestMethodEnum.OPTIONS,
+                RequestMethodEnum.POST,
+                RequestMethodEnum.PUT,
+                RequestMethodEnum.TRACE,
+            ]
+        )
+
+
 class HttpTp(TransportProtocolConfiguration):
-    pass
+    """
+    Http over TCP as transport protocol.
+    """
+
+    # HttpTp method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.132, p.461
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getContentType      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setContentType      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getProtocolVersion  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setProtocolVersion  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRequestMethod    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRequestMethod    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpTpConfig      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpTpConfig      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getUri              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUri              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # Descriptor for the transported content.
+        self.contentType: Optional[String] = None
+
+        # HTTP Protocol version (e.g. 1.1)
+        self.protocolVersion: Optional[String] = None
+
+        # HTTP request method to be used.
+        self.requestMethod: Optional[RequestMethodEnum] = None
+
+        # TcpTp Configuration.
+        self.tcpTpConfig: Optional[TcpTp] = None
+
+        # URI to be called.
+        self.uri: Optional[UriString] = None
+
+    def getContentType(self) -> Optional[String]:
+        """
+        Descriptor for the transported content.
+        """
+        return self.contentType
+
+    def setContentType(self, value: Optional[String]) -> HttpTp:
+        """
+        Descriptor for the transported content.
+        A None value is a no-op and does not overwrite an existing contentType.
+        """
+        if value is not None:
+            self.contentType = value
+        return self
+
+    def getProtocolVersion(self) -> Optional[String]:
+        """
+        HTTP Protocol version (e.g. 1.1)
+        """
+        return self.protocolVersion
+
+    def setProtocolVersion(self, value: Optional[String]) -> HttpTp:
+        """
+        HTTP Protocol version (e.g. 1.1)
+        A None value is a no-op and does not overwrite an existing protocolVersion.
+        """
+        if value is not None:
+            self.protocolVersion = value
+        return self
+
+    def getRequestMethod(self) -> Optional[RequestMethodEnum]:
+        """
+        HTTP request method to be used.
+        """
+        return self.requestMethod
+
+    def setRequestMethod(self, value: Optional[RequestMethodEnum]) -> HttpTp:
+        """
+        HTTP request method to be used.
+        A None value is a no-op and does not overwrite an existing requestMethod.
+        """
+        if value is not None:
+            self.requestMethod = value
+        return self
+
+    def getTcpTpConfig(self) -> Optional[TcpTp]:
+        """
+        TcpTp Configuration.
+        """
+        return self.tcpTpConfig
+
+    def setTcpTpConfig(self, value: Optional[TcpTp]) -> HttpTp:
+        """
+        TcpTp Configuration.
+        A None value is a no-op and does not overwrite an existing tcpTpConfig.
+        """
+        if value is not None:
+            self.tcpTpConfig = value
+        return self
+
+    def getUri(self) -> Optional[UriString]:
+        """
+        URI to be called.
+        """
+        return self.uri
+
+    def setUri(self, value: Optional[UriString]) -> HttpTp:
+        """
+        URI to be called.
+        A None value is a no-op and does not overwrite an existing uri.
+        """
+        if value is not None:
+            self.uri = value
+        return self
 
 
 class Ieee1722Tp(TransportProtocolConfiguration):

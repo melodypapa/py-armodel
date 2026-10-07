@@ -328,15 +328,16 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `HttpTp` — TransportProtocolConfiguration — R23-11 CP_TPS_SystemTemplate Table 6.132, p.461
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: full sync from bare `pass` stub. Table 6.132: Base most-derived = `TransportProtocolConfiguration`; attrs `contentType` (String 0..1), `protocolVersion` (String 0..1), `requestMethod` (RequestMethodEnum 0..1 attr), `tcpTpConfig` (TcpTp 0..1 aggr — non-Referrable child → `setTcpTpConfig(value)`; XSD `TCP-TP-CONFIG` is directly typed `AR:TCP-TP` (no choice wrapper, unlike RtpTp's TCP-UDP-CONFIG) so the reader reads the TCP-TP-CONFIG element via `readTcpTp` and the writer emits TcpTp content inline under TCP-TP-CONFIG), `uri` (UriString 0..1). Referenced enum `RequestMethodEnum` did not exist in the codebase and has NO table in either corpus → implemented as XSD-only enum (8 literals CONNECT/DELETE/GET/HEAD/OPTIONS/POST/PUT/TRACE, values = exact `REQUEST-METHOD-ENUM--SIMPLE` facets, AUTOSAR_00052.xsd line 141655; `# XSD verified:` marker deferred to batch confirmation like the spec classes). XSD element order CONTENT-TYPE, PROTOCOL-VERSION, REQUEST-METHOD, TCP-TP-CONFIG, URI → reader `readHttpTp`/writer `writeHttpTp` (base helper `readARObject`/`writeARObject` exactly once) wired into the `getTransportProtocolConfiguration`/`writeTransportProtocolConfiguration` dispatch. Stub tuple removed from `test_group21_36_stub_classes.py`. No deviations.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `Ipv6Configuration` — NetworkEndpointAddress — R23-11 CP_TPS_SystemTemplate Table 6.139, p.466
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py

@@ -1097,6 +1097,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     TimeSyncClientConfiguration,
     TimeSynchronization,
     GenericTp,
+    HttpTp,
     Ieee1722Tp,
     RtpTp,
     TcpTp,
@@ -11031,17 +11032,20 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeARObject(child_element, tp)
         self.setTpPort(child_element, "UDP-TP-PORT", tp.getUdpTpPort())
 
+    def writeTcpTpContent(self, element: ET.Element, tp: TcpTp):
+        self.writeARObject(element, tp)
+        self.setChildElementOptionalTimeValue(element, "KEEP-ALIVE-INTERVAL", tp.getKeepAliveInterval())
+        self.setChildElementOptionalPositiveInteger(element, "KEEP-ALIVE-PROBES-MAX", cast(Integer, tp.getKeepAliveProbesMax()))
+        self.setChildElementOptionalTimeValue(element, "KEEP-ALIVE-TIME", tp.getKeepAliveTime())
+        self.setChildElementOptionalBooleanValue(element, "KEEP-ALIVES", tp.getKeepAlives())
+        self.setChildElementOptionalLiteral(element, "NAGLES-ALGORITHM", cast(ARLiteral, tp.getNaglesAlgorithm()))
+        self.setChildElementOptionalPositiveInteger(element, "RECEIVE-WINDOW-MIN", cast(Integer, tp.getReceiveWindowMin()))
+        self.setChildElementOptionalTimeValue(element, "TCP-RETRANSMISSION-TIMEOUT", tp.getTcpRetransmissionTimeout())
+        self.setTpPort(element, "TCP-TP-PORT", tp.getTcpTpPort())
+
     def writeTcpTp(self, element: ET.Element, tp: TcpTp):
         child_element = ET.SubElement(element, "TCP-TP")
-        self.writeARObject(child_element, tp)
-        self.setChildElementOptionalTimeValue(child_element, "KEEP-ALIVE-INTERVAL", tp.getKeepAliveInterval())
-        self.setChildElementOptionalPositiveInteger(child_element, "KEEP-ALIVE-PROBES-MAX", cast(Integer, tp.getKeepAliveProbesMax()))
-        self.setChildElementOptionalTimeValue(child_element, "KEEP-ALIVE-TIME", tp.getKeepAliveTime())
-        self.setChildElementOptionalBooleanValue(child_element, "KEEP-ALIVES", tp.getKeepAlives())
-        self.setChildElementOptionalLiteral(child_element, "NAGLES-ALGORITHM", cast(ARLiteral, tp.getNaglesAlgorithm()))
-        self.setChildElementOptionalPositiveInteger(child_element, "RECEIVE-WINDOW-MIN", cast(Integer, tp.getReceiveWindowMin()))
-        self.setChildElementOptionalTimeValue(child_element, "TCP-RETRANSMISSION-TIMEOUT", tp.getTcpRetransmissionTimeout())
-        self.setTpPort(child_element, "TCP-TP-PORT", tp.getTcpTpPort())
+        self.writeTcpTpContent(child_element, tp)
 
     def writeGenericTp(self, element: ET.Element, tp: GenericTp):
         child_element = ET.SubElement(element, "GENERIC-TP")
@@ -11071,6 +11075,18 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalPositiveInteger(child_element, "SUB-TYPE", cast(Integer, tp.getSubType()))
         self.setChildElementOptionalPositiveInteger(child_element, "VERSION", cast(Integer, tp.getVersion()))
 
+    def writeHttpTp(self, element: ET.Element, tp: HttpTp):
+        child_element = ET.SubElement(element, "HTTP-TP")
+        self.writeARObject(child_element, tp)
+        self.setChildElementOptionalLiteral(child_element, "CONTENT-TYPE", tp.getContentType())
+        self.setChildElementOptionalLiteral(child_element, "PROTOCOL-VERSION", tp.getProtocolVersion())
+        self.setChildElementOptionalLiteral(child_element, "REQUEST-METHOD", tp.getRequestMethod())
+        config = tp.getTcpTpConfig()
+        if config is not None:
+            config_element = ET.SubElement(child_element, "TCP-TP-CONFIG")
+            self.writeTcpTpContent(config_element, config)
+        self.setChildElementOptionalUriString(child_element, "URI", tp.getUri())
+
     def writeTransportProtocolConfiguration(self, element: ET.Element, configuration: Optional[TransportProtocolConfiguration]):
         if configuration is not None:
             child_element = ET.SubElement(element, "TP-CONFIGURATION")
@@ -11084,6 +11100,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.writeRtpTp(child_element, configuration)
             elif isinstance(configuration, Ieee1722Tp):
                 self.writeIeee1722Tp(child_element, configuration)
+            elif isinstance(configuration, HttpTp):
+                self.writeHttpTp(child_element, configuration)
             else:
                 self.notImplemented("Unsupported TransportProtocolConfiguration <%s>" % type(configuration))
 

@@ -9,12 +9,24 @@ import pytest
 from armodel.models import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     ARLiteral,
+    Boolean,
     DateTime,
     PositiveInteger,
     String,
     TimeValue,
+    UriString,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import GenericTp, Ieee1722Tp, RtpTp, TcpTp, TpPort, TransportProtocolConfiguration, UdpTp
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
+    GenericTp,
+    HttpTp,
+    Ieee1722Tp,
+    RequestMethodEnum,
+    RtpTp,
+    TcpTp,
+    TpPort,
+    TransportProtocolConfiguration,
+    UdpTp,
+)
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 
@@ -172,3 +184,62 @@ class TestWriteIeee1722Tp:
         assert reloaded.getStreamIdentifier().getValue() == 1712384
         assert reloaded.getSubType().getValue() == 0
         assert reloaded.getVersion().getValue() == 2
+
+
+def _new_http_tp():
+    tp = HttpTp()
+    tp.setContentType(String().setValue("application/soap+xml"))
+    tp.setProtocolVersion(String().setValue("1.1"))
+    tp.setRequestMethod(RequestMethodEnum().setValue(RequestMethodEnum.POST))
+    tcp_tp = TcpTp()
+    keep_alives = Boolean()
+    keep_alives.setValue(True)
+    tcp_tp.setKeepAlives(keep_alives)
+    tcp_tp.setTcpTpPort(TpPort().setPortNumber(PositiveInteger().setValue("8080")))
+    tp.setTcpTpConfig(tcp_tp)
+    tp.setUri(UriString().setValue("http://example.com/Service"))
+    return tp
+
+
+class TestWriteHttpTp:
+    def test_write_http_tp(self):
+        parent = ET.Element("PARENT")
+        ARXMLWriter().writeTransportProtocolConfiguration(parent, _new_http_tp())
+        node = parent.find("TP-CONFIGURATION/HTTP-TP")
+        assert node is not None
+        assert node.find("CONTENT-TYPE").text == "application/soap+xml"
+        assert node.find("PROTOCOL-VERSION").text == "1.1"
+        assert node.find("REQUEST-METHOD").text == "POST"
+        config_node = node.find("TCP-TP-CONFIG")
+        assert config_node is not None
+        assert config_node.find("KEEP-ALIVES").text == "true"
+        assert config_node.find("TCP-TP-PORT/PORT-NUMBER").text == "8080"
+        assert node.find("URI").text == "http://example.com/Service"
+
+    def test_write_http_tp_empty_fields_omits_optional_tags(self):
+        parent = ET.Element("PARENT")
+        ARXMLWriter().writeTransportProtocolConfiguration(parent, HttpTp())
+        node = parent.find("TP-CONFIGURATION/HTTP-TP")
+        assert node is not None
+        assert node.find("CONTENT-TYPE") is None
+        assert node.find("PROTOCOL-VERSION") is None
+        assert node.find("REQUEST-METHOD") is None
+        assert node.find("TCP-TP-CONFIG") is None
+        assert node.find("URI") is None
+
+    def test_round_trip_http_tp_preserves_values(self):
+        parent = ET.Element("PARENT")
+        ARXMLWriter().writeTransportProtocolConfiguration(parent, _new_http_tp())
+        inner = ET.tostring(parent).decode("utf-8")
+        root = ET.fromstring(inner.replace("<PARENT>", "<PARENT xmlns='%s'>" % NS, 1))
+
+        reloaded = ARXMLParser().getTransportProtocolConfiguration(root, "TP-CONFIGURATION")
+        assert isinstance(reloaded, HttpTp)
+        assert reloaded.getContentType().getValue() == "application/soap+xml"
+        assert reloaded.getProtocolVersion().getValue() == "1.1"
+        assert reloaded.getRequestMethod().getValue() == RequestMethodEnum.POST
+        tcp_tp_config = reloaded.getTcpTpConfig()
+        assert isinstance(tcp_tp_config, TcpTp)
+        assert tcp_tp_config.getKeepAlives().getValue() is True
+        assert tcp_tp_config.getTcpTpPort().getPortNumber().getValue() == 8080
+        assert reloaded.getUri().getValue() == "http://example.com/Service"

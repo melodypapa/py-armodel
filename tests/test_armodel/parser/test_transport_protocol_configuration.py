@@ -7,7 +7,16 @@ import xml.etree.ElementTree as ET
 import pytest
 
 from armodel.models import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import GenericTp, Ieee1722Tp, RtpTp, TcpTp, TransportProtocolConfiguration, UdpTp
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
+    GenericTp,
+    HttpTp,
+    Ieee1722Tp,
+    RequestMethodEnum,
+    RtpTp,
+    TcpTp,
+    TransportProtocolConfiguration,
+    UdpTp,
+)
 from armodel.parser.arxml_parser import ARXMLParser
 
 NS = "http://autosar.org/schema/r4.0"
@@ -90,6 +99,44 @@ def test_read_ieee_1722_tp_configuration_empty(parser):
     assert configuration.getStreamIdentifier() is None
     assert configuration.getSubType() is None
     assert configuration.getVersion() is None
+
+
+def test_read_http_tp_configuration(parser):
+    root = _snip(
+        "<TP-CONFIGURATION>"
+        '<HTTP-TP S="1234" T="2024-01-01T00:00:00Z">'
+        "<CONTENT-TYPE>application/soap+xml</CONTENT-TYPE>"
+        "<PROTOCOL-VERSION>1.1</PROTOCOL-VERSION>"
+        "<REQUEST-METHOD>POST</REQUEST-METHOD>"
+        "<TCP-TP-CONFIG><KEEP-ALIVES>true</KEEP-ALIVES><TCP-TP-PORT><PORT-NUMBER>8080</PORT-NUMBER></TCP-TP-PORT></TCP-TP-CONFIG>"
+        "<URI>http://example.com/Service</URI>"
+        "</HTTP-TP>"
+        "</TP-CONFIGURATION>"
+    )
+    configuration = parser.getTransportProtocolConfiguration(root, "TP-CONFIGURATION")
+    assert isinstance(configuration, HttpTp)
+    assert isinstance(configuration, TransportProtocolConfiguration)
+    assert configuration.getContentType().getValue() == "application/soap+xml"
+    assert configuration.getProtocolVersion().getValue() == "1.1"
+    assert configuration.getRequestMethod().getValue() == RequestMethodEnum.POST
+    tcp_tp_config = configuration.getTcpTpConfig()
+    assert isinstance(tcp_tp_config, TcpTp)
+    assert tcp_tp_config.getKeepAlives().getValue() is True
+    assert tcp_tp_config.getTcpTpPort().getPortNumber().getValue() == 8080
+    assert configuration.getUri().getValue() == "http://example.com/Service"
+    assert configuration.getChecksum().getValue() == "1234"
+    assert configuration.getTimestamp().getValue() == "2024-01-01T00:00:00Z"
+
+
+def test_read_http_tp_configuration_empty(parser):
+    root = _snip("<TP-CONFIGURATION><HTTP-TP><PROTOCOL-VERSION>1.1</PROTOCOL-VERSION></HTTP-TP></TP-CONFIGURATION>")
+    configuration = parser.getTransportProtocolConfiguration(root, "TP-CONFIGURATION")
+    assert isinstance(configuration, HttpTp)
+    assert configuration.getProtocolVersion().getValue() == "1.1"
+    assert configuration.getContentType() is None
+    assert configuration.getRequestMethod() is None
+    assert configuration.getTcpTpConfig() is None
+    assert configuration.getUri() is None
 
 
 def test_read_tp_configuration_empty(parser):
