@@ -865,18 +865,41 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `DdsCpConfig` — ARElement — R23-11 CP_TPS_SystemTemplate Table 6.175, p.526
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
-- [ ] `DdsCpDomain` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 6.176, p.526
+  - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/Dds.py (REHOUSED from
+    GenericStructure/GeneralTemplateClasses/ARPackage.py — spec Package row =
+    M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds wins per Rule 0007; DdsCpConfig is
+    NOT in the wave-1 DdsCp* Identifiable-family exception (trap 3), and Fibex4Ethernet/Dds.py already
+    hosts the sibling DdsCpISignalToDdsTopicMapping; Dds.py imports ARElement from ARPackage.py at top
+    (IPv6HeaderFilterList precedent) with no cycle since ARPackage reaches back only via a bottom
+    `# noqa: E402` import; stub-batch test tuple rehoused, `armodel.DdsCpConfig` export chain verified)
+  - Note: Step 1 — the Class/Package/Note rows render pre-caption (Table 6.175 at markdown l.13764;
+    Base/Aggregated-by/Attribute rows in the post-caption block); verified against XSD group
+    DDS-CP-CONFIG (AUTOSAR_00052.xsd l.28557: DDS-DOMAINS, DDS-QOS-PROFILES wrappers; complexType
+    l.28589 sequence = AR-OBJECT ... AR-ELEMENT groups, DDS-CP-CONFIG). Base most-derived = ARElement;
+    Aggregated by ARPackage.element → ARPackage `element` polymorphic dispatch added (createDdsConfig
+    factory + reader/writer dispatch branches, IPv6ExtHeaderFilterSet precedent 281718563). Not
+    VP-capable (no VARIATION-POINT in group). 2 attrs in displayed row order: ddsDomain `*` aggr →
+    List + createDdsDomain/getDdsDomains (child Identifiable → create shape); ddsQosProfile `*` aggr →
+    List + createDdsQosProfile/getDdsQosProfiles.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
+  - Note: Step 8 — no deviations: both Table 6.175 attrs modeled (field+accessor+reader+writer, create
+    shape per child Base=Identifiable). Wave-1 identity debt resolved: DdsCpQosProfile's "pending
+    hook-in DdsCpConfig.ddsQosProfile" satisfied — readDdsCpConfig calls readDdsCpQosProfile and
+    writeDdsCpConfig calls writeDdsCpQosProfile (real child coverage, round-trip asserts
+    topicData/domainId field values); ddsDomain likewise via the synced read/writeDdsCpDomain. The
+    DdsCpDomain/DdsCpPartition rows' "pending DdsCpConfig.ddsDomain hook-in" notes are satisfied by
+    this sync (their own rows stay untouched per batch instruction). read/writeDdsCpQosProfile helper
+    contract verified: the reader reads INTO the caller's element, the writer creates its own
+    DDS-CP-QOS-PROFILE SubElement — both used as-is, no helper changes needed.
+  - [x] Step 1 — Sync members & description from spec — Identifiable — R23-11 CP_TPS_SystemTemplate Table 6.176, p.526
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
   - Note: Step 1 — the Class/Package/Note/Base/Aggregated-by header + all three attribute rows render
     BEFORE the caption (Table 6.176 at markdown l.13778); rows verified against XSD group

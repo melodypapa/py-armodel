@@ -4375,6 +4375,12 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(ipv6_ext_header_filter_set)
         return cast(IPv6ExtHeaderFilterSet, self.getReferrableElement(short_name, IPv6ExtHeaderFilterSet))
 
+    def createDdsConfig(self, short_name: str) -> DdsCpConfig:
+        if not self.IsReferrableElementExists(short_name, DdsCpConfig):
+            config = DdsCpConfig(self, short_name)
+            self.addReferrableElement(config)
+        return cast(DdsCpConfig, self.getReferrableElement(short_name, DdsCpConfig))
+
     def createCanXlProps(self, short_name: str) -> CanXlProps:
 
         if not self.IsReferrableElementExists(short_name, CanXlProps):
@@ -5051,6 +5057,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Serv
     SocketConnectionIpduIdentifierSet,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.IPv6HeaderFilterList import IPv6ExtHeaderFilterSet  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Dds import DdsCpConfig  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.TcpOptionFilterSet import TcpOptionFilterSet  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayCommunication import FlexrayFrame  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayCluster  # noqa: E402
@@ -11489,10 +11496,6 @@ class CryptoServiceKey(ARElement):
 
 
 class CryptoServiceQueue(ARElement):
-    pass
-
-
-class DdsCpConfig(ARElement):
     pass
 
 

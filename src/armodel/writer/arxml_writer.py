@@ -1005,6 +1005,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.IPv6
     IPv6ExtHeaderFilterList,
     IPv6ExtHeaderFilterSet,
 )
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Dds import DdsCpConfig
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ObsoleteModel import (
     SoAdRoutingGroup,
     SocketConnection,
@@ -16928,6 +16929,20 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeIdentifiable(child_element, partition)
         self.setChildElementOptionalString(child_element, "PARTITION-NAME", partition.getPartitionName())
 
+    def writeDdsCpConfig(self, element: ET.Element, config: DdsCpConfig):
+        child_element = ET.SubElement(element, "DDS-CP-CONFIG")
+        self.writeIdentifiable(child_element, config)
+        domains = config.getDdsDomains()
+        if len(domains) > 0:
+            domains_tag = ET.SubElement(child_element, "DDS-DOMAINS")
+            for domain in domains:
+                self.writeDdsCpDomain(domains_tag, domain)
+        profiles = config.getDdsQosProfiles()
+        if len(profiles) > 0:
+            profiles_tag = ET.SubElement(child_element, "DDS-QOS-PROFILES")
+            for profile in profiles:
+                self.writeDdsCpQosProfile(profiles_tag, profile)
+
     def writeDdsCpDomain(self, element: ET.Element, domain: DdsCpDomain):
         child_element = ET.SubElement(element, "DDS-CP-DOMAIN")
         self.writeIdentifiable(child_element, domain)
@@ -18778,6 +18793,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeSwcImplementation(element, ar_element)
         elif isinstance(ar_element, TcpOptionFilterSet):
             self.writeTcpOptionFilterSet(element, ar_element)
+        elif isinstance(ar_element, DdsCpConfig):
+            self.writeDdsCpConfig(element, ar_element)
         elif isinstance(ar_element, IPv6ExtHeaderFilterSet):
             self.writeIPv6ExtHeaderFilterSet(element, ar_element)
         elif isinstance(ar_element, CompositionSwComponentType):

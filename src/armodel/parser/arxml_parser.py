@@ -1201,6 +1201,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.IPv6
     IPv6ExtHeaderFilterList,
     IPv6ExtHeaderFilterSet,
 )
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Dds import DdsCpConfig
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ObsoleteModel import (
     SoAdRoutingGroup,
     SocketConnection,
@@ -12660,6 +12661,16 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, partition)
         partition.setPartitionName(self.getChildElementOptionalString(element, "PARTITION-NAME"))
 
+    def readDdsCpConfig(self, element: ET.Element, config: DdsCpConfig):
+        self.logger.debug("Read DdsCpConfig")
+        self.readIdentifiable(element, config)
+        for child_element in self.findall(element, "DDS-DOMAINS/DDS-CP-DOMAIN"):
+            domain = config.createDdsDomain(self.getShortName(child_element))
+            self.readDdsCpDomain(child_element, domain)
+        for child_element in self.findall(element, "DDS-QOS-PROFILES/DDS-CP-QOS-PROFILE"):
+            profile = config.createDdsQosProfile(self.getShortName(child_element))
+            self.readDdsCpQosProfile(child_element, profile)
+
     def readDdsCpDomain(self, element: ET.Element, domain: DdsCpDomain):
         self.logger.debug("Read DdsCpDomain")
         self.readIdentifiable(element, domain)
@@ -18922,6 +18933,9 @@ class ARXMLParser(AbstractARXMLParser):
         elif tag_name == "CRYPTO-SERVICE-PRIMITIVE":
             primitive = parent.createCryptoServicePrimitive(self.getShortName(child_element))
             self.readCryptoServicePrimitive(child_element, primitive)
+        elif tag_name == "DDS-CP-CONFIG":
+            dds_config = parent.createDdsConfig(self.getShortName(child_element))
+            self.readDdsCpConfig(child_element, dds_config)
         elif tag_name == "SO-AD-ROUTING-GROUP":
             group = parent.createSoAdRoutingGroup(self.getShortName(child_element))
             self.readSoAdRoutingGroup(child_element, group)
