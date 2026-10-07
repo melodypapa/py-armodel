@@ -226,15 +226,14 @@ class LabeledItem(ARObject, VariationPointCapable):
 
     # LabeledItem method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.12, p.296
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getHelpEntry        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setHelpEntry        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getItemContents     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setItemContents     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getItemLabel        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setItemLabel        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getHelpEntry        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setHelpEntry        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getItemContents     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setItemContents     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getItemLabel        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setItemLabel        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
