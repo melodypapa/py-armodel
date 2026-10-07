@@ -306,6 +306,7 @@ __all__ = [
     "EcucValueCollection",
     "EndToEndProtectionSet",
     "EthernetCluster",
+    "EthernetWakeupSleepOnDatalineConfigSet",
     "FirewallRule",
     "StateDependentFirewall",
     "FlatMap",
@@ -2762,6 +2763,13 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(coupling_element)
         return cast(CouplingElement, self.getReferrableElement(short_name, CouplingElement))
 
+    def createEthernetWakeupSleepOnDatalineConfigSet(self, short_name: str) -> EthernetWakeupSleepOnDatalineConfigSet:
+
+        if not self.IsReferrableElementExists(short_name, EthernetWakeupSleepOnDatalineConfigSet):
+            config_set = EthernetWakeupSleepOnDatalineConfigSet(self, short_name)
+            self.addReferrableElement(config_set)
+        return cast(EthernetWakeupSleepOnDatalineConfigSet, self.getReferrableElement(short_name, EthernetWakeupSleepOnDatalineConfigSet))
+
     def createDiagnosticAging(self, short_name: str) -> DiagnosticAging:
         """
         Creates a new DiagnosticAging with the given short name,
@@ -5018,6 +5026,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommun
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanXlProps, J1939Cluster  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import GenericEthernetFrame  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import CouplingElement, EthIpProps, EthTcpIpIcmpProps, EthernetCluster, EthTcpIpProps  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetWakeupSleepOnDatalineConfigSet  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ObsoleteModel import SoAdRoutingGroup  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import (  # noqa: E402
     ConsumedProvidedServiceInstanceGroup,

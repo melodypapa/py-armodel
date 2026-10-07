@@ -1228,6 +1228,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     EthernetPriorityRegeneration,
     EthernetSwitchVlanEgressTaggingEnum,
     EthernetWakeupSleepOnDatalineConfig,
+    EthernetWakeupSleepOnDatalineConfigSet,
     FlowMeteringColorModeEnum,
     GenericTp,
     GlobalTimeCouplingPortProps,
@@ -11442,6 +11443,12 @@ class ARXMLParser(AbstractARXMLParser):
         config.setWakeupRepetitionDelayOfWakeupRequest(self.getChildElementOptionalTimeValue(element, "WAKEUP-REPETITION-DELAY-OF-WAKEUP-REQUEST"))
         config.setWakeupRepetitionsOfWakeupRequest(self.getChildElementOptionalPositiveInteger(element, "WAKEUP-REPETITIONS-OF-WAKEUP-REQUEST"))
 
+    def readEthernetWakeupSleepOnDatalineConfigSet(self, element: ET.Element, config_set: EthernetWakeupSleepOnDatalineConfigSet):
+        self.readIdentifiable(element, config_set)
+        for child_element in self.findall(element, "ETHERNET-WAKEUP-SLEEP-ON-DATALINE-CONFIGS/ETHERNET-WAKEUP-SLEEP-ON-DATALINE-CONFIG"):
+            config = config_set.createEthernetWakeupSleepOnDatalineConfig(self.getShortName(child_element))
+            self.readEthernetWakeupSleepOnDatalineConfig(child_element, config)
+
     def readEthTcpIpIcmpProps(self, element: ET.Element, props: EthTcpIpIcmpProps):
         """Read an R23-11 <ETH-TCP-IP-ICMP-PROPS> element (Table 3.112, p.156): SHORT-NAME, ICMP-V-4-PROPS, ICMP-V-6-PROPS."""
         self.readIdentifiable(element, props)
@@ -18437,6 +18444,8 @@ class ARXMLParser(AbstractARXMLParser):
                 self.readCouplingElement(child_element, parent.createCouplingElement(self.getShortName(child_element)))
             elif tag_name == "ETHERNET-CLUSTER":
                 self.readEthernetCluster(child_element, parent.createEthernetCluster(self.getShortName(child_element)))
+            elif tag_name == "ETHERNET-WAKEUP-SLEEP-ON-DATALINE-CONFIG-SET":
+                self.readEthernetWakeupSleepOnDatalineConfigSet(child_element, parent.createEthernetWakeupSleepOnDatalineConfigSet(self.getShortName(child_element)))
             elif tag_name == "CAN-XL-PROPS":
                 can_xl_props = parent.createCanXlProps(self.getShortName(child_element))
                 self.readCanXlProps(child_element, can_xl_props)

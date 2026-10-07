@@ -956,15 +956,40 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `EthernetWakeupSleepOnDatalineConfigSet` — FibexElement — R23-11 CP_TPS_SystemTemplate Table 3.116, p.159
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: Table 3.116 is a single-page table (no page-split; pdf_page.py cites p.159)
+    — Class header (concrete), one `*` aggr attribute row `ethernetWakeupSleepOnDatalineConfig`
+    (type EthernetWakeupSleepOnDatalineConfig; markdown renders the class name in the Note with
+    an internal space "EthernetWakeup SleepOnDatalineConfig" — kept verbatim in docstrings).
+    Class Note verbatim carries the `Tags: atp.recommendedPackage=EthernetWakeupSleepOnDatalineConfigSets`
+    tail. Base chain's most-derived model class is `FibexElement` (two parallel chains —
+    CollectableElement/Identifiable and FibexElement/PackageableElement; the role-matching
+    branch is FibexElement, as the stub and siblings CouplingElement/EthernetCluster already use).
+    Placement per Rule 0007 (spec Package row `…Fibex4Ethernet::EthernetTopology`, same row as
+    the Table 3.115 sibling): class moved from the FibexCore/__init__.py stub to
+    `M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py` (spec table
+    order: directly after EthernetWakeupSleepOnDatalineConfig, before Table 3.117 sibling
+    PlcaProps); stub-guard tuple re-pointed at the new defining module. Child is Identifiable
+    (Referrable) → `createEthernetWakeupSleepOnDatalineConfig(short_name)` factory + dedicated
+    `List[EthernetWakeupSleepOnDatalineConfig]` field + `getEthernetWakeupSleepOnDatalineConfigs()`
+    (CouplingElement.createCouplingPort precedent; spec-`*` singular name → plural field/accessors).
+    XML child order per XSD group ETHERNET-WAKEUP-SLEEP-ON-DATALINE-CONFIG-SET: single optional
+    wrapper `ETHERNET-WAKEUP-SLEEP-ON-DATALINE-CONFIGS` (wrapper emitted only when non-empty)
+    holding unbounded `ETHERNET-WAKEUP-SLEEP-ON-DATALINE-CONFIG` items. Aggregated by
+    ARPackage.element → wiring upgrades performed: `createEthernetWakeupSleepOnDatalineConfigSet`
+    factory in ARPackage.py (bottom import + `__all__`), parser `readARPackageElements` branch,
+    writer `writeARPackageElement` isinstance branch; the Set's reader/writer dispatch each child
+    via the previously-unwired read/writeEthernetWakeupSleepOnDatalineConfig. The constr_3601–3610
+    block following the table constrains the member class (already carried by its own docstring/
+    notes from the 3.115 sync) — not duplicated on the Set.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-07 (21866 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 86c05b7f0
 
 - [ ] `PlcaProps` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.117, p.169
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py

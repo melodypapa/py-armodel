@@ -1031,6 +1031,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     EthernetCommunicationController,
     EthernetPriorityRegeneration,
     EthernetWakeupSleepOnDatalineConfig,
+    EthernetWakeupSleepOnDatalineConfigSet,
     DhcpServerConfiguration,
     Ipv4ArpProps,
     Ipv4AutoIpProps,
@@ -11754,6 +11755,17 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalTimeValue(element, "WAKEUP-REPETITION-DELAY-OF-WAKEUP-REQUEST", config.getWakeupRepetitionDelayOfWakeupRequest())
             self.setChildElementOptionalPositiveInteger(element, "WAKEUP-REPETITIONS-OF-WAKEUP-REQUEST", config.getWakeupRepetitionsOfWakeupRequest())
 
+    def writeEthernetWakeupSleepOnDatalineConfigSet(self, element: ET.Element, config_set: EthernetWakeupSleepOnDatalineConfigSet):
+        if config_set is not None:
+            child_element = ET.SubElement(element, "ETHERNET-WAKEUP-SLEEP-ON-DATALINE-CONFIG-SET")
+            self.writeIdentifiable(child_element, config_set)
+            configs = config_set.getEthernetWakeupSleepOnDatalineConfigs()
+            if len(configs) > 0:
+                configs_element = ET.SubElement(child_element, "ETHERNET-WAKEUP-SLEEP-ON-DATALINE-CONFIGS")
+                for config in configs:
+                    config_element = ET.SubElement(configs_element, "ETHERNET-WAKEUP-SLEEP-ON-DATALINE-CONFIG")
+                    self.writeEthernetWakeupSleepOnDatalineConfig(config_element, config)
+
     def writeEthTcpIpIcmpProps(self, element: ET.Element, props: EthTcpIpIcmpProps):
         """Write an R23-11 <ETH-TCP-IP-ICMP-PROPS> element (Table 3.112, p.156): SHORT-NAME, ICMP-V-4-PROPS, ICMP-V-6-PROPS."""
         if props is not None:
@@ -18762,6 +18774,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeCouplingElement(element, ar_element)
         elif isinstance(ar_element, EthernetCluster):
             self.writeEthernetCluster(element, ar_element)
+        elif isinstance(ar_element, EthernetWakeupSleepOnDatalineConfigSet):
+            self.writeEthernetWakeupSleepOnDatalineConfigSet(element, ar_element)
         elif isinstance(ar_element, ISignalIPduGroup):
             self.writeISignalIPduGroup(element, ar_element)
         elif isinstance(ar_element, PdurIPduGroup):

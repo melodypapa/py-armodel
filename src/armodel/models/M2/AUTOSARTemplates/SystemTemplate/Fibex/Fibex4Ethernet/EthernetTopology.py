@@ -5113,6 +5113,42 @@ class EthernetWakeupSleepOnDatalineConfig(Identifiable):
         return self
 
 
+class EthernetWakeupSleepOnDatalineConfigSet(FibexElement):
+    """
+    This meta-class is the main element that aggregates different config set regarding the ethernet wakeup and sleep on data line. Tags: atp.recommendedPackage=EthernetWakeupSleepOnDatalineConfigSets
+    """
+
+    # EthernetWakeupSleepOnDatalineConfigSet method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.116, p.159
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createEthernetWakeupSleepOnDatalineConfig [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEthernetWakeupSleepOnDatalineConfigs   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # The relationship defines a collection of EthernetWakeup SleepOnDatalineConfig configurations which are available.
+        self.ethernetWakeupSleepOnDatalineConfigs: List[EthernetWakeupSleepOnDatalineConfig] = []
+
+    def createEthernetWakeupSleepOnDatalineConfig(self, short_name: str) -> EthernetWakeupSleepOnDatalineConfig:
+        """
+        The relationship defines a collection of EthernetWakeup SleepOnDatalineConfig configurations which are available.
+        The existing element is returned when the short name already exists (no duplicate creation).
+        """
+        if not self.IsReferrableElementExists(short_name, EthernetWakeupSleepOnDatalineConfig):
+            config = EthernetWakeupSleepOnDatalineConfig(self, short_name)
+            self.addReferrableElement(config)
+            self.ethernetWakeupSleepOnDatalineConfigs.append(config)
+        return cast(EthernetWakeupSleepOnDatalineConfig, self.getReferrableElement(short_name, EthernetWakeupSleepOnDatalineConfig))
+
+    def getEthernetWakeupSleepOnDatalineConfigs(self) -> List[EthernetWakeupSleepOnDatalineConfig]:
+        """
+        The relationship defines a collection of EthernetWakeup SleepOnDatalineConfig configurations which are available.
+        """
+        return self.ethernetWakeupSleepOnDatalineConfigs
+
+
 class PlcaProps(ARObject):
     """
     This meta-class allows to configure the PLCA (Physical Layer Collision Avoidance) in case 10-BASE-T1S Ethernet is used and PLCA is enabled on the CouplingPort (PHY).

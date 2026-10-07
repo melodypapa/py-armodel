@@ -42,10 +42,6 @@ class EthTpConfig(FibexElement):
     pass
 
 
-class EthernetWakeupSleepOnDatalineConfigSet(FibexElement):
-    pass
-
-
 class FlexrayArTpConfig(FibexElement):
     pass
 

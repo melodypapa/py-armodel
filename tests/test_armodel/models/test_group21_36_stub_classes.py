@@ -2110,9 +2110,9 @@ STUBS = [
         "Identifiable",
     ),
     (
-        "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.__init__",
+        "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology",
         "EthernetWakeupSleepOnDatalineConfigSet",
-        "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.__init__",
+        "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore",
         "FibexElement",
     ),
     (
