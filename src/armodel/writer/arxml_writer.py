@@ -2078,7 +2078,8 @@ class ARXMLWriter(AbstractARXMLWriter):
         if isinstance(referrable, Referrable):
             self.setShortNameFragments(element, referrable.getShortNameFragments())
 
-    def writeTraceable(self, element: ET.Element, traceable: Traceable):
+    def writeTraceable(self, element: ET.Element, traceable: Traceable, write_variation_point: bool = True):
+        self.writeIdentifiable(element, traceable, write_variation_point=write_variation_point)
         trace_refs = traceable.getTraceRefs()
         if trace_refs is not None and len(trace_refs) > 0:
             refs_tag = ET.SubElement(element, "TRACE-REFS")
@@ -4052,17 +4053,15 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setTraceableText(self, element: ET.Element, key: str, traceable_text: Optional[TraceableText]):
         if traceable_text is not None:
             child_element = ET.SubElement(element, key)
-            self.writeARObject(child_element, traceable_text)
-            self.writeDocumentationBlock(child_element, "TEXT", traceable_text.getText())
             self.writeTraceable(child_element, traceable_text)
+            self.writeDocumentationBlock(child_element, "TEXT", traceable_text.getText())
 
     def setTraceableTable(self, element: ET.Element, key: str, traceable_table: Optional[TraceableTable]):
         if traceable_table is not None:
             child_element = ET.SubElement(element, key)
-            self.writeIdentifiable(child_element, traceable_table)
             # SI/VIEW (DOCUMENT-VIEW-SELECTABLE) and BREAK/KEEP-WITH-PREVIOUS (PAGINATEABLE) are
             # written as plain attributes: writeDocumentViewSelectable/writePaginateable would
-            # re-invoke writeARObject on top of writeIdentifiable (Rule 0013.1).
+            # re-invoke writeARObject on top of the writeIdentifiable inside writeTraceable (Rule 0013.1).
             si_value = traceable_table.getSi()
             if si_value is not None:
                 child_element.attrib["SI"] = cast(str, si_value.getValue())
@@ -4084,8 +4083,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setStructuredReq(self, element: ET.Element, structured_req: Optional[StructuredReq]):
         if structured_req is not None:
             child_element = ET.SubElement(element, "STRUCTURED-REQ")
-            self.writeIdentifiable(child_element, structured_req, write_variation_point=False)
-            self.writeTraceable(child_element, structured_req)
+            self.writeTraceable(child_element, structured_req, write_variation_point=False)
             self.setChildElementOptionalLiteral(child_element, "DATE", structured_req.getDate())
             self.setChildElementOptionalLiteral(child_element, "ISSUED-BY", structured_req.getIssuedBy())
             self.setChildElementOptionalLiteral(child_element, "TYPE", structured_req.getType())
@@ -6117,7 +6115,6 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalRefType(element, "TARGET-DATA-PROTOTYPE-REF", iref.getTargetDataPrototypeRef())
 
     def writeTimingConstraint(self, element: ET.Element, constraint: TimingConstraint):
-        self.writeIdentifiable(element, constraint)
         self.writeTraceable(element, constraint)
         self.setChildElementOptionalRefType(element, "TIMING-CONDITION-REF", constraint.getTimingConditionRef())
 

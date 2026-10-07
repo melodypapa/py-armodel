@@ -4618,7 +4618,6 @@ class ARXMLParser(AbstractARXMLParser):
         return iref
 
     def readTimingConstraint(self, element: ET.Element, constraint: TimingConstraint):
-        self.readIdentifiable(element, constraint)
         self.readTraceable(element, constraint)
         constraint.setTimingConditionRef(self.getChildElementOptionalRefType(element, "TIMING-CONDITION-REF"))
 
@@ -7507,6 +7506,7 @@ class ARXMLParser(AbstractARXMLParser):
         return note
 
     def readTraceable(self, element: ET.Element, traceable: Traceable):
+        self.readIdentifiable(element, traceable)
         for trace_ref in self.findall(element, "TRACE-REFS/TRACE-REF"):
             ref = RefType().setValue(cast(str, trace_ref.text))
             if "BASE" in trace_ref.attrib:
@@ -7522,16 +7522,14 @@ class ARXMLParser(AbstractARXMLParser):
             short_name_element = self.find(child_element, "SHORT-NAME")
             short_name = short_name_element.text if short_name_element is not None else key
             traceable_text = TraceableText(block, cast(str, short_name))
-            self.readARObject(child_element, traceable_text)
             traceable_text.setText(self.getDocumentationBlock(child_element, "TEXT"))
             self.readTraceable(child_element, traceable_text)
         return traceable_text
 
     def readTraceableTable(self, element: ET.Element, traceable_table: TraceableTable):
-        self.readIdentifiable(element, traceable_table)
         # SI/VIEW (DOCUMENT-VIEW-SELECTABLE) and BREAK/KEEP-WITH-PREVIOUS (PAGINATEABLE) are read
         # as plain attributes: readDocumentViewSelectable/readPaginateable would re-invoke
-        # readARObject on top of readIdentifiable (duplicate UUIDMgr registration, Rule 0013.1).
+        # readARObject on top of the readIdentifiable inside readTraceable (rules 0013.1/0025).
         if "SI" in element.attrib:
             traceable_table.setSi(NameTokens().setValue(element.attrib["SI"]))
         if "VIEW" in element.attrib:
@@ -7564,7 +7562,6 @@ class ARXMLParser(AbstractARXMLParser):
             short_name_element = self.find(child_element, "SHORT-NAME")
             short_name = short_name_element.text if short_name_element is not None else key
             structured_req = StructuredReq(block, cast(str, short_name))
-            self.readIdentifiable(child_element, structured_req)
             self.readTraceable(child_element, structured_req)
             date = self.getChildElementOptionalLiteral(child_element, "DATE")
             if date is not None:
