@@ -504,6 +504,49 @@ def _entry_points(mc: Dict[str, Set[str]], primaries: Sequence[str], hooks: Sequ
     return named
 
 
+# How far a reader/writer may delegate before we stop crediting it with the
+# inherited level. Measured against the tree: reachability saturates at 3 hops —
+# depth 5 and unbounded find nothing extra — so a deeper walk would only make the
+# check more permissive without surfacing another real gap.
+_REACH_DEPTH = 3
+
+
+@lru_cache(maxsize=None)
+def _reaches(side: str, fn: str, targets: frozenset) -> bool:
+    """Does `fn` call one of `targets`, directly or via <= _REACH_DEPTH helpers?
+
+    Delegation is normal in this codebase (a reader for a concrete class often
+    calls a helper for a base class, which is what calls readIdentifiable), so a
+    purely single-hop check reports inherited state as dropped when it is in fact
+    preserved — the false positive that made 93 classes look defective.
+    """
+    if fn in targets:
+        return True
+    graph = collect_calls(PARSER) if side == "parser" else collect_calls(WRITER)
+    seen = {fn}
+    frontier = [(fn, 0)]
+    while frontier:
+        cur, depth = frontier.pop()
+        if depth >= _REACH_DEPTH:
+            continue
+        for nxt in graph.get(cur, ()):
+            if nxt in targets:
+                return True
+            if nxt not in seen:
+                seen.add(nxt)
+                frontier.append((nxt, depth + 1))
+    return False
+
+
+def _reaches_any(side: str, entry_points: Sequence[str], targets: Set[str]) -> Optional[str]:
+    """The first entry point that reaches one of `targets`, directly or transitively."""
+    frozen = frozenset(targets)
+    for fn in entry_points:
+        if _reaches(side, fn, frozen):
+            return fn
+    return None
+
+
 def check_base(rep: Report, cls: str, node: ast.ClassDef, enum: bool) -> None:
     if enum:
         rep.ok("BASE", "enum — serialized as an attribute value, no reader/writer pair of its own")
@@ -542,32 +585,54 @@ def check_base(rep: Report, cls: str, node: ast.ClassDef, enum: bool) -> None:
             rep.warn("BASE", "ARLiteral %s has no dedicated %s/%s leaf pair — verify it is attribute/text-carried or add the pair (Rule 0013.2)" % (cls, r_name, w_name))
         return
 
+    # Entry-point confidence matters as much as reachability. A helper literally
+    # named read<Cls>/write<Cls>/get<Cls>/set<Cls> is this class's own reader, so a
+    # miss there is a real defect. Anything found by matching the class-name token
+    # is a guess — the token is generic ("Access" in "AccessCount" matches
+    # readAccessCountSets, a different class), so a miss proves nothing and must
+    # not block. Guessed-but-unconfirmed is reported as a warning instead.
+    confirmed_r = [f for f in ("read" + cls, "get" + cls) if f in pcalls]
+    confirmed_w = [f for f in ("write" + cls, "set" + cls) if f in wcalls]
     r_pts = _entry_points(pcalls, ("read" + cls, "get" + cls), (cls, "create" + cls, "get" + cls), cls)
-    w_pts = _entry_points(wcalls, ("write" + cls, "set" + cls), ("get" + cls, "set" + cls, "create" + cls, cls), cls)
-    if not r_pts:
+    w_pts = _entry_points(wcalls, ("write" + cls, "set" + cls), ("get" + cls, "set" + cls, "create" + cls), cls)
+
+    hit = _reaches_any("parser", confirmed_r or r_pts, want_r)
+    if hit:
+        how = "directly calls" if want_r & pcalls[hit] else "reaches (within %d calls) %s" % (_REACH_DEPTH, ", ".join(sorted(want_r)))
+        rep.ok("BASE", "reader entry point %s %s" % (hit, how))
+    elif confirmed_r:
+        rep.fail(
+            "BASE",
+            "no reader entry point calls a base reader helper (expected one of {%s}; entry points tried: %s) — inherited `S`/`T`, UUID and SHORT-NAME-FRAGMENTS are silently dropped on round-trip"
+            % (", ".join(sorted(want_r)), ", ".join(confirmed_r[:4])),
+        )
+    elif r_pts:
+        rep.warn(
+            "BASE",
+            "%s has no reader of its own; the name-matched candidate(s) %s do not reach {%s} — confirm by hand that the aggregator reading it calls a base helper (Rule 0025)"
+            % (cls, ", ".join(r_pts[:3]), "/".join(sorted(want_r))),
+        )
+    else:
         rep.warn("BASE", "no reader entry point found for %s — verify the aggregator that builds it calls %s" % (cls, "/".join(sorted(want_r))))
+
+    hit = _reaches_any("writer", confirmed_w or w_pts, want_w)
+    if hit:
+        how = "directly calls" if want_w & wcalls[hit] else "reaches (within %d calls) %s" % (_REACH_DEPTH, ", ".join(sorted(want_w)))
+        rep.ok("BASE", "writer entry point %s %s" % (hit, how))
+    elif confirmed_w:
+        rep.fail(
+            "BASE",
+            "no writer entry point calls a base writer helper (expected one of {%s}; entry points tried: %s) — reader/writer asymmetry drops inherited state on round-trip"
+            % (", ".join(sorted(want_w)), ", ".join(confirmed_w[:4])),
+        )
+    elif w_pts:
+        rep.warn(
+            "BASE",
+            "%s has no writer of its own; the name-matched candidate(s) %s do not reach {%s} — confirm by hand that the aggregator emitting it calls a base helper (Rule 0025)"
+            % (cls, ", ".join(w_pts[:3]), "/".join(sorted(want_w))),
+        )
     else:
-        hit = [f for f in r_pts if want_r & pcalls[f]]
-        if not hit:
-            rep.fail(
-                "BASE",
-                "no reader entry point calls a base reader helper (expected one of {%s}; entry points tried: %s) — inherited `S`/`T`, UUID and SHORT-NAME-FRAGMENTS are silently dropped on round-trip"
-                % (", ".join(sorted(want_r)), ", ".join(r_pts[:4])),
-            )
-        else:
-            rep.ok("BASE", "reader entry point(s) %s call %s" % (", ".join(hit), ", ".join(sorted(want_r & pcalls[hit[0]]))))
-    if not w_pts:
         rep.warn("BASE", "no writer entry point found for %s — verify the aggregator that emits it calls %s" % (cls, "/".join(sorted(want_w))))
-    else:
-        hit = [f for f in w_pts if want_w & wcalls[f]]
-        if not hit:
-            rep.fail(
-                "BASE",
-                "no writer entry point calls a base writer helper (expected one of {%s}; entry points tried: %s) — reader/writer asymmetry drops inherited state on round-trip"
-                % (", ".join(sorted(want_w)), ", ".join(w_pts[:4])),
-            )
-        else:
-            rep.ok("BASE", "writer entry point(s) %s call %s" % (", ".join(hit), ", ".join(sorted(want_w & wcalls[hit[0]]))))
 
 
 # --------------------------------------------------------------------------- #
