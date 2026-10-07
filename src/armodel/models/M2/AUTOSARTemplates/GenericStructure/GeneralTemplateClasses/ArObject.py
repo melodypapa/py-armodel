@@ -2360,7 +2360,59 @@ class BusMirrorCanIdRangeMapping(ARObject):
 
 
 class BusMirrorCanIdToCanIdMapping(ARObject):
-    pass
+    """
+    This element defines a rule for remapping a single CAN ID.
+    """
+
+    # BusMirrorCanIdToCanIdMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.330, p.702
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getRemappedCanId         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRemappedCanId         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSouceCanIdRef         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSouceCanIdRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # This attribute defines the CanId on the targetChannel.
+        self.remappedCanId: Optional[PositiveInteger] = None
+
+        # This reference points to the sourceFrame with sourceCan Id on the sourceChannel.
+        self.souceCanIdRef: Optional[RefType] = None
+
+    def getRemappedCanId(self) -> Optional[PositiveInteger]:
+        """
+        This attribute defines the CanId on the targetChannel.
+        """
+        return self.remappedCanId
+
+    def setRemappedCanId(self, value: Optional[PositiveInteger]) -> BusMirrorCanIdToCanIdMapping:
+        """
+        This attribute defines the CanId on the targetChannel.
+
+        A None value is a no-op and does not overwrite an existing remappedCanId.
+        """
+        if value is not None:
+            self.remappedCanId = value
+        return self
+
+    def getSouceCanIdRef(self) -> Optional[RefType]:
+        """
+        This reference points to the sourceFrame with sourceCan Id on the sourceChannel.
+        """
+        return self.souceCanIdRef
+
+    def setSouceCanIdRef(self, value: Optional[RefType]) -> BusMirrorCanIdToCanIdMapping:
+        """
+        This reference points to the sourceFrame with sourceCan Id on the sourceChannel.
+
+        A None value is a no-op and does not overwrite an existing souceCanIdRef.
+        """
+        if value is not None:
+            self.souceCanIdRef = value
+        return self
 
 
 class BusMirrorChannel(ARObject):

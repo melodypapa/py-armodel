@@ -1305,7 +1305,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication impor
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanControllerConfiguration, CanXlProps
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import BusMirrorChannel, BusMirrorChannelMapping, BusMirrorChannelMappingFlexray, BusMirrorChannelMappingUserDefined
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import BusMirrorCanIdRangeMapping
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import BusMirrorCanIdRangeMapping, BusMirrorCanIdToCanIdMapping
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import MirroringProtocolEnum
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import CommunicationDirectionType
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Dds import DdsCpISignalToDdsTopicMapping
@@ -10176,6 +10176,11 @@ class ARXMLParser(AbstractARXMLParser):
         mapping.setDestinationBaseId(self.getChildElementOptionalPositiveInteger(element, "DESTINATION-BASE-ID"))
         mapping.setSourceCanIdCode(self.getChildElementOptionalPositiveInteger(element, "SOURCE-CAN-ID-CODE"))
         mapping.setSourceCanIdMask(self.getChildElementOptionalPositiveInteger(element, "SOURCE-CAN-ID-MASK"))
+
+    def readBusMirrorCanIdToCanIdMapping(self, element: ET.Element, mapping: BusMirrorCanIdToCanIdMapping):
+        self.readARObject(element, mapping)
+        mapping.setRemappedCanId(self.getChildElementOptionalPositiveInteger(element, "REMAPPED-CAN-ID"))
+        mapping.setSouceCanIdRef(self.getChildElementOptionalRefType(element, "SOUCE-CAN-ID-REF"))
 
     def readBusMirrorChannelMapping(self, element: ET.Element, mapping: BusMirrorChannelMapping):
         self.logger.debug("Read BusMirrorChannelMapping <%s>" % mapping.getShortName())

@@ -12,6 +12,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import TextVal
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
     BusMirrorCanIdRangeMapping,
+    BusMirrorCanIdToCanIdMapping,
     CalibrationParameterValue,
     DdsCpProvidedServiceInstance,
     DdsCpServiceInstanceEvent,
@@ -4382,3 +4383,69 @@ class TestBusMirrorCanIdRangeMapping:
         setter_hints = typing.get_type_hints(BusMirrorCanIdRangeMapping.setDestinationBaseId)
         assert getter_hints.get("return") == typing.Optional[PositiveInteger]
         assert setter_hints.get("value") == typing.Optional[PositiveInteger]
+
+
+class TestBusMirrorCanIdToCanIdMapping:
+    """
+    Test class for BusMirrorCanIdToCanIdMapping functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.330, p.702
+    """
+
+    CLASS_NOTE = "This element defines a rule for remapping a single CAN ID."
+    REMAPPED_CAN_ID_NOTE = "This attribute defines the CanId on the targetChannel."
+    SOUCE_CAN_ID_NOTE = "This reference points to the sourceFrame with sourceCan Id on the sourceChannel."
+
+    def _create_mapping(self) -> BusMirrorCanIdToCanIdMapping:
+        return BusMirrorCanIdToCanIdMapping()
+
+    def test_initialization(self):
+        obj = self._create_mapping()
+
+        assert obj.getRemappedCanId() is None
+        assert obj.getSouceCanIdRef() is None
+
+    def test_is_ar_object_subclass(self):
+        assert issubclass(BusMirrorCanIdToCanIdMapping, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert inspect.cleandoc(BusMirrorCanIdToCanIdMapping.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert BusMirrorCanIdToCanIdMapping.__init__.__doc__ is None
+
+    def test_get_set_remapped_can_id(self):
+        obj = self._create_mapping()
+
+        value = PositiveInteger().setValue("512")
+        assert obj.setRemappedCanId(value) is obj
+        assert obj.getRemappedCanId() is value
+        assert obj.getRemappedCanId().getValue() == 512
+
+        obj.setRemappedCanId(None)
+        assert obj.getRemappedCanId() is value
+
+    def test_get_set_souce_can_id_ref(self):
+        obj = self._create_mapping()
+
+        value = RefType().setValue("/Can/FrameTriggering")
+        value.setDest("CAN-FRAME-TRIGGERING")
+        assert obj.setSouceCanIdRef(value) is obj
+        assert obj.getSouceCanIdRef() is value
+        assert obj.getSouceCanIdRef().getValue() == "/Can/FrameTriggering"
+
+        obj.setSouceCanIdRef(None)
+        assert obj.getSouceCanIdRef() is value
+
+    def test_accessor_docstrings_are_spec_note_verbatim(self):
+        none_no_op = "\n\nA None value is a no-op and does not overwrite an existing %s."
+        assert inspect.cleandoc(BusMirrorCanIdToCanIdMapping.getRemappedCanId.__doc__) == self.REMAPPED_CAN_ID_NOTE
+        assert inspect.cleandoc(BusMirrorCanIdToCanIdMapping.setRemappedCanId.__doc__) == (self.REMAPPED_CAN_ID_NOTE + none_no_op % "remappedCanId")
+        assert inspect.cleandoc(BusMirrorCanIdToCanIdMapping.getSouceCanIdRef.__doc__) == self.SOUCE_CAN_ID_NOTE
+        assert inspect.cleandoc(BusMirrorCanIdToCanIdMapping.setSouceCanIdRef.__doc__) == (self.SOUCE_CAN_ID_NOTE + none_no_op % "souceCanIdRef")
+
+    def test_type_hints_are_spec_typed(self):
+        getter_hints = typing.get_type_hints(BusMirrorCanIdToCanIdMapping.getSouceCanIdRef)
+        setter_hints = typing.get_type_hints(BusMirrorCanIdToCanIdMapping.setSouceCanIdRef)
+        assert getter_hints.get("return") == typing.Optional[RefType]
+        assert setter_hints.get("value") == typing.Optional[RefType]
