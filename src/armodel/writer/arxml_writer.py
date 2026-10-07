@@ -580,8 +580,11 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     CpSoftwareClusterResource,
+    CpSoftwareClusterToResourceMapping,
     DdsCpQosProfile,
     DdsCpTopic,
+    PortElementToCommunicationResourceMapping,
+    SwcToApplicationPartitionMapping,
     Describable,
     DiagnosticAuthTransmitCertificateEvaluation,
     DiagnosticDataElement,
@@ -926,21 +929,46 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate import (
     System,
     SystemMapping,
 )
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster import CpSoftwareClusterToEcuInstanceMapping
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster import CpSoftwareClusterResourceToApplicationPartitionMapping
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster import CpSoftwareClusterToApplicationPartitionMapping
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster import CpSoftwareClusterMappingSet
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster import SystemSignalToCommunicationResourceMapping
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster import SystemSignalGroupToCommunicationResourceMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
+    ClientServerToSignalMapping,
     DataMapping,
     IndexedArrayElement,
     SenderRecArrayElementMapping,
     SenderRecArrayTypeMapping,
     SenderRecCompositeTypeMapping,
+    SenderReceiverCompositeElementToSignalMapping,
     SenderReceiverToSignalGroupMapping,
     SenderReceiverToSignalMapping,
     SenderRecRecordElementMapping,
     SenderRecRecordTypeMapping,
+    TriggerToSignalMapping,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SignalPaths import (
+    CommonSignalPath,
+    ForbiddenSignalPath,
+    PermissibleSignalPath,
+    SeparateSignalPath,
+    SignalPathConstraint,
+    SwcToSwcOperationArguments,
+    SwcToSwcSignal,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection, TpConnection
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import DoIpConfig, DoIpInterface, DoIpLogicTargetAddressProps, DoIpLogicTesterAddressProps, DoIpRoutingActivation
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import CommunicationControllerMapping, ECUMapping, HwPortMapping
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import AppOsTaskProxyToEcuTaskProxyMapping, OsTaskProxy
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import (
+    AppOsTaskProxyToEcuTaskProxyMapping,
+    OsTaskProxy,
+    RteEventInCompositionSeparation,
+    RteEventInCompositionToOsTaskProxyMapping,
+    RteEventInSystemSeparation,
+    RteEventInSystemToOsTaskProxyMapping,
+)
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import (
     CanFrame,
     CanFrameTriggering,
@@ -1127,9 +1155,11 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopolo
     LinSlaveConfig,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import DefaultValueElement, FrameMapping, Gateway, IPduMapping, ISignalMapping, TargetIPduRef
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Dds import DdsCpISignalToDdsTopicMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
     CommConnectorPort,
     ContainedIPduProps,
+    ContainerIPdu,
     DcmIPdu,
     DynamicPart,
     DynamicPartAlternative,
@@ -1208,9 +1238,12 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommu
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import (
     ComponentInSystemInstanceRef,
+    RteEventInCompositionInstanceRef,
+    RteEventInSystemInstanceRef,
     OperationInSystemInstanceRef,
     PortGroupInSystemInstanceRef,
     VariableDataPrototypeInSystemInstanceRef,
+    TriggerInSystemInstanceRef,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import (
     CanNmCluster,
@@ -1235,7 +1268,8 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import 
     UdpNmEcu,
     UdpNmNode,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import ApplicationPartitionToEcuPartitionMapping, SwcToImplMapping
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import ApplicationPartitionToEcuPartitionMapping, EcuResourceEstimation, SwcToImplMapping
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.PncMapping import PncMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     BufferProperties,
     DataPrototypeInPortInterfaceRef,
@@ -5166,6 +5200,25 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.setChildElementOptionalRefType(child_element, "CONTEXT-COMPONENT-REF", component_ref)
             self.setChildElementOptionalRefType(child_element, "TARGET-COMPONENT-REF", ref.getTargetComponentRef())
 
+    def setRteEventInCompositionInstanceRef(self, element: ET.Element, tag_name: str, ref: Optional[RteEventInCompositionInstanceRef]):
+        if ref is not None:
+            child_element = ET.SubElement(element, tag_name)
+            self.writeARObject(child_element, ref)
+            self.setChildElementOptionalRefType(child_element, "BASE-REF", ref.getBaseRef())
+            for component_ref in ref.getContextSwComponentRefs():
+                self.setChildElementOptionalRefType(child_element, "CONTEXT-SW-COMPONENT-REF", component_ref)
+            self.setChildElementOptionalRefType(child_element, "TARGET-RTE-EVENT-REF", ref.getTargetRteEventRef())
+
+    def setRteEventInSystemInstanceRef(self, element: ET.Element, tag_name: str, ref: Optional[RteEventInSystemInstanceRef]):
+        if ref is not None:
+            child_element = ET.SubElement(element, tag_name)
+            self.writeARObject(child_element, ref)
+            self.setChildElementOptionalRefType(child_element, "BASE-REF", ref.getBaseRef())
+            self.setChildElementOptionalRefType(child_element, "CONTEXT-ROOT-COMPOSITION-REF", ref.getContextRootCompositionRef())
+            for component_ref in ref.getContextSwComponentRefs():
+                self.setChildElementOptionalRefType(child_element, "CONTEXT-SW-COMPONENT-REF", component_ref)
+            self.setChildElementOptionalRefType(child_element, "TARGET-RTE-EVENT-REF", ref.getTargetRteEventRef())
+
     def setOperationInSystemInstanceRef(self, element: ET.Element, tag_name: str, ref: Optional[OperationInSystemInstanceRef]):
         if ref is not None:
             child_element = ET.SubElement(element, tag_name)
@@ -5176,6 +5229,17 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.setChildElementOptionalRefType(child_element, "CONTEXT-COMPONENT-REF", component_ref)
             self.setChildElementOptionalRefType(child_element, "CONTEXT-PORT-REF", ref.getContextPortRef())
             self.setChildElementOptionalRefType(child_element, "TARGET-OPERATION-REF", ref.getTargetOperationRef())
+
+    def setTriggerInSystemInstanceRef(self, element: ET.Element, tag_name: str, ref: Optional[TriggerInSystemInstanceRef]):
+        if ref is not None:
+            child_element = ET.SubElement(element, tag_name)
+            self.writeARObject(child_element, ref)
+            self.setChildElementOptionalRefType(child_element, "BASE-REF", ref.getBaseRef())
+            self.setChildElementOptionalRefType(child_element, "CONTEXT-COMPOSITION-REF", ref.getContextCompositionRef())
+            for component_ref in ref.getContextComponentRefs():
+                self.setChildElementOptionalRefType(child_element, "CONTEXT-COMPONENT-REF", component_ref)
+            self.setChildElementOptionalRefType(child_element, "CONTEXT-PORT-REF", ref.getContextPortRef())
+            self.setChildElementOptionalRefType(child_element, "TARGET-TRIGGER-REF", ref.getTargetTriggerRef())
 
     def setPortGroupInSystemInstanceRef(self, element: ET.Element, tag_name: str, ref: PortGroupInSystemInstanceRef):
         if ref is not None:
@@ -10116,6 +10180,32 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalBooleanValue(child_element, "USE-AS-CRYPTOGRAPHIC-I-PDU", i_pdu.getUseAsCryptographicIPdu())
         self.setChildElementOptionalLiteral(child_element, "USE-SECURED-PDU-HEADER", i_pdu.getUseSecuredPduHeader())
 
+    def writeContainerIPdu(self, element: ET.Element, i_pdu: ContainerIPdu):
+        self.logger.debug("Write ContainerIPdu <%s>" % i_pdu.getShortName())
+        child_element = ET.SubElement(element, "CONTAINER-I-PDU")
+        self.writeIPdu(child_element, i_pdu)
+        props = i_pdu.getContainedIPduTriggeringProps()
+        if len(props) > 0:
+            props_tag = ET.SubElement(child_element, "CONTAINED-I-PDU-TRIGGERING-PROPSS")
+            for contained_props in props:
+                if isinstance(contained_props, ContainedIPduProps):
+                    self.writeContainedIPduProps(props_tag, contained_props)
+                else:
+                    self.notImplemented("Unsupported ContainedIPduProps <%s>" % type(contained_props))
+        refs = i_pdu.getContainedPduTriggeringRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(child_element, "CONTAINED-PDU-TRIGGERING-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "CONTAINED-PDU-TRIGGERING-REF", ref)
+        self.setChildElementOptionalTimeValue(child_element, "CONTAINER-TIMEOUT", i_pdu.getContainerTimeout())
+        self.setChildElementOptionalLiteral(child_element, "CONTAINER-TRIGGER", i_pdu.getContainerTrigger())
+        self.setChildElementOptionalLiteral(child_element, "HEADER-TYPE", i_pdu.getHeaderType())
+        self.setChildElementOptionalPositiveInteger(child_element, "MINIMUM-RX-CONTAINER-QUEUE-SIZE", cast(Integer, i_pdu.getMinimumRxContainerQueueSize()))
+        self.setChildElementOptionalPositiveInteger(child_element, "MINIMUM-TX-CONTAINER-QUEUE-SIZE", cast(Integer, i_pdu.getMinimumTxContainerQueueSize()))
+        self.setChildElementOptionalLiteral(child_element, "RX-ACCEPT-CONTAINED-I-PDU", i_pdu.getRxAcceptContainedIPdu())
+        self.setChildElementOptionalPositiveInteger(child_element, "THRESHOLD-SIZE", cast(Integer, i_pdu.getThresholdSize()))
+        self.setChildElementOptionalPositiveInteger(child_element, "UNUSED-BIT-PATTERN", cast(Integer, i_pdu.getUnusedBitPattern()))
+
     def writeTpConfig(self, element: ET.Element, config: TpConfig):
         self.writeIdentifiable(element, config)
         self.setChildElementOptionalRefType(element, "COMMUNICATION-CLUSTER-REF", config.getCommunicationClusterRef())
@@ -13538,6 +13628,156 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setTextTableMapping(child_element, signalToReceiverTextTableMapping_value, "SIGNAL-TO-RECEIVER-TEXT-TABLE-MAPPING")
         self.setChildElementOptionalRefType(child_element, "SYSTEM-SIGNAL-REF", mapping.getSystemSignalRef())
 
+    def writeCommonSignalPath(self, element: ET.Element, path: CommonSignalPath):
+        child_element = ET.SubElement(element, "COMMON-SIGNAL-PATH")
+        self.writeSignalPathConstraint(child_element, path)
+        operations = path.getOperations()
+        if len(operations) > 0:
+            operations_tag = ET.SubElement(child_element, "OPERATIONS")
+            for operation in operations:
+                self.writeSwcToSwcOperationArguments(operations_tag, operation)
+        signals = path.getSignals()
+        if len(signals) > 0:
+            signals_tag = ET.SubElement(child_element, "SIGNALS")
+            for signal in signals:
+                self.writeSwcToSwcSignal(signals_tag, signal)
+
+    def writeForbiddenSignalPath(self, element: ET.Element, path: ForbiddenSignalPath):
+        child_element = ET.SubElement(element, "FORBIDDEN-SIGNAL-PATH")
+        self.writeSignalPathConstraint(child_element, path)
+        operations = path.getOperations()
+        if len(operations) > 0:
+            operations_tag = ET.SubElement(child_element, "OPERATIONS")
+            for operation in operations:
+                self.writeSwcToSwcOperationArguments(operations_tag, operation)
+        refs = path.getPhysicalChannelRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(child_element, "PHYSICAL-CHANNEL-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "PHYSICAL-CHANNEL-REF", ref)
+        signals = path.getSignals()
+        if len(signals) > 0:
+            signals_tag = ET.SubElement(child_element, "SIGNALS")
+            for signal in signals:
+                self.writeSwcToSwcSignal(signals_tag, signal)
+
+    def writePermissibleSignalPath(self, element: ET.Element, path: PermissibleSignalPath):
+        child_element = ET.SubElement(element, "PERMISSIBLE-SIGNAL-PATH")
+        self.writeSignalPathConstraint(child_element, path)
+        operations = path.getOperations()
+        if len(operations) > 0:
+            operations_tag = ET.SubElement(child_element, "OPERATIONS")
+            for operation in operations:
+                self.writeSwcToSwcOperationArguments(operations_tag, operation)
+        refs = path.getPhysicalChannelRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(child_element, "PHYSICAL-CHANNEL-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "PHYSICAL-CHANNEL-REF", ref)
+        signals = path.getSignals()
+        if len(signals) > 0:
+            signals_tag = ET.SubElement(child_element, "SIGNALS")
+            for signal in signals:
+                self.writeSwcToSwcSignal(signals_tag, signal)
+
+    def writeSeparateSignalPath(self, element: ET.Element, path: SeparateSignalPath):
+        child_element = ET.SubElement(element, "SEPARATE-SIGNAL-PATH")
+        self.writeSignalPathConstraint(child_element, path)
+        operations = path.getOperations()
+        if len(operations) > 0:
+            operations_tag = ET.SubElement(child_element, "OPERATIONS")
+            for operation in operations:
+                self.writeSwcToSwcOperationArguments(operations_tag, operation)
+        signals = path.getSignals()
+        if len(signals) > 0:
+            signals_tag = ET.SubElement(child_element, "SIGNALS")
+            for signal in signals:
+                self.writeSwcToSwcSignal(signals_tag, signal)
+
+    def writeSystemMappingSignalPathConstraints(self, element: ET.Element, mapping: SystemMapping):
+        constraints = mapping.getSignalPathConstraints()
+        if len(constraints) > 0:
+            constraints_tag = ET.SubElement(element, "SIGNAL-PATH-CONSTRAINTS")
+            for constraint in constraints:
+                if isinstance(constraint, CommonSignalPath):
+                    self.writeCommonSignalPath(constraints_tag, constraint)
+                elif isinstance(constraint, ForbiddenSignalPath):
+                    self.writeForbiddenSignalPath(constraints_tag, constraint)
+                elif isinstance(constraint, PermissibleSignalPath):
+                    self.writePermissibleSignalPath(constraints_tag, constraint)
+                elif isinstance(constraint, SeparateSignalPath):
+                    self.writeSeparateSignalPath(constraints_tag, constraint)
+                else:
+                    self.notImplemented("Unsupported SignalPathConstraint %s" % type(constraint))
+
+    def writeSignalPathConstraint(self, element: ET.Element, constraint: SignalPathConstraint):
+        self.writeARObject(element, constraint)
+        self.writeDocumentationBlock(element, "INTRODUCTION", constraint.getIntroduction())
+        self.writeVariationPoint(element, constraint.getVariationPoint())
+
+    def writeTriggerToSignalMapping(self, element: ET.Element, mapping: TriggerToSignalMapping):
+        child_element = ET.SubElement(element, "TRIGGER-TO-SIGNAL-MAPPING")
+        self.writeDataMapping(child_element, mapping)
+        self.setTriggerInSystemInstanceRef(child_element, "TRIGGER-IREF", mapping.getTriggerIRef())
+        self.setChildElementOptionalRefType(child_element, "SYSTEM-SIGNAL-REF", mapping.getSystemSignalRef())
+
+    def writeClientServerToSignalMapping(self, element: ET.Element, mapping: ClientServerToSignalMapping):
+        child_element = ET.SubElement(element, "CLIENT-SERVER-TO-SIGNAL-MAPPING")
+        self.writeDataMapping(child_element, mapping)
+        self.setChildElementOptionalRefType(child_element, "CALL-SIGNAL-REF", mapping.getCallSignalRef())
+        self.setOperationInSystemInstanceRef(child_element, "CLIENT-SERVER-OPERATION-IREF", mapping.getClientServerOperationIRef())
+        self.setChildElementOptionalRefType(child_element, "RETURN-SIGNAL-REF", mapping.getReturnSignalRef())
+
+    def writeSenderReceiverCompositeElementToSignalMapping(self, element: ET.Element, mapping: SenderReceiverCompositeElementToSignalMapping):
+        child_element = ET.SubElement(element, "SENDER-RECEIVER-COMPOSITE-ELEMENT-TO-SIGNAL-MAPPING")
+        self.writeDataMapping(child_element, mapping)
+        self.setVariableDataPrototypeInSystemInstanceRef(child_element, "DATA-ELEMENT-IREF", mapping.getDataElementIRef())
+        self.setChildElementOptionalRefType(child_element, "SYSTEM-SIGNAL-REF", mapping.getSystemSignalRef())
+        type_mapping = mapping.getTypeMapping()
+        if type_mapping is not None:
+            complex_element = ET.SubElement(child_element, "TYPE-MAPPING")
+            if isinstance(type_mapping, SenderRecArrayTypeMapping):
+                self.writeSenderRecArrayTypeMapping(complex_element, type_mapping)
+            elif isinstance(type_mapping, SenderRecRecordTypeMapping):
+                self.writeSenderRecRecordTypeMapping(complex_element, type_mapping)
+            else:
+                self.notImplemented("Unsupported Type Mapping %s" % type(type_mapping))
+
+    def writeDdsCpISignalToDdsTopicMapping(self, element: ET.Element, mapping: DdsCpISignalToDdsTopicMapping):
+        child_element = ET.SubElement(element, "DDS-CP-I-SIGNAL-TO-DDS-TOPIC-MAPPING")
+        self.writeARObject(child_element, mapping)
+        self.setChildElementOptionalRefType(child_element, "DDS-TOPIC-REF", mapping.getDdsTopicRef())
+        self.setChildElementOptionalRefType(child_element, "I-SIGNAL-REF", mapping.getISignalRef())
+
+    def writeSystemMappingDdsISignalToTopicMappings(self, element: ET.Element, system_mapping: SystemMapping):
+        topic_mappings = system_mapping.getDdsISignalToTopicMappings()
+        if len(topic_mappings) > 0:
+            child_element = ET.SubElement(element, "DDS-I-SIGNAL-TO-TOPIC-MAPPINGS")
+            for topic_mapping in topic_mappings:
+                if isinstance(topic_mapping, DdsCpISignalToDdsTopicMapping):
+                    self.writeDdsCpISignalToDdsTopicMapping(child_element, topic_mapping)
+                else:
+                    self.notImplemented("Unsupported DdsISignalToTopicMapping %s" % type(topic_mapping))
+
+    def writeSwcToSwcSignal(self, element: ET.Element, signal: SwcToSwcSignal):
+        child_element = ET.SubElement(element, "SWC-TO-SWC-SIGNAL")
+        self.writeARObject(child_element, signal)
+        irefs = signal.getDataElementIRefs()
+        if len(irefs) > 0:
+            irefs_tag = ET.SubElement(child_element, "DATA-ELEMENT-IREFS")
+            for iref in irefs:
+                self.setVariableDataPrototypeInSystemInstanceRef(irefs_tag, "DATA-ELEMENT-IREF", iref)
+
+    def writeSwcToSwcOperationArguments(self, element: ET.Element, arguments: SwcToSwcOperationArguments):
+        child_element = ET.SubElement(element, "SWC-TO-SWC-OPERATION-ARGUMENTS")
+        self.writeARObject(child_element, arguments)
+        self.setChildElementOptionalLiteral(child_element, "DIRECTION", arguments.getDirection())
+        irefs = arguments.getOperationIRefs()
+        if len(irefs) > 0:
+            irefs_tag = ET.SubElement(child_element, "OPERATION-IREFS")
+            for iref in irefs:
+                self.setOperationInSystemInstanceRef(irefs_tag, "OPERATION-IREF", iref)
+
     def writeSenderRecCompositeTypeMapping(self, element: ET.Element, mapping: SenderRecCompositeTypeMapping):
         self.writeARObject(element, mapping)
 
@@ -13564,7 +13804,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.setTextTableMapping(child_element, signalToReceiverTextTableMapping_value, "SIGNAL-TO-RECEIVER-TEXT-TABLE-MAPPING")
             self.setChildElementOptionalRefType(child_element, "SYSTEM-SIGNAL-REF", mapping.getSystemSignalRef())
 
-    def setIndexedArrayElement(self, element: ET.Element, key: str, indexed: IndexedArrayElement):
+    def setIndexedArrayElement(self, element: ET.Element, key: str, indexed: Optional[IndexedArrayElement]):
         if indexed is not None:
             child_element = ET.SubElement(element, key)
             self.writeARObject(child_element, indexed)
@@ -13646,10 +13886,16 @@ class ARXMLWriter(AbstractARXMLWriter):
         if len(data_mappings) > 0:
             child_element = ET.SubElement(element, "DATA-MAPPINGS")
             for data_mapping in data_mappings:
-                if isinstance(data_mapping, SenderReceiverToSignalMapping):
+                if isinstance(data_mapping, ClientServerToSignalMapping):
+                    self.writeClientServerToSignalMapping(child_element, data_mapping)
+                elif isinstance(data_mapping, SenderReceiverCompositeElementToSignalMapping):
+                    self.writeSenderReceiverCompositeElementToSignalMapping(child_element, data_mapping)
+                elif isinstance(data_mapping, SenderReceiverToSignalMapping):
                     self.writeSenderReceiverToSignalMapping(child_element, data_mapping)
                 elif isinstance(data_mapping, SenderReceiverToSignalGroupMapping):
                     self.writeSenderReceiverToSignalGroupMapping(child_element, data_mapping)
+                elif isinstance(data_mapping, TriggerToSignalMapping):
+                    self.writeTriggerToSignalMapping(child_element, data_mapping)
                 else:
                     self.notImplemented("Unsupported Data Mapping %s" % type(data_mapping))
 
@@ -13677,6 +13923,52 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalRefType(child_element, "APP-TASK-PROXY-REF", mapping.getAppTaskProxyRef())
         self.setChildElementOptionalRefType(child_element, "ECU-TASK-PROXY-REF", mapping.getEcuTaskProxyRef())
         self.setChildElementOptionalIntegerValue(child_element, "OFFSET", mapping.getOffset())
+
+    def writeRteEventInCompositionToOsTaskProxyMapping(self, element: ET.Element, mapping: RteEventInCompositionToOsTaskProxyMapping):
+        child_element = ET.SubElement(element, "RTE-EVENT-IN-COMPOSITION-TO-OS-TASK-PROXY-MAPPING")
+        self.writeIdentifiable(child_element, mapping)
+        self.setChildElementOptionalPositiveInteger(child_element, "OFFSET", mapping.getOffset())
+        self.setChildElementOptionalRefType(child_element, "OS-TASK-PROXY-REF", mapping.getOsTaskProxyRef())
+        self.setRteEventInCompositionInstanceRef(child_element, "RTE-EVENT-IREF", mapping.getRteEventIRef())
+
+    def writeRteEventInCompositionSeparation(self, element: ET.Element, separation: RteEventInCompositionSeparation):
+        child_element = ET.SubElement(element, "RTE-EVENT-IN-COMPOSITION-SEPARATION")
+        self.writeIdentifiable(child_element, separation)
+        irefs = separation.getRteEventIRefs()
+        if len(irefs) > 0:
+            irefs_tag = ET.SubElement(child_element, "RTE-EVENT-IREFS")
+            for iref in irefs:
+                self.setRteEventInCompositionInstanceRef(irefs_tag, "RTE-EVENT-IREF", iref)
+
+    def writeRteEventInSystemToOsTaskProxyMapping(self, element: ET.Element, mapping: RteEventInSystemToOsTaskProxyMapping):
+        child_element = ET.SubElement(element, "RTE-EVENT-IN-SYSTEM-TO-OS-TASK-PROXY-MAPPING")
+        self.writeIdentifiable(child_element, mapping)
+        self.setChildElementOptionalIntegerValue(child_element, "OFFSET", mapping.getOffset())
+        self.setChildElementOptionalRefType(child_element, "OS-TASK-PROXY-REF", mapping.getOsTaskProxyRef())
+        self.setRteEventInSystemInstanceRef(child_element, "RTE-EVENT-IREF", mapping.getRteEventIRef())
+
+    def writeRteEventInSystemSeparation(self, element: ET.Element, separation: RteEventInSystemSeparation):
+        child_element = ET.SubElement(element, "RTE-EVENT-IN-SYSTEM-SEPARATION")
+        self.writeIdentifiable(child_element, separation)
+        irefs = separation.getRteEventIRefs()
+        if len(irefs) > 0:
+            irefs_tag = ET.SubElement(child_element, "RTE-EVENT-IREFS")
+            for iref in irefs:
+                self.setRteEventInSystemInstanceRef(irefs_tag, "RTE-EVENT-IREF", iref)
+
+    def writeSystemMappingRteEventSeparations(self, element: ET.Element, mapping: SystemMapping):
+        separations = mapping.getRteEventSeparations()
+        if len(separations) > 0:
+            separations_tag = ET.SubElement(element, "RTE-EVENT-SEPARATIONS")
+            for separation in separations:
+                self.writeRteEventInSystemSeparation(separations_tag, separation)
+
+    def writeSystemMappingRteEventToOsTaskProxyMappings(self, element: ET.Element, mapping: SystemMapping):
+        rte_event_mappings = mapping.getRteEventToOsTaskProxyMappings()
+        if len(rte_event_mappings) > 0:
+            mappings_tag = ET.SubElement(element, "RTE-EVENT-TO-OS-TASK-PROXY-MAPPINGS")
+            for rte_event_mapping in rte_event_mappings:
+                self.writeRteEventInSystemToOsTaskProxyMapping(mappings_tag, rte_event_mapping)
 
     def writeSystemMappingAppOsTaskProxyToEcuTaskProxyMappings(self, element: ET.Element, mapping: SystemMapping):
         app_ecu_mappings = mapping.getAppOsTaskProxyToEcuTaskProxyMappings()
@@ -13736,6 +14028,110 @@ class ARXMLWriter(AbstractARXMLWriter):
                 for hw_port_mapping in hw_port_mappings:
                     self.writeHwPortMapping(mappings_tag, hw_port_mapping)
             self.writeVariationPoint(child_element, mapping.getVariationPoint())
+
+    def writeEcuResourceEstimation(self, element: ET.Element, estimation: EcuResourceEstimation):
+        child_element = ET.SubElement(element, "ECU-RESOURCE-ESTIMATION")
+        self.writeARObject(child_element, estimation)
+        self.writeDocumentationBlock(child_element, "INTRODUCTION", estimation.getIntroduction())
+        bsw = estimation.getBswResourceEstimation()
+        if bsw is not None:
+            bsw_element = ET.SubElement(child_element, "BSW-RESOURCE-ESTIMATION")
+            self.writeIdentifiable(bsw_element, bsw)
+            self.writeAccessCountSets(bsw_element, bsw.getAccessCountSets())
+            self.writeExecutionTimes(bsw_element, bsw.getExecutionTimes())
+            self.writeHeapUsages(bsw_element, bsw.getHeapUsages())
+            self.writeMemorySections(bsw_element, bsw)
+            self.writeSectionNamePrefixes(bsw_element, bsw.getSectionNamePrefixes())
+            self.writeStackUsages(bsw_element, bsw.getStackUsages())
+        self.setChildElementOptionalRefType(child_element, "ECU-INSTANCE-REF", estimation.getEcuInstanceRef())
+        rte = estimation.getRteResourceEstimation()
+        if rte is not None:
+            rte_element = ET.SubElement(child_element, "RTE-RESOURCE-ESTIMATION")
+            self.writeIdentifiable(rte_element, rte)
+            self.writeAccessCountSets(rte_element, rte.getAccessCountSets())
+            self.writeExecutionTimes(rte_element, rte.getExecutionTimes())
+            self.writeHeapUsages(rte_element, rte.getHeapUsages())
+            self.writeMemorySections(rte_element, rte)
+            self.writeSectionNamePrefixes(rte_element, rte.getSectionNamePrefixes())
+            self.writeStackUsages(rte_element, rte.getStackUsages())
+        refs = estimation.getSwCompToEcuMappingRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(child_element, "SW-COMP-TO-ECU-MAPPING-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "SW-COMP-TO-ECU-MAPPING-REF", ref)
+
+    def writeSystemMappingResourceEstimations(self, element: ET.Element, mapping: SystemMapping):
+        estimations = mapping.getResourceEstimations()
+        if len(estimations) > 0:
+            estimations_tag = ET.SubElement(element, "RESOURCE-ESTIMATIONS")
+            for estimation in estimations:
+                if isinstance(estimation, EcuResourceEstimation):
+                    self.writeEcuResourceEstimation(estimations_tag, estimation)
+                else:
+                    self.notImplemented("Unsupported ResourceEstimation %s" % type(estimation))
+
+    def writePncMapping(self, element: ET.Element, mapping: PncMapping):
+        child_element = ET.SubElement(element, "PNC-MAPPING")
+        self.writeDescribable(child_element, mapping)
+        self.writeVariationPointCapable(child_element, mapping)
+        refs = mapping.getDynamicPncMappingPduGroupRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(child_element, "DYNAMIC-PNC-MAPPING-PDU-GROUP-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "DYNAMIC-PNC-MAPPING-PDU-GROUP-REF", ref)
+        ident = mapping.getIdent()
+        if ident is not None:
+            ident_element = ET.SubElement(child_element, "IDENT")
+            self.writeReferrable(ident_element, ident)
+        refs = mapping.getPhysicalChannelRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(child_element, "PHYSICAL-CHANNEL-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "PHYSICAL-CHANNEL-REF", ref)
+        refs = mapping.getPncConsumedProvidedServiceInstanceGroupRefs()
+        if len(refs) > 0:
+            groups_tag = ET.SubElement(child_element, "PNC-CONSUMED-PROVIDED-SERVICE-INSTANCE-GROUPS")
+            for ref in refs:
+                conditional_tag = ET.SubElement(groups_tag, "CONSUMED-PROVIDED-SERVICE-INSTANCE-GROUP-REF-CONDITIONAL")
+                self.setChildElementOptionalRefType(conditional_tag, "CONSUMED-PROVIDED-SERVICE-INSTANCE-GROUP-REF", ref)
+        refs = mapping.getPncGroupRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(child_element, "PNC-GROUP-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "PNC-GROUP-REF", ref)
+        self.setChildElementOptionalPositiveInteger(child_element, "PNC-IDENTIFIER", mapping.getPncIdentifier())
+        refs = mapping.getPncPdurGroupRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(child_element, "PNC-PDUR-GROUP-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "PNC-PDUR-GROUP-REF", ref)
+        self.setChildElementOptionalBooleanValue(child_element, "PNC-WAKEUP-ENABLE", mapping.getPncWakeupEnable())
+        refs = mapping.getRelevantForDynamicPncMappingRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(child_element, "RELEVANT-FOR-DYNAMIC-PNC-MAPPING-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "RELEVANT-FOR-DYNAMIC-PNC-MAPPING-REF", ref)
+        self.setChildElementOptionalIdentifier(child_element, "SHORT-LABEL", mapping.getShortLabel())
+        irefs = mapping.getVfcIRefs()
+        if len(irefs) > 0:
+            irefs_tag = ET.SubElement(child_element, "VFC-IREFS")
+            for iref in irefs:
+                self.setPortGroupInSystemInstanceRef(irefs_tag, "VFC-IREF", iref)
+        refs = mapping.getWakeupFrameRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(child_element, "WAKEUP-FRAME-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "WAKEUP-FRAME-REF", ref)
+
+    def writeSystemMappingPncMappings(self, element: ET.Element, mapping: SystemMapping):
+        pnc_mappings = mapping.getPncMappings()
+        if len(pnc_mappings) > 0:
+            pnc_mappings_tag = ET.SubElement(element, "PNC-MAPPINGS")
+            for pnc_mapping in pnc_mappings:
+                if isinstance(pnc_mapping, PncMapping):
+                    self.writePncMapping(pnc_mappings_tag, pnc_mapping)
+                else:
+                    self.notImplemented("Unsupported PncMapping %s" % type(pnc_mapping))
 
     def writeSystemMappingEcuResourceMappings(self, element: ET.Element, mapping: SystemMapping):
         ecu_resource_mappings = mapping.getEcuResourceMappings()
@@ -14013,9 +14409,20 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeSystemMappingComManagementMappings(child_element, mapping)
         self.writeSystemMappingCryptoServiceMappings(child_element, mapping)
         self.writeSystemMappingDataMappings(child_element, mapping)
+        self.writeSystemMappingDdsISignalToTopicMappings(child_element, mapping)
         self.writeSystemMappingEcuResourceMappings(child_element, mapping)
+        self.writeSystemMappingPncMappings(child_element, mapping)
+        self.writeSystemMappingResourceEstimations(child_element, mapping)
+        self.writeSystemMappingResourceToApplicationPartitionMappings(child_element, mapping)
+        self.writeSystemMappingRteEventSeparations(child_element, mapping)
+        self.writeSystemMappingRteEventToOsTaskProxyMappings(child_element, mapping)
+        self.writeSystemMappingSignalPathConstraints(child_element, mapping)
+        self.writeSystemMappingSoftwareClusterToApplicationPartitionMappings(child_element, mapping)
+        self.writeSystemMappingSwClusterMappings(child_element, mapping)
         self.writeSystemMappingSwImplMappings(child_element, mapping)
         self.writeSystemMappingSwMappings(child_element, mapping)
+        self.writeSystemMappingSystemSignalGroupToComResourceMappings(child_element, mapping)
+        self.writeSystemMappingSystemSignalToComResourceMappings(child_element, mapping)
 
     def writeSystemMappings(self, element: ET.Element, system: System):
         mappings = system.getMappings()
@@ -14161,6 +14568,140 @@ class ARXMLWriter(AbstractARXMLWriter):
             for ref in refs:
                 child_element = ET.SubElement(sw_clusters_tag, "CP-SOFTWARE-CLUSTER-REF-CONDITIONAL")
                 self.setChildElementOptionalRefType(child_element, "CP-SOFTWARE-CLUSTER-REF", ref)
+
+    def writeCpSoftwareClusterToEcuInstanceMapping(self, element: ET.Element, mapping: CpSoftwareClusterToEcuInstanceMapping):
+        child_element = ET.SubElement(element, "CP-SOFTWARE-CLUSTER-TO-ECU-INSTANCE-MAPPING")
+        self.writeIdentifiable(child_element, mapping)
+        self.setChildElementOptionalRefType(child_element, "ECU-INSTANCE-REF", mapping.getEcuInstanceRef())
+        self.setChildElementOptionalPositiveInteger(child_element, "MACHINE-ID", mapping.getMachineId())
+        refs = mapping.getSwClusterRefs()
+        if len(refs) > 0:
+            sw_clusters_tag = ET.SubElement(child_element, "SW-CLUSTERS")
+            for ref in refs:
+                ref_conditional_tag = ET.SubElement(sw_clusters_tag, "CP-SOFTWARE-CLUSTER-REF-CONDITIONAL")
+                self.setChildElementOptionalRefType(ref_conditional_tag, "CP-SOFTWARE-CLUSTER-REF", ref)
+
+    def writeSystemMappingSwClusterMappings(self, element: ET.Element, mapping: SystemMapping):
+        mappings = mapping.getSwClusterMappings()
+        if len(mappings) > 0:
+            mappings_tag = ET.SubElement(element, "SW-CLUSTER-MAPPINGS")
+            for sw_cluster_mapping in mappings:
+                if isinstance(sw_cluster_mapping, CpSoftwareClusterToEcuInstanceMapping):
+                    self.writeCpSoftwareClusterToEcuInstanceMapping(mappings_tag, sw_cluster_mapping)
+                else:
+                    self.notImplemented("Unsupported SwClusterMapping %s" % type(sw_cluster_mapping))
+
+    def writeCpSoftwareClusterResourceToApplicationPartitionMapping(self, element: ET.Element, mapping: CpSoftwareClusterResourceToApplicationPartitionMapping):
+        child_element = ET.SubElement(element, "CP-SOFTWARE-CLUSTER-RESOURCE-TO-APPLICATION-PARTITION-MAPPING")
+        self.writeIdentifiable(child_element, mapping)
+        self.setChildElementOptionalRefType(child_element, "APPLICATION-PARTITION-REF", mapping.getApplicationPartitionRef())
+        self.setChildElementOptionalRefType(child_element, "RESOURCE-REF", mapping.getResourceRef())
+
+    def writeSystemMappingResourceToApplicationPartitionMappings(self, element: ET.Element, mapping: SystemMapping):
+        mappings = mapping.getResourceToApplicationPartitionMappings()
+        if len(mappings) > 0:
+            mappings_tag = ET.SubElement(element, "RESOURCE-TO-APPLICATION-PARTITION-MAPPINGS")
+            for resource_mapping in mappings:
+                if isinstance(resource_mapping, CpSoftwareClusterResourceToApplicationPartitionMapping):
+                    self.writeCpSoftwareClusterResourceToApplicationPartitionMapping(mappings_tag, resource_mapping)
+                else:
+                    self.notImplemented("Unsupported ResourceToApplicationPartitionMapping %s" % type(resource_mapping))
+
+    def writeCpSoftwareClusterToApplicationPartitionMapping(
+        self, element: ET.Element, mapping: CpSoftwareClusterToApplicationPartitionMapping, tag_name: str = "CP-SOFTWARE-CLUSTER-TO-APPLICATION-PARTITION-MAPPING"
+    ):
+        child_element = ET.SubElement(element, tag_name)
+        self.writeIdentifiable(child_element, mapping)
+        refs = mapping.getApplicationPartitionRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(child_element, "APPLICATION-PARTITION-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "APPLICATION-PARTITION-REF", ref)
+        self.setChildElementOptionalRefType(child_element, "SOFTWARE-CLUSTER-REF", mapping.getSoftwareClusterRef())
+
+    def writeSystemMappingSoftwareClusterToApplicationPartitionMappings(self, element: ET.Element, mapping: SystemMapping):
+        mappings = mapping.getSoftwareClusterToApplicationPartitionMappings()
+        if len(mappings) > 0:
+            mappings_tag = ET.SubElement(element, "SOFTWARE-CLUSTER-TO-APPLICATION-PARTITION-MAPPINGS")
+            for sc_mapping in mappings:
+                if isinstance(sc_mapping, CpSoftwareClusterToApplicationPartitionMapping):
+                    self.writeCpSoftwareClusterToApplicationPartitionMapping(mappings_tag, sc_mapping)
+                else:
+                    self.notImplemented("Unsupported SoftwareClusterToApplicationPartitionMapping %s" % type(sc_mapping))
+
+    def writeSystemSignalToCommunicationResourceMapping(self, element: ET.Element, mapping: SystemSignalToCommunicationResourceMapping):
+        child_element = ET.SubElement(element, "SYSTEM-SIGNAL-TO-COMMUNICATION-RESOURCE-MAPPING")
+        self.writeIdentifiable(child_element, mapping)
+        self.setChildElementOptionalRefType(child_element, "SOFTWARE-CLUSTER-COM-RESOURCE-REF", mapping.getSoftwareClusterComResourceRef())
+        self.setChildElementOptionalRefType(child_element, "SYSTEM-SIGNAL-REF", mapping.getSystemSignalRef())
+
+    def writeSystemMappingSystemSignalToComResourceMappings(self, element: ET.Element, mapping: SystemMapping):
+        mappings = mapping.getSystemSignalToComResourceMappings()
+        if len(mappings) > 0:
+            mappings_tag = ET.SubElement(element, "SYSTEM-SIGNAL-TO-COM-RESOURCE-MAPPINGS")
+            for signal_mapping in mappings:
+                if isinstance(signal_mapping, SystemSignalToCommunicationResourceMapping):
+                    self.writeSystemSignalToCommunicationResourceMapping(mappings_tag, signal_mapping)
+                else:
+                    self.notImplemented("Unsupported SystemSignalToComResourceMapping %s" % type(signal_mapping))
+
+    def writeSystemSignalGroupToCommunicationResourceMapping(self, element: ET.Element, mapping: SystemSignalGroupToCommunicationResourceMapping):
+        child_element = ET.SubElement(element, "SYSTEM-SIGNAL-GROUP-TO-COMMUNICATION-RESOURCE-MAPPING")
+        self.writeIdentifiable(child_element, mapping)
+        self.setChildElementOptionalRefType(child_element, "SOFTWARE-CLUSTER-COM-RESOURCE-REF", mapping.getSoftwareClusterComResourceRef())
+        self.setChildElementOptionalRefType(child_element, "SYSTEM-SIGNAL-GROUP-REF", mapping.getSystemSignalGroupRef())
+
+    def writeSystemMappingSystemSignalGroupToComResourceMappings(self, element: ET.Element, mapping: SystemMapping):
+        mappings = mapping.getSystemSignalGroupToComResourceMappings()
+        if len(mappings) > 0:
+            mappings_tag = ET.SubElement(element, "SYSTEM-SIGNAL-GROUP-TO-COM-RESOURCE-MAPPINGS")
+            for group_mapping in mappings:
+                if isinstance(group_mapping, SystemSignalGroupToCommunicationResourceMapping):
+                    self.writeSystemSignalGroupToCommunicationResourceMapping(mappings_tag, group_mapping)
+                else:
+                    self.notImplemented("Unsupported SystemSignalGroupToComResourceMapping %s" % type(group_mapping))
+
+    def writeCpSoftwareClusterMappingSet(self, element: ET.Element, mapping_set: CpSoftwareClusterMappingSet):
+        child_element = ET.SubElement(element, "CP-SOFTWARE-CLUSTER-MAPPING-SET")
+        self.writeARElement(child_element, mapping_set)
+        port_mappings = mapping_set.getPortElementToComResourceMappings()
+        if len(port_mappings) > 0:
+            mappings_tag = ET.SubElement(child_element, "PORT-ELEMENT-TO-COM-RESOURCE-MAPPINGS")
+            for port_mapping in port_mappings:
+                if isinstance(port_mapping, PortElementToCommunicationResourceMapping):
+                    port_element = ET.SubElement(mappings_tag, "PORT-ELEMENT-TO-COMMUNICATION-RESOURCE-MAPPING")
+                    self.writeIdentifiable(port_element, port_mapping)
+                else:
+                    self.notImplemented("Unsupported PortElementToComResourceMapping %s" % type(port_mapping))
+        res_mappings = mapping_set.getResourceToApplicationPartitionMappings()
+        if len(res_mappings) > 0:
+            mappings_tag = ET.SubElement(child_element, "RESOURCE-TO-APPLICATION-PARTITION-MAPPINGS")
+            for resource_mapping in res_mappings:
+                if isinstance(resource_mapping, CpSoftwareClusterResourceToApplicationPartitionMapping):
+                    self.writeCpSoftwareClusterResourceToApplicationPartitionMapping(mappings_tag, resource_mapping)
+                else:
+                    self.notImplemented("Unsupported ResourceToApplicationPartitionMapping %s" % type(resource_mapping))
+        sc_mapping = mapping_set.getSoftwareClusterToApplicationPartitionMapping()
+        if sc_mapping is not None:
+            self.writeCpSoftwareClusterToApplicationPartitionMapping(child_element, sc_mapping, tag_name="SOFTWARE-CLUSTER-TO-APPLICATION-PARTITION-MAPPING")
+        scr_mappings = mapping_set.getSoftwareClusterToResourceMappings()
+        if len(scr_mappings) > 0:
+            mappings_tag = ET.SubElement(child_element, "SOFTWARE-CLUSTER-TO-RESOURCE-MAPPINGS")
+            for scr_mapping in scr_mappings:
+                if isinstance(scr_mapping, CpSoftwareClusterToResourceMapping):
+                    scr_element = ET.SubElement(mappings_tag, "CP-SOFTWARE-CLUSTER-TO-RESOURCE-MAPPING")
+                    self.writeIdentifiable(scr_element, scr_mapping)
+                else:
+                    self.notImplemented("Unsupported SoftwareClusterToResourceMapping %s" % type(scr_mapping))
+        swc_mappings = mapping_set.getSwcToApplicationPartitionMappings()
+        if len(swc_mappings) > 0:
+            mappings_tag = ET.SubElement(child_element, "SWC-TO-APPLICATION-PARTITION-MAPPINGS")
+            for swc_mapping in swc_mappings:
+                if isinstance(swc_mapping, SwcToApplicationPartitionMapping):
+                    swc_element = ET.SubElement(mappings_tag, "SWC-TO-APPLICATION-PARTITION-MAPPING")
+                    self.writeIdentifiable(swc_element, swc_mapping)
+                else:
+                    self.notImplemented("Unsupported SwcToApplicationPartitionMapping %s" % type(swc_mapping))
 
     def writeSystem(self, element: ET.Element, system: System):
         self.logger.debug("Write System %s" % system.getShortName())
@@ -18159,6 +18700,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDcmIPdu(element, ar_element)
         elif isinstance(ar_element, SecuredIPdu):
             self.writeSecuredIPdu(element, ar_element)
+        elif isinstance(ar_element, ContainerIPdu):
+            self.writeContainerIPdu(element, ar_element)
         elif isinstance(ar_element, CanTpConfig):
             self.writeCanTpConfig(element, ar_element)
         elif isinstance(ar_element, LinTpConfig):
@@ -18181,6 +18724,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeClientIdDefinitionSet(element, ar_element)
         elif isinstance(ar_element, CpSoftwareCluster):
             self.writeCpSoftwareCluster(element, ar_element)
+        elif isinstance(ar_element, CpSoftwareClusterMappingSet):
+            self.writeCpSoftwareClusterMappingSet(element, ar_element)
         elif isinstance(ar_element, InterpolationRoutineMappingSet):
             self.writeInterpolationRoutineMappingSet(element, ar_element)
         elif isinstance(ar_element, System):

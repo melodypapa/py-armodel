@@ -87,6 +87,146 @@ class VariableDataPrototypeInSystemInstanceRef(AtpInstanceRef):
         return self
 
 
+class RteEventInCompositionInstanceRef(AtpInstanceRef):
+    """
+    Instance reference to an RTEEvent in the context of a SwComposition.
+    """
+
+    # RteEventInCompositionInstanceRef method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate (R23-11 XSD), class RteEventInCompositionInstanceRef, AUTOSAR_00052.xsd line 100418 (XSD-only; no own table in repo corpus)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBaseRef                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBaseRef                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getContextSwComponentRefs  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addContextSwComponentRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTargetRteEventRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTargetRteEventRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # Stereotypes: atpDerived
+        self.baseRef: Optional[RefType] = None
+
+        # Tags: xml.sequenceOffset=20
+        self.contextSwComponentRefs: List[RefType] = []
+
+        # Tags: xml.sequenceOffset=30
+        self.targetRteEventRef: Optional[RefType] = None
+
+    def getBaseRef(self) -> Optional[RefType]:
+        """Stereotypes: atpDerived"""
+        return self.baseRef
+
+    def setBaseRef(self, value: Optional[RefType]) -> "RteEventInCompositionInstanceRef":
+        """Stereotypes: atpDerived
+        A None value is a no-op and does not overwrite an existing baseRef."""
+        if value is not None:
+            self.baseRef = value
+        return self
+
+    def getContextSwComponentRefs(self) -> List[RefType]:
+        """Tags: xml.sequenceOffset=20"""
+        return self.contextSwComponentRefs
+
+    def addContextSwComponentRef(self, value: Optional[RefType]) -> "RteEventInCompositionInstanceRef":
+        """Tags: xml.sequenceOffset=20
+        A None value is a no-op and does not append anything."""
+        if value is not None:
+            self.contextSwComponentRefs.append(value)
+        return self
+
+    def getTargetRteEventRef(self) -> Optional[RefType]:
+        """Tags: xml.sequenceOffset=30"""
+        return self.targetRteEventRef
+
+    def setTargetRteEventRef(self, value: Optional[RefType]) -> "RteEventInCompositionInstanceRef":
+        """Tags: xml.sequenceOffset=30
+        A None value is a no-op and does not overwrite an existing targetRteEventRef."""
+        if value is not None:
+            self.targetRteEventRef = value
+        return self
+
+
+class RteEventInSystemInstanceRef(AtpInstanceRef):
+    """
+    Instance reference to an RTEEvent in the context of a System.
+    """
+
+    # RteEventInSystemInstanceRef method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate (R23-11 XSD), class RteEventInSystemInstanceRef, AUTOSAR_00052.xsd line 100618 (XSD-only; no own table in repo corpus)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBaseRef                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBaseRef                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getContextRootCompositionRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setContextRootCompositionRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getContextSwComponentRefs   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addContextSwComponentRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTargetRteEventRef        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTargetRteEventRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # Stereotypes: atpDerived Tags: xml.sequenceOffset=10
+        self.baseRef: Optional[RefType] = None
+
+        # Tags: xml.sequenceOffset=20
+        self.contextRootCompositionRef: Optional[RefType] = None
+
+        # Tags: xml.sequenceOffset=30
+        self.contextSwComponentRefs: List[RefType] = []
+
+        # Tags: xml.sequenceOffset=40
+        self.targetRteEventRef: Optional[RefType] = None
+
+    def getBaseRef(self) -> Optional[RefType]:
+        """Stereotypes: atpDerived Tags: xml.sequenceOffset=10"""
+        return self.baseRef
+
+    def setBaseRef(self, value: Optional[RefType]) -> "RteEventInSystemInstanceRef":
+        """Stereotypes: atpDerived Tags: xml.sequenceOffset=10
+        A None value is a no-op and does not overwrite an existing baseRef."""
+        if value is not None:
+            self.baseRef = value
+        return self
+
+    def getContextRootCompositionRef(self) -> Optional[RefType]:
+        """Tags: xml.sequenceOffset=20"""
+        return self.contextRootCompositionRef
+
+    def setContextRootCompositionRef(self, value: Optional[RefType]) -> "RteEventInSystemInstanceRef":
+        """Tags: xml.sequenceOffset=20
+        A None value is a no-op and does not overwrite an existing contextRootCompositionRef."""
+        if value is not None:
+            self.contextRootCompositionRef = value
+        return self
+
+    def getContextSwComponentRefs(self) -> List[RefType]:
+        """Tags: xml.sequenceOffset=30"""
+        return self.contextSwComponentRefs
+
+    def addContextSwComponentRef(self, value: Optional[RefType]) -> "RteEventInSystemInstanceRef":
+        """Tags: xml.sequenceOffset=30
+        A None value is a no-op and does not append anything."""
+        if value is not None:
+            self.contextSwComponentRefs.append(value)
+        return self
+
+    def getTargetRteEventRef(self) -> Optional[RefType]:
+        """Tags: xml.sequenceOffset=40"""
+        return self.targetRteEventRef
+
+    def setTargetRteEventRef(self, value: Optional[RefType]) -> "RteEventInSystemInstanceRef":
+        """Tags: xml.sequenceOffset=40
+        A None value is a no-op and does not overwrite an existing targetRteEventRef."""
+        if value is not None:
+            self.targetRteEventRef = value
+        return self
+
+
 class ComponentInSystemInstanceRef(AtpInstanceRef):
     """
     If the referenced SwComponentPrototype is located within the RootSwCompositionPrototype of a System then the contextComposition to the RootSwCompositionPrototype shall be provided. In this scenario we have a System Extract where the RootSwComposition may contain other compositions. If the referenced SwComponentPrototype is the RootSwCompositionPrototype itself then contextComposition reference to the RootSwCompositionPrototype shall be skipped and only the targetComponent to the RootSwCompositionPrototype shall be used. In this scenario we have an Ecu Extract where the RootSwComposition contains PortPrototypes that describe the external communication.
@@ -337,4 +477,98 @@ class PortGroupInSystemInstanceRef(AtpInstanceRef):
         A None value is a no-op and does not overwrite an existing targetRef."""
         if value is not None:
             self.targetRef = value
+        return self
+
+
+class TriggerInSystemInstanceRef(AtpInstanceRef):
+    """
+    If the referenced Trigger is part of a PortInterface of a SwComponentPrototype that is located within the RootSwCompositionPrototype then the base reference and the contextComposition reference to the RootSwCompositionPrototype shall be provided. If the referenced Trigger is part of a PortInterface of the RootSwCompositionPrototype itself then the base reference and the contextComposition reference to the RootSwCompositionPrototype shall be skipped and the RootSwCompositionPrototype shall be referenced as contextComponent.
+    """
+
+    # TriggerInSystemInstanceRef method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table B.4, p.1005
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBaseRef                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBaseRef                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getContextComponentRefs      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addContextComponentRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getContextCompositionRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setContextCompositionRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getContextPortRef            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setContextPortRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTargetTriggerRef          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTargetTriggerRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # This represents that base of the InstanceRef Stereotypes: atpDerived Tags: xml.sequenceOffset=10
+        self.baseRef: Optional[RefType] = None
+
+        # This represents the set of context components. The association is ordered because it needs to respect the nesting order. Tags: xml.sequenceOffset=30
+        self.contextComponentRefs: List[RefType] = []
+
+        # This represents the reference to the RootSwCompositiontype representing a context of the InstanceRef. Tags: xml.sequenceOffset=20
+        self.contextCompositionRef: Optional[RefType] = None
+
+        # This represents the PortPrototype in which the target Trigger is located. Tags: xml.sequenceOffset=40
+        self.contextPortRef: Optional[RefType] = None
+
+        # This represents the target Trigger. Tags: xml.sequenceOffset=50
+        self.targetTriggerRef: Optional[RefType] = None
+
+    def getBaseRef(self) -> Optional[RefType]:
+        """This represents that base of the InstanceRef Stereotypes: atpDerived Tags: xml.sequenceOffset=10"""
+        return self.baseRef
+
+    def setBaseRef(self, value: Optional[RefType]) -> "TriggerInSystemInstanceRef":
+        """This represents that base of the InstanceRef Stereotypes: atpDerived Tags: xml.sequenceOffset=10
+        A None value is a no-op and does not overwrite an existing baseRef."""
+        if value is not None:
+            self.baseRef = value
+        return self
+
+    def getContextComponentRefs(self) -> List[RefType]:
+        """This represents the set of context components. The association is ordered because it needs to respect the nesting order. Tags: xml.sequenceOffset=30"""
+        return self.contextComponentRefs
+
+    def addContextComponentRef(self, value: Optional[RefType]) -> "TriggerInSystemInstanceRef":
+        """This represents the set of context components. The association is ordered because it needs to respect the nesting order. Tags: xml.sequenceOffset=30
+        A None value is a no-op and does not extend the contextComponentRefs list."""
+        if value is not None:
+            self.contextComponentRefs.append(value)
+        return self
+
+    def getContextCompositionRef(self) -> Optional[RefType]:
+        """This represents the reference to the RootSwCompositiontype representing a context of the InstanceRef. Tags: xml.sequenceOffset=20"""
+        return self.contextCompositionRef
+
+    def setContextCompositionRef(self, value: Optional[RefType]) -> "TriggerInSystemInstanceRef":
+        """This represents the reference to the RootSwCompositiontype representing a context of the InstanceRef. Tags: xml.sequenceOffset=20
+        A None value is a no-op and does not overwrite an existing contextCompositionRef."""
+        if value is not None:
+            self.contextCompositionRef = value
+        return self
+
+    def getContextPortRef(self) -> Optional[RefType]:
+        """This represents the PortPrototype in which the target Trigger is located. Tags: xml.sequenceOffset=40"""
+        return self.contextPortRef
+
+    def setContextPortRef(self, value: Optional[RefType]) -> "TriggerInSystemInstanceRef":
+        """This represents the PortPrototype in which the target Trigger is located. Tags: xml.sequenceOffset=40
+        A None value is a no-op and does not overwrite an existing contextPortRef."""
+        if value is not None:
+            self.contextPortRef = value
+        return self
+
+    def getTargetTriggerRef(self) -> Optional[RefType]:
+        """This represents the target Trigger. Tags: xml.sequenceOffset=50"""
+        return self.targetTriggerRef
+
+    def setTargetTriggerRef(self, value: Optional[RefType]) -> "TriggerInSystemInstanceRef":
+        """This represents the target Trigger. Tags: xml.sequenceOffset=50
+        A None value is a no-op and does not overwrite an existing targetTriggerRef."""
+        if value is not None:
+            self.targetTriggerRef = value
         return self

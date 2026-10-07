@@ -3,18 +3,39 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpPrototype, AtpStructureElement
 from armodel.models.M2.MSR.Documentation.Chapters import Chapter
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import DataMapping
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import DataMapping, TriggerToSignalMapping
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Dds import DdsCpISignalToDdsTopicMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import CryptoServiceMapping, SecOcCryptoServiceMapping, TlsCryptoServiceMapping
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import AppOsTaskProxyToEcuTaskProxyMapping, OsTaskPreemptabilityEnum, OsTaskProxy
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import (
+    AppOsTaskProxyToEcuTaskProxyMapping,
+    OsTaskPreemptabilityEnum,
+    OsTaskProxy,
+    RteEventInCompositionSeparation,
+    RteEventInCompositionToOsTaskProxyMapping,
+    RteEventInSystemSeparation,
+    RteEventInSystemToOsTaskProxyMapping,
+)
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import ECUMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import (
     ComponentInSystemInstanceRef,
     OperationInSystemInstanceRef,
     PortGroupInSystemInstanceRef,
+    TriggerInSystemInstanceRef,
     VariableDataPrototypeInSystemInstanceRef,
 )
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.PncMapping import PncMapping, PncMappingIdent
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SignalPaths import CommonSignalPath, SignalPathConstraint, SwcToSwcOperationArguments, SwcToSwcOperationArgumentsDirectionEnum, SwcToSwcSignal
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import ApplicationPartitionToEcuPartitionMapping, SwcToEcuMapping, SwcToImplMapping
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster import CpSoftwareCluster, SwComponentPrototypeAssignment
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster import (
+    CpSoftwareCluster,
+    CpSoftwareClusterMappingSet,
+    CpSoftwareClusterResourceToApplicationPartitionMapping,
+    CpSoftwareClusterToApplicationPartitionMapping,
+    CpSoftwareClusterToEcuInstanceMapping,
+    SwComponentPrototypeAssignment,
+    SystemSignalGroupToCommunicationResourceMapping,
+    SystemSignalToCommunicationResourceMapping,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
@@ -130,7 +151,7 @@ class SystemMapping(Identifiable, VariationPointCapable):
     # [ ] addCryptoServiceMapping      [x] impl  [ ] docstring  [ ] test
     # [ ] getDataMappings              [x] impl  [ ] docstring  [ ] test
     # [ ] addDataMapping               [x] impl  [ ] docstring  [ ] test
-    # [ ] getDdsISignalToTopicMapping  [x] impl  [ ] docstring  [ ] test
+    # [ ] getDdsISignalToTopicMappings  [x] impl  [ ] docstring  [ ] test
     # [ ] addDdsISignalToTopicMapping  [x] impl  [ ] docstring  [ ] test
     # [ ] getEcuResourceMappings       [x] impl  [ ] docstring  [ ] test
     # [ ] createECUMapping             [x] impl  [ ] docstring  [ ] test
@@ -178,7 +199,7 @@ class SystemMapping(Identifiable, VariationPointCapable):
         self.comManagementMappings: List[ComManagementMapping] = []
         self.cryptoServiceMappings: List[CryptoServiceMapping] = []
         self.dataMappings: List[DataMapping] = []
-        self.ddsISignalToTopicMappings: List = []
+        self.ddsISignalToTopicMappings: List[DdsCpISignalToDdsTopicMapping] = []
         self.ecuResourceMappings: List[ECUMapping] = []
         self.j1939ControllerApplicationToJ1939NmNodeMappings: List = []
         self.mappingConstraints: List = []
@@ -268,7 +289,7 @@ class SystemMapping(Identifiable, VariationPointCapable):
         self.dataMappings.append(value)
         return self
 
-    def getDdsISignalToTopicMapping(self):
+    def getDdsISignalToTopicMappings(self) -> List[DdsCpISignalToDdsTopicMapping]:
         return self.ddsISignalToTopicMappings
 
     def addDdsISignalToTopicMapping(self, value):
@@ -922,6 +943,10 @@ __all__ = [
     "ApplicationPartitionToEcuPartitionMapping",
     "ARElement",
     "AppOsTaskProxyToEcuTaskProxyMapping",
+    "RteEventInCompositionSeparation",
+    "RteEventInCompositionToOsTaskProxyMapping",
+    "RteEventInSystemSeparation",
+    "RteEventInSystemToOsTaskProxyMapping",
     "ARObject",
     "AtpPrototype",
     "AtpStructureElement",
@@ -929,6 +954,7 @@ __all__ = [
     "Chapter",
     "ClientIdDefinition",
     "ClientIdDefinitionSet",
+    "CommonSignalPath",
     "ComponentInSystemInstanceRef",
     "ComManagementMapping",
     "CryptoServiceMapping",
@@ -939,12 +965,26 @@ __all__ = [
     "OperationInSystemInstanceRef",
     "OsTaskPreemptabilityEnum",
     "OsTaskProxy",
+    "PncMapping",
+    "PncMappingIdent",
     "PortGroupInSystemInstanceRef",
     "PositiveInteger",
     "RefType",
     "RevisionLabelString",
     "RootSwCompositionPrototype",
+    "SignalPathConstraint",
     "SwComponentPrototypeAssignment",
+    "SwcToSwcOperationArguments",
+    "SwcToSwcOperationArgumentsDirectionEnum",
+    "SwcToSwcSignal",
+    "CpSoftwareClusterToEcuInstanceMapping",
+    "CpSoftwareClusterResourceToApplicationPartitionMapping",
+    "CpSoftwareClusterToApplicationPartitionMapping",
+    "CpSoftwareClusterMappingSet",
+    "SystemSignalGroupToCommunicationResourceMapping",
+    "SystemSignalToCommunicationResourceMapping",
+    "TriggerInSystemInstanceRef",
+    "TriggerToSignalMapping",
     "CpSoftwareCluster",
     "SwcToEcuMapping",
     "SwcToImplMapping",

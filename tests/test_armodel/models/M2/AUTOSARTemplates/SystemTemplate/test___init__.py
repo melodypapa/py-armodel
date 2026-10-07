@@ -99,7 +99,7 @@ class TestSystemTemplate:
         assert mapping.getComManagementMappings() == []
         assert mapping.getCryptoServiceMappings() == []
         assert mapping.getDataMappings() == []
-        assert mapping.getDdsISignalToTopicMapping() == []
+        assert mapping.getDdsISignalToTopicMappings() == []
         assert mapping.getEcuResourceMappings() == []
         assert mapping.getJ1939ControllerApplicationToJ1939NmNodeMappings() == []
         assert mapping.getMappingConstraints() == []
@@ -141,7 +141,7 @@ class TestSystemTemplate:
         assert mapping == mapping.addDataMapping("data_mapping2")
 
         mapping.addDdsISignalToTopicMapping("dds_mapping")
-        assert "dds_mapping" in mapping.getDdsISignalToTopicMapping()
+        assert "dds_mapping" in mapping.getDdsISignalToTopicMappings()
         assert mapping == mapping.addDdsISignalToTopicMapping("dds_mapping2")
 
         mapping.addJ1939ControllerApplicationToJ1939NmNodeMapping("j1939_mapping")

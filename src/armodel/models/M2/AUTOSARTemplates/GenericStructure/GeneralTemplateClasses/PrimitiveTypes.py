@@ -1693,14 +1693,6 @@ class AdditionalBindingTimeEnum(AREnum):
         )
 
 
-class ContainerIPduHeaderTypeEnum(AREnum):
-    pass
-
-
-class ContainerIPduTriggerEnum(AREnum):
-    pass
-
-
 class CryptoServiceKeyGenerationEnum(AREnum):
     pass
 
@@ -2911,10 +2903,6 @@ class MirroringProtocolEnum(AREnum):
     pass
 
 
-class RxAcceptContainedIPduEnum(AREnum):
-    pass
-
-
 class SecurityEventContextDataSourceEnum(AREnum):
     pass
 
@@ -2928,8 +2916,4 @@ class SendIndicationEnum(AREnum):
 
 
 class SeverityEnum(AREnum):
-    pass
-
-
-class SwcToSwcOperationArgumentsDirectionEnum(AREnum):
     pass

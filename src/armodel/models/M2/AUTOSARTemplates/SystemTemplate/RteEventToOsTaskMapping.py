@@ -1,12 +1,13 @@
 # This module contains AUTOSAR System Template classes for RTE event to OS task mapping
 # It defines mappings between application and ECU task proxies for real-time execution
 
-from typing import Optional
+from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Integer, PositiveInteger, RefType, TimeValue
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import RteEventInCompositionInstanceRef, RteEventInSystemInstanceRef
 
 
 class AppOsTaskProxyToEcuTaskProxyMapping(Identifiable):
@@ -85,6 +86,230 @@ class AppOsTaskProxyToEcuTaskProxyMapping(Identifiable):
         if value is not None:
             self.offset = value
         return self
+
+
+class RteEventInCompositionToOsTaskProxyMapping(Identifiable):
+    """
+    This meta-class is used to map an RteEvent to an OsTaskProxy in the context of a SwComposition. Several RteEventInCompositionToOsTaskProxyMappings can be used to define a pairing constraint that describes which RteEvents shall be mapped together into an OsTask. Optionally the relative position of the RteEvents in the OsTask can be defined in the mapping.
+    """
+
+    # RteEventInCompositionToOsTaskProxyMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 5.18, p.212
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getOffset         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOffset         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOsTaskProxyRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOsTaskProxyRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRteEventIRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRteEventIRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent, short_name):
+        super().__init__(parent, short_name)
+
+        # This attribute is used to describe the position of the Rte Event in the OsTask as a relative value, i.e. the values show only the relative position of the RteEvent in the Os Task.
+        self.offset: Optional[PositiveInteger] = None
+
+        # Reference to OsTaskProxy to which the RteEvent is mapped.
+        self.osTaskProxyRef: Optional[RefType] = None
+
+        # Reference to RteEvent that is mapped to the OsTask Proxy. InstanceRef implemented by: RteEventInComposition InstanceRef
+        self.rteEventIRef: Optional[RteEventInCompositionInstanceRef] = None
+
+    def getOffset(self) -> Optional[PositiveInteger]:
+        """
+        This attribute is used to describe the position of the Rte Event in the OsTask as a relative value, i.e. the values show only the relative position of the RteEvent in the Os Task.
+        """
+        return self.offset
+
+    def setOffset(self, value: Optional[PositiveInteger]) -> "RteEventInCompositionToOsTaskProxyMapping":
+        """
+        This attribute is used to describe the position of the Rte Event in the OsTask as a relative value, i.e. the values show only the relative position of the RteEvent in the Os Task.
+
+        A None value is a no-op and does not overwrite an existing offset.
+        """
+        if value is not None:
+            self.offset = value
+        return self
+
+    def getOsTaskProxyRef(self) -> Optional[RefType]:
+        """
+        Reference to OsTaskProxy to which the RteEvent is mapped.
+        """
+        return self.osTaskProxyRef
+
+    def setOsTaskProxyRef(self, value: Optional[RefType]) -> "RteEventInCompositionToOsTaskProxyMapping":
+        """
+        Reference to OsTaskProxy to which the RteEvent is mapped.
+
+        A None value is a no-op and does not overwrite an existing osTaskProxyRef.
+        """
+        if value is not None:
+            self.osTaskProxyRef = value
+        return self
+
+    def getRteEventIRef(self) -> Optional[RteEventInCompositionInstanceRef]:
+        """
+        Reference to RteEvent that is mapped to the OsTask Proxy. InstanceRef implemented by: RteEventInComposition InstanceRef
+        """
+        return self.rteEventIRef
+
+    def setRteEventIRef(self, value: Optional[RteEventInCompositionInstanceRef]) -> "RteEventInCompositionToOsTaskProxyMapping":
+        """
+        Reference to RteEvent that is mapped to the OsTask Proxy. InstanceRef implemented by: RteEventInComposition InstanceRef
+
+        A None value is a no-op and does not overwrite an existing rteEventIRef.
+        """
+        if value is not None:
+            self.rteEventIRef = value
+        return self
+
+
+class RteEventInCompositionSeparation(Identifiable):
+    """
+    This meta-class is used to define a separation constraint in the context of a SwComposition. The referenced RteEvents are not allowed to be mapped into the same OsTask.
+    """
+
+    # RteEventInCompositionSeparation method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 5.19, p.212
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addRteEventIRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRteEventIRefs    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent, short_name):
+        super().__init__(parent, short_name)
+
+        # Reference to RteEvents that are not allowed to be mapped into the same OsTask. InstanceRef implemented by: RteEventInComposition InstanceRef
+        self.rteEventIRefs: List[RteEventInCompositionInstanceRef] = []
+
+    def addRteEventIRef(self, value: Optional[RteEventInCompositionInstanceRef]) -> "RteEventInCompositionSeparation":
+        """
+        Reference to RteEvents that are not allowed to be mapped into the same OsTask. InstanceRef implemented by: RteEventInComposition InstanceRef
+
+        A None value is a no-op and does not append anything.
+        """
+        if value is not None:
+            self.rteEventIRefs.append(value)
+        return self
+
+    def getRteEventIRefs(self) -> List[RteEventInCompositionInstanceRef]:
+        """
+        Reference to RteEvents that are not allowed to be mapped into the same OsTask. InstanceRef implemented by: RteEventInComposition InstanceRef
+        """
+        return self.rteEventIRefs
+
+
+class RteEventInSystemToOsTaskProxyMapping(Identifiable):
+    """
+    This meta-class is used to map an RteEvent to an OsTaskProxy in the context of the System. Several Rte EventToOsTaskProxyMappings can be used to define a pairing constraint that describes which Rte Events shall be mapped together into an OsTask. Optionally the position of the RteEvents in the OsTask can be defined.
+    """
+
+    # RteEventInSystemToOsTaskProxyMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 5.20, p.214
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getOffset         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOffset         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOsTaskProxyRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOsTaskProxyRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRteEventIRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRteEventIRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent, short_name):
+        super().__init__(parent, short_name)
+
+        # This attribute is used to describe the position of the Rte Event in the OsTask as a relative value, i.e. the values show only the relative position of the RteEvent in the Os Task.
+        self.offset: Optional[Integer] = None
+
+        # Reference to OsTaskProxy to which the RteEvent is mapped.
+        self.osTaskProxyRef: Optional[RefType] = None
+
+        # Reference to RteEvent that is mapped to the OsTask Proxy. InstanceRef implemented by: RteEventInSystem InstanceRef
+        self.rteEventIRef: Optional[RteEventInSystemInstanceRef] = None
+
+    def getOffset(self) -> Optional[Integer]:
+        """
+        This attribute is used to describe the position of the Rte Event in the OsTask as a relative value, i.e. the values show only the relative position of the RteEvent in the Os Task.
+        """
+        return self.offset
+
+    def setOffset(self, value: Optional[Integer]) -> "RteEventInSystemToOsTaskProxyMapping":
+        """
+        This attribute is used to describe the position of the Rte Event in the OsTask as a relative value, i.e. the values show only the relative position of the RteEvent in the Os Task.
+
+        A None value is a no-op and does not overwrite an existing offset.
+        """
+        if value is not None:
+            self.offset = value
+        return self
+
+    def getOsTaskProxyRef(self) -> Optional[RefType]:
+        """
+        Reference to OsTaskProxy to which the RteEvent is mapped.
+        """
+        return self.osTaskProxyRef
+
+    def setOsTaskProxyRef(self, value: Optional[RefType]) -> "RteEventInSystemToOsTaskProxyMapping":
+        """
+        Reference to OsTaskProxy to which the RteEvent is mapped.
+
+        A None value is a no-op and does not overwrite an existing osTaskProxyRef.
+        """
+        if value is not None:
+            self.osTaskProxyRef = value
+        return self
+
+    def getRteEventIRef(self) -> Optional[RteEventInSystemInstanceRef]:
+        """
+        Reference to RteEvent that is mapped to the OsTask Proxy. InstanceRef implemented by: RteEventInSystem InstanceRef
+        """
+        return self.rteEventIRef
+
+    def setRteEventIRef(self, value: Optional[RteEventInSystemInstanceRef]) -> "RteEventInSystemToOsTaskProxyMapping":
+        """
+        Reference to RteEvent that is mapped to the OsTask Proxy. InstanceRef implemented by: RteEventInSystem InstanceRef
+
+        A None value is a no-op and does not overwrite an existing rteEventIRef.
+        """
+        if value is not None:
+            self.rteEventIRef = value
+        return self
+
+
+class RteEventInSystemSeparation(Identifiable):
+    """
+    This meta-class is used to define a separation constraint in the context of the System. The referenced RteEvents are not allowed to be mapped into the same OsTask.
+    """
+
+    # RteEventInSystemSeparation method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 5.21, p.214
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addRteEventIRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRteEventIRefs    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent, short_name):
+        super().__init__(parent, short_name)
+
+        # Reference to RteEvents that are not allowed to be mapped into the same OsTask. InstanceRef implemented by: RteEventInSystem InstanceRef
+        self.rteEventIRefs: List[RteEventInSystemInstanceRef] = []
+
+    def addRteEventIRef(self, value: Optional[RteEventInSystemInstanceRef]) -> "RteEventInSystemSeparation":
+        """
+        Reference to RteEvents that are not allowed to be mapped into the same OsTask. InstanceRef implemented by: RteEventInSystem InstanceRef
+
+        A None value is a no-op and does not append anything.
+        """
+        if value is not None:
+            self.rteEventIRefs.append(value)
+        return self
+
+    def getRteEventIRefs(self) -> List[RteEventInSystemInstanceRef]:
+        """
+        Reference to RteEvents that are not allowed to be mapped into the same OsTask. InstanceRef implemented by: RteEventInSystem InstanceRef
+        """
+        return self.rteEventIRefs
 
 
 class OsTaskPreemptabilityEnum(AREnum):

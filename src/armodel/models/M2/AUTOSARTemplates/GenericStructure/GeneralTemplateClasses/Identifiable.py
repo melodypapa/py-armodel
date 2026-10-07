@@ -1474,18 +1474,6 @@ class BinaryManifestResourceDefinition(Identifiable):
     pass
 
 
-class CpSoftwareClusterResourceToApplicationPartitionMapping(Identifiable):
-    pass
-
-
-class CpSoftwareClusterToApplicationPartitionMapping(Identifiable):
-    pass
-
-
-class CpSoftwareClusterToEcuInstanceMapping(Identifiable):
-    pass
-
-
 class CpSoftwareClusterToResourceMapping(Identifiable):
     pass
 
@@ -1929,14 +1917,6 @@ class PortElementToCommunicationResourceMapping(Identifiable):
     pass
 
 
-class RteEventInCompositionSeparation(Identifiable):
-    pass
-
-
-class RteEventInSystemSeparation(Identifiable):
-    pass
-
-
 class SOMEIPTransformationProps(Identifiable):
     pass
 
@@ -1946,14 +1926,6 @@ class SomeipTpChannel(Identifiable):
 
 
 class SwcToApplicationPartitionMapping(Identifiable):
-    pass
-
-
-class SystemSignalGroupToCommunicationResourceMapping(Identifiable):
-    pass
-
-
-class SystemSignalToCommunicationResourceMapping(Identifiable):
     pass
 
 

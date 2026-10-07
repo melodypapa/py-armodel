@@ -2306,19 +2306,7 @@ class BusMirrorLinPidToCanIdMapping(ARObject):
     pass
 
 
-class CommonSignalPath(ARObject):
-    pass
-
-
-class ContainerIPdu(ARObject):
-    pass
-
-
 class CpSoftwareClusterCommunicationResourceProps(ARObject, ABC):
-    pass
-
-
-class DdsCpISignalToDdsTopicMapping(ARObject):
     pass
 
 
@@ -3228,10 +3216,6 @@ class DdsTransportPriority(ARObject):
         return self
 
 
-class EcuResourceEstimation(ARObject):
-    pass
-
-
 class EthGlobalTimeManagedCouplingPort(ARObject):
     pass
 
@@ -3249,10 +3233,6 @@ class FlexrayArTpChannel(ARObject):
 
 
 class FlexrayTpEcu(ARObject):
-    pass
-
-
-class ForbiddenSignalPath(ARObject):
     pass
 
 
@@ -3308,22 +3288,6 @@ class NetworkSegmentIdentification(ARObject):
     pass
 
 
-class PermissibleSignalPath(ARObject):
-    pass
-
-
-class PncMapping(ARObject):
-    pass
-
-
-class RteEventInCompositionToOsTaskProxyMapping(ARObject):
-    pass
-
-
-class RteEventInSystemToOsTaskProxyMapping(ARObject):
-    pass
-
-
 class SecurityEventAggregationFilter(ARObject):
     pass
 
@@ -3348,23 +3312,11 @@ class SecurityEventStateFilter(ARObject):
     pass
 
 
-class SeparateSignalPath(ARObject):
-    pass
-
-
 class SomeipSdServerServiceInstanceConfig(ARObject):
     pass
 
 
 class SomeipTpConnection(ARObject):
-    pass
-
-
-class SwcToSwcOperationArguments(ARObject):
-    pass
-
-
-class SwcToSwcSignal(ARObject):
     pass
 
 
@@ -3377,10 +3329,6 @@ class TDCpSoftwareClusterMappingSet(ARObject):
 
 
 class TransformationProps(ARObject, ABC):
-    pass
-
-
-class TriggerToSignalMapping(ARObject):
     pass
 
 

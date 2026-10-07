@@ -10,7 +10,7 @@ from typing import TYPE_CHECKING, List, Optional
 if TYPE_CHECKING:
     from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import CommunicationDirectionType
 
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import VariableDataPrototypeInSystemInstanceRef
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import OperationInSystemInstanceRef, TriggerInSystemInstanceRef, VariableDataPrototypeInSystemInstanceRef
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import TextTableMapping
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Integer, RefType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -504,47 +504,73 @@ class IndexedArrayElement(ARObject):
 
 class SenderRecArrayElementMapping(ARObject):
     """
-    Maps individual elements of an array data type between sender/receiver
-    interfaces and system signals, including complex type mapping for
-    nested data structures and indexed array elements.
+    The SenderRecArrayElement may be a primitive one or a composite one. If the element is primitive, it will be mapped to the SystemSignal (multiplicity 1). If the VariableDataPrototype that is referenced by Sender ReceiverToSignalGroupMapping is typed by an ApplicationDataType the reference to the Application ArrayElement shall be used. If the VariableDataPrototype is typed by the ImplementationDataType the reference to the ImplementationArrayElement shall be used. If the element is composite, there will be no mapping to the SystemSignal (multiplicity 0). In this case the ArrayElementMapping element will aggregate the TypeMapping element. In that way also the composite datatypes can be mapped to SystemSignals. Regardless whether composite or primitive array element is mapped the indexed element always needs to be specified.
     """
 
     # SenderRecArrayElementMapping method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getComplexTypeMapping        [x] impl  [ ] docstring  [ ] test
-    # [ ] setComplexTypeMapping        [x] impl  [ ] docstring  [ ] test
-    # [ ] getIndexedArrayElement       [x] impl  [ ] docstring  [ ] test
-    # [ ] setIndexedArrayElement       [x] impl  [ ] docstring  [ ] test
-    # [ ] getSystemSignalRef           [x] impl  [ ] docstring  [ ] test
-    # [ ] setSystemSignalRef           [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 5.31, p.237
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getComplexTypeMapping     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setComplexTypeMapping     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIndexedArrayElement    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIndexedArrayElement    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSystemSignalRef        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSystemSignalRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.complexTypeMapping: SenderRecCompositeTypeMapping = None
-        self.indexedArrayElement: IndexedArrayElement = None
-        self.systemSignalRef: RefType = None
+        # This aggregation will be used if the element is composite.
+        self.complexTypeMapping: Optional[SenderRecCompositeTypeMapping] = None
 
-    def getComplexTypeMapping(self):
+        # Reference to an indexed array element in the context of the dataElement or in the context of a composite element.
+        self.indexedArrayElement: Optional[IndexedArrayElement] = None
+
+        # Reference to the system signal used to carry the primitive ApplicationArrayElement.
+        self.systemSignalRef: Optional[RefType] = None
+
+    def getComplexTypeMapping(self) -> Optional[SenderRecCompositeTypeMapping]:
+        """
+        This aggregation will be used if the element is composite.
+        """
         return self.complexTypeMapping
 
-    def setComplexTypeMapping(self, value):
+    def setComplexTypeMapping(self, value: Optional[SenderRecCompositeTypeMapping]) -> SenderRecArrayElementMapping:
+        """
+        This aggregation will be used if the element is composite.
+        A None value is a no-op and does not overwrite an existing complexTypeMapping.
+        """
         if value is not None:
             self.complexTypeMapping = value
         return self
 
-    def getIndexedArrayElement(self):
+    def getIndexedArrayElement(self) -> Optional[IndexedArrayElement]:
+        """
+        Reference to an indexed array element in the context of the dataElement or in the context of a composite element.
+        """
         return self.indexedArrayElement
 
-    def setIndexedArrayElement(self, value):
+    def setIndexedArrayElement(self, value: Optional[IndexedArrayElement]) -> SenderRecArrayElementMapping:
+        """
+        Reference to an indexed array element in the context of the dataElement or in the context of a composite element.
+        A None value is a no-op and does not overwrite an existing indexedArrayElement.
+        """
         if value is not None:
             self.indexedArrayElement = value
         return self
 
-    def getSystemSignalRef(self):
+    def getSystemSignalRef(self) -> Optional[RefType]:
+        """
+        Reference to the system signal used to carry the primitive ApplicationArrayElement.
+        """
         return self.systemSignalRef
 
-    def setSystemSignalRef(self, value):
+    def setSystemSignalRef(self, value: Optional[RefType]) -> SenderRecArrayElementMapping:
+        """
+        Reference to the system signal used to carry the primitive ApplicationArrayElement.
+        A None value is a no-op and does not overwrite an existing systemSignalRef.
+        """
         if value is not None:
             self.systemSignalRef = value
         return self
@@ -746,8 +772,208 @@ class DataTypePolicyEnum(AREnum):
 
 
 class ClientServerToSignalMapping(DataMapping):
-    pass
+    """
+    This element maps the ClientServerOperation to call- and return-SystemSignals.
+    """
+
+    # ClientServerToSignalMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 5.33, p.242
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCallSignalRef                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCallSignalRef                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getClientServerOperationIRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setClientServerOperationIRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getReturnSignalRef              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setReturnSignalRef              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # Reference to the callSignal to which the IN and INOUT ArgumentDataPrototypes are mapped.
+        self.callSignalRef: Optional[RefType] = None
+
+        # Reference to a ClientServerOperation, which is mapped to a call SystemSignal and a return SystemSignal. InstanceRef implemented by: OperationInSystem InstanceRef
+        self.clientServerOperationIRef: Optional[OperationInSystemInstanceRef] = None
+
+        # Reference to the returnSignal to which the OUT and INOUT ArgumentDataPrototypes are mapped.
+        self.returnSignalRef: Optional[RefType] = None
+
+    def getCallSignalRef(self) -> Optional[RefType]:
+        """
+        Reference to the callSignal to which the IN and INOUT ArgumentDataPrototypes are mapped.
+        """
+        return self.callSignalRef
+
+    def setCallSignalRef(self, value: Optional[RefType]) -> ClientServerToSignalMapping:
+        """
+        Reference to the callSignal to which the IN and INOUT ArgumentDataPrototypes are mapped.
+        A None value is a no-op and does not overwrite an existing callSignalRef.
+        """
+        if value is not None:
+            self.callSignalRef = value
+        return self
+
+    def getClientServerOperationIRef(self) -> Optional[OperationInSystemInstanceRef]:
+        """
+        Reference to a ClientServerOperation, which is mapped to a call SystemSignal and a return SystemSignal. InstanceRef implemented by: OperationInSystem InstanceRef
+        """
+        return self.clientServerOperationIRef
+
+    def setClientServerOperationIRef(self, value: Optional[OperationInSystemInstanceRef]) -> ClientServerToSignalMapping:
+        """
+        Reference to a ClientServerOperation, which is mapped to a call SystemSignal and a return SystemSignal. InstanceRef implemented by: OperationInSystem InstanceRef
+        A None value is a no-op and does not overwrite an existing clientServerOperationIRef.
+        """
+        if value is not None:
+            self.clientServerOperationIRef = value
+        return self
+
+    def getReturnSignalRef(self) -> Optional[RefType]:
+        """
+        Reference to the returnSignal to which the OUT and INOUT ArgumentDataPrototypes are mapped.
+        """
+        return self.returnSignalRef
+
+    def setReturnSignalRef(self, value: Optional[RefType]) -> ClientServerToSignalMapping:
+        """
+        Reference to the returnSignal to which the OUT and INOUT ArgumentDataPrototypes are mapped.
+        A None value is a no-op and does not overwrite an existing returnSignalRef.
+        """
+        if value is not None:
+            self.returnSignalRef = value
+        return self
 
 
 class SenderReceiverCompositeElementToSignalMapping(DataMapping):
-    pass
+    """
+    Mapping of an Variable Data Prototype which is aggregated within a composite datatype to a System Signal (only one element of the composite data type is mapped).
+    """
+
+    # SenderReceiverCompositeElementToSignalMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 5.34, p.247
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDataElementIRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataElementIRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSystemSignalRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSystemSignalRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTypeMapping        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTypeMapping        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # Reference to a data element with a composite datatype from which one element is mapped to a SystemSignal. InstanceRef implemented by: VariableDataPrototypeIn SystemInstanceRef
+        self.dataElementIRef: Optional[VariableDataPrototypeInSystemInstanceRef] = None
+
+        # Reference to the SystemSignal to which one primitive of the composite type is mapped.
+        self.systemSignalRef: Optional[RefType] = None
+
+        # The CompositeTypeMapping maps one VariableData Prototype of the composite data type to a SystemSignal.
+        self.typeMapping: Optional[SenderRecCompositeTypeMapping] = None
+
+    def getDataElementIRef(self) -> Optional[VariableDataPrototypeInSystemInstanceRef]:
+        """
+        Reference to a data element with a composite datatype from which one element is mapped to a SystemSignal. InstanceRef implemented by: VariableDataPrototypeIn SystemInstanceRef
+        """
+        return self.dataElementIRef
+
+    def setDataElementIRef(self, value: Optional[VariableDataPrototypeInSystemInstanceRef]) -> SenderReceiverCompositeElementToSignalMapping:
+        """
+        Reference to a data element with a composite datatype from which one element is mapped to a SystemSignal. InstanceRef implemented by: VariableDataPrototypeIn SystemInstanceRef
+        A None value is a no-op and does not overwrite an existing dataElementIRef.
+        """
+        if value is not None:
+            self.dataElementIRef = value
+        return self
+
+    def getSystemSignalRef(self) -> Optional[RefType]:
+        """
+        Reference to the SystemSignal to which one primitive of the composite type is mapped.
+        """
+        return self.systemSignalRef
+
+    def setSystemSignalRef(self, value: Optional[RefType]) -> SenderReceiverCompositeElementToSignalMapping:
+        """
+        Reference to the SystemSignal to which one primitive of the composite type is mapped.
+        A None value is a no-op and does not overwrite an existing systemSignalRef.
+        """
+        if value is not None:
+            self.systemSignalRef = value
+        return self
+
+    def getTypeMapping(self) -> Optional[SenderRecCompositeTypeMapping]:
+        """
+        The CompositeTypeMapping maps one VariableData Prototype of the composite data type to a SystemSignal.
+        """
+        return self.typeMapping
+
+    def setTypeMapping(self, value: Optional[SenderRecCompositeTypeMapping]) -> SenderReceiverCompositeElementToSignalMapping:
+        """
+        The CompositeTypeMapping maps one VariableData Prototype of the composite data type to a SystemSignal.
+        A None value is a no-op and does not overwrite an existing typeMapping.
+        """
+        if value is not None:
+            self.typeMapping = value
+        return self
+
+
+class TriggerToSignalMapping(DataMapping):
+    """
+    This meta-class represents the ability to map a trigger to a SystemSignal of size 0. The Trigger does not transport any other information than its existence, therefore the limitation in terms of signal length.
+
+    [constr_5477] Existence of TriggerToSignalMapping.systemSignal: For each TriggerToSignalMapping, the reference to SystemSignal in the role systemSignal shall exist at the time when the Ecu Extract is complete.
+
+    [constr_5478] Existence of TriggerToSignalMapping.trigger: For each TriggerToSignalMapping, the reference to Trigger in the role trigger shall exist at the time when the Ecu Extract is complete.
+    """
+
+    # TriggerToSignalMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 5.35, p.250
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getSystemSignalRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSystemSignalRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTriggerIRef        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTriggerIRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # This is the SystemSignal taken to transport the Trigger over the network. Tags: xml.sequenceOffset=20
+        self.systemSignalRef: Optional[RefType] = None
+
+        # This represents the Trigger that shall be used to trigger RunnableEntities deployed to a remote ECU. Tags: xml.sequenceOffset=10 InstanceRef implemented by: TriggerInSystemInstanceRef
+        self.triggerIRef: Optional[TriggerInSystemInstanceRef] = None
+
+    def getSystemSignalRef(self) -> Optional[RefType]:
+        """
+        This is the SystemSignal taken to transport the Trigger over the network. Tags: xml.sequenceOffset=20
+        """
+        return self.systemSignalRef
+
+    def setSystemSignalRef(self, value: Optional[RefType]) -> TriggerToSignalMapping:
+        """
+        This is the SystemSignal taken to transport the Trigger over the network. Tags: xml.sequenceOffset=20
+
+        A None value is a no-op and does not overwrite an existing systemSignalRef.
+        """
+        if value is not None:
+            self.systemSignalRef = value
+        return self
+
+    def getTriggerIRef(self) -> Optional[TriggerInSystemInstanceRef]:
+        """
+        This represents the Trigger that shall be used to trigger RunnableEntities deployed to a remote ECU. Tags: xml.sequenceOffset=10 InstanceRef implemented by: TriggerInSystemInstanceRef
+        """
+        return self.triggerIRef
+
+    def setTriggerIRef(self, value: Optional[TriggerInSystemInstanceRef]) -> TriggerToSignalMapping:
+        """
+        This represents the Trigger that shall be used to trigger RunnableEntities deployed to a remote ECU. Tags: xml.sequenceOffset=10 InstanceRef implemented by: TriggerInSystemInstanceRef
+
+        A None value is a no-op and does not overwrite an existing triggerIRef.
+        """
+        if value is not None:
+            self.triggerIRef = value
+        return self

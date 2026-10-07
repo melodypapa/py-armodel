@@ -2393,6 +2393,13 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(element)
         return cast(SecuredIPdu, self.getReferrableElement(short_name, SecuredIPdu))
 
+    def createContainerIPdu(self, short_name: str) -> ContainerIPdu:
+
+        if not self.IsReferrableElementExists(short_name, ContainerIPdu):
+            element = ContainerIPdu(self, short_name)
+            self.addReferrableElement(element)
+        return cast(ContainerIPdu, self.getReferrableElement(short_name, ContainerIPdu))
+
     def createNmConfig(self, short_name: str) -> NmConfig:
 
         if not self.IsReferrableElementExists(short_name, NmConfig):
@@ -2706,6 +2713,13 @@ class ARPackage(CollectableElement, VariationPointCapable):
             element = CpSoftwareCluster(self, short_name)
             self.addReferrableElement(element)
         return cast(CpSoftwareCluster, self.getReferrableElement(short_name, CpSoftwareCluster))
+
+    def createCpSoftwareClusterMappingSet(self, short_name: str) -> CpSoftwareClusterMappingSet:
+
+        if not self.IsReferrableElementExists(short_name, CpSoftwareClusterMappingSet):
+            element = CpSoftwareClusterMappingSet(self, short_name)
+            self.addReferrableElement(element)
+        return cast(CpSoftwareClusterMappingSet, self.getReferrableElement(short_name, CpSoftwareClusterMappingSet))
 
     def createSystem(self, short_name: str) -> System:
 
@@ -4728,6 +4742,10 @@ class ARPackage(CollectableElement, VariationPointCapable):
 
         return list(sorted((a for a in self.referrableElements if isinstance(a, SecuredIPdu)), key=lambda a: a.short_name))
 
+    def getContainerIPdus(self) -> List[ContainerIPdu]:
+
+        return list(sorted((a for a in self.referrableElements if isinstance(a, ContainerIPdu)), key=lambda a: a.short_name))
+
     def getNmConfigs(self) -> List[NmConfig]:
 
         return list(sorted((a for a in self.referrableElements if isinstance(a, NmConfig)), key=lambda a: a.short_name))
@@ -4993,7 +5011,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm import DiagnosticA
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.EnvironmentalCondition import DiagnosticEnvironmentalCondition  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.MeasurementAndCalibration.InterpolationRoutineMappingSet import InterpolationRoutineMappingSet  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import SwcImplementation  # noqa: E402
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate import ClientIdDefinitionSet, CpSoftwareCluster, System  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate import ClientIdDefinitionSet, CpSoftwareCluster, CpSoftwareClusterMappingSet, System  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import OsTaskProxy  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrame  # noqa: E402
@@ -5025,6 +5043,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommu
     NPdu,
     NmPdu,
     PdurIPduGroup,
+    ContainerIPdu,
     SecureCommunicationPropsSet,
     SecuredIPdu,
     SystemSignal,
@@ -11432,10 +11451,6 @@ class BswModuleTiming(ARElement):
 
 
 class CpSoftwareClusterBinaryManifestDescriptor(ARElement):
-    pass
-
-
-class CpSoftwareClusterMappingSet(ARElement):
     pass
 
 
