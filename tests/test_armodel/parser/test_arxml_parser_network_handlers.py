@@ -451,6 +451,28 @@ class TestLinClusterHandlers:
     def test_getDataDumpEntry_none_element_returns_none(self, parser):
         assert parser.getDataDumpEntry(None) is None
 
+    def test_getFreeFormat_reads_byte_values(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import FreeFormat
+
+        element = _snip(
+            "<DELAY>0.02</DELAY>" "<BYTE-VALUES><BYTE-VALUE>1</BYTE-VALUE><BYTE-VALUE>2</BYTE-VALUE></BYTE-VALUES>",
+            root_tag="FREE-FORMAT",
+        )
+        entry = parser.getFreeFormat(element)
+        assert entry is not None
+        assert isinstance(entry, FreeFormat)
+        assert entry.getDelay().getValue() == 0.02
+        assert [v.getValue() for v in entry.getByteValues()] == [1, 2]
+
+    def test_getFreeFormat_absent_byte_values(self, parser):
+        element = _snip("<SHORT-NAME>e</SHORT-NAME>", root_tag="FREE-FORMAT")
+        entry = parser.getFreeFormat(element)
+        assert entry is not None
+        assert entry.getByteValues() == []
+
+    def test_getFreeFormat_none_element_returns_none(self, parser):
+        assert parser.getFreeFormat(None) is None
+
 
 class TestFlexrayClusterHandlers:
     def test_readFlexrayCluster_sets_short_name(self, parser):

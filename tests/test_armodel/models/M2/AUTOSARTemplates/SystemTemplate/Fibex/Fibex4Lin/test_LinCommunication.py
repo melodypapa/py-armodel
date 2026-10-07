@@ -1041,6 +1041,85 @@ class TestDataDumpEntry:
         assert annotations["byteValues"] == "List[Integer]"
 
 
+FREE_FORMAT_CLASS_NOTE = "Representing freely defined data."
+FREE_FORMAT_BYTE_VALUE_NOTE = "The integer Value of a freely defined data byte."
+
+
+class TestFreeFormat:
+    """Test cases for FreeFormat (Table 6.108, p.439)."""
+
+    def test_inheritance(self):
+        """Test the most-derived base from the Base chain (Table 6.108: ARObject, FreeFormatEntry, ScheduleTableEntry)"""
+        assert issubclass(FreeFormat, FreeFormatEntry)
+        assert issubclass(FreeFormatEntry, ScheduleTableEntry)
+
+    def test_class_docstring_is_spec_note(self):
+        """Test that the class docstring carries the spec Note verbatim (Table 6.108)"""
+        assert inspect.cleandoc(FreeFormat.__doc__).strip() == FREE_FORMAT_CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """Test that __init__ carries no docstring"""
+        assert FreeFormat.__init__.__doc__ is None
+
+    def test_initialization(self):
+        entry = FreeFormat()
+
+        assert isinstance(entry, ARObject)
+        assert entry.getByteValues() == []
+
+    def test_member_order_matches_spec(self):
+        """Test member declaration order follows the R23-11 displayed row order (Table 6.108: byteValue (ordered))"""
+        source = inspect.getsource(FreeFormat.__init__)
+        assert source.index("self.byteValues") >= 0
+
+    def test_add_byte_value(self):
+        entry = FreeFormat()
+
+        first = Integer()
+        first.setValue(0x10)
+        second = Integer()
+        second.setValue(0x20)
+
+        assert entry == entry.addByteValue(first)
+        assert entry.getByteValues() == [first]
+        assert entry == entry.addByteValue(second)
+        assert entry.getByteValues() == [first, second]
+
+        assert entry == entry.addByteValue(None)
+        assert entry.getByteValues() == [first, second]
+
+    def _assert_docstring(self, method, note, suffix=None):
+        doc = method.__doc__
+        expected = note if suffix is None else note + "\n" + suffix
+        assert doc is not None
+        assert inspect.cleandoc(doc).strip() == expected
+
+    def test_member_docstrings_are_spec_note(self):
+        """Test getter/adder docstrings carry the spec Note verbatim (Table 6.108)"""
+        self._assert_docstring(FreeFormat.getByteValues, FREE_FORMAT_BYTE_VALUE_NOTE)
+        self._assert_docstring(FreeFormat.addByteValue, FREE_FORMAT_BYTE_VALUE_NOTE, "A None value is a no-op.")
+
+    def test_type_annotations(self):
+        import ast
+
+        getter_hints = get_type_hints(FreeFormat.getByteValues)
+        assert getter_hints["return"] == List[Integer]
+
+        adder_hints = get_type_hints(FreeFormat.addByteValue)
+        assert adder_hints["value"] == Optional[Integer]
+        assert adder_hints["return"] == FreeFormat
+
+        src = inspect.getsource(sys.modules[FreeFormat.__module__])
+        tree = ast.parse(src)
+        cls = next(n for n in tree.body if isinstance(n, ast.ClassDef) and n.name == "FreeFormat")
+        init = next(n for n in cls.body if isinstance(n, ast.FunctionDef) and n.name == "__init__")
+        annotations = {}
+        for node in ast.walk(init):
+            if isinstance(node, ast.AnnAssign) and isinstance(node.target, ast.Attribute):
+                annotations[node.target.attr] = ast.get_source_segment(src, node.annotation)
+        assert annotations["byteValues"] == "List[Integer]"
+
+
 class Test_Fibex4LinTopology:
     """Test cases for Fibex4Lin Topology classes."""
 

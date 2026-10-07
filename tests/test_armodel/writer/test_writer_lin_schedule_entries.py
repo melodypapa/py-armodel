@@ -403,6 +403,54 @@ class TestDataDumpEntryRoundTrip:
         assert parent.find("DATA-DUMP-ENTRY") is None
 
 
+class TestFreeFormatRoundTrip:
+    def test_roundtrip_field_values(self, writer):
+        entry = FreeFormat()
+        entry.setDelay(_time("0.02"))
+        entry.setPositionInTable(_int(1))
+        entry.addByteValue(_int(1))
+        entry.addByteValue(_int(2))
+
+        parent = _parent()
+        writer.setFreeFormat(parent, "FREE-FORMAT", entry)
+
+        entry_element = parent.find("FREE-FORMAT")
+        assert entry_element is not None
+        values_element = entry_element.find("BYTE-VALUES")
+        assert values_element is not None
+        values = [int(v.text) for v in values_element.findall("BYTE-VALUE")]
+        assert values == [1, 2]
+
+        xml_str = ET.tostring(parent, encoding="unicode").replace("<PARENT>", "<PARENT xmlns='http://autosar.org/schema/r4.0'>", 1)
+        parser = ARXMLParser()
+        reloaded = parser.getFreeFormat(ET.fromstring(xml_str)[0])
+        assert reloaded is not None
+        assert reloaded.getDelay().getValue() == 0.02
+        assert reloaded.getPositionInTable().getValue() == 1
+        assert [v.getValue() for v in reloaded.getByteValues()] == [1, 2]
+
+    def test_empty_byte_values_omits_wrapper(self, writer):
+        entry = FreeFormat()
+
+        parent = _parent()
+        writer.setFreeFormat(parent, "FREE-FORMAT", entry)
+
+        entry_element = parent.find("FREE-FORMAT")
+        assert entry_element is not None
+        assert entry_element.find("BYTE-VALUES") is None
+
+        xml_str = ET.tostring(parent, encoding="unicode").replace("<PARENT>", "<PARENT xmlns='http://autosar.org/schema/r4.0'>", 1)
+        parser = ARXMLParser()
+        reloaded = parser.getFreeFormat(ET.fromstring(xml_str)[0])
+        assert reloaded is not None
+        assert reloaded.getByteValues() == []
+
+    def test_omits_none_entry(self, writer):
+        parent = _parent()
+        writer.setFreeFormat(parent, "FREE-FORMAT", None)
+        assert parent.find("FREE-FORMAT") is None
+
+
 NS = "http://autosar.org/schema/r4.0"
 
 
