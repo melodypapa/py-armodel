@@ -265,3 +265,38 @@ class SystemTiming(TimingExtension):
         if value is not None:
             self.systemRef = value
         return self
+
+
+class BswModuleTiming(TimingExtension):
+    """
+    A model element used to define timing descriptions and constraints for the BswInternalBehavior of one BSW Module. Thereby, for each BswInternalBehavior a separate timing can be specified. A constraint defined at this level holds true for all Implementations of that BswInternalBehavior. TimingDescriptions aggregated by BswModuleTiming are restricted to event chains referring to events which are derived from the class TDEventBswInternalBehavior. Tags: atp.recommendedPackage=TimingExtensions
+    """
+
+    # BswModuleTiming method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.4, p.28
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBehaviorRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBehaviorRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This defines the scope of a BswModuleTiming. All corresponding timing descriptions and constraints shall be defined within this scope.
+        self.behaviorRef: Optional[RefType] = None
+
+    def getBehaviorRef(self) -> Optional[RefType]:
+        """
+        This defines the scope of a BswModuleTiming. All corresponding timing descriptions and constraints shall be defined within this scope.
+        """
+        return self.behaviorRef
+
+    def setBehaviorRef(self, value: Optional[RefType]) -> "BswModuleTiming":
+        """
+        This defines the scope of a BswModuleTiming. All corresponding timing descriptions and constraints shall be defined within this scope.
+
+        A None value is a no-op and does not overwrite an existing behaviorRef.
+        """
+        if value is not None:
+            self.behaviorRef = value
+        return self

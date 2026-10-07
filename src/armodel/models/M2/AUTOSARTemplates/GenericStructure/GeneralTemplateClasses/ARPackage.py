@@ -2344,6 +2344,13 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(timing)
         return cast(SystemTiming, self.getReferrableElement(short_name, SystemTiming))
 
+    def createBswModuleTiming(self, short_name: str) -> BswModuleTiming:
+
+        if not self.IsReferrableElementExists(short_name, BswModuleTiming):
+            timing = BswModuleTiming(self, short_name)
+            self.addReferrableElement(timing)
+        return cast(BswModuleTiming, self.getReferrableElement(short_name, BswModuleTiming))
+
     def createLinCluster(self, short_name: str) -> LinCluster:
 
         if not self.IsReferrableElementExists(short_name, LinCluster):
@@ -4951,7 +4958,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.SignalServiceTranslation
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortPrototypeBlueprint import PortPrototypeBlueprint  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.Keyword import KeywordSet  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping  # noqa: E402
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import SwcTiming, SystemTiming, VfbTiming  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import BswModuleTiming, SwcTiming, SystemTiming, VfbTiming  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticAuthenticationClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticCustomServiceClass, DiagnosticServiceInstance, DiagnosticSessionControlClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticEcuResetClass  # noqa: E402
@@ -11457,10 +11464,6 @@ class ApplicationPartition(ARElement):
 
 
 class BswCompositionTiming(ARElement):
-    pass
-
-
-class BswModuleTiming(ARElement):
     pass
 
 

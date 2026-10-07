@@ -255,10 +255,10 @@ STUBS = [
         "ARElement",
     ),
     (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage",
+        "armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions",
         "BswModuleTiming",
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage",
-        "ARElement",
+        "armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions",
+        "TimingExtension",
     ),
     (
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
