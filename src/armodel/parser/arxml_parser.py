@@ -1088,6 +1088,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster import Cp
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster import CpSoftwareClusterToApplicationPartitionMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster import CpSoftwareClusterMappingSet
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster import SystemSignalToCommunicationResourceMapping
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster import SystemSignalGroupToCommunicationResourceMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
     ClientServerToSignalMapping,
     DataMapping,
@@ -16935,6 +16936,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readSystemMappingSwClusterMappings(element, mapping)
         self.readSystemMappingSwImplMappings(element, mapping)
         self.readSystemMappingSwMappings(element, mapping)
+        self.readSystemMappingSystemSignalGroupToComResourceMappings(element, mapping)
         self.readSystemMappingSystemSignalToComResourceMappings(element, mapping)
 
     def readSystemMappings(self, element: ET.Element, system: System):
@@ -17097,6 +17099,17 @@ class ARXMLParser(AbstractARXMLParser):
             signal_mapping = SystemSignalToCommunicationResourceMapping(mapping, self.getShortName(child_element))
             self.readSystemSignalToCommunicationResourceMapping(child_element, signal_mapping)
             mapping.addSystemSignalToComResourceMapping(signal_mapping)
+
+    def readSystemSignalGroupToCommunicationResourceMapping(self, element: ET.Element, mapping: SystemSignalGroupToCommunicationResourceMapping):
+        self.readIdentifiable(element, mapping)
+        mapping.setSoftwareClusterComResourceRef(self.getChildElementOptionalRefType(element, "SOFTWARE-CLUSTER-COM-RESOURCE-REF"))
+        mapping.setSystemSignalGroupRef(self.getChildElementOptionalRefType(element, "SYSTEM-SIGNAL-GROUP-REF"))
+
+    def readSystemMappingSystemSignalGroupToComResourceMappings(self, element: ET.Element, mapping: SystemMapping):
+        for child_element in self.findall(element, "SYSTEM-SIGNAL-GROUP-TO-COM-RESOURCE-MAPPINGS/SYSTEM-SIGNAL-GROUP-TO-COMMUNICATION-RESOURCE-MAPPING"):
+            group_mapping = SystemSignalGroupToCommunicationResourceMapping(mapping, self.getShortName(child_element))
+            self.readSystemSignalGroupToCommunicationResourceMapping(child_element, group_mapping)
+            mapping.addSystemSignalGroupToComResourceMapping(group_mapping)
 
     def readCpSoftwareClusterMappingSet(self, element: ET.Element, mapping_set: CpSoftwareClusterMappingSet):
         self.readARElement(element, mapping_set)

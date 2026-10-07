@@ -33,6 +33,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster import (
     CpSoftwareClusterToApplicationPartitionMapping,
     CpSoftwareClusterToEcuInstanceMapping,
     SwComponentPrototypeAssignment,
+    SystemSignalGroupToCommunicationResourceMapping,
     SystemSignalToCommunicationResourceMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -980,6 +981,7 @@ __all__ = [
     "CpSoftwareClusterResourceToApplicationPartitionMapping",
     "CpSoftwareClusterToApplicationPartitionMapping",
     "CpSoftwareClusterMappingSet",
+    "SystemSignalGroupToCommunicationResourceMapping",
     "SystemSignalToCommunicationResourceMapping",
     "TriggerInSystemInstanceRef",
     "TriggerToSignalMapping",

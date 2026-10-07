@@ -1575,10 +1575,6 @@ class SwitchStreamIdentification(Identifiable):
     pass
 
 
-class SystemSignalGroupToCommunicationResourceMapping(Identifiable):
-    pass
-
-
 class UserDefinedGlobalTimeSlave(Identifiable):
     pass
 
