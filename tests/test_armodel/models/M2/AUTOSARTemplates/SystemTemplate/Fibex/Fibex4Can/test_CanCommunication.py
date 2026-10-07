@@ -7,6 +7,8 @@ Each test validates the functionality, inheritance, and setter/getter methods
 of the respective classes.
 """
 
+import inspect
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Integer, PositiveInteger
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import (
@@ -255,3 +257,37 @@ class Test_Fibex4CanCommunication:
         assert obj.getVcid().getValue() == 4
         assert obj == obj.setVcid(None)
         assert obj.getVcid().getValue() == 4
+
+
+CAN_ADDRESSING_MODE_TYPE_CLASS_NOTE = "Indicates whether standard or extended CAN identifiers are used"
+
+
+class TestCanAddressingModeType:
+    """Test cases for CanAddressingModeType (Table 6.111, p.443)."""
+
+    def test_class_docstring_is_spec_note(self):
+        """Test that the class docstring carries the spec Note verbatim (Table 6.111)"""
+        assert CanAddressingModeType.__doc__.strip() == CAN_ADDRESSING_MODE_TYPE_CLASS_NOTE
+
+    def test_literal_values_are_xsd_facets(self):
+        """Test the member values are the exact XSD --SIMPLE enumeration facets (Table 6.111)"""
+        assert CanAddressingModeType.ENUM_EXTENDED == "EXTENDED"
+        assert CanAddressingModeType.ENUM_STANDARD == "STANDARD"
+
+    def test_literal_comments_carry_spec_description_and_tags(self):
+        """Test the literal comments carry the spec description + Tags verbatim (Table 6.111)"""
+        source = inspect.getsource(CanAddressingModeType)
+        assert "Extended 29-bit-identifiers are used (CAN 2.0B) Tags: atp.EnumerationLiteralIndex=0" in source
+        assert "Standard 11-bit-identifiers are used (CAN 2.0A) Tags: atp.EnumerationLiteralIndex=1" in source
+
+    def test_instantiability_and_facet_order(self):
+        """Test the enum is instantiable and the tuple follows the XSD facet order (Table 6.111)"""
+        enum = CanAddressingModeType()
+        assert enum.getValue() == ""
+
+        assert enum.setValue(CanAddressingModeType.ENUM_EXTENDED) is enum
+        assert enum.getValue() == "EXTENDED"
+        assert enum.setValue(CanAddressingModeType.ENUM_STANDARD) is enum
+        assert enum.getValue() == "STANDARD"
+
+        assert enum.getEnumValues() == ["EXTENDED", "STANDARD"]
