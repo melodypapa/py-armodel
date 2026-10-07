@@ -563,6 +563,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     CalibrationParameterValue,
+    Dhcpv6Props,
     RoleBasedResourceDependency,
     DiagnosticAbstractParameter,
     DiagnosticCommonProps,
@@ -577,7 +578,8 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticParameterSupportInfo,
     DiagnosticPeriodicRate,
     DiagnosticSupportInfoByte,
-    Ipv6Props,
+    Ipv6FragmentationProps,
+    Ipv6NdpProps,
     PhysicalDimensionMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
@@ -1175,6 +1177,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     Ipv4FragmentationProps,
     Ipv4Props,
     Ipv6DhcpServerConfiguration,
+    Ipv6Props,
     MacMulticastGroup,
     PlcaProps,
     SdClientConfig,
@@ -11026,7 +11029,9 @@ class ARXMLParser(AbstractARXMLParser):
             props.setIpv4Props(ipv4_props)
         child_element = self.find(element, "IPV-6-PROPS")
         if child_element is not None:
-            props.setIpv6Props(Ipv6Props())
+            ipv6_props = Ipv6Props()
+            self.readIpv6Props(child_element, ipv6_props)
+            props.setIpv6Props(ipv6_props)
 
     def readIpv4Props(self, element: ET.Element, props: Ipv4Props):
         """Read an R23-11 <IPV-4-PROPS> element (Table 3.101, p.146): ARP-PROPS, AUTO-IP-PROPS, FRAGMENTATION-PROPS."""
@@ -11046,6 +11051,19 @@ class ARXMLParser(AbstractARXMLParser):
             fragmentation_props = Ipv4FragmentationProps()
             self.readIpv4FragmentationProps(child_element, fragmentation_props)
             props.setFragmentationProps(fragmentation_props)
+
+    def readIpv6Props(self, element: ET.Element, props: Ipv6Props):
+        """Read an R23-11 <IPV-6-PROPS> element (Table 3.105, p.148): DHCP-PROPS, FRAGMENTATION-PROPS, NDP-PROPS."""
+        self.readARObject(element, props)
+        child_element = self.find(element, "DHCP-PROPS")
+        if child_element is not None:
+            props.setDhcpProps(Dhcpv6Props())
+        child_element = self.find(element, "FRAGMENTATION-PROPS")
+        if child_element is not None:
+            props.setFragmentationProps(Ipv6FragmentationProps())
+        child_element = self.find(element, "NDP-PROPS")
+        if child_element is not None:
+            props.setNdpProps(Ipv6NdpProps())
 
     def readIpv4ArpProps(self, element: ET.Element, props: Ipv4ArpProps):
         """Read an R23-11 <ARP-PROPS> element (Table 3.102, p.146): 4 optional attributes in XSD order."""

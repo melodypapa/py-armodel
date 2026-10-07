@@ -2482,10 +2482,6 @@ class Ipv6NdpProps(ARObject):
     pass
 
 
-class Ipv6Props(ARObject):
-    pass
-
-
 class J1939ControllerApplicationToJ1939NmNodeMapping(ARObject):
     pass
 

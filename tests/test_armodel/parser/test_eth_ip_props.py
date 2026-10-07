@@ -11,8 +11,8 @@ import xml.etree.ElementTree as ET
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import Ipv6Props
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthIpProps, Ipv4ArpProps, Ipv4AutoIpProps, Ipv4FragmentationProps, Ipv4Props
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import Dhcpv6Props, Ipv6FragmentationProps, Ipv6NdpProps
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthIpProps, Ipv4ArpProps, Ipv4AutoIpProps, Ipv4FragmentationProps, Ipv4Props, Ipv6Props
 from armodel.parser.arxml_parser import ARXMLParser
 
 NS = "http://autosar.org/schema/r4.0"
@@ -100,6 +100,28 @@ class TestReadEthIpProps:
         assert isinstance(ipv4_props.getArpProps(), Ipv4ArpProps)
         assert isinstance(ipv4_props.getAutoIpProps(), Ipv4AutoIpProps)
         assert isinstance(ipv4_props.getFragmentationProps(), Ipv4FragmentationProps)
+
+    def test_read_nested_ipv6_props_children(self, parser):
+        """The IPV-6-PROPS child dispatches to readIpv6Props (Ipv6Props, Table 3.105)."""
+        eth_ip_props = _make_eth_ip_props()
+        element = ET.fromstring(
+            f"""<ETH-IP-PROPS xmlns='{NS}'>
+                <SHORT-NAME>IpProps</SHORT-NAME>
+                <IPV-6-PROPS>
+                    <DHCP-PROPS/>
+                    <FRAGMENTATION-PROPS/>
+                    <NDP-PROPS/>
+                </IPV-6-PROPS>
+            </ETH-IP-PROPS>"""
+        )
+
+        parser.readEthIpProps(element, eth_ip_props)
+
+        ipv6_props = eth_ip_props.getIpv6Props()
+        assert isinstance(ipv6_props, Ipv6Props)
+        assert isinstance(ipv6_props.getDhcpProps(), Dhcpv6Props)
+        assert isinstance(ipv6_props.getFragmentationProps(), Ipv6FragmentationProps)
+        assert isinstance(ipv6_props.getNdpProps(), Ipv6NdpProps)
 
     def test_read_absent_optional_members(self, parser):
         """Absent optional members leave the fields untouched (empty case)."""

@@ -978,6 +978,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     Ipv4FragmentationProps,
     Ipv4Props,
     Ipv6DhcpServerConfiguration,
+    Ipv6Props,
     MacMulticastGroup,
     SdClientConfig,
     SdServerConfig,
@@ -11304,7 +11305,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.writeIpv4Props(child_element, ipv4Props_value)
             ipv6Props_value = props.getIpv6Props()
             if ipv6Props_value is not None:
-                ET.SubElement(child_element, "IPV-6-PROPS")
+                self.writeIpv6Props(child_element, ipv6Props_value)
 
     def writeIpv4Props(self, element: ET.Element, props: Optional[Ipv4Props]):
         """Write an R23-11 <IPV-4-PROPS> element (Table 3.101, p.146): ARP-PROPS, AUTO-IP-PROPS, FRAGMENTATION-PROPS."""
@@ -11320,6 +11321,18 @@ class ARXMLWriter(AbstractARXMLWriter):
             fragmentationProps_value = props.getFragmentationProps()
             if fragmentationProps_value is not None:
                 self.writeIpv4FragmentationProps(child_element, fragmentationProps_value)
+
+    def writeIpv6Props(self, element: ET.Element, props: Optional[Ipv6Props]):
+        """Write an R23-11 <IPV-6-PROPS> element (Table 3.105, p.148): DHCP-PROPS, FRAGMENTATION-PROPS, NDP-PROPS."""
+        if props is not None:
+            child_element = ET.SubElement(element, "IPV-6-PROPS")
+            self.writeARObject(child_element, props)
+            if props.getDhcpProps() is not None:
+                ET.SubElement(child_element, "DHCP-PROPS")
+            if props.getFragmentationProps() is not None:
+                ET.SubElement(child_element, "FRAGMENTATION-PROPS")
+            if props.getNdpProps() is not None:
+                ET.SubElement(child_element, "NDP-PROPS")
 
     def writeIpv4ArpProps(self, element: ET.Element, props: Optional[Ipv4ArpProps]):
         """Write an R23-11 <ARP-PROPS> element (Table 3.102, p.146): 4 optional attributes in XSD order."""

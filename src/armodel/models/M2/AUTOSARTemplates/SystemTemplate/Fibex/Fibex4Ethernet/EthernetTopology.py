@@ -10,7 +10,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Referrable,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject, Ipv6Props
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject, Dhcpv6Props, Ipv6FragmentationProps, Ipv6NdpProps
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
     Boolean,
@@ -5681,9 +5681,10 @@ class EthIpProps(ARElement):
     # [x] setIpv6Props    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     #
     # The IPV-4-PROPS child fully round-trips via readIpv4Props/writeIpv4Props since the
-    # Ipv4Props sync (Table 3.101); the member type Ipv6Props is queued separately
-    # (Table 3.105) — until its sync lands the IPV-6-PROPS child round-trips
-    # presence-only (empty ARObject-level element).
+    # Ipv4Props sync (Table 3.101); the IPV-6-PROPS child fully round-trips via
+    # readIpv6Props/writeIpv6Props since the Ipv6Props sync (Table 3.105) — its
+    # children Ipv6FragmentationProps/Dhcpv6Props/Ipv6NdpProps are queued stubs and
+    # round-trip presence-only until their syncs land.
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -6006,6 +6007,80 @@ class Ipv4FragmentationProps(ARObject):
         """
         if value is not None:
             self.tcpIpIpReassTimeout = value
+        return self
+
+
+class Ipv6Props(ARObject):
+    """This meta-class specifies the configuration options for IPv6."""
+
+    # Ipv6Props method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.105, p.148
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDhcpProps          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDhcpProps          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFragmentationProps [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFragmentationProps [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNdpProps           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNdpProps           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # The three children are queued stubs — Ipv6FragmentationProps (Table 3.106),
+    # Dhcpv6Props (Table 3.107), Ipv6NdpProps (Table 3.108) — so until their syncs
+    # land the DHCP-PROPS, FRAGMENTATION-PROPS and NDP-PROPS children round-trip
+    # presence-only via readIpv6Props/writeIpv6Props.
+
+    def __init__(self):
+        super().__init__()
+
+        # Configuration properties for DHCPv6.
+        self.dhcpProps: Optional[Dhcpv6Props] = None
+
+        # Configuration properties for IPv6 packet fragmentation/reassembly.
+        self.fragmentationProps: Optional[Ipv6FragmentationProps] = None
+
+        # Configuration properties for the Neighbor Discovery Protocol for IPv6.
+        self.ndpProps: Optional[Ipv6NdpProps] = None
+
+    def getDhcpProps(self) -> Optional[Dhcpv6Props]:
+        """Configuration properties for DHCPv6."""
+        return self.dhcpProps
+
+    def setDhcpProps(self, value: Optional[Dhcpv6Props]) -> Ipv6Props:
+        """
+        Configuration properties for DHCPv6.
+
+        A None value is a no-op and does not overwrite an existing dhcpProps.
+        """
+        if value is not None:
+            self.dhcpProps = value
+        return self
+
+    def getFragmentationProps(self) -> Optional[Ipv6FragmentationProps]:
+        """Configuration properties for IPv6 packet fragmentation/reassembly."""
+        return self.fragmentationProps
+
+    def setFragmentationProps(self, value: Optional[Ipv6FragmentationProps]) -> Ipv6Props:
+        """
+        Configuration properties for IPv6 packet fragmentation/reassembly.
+
+        A None value is a no-op and does not overwrite an existing fragmentationProps.
+        """
+        if value is not None:
+            self.fragmentationProps = value
+        return self
+
+    def getNdpProps(self) -> Optional[Ipv6NdpProps]:
+        """Configuration properties for the Neighbor Discovery Protocol for IPv6."""
+        return self.ndpProps
+
+    def setNdpProps(self, value: Optional[Ipv6NdpProps]) -> Ipv6Props:
+        """
+        Configuration properties for the Neighbor Discovery Protocol for IPv6.
+
+        A None value is a no-op and does not overwrite an existing ndpProps.
+        """
+        if value is not None:
+            self.ndpProps = value
         return self
 
 

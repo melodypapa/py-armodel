@@ -805,15 +805,33 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `Ipv6Props` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.105, p.148
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: Placement per Rule 0007 (spec Package row
+    `…Fibex4Ethernet::EthernetTopology`, PDF p.147 header block — the markdown render
+    page-splits Table 3.105 and drops the Package/Note/Base/Aggregated rows): class moved
+    from the ArObject.py stub to
+    `M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py` (directly
+    after its sibling Ipv4FragmentationProps, spec table order); stub-guard tuple + consumer
+    imports (parser, writer, Ipv6Props/EthIpProps model/parser/writer tests) updated
+    accordingly. Base chain's most-derived model class is `ARObject`. Table has 3 Attribute
+    rows in displayed order (dhcpProps Dhcpv6Props, fragmentationProps Ipv6FragmentationProps,
+    ndpProps Ipv6NdpProps — all `0..1` aggr; the markdown cells wrap `fragmentationProps`
+    across lines, canonical name confirmed by the XSD appinfo `mmt.qualifiedName`); the
+    class Note and the attribute-row Notes are verbatim (class Note read from the PDF
+    p.147 header block). XML child order per XSD group IPV-6-PROPS (DHCP-PROPS,
+    FRAGMENTATION-PROPS, NDP-PROPS; instance element tag is IPV-6-PROPS). EthIpProps'
+    IPV-6-PROPS dispatch upgraded from presence-only to the full
+    readIpv6Props/writeIpv6Props level; the three children are queued stubs
+    (Ipv6FragmentationProps Table 3.106, Dhcpv6Props Table 3.107, Ipv6NdpProps Table 3.108)
+    and round-trip presence-only until their syncs land. No deviations.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-06 (20819 passed / 0 failed); 9b deferred to batch stamp (user instruction)
 
 - [ ] `Ipv6FragmentationProps` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.106, p.148
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
