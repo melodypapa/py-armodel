@@ -6562,6 +6562,7 @@ class Ipv6NdpProps(ARObject):
 
     # Ipv6NdpProps method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.108, p.151
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                                           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getTcpIpNdpDefaultReachableTime                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
