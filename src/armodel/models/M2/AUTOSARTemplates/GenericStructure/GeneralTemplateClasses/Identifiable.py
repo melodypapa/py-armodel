@@ -389,7 +389,7 @@ class Identifiable(MultilanguageReferrable, ABC):
         """
         return self.category
 
-    def setCategory(self, value: Union[CategoryString, str]) -> Identifiable:
+    def setCategory(self, value: Optional[Union[CategoryString, str]]) -> Identifiable:
         """
         The category is a keyword that specializes the semantics of the Identifiable. It affects the expected existence of attributes and the applicability of constraints. Only sets the value if it is not None.
         """
