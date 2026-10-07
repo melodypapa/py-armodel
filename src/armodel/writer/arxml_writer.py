@@ -563,6 +563,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DdsDurability,
     DdsDurabilityService,
     DdsLatencyBudget,
+    DdsOwnership,
     DdsTopicData,
     PhysicalDimensionMapping,
 )
@@ -1368,6 +1369,13 @@ DDS_DURABILITY_KIND_XML_MAP = {
 DDS_DURABILITY_SERVICE_HISTORY_KIND_XML_MAP = {
     "KEEP-ALL": "KEEP-ALL",
     "KEEP-LAST": "KEEP-LAST",
+}
+
+#: Mapping between DdsOwnershipKindEnum literal values and their XML element text
+#: (AR:DDS-OWNERSHIP-KIND-ENUM--SIMPLE).
+DDS_OWNERSHIP_KIND_XML_MAP = {
+    "EXCLUSIVE": "EXCLUSIVE",
+    "SHARED": "SHARED",
 }
 
 #: Mapping between AclScopeEnum literal values and their XML element text
@@ -15700,7 +15708,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         if profile.getLiveliness() is not None:
             ET.SubElement(child_element, "LIVELINESS")
         if profile.getOwnership() is not None:
-            ET.SubElement(child_element, "OWNERSHIP")
+            self.writeDdsOwnership(child_element, profile.getOwnership())
         if profile.getOwnershipStrength() is not None:
             ET.SubElement(child_element, "OWNERSHIP-STRENGTH")
         if profile.getReliability() is not None:
@@ -15722,6 +15730,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "TOPIC-DATA")
         self.writeARObject(child_element, topic_data)
         self.setChildElementOptionalString(child_element, "TOPIC-DATA", topic_data.getTopicData())
+
+    def writeDdsOwnership(self, element: ET.Element, ownership: DdsOwnership):
+        child_element = ET.SubElement(element, "OWNERSHIP")
+        self.writeARObject(child_element, ownership)
+        self._writeEnumToken(child_element, "OWNERSHIP-KIND", ownership.getOwnershipKind(), DDS_OWNERSHIP_KIND_XML_MAP)
 
     def writeDdsLatencyBudget(self, element: ET.Element, latency_budget: DdsLatencyBudget):
         child_element = ET.SubElement(element, "LATENCY-BUDGET")

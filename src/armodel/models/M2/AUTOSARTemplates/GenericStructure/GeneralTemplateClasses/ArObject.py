@@ -2867,7 +2867,38 @@ class DdsLiveliness(ARObject):
 
 
 class DdsOwnership(ARObject):
-    pass
+    """
+    Describes the DDS OWNERSHIP QoS policy. Tags: atp.Status=candidate
+    """
+
+    # DdsOwnership method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.187, p.532
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getOwnershipKind    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOwnershipKind    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # See "OWNERSHIP" chapter of DDS. Tags: atp.Status=candidate
+        self.ownershipKind: Optional[DdsOwnershipKindEnum] = None
+
+    def getOwnershipKind(self) -> Optional[DdsOwnershipKindEnum]:
+        """
+        See "OWNERSHIP" chapter of DDS. Tags: atp.Status=candidate
+        """
+        return self.ownershipKind
+
+    def setOwnershipKind(self, value: Optional[DdsOwnershipKindEnum]) -> DdsOwnership:
+        """
+        See "OWNERSHIP" chapter of DDS. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing ownershipKind.
+        """
+        if value is not None:
+            self.ownershipKind = value
+        return self
 
 
 class DdsOwnershipStrength(ARObject):
@@ -3190,6 +3221,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ByteOrderEnum,
     DdsDurabilityKindEnum,
     DdsDurabilityServiceHistoryKindEnum,
+    DdsOwnershipKindEnum,
     DiagnosticClearDtcLimitationEnum,
     DiagnosticConnectedIndicatorBehaviorEnum,
     DiagnosticEventCombinationBehaviorEnum,

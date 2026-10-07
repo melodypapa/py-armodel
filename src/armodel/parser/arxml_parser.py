@@ -775,6 +775,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DateTime,
     DdsDurabilityKindEnum,
     DdsDurabilityServiceHistoryKindEnum,
+    DdsOwnershipKindEnum,
     DiagnosticClearDtcLimitationEnum,
     DiagnosticClearEventAllowedBehaviorEnum,
     DiagnosticConnectedIndicatorBehaviorEnum,
@@ -1645,6 +1646,13 @@ DDS_DURABILITY_KIND_XML_MAP = {
 DDS_DURABILITY_SERVICE_HISTORY_KIND_XML_MAP = {
     "KEEP-ALL": "KEEP-ALL",
     "KEEP-LAST": "KEEP-LAST",
+}
+
+#: Mapping between DdsOwnershipKindEnum literal values and their XML element text
+#: (AR:DDS-OWNERSHIP-KIND-ENUM--SIMPLE).
+DDS_OWNERSHIP_KIND_XML_MAP = {
+    "EXCLUSIVE": "EXCLUSIVE",
+    "SHARED": "SHARED",
 }
 
 #: Mapping between AclScopeEnum literal values and their XML element text
@@ -11949,6 +11957,11 @@ class ARXMLParser(AbstractARXMLParser):
             profile.setLiveliness(DdsLiveliness())
         if self.find(element, "OWNERSHIP") is not None:
             profile.setOwnership(DdsOwnership())
+        ownership_element = self.find(element, "OWNERSHIP")
+        if ownership_element is not None:
+            ownership = DdsOwnership()
+            self.readDdsOwnership(ownership_element, ownership)
+            profile.setOwnership(ownership)
         if self.find(element, "OWNERSHIP-STRENGTH") is not None:
             profile.setOwnershipStrength(DdsOwnershipStrength())
         if self.find(element, "RELIABILITY") is not None:
@@ -11973,6 +11986,11 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read DdsTopicData")
         self.readARObject(element, topic_data)
         topic_data.setTopicData(self.getChildElementOptionalString(element, "TOPIC-DATA"))
+
+    def readDdsOwnership(self, element: ET.Element, ownership: DdsOwnership):
+        self.logger.debug("Read DdsOwnership")
+        self.readARObject(element, ownership)
+        ownership.setOwnershipKind(self._readEnumToken(element, "OWNERSHIP-KIND", DdsOwnershipKindEnum, DDS_OWNERSHIP_KIND_XML_MAP))
 
     def readDdsLatencyBudget(self, element: ET.Element, latency_budget: DdsLatencyBudget):
         self.logger.debug("Read DdsLatencyBudget")

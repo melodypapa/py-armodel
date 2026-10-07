@@ -5,7 +5,7 @@ writeDdsCpQosProfile emits <DDS-CP-QOS-PROFILE> with the IDENTIFIABLE level
 (writeIdentifiable) and the 14 QoS policy children in XSD sequenceOffset order
 (AUTOSAR_00052.xsd l.29057). Unsynced Dds* children serialize identity-only (empty
 elements, Rule 0001.7 debt); the synced DdsTopicData/DdsDurability/DdsDurabilityService/
-DdsDeadline/DdsLatencyBudget children serialize fully.
+DdsDeadline/DdsLatencyBudget/DdsOwnership children serialize fully.
 
 Round-trip counterpart: tests/test_armodel/parser/test_dds_cp_qos_profile.py
 """
@@ -15,9 +15,24 @@ import xml.etree.ElementTree as ET
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import DdsDeadline, DdsDurability, DdsDurabilityService, DdsHistory, DdsLatencyBudget, DdsTopicData
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    DdsDeadline,
+    DdsDurability,
+    DdsDurabilityService,
+    DdsHistory,
+    DdsLatencyBudget,
+    DdsOwnership,
+    DdsTopicData,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import DdsCpQosProfile
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DdsDurabilityKindEnum, DdsDurabilityServiceHistoryKindEnum, Float, PositiveInteger, String
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    DdsDurabilityKindEnum,
+    DdsDurabilityServiceHistoryKindEnum,
+    DdsOwnershipKindEnum,
+    Float,
+    PositiveInteger,
+    String,
+)
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 
@@ -40,6 +55,9 @@ def _new_profile() -> DdsCpQosProfile:
     latency_budget = DdsLatencyBudget()
     latency_budget.setLatencyBudgetDuration(Float().setValue("0.1"))
     profile.setLatencyBudget(latency_budget)
+    ownership = DdsOwnership()
+    ownership.setOwnershipKind(DdsOwnershipKindEnum().setValue(DdsOwnershipKindEnum.EXCLUSIVE))
+    profile.setOwnership(ownership)
     durability = DdsDurability()
     durability.setDurabilityKind(DdsDurabilityKindEnum().setValue(DdsDurabilityKindEnum.TRANSIENT_LOCAL))
     profile.setDurability(durability)
@@ -83,6 +101,15 @@ class TestWriteDdsCpQosProfile:
         deadline_node = node.find("DEADLINE")
         assert deadline_node is not None
         assert deadline_node.find("DEADLINE-PERIOD").text == "0.5"
+
+    def test_write_emits_ownership_fully(self):
+        """Test that the synced DdsOwnership child serializes with its values."""
+        parent = ET.Element("PARENT")
+        ARXMLWriter().writeDdsCpQosProfile(parent, _new_profile())
+        node = parent.find("DDS-CP-QOS-PROFILE")
+        ownership_node = node.find("OWNERSHIP")
+        assert ownership_node is not None
+        assert ownership_node.find("OWNERSHIP-KIND").text == "EXCLUSIVE"
 
     def test_write_emits_latency_budget_fully(self):
         """Test that the synced DdsLatencyBudget child serializes with its values."""
@@ -152,5 +179,7 @@ class TestWriteDdsCpQosProfile:
         assert reloaded.getDeadline().getDeadlinePeriod().getValue() == 0.5
         assert isinstance(reloaded.getLatencyBudget(), DdsLatencyBudget)
         assert reloaded.getLatencyBudget().getLatencyBudgetDuration().getValue() == 0.1
+        assert isinstance(reloaded.getOwnership(), DdsOwnership)
+        assert reloaded.getOwnership().getOwnershipKind().getValue() == "EXCLUSIVE"
         assert reloaded.getTopicData() is not None
         assert reloaded.getTopicData().getTopicData().getValue() == "raw payload"
