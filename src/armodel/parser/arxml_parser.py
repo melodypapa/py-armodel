@@ -15541,6 +15541,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readMacSecCryptoAlgoConfig(self, element: ET.Element, config: MacSecCryptoAlgoConfig):
         self.logger.debug("Read MacSecCryptoAlgoConfig")
+        self.readARObject(element, config)
         capability = self.getChildElementOptionalLiteral(element, "CAPABILITY")
         if capability is not None:
             e: ARLiteral = MacSecCapabilityEnum()
@@ -15549,7 +15550,8 @@ class ARXMLParser(AbstractARXMLParser):
         wrapper = self.find(element, "CIPHER-SUITE-CONFIGS")
         if wrapper is not None:
             for child_element in self.findall(wrapper, "MAC-SEC-CIPHER-SUITE-CONFIG"):
-                cipher_config = config.createCipherSuiteConfig()
+                cipher_config = MacSecCipherSuiteConfig()
+                config.addCipherSuiteConfig(cipher_config)
                 self.readMacSecCipherSuiteConfig(child_element, cipher_config)
         confidentiality_offset = self.getChildElementOptionalLiteral(element, "CONFIDENTIALITY-OFFSET")
         if confidentiality_offset is not None:

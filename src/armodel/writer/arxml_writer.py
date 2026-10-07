@@ -13090,7 +13090,8 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalPositiveInteger(child_element, "CIPHER-SUITE-PRIORITY", cast(Integer, config.getCipherSuitePriority()))
 
     def writeMacSecCryptoAlgoConfig(self, element: ET.Element, config: MacSecCryptoAlgoConfig):
-        child_element = ET.SubElement(element, "MAC-SEC-CRYPTO-ALGO-CONFIG")
+        child_element = ET.SubElement(element, "CRYPTO-ALGO-CONFIG")
+        self.writeARObject(child_element, config)
         self.setChildElementOptionalLiteral(child_element, "CAPABILITY", config.getCapability())
         cipher_configs = config.getCipherSuiteConfigs()
         if len(cipher_configs) > 0:
@@ -13107,16 +13108,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalRefType(child_element, "CKN-REF", participant.getCknRef())
         config = participant.getCryptoAlgoConfig()
         if config is not None:
-            algo_element = ET.SubElement(child_element, "CRYPTO-ALGO-CONFIG")
-            self.setChildElementOptionalLiteral(algo_element, "CAPABILITY", config.getCapability())
-            cipher_configs = config.getCipherSuiteConfigs()
-            if len(cipher_configs) > 0:
-                wrapper = ET.SubElement(algo_element, "CIPHER-SUITE-CONFIGS")
-                for cipher_config in cipher_configs:
-                    self.writeMacSecCipherSuiteConfig(wrapper, cipher_config)
-            self.setChildElementOptionalLiteral(algo_element, "CONFIDENTIALITY-OFFSET", config.getConfidentialityOffset())
-            self.setChildElementOptionalBooleanValue(algo_element, "REPLAY-PROTECTION", config.getReplayProtection())
-            self.setChildElementOptionalPositiveInteger(algo_element, "REPLAY-PROTECTION-WINDOW", cast(Integer, config.getReplayProtectionWindow()))
+            self.writeMacSecCryptoAlgoConfig(child_element, config)
         self.setChildElementOptionalRefType(child_element, "SAK-REF", participant.getSakRef())
 
     def setMacSecLocalKayProps(self, element: ET.Element, key: str, props: Optional[MacSecLocalKayProps]):

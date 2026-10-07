@@ -1901,73 +1901,75 @@ class MacSecCipherSuiteConfig(ARObject):
 
 class MacSecCryptoAlgoConfig(ARObject):
     """
-    This meta-class defines the cryptography configuration for MACsec.
+    This meta-class defines the cryptography configuration for MACsec. Tags: atp.Status=candidate
     """
 
     # MacSecCryptoAlgoConfig method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.123, p.175
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getCapability                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setCapability                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] createCipherSuiteConfig       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getCipherSuiteConfigs         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getConfidentialityOffset      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setConfidentialityOffset      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getReplayProtection           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setReplayProtection           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getReplayProtectionWindow     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setReplayProtectionWindow     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCapability              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCapability              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addCipherSuiteConfig       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCipherSuiteConfigs      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getConfidentialityOffset   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setConfidentialityOffset   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getReplayProtection        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setReplayProtection        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getReplayProtectionWindow  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setReplayProtectionWindow  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        # This attribute defines the MACsec capability.
+        # This attribute defines the MACsec capability. Tags: atp.Status=candidate
         self.capability: Optional[MacSecCapabilityEnum] = None
 
-        # Cipher suite configuration to use with MACsec.
+        # Cipher suite configuration to use with MACsec. Tags: atp.Status=candidate
         self.cipherSuiteConfigs: List[MacSecCipherSuiteConfig] = []
 
-        # The MACsec confidentiality offset specifies the number of bytes starting from the frame header. MACsec encrypts only the bytes after the offset in a frame.
+        # The MACsec confidentiality offset specifies the number of bytes starting from the frame header. MACsec encrypts only the bytes after the offset in a frame. Tags: atp.Status=candidate
         self.confidentialityOffset: Optional[MacSecConfidentialityOffsetEnum] = None
 
-        # This attribute is used to configure the MACsec replay protection.
+        # This attribute is used to configure the MACsec replay protection. Tags: atp.Status=candidate
         self.replayProtection: Optional[Boolean] = None
 
-        # In case replay protection is active, this attribute defines the replay protection window.
+        # In case replay protection is active, this attribute defines the replay protection window. Tags: atp.Status=candidate
         self.replayProtectionWindow: Optional[PositiveInteger] = None
 
     def getCapability(self) -> Optional[MacSecCapabilityEnum]:
-        """This attribute defines the MACsec capability."""
+        """This attribute defines the MACsec capability. Tags: atp.Status=candidate"""
         return self.capability
 
     def setCapability(self, value: Optional[MacSecCapabilityEnum]) -> MacSecCryptoAlgoConfig:
         """
-        This attribute defines the MACsec capability.
+        This attribute defines the MACsec capability. Tags: atp.Status=candidate
         A None value is a no-op and does not overwrite an existing capability.
         """
         if value is not None:
             self.capability = value
         return self
 
-    def createCipherSuiteConfig(self) -> MacSecCipherSuiteConfig:
-        """Cipher suite configuration to use with MACsec."""
-        config = MacSecCipherSuiteConfig()
-        self.cipherSuiteConfigs.append(config)
-        return config
+    def addCipherSuiteConfig(self, value: Optional[MacSecCipherSuiteConfig]) -> MacSecCryptoAlgoConfig:
+        """
+        Cipher suite configuration to use with MACsec. Tags: atp.Status=candidate
+        A None value is a no-op and does not append to cipherSuiteConfigs.
+        """
+        if value is not None:
+            self.cipherSuiteConfigs.append(value)
+        return self
 
     def getCipherSuiteConfigs(self) -> List[MacSecCipherSuiteConfig]:
-        """Cipher suite configuration to use with MACsec."""
+        """Cipher suite configuration to use with MACsec. Tags: atp.Status=candidate"""
         return self.cipherSuiteConfigs
 
     def getConfidentialityOffset(self) -> Optional[MacSecConfidentialityOffsetEnum]:
-        """The MACsec confidentiality offset specifies the number of bytes starting from the frame header. MACsec encrypts only the bytes after the offset in a frame."""
+        """The MACsec confidentiality offset specifies the number of bytes starting from the frame header. MACsec encrypts only the bytes after the offset in a frame. Tags: atp.Status=candidate"""
         return self.confidentialityOffset
 
     def setConfidentialityOffset(self, value: Optional[MacSecConfidentialityOffsetEnum]) -> MacSecCryptoAlgoConfig:
         """
-        The MACsec confidentiality offset specifies the number of bytes starting from the frame header. MACsec encrypts only the bytes after the offset in a frame.
+        The MACsec confidentiality offset specifies the number of bytes starting from the frame header. MACsec encrypts only the bytes after the offset in a frame. Tags: atp.Status=candidate
         A None value is a no-op and does not overwrite an existing confidentialityOffset.
         """
         if value is not None:
@@ -1975,12 +1977,12 @@ class MacSecCryptoAlgoConfig(ARObject):
         return self
 
     def getReplayProtection(self) -> Optional[Boolean]:
-        """This attribute is used to configure the MACsec replay protection."""
+        """This attribute is used to configure the MACsec replay protection. Tags: atp.Status=candidate"""
         return self.replayProtection
 
     def setReplayProtection(self, value: Optional[Boolean]) -> MacSecCryptoAlgoConfig:
         """
-        This attribute is used to configure the MACsec replay protection.
+        This attribute is used to configure the MACsec replay protection. Tags: atp.Status=candidate
         A None value is a no-op and does not overwrite an existing replayProtection.
         """
         if value is not None:
@@ -1988,12 +1990,12 @@ class MacSecCryptoAlgoConfig(ARObject):
         return self
 
     def getReplayProtectionWindow(self) -> Optional[PositiveInteger]:
-        """In case replay protection is active, this attribute defines the replay protection window."""
+        """In case replay protection is active, this attribute defines the replay protection window. Tags: atp.Status=candidate"""
         return self.replayProtectionWindow
 
     def setReplayProtectionWindow(self, value: Optional[PositiveInteger]) -> MacSecCryptoAlgoConfig:
         """
-        In case replay protection is active, this attribute defines the replay protection window.
+        In case replay protection is active, this attribute defines the replay protection window. Tags: atp.Status=candidate
         A None value is a no-op and does not overwrite an existing replayProtectionWindow.
         """
         if value is not None:

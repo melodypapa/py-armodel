@@ -655,7 +655,7 @@ class Test_MacSecCipherSuiteConfig:
 
 
 class Test_MacSecCryptoAlgoConfig:
-    def test_defaults(self):
+    def test_initialization_defaults(self):
         config = MacSecCryptoAlgoConfig()
         assert isinstance(config, ARObject)
         assert config.getCapability() is None
@@ -690,13 +690,23 @@ class Test_MacSecCryptoAlgoConfig:
         assert config.setReplayProtectionWindow(window) is config
         assert config.getReplayProtectionWindow() is window
 
-    def test_create_and_get_cipher_suite_configs(self):
+    def test_add_and_get_cipher_suite_configs(self):
         config = MacSecCryptoAlgoConfig()
-        c1 = config.createCipherSuiteConfig()
-        c2 = config.createCipherSuiteConfig()
-        assert isinstance(c1, MacSecCipherSuiteConfig)
-        assert isinstance(c2, MacSecCipherSuiteConfig)
+        c1 = MacSecCipherSuiteConfig()
+        c1.setCipherSuite(_string("GCM-AES-128"))
+        c2 = MacSecCipherSuiteConfig()
+        c2.setCipherSuite(_string("GCM-AES-256"))
+
+        assert config.addCipherSuiteConfig(c1) is config
+        assert config.addCipherSuiteConfig(c2) is config
         assert config.getCipherSuiteConfigs() == [c1, c2]
+        assert config.getCipherSuiteConfigs()[0].getCipherSuite().getValue() == "GCM-AES-128"
+        assert config.getCipherSuiteConfigs()[1].getCipherSuite().getValue() == "GCM-AES-256"
+
+    def test_add_cipher_suite_config_none_is_noop(self):
+        config = MacSecCryptoAlgoConfig()
+        assert config.addCipherSuiteConfig(None) is config
+        assert config.getCipherSuiteConfigs() == []
 
     def test_none_is_noop(self):
         config = MacSecCryptoAlgoConfig()

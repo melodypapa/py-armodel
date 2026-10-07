@@ -1309,15 +1309,80 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `MacSecCryptoAlgoConfig` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.123, p.175
   - module: M2/AUTOSARTemplates/SystemTemplate/SecureCommunication.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: Table 3.123 is a page-split table — the body (Class header + all five
+    attribute rows, markdown lines 4728-4739) renders BEFORE the caption (line 4741), which
+    sits directly before Table 3.124's body; pdf_page.py cites p.175. Class header (concrete),
+    Base ARObject (only; most-derived model ancestor → `__init__(self)`), Aggregated by
+    MacSecKayParticipant.cryptoAlgoConfig (XSD: single optional role element CRYPTO-ALGO-CONFIG
+    of type AR:MAC-SEC-CRYPTO-ALGO-CONFIG under MAC-SEC-KAY-PARTICIPANT, AUTOSAR_00052.xsd
+    line 79113). Five 0..1/0..4 attr/aggr rows in displayed order (capability —
+    MacSecCapabilityEnum; cipherSuiteConfig — MacSecCipherSuiteConfig, 0..4, aggr — the
+    markdown splits names across lines, e.g. "cipherSuite Config", "confidentiality Offset",
+    "replayProtection Window"; confidentialityOffset — MacSecConfidentialityOffsetEnum;
+    replayProtection — Boolean; replayProtectionWindow — PositiveInteger); XSD group
+    MAC-SEC-CRYPTO-ALGO-CONFIG (line 78974) carries the identical child order CAPABILITY →
+    CIPHER-SUITE-CONFIGS (wrapper, choice max 4 MAC-SEC-CIPHER-SUITE-CONFIG items) →
+    CONFIDENTIALITY-OFFSET → REPLAY-PROTECTION → REPLAY-PROTECTION-WINDOW, so member order
+    and XML order coincide; the complexType (line 79019) = AR:AR-OBJECT group + the class
+    group → base level readARObject/writeARObject (S/T). Every Note (class + attributes)
+    carries the `Tags: atp.Status=candidate` tail — kept verbatim at every level (Rule
+    0012.2.5.3). cipherSuiteConfig is a bounded-many (0..4) aggr of a non-Referrable child
+    (Base ARObject) → dedicated `List[MacSecCipherSuiteConfig]` field + `addCipherSuiteConfig`
+    /`getCipherSuiteConfigs` (Rule 0001.6: no create factory for a non-Referrable child — the
+    legacy no-arg `createCipherSuiteConfig()` is a to-fix violation, renamed to
+    `addCipherSuiteConfig(value)` with the None no-op; parser instantiates and hands to the
+    adder). Referenced types MacSecCapabilityEnum/MacSecConfidentialityOffsetEnum/
+    MacSecCipherSuiteConfig exist (queued later in this batch as Tables 3.124-3.126 —
+    stub-typed fields stay). Placement per Rule 0007 (spec Package row
+    `M2::AUTOSARTemplates::SystemTemplate::SecureCommunication`): class already sits in
+    SecureCommunication.py at its legacy slot (directly after its aggregated child
+    MacSecCipherSuiteConfig, before MacSecLocalKayProps) — module placement correct, no move
+    needed (MacSecProps/MacSecLocalKayProps/MacSecGlobalKayProps sibling precedent: classes
+    already in the defining module keep their legacy slot).
+  - Legacy upgrade: the class was a prior legacy sync carrying the stale
+    `# Spec verified: R23-11` marker + 5-column checklist (no per-row release token) — both
+    retired (marker removed per Rule 0023, batch 9b re-stamps; checklist rewritten to the
+    6-column format at Step 7). Docstrings lacked the `Tags:` tails — rewritten verbatim at
+    Step 4. Entry-time audit FAILed ROWS/STAMP/BASE (both directions) as expected.
+  - Model API migration (Rule 0001.6): the legacy no-arg `createCipherSuiteConfig()` factory
+    on a non-Referrable child (MacSecCipherSuiteConfig Base is ARObject) was renamed to
+    `addCipherSuiteConfig(value: Optional[MacSecCipherSuiteConfig])` with the None no-op
+    ("do not invent a no-arg createXxx()" — the parser now instantiates and hands to the
+    adder); the only call sites were the parser readMacSecCryptoAlgoConfig loop and this
+    class's own tests.
+  - Reader/writer wiring upgrade: readMacSecCryptoAlgoConfig never called the ARObject base
+    level (audit BASE FAIL — S/T silently dropped on round-trip) → now calls readARObject
+    exactly once. The dedicated writeMacSecCryptoAlgoConfig emitted the type-name tag
+    MAC-SEC-CRYPTO-ALGO-CONFIG and had no aggregator call site (writeMacSecKayParticipant
+    serialized the five children INLINE under the role element) → uplifted to emit the XSD
+    ROLE element CRYPTO-ALGO-CONFIG (AUTOSAR_00052.xsd line 79113) and call writeARObject
+    exactly once; writeMacSecKayParticipant's inline block was replaced by the guarded
+    `self.writeMacSecCryptoAlgoConfig(child_element, config)` call — the wire format stays
+    byte-identical (same role tag, same child order, S/T attrs only when set), closing the
+    Table 3.122 finding ("attempted symmetric refactor reverted") the correct way: the
+    child-order test in test_mac_sec_kay_participant.py still pins CRYPTO-ALGO-CONFIG and
+    passes unchanged.
+  - Red observation (Step 5): model RED was the Rule 0001.6 API migration (2 failed:
+    AttributeError no attribute 'addCipherSuiteConfig' / 6 passed). Reader/writer RED: 7
+    failed / 7 passed (parser base-level S/T + all-fields via the removed factory; writer
+    role-tag CRYPTO-ALGO-CONFIG vs emitted MAC-SEC-CRYPTO-ALGO-CONFIG on 4 tests incl. the
+    base-level S/T case). After the Step 6 upgrade all 153 MacSec-family tests pass, and the
+    parser+writer suites are green (9484 passed).
+  - No deviations from Table 3.123; no missing referenced classes (MacSecCapabilityEnum,
+    MacSecConfidentialityOffsetEnum and MacSecCipherSuiteConfig exist and re-sync later in
+    this batch as Tables 3.124-3.126 — the stub-typed fields stay until their own syncs;
+    Boolean/PositiveInteger primitives exist). The `# Spec verified: R23-11` marker is
+    deferred to the batch 9b stamp per user instruction; the entry-time stale legacy marker
+    was removed (Rule 0023).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-07 (21982 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit fbd1c7b49
 
 - [ ] `MacSecCipherSuiteConfig` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.124, p.176
   - module: M2/AUTOSARTemplates/SystemTemplate/SecureCommunication.py

@@ -216,7 +216,6 @@ LogTraceDefaultLogLevelEnum
 MacSecCapabilityEnum
 MacSecCipherSuiteConfig
 MacSecConfidentialityOffsetEnum
-MacSecCryptoAlgoConfig
 MacSecFailPermissiveModeEnum
 MacSecRoleEnum
 MaxCommModeEnum
