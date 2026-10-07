@@ -377,3 +377,41 @@ class TestRxIdentifierRange:
                 annotations[node.target.attr] = ast.get_source_segment(src, node.annotation)
         assert annotations["lowerCanId"] == "Optional[PositiveInteger]"
         assert annotations["upperCanId"] == "Optional[PositiveInteger]"
+
+
+CAN_FRAME_RX_BEHAVIOR_ENUM_CLASS_NOTE = "Defines different CAN protocols for frame reception behavior."
+
+
+class TestCanFrameRxBehaviorEnum:
+    """Test cases for CanFrameRxBehaviorEnum (Table 6.113, p.444)."""
+
+    def test_class_docstring_is_spec_note(self):
+        """Test that the class docstring carries the spec Note verbatim (Table 6.113)"""
+        assert CanFrameRxBehaviorEnum.__doc__.strip() == CAN_FRAME_RX_BEHAVIOR_ENUM_CLASS_NOTE
+
+    def test_literal_values_are_xsd_facets(self):
+        """Test the member values are the exact XSD --SIMPLE enumeration facets (Table 6.113)"""
+        assert CanFrameRxBehaviorEnum.ENUM_ANY == "ANY"
+        assert CanFrameRxBehaviorEnum.ENUM_CAN_20 == "CAN-20"
+        assert CanFrameRxBehaviorEnum.ENUM_CAN_FD == "CAN-FD"
+
+    def test_literal_comments_carry_spec_description_and_tags(self):
+        """Test the literal comments carry the spec description + Tags verbatim (Table 6.113)"""
+        source = inspect.getsource(CanFrameRxBehaviorEnum)
+        assert "This CAN frame may be received as both, CAN 2.0 and CAN FD. Tags: atp.EnumerationLiteralIndex=0" in source
+        assert "This CAN frame shall be received as CAN 2.0 only. In case the CAN frame is received as CAN FD it is discarded during reception. Tags: atp.EnumerationLiteralIndex=1" in source
+        assert "This CAN frame shall be received as CAN FD only. In case the CAN frame is received as CAN 2.0 it is discarded during reception. Tags: atp.EnumerationLiteralIndex=2" in source
+
+    def test_instantiability_and_facet_order(self):
+        """Test the enum is instantiable and the tuple follows the XSD facet order (Table 6.113)"""
+        enum = CanFrameRxBehaviorEnum()
+        assert enum.getValue() == ""
+
+        assert enum.setValue(CanFrameRxBehaviorEnum.ENUM_ANY) is enum
+        assert enum.getValue() == "ANY"
+        assert enum.setValue(CanFrameRxBehaviorEnum.ENUM_CAN_20) is enum
+        assert enum.getValue() == "CAN-20"
+        assert enum.setValue(CanFrameRxBehaviorEnum.ENUM_CAN_FD) is enum
+        assert enum.getValue() == "CAN-FD"
+
+        assert enum.getEnumValues() == ["ANY", "CAN-20", "CAN-FD"]
