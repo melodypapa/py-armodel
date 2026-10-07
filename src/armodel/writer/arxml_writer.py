@@ -2395,6 +2395,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setTt(self, element: ET.Element, key: str, tt: Optional[Tt]):
         if tt is not None:
             child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, tt)
             type_value = tt.getType()
             if type_value is not None:
                 child_element.attrib["TYPE"] = cast(str, type_value.getValue())

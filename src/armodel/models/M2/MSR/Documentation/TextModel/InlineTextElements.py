@@ -544,15 +544,14 @@ class Tt(ARObject):
 
     # Tt method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.39, p.319
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getValue     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setValue     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTexRender [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTexRender [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getType      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setType      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getValue     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setValue     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTexRender [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTexRender [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getType      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setType      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()

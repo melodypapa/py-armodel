@@ -59,3 +59,24 @@ class TestIndexEntryState:
 
         assert index_entry.getChecksum() is None
         assert index_entry.getTimestamp() is None
+
+
+class TestTtState:
+    def test_read_tt_reads_s_and_t(self):
+        element = ET.fromstring(f"""<TT xmlns='{NS}' S="checksum-3" T="2023-03-03T00:00:00Z">text</TT>""")
+
+        tt = ARXMLParser().readTt(element)
+
+        assert isinstance(tt, Tt)
+        assert tt.getChecksum() is not None
+        assert tt.getChecksum().getValue() == "checksum-3"
+        assert tt.getTimestamp() is not None
+        assert tt.getTimestamp().getValue() == "2023-03-03T00:00:00Z"
+
+    def test_read_tt_without_s_and_t(self):
+        element = ET.fromstring(f"""<TT xmlns='{NS}'>text</TT>""")
+
+        tt = ARXMLParser().readTt(element)
+
+        assert tt.getChecksum() is None
+        assert tt.getTimestamp() is None

@@ -2670,6 +2670,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readTt(self, element: ET.Element) -> Tt:
         tt = Tt()
+        self.readARObject(element, tt)
         if element.text is not None:
             tt.setValue(String().setValue(element.text))
         if "TYPE" in element.attrib:
