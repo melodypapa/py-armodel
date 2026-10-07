@@ -7,7 +7,7 @@ from abc import ABC
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from typing import List, Optional, cast
 
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import FlexrayTpConnection, TpConnection
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import EthTpConnection, FlexrayTpConnection, TpConnection
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import AbstractDoIpLogicAddressProps, DoIpLogicTargetAddressProps, DoIpLogicTesterAddressProps
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import FlexrayArTpNode, FlexrayTpConnectionControl, FlexrayTpNode, FlexrayTpPduPool, Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, Integer, PositiveInteger, RefType, TimeValue
@@ -1630,3 +1630,38 @@ class FlexrayArTpConfig(TpConfig):
             self.addReferrableElement(node)
             self.tpNodes.append(node)
         return cast(FlexrayArTpNode, self.getReferrableElement(short_name, FlexrayArTpNode))
+
+
+class EthTpConfig(TpConfig):
+    """
+    This element defines which PduTriggerings shall be handled using "TP" semantics. Tags: atp.recommendedPackage=TpConfigs
+    """
+
+    # EthTpConfig method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.262, p.617
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTpConnections     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addTpConnection      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # (Base = ARObject, CollectableElement, FibexElement, Identifiable, MultilanguageReferrable, PackageableElement, Referrable, TpConfig)
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Senders and receivers of SOME/IP TP messages.
+        self.tpConnections: List[EthTpConnection] = []
+
+    def getTpConnections(self) -> List[EthTpConnection]:
+        """
+        Senders and receivers of SOME/IP TP messages.
+        """
+        return self.tpConnections
+
+    def addTpConnection(self, value: Optional[EthTpConnection]) -> EthTpConfig:
+        """
+        Senders and receivers of SOME/IP TP messages.
+        A None value is a no-op and is not appended to tpConnections.
+        """
+        if value is not None:
+            self.tpConnections.append(value)
+        return self

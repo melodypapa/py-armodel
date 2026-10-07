@@ -1300,6 +1300,8 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import
     DoIpLogicAddress,
     DoIpTpConfig,
     DoIpTpConnection,
+    EthTpConfig,
+    EthTpConnection,
     FlexrayArTpChannel,
     FlexrayArTpConfig,
     FlexrayArTpNode,
@@ -10568,6 +10570,27 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeFlexrayArTpConfigTpChannels(child_element, config)
         self.writeFlexrayArTpConfigTpNodes(child_element, config)
 
+    def writeEthTpConnection(self, element: ET.Element, connection: EthTpConnection):
+        if connection is not None:
+            child_element = ET.SubElement(element, "ETH-TP-CONNECTION")
+            self.writeTpConnection(child_element, connection)
+
+    def writeEthTpConfigTpConnections(self, element: ET.Element, config: EthTpConfig):
+        connections = config.getTpConnections()
+        if len(connections) > 0:
+            child_element = ET.SubElement(element, "TP-CONNECTIONS")
+            for connection in connections:
+                if isinstance(connection, EthTpConnection):
+                    self.writeEthTpConnection(child_element, connection)
+                else:
+                    self.notImplemented("Unsupported TpConnection <%s>" % type(connection))
+
+    def writeEthTpConfig(self, element: ET.Element, config: EthTpConfig):
+        self.logger.debug("Write EthTpConfig <%s>" % config.getShortName())
+        child_element = ET.SubElement(element, "ETH-TP-CONFIG")
+        self.writeTpConfig(child_element, config)
+        self.writeEthTpConfigTpConnections(child_element, config)
+
     def writeFrameTriggering(self, element: ET.Element, triggering: FrameTriggering):
         self.writeIdentifiable(element, triggering)
         ref_list = triggering.getFramePortRefs()
@@ -18868,6 +18891,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeFlexrayTpConfig(element, ar_element)
         elif isinstance(ar_element, FlexrayArTpConfig):
             self.writeFlexrayArTpConfig(element, ar_element)
+        elif isinstance(ar_element, EthTpConfig):
+            self.writeEthTpConfig(element, ar_element)
         elif isinstance(ar_element, LinCluster):
             self.writeLinCluster(element, ar_element)
         elif isinstance(ar_element, CanCluster):

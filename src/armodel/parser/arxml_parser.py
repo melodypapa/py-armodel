@@ -1557,6 +1557,8 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import
     DoIpLogicAddress,
     DoIpTpConfig,
     DoIpTpConnection,
+    EthTpConfig,
+    EthTpConnection,
     FlexrayArTpChannel,
     FlexrayArTpConfig,
     FlexrayArTpNode,
@@ -14348,6 +14350,24 @@ class ARXMLParser(AbstractARXMLParser):
         self.readFlexrayArTpConfigTpChannels(element, config)
         self.readFlexrayArTpConfigTpNodes(element, config)
 
+    def readEthTpConnection(self, element: ET.Element, connection: EthTpConnection):
+        self.readTpConnection(element, connection)
+
+    def readEthTpConfigTpConnections(self, element: ET.Element, config: EthTpConfig):
+        for child_element in self.findall(element, "TP-CONNECTIONS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "ETH-TP-CONNECTION":
+                connection = EthTpConnection()
+                self.readEthTpConnection(child_element, connection)
+                config.addTpConnection(connection)
+            else:
+                self.notImplemented("Unsupported TpConnection <%s>" % tag_name)
+
+    def readEthTpConfig(self, element: ET.Element, config: EthTpConfig):
+        self.logger.debug("Read EthTpConfig <%s>" % config.getShortName())
+        self.readTpConfig(element, config)
+        self.readEthTpConfigTpConnections(element, config)
+
     def readCanFrame(self, element: ET.Element, frame: CanFrame):
         self.logger.debug("Read CanFrame <%s>" % frame.getShortName())
         self.readFrame(element, frame)
@@ -18490,6 +18510,8 @@ class ARXMLParser(AbstractARXMLParser):
                 self.readFlexrayTpConfig(child_element, parent.createFlexrayTpConfig(self.getShortName(child_element)))
             elif tag_name == "FLEXRAY-AR-TP-CONFIG":
                 self.readFlexrayArTpConfig(child_element, parent.createFlexrayArTpConfig(self.getShortName(child_element)))
+            elif tag_name == "ETH-TP-CONFIG":
+                self.readEthTpConfig(child_element, parent.createEthTpConfig(self.getShortName(child_element)))
             elif tag_name == "CLIENT-ID-DEFINITION-SET":
                 id_definition_set = parent.createClientIdDefinitionSet(self.getShortName(child_element))
                 self.readClientIdDefinitionSet(child_element, id_definition_set)

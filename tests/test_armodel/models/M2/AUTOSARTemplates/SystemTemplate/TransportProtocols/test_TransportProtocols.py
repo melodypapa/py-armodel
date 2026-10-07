@@ -12,6 +12,8 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import
     DoIpLogicAddress,
     DoIpTpConfig,
     DoIpTpConnection,
+    EthTpConfig,
+    EthTpConnection,
     FlexrayArTpChannel,
     FlexrayArTpConfig,
     FlexrayArTpNode,
@@ -780,3 +782,22 @@ class TestTransportProtocols:
         config.addTpChannel(channel)
         assert channel in config.getTpChannels()
         assert config == config.addTpChannel(channel)
+
+    def test_eth_tp_config(self):
+        """
+        Test EthTpConfig class functionality (R23-11, Table 6.262, p.617).
+        """
+        parent = MockParent()
+        config = EthTpConfig(parent, "test_eth_tp_config")
+
+        # Test constructor
+        assert config is not None
+
+        # Test default values
+        assert config.getTpConnections() == []
+
+        # Test addTpConnection
+        connection = EthTpConnection()
+        config.addTpConnection(connection)
+        assert connection in config.getTpConnections()
+        assert config == config.addTpConnection(connection)

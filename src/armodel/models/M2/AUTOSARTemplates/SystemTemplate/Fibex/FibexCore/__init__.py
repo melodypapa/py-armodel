@@ -38,10 +38,6 @@ class BusMirrorChannelMappingUserDefined(BusMirrorChannelMapping):
     pass
 
 
-class EthTpConfig(FibexElement):
-    pass
-
-
 class EthernetWakeupSleepOnDatalineConfigSet(FibexElement):
     pass
 
