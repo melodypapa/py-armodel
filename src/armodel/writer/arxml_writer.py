@@ -559,6 +559,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DdsCpProvidedServiceInstance,
     DdsCpServiceInstanceEvent,
     DdsCpServiceInstanceOperation,
+    DdsDeadline,
     DdsDurability,
     DdsDurabilityService,
     DdsTopicData,
@@ -15682,7 +15683,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "DDS-CP-QOS-PROFILE")
         self.writeIdentifiable(child_element, profile)
         if profile.getDeadline() is not None:
-            ET.SubElement(child_element, "DEADLINE")
+            self.writeDdsDeadline(child_element, profile.getDeadline())
         if profile.getDestinationOrder() is not None:
             ET.SubElement(child_element, "DESTINATION-ORDER")
         if profile.getDurability() is not None:
@@ -15720,6 +15721,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "TOPIC-DATA")
         self.writeARObject(child_element, topic_data)
         self.setChildElementOptionalString(child_element, "TOPIC-DATA", topic_data.getTopicData())
+
+    def writeDdsDeadline(self, element: ET.Element, deadline: DdsDeadline):
+        child_element = ET.SubElement(element, "DEADLINE")
+        self.writeARObject(child_element, deadline)
+        self.setChildElementOptionalFloatValue(child_element, "DEADLINE-PERIOD", deadline.getDeadlinePeriod())
 
     def writeDdsDurability(self, element: ET.Element, durability: DdsDurability):
         child_element = ET.SubElement(element, "DURABILITY")

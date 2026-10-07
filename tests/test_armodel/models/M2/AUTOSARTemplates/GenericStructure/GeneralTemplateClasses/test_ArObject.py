@@ -15,6 +15,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DdsCpProvidedServiceInstance,
     DdsCpServiceInstanceEvent,
     DdsCpServiceInstanceOperation,
+    DdsDeadline,
     DdsDurability,
     DdsDurabilityService,
     DdsTopicData,
@@ -3586,3 +3587,66 @@ class TestDdsDurabilityService:
         assert inspect.cleandoc(DdsDurabilityService.setDurabilityServiceMaxSamples.__doc__) == (self.MAX_SAMPLES_NOTE + none_no_op % "durabilityServiceMaxSamples")
         assert inspect.cleandoc(DdsDurabilityService.getDurabilityServiceMaxSamplesPerInstance.__doc__) == self.MAX_SAMPLES_PER_INSTANCE_NOTE
         assert inspect.cleandoc(DdsDurabilityService.setDurabilityServiceMaxSamplesPerInstance.__doc__) == (self.MAX_SAMPLES_PER_INSTANCE_NOTE + none_no_op % "durabilityServiceMaxSamplesPerInstance")
+
+
+class TestDdsDeadline:
+    """
+    Test class for DdsDeadline functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.185, p.532
+    """
+
+    CLASS_NOTE = "Describes the DDS DEADLINE QoS policy. Tags: atp.Status=candidate"
+    DEADLINE_PERIOD_NOTE = 'See "DEADLINE" chapter of DDS. Time given in seconds. Tags: atp.Status=candidate'
+
+    def _create_deadline(self) -> DdsDeadline:
+        return DdsDeadline()
+
+    def test_initialization(self):
+        """
+        Test that a new DdsDeadline initializes all attributes to their defaults.
+        """
+        obj = self._create_deadline()
+
+        assert obj.getDeadlinePeriod() is None
+
+    def test_is_ar_object_subclass(self):
+        """
+        Test that DdsDeadline derives from ARObject (confirmed queue row; Base column = ARObject only).
+        """
+        assert issubclass(DdsDeadline, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(DdsDeadline.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DdsDeadline.__init__.__doc__ is None
+
+    def test_get_set_deadline_period(self):
+        """
+        Test getDeadlinePeriod and setDeadlinePeriod round-trip and None no-op.
+        """
+        obj = self._create_deadline()
+
+        value = Float().setValue("0.5")
+        result = obj.setDeadlinePeriod(value)
+        assert result is obj  # method chaining
+        assert obj.getDeadlinePeriod() is value
+        assert obj.getDeadlinePeriod().getValue() == 0.5
+
+        result = obj.setDeadlinePeriod(None)
+        assert result is obj  # method chaining with None
+        assert obj.getDeadlinePeriod() is value  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DdsDeadline.getDeadlinePeriod.__doc__) == self.DEADLINE_PERIOD_NOTE
+        assert inspect.cleandoc(DdsDeadline.setDeadlinePeriod.__doc__) == (self.DEADLINE_PERIOD_NOTE + "\n\nA None value is a no-op and does not overwrite an existing deadlinePeriod.")

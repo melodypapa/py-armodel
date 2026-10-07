@@ -2606,7 +2606,38 @@ class DdsCpServiceInstanceOperation(ARObject, VariationPointCapable):
 
 
 class DdsDeadline(ARObject):
-    pass
+    """
+    Describes the DDS DEADLINE QoS policy. Tags: atp.Status=candidate
+    """
+
+    # DdsDeadline method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.185, p.532
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDeadlinePeriod   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDeadlinePeriod   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # See "DEADLINE" chapter of DDS. Time given in seconds. Tags: atp.Status=candidate
+        self.deadlinePeriod: Optional[Float] = None
+
+    def getDeadlinePeriod(self) -> Optional[Float]:
+        """
+        See "DEADLINE" chapter of DDS. Time given in seconds. Tags: atp.Status=candidate
+        """
+        return self.deadlinePeriod
+
+    def setDeadlinePeriod(self, value: Optional[Float]) -> DdsDeadline:
+        """
+        See "DEADLINE" chapter of DDS. Time given in seconds. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing deadlinePeriod.
+        """
+        if value is not None:
+            self.deadlinePeriod = value
+        return self
 
 
 class DdsDestinationOrder(ARObject):

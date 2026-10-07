@@ -4,8 +4,8 @@ Writer tests for DDS-CP-QOS-PROFILE elements — DdsCpQosProfile, Table 6.179 (p
 writeDdsCpQosProfile emits <DDS-CP-QOS-PROFILE> with the IDENTIFIABLE level
 (writeIdentifiable) and the 14 QoS policy children in XSD sequenceOffset order
 (AUTOSAR_00052.xsd l.29057). Unsynced Dds* children serialize identity-only (empty
-elements, Rule 0001.7 debt); the synced DdsTopicData/DdsDurability/DdsDurabilityService
-children serialize fully.
+elements, Rule 0001.7 debt); the synced DdsTopicData/DdsDurability/DdsDurabilityService/
+DdsDeadline children serialize fully.
 
 Round-trip counterpart: tests/test_armodel/parser/test_dds_cp_qos_profile.py
 """
@@ -15,7 +15,7 @@ import xml.etree.ElementTree as ET
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import DdsDurability, DdsDurabilityService, DdsHistory, DdsTopicData
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import DdsDeadline, DdsDurability, DdsDurabilityService, DdsHistory, DdsTopicData
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import DdsCpQosProfile
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DdsDurabilityKindEnum, DdsDurabilityServiceHistoryKindEnum, Float, PositiveInteger, String
 from armodel.parser.arxml_parser import ARXMLParser
@@ -34,6 +34,9 @@ def reset_autosar():
 
 def _new_profile() -> DdsCpQosProfile:
     profile = DdsCpQosProfile(AUTOSAR.getInstance(), "Profile1")
+    deadline = DdsDeadline()
+    deadline.setDeadlinePeriod(Float().setValue("0.5"))
+    profile.setDeadline(deadline)
     durability = DdsDurability()
     durability.setDurabilityKind(DdsDurabilityKindEnum().setValue(DdsDurabilityKindEnum.TRANSIENT_LOCAL))
     profile.setDurability(durability)
@@ -68,6 +71,15 @@ class TestWriteDdsCpQosProfile:
         history_node = node.find("HISTORY")
         assert history_node is not None
         assert len(list(history_node)) == 0
+
+    def test_write_emits_deadline_fully(self):
+        """Test that the synced DdsDeadline child serializes with its values."""
+        parent = ET.Element("PARENT")
+        ARXMLWriter().writeDdsCpQosProfile(parent, _new_profile())
+        node = parent.find("DDS-CP-QOS-PROFILE")
+        deadline_node = node.find("DEADLINE")
+        assert deadline_node is not None
+        assert deadline_node.find("DEADLINE-PERIOD").text == "0.5"
 
     def test_write_emits_durability_fully(self):
         """Test that the synced DdsDurability child serializes with its values."""
@@ -124,5 +136,7 @@ class TestWriteDdsCpQosProfile:
         assert reloaded.getDurabilityService().getDurabilityServiceCleanupDelay().getValue() == 2.5
         assert reloaded.getDurabilityService().getDurabilityServiceHistoryKind().getValue() == "KEEP-LAST"
         assert reloaded.getDurabilityService().getDurabilityServiceMaxSamples().getValue() == 16
+        assert isinstance(reloaded.getDeadline(), DdsDeadline)
+        assert reloaded.getDeadline().getDeadlinePeriod().getValue() == 0.5
         assert reloaded.getTopicData() is not None
         assert reloaded.getTopicData().getTopicData().getValue() == "raw payload"

@@ -11917,8 +11917,11 @@ class ARXMLParser(AbstractARXMLParser):
     def readDdsCpQosProfile(self, element: ET.Element, profile: DdsCpQosProfile):
         self.logger.debug("Read DdsCpQosProfile")
         self.readIdentifiable(element, profile)
-        if self.find(element, "DEADLINE") is not None:
-            profile.setDeadline(DdsDeadline())
+        deadline_element = self.find(element, "DEADLINE")
+        if deadline_element is not None:
+            deadline = DdsDeadline()
+            self.readDdsDeadline(deadline_element, deadline)
+            profile.setDeadline(deadline)
         if self.find(element, "DESTINATION-ORDER") is not None:
             profile.setDestinationOrder(DdsDestinationOrder())
         durability_element = self.find(element, "DURABILITY")
@@ -11965,6 +11968,11 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read DdsTopicData")
         self.readARObject(element, topic_data)
         topic_data.setTopicData(self.getChildElementOptionalString(element, "TOPIC-DATA"))
+
+    def readDdsDeadline(self, element: ET.Element, deadline: DdsDeadline):
+        self.logger.debug("Read DdsDeadline")
+        self.readARObject(element, deadline)
+        deadline.setDeadlinePeriod(self.getChildElementOptionalFloatValue(element, "DEADLINE-PERIOD"))
 
     def readDdsDurability(self, element: ET.Element, durability: DdsDurability):
         self.logger.debug("Read DdsDurability")

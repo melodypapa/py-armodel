@@ -10,8 +10,9 @@ DURABILITY-SERVICE, HISTORY, LATENCY-BUDGET, LIFESPAN, LIVELINESS, OWNERSHIP,
 OWNERSHIP-STRENGTH, RELIABILITY, RESOURCE-LIMITS, TOPIC-DATA, TRANSPORT-PRIORITY).
 
 The Dds* QoS policy child classes (except DdsTopicData, synced Table 6.180, DdsDurability,
-synced Table 6.181, and DdsDurabilityService, synced Table 6.183) are still unsynced stubs —
-the reader serializes them identity-only (Rule 0001.7 debt).
+synced Table 6.181, DdsDurabilityService, synced Table 6.183, and DdsDeadline, synced
+Table 6.185) are still unsynced stubs — the reader serializes them identity-only
+(Rule 0001.7 debt).
 
 Round-trip counterpart: tests/test_armodel/writer/test_writer_dds_cp_qos_profile.py
 """
@@ -21,7 +22,7 @@ import xml.etree.ElementTree as ET
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import DdsDurability, DdsDurabilityService, DdsHistory, DdsTopicData
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import DdsDeadline, DdsDurability, DdsDurabilityService, DdsHistory, DdsTopicData
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import DdsCpQosProfile
 
 NS = "http://autosar.org/schema/r4.0"
@@ -51,11 +52,11 @@ class TestReadDdsCpQosProfile:
         """Test that unsynced Dds* QoS policy children are constructed identity-only (presence round-trips)."""
         profile = self._read(
             parser,
-            "<DEADLINE><DURATION>1.0</DURATION></DEADLINE><HISTORY><HISTORY-KIND>KEEP-LAST</HISTORY-KIND></HISTORY>",
+            "<DESTINATION-ORDER/><HISTORY><HISTORY-KIND>KEEP-LAST</HISTORY-KIND></HISTORY>",
         )
-        assert profile.getDeadline() is not None
+        assert profile.getDestinationOrder() is not None
         assert isinstance(profile.getHistory(), DdsHistory)
-        assert profile.getDestinationOrder() is None
+        assert profile.getReliability() is None
 
     def test_read_sets_durability_with_values(self, parser):
         """Test that the synced DdsDurability child is read with its field values."""
@@ -63,6 +64,13 @@ class TestReadDdsCpQosProfile:
         assert isinstance(profile.getDurability(), DdsDurability)
         assert profile.getDurability().getDurabilityKind() is not None
         assert profile.getDurability().getDurabilityKind().getValue() == "TRANSIENT-LOCAL"
+
+    def test_read_sets_deadline_with_values(self, parser):
+        """Test that the synced DdsDeadline child is read with its field values."""
+        profile = self._read(parser, "<DEADLINE><DEADLINE-PERIOD>0.5</DEADLINE-PERIOD></DEADLINE>")
+        assert isinstance(profile.getDeadline(), DdsDeadline)
+        assert profile.getDeadline().getDeadlinePeriod() is not None
+        assert profile.getDeadline().getDeadlinePeriod().getValue() == 0.5
 
     def test_read_sets_durability_service_with_values(self, parser):
         """Test that the synced DdsDurabilityService child is read with its field values."""
