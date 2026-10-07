@@ -477,15 +477,49 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DdsCpConsumedServiceInstance` — DdsCpServiceInstance — R23-11 CP_TPS_SystemTemplate Table 6.154, p.475
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Step 1 — table renders split (Class/Package/Note/Base/Aggregated-by header + 5 attribute rows
+    before the caption; staticRemoteUnicastAddress row in a post-caption segment); rows verified against
+    XSD group DDS-CP-CONSUMED-SERVICE-INSTANCE (AUTOSAR_00052.xsd l.28609, complexType l.28692: sequence
+    = AR-OBJECT, REFERRABLE, MULTILANGUAGE-REFERRABLE, IDENTIFIABLE, ABSTRACT-SERVICE-INSTANCE,
+    DDS-CP-SERVICE-INSTANCE, DDS-CP-CONSUMED-SERVICE-INSTANCE — reader/writer call
+    read/writeDdsCpServiceInstance once + own group). Base most-derived = DdsCpServiceInstance (synced
+    50f39c6ba); concrete class (XSD abstract="false") — no instantiation guard. 6 attrs in displayed
+    row order: consumedDdsOperation `*` aggr → List + add/get; consumedDdsServiceEvent `*` aggr → List +
+    add/get; localUnicastAddress 0..1 ref → Optional[RefType] +Ref (provided-instance precedent);
+    minorVersion 0..1 attr → Optional[AnyVersionString]; staticRemoteMulticastAddress 0..1 ref →
+    Optional[RefType] (markdown Mult wins over the XSD unbounded wrapper — Rule 0015, provided-instance
+    multicast precedent); staticRemoteUnicastAddress 0..1 ref → Optional[RefType] (markdown Mult 0..1,
+    unlike provided's `*`). Note-cell rendering artefacts reconciled per wave-1
+    DdsCpProvidedServiceInstance precedent: consumedDdsServiceEvent leading spill fragment
+    "vh.latestBindingTime=systemDesignTime" dropped (tail keeps it); staticRemoteMulticastAddress
+    leading "Tags: atp.Status=candidate" spill dropped (tail keeps it) and tail "xml.name" restored to
+    "xml.namePlural=STATIC-REMOTE-MULTICAST-ADDRESSES"; staticRemoteUnicastAddress tail
+    "xml.name Plural=STATIC-REMOTE-UNICAST-ADDRESSES" restored to
+    "xml.namePlural=STATIC-REMOTE-UNICAST-ADDRESSES". Not VP-capable at class level — the two aggr rows
+    and three ref rows carry atpVariation Splitkey stereotypes per attribute (DirectedAssociationPattern
+    on the REF wrappers, no VARIATION-POINT element in the group) so no VariationPointCapable base.
+    Identity debt (wave-1 rows): DdsCpServiceInstanceEvent/DdsCpServiceInstanceOperation note pending
+    aggregator hook-ins consumedDdsServiceEvent/consumedDdsOperation — wired with REAL coverage in this
+    class's reader/writer in this commit.
+  - Note: Step 8 — no deviations: all 6 Table 6.154 attrs modeled (field+accessor+reader+writer), types
+    match the PDF (AnyVersionString for minorVersion; RefType-typed ref fields per the
+    DdsCpProvidedServiceInstance precedent), mult shapes match the markdown Mult column (List for the
+    two `*` aggr rows, Optional for the four 0..1 rows); staticRemoteUnicastAddress modeled single-ref
+    per markdown Mult 0..1 although the XSD wrapper is unbounded-choice (Rule 0001.4/0015 — markdown
+    wins; recorded in the Step 1 note). Wave-1 identity debt resolved: consumedDdsOperation/
+    consumedDdsServiceEvent wired with real coverage (no identity-only placeholders remain — grep
+    clean); wave-1 Event/Operation rows' "pending hook-in" notes are satisfied by this class's sync
+    (their own rows stay untouched per batch instruction). Aggregator hook-in
+    ServiceInstanceCollectionSet.serviceInstance (Table 6.157) remains queued — not this class's debt.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `DdsCpServiceInstanceEvent` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.155, p.475
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py

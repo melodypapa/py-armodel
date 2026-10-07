@@ -7,6 +7,8 @@ from __future__ import annotations
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
+    DdsCpServiceInstanceEvent,
+    DdsCpServiceInstanceOperation,
     DdsDeadline,
     DdsDestinationOrder,
     DdsDurability,
@@ -26,6 +28,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     RoleBasedResourceDependency,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    AnyVersionString,
     Boolean,
     CategoryString,
     DiagnosticDebounceBehaviorEnum,
@@ -2097,7 +2100,143 @@ class UserDefinedTransformationProps(Identifiable):
 
 
 class DdsCpConsumedServiceInstance(DdsCpServiceInstance):
-    pass
+    """
+    This meta-class represents the ability to describe the existence and configuration of a consumed (required) service instance in a concrete implementation on top of DDS. Tags: atp.Status=candidate
+    """
+
+    # DdsCpConsumedServiceInstance method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.154, p.475
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addConsumedDdsOperation             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getConsumedDdsOperations            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addConsumedDdsServiceEvent          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getConsumedDdsServiceEvents         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getLocalUnicastAddressRef           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setLocalUnicastAddressRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMinorVersion                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMinorVersion                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getStaticRemoteMulticastAddressRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setStaticRemoteMulticastAddressRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getStaticRemoteUnicastAddressRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setStaticRemoteUnicastAddressRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Collection of consumed operations. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=consumedDdsOperation, consumedDds Operation.variationPoint.shortLabel atp.Status=candidate
+        self.consumedDdsOperations: List[DdsCpServiceInstanceOperation] = []
+
+        # Collection of consumed events. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=consumedDdsServiceEvent, consumedDds ServiceEvent.variationPoint.shortLabel atp.Status=candidate vh.latestBindingTime=systemDesignTime
+        self.consumedDdsServiceEvents: List[DdsCpServiceInstanceEvent] = []
+
+        # The local address over which the Service is consumed. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=localUnicastAddress.applicationEndpoint, localUnicastAddress.variationPoint.shortLabel atp.Status=candidate vh.latestBindingTime=systemDesignTime xml.namePlural=LOCAL-UNICAST-ADDRESSES
+        self.localUnicastAddressRef: Optional[RefType] = None
+
+        # Minor Version of the ServiceInterface. Value can be set to a number that represents the Minor Version of the searched service or to ANY.
+        self.minorVersion: Optional[AnyVersionString] = None
+
+        # This reference defines the remote multicast address of the Service provider. This reference shall ONLY be used if the remote multicast address of the server is determined from the configuration and not at runtime. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=staticRemoteMulticastAddress.application Endpoint, staticRemoteMulticastAddress.variation Point.shortLabel atp.Status=candidate vh.latestBindingTime=systemDesignTime xml.namePlural=STATIC-REMOTE-MULTICAST-ADDRESSES
+        self.staticRemoteMulticastAddressRef: Optional[RefType] = None
+
+        # This reference defines the remote unicast address of the Service provider. This reference shall ONLY be used if the remote unicast address of the server is determined from the configuration and not at runtime. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=staticRemoteUnicastAddress.application Endpoint, staticRemoteUnicastAddress.variation Point.shortLabel atp.Status=candidate vh.latestBindingTime=systemDesignTime xml.namePlural=STATIC-REMOTE-UNICAST-ADDRESSES
+        self.staticRemoteUnicastAddressRef: Optional[RefType] = None
+
+    def addConsumedDdsOperation(self, value: Optional[DdsCpServiceInstanceOperation]) -> DdsCpConsumedServiceInstance:
+        """
+        Collection of consumed operations. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=consumedDdsOperation, consumedDds Operation.variationPoint.shortLabel atp.Status=candidate
+
+        A None value is a no-op and does not extend the consumedDdsOperations list.
+        """
+        if value is not None:
+            self.consumedDdsOperations.append(value)
+        return self
+
+    def getConsumedDdsOperations(self) -> List[DdsCpServiceInstanceOperation]:
+        """
+        Collection of consumed operations. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=consumedDdsOperation, consumedDds Operation.variationPoint.shortLabel atp.Status=candidate
+        """
+        return self.consumedDdsOperations
+
+    def addConsumedDdsServiceEvent(self, value: Optional[DdsCpServiceInstanceEvent]) -> DdsCpConsumedServiceInstance:
+        """
+        Collection of consumed events. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=consumedDdsServiceEvent, consumedDds ServiceEvent.variationPoint.shortLabel atp.Status=candidate vh.latestBindingTime=systemDesignTime
+
+        A None value is a no-op and does not extend the consumedDdsServiceEvents list.
+        """
+        if value is not None:
+            self.consumedDdsServiceEvents.append(value)
+        return self
+
+    def getConsumedDdsServiceEvents(self) -> List[DdsCpServiceInstanceEvent]:
+        """
+        Collection of consumed events. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=consumedDdsServiceEvent, consumedDds ServiceEvent.variationPoint.shortLabel atp.Status=candidate vh.latestBindingTime=systemDesignTime
+        """
+        return self.consumedDdsServiceEvents
+
+    def getLocalUnicastAddressRef(self) -> Optional[RefType]:
+        """
+        The local address over which the Service is consumed. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=localUnicastAddress.applicationEndpoint, localUnicastAddress.variationPoint.shortLabel atp.Status=candidate vh.latestBindingTime=systemDesignTime xml.namePlural=LOCAL-UNICAST-ADDRESSES
+        """
+        return self.localUnicastAddressRef
+
+    def setLocalUnicastAddressRef(self, value: Optional[RefType]) -> DdsCpConsumedServiceInstance:
+        """
+        The local address over which the Service is consumed. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=localUnicastAddress.applicationEndpoint, localUnicastAddress.variationPoint.shortLabel atp.Status=candidate vh.latestBindingTime=systemDesignTime xml.namePlural=LOCAL-UNICAST-ADDRESSES
+
+        A None value is a no-op and does not overwrite an existing localUnicastAddressRef.
+        """
+        if value is not None:
+            self.localUnicastAddressRef = value
+        return self
+
+    def getMinorVersion(self) -> Optional[AnyVersionString]:
+        """
+        Minor Version of the ServiceInterface. Value can be set to a number that represents the Minor Version of the searched service or to ANY.
+        """
+        return self.minorVersion
+
+    def setMinorVersion(self, value: Optional[AnyVersionString]) -> DdsCpConsumedServiceInstance:
+        """
+        Minor Version of the ServiceInterface. Value can be set to a number that represents the Minor Version of the searched service or to ANY.
+
+        A None value is a no-op and does not overwrite an existing minorVersion.
+        """
+        if value is not None:
+            self.minorVersion = value
+        return self
+
+    def getStaticRemoteMulticastAddressRef(self) -> Optional[RefType]:
+        """
+        This reference defines the remote multicast address of the Service provider. This reference shall ONLY be used if the remote multicast address of the server is determined from the configuration and not at runtime. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=staticRemoteMulticastAddress.application Endpoint, staticRemoteMulticastAddress.variation Point.shortLabel atp.Status=candidate vh.latestBindingTime=systemDesignTime xml.namePlural=STATIC-REMOTE-MULTICAST-ADDRESSES
+        """
+        return self.staticRemoteMulticastAddressRef
+
+    def setStaticRemoteMulticastAddressRef(self, value: Optional[RefType]) -> DdsCpConsumedServiceInstance:
+        """
+        This reference defines the remote multicast address of the Service provider. This reference shall ONLY be used if the remote multicast address of the server is determined from the configuration and not at runtime. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=staticRemoteMulticastAddress.application Endpoint, staticRemoteMulticastAddress.variation Point.shortLabel atp.Status=candidate vh.latestBindingTime=systemDesignTime xml.namePlural=STATIC-REMOTE-MULTICAST-ADDRESSES
+
+        A None value is a no-op and does not overwrite an existing staticRemoteMulticastAddressRef.
+        """
+        if value is not None:
+            self.staticRemoteMulticastAddressRef = value
+        return self
+
+    def getStaticRemoteUnicastAddressRef(self) -> Optional[RefType]:
+        """
+        This reference defines the remote unicast address of the Service provider. This reference shall ONLY be used if the remote unicast address of the server is determined from the configuration and not at runtime. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=staticRemoteUnicastAddress.application Endpoint, staticRemoteUnicastAddress.variation Point.shortLabel atp.Status=candidate vh.latestBindingTime=systemDesignTime xml.namePlural=STATIC-REMOTE-UNICAST-ADDRESSES
+        """
+        return self.staticRemoteUnicastAddressRef
+
+    def setStaticRemoteUnicastAddressRef(self, value: Optional[RefType]) -> DdsCpConsumedServiceInstance:
+        """
+        This reference defines the remote unicast address of the Service provider. This reference shall ONLY be used if the remote unicast address of the server is determined from the configuration and not at runtime. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=staticRemoteUnicastAddress.application Endpoint, staticRemoteUnicastAddress.variation Point.shortLabel atp.Status=candidate vh.latestBindingTime=systemDesignTime xml.namePlural=STATIC-REMOTE-UNICAST-ADDRESSES
+
+        A None value is a no-op and does not overwrite an existing staticRemoteUnicastAddressRef.
+        """
+        if value is not None:
+            self.staticRemoteUnicastAddressRef = value
+        return self
 
 
 class GlobalTimeCanMaster(GlobalTimeMaster):

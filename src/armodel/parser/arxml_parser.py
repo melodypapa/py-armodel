@@ -740,6 +740,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Enumerations import BindingTimeEnum, XmlSpaceEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     CpSoftwareClusterResource,
+    DdsCpConsumedServiceInstance,
     DdsCpQosProfile,
     DdsCpServiceInstance,
     DdsCpTopic,
@@ -12651,6 +12652,38 @@ class ARXMLParser(AbstractARXMLParser):
         self.readARObject(element, history)
         history.setHistoryKind(self._readEnumToken(element, "HISTORY-KIND", DdsHistoryKindEnum, DDS_HISTORY_KIND_XML_MAP))
         history.setHistoryOrderDepth(self.getChildElementOptionalPositiveInteger(element, "HISTORY-ORDER-DEPTH"))
+
+    def readDdsCpConsumedServiceInstance(self, element: ET.Element, instance: DdsCpConsumedServiceInstance):
+        self.logger.debug("Read DdsCpConsumedServiceInstance")
+        self.readDdsCpServiceInstance(element, instance)
+        for child_element in self.findall(element, "CONSUMED-DDS-OPERATIONS/DDS-CP-SERVICE-INSTANCE-OPERATION"):
+            operation = DdsCpServiceInstanceOperation()
+            self.readDdsCpServiceInstanceOperation(child_element, operation)
+            instance.addConsumedDdsOperation(operation)
+        for child_element in self.findall(element, "CONSUMED-DDS-SERVICE-EVENTS/DDS-CP-SERVICE-INSTANCE-EVENT"):
+            event = DdsCpServiceInstanceEvent()
+            self.readDdsCpServiceInstanceEvent(child_element, event)
+            instance.addConsumedDdsServiceEvent(event)
+        local_unicast_addresses_element = self.find(element, "LOCAL-UNICAST-ADDRESSES")
+        if local_unicast_addresses_element is not None:
+            conditional_element = self.find(local_unicast_addresses_element, "APPLICATION-ENDPOINT-REF-CONDITIONAL")
+            if conditional_element is not None:
+                instance.setLocalUnicastAddressRef(self.getChildElementOptionalRefType(conditional_element, "APPLICATION-ENDPOINT-REF"))
+        minor_version_literal = self.getChildElementOptionalLiteral(element, "MINOR-VERSION")
+        if minor_version_literal is not None:
+            minor_version = AnyVersionString()
+            minor_version.setValue(minor_version_literal.getValue())
+            instance.setMinorVersion(minor_version)
+        static_remote_multicast_addresses_element = self.find(element, "STATIC-REMOTE-MULTICAST-ADDRESSES")
+        if static_remote_multicast_addresses_element is not None:
+            conditional_element = self.find(static_remote_multicast_addresses_element, "APPLICATION-ENDPOINT-REF-CONDITIONAL")
+            if conditional_element is not None:
+                instance.setStaticRemoteMulticastAddressRef(self.getChildElementOptionalRefType(conditional_element, "APPLICATION-ENDPOINT-REF"))
+        static_remote_unicast_addresses_element = self.find(element, "STATIC-REMOTE-UNICAST-ADDRESSES")
+        if static_remote_unicast_addresses_element is not None:
+            conditional_element = self.find(static_remote_unicast_addresses_element, "APPLICATION-ENDPOINT-REF-CONDITIONAL")
+            if conditional_element is not None:
+                instance.setStaticRemoteUnicastAddressRef(self.getChildElementOptionalRefType(conditional_element, "APPLICATION-ENDPOINT-REF"))
 
     def readDdsCpProvidedServiceInstance(self, element: ET.Element, instance: DdsCpProvidedServiceInstance):
         self.logger.debug("Read DdsCpProvidedServiceInstance")
