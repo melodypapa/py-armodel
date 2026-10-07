@@ -557,21 +557,20 @@ class CanTpNode(Identifiable, VariationPointCapable):
 
     # CanTpNode method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.257, p.611
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getConnectorRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setConnectorRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMaxFcWait       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMaxFcWait       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getStMin           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setStMin           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTimeoutAr       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTimeoutAr       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTimeoutAs       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTimeoutAs       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTpAddressRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTpAddressRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getConnectorRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setConnectorRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxFcWait     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxFcWait     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getStMin         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setStMin         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeoutAr     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeoutAr     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeoutAs     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeoutAs     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTpAddressRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTpAddressRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
