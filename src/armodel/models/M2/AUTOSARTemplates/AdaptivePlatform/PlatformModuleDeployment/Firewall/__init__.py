@@ -207,6 +207,7 @@ class NetworkLayerRule(ARObject):
 
     # NetworkLayerRule method parity checklist:
     # Spec: AUTOSAR_AP_TPS_PlatformModuleDeployment (AdaptivePlatform), class NetworkLayerRule, AUTOSAR_00052.xsd line 84252 (XSD-only; no own table in repo corpus)
+    # XSD verified: AUTOSAR_00052.xsd
     # (abstract class: the NETWORK-LAYER-RULE group is an empty sequence with no
     #  complexType; the FirewallRule.networkLayerRule element carries a choice of
     #  the concrete subtypes Ipv4Rule/Ipv6Rule (both synced, IPV-4-RULE/IPV-6-RULE
