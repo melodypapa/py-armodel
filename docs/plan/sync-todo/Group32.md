@@ -878,15 +878,36 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DdsCpDomain` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 6.176, p.526
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Step 1 — the Class/Package/Note/Base/Aggregated-by header + all three attribute rows render
+    BEFORE the caption (Table 6.176 at markdown l.13778); rows verified against XSD group
+    DDS-CP-DOMAIN (AUTOSAR_00052.xsd l.28712: DDS-PARTITIONS, DDS-TOPICS wrappers + DOMAIN-ID direct;
+    complexType l.28746 sequence = AR-OBJECT, REFERRABLE, MULTILANGUAGE-REFERRABLE, IDENTIFIABLE,
+    DDS-CP-DOMAIN). Base most-derived = Identifiable (confirmed); concrete; not VP-capable (no
+    VARIATION-POINT in group). 3 attrs in displayed row order: ddsPartition `*` aggr → List +
+    createDdsPartition(short_name)/getDdsPartitions (child Base = Identifiable → create shape, Rule
+    0001.6; DdsCpPartition is still a stub queued Table 6.178 — typed against it per Rule 0001.10
+    placeholder relaxation, sync lands later in this batch); ddsTopic `*` aggr → List +
+    createDdsTopic/getDdsTopics (DdsCpTopic synced wave-1); domainId 0..1 attr → Optional[PositiveInteger].
+    Resolves wave-1 DdsCpTopic row's pending aggregator hook-in (DdsCpDomain.ddsTopic) with REAL
+    read/writeDdsCpTopic calls in this commit; ddsPartition reader/writer carries an identity-only
+    placeholder until DdsCpPartition's own sync (queued Table 6.178) replaces it.
+  - Note: Step 8 — no deviations: all 3 Table 6.176 attrs modeled (field+accessor+reader+writer),
+    create-shape per child Base=Identifiable (Rule 0001.6), domainId Optional[PositiveInteger] per PDF
+    type. Wave-1 identity debt resolved: DdsCpTopic wired with real read/writeDdsCpTopic calls (its
+    row's "pending hook-in DdsCpDomain.ddsTopic" is satisfied; its own row stays untouched per batch
+    instruction). ddsPartition reader constructs the stub child from SHORT-NAME / writer emits
+    Identifiable-level content (identity-only placeholder, replaced by the DdsCpPartition sync later
+    in this batch — recorded in the class checklist block). Aggregator hook-in DdsCpConfig.ddsDomain
+    (Table 6.175) remains queued — not this class's debt.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `DdsCpTopic` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 6.177, p.527
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py (FIXED from ArObject.py — spec Base most-derived = Identifiable, Rule 0007/0001.2; Identifiable.py hosts the sibling DdsCp* Identifiable stubs DdsCpDomain/DdsCpPartition/DdsCpServiceInstance, and ArObject.py cannot import Identifiable at runtime — cycle via Identifiable.py l.8. Stub-batch test tuple rehoused, VariableAccessScopeEnum precedent 12e743cc9.)

@@ -1481,7 +1481,85 @@ class CpSoftwareClusterToResourceMapping(Identifiable):
 
 
 class DdsCpDomain(Identifiable):
-    pass
+    """
+    Definition of a DDS Domain. Tags: atp.Status=candidate
+    """
+
+    # DdsCpDomain method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.176, p.526
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createDdsPartition   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDdsPartitions     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createDdsTopic       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDdsTopics         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getDomainId          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDomainId          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # Identity-only child serialization debt (Rule 0001.7): ddsPartition aggregates the still-unsynced
+    # DdsCpPartition stub (queued Table 6.178) — the reader creates the child from its SHORT-NAME and
+    # the writer emits the Identifiable-level content only; DdsCpPartition's own sync replaces the
+    # placeholder. ddsTopic is fully serialized via the synced read/writeDdsCpTopic (Table 6.177).
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Collection of DDS Partition definitions. Tags: atp.Status=candidate
+        self.ddsPartitions: List[DdsCpPartition] = []
+
+        # Collection of DDS Topics. Tags: atp.Status=candidate
+        self.ddsTopics: List[DdsCpTopic] = []
+
+        # Definition of the DDS Domain Id. Tags: atp.Status=candidate
+        self.domainId: Optional[PositiveInteger] = None
+
+    def createDdsPartition(self, short_name: str) -> DdsCpPartition:
+        """
+        Collection of DDS Partition definitions. Tags: atp.Status=candidate
+        """
+        if not self.IsReferrableElementExists(short_name, DdsCpPartition):
+            partition = DdsCpPartition(self, short_name)
+            self.addReferrableElement(partition)
+            self.ddsPartitions.append(partition)
+        return cast(DdsCpPartition, self.getReferrableElement(short_name, DdsCpPartition))
+
+    def getDdsPartitions(self) -> List[DdsCpPartition]:
+        """
+        Collection of DDS Partition definitions. Tags: atp.Status=candidate
+        """
+        return self.ddsPartitions
+
+    def createDdsTopic(self, short_name: str) -> DdsCpTopic:
+        """
+        Collection of DDS Topics. Tags: atp.Status=candidate
+        """
+        if not self.IsReferrableElementExists(short_name, DdsCpTopic):
+            topic = DdsCpTopic(self, short_name)
+            self.addReferrableElement(topic)
+            self.ddsTopics.append(topic)
+        return cast(DdsCpTopic, self.getReferrableElement(short_name, DdsCpTopic))
+
+    def getDdsTopics(self) -> List[DdsCpTopic]:
+        """
+        Collection of DDS Topics. Tags: atp.Status=candidate
+        """
+        return self.ddsTopics
+
+    def getDomainId(self) -> Optional[PositiveInteger]:
+        """
+        Definition of the DDS Domain Id. Tags: atp.Status=candidate
+        """
+        return self.domainId
+
+    def setDomainId(self, value: Optional[PositiveInteger]) -> DdsCpDomain:
+        """
+        Definition of the DDS Domain Id. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing domainId.
+        """
+        if value is not None:
+            self.domainId = value
+        return self
 
 
 class DdsCpPartition(Identifiable):

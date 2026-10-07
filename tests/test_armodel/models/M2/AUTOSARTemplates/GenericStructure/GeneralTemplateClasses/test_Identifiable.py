@@ -36,6 +36,8 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     CpSoftwareClusterResource,
     DdsCpConsumedServiceInstance,
+    DdsCpDomain,
+    DdsCpPartition,
     DdsCpQosProfile,
     DdsCpServiceInstance,
     DdsCpTopic,
@@ -2538,3 +2540,117 @@ class TestDdsCpConsumedServiceInstance:
         assert inspect.cleandoc(DdsCpConsumedServiceInstance.setStaticRemoteUnicastAddressRef.__doc__) == (
             self.UNICAST_NOTE + "\n\nA None value is a no-op and does not overwrite an existing staticRemoteUnicastAddressRef."
         )
+
+
+class TestDdsCpDomain:
+    """
+    Test class for DdsCpDomain functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.176, p.526
+    """
+
+    CLASS_NOTE = "Definition of a DDS Domain. Tags: atp.Status=candidate"
+    DDS_PARTITION_NOTE = "Collection of DDS Partition definitions. Tags: atp.Status=candidate"
+    DDS_TOPIC_NOTE = "Collection of DDS Topics. Tags: atp.Status=candidate"
+    DOMAIN_ID_NOTE = "Definition of the DDS Domain Id. Tags: atp.Status=candidate"
+
+    def _create_domain(self) -> DdsCpDomain:
+        return DdsCpDomain(AUTOSAR.getInstance(), "Domain1")
+
+    def test_initialization(self):
+        """
+        Test that a new DdsCpDomain initializes all attributes to their defaults.
+        """
+        obj = self._create_domain()
+
+        assert obj.getShortName() == "Domain1"
+        assert obj.getDdsPartitions() == []
+        assert obj.getDdsTopics() == []
+        assert obj.getDomainId() is None
+
+    def test_is_identifiable_subclass(self):
+        """
+        Test that DdsCpDomain derives from Identifiable (Base column most-derived class).
+        """
+        assert issubclass(DdsCpDomain, Identifiable)
+        assert issubclass(DdsCpDomain, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(DdsCpDomain.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DdsCpDomain.__init__.__doc__ is None
+
+    def test_create_dds_partition(self):
+        """
+        Test createDdsPartition appends a DdsCpPartition and returns the existing one for a duplicate short name.
+        """
+        obj = self._create_domain()
+
+        partition = obj.createDdsPartition("Partition1")
+        assert isinstance(partition, DdsCpPartition)
+        assert partition.getShortName() == "Partition1"
+        assert obj.getDdsPartitions() == [partition]
+
+        duplicate = obj.createDdsPartition("Partition1")
+        assert duplicate is partition
+        assert len(obj.getDdsPartitions()) == 1
+
+    def test_create_dds_topic(self):
+        """
+        Test createDdsTopic appends a DdsCpTopic and returns the existing one for a duplicate short name.
+        """
+        obj = self._create_domain()
+
+        topic = obj.createDdsTopic("Topic1")
+        assert isinstance(topic, DdsCpTopic)
+        assert topic.getShortName() == "Topic1"
+        assert obj.getDdsTopics() == [topic]
+
+        duplicate = obj.createDdsTopic("Topic1")
+        assert duplicate is topic
+        assert len(obj.getDdsTopics()) == 1
+
+    def test_get_set_domain_id(self):
+        """
+        Test get/setDomainId round-trip and None no-op.
+        """
+        obj = self._create_domain()
+
+        value = PositiveInteger().setValue("1")
+        result = obj.setDomainId(value)
+        assert result is obj
+        assert obj.getDomainId() is value
+        assert obj.getDomainId().getValue() == 1
+
+        result = obj.setDomainId(None)
+        assert result is obj
+        assert obj.getDomainId() is value
+
+    def test_type_annotations(self):
+        """
+        Getter returns and setter parameters match the spec multiplicity (List for `*`, Optional for 0..1).
+        """
+        assert typing.get_type_hints(DdsCpDomain.createDdsPartition)["short_name"] is str
+        assert typing.get_type_hints(DdsCpDomain.getDdsPartitions)["return"] == typing.List[DdsCpPartition]
+        assert typing.get_type_hints(DdsCpDomain.createDdsTopic)["short_name"] is str
+        assert typing.get_type_hints(DdsCpDomain.getDdsTopics)["return"] == typing.List[DdsCpTopic]
+        assert typing.get_type_hints(DdsCpDomain.setDomainId)["value"] == typing.Optional[PositiveInteger]
+        assert typing.get_type_hints(DdsCpDomain.getDomainId)["return"] == typing.Optional[PositiveInteger]
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Accessor docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DdsCpDomain.createDdsPartition.__doc__) == self.DDS_PARTITION_NOTE
+        assert inspect.cleandoc(DdsCpDomain.getDdsPartitions.__doc__) == self.DDS_PARTITION_NOTE
+        assert inspect.cleandoc(DdsCpDomain.createDdsTopic.__doc__) == self.DDS_TOPIC_NOTE
+        assert inspect.cleandoc(DdsCpDomain.getDdsTopics.__doc__) == self.DDS_TOPIC_NOTE
+        assert inspect.cleandoc(DdsCpDomain.getDomainId.__doc__) == self.DOMAIN_ID_NOTE
+        assert inspect.cleandoc(DdsCpDomain.setDomainId.__doc__) == (self.DOMAIN_ID_NOTE + "\n\nA None value is a no-op and does not overwrite an existing domainId.")

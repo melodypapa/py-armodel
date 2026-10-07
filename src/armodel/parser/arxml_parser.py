@@ -741,6 +741,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     CpSoftwareClusterResource,
     DdsCpConsumedServiceInstance,
+    DdsCpDomain,
     DdsCpQosProfile,
     DdsCpServiceInstance,
     DdsCpTopic,
@@ -12652,6 +12653,16 @@ class ARXMLParser(AbstractARXMLParser):
         self.readARObject(element, history)
         history.setHistoryKind(self._readEnumToken(element, "HISTORY-KIND", DdsHistoryKindEnum, DDS_HISTORY_KIND_XML_MAP))
         history.setHistoryOrderDepth(self.getChildElementOptionalPositiveInteger(element, "HISTORY-ORDER-DEPTH"))
+
+    def readDdsCpDomain(self, element: ET.Element, domain: DdsCpDomain):
+        self.logger.debug("Read DdsCpDomain")
+        self.readIdentifiable(element, domain)
+        for child_element in self.findall(element, "DDS-PARTITIONS/DDS-CP-PARTITION"):
+            domain.createDdsPartition(self.getShortName(child_element))
+        for child_element in self.findall(element, "DDS-TOPICS/DDS-CP-TOPIC"):
+            topic = domain.createDdsTopic(self.getShortName(child_element))
+            self.readDdsCpTopic(child_element, topic)
+        domain.setDomainId(self.getChildElementOptionalPositiveInteger(element, "DOMAIN-ID"))
 
     def readDdsCpConsumedServiceInstance(self, element: ET.Element, instance: DdsCpConsumedServiceInstance):
         self.logger.debug("Read DdsCpConsumedServiceInstance")

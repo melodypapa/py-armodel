@@ -582,6 +582,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     CpSoftwareClusterResource,
     CpSoftwareClusterToResourceMapping,
     DdsCpConsumedServiceInstance,
+    DdsCpDomain,
     DdsCpQosProfile,
     DdsCpServiceInstance,
     DdsCpTopic,
@@ -16920,6 +16921,22 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeARObject(child_element, history)
         self._writeEnumToken(child_element, "HISTORY-KIND", history.getHistoryKind(), DDS_HISTORY_KIND_XML_MAP)
         self.setChildElementOptionalPositiveInteger(child_element, "HISTORY-ORDER-DEPTH", history.getHistoryOrderDepth())
+
+    def writeDdsCpDomain(self, element: ET.Element, domain: DdsCpDomain):
+        child_element = ET.SubElement(element, "DDS-CP-DOMAIN")
+        self.writeIdentifiable(child_element, domain)
+        partitions = domain.getDdsPartitions()
+        if len(partitions) > 0:
+            partitions_tag = ET.SubElement(child_element, "DDS-PARTITIONS")
+            for partition in partitions:
+                partition_tag = ET.SubElement(partitions_tag, "DDS-CP-PARTITION")
+                self.writeIdentifiable(partition_tag, partition)
+        topics = domain.getDdsTopics()
+        if len(topics) > 0:
+            topics_tag = ET.SubElement(child_element, "DDS-TOPICS")
+            for topic in topics:
+                self.writeDdsCpTopic(topics_tag, topic)
+        self.setChildElementOptionalPositiveInteger(child_element, "DOMAIN-ID", domain.getDomainId())
 
     def writeDdsCpConsumedServiceInstance(self, element: ET.Element, instance: DdsCpConsumedServiceInstance):
         child_element = ET.SubElement(element, "DDS-CP-CONSUMED-SERVICE-INSTANCE")
