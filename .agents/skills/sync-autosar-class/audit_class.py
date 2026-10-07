@@ -512,6 +512,18 @@ def check_base(rep: Report, cls: str, node: ast.ClassDef, enum: bool) -> None:
         return
     want_r = {"read" + b for b in bases}
     want_w = {"write" + b for b in bases}
+    if "ARType" in bases:
+        # ARLiteral-family primitives carry no XML element of their own; their
+        # value (and the T timestamp) is read/written through the typed leaf
+        # helper getChildElementOptional<Cls> / setChildElementOptional<Cls>,
+        # which calls readARType / writeARType on the instance itself. Accept
+        # that pattern as the base-level call (Rule 0013.2 leaf-helper
+        # convention). A caller that goes through the generic
+        # getChildElementOptionalLiteral instead materialises a plain ARLiteral
+        # and silently drops T — that shape matches none of these names, which
+        # is exactly the defect this check exists to catch.
+        want_r.add("getChildElementOptional" + cls)
+        want_w.add("setChildElementOptional" + cls)
 
     r_pts = _entry_points(pcalls, ("read" + cls, "get" + cls), (cls, "create" + cls, "get" + cls), cls)
     w_pts = _entry_points(wcalls, ("write" + cls, "set" + cls), ("get" + cls, "set" + cls, "create" + cls, cls), cls)
