@@ -933,6 +933,33 @@ class TestConditionalChangeNad:
             assert annotations[attr] == annotation
 
 
+SAVE_CONFIGURATION_ENTRY_CLASS_NOTE = "This service is used to notify a slave node to store its configuration."
+
+
+class TestSaveConfigurationEntry:
+    """Test cases for SaveConfigurationEntry (Table 6.106, p.439)."""
+
+    def test_inheritance(self):
+        """Test the most-derived base from the Base chain (Table 6.106: ARObject, LinConfigurationEntry, ScheduleTableEntry)"""
+        assert issubclass(SaveConfigurationEntry, LinConfigurationEntry)
+        assert issubclass(SaveConfigurationEntry, ScheduleTableEntry)
+
+    def test_class_docstring_is_spec_note(self):
+        """Test that the class docstring carries the spec Note verbatim (Table 6.106)"""
+        assert inspect.cleandoc(SaveConfigurationEntry.__doc__).strip() == SAVE_CONFIGURATION_ENTRY_CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """Test that __init__ carries no docstring"""
+        assert SaveConfigurationEntry.__init__.__doc__ is None
+
+    def test_initialization(self):
+        entry = SaveConfigurationEntry()
+
+        assert isinstance(entry, ARObject)
+        assert entry.getAssignedControllerRef() is None
+        assert entry.getAssignedLinSlaveConfigRef() is None
+
+
 class Test_Fibex4LinTopology:
     """Test cases for Fibex4Lin Topology classes."""
 

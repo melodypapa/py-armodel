@@ -716,10 +716,9 @@ class SaveConfigurationEntry(LinConfigurationEntry):
 
     # SaveConfigurationEntry method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.106, p.439
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # (no own attributes; Base = ARObject, LinConfigurationEntry, ScheduleTableEntry)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # (no own attributes; Base = ARObject, LinConfigurationEntry, ScheduleTableEntry; ASSIGNED-CONTROLLER-REF/ASSIGNED-LIN-SLAVE-CONFIG-REF and the SCHEDULE-TABLE-ENTRY group round-trip via the concrete-subclass dispatch in readLinScheduleTableTableEntries/writeLinScheduleTableTableEntries)
 
     def __init__(self):
         super().__init__()

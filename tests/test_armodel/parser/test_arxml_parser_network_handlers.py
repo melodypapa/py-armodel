@@ -400,6 +400,32 @@ class TestLinClusterHandlers:
     def test_getConditionalChangeNad_none_element_returns_none(self, parser):
         assert parser.getConditionalChangeNad(None) is None
 
+    def test_getSaveConfigurationEntry_reads_inherited_refs(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import SaveConfigurationEntry
+
+        element = _snip(
+            "<POSITION-IN-TABLE>3</POSITION-IN-TABLE>"
+            "<ASSIGNED-CONTROLLER-REF DEST='LIN-SLAVE'>/cluster/slave</ASSIGNED-CONTROLLER-REF>"
+            "<ASSIGNED-LIN-SLAVE-CONFIG-REF DEST='LIN-SLAVE-CONFIG-IDENT'>/cluster/ident</ASSIGNED-LIN-SLAVE-CONFIG-REF>",
+            root_tag="SAVE-CONFIGURATION-ENTRY",
+        )
+        entry = parser.getSaveConfigurationEntry(element)
+        assert entry is not None
+        assert isinstance(entry, SaveConfigurationEntry)
+        assert entry.getPositionInTable().getValue() == 3
+        assert entry.getAssignedControllerRef().getValue() == "/cluster/slave"
+        assert entry.getAssignedLinSlaveConfigRef().getValue() == "/cluster/ident"
+
+    def test_getSaveConfigurationEntry_empty_element(self, parser):
+        element = _snip("<SHORT-NAME>e</SHORT-NAME>", root_tag="SAVE-CONFIGURATION-ENTRY")
+        entry = parser.getSaveConfigurationEntry(element)
+        assert entry is not None
+        assert entry.getAssignedControllerRef() is None
+        assert entry.getAssignedLinSlaveConfigRef() is None
+
+    def test_getSaveConfigurationEntry_none_element_returns_none(self, parser):
+        assert parser.getSaveConfigurationEntry(None) is None
+
 
 class TestFlexrayClusterHandlers:
     def test_readFlexrayCluster_sets_short_name(self, parser):
