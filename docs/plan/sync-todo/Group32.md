@@ -931,15 +931,29 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DdsCpPartition` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 6.178, p.527
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Step 1 — the Class/Package/Note/Base/Aggregated-by header + the single attribute row render
+    BEFORE the caption (Table 6.178 at markdown l.13820); verified against XSD group DDS-CP-PARTITION
+    (AUTOSAR_00052.xsd l.28823: PARTITION-NAME direct element; complexType l.28839 sequence =
+    AR-OBJECT, REFERRABLE, MULTILANGUAGE-REFERRABLE, IDENTIFIABLE, DDS-CP-PARTITION). Base
+    most-derived = Identifiable (confirmed); concrete; not VP-capable (no VARIATION-POINT in group).
+    1 attr: partitionName 0..1 attr → Optional[String]. Resolves the DdsCpDomain.ddsPartition
+    identity-only placeholder from the DdsCpDomain sync (this batch) with real read/writeDdsCpPartition
+    calls in this commit; the DdsCpDomain round-trip test is upgraded to assert partition field values.
+  - Note: Step 8 — no deviations: the single Table 6.178 attr modeled (field+accessor+reader+writer),
+    Optional[String] per PDF type; wildcard '*' default-partition value round-trips (pinned by test).
+    Identity debt resolved in this commit: DdsCpDomain.ddsPartition placeholder replaced with real
+    read/writeDdsCpPartition calls in BOTH sides; DdsCpDomain's writer/reader call sites replaced (not
+    inserted-after) and its round-trip test now asserts partitionName. Aggregator hook-in
+    DdsCpConfig.ddsDomain (Table 6.175) remains queued — not this class's debt.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `DdsCpQosProfile` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 6.179, p.529
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py (FIXED from ArObject.py — spec Base most-derived = Identifiable, Rule 0007/0001.2, same rehousing as DdsCpTopic 0babf1fb0; stub-batch test tuple rehoused.)

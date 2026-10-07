@@ -36,7 +36,8 @@ def reset_autosar():
 
 def _new_domain() -> DdsCpDomain:
     domain = DdsCpDomain(AUTOSAR.getInstance(), "Domain1")
-    domain.createDdsPartition("Partition1")
+    partition = domain.createDdsPartition("Partition1")
+    partition.setPartitionName(String().setValue("Partition_A"))
     topic = domain.createDdsTopic("Topic1")
     topic.setTopicName(String().setValue("MyDdsTopic"))
     domain.setDomainId(PositiveInteger().setValue("1"))
@@ -58,6 +59,7 @@ class TestWriteDdsCpDomain:
         assert children.index("DDS-TOPICS") < children.index("DOMAIN-ID")
 
         assert child.find("DDS-PARTITIONS/DDS-CP-PARTITION/SHORT-NAME").text == "Partition1"
+        assert child.find("DDS-PARTITIONS/DDS-CP-PARTITION/PARTITION-NAME").text == "Partition_A"
         assert child.find("DDS-TOPICS/DDS-CP-TOPIC/SHORT-NAME").text == "Topic1"
         assert child.find("DDS-TOPICS/DDS-CP-TOPIC/TOPIC-NAME").text == "MyDdsTopic"
         assert child.find("DOMAIN-ID").text == "1"
@@ -90,6 +92,7 @@ class TestWriteDdsCpDomain:
         partitions = re_domain.getDdsPartitions()
         assert len(partitions) == 1
         assert partitions[0].getShortName() == "Partition1"
+        assert partitions[0].getPartitionName().getValue() == "Partition_A"
         topics = re_domain.getDdsTopics()
         assert len(topics) == 1
         assert topics[0].getShortName() == "Topic1"

@@ -1496,10 +1496,11 @@ class DdsCpDomain(Identifiable):
     # [x] getDomainId          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setDomainId          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     #
-    # Identity-only child serialization debt (Rule 0001.7): ddsPartition aggregates the still-unsynced
-    # DdsCpPartition stub (queued Table 6.178) — the reader creates the child from its SHORT-NAME and
-    # the writer emits the Identifiable-level content only; DdsCpPartition's own sync replaces the
-    # placeholder. ddsTopic is fully serialized via the synced read/writeDdsCpTopic (Table 6.177).
+    # Identity-only child serialization debt (Rule 0001.7): ddsPartition aggregated the then-unsynced
+    # DdsCpPartition stub — RESOLVED by the DdsCpPartition sync (Table 6.178), which replaced the
+    # identity-only reader/writer placeholder with real read/writeDdsCpPartition calls and upgraded the
+    # round-trip tests to assert partition field values. ddsTopic is fully serialized via the synced
+    # read/writeDdsCpTopic (Table 6.177).
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -1563,7 +1564,38 @@ class DdsCpDomain(Identifiable):
 
 
 class DdsCpPartition(Identifiable):
-    pass
+    """
+    Definition of a DDS Partition. Tags: atp.Status=candidate
+    """
+
+    # DdsCpPartition method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.178, p.527
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getPartitionName     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPartitionName     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Definition of the DDS Partition Name. '*' may be used to define the default partition. Tags: atp.Status=candidate
+        self.partitionName: Optional[String] = None
+
+    def getPartitionName(self) -> Optional[String]:
+        """
+        Definition of the DDS Partition Name. '*' may be used to define the default partition. Tags: atp.Status=candidate
+        """
+        return self.partitionName
+
+    def setPartitionName(self, value: Optional[String]) -> DdsCpPartition:
+        """
+        Definition of the DDS Partition Name. '*' may be used to define the default partition. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing partitionName.
+        """
+        if value is not None:
+            self.partitionName = value
+        return self
 
 
 class DdsCpServiceInstance(Identifiable, ABC):

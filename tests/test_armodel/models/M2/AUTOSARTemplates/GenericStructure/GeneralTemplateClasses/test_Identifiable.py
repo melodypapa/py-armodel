@@ -2654,3 +2654,79 @@ class TestDdsCpDomain:
         assert inspect.cleandoc(DdsCpDomain.getDdsTopics.__doc__) == self.DDS_TOPIC_NOTE
         assert inspect.cleandoc(DdsCpDomain.getDomainId.__doc__) == self.DOMAIN_ID_NOTE
         assert inspect.cleandoc(DdsCpDomain.setDomainId.__doc__) == (self.DOMAIN_ID_NOTE + "\n\nA None value is a no-op and does not overwrite an existing domainId.")
+
+
+class TestDdsCpPartition:
+    """
+    Test class for DdsCpPartition functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.178, p.527
+    """
+
+    CLASS_NOTE = "Definition of a DDS Partition. Tags: atp.Status=candidate"
+    PARTITION_NAME_NOTE = "Definition of the DDS Partition Name. '*' may be used to define the default partition. Tags: atp.Status=candidate"
+
+    def _create_partition(self) -> DdsCpPartition:
+        return DdsCpPartition(AUTOSAR.getInstance(), "Partition1")
+
+    def test_initialization(self):
+        """
+        Test that a new DdsCpPartition initializes all attributes to their defaults.
+        """
+        obj = self._create_partition()
+
+        assert obj.getShortName() == "Partition1"
+        assert obj.getPartitionName() is None
+
+    def test_is_identifiable_subclass(self):
+        """
+        Test that DdsCpPartition derives from Identifiable (Base column most-derived class).
+        """
+        assert issubclass(DdsCpPartition, Identifiable)
+        assert issubclass(DdsCpPartition, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(DdsCpPartition.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DdsCpPartition.__init__.__doc__ is None
+
+    def test_get_set_partition_name(self):
+        """
+        Test get/setPartitionName round-trip and None no-op.
+        """
+        obj = self._create_partition()
+
+        value = String().setValue("Partition_A")
+        result = obj.setPartitionName(value)
+        assert result is obj
+        assert obj.getPartitionName() is value
+        assert obj.getPartitionName().getValue() == "Partition_A"
+
+        default = String().setValue("*")
+        obj.setPartitionName(default)
+        assert obj.getPartitionName().getValue() == "*"
+
+        result = obj.setPartitionName(None)
+        assert result is obj
+        assert obj.getPartitionName() is default
+
+    def test_type_annotations(self):
+        """
+        Getter returns and setter parameters match the spec multiplicity (0..1 → Optional).
+        """
+        assert typing.get_type_hints(DdsCpPartition.setPartitionName)["value"] == typing.Optional[String]
+        assert typing.get_type_hints(DdsCpPartition.getPartitionName)["return"] == typing.Optional[String]
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DdsCpPartition.getPartitionName.__doc__) == self.PARTITION_NAME_NOTE
+        assert inspect.cleandoc(DdsCpPartition.setPartitionName.__doc__) == (self.PARTITION_NAME_NOTE + "\n\nA None value is a no-op and does not overwrite an existing partitionName.")

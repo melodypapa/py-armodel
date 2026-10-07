@@ -583,6 +583,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     CpSoftwareClusterToResourceMapping,
     DdsCpConsumedServiceInstance,
     DdsCpDomain,
+    DdsCpPartition,
     DdsCpQosProfile,
     DdsCpServiceInstance,
     DdsCpTopic,
@@ -16922,6 +16923,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         self._writeEnumToken(child_element, "HISTORY-KIND", history.getHistoryKind(), DDS_HISTORY_KIND_XML_MAP)
         self.setChildElementOptionalPositiveInteger(child_element, "HISTORY-ORDER-DEPTH", history.getHistoryOrderDepth())
 
+    def writeDdsCpPartition(self, element: ET.Element, partition: DdsCpPartition):
+        child_element = ET.SubElement(element, "DDS-CP-PARTITION")
+        self.writeIdentifiable(child_element, partition)
+        self.setChildElementOptionalString(child_element, "PARTITION-NAME", partition.getPartitionName())
+
     def writeDdsCpDomain(self, element: ET.Element, domain: DdsCpDomain):
         child_element = ET.SubElement(element, "DDS-CP-DOMAIN")
         self.writeIdentifiable(child_element, domain)
@@ -16929,8 +16935,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         if len(partitions) > 0:
             partitions_tag = ET.SubElement(child_element, "DDS-PARTITIONS")
             for partition in partitions:
-                partition_tag = ET.SubElement(partitions_tag, "DDS-CP-PARTITION")
-                self.writeIdentifiable(partition_tag, partition)
+                self.writeDdsCpPartition(partitions_tag, partition)
         topics = domain.getDdsTopics()
         if len(topics) > 0:
             topics_tag = ET.SubElement(child_element, "DDS-TOPICS")

@@ -742,6 +742,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     CpSoftwareClusterResource,
     DdsCpConsumedServiceInstance,
     DdsCpDomain,
+    DdsCpPartition,
     DdsCpQosProfile,
     DdsCpServiceInstance,
     DdsCpTopic,
@@ -12654,11 +12655,17 @@ class ARXMLParser(AbstractARXMLParser):
         history.setHistoryKind(self._readEnumToken(element, "HISTORY-KIND", DdsHistoryKindEnum, DDS_HISTORY_KIND_XML_MAP))
         history.setHistoryOrderDepth(self.getChildElementOptionalPositiveInteger(element, "HISTORY-ORDER-DEPTH"))
 
+    def readDdsCpPartition(self, element: ET.Element, partition: DdsCpPartition):
+        self.logger.debug("Read DdsCpPartition")
+        self.readIdentifiable(element, partition)
+        partition.setPartitionName(self.getChildElementOptionalString(element, "PARTITION-NAME"))
+
     def readDdsCpDomain(self, element: ET.Element, domain: DdsCpDomain):
         self.logger.debug("Read DdsCpDomain")
         self.readIdentifiable(element, domain)
         for child_element in self.findall(element, "DDS-PARTITIONS/DDS-CP-PARTITION"):
-            domain.createDdsPartition(self.getShortName(child_element))
+            partition = domain.createDdsPartition(self.getShortName(child_element))
+            self.readDdsCpPartition(child_element, partition)
         for child_element in self.findall(element, "DDS-TOPICS/DDS-CP-TOPIC"):
             topic = domain.createDdsTopic(self.getShortName(child_element))
             self.readDdsCpTopic(child_element, topic)
