@@ -4809,19 +4809,20 @@ class TimeSyncTechnologyEnum(AREnum):
 
     # TimeSyncTechnologyEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.149, p.471
-    # Spec verified: R23-11
-    # (no methods) — enum value form serialized on consuming attribute
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on TimeSyncClientConfiguration.timeSyncTechnology / TimeSyncServerConfiguration.timeSyncTechnology
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
-    # Ethernet AVB compliant IEEE802.1AS Precision Time Protocol Tags: atp.EnumerationLiteralIndex=0
+    # Ethernet AVB compliant IEEE802.1AS Precision Time Protocol Tags: atp.EnumerationLiteralIndex=0 xml.name=AVB-IEEE-802-1-AS
     AVB_IEEE802_1AS = "AVB--IEEE-802--1-AS"
 
-    # Network Time Protocol (NTP) Tags: atp.EnumerationLiteralIndex=1
+    # Network Time Protocol (NTP) Tags: atp.EnumerationLiteralIndex=1 xml.name=NTP-RFC-958
     NTP_RFC958 = "NTP--RFC-958"
 
-    # Precision Time Protocol (PTP) IEEE 1588-2002 Tags: atp.EnumerationLiteralIndex=2
+    # Precision Time Protocol (PTP) IEEE 1588-2002 Tags: atp.EnumerationLiteralIndex=2 xml.name=PTP-IEEE-1588-2002
     PTP_IEEE1588_2002 = "PTP--IEEE-1588--2002"
 
-    # Precision Time Protocol (PTP) IEEE 1588-2008 Tags: atp.EnumerationLiteralIndex=3
+    # Precision Time Protocol (PTP) IEEE 1588-2008 Tags: atp.EnumerationLiteralIndex=3 xml.name=PTP-IEEE-1588-2008
     PTP_IEEE1588_2008 = "PTP--IEEE-1588--2008"
 
     def __init__(self):

@@ -373,15 +373,16 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `TimeSyncTechnologyEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 6.149, p.471
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: verification pass — literals/values already matched Table 6.149 and the XSD `TIME-SYNC-TECHNOLOGY-ENUM--SIMPLE` facets exactly (`AVB--IEEE-802--1-AS`, `NTP--RFC-958`, `PTP--IEEE-1588--2002`, `PTP--IEEE-1588--2008`), so Steps 2/3 pinned existing behavior (extended tests: member/value pins + instantiability setValue round-trip + class-docstring pin). Table 6.149 renders no `Note` row — class docstring = XSD complexType documentation verbatim ("Timesynchronization. Server/Client configuration."). Added the markdown `Tags:` tails (`atp.EnumerationLiteralIndex=N xml.name=…`) to the literal comments verbatim; the markdown renders the xml.name tokens single-hyphen (`AVB-IEEE-802-1-AS`) while the XSD appinfo carries double-hyphen (`AVB--IEEE-802--1-AS`) — comment keeps the markdown rendering, the enum VALUE keeps the XSD facet (reconciliation per batch trap 12; file convention matches Ipv4AddressSourceEnum.AUTO_IP_DOIP). Legacy `(no methods)` block carried a stale `# Spec verified: R23-11` (Rule 0023 drift) — marker removed, block rewritten to the 6-column form with the `__init__` row, no stamp (9b deferred to batch confirmation).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) (N/A: standalone enum)
+  - [x] Step 6 — Update parser & writer (Green) (N/A: standalone enum)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `DoIpEntityRoleEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 6.151, p.471
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
