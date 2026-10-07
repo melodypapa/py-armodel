@@ -2997,7 +2997,33 @@ class GlobalTimeIcvVerificationEnum(AREnum):
 
 
 class GlobalTimePortRoleEnum(AREnum):
-    pass
+    """
+    Selection of port behavior to Time Slave, Time Master or Dynamic (Time Slave or Time Master at runtime).
+
+    # GlobalTimePortRoleEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.19, p.876
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods; serialized as an enumeration literal on the consuming attribute globalTimePortRole)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    """
+
+    # Time Slave or Time Master port behavior at runtime. Tags: atp.EnumerationLiteralIndex=2
+    DYNAMIC = "DYNAMIC"
+
+    # timeMaster port behavior Tags: atp.EnumerationLiteralIndex=1
+    TIME_MASTER = "TIME-MASTER"
+
+    # TimeSlave port behavior Tags: atp.EnumerationLiteralIndex=0
+    TIME_SLAVE = "TIME-SLAVE"
+
+    def __init__(self):
+        super().__init__(
+            [
+                GlobalTimePortRoleEnum.DYNAMIC,
+                GlobalTimePortRoleEnum.TIME_MASTER,
+                GlobalTimePortRoleEnum.TIME_SLAVE,
+            ]
+        )
 
 
 class IEEE1722TpAafAes3DataTypeEnum(AREnum):

@@ -71,6 +71,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     GlobalTimeCrcValidationEnum,
     GlobalTimeIcvSupportEnum,
     GlobalTimeIcvVerificationEnum,
+    GlobalTimePortRoleEnum,
     Identifier,
     Integer,
     IntervalTypeEnum,
@@ -3818,3 +3819,49 @@ class TestGlobalTimeIcvVerificationEnum:
         enum.setValue(GlobalTimeIcvVerificationEnum.ICV_VERIFIED)
 
         assert enum.getValue() == GlobalTimeIcvVerificationEnum.ICV_VERIFIED
+
+
+class TestGlobalTimePortRoleEnum:
+    """
+    Test class for GlobalTimePortRoleEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.19, p.876
+    """
+
+    def test_initialization(self):
+        """
+        Test GlobalTimePortRoleEnum initialization with the spec literals in XSD facet order.
+        """
+        enum = GlobalTimePortRoleEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == [
+            GlobalTimePortRoleEnum.DYNAMIC,
+            GlobalTimePortRoleEnum.TIME_MASTER,
+            GlobalTimePortRoleEnum.TIME_SLAVE,
+        ]
+
+    def test_enum_values(self):
+        """
+        Test GlobalTimePortRoleEnum member values.
+        """
+        enum = GlobalTimePortRoleEnum()
+
+        assert GlobalTimePortRoleEnum.DYNAMIC == "DYNAMIC"
+        assert GlobalTimePortRoleEnum.TIME_MASTER == "TIME-MASTER"
+        assert GlobalTimePortRoleEnum.TIME_SLAVE == "TIME-SLAVE"
+
+        assert enum.validateEnumValue("DYNAMIC") is True
+        assert enum.validateEnumValue("TIME-MASTER") is True
+        assert enum.validateEnumValue("TIME-SLAVE") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test GlobalTimePortRoleEnum instantiability and getValue.
+        """
+        enum = GlobalTimePortRoleEnum()
+        enum.setValue(GlobalTimePortRoleEnum.TIME_MASTER)
+
+        assert enum.getValue() == GlobalTimePortRoleEnum.TIME_MASTER
