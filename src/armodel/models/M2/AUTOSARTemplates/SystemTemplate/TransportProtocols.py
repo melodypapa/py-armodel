@@ -1207,21 +1207,20 @@ class LinTpNode(Identifiable, VariationPointCapable):
 
     # LinTpNode method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.260, p.615
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getConnectorRef                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setConnectorRef                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getDropNotRequestedNad           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDropNotRequestedNad           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMaxNumberOfRespPendingFrames [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMaxNumberOfRespPendingFrames [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getP2Max                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setP2Max                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getP2Timing                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setP2Timing                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTpAddressRef                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTpAddressRef                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getConnectorRef                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setConnectorRef                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDropNotRequestedNad           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDropNotRequestedNad           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxNumberOfRespPendingFrames [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxNumberOfRespPendingFrames [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getP2Max                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setP2Max                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getP2Timing                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setP2Timing                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTpAddressRef                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTpAddressRef                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # (Base = ARObject, Identifiable, MultilanguageReferrable, Referrable; aggregated by LinTpConfig.tpNode)
 
     def __init__(self, parent: ARObject, short_name: str):
