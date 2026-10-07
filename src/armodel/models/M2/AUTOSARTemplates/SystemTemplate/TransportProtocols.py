@@ -1,6 +1,8 @@
 # This module contains AUTOSAR System Template classes for transport protocols
 # It defines CAN, DoIP, and LIN transport protocol configurations and connections
 
+from __future__ import annotations
+
 from abc import ABC
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from typing import List, Optional, cast
@@ -16,16 +18,17 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 class TpConfig(FibexElement, ABC):
     """
     Contains all configuration elements for AUTOSAR TP.
+
+    [constr_9226] Existence of TpConfig.communicationCluster: For each TpConfig, the reference to CommunicationCluster in the role communicationCluster shall exist at the time when the System Description is complete.
     """
 
     # TpConfig method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.237, p.588
-    # Spec verified: R23-11
     # Note: class Note taken from XSD TP-CONFIG group documentation (PDF table has no Note row)
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getCommunicationClusterRef      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setCommunicationClusterRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCommunicationClusterRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCommunicationClusterRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is TpConfig:
@@ -42,7 +45,7 @@ class TpConfig(FibexElement, ABC):
         """
         return self.communicationClusterRef
 
-    def setCommunicationClusterRef(self, value: Optional[RefType]) -> "TpConfig":
+    def setCommunicationClusterRef(self, value: Optional[RefType]) -> TpConfig:
         """
         A TpConfig is existing always in the context of exactly one CommunicationCluster.
         A None value is a no-op and does not overwrite an existing communicationClusterRef.
@@ -80,7 +83,7 @@ class CanTpAddress(Identifiable, VariationPointCapable):
         """An ECUs TP address on the referenced channel. This represents the diagnostic Address."""
         return self.tpAddress
 
-    def setTpAddress(self, value: Optional[Integer]) -> "CanTpAddress":
+    def setTpAddress(self, value: Optional[Integer]) -> CanTpAddress:
         """
         An ECUs TP address on the referenced channel. This represents the diagnostic Address.
         A None value is a no-op and does not overwrite an existing tpAddress.
@@ -93,7 +96,7 @@ class CanTpAddress(Identifiable, VariationPointCapable):
         """If the mixed addressing format is used, this parameter contains the transport protocol address extension value."""
         return self.tpAddressExtensionValue
 
-    def setTpAddressExtensionValue(self, value: Optional[Integer]) -> "CanTpAddress":
+    def setTpAddressExtensionValue(self, value: Optional[Integer]) -> CanTpAddress:
         """
         If the mixed addressing format is used, this parameter contains the transport protocol address extension value.
         A None value is a no-op and does not overwrite an existing tpAddressExtensionValue.
@@ -126,7 +129,7 @@ class CanTpChannel(Identifiable, VariationPointCapable):
         """The id of the channel. The value shall be unique for each channel."""
         return self.channelId
 
-    def setChannelId(self, value: Optional[PositiveInteger]) -> "CanTpChannel":
+    def setChannelId(self, value: Optional[PositiveInteger]) -> CanTpChannel:
         """
         The id of the channel. The value shall be unique for each channel.
         A None value is a no-op and does not overwrite an existing channelId.
@@ -295,7 +298,7 @@ class CanTpConnection(TpConnection, VariationPointCapable):
         """Declares which communication addressing mode is supported."""
         return self.addressingFormat
 
-    def setAddressingFormat(self, value: Optional[CanTpAddressingFormatType]) -> "CanTpConnection":
+    def setAddressingFormat(self, value: Optional[CanTpAddressingFormatType]) -> CanTpConnection:
         """
         Declares which communication addressing mode is supported.
         A None value is a no-op and does not overwrite an existing addressingFormat.
@@ -308,7 +311,7 @@ class CanTpConnection(TpConnection, VariationPointCapable):
         """With this switch Tx Cancellation can be turned on or off. Please note that the Rx Cancellation is always enabled."""
         return self.cancellation
 
-    def setCancellation(self, value: Optional[Boolean]) -> "CanTpConnection":
+    def setCancellation(self, value: Optional[Boolean]) -> CanTpConnection:
         """
         With this switch Tx Cancellation can be turned on or off. Please note that the Rx Cancellation is always enabled.
         A None value is a no-op and does not overwrite an existing cancellation.
@@ -321,7 +324,7 @@ class CanTpConnection(TpConnection, VariationPointCapable):
         """Reference to the CanTpChannel on which this CanTp Connection is realized."""
         return self.canTpChannelRef
 
-    def setCanTpChannelRef(self, value: Optional[RefType]) -> "CanTpConnection":
+    def setCanTpChannelRef(self, value: Optional[RefType]) -> CanTpConnection:
         """
         Reference to the CanTpChannel on which this CanTp Connection is realized.
         A None value is a no-op and does not overwrite an existing canTpChannelRef.
@@ -334,7 +337,7 @@ class CanTpConnection(TpConnection, VariationPointCapable):
         """Reference to an Data NPdu."""
         return self.dataPduRef
 
-    def setDataPduRef(self, value: Optional[RefType]) -> "CanTpConnection":
+    def setDataPduRef(self, value: Optional[RefType]) -> CanTpConnection:
         """
         Reference to an Data NPdu.
         A None value is a no-op and does not overwrite an existing dataPduRef.
@@ -347,7 +350,7 @@ class CanTpConnection(TpConnection, VariationPointCapable):
         """Reference to the Flow Control NPdu."""
         return self.flowControlPduRef
 
-    def setFlowControlPduRef(self, value: Optional[RefType]) -> "CanTpConnection":
+    def setFlowControlPduRef(self, value: Optional[RefType]) -> CanTpConnection:
         """
         Reference to the Flow Control NPdu.
         A None value is a no-op and does not overwrite an existing flowControlPduRef.
@@ -360,7 +363,7 @@ class CanTpConnection(TpConnection, VariationPointCapable):
         """The maximum number of N-PDUs the CanTp receiver allows the sender to send, before waiting for an authorization to continue transmission of the following N-PDUs. For further details on this parameter value see ISO 15765-2 specification. Note: For reasons of buffer length, the CAN Transport Layer can adapt the BS value within the limit of this maximum BS"""
         return self.maxBlockSize
 
-    def setMaxBlockSize(self, value: Optional[Integer]) -> "CanTpConnection":
+    def setMaxBlockSize(self, value: Optional[Integer]) -> CanTpConnection:
         """
         The maximum number of N-PDUs the CanTp receiver allows the sender to send, before waiting for an authorization to continue transmission of the following N-PDUs. For further details on this parameter value see ISO 15765-2 specification. Note: For reasons of buffer length, the CAN Transport Layer can adapt the BS value within the limit of this maximum BS
         A None value is a no-op and does not overwrite an existing maxBlockSize.
@@ -373,7 +376,7 @@ class CanTpConnection(TpConnection, VariationPointCapable):
         """TP address for 1:n connections."""
         return self.multicastRef
 
-    def setMulticastRef(self, value: Optional[RefType]) -> "CanTpConnection":
+    def setMulticastRef(self, value: Optional[RefType]) -> CanTpConnection:
         """
         TP address for 1:n connections.
         A None value is a no-op and does not overwrite an existing multicastRef.
@@ -386,7 +389,7 @@ class CanTpConnection(TpConnection, VariationPointCapable):
         """This specifies whether or not Sfs, FCs and the last CF shall be padded to 8 bytes length in case it contains less payload. true: The N-PDU received uses padding for SF, FC and the last CF. (N-PDU length is always 8 bytes) false: The N-PDU received does not use padding for SF, CF and the last CF. (N-PDU length is dynamic)"""
         return self.paddingActivation
 
-    def setPaddingActivation(self, value: Optional[Boolean]) -> "CanTpConnection":
+    def setPaddingActivation(self, value: Optional[Boolean]) -> CanTpConnection:
         """
         This specifies whether or not Sfs, FCs and the last CF shall be padded to 8 bytes length in case it contains less payload. true: The N-PDU received uses padding for SF, FC and the last CF. (N-PDU length is always 8 bytes) false: The N-PDU received does not use padding for SF, CF and the last CF. (N-PDU length is dynamic)
         A None value is a no-op and does not overwrite an existing paddingActivation.
@@ -399,7 +402,7 @@ class CanTpConnection(TpConnection, VariationPointCapable):
         """The target of the TP connection."""
         return self.receiverRefs
 
-    def addReceiverRef(self, value: Optional[RefType]) -> "CanTpConnection":
+    def addReceiverRef(self, value: Optional[RefType]) -> CanTpConnection:
         """
         The target of the TP connection.
         A None value is a no-op and is not appended to receiverRefs.
@@ -412,7 +415,7 @@ class CanTpConnection(TpConnection, VariationPointCapable):
         """Network Target Address type."""
         return self.taType
 
-    def setTaType(self, value: Optional[ARLiteral]) -> "CanTpConnection":
+    def setTaType(self, value: Optional[ARLiteral]) -> CanTpConnection:
         """
         Network Target Address type.
         A None value is a no-op and does not overwrite an existing taType.
@@ -425,7 +428,7 @@ class CanTpConnection(TpConnection, VariationPointCapable):
         """Value in seconds of the performance requirement for (``N_ Br`` + ``N_Ar``). N_Br is the elapsed time between the receiving indication of a FF or CF or the transmit confirmation of a FC, until the transmit request of the next FC."""
         return self.timeoutBr
 
-    def setTimeoutBr(self, value: Optional[TimeValue]) -> "CanTpConnection":
+    def setTimeoutBr(self, value: Optional[TimeValue]) -> CanTpConnection:
         """
         Value in seconds of the performance requirement for (``N_ Br`` + ``N_Ar``). N_Br is the elapsed time between the receiving indication of a FF or CF or the transmit confirmation of a FC, until the transmit request of the next FC.
         A None value is a no-op and does not overwrite an existing timeoutBr.
@@ -438,7 +441,7 @@ class CanTpConnection(TpConnection, VariationPointCapable):
         """This parameter defines the timeout for waiting for an FC or AF on the sender side in an 1:1 connection. Specified in seconds."""
         return self.timeoutBs
 
-    def setTimeoutBs(self, value: Optional[TimeValue]) -> "CanTpConnection":
+    def setTimeoutBs(self, value: Optional[TimeValue]) -> CanTpConnection:
         """
         This parameter defines the timeout for waiting for an FC or AF on the sender side in an 1:1 connection. Specified in seconds.
         A None value is a no-op and does not overwrite an existing timeoutBs.
@@ -451,7 +454,7 @@ class CanTpConnection(TpConnection, VariationPointCapable):
         """This parameter defines the timeout value for waiting for a CF or FF-x (in case of retry) after receiving the last CF or after sending an FC or AF on the receiver side. Specified in seconds."""
         return self.timeoutCr
 
-    def setTimeoutCr(self, value: Optional[TimeValue]) -> "CanTpConnection":
+    def setTimeoutCr(self, value: Optional[TimeValue]) -> CanTpConnection:
         """
         This parameter defines the timeout value for waiting for a CF or FF-x (in case of retry) after receiving the last CF or after sending an FC or AF on the receiver side. Specified in seconds.
         A None value is a no-op and does not overwrite an existing timeoutCr.
@@ -464,7 +467,7 @@ class CanTpConnection(TpConnection, VariationPointCapable):
         """The attribute timeoutCs represents the time (in seconds) which elapses between the transmit request of a CF N-PDU until the transmit request of the next CF N-PDU."""
         return self.timeoutCs
 
-    def setTimeoutCs(self, value: Optional[TimeValue]) -> "CanTpConnection":
+    def setTimeoutCs(self, value: Optional[TimeValue]) -> CanTpConnection:
         """
         The attribute timeoutCs represents the time (in seconds) which elapses between the transmit request of a CF N-PDU until the transmit request of the next CF N-PDU.
         A None value is a no-op and does not overwrite an existing timeoutCs.
@@ -477,7 +480,7 @@ class CanTpConnection(TpConnection, VariationPointCapable):
         """Reference to an IPdu that is segmented by the Transport Protocol."""
         return self.tpSduRef
 
-    def setTpSduRef(self, value: Optional[RefType]) -> "CanTpConnection":
+    def setTpSduRef(self, value: Optional[RefType]) -> CanTpConnection:
         """
         Reference to an IPdu that is segmented by the Transport Protocol.
         A None value is a no-op and does not overwrite an existing tpSduRef.
@@ -490,7 +493,7 @@ class CanTpConnection(TpConnection, VariationPointCapable):
         """The source of the TP connection."""
         return self.transmitterRef
 
-    def setTransmitterRef(self, value: Optional[RefType]) -> "CanTpConnection":
+    def setTransmitterRef(self, value: Optional[RefType]) -> CanTpConnection:
         """
         The source of the TP connection.
         A None value is a no-op and does not overwrite an existing transmitterRef.
@@ -528,7 +531,7 @@ class CanTpEcu(ARObject, VariationPointCapable):
         """The period between successive calls to the Main Function of the AUTOSAR TP. Specified in seconds."""
         return self.cycleTimeMainFunction
 
-    def setCycleTimeMainFunction(self, value: Optional[TimeValue]) -> "CanTpEcu":
+    def setCycleTimeMainFunction(self, value: Optional[TimeValue]) -> CanTpEcu:
         """
         The period between successive calls to the Main Function of the AUTOSAR TP. Specified in seconds.
         A None value is a no-op and does not overwrite an existing cycleTimeMainFunction.
@@ -541,7 +544,7 @@ class CanTpEcu(ARObject, VariationPointCapable):
         """Connection to the ECUInstance in the Topology"""
         return self.ecuInstanceRef
 
-    def setEcuInstanceRef(self, value: Optional[RefType]) -> "CanTpEcu":
+    def setEcuInstanceRef(self, value: Optional[RefType]) -> CanTpEcu:
         """
         Connection to the ECUInstance in the Topology
         A None value is a no-op and does not overwrite an existing ecuInstanceRef.
@@ -599,7 +602,7 @@ class CanTpNode(Identifiable, VariationPointCapable):
         """Association to a CommunicationConnector in the topology description. In a System Description this reference is mandatory. In an ECU Extract this reference is optional (references to ECUs that are not part of the ECU Extract shall be avoided)."""
         return self.connectorRef
 
-    def setConnectorRef(self, value: Optional[RefType]) -> "CanTpNode":
+    def setConnectorRef(self, value: Optional[RefType]) -> CanTpNode:
         """
         Association to a CommunicationConnector in the topology description. In a System Description this reference is mandatory. In an ECU Extract this reference is optional (references to ECUs that are not part of the ECU Extract shall be avoided).
         A None value is a no-op and does not overwrite an existing connectorRef.
@@ -612,7 +615,7 @@ class CanTpNode(Identifiable, VariationPointCapable):
         """This attribute defines the maximum number of flow control PDUs that can be consecutively be transmitted by a receiver."""
         return self.maxFcWait
 
-    def setMaxFcWait(self, value: Optional[Integer]) -> "CanTpNode":
+    def setMaxFcWait(self, value: Optional[Integer]) -> CanTpNode:
         """
         This attribute defines the maximum number of flow control PDUs that can be consecutively be transmitted by a receiver.
         A None value is a no-op and does not overwrite an existing maxFcWait.
@@ -625,7 +628,7 @@ class CanTpNode(Identifiable, VariationPointCapable):
         """Sets the duration of the minimum time the CanTp sender shall wait between the transmissions of two CF N-PDUs."""
         return self.stMin
 
-    def setStMin(self, value: Optional[TimeValue]) -> "CanTpNode":
+    def setStMin(self, value: Optional[TimeValue]) -> CanTpNode:
         """
         Sets the duration of the minimum time the CanTp sender shall wait between the transmissions of two CF N-PDUs.
         A None value is a no-op and does not overwrite an existing stMin.
@@ -638,7 +641,7 @@ class CanTpNode(Identifiable, VariationPointCapable):
         """This attribute states the timeout between the PDU transmit request of the Transport Layer to the Can Interface and the corresponding confirmation of the Can Interface on the receiver side (for FC or AF). Specified in seconds."""
         return self.timeoutAr
 
-    def setTimeoutAr(self, value: Optional[TimeValue]) -> "CanTpNode":
+    def setTimeoutAr(self, value: Optional[TimeValue]) -> CanTpNode:
         """
         This attribute states the timeout between the PDU transmit request of the Transport Layer to the Can Interface and the corresponding confirmation of the Can Interface on the receiver side (for FC or AF). Specified in seconds.
         A None value is a no-op and does not overwrite an existing timeoutAr.
@@ -651,7 +654,7 @@ class CanTpNode(Identifiable, VariationPointCapable):
         """This attribute states the timeout between the PDU transmit request for the first PDU of the group used in the current connection of the Transport Layer to the Can Interface and the corresponding confirmation of the Can Interface (when having sent the last PDU of the group used in this connection) on the sender side (SF-x, FF-x, CF or FC (in case of Transmit Cancellation)). Specified in seconds."""
         return self.timeoutAs
 
-    def setTimeoutAs(self, value: Optional[TimeValue]) -> "CanTpNode":
+    def setTimeoutAs(self, value: Optional[TimeValue]) -> CanTpNode:
         """
         This attribute states the timeout between the PDU transmit request for the first PDU of the group used in the current connection of the Transport Layer to the Can Interface and the corresponding confirmation of the Can Interface (when having sent the last PDU of the group used in this connection) on the sender side (SF-x, FF-x, CF or FC (in case of Transmit Cancellation)). Specified in seconds.
         A None value is a no-op and does not overwrite an existing timeoutAs.
@@ -664,7 +667,7 @@ class CanTpNode(Identifiable, VariationPointCapable):
         """Reference to the TP Address that is used by the TpNode. This reference is optional in case that the multicast TP Address is used (reference from TpConnection)."""
         return self.tpAddressRef
 
-    def setTpAddressRef(self, value: Optional[RefType]) -> "CanTpNode":
+    def setTpAddressRef(self, value: Optional[RefType]) -> CanTpNode:
         """
         Reference to the TP Address that is used by the TpNode. This reference is optional in case that the multicast TP Address is used (reference from TpConnection).
         A None value is a no-op and does not overwrite an existing tpAddressRef.
@@ -741,7 +744,7 @@ class CanTpConfig(TpConfig):
         """Senders and receivers of CAN TP messages."""
         return self.tpConnections
 
-    def addTpConnection(self, value: Optional[CanTpConnection]) -> "CanTpConfig":
+    def addTpConnection(self, value: Optional[CanTpConnection]) -> CanTpConfig:
         """
         Senders and receivers of CAN TP messages.
         A None value is a no-op and is not appended to tpConnections.
@@ -754,7 +757,7 @@ class CanTpConfig(TpConfig):
         """Collection of TP Ecus"""
         return self.tpEcus
 
-    def addTpEcu(self, value: Optional[CanTpEcu]) -> "CanTpConfig":
+    def addTpEcu(self, value: Optional[CanTpEcu]) -> CanTpConfig:
         """
         Collection of TP Ecus
         A None value is a no-op and is not appended to tpEcus.
@@ -805,7 +808,7 @@ class DoIpLogicAddress(Identifiable):
         """The logical DoIP address."""
         return self.address
 
-    def setAddress(self, value: Optional[Integer]) -> "DoIpLogicAddress":
+    def setAddress(self, value: Optional[Integer]) -> DoIpLogicAddress:
         """
         The logical DoIP address.
         A None value is a no-op and does not overwrite an existing address.
@@ -864,7 +867,7 @@ class DoIpTpConnection(TpConnection):
         """Reference to the address of the sender of the tpSdu."""
         return self.doIpSourceAddressRef
 
-    def setDoIpSourceAddressRef(self, value: Optional[RefType]) -> "DoIpTpConnection":
+    def setDoIpSourceAddressRef(self, value: Optional[RefType]) -> DoIpTpConnection:
         """
         Reference to the address of the sender of the tpSdu.
         A None value is a no-op and does not overwrite an existing doIpSourceAddressRef.
@@ -877,7 +880,7 @@ class DoIpTpConnection(TpConnection):
         """Reference to the address of the receiver of the tpSdu."""
         return self.doIpTargetAddressRef
 
-    def setDoIpTargetAddressRef(self, value: Optional[RefType]) -> "DoIpTpConnection":
+    def setDoIpTargetAddressRef(self, value: Optional[RefType]) -> DoIpTpConnection:
         """
         Reference to the address of the receiver of the tpSdu.
         A None value is a no-op and does not overwrite an existing doIpTargetAddressRef.
@@ -890,7 +893,7 @@ class DoIpTpConnection(TpConnection):
         """This reference is used to describe the data exchange between DoIp and the PduR."""
         return self.tpSduRef
 
-    def setTpSduRef(self, value: Optional[RefType]) -> "DoIpTpConnection":
+    def setTpSduRef(self, value: Optional[RefType]) -> DoIpTpConnection:
         """
         This reference is used to describe the data exchange between DoIp and the PduR.
         A None value is a no-op and does not overwrite an existing tpSduRef.
@@ -946,7 +949,7 @@ class DoIpTpConfig(TpConfig):
         """
         return self.tpConnections
 
-    def addTpConnection(self, value: Optional[DoIpTpConnection]) -> "DoIpTpConfig":
+    def addTpConnection(self, value: Optional[DoIpTpConnection]) -> DoIpTpConfig:
         """
         Collection of unidirectional connections between a source address and a target address.
         A None value is a no-op and does not extend the tpConnections list.
@@ -981,7 +984,7 @@ class TpAddress(Identifiable, VariationPointCapable):
         """An ECUs TP address on the referenced channel. This represents the diagnostic Address."""
         return self.tpAddress
 
-    def setTpAddress(self, value: Optional[Integer]) -> "TpAddress":
+    def setTpAddress(self, value: Optional[Integer]) -> TpAddress:
         """
         An ECUs TP address on the referenced channel. This represents the diagnostic Address.
         A None value is a no-op and does not overwrite an existing tpAddress.
@@ -1064,7 +1067,7 @@ class LinTpConnection(TpConnection, VariationPointCapable):
         """Reference to an NPdu (Single Frame, First Frame or Consecutive Frame). The Single Frame network protocol data unit (SF N_PDU) shall be sent out by the sending network entity and can be received by one or multiple receiving network entities. The Single Frame (SF N_PDU) shall be sent out to transfer a service data unit that can be transferred via a single service request to the data link layer. This network protocol data unit shall be sent to transfer unsegmented messages. The First Frame network protocol data unit (FF N_PDU) identifies the first network protocol data unit (N_PDU) of a segmented message transmitted by a network sending entity and received by a receiving network entity. The Consecutive Frame network protocol data unit (CF N_PDU) transfers segments (N_Data) of the service data unit message data (<MessageData>). All network protocol data units (N_PDUs) transmitted by the sending entity after the First Frame network protocol data unit (FF N_PDU) shall be encoded as Consecutive Frames network protocol data units (CF N_PDUs)."""
         return self.dataPduRef
 
-    def setDataPduRef(self, value: Optional[RefType]) -> "LinTpConnection":
+    def setDataPduRef(self, value: Optional[RefType]) -> LinTpConnection:
         """
         Reference to an NPdu (Single Frame, First Frame or Consecutive Frame). The Single Frame network protocol data unit (SF N_PDU) shall be sent out by the sending network entity and can be received by one or multiple receiving network entities. The Single Frame (SF N_PDU) shall be sent out to transfer a service data unit that can be transferred via a single service request to the data link layer. This network protocol data unit shall be sent to transfer unsegmented messages. The First Frame network protocol data unit (FF N_PDU) identifies the first network protocol data unit (N_PDU) of a segmented message transmitted by a network sending entity and received by a receiving network entity. The Consecutive Frame network protocol data unit (CF N_PDU) transfers segments (N_Data) of the service data unit message data (<MessageData>). All network protocol data units (N_PDUs) transmitted by the sending entity after the First Frame network protocol data unit (FF N_PDU) shall be encoded as Consecutive Frames network protocol data units (CF N_PDUs).
         A None value is a no-op and does not overwrite an existing dataPduRef.
@@ -1077,7 +1080,7 @@ class LinTpConnection(TpConnection, VariationPointCapable):
         """Reference to the Flow Control NPdu. The Flow Control network protocol data unit (FC N_PDU) is identified by the Flow Control protocol control information (FC N_PCI). The Flow Control network protocol data unit (FC N_PDU) instructs a sending network entity to start, stop or resume transmission of CF N_PDUs. The Flow Control network protocol data unit shall be sent by the receiving network layer entity to the sending network layer entity, when ready to receive more data, after correct reception of: a) First Frame network protocol data unit (FF N_PDU) b) the last Consecutive Frame network protocol data unit (CF N_PDU) of a block of Consecutive Frames (CF N_ PDU) if further Consecutive Frame network protocol data unit (CF N_PDU) need(s) to be sent."""
         return self.flowControlRef
 
-    def setFlowControlRef(self, value: Optional[RefType]) -> "LinTpConnection":
+    def setFlowControlRef(self, value: Optional[RefType]) -> LinTpConnection:
         """
         Reference to the Flow Control NPdu. The Flow Control network protocol data unit (FC N_PDU) is identified by the Flow Control protocol control information (FC N_PCI). The Flow Control network protocol data unit (FC N_PDU) instructs a sending network entity to start, stop or resume transmission of CF N_PDUs. The Flow Control network protocol data unit shall be sent by the receiving network layer entity to the sending network layer entity, when ready to receive more data, after correct reception of: a) First Frame network protocol data unit (FF N_PDU) b) the last Consecutive Frame network protocol data unit (CF N_PDU) of a block of Consecutive Frames (CF N_ PDU) if further Consecutive Frame network protocol data unit (CF N_PDU) need(s) to be sent.
         A None value is a no-op and does not overwrite an existing flowControlRef.
@@ -1090,7 +1093,7 @@ class LinTpConnection(TpConnection, VariationPointCapable):
         """Reference to the IPdu that is segmented by the Transport Protocol."""
         return self.linTpNSduRef
 
-    def setLinTpNSduRef(self, value: Optional[RefType]) -> "LinTpConnection":
+    def setLinTpNSduRef(self, value: Optional[RefType]) -> LinTpConnection:
         """
         Reference to the IPdu that is segmented by the Transport Protocol.
         A None value is a no-op and does not overwrite an existing linTpNSduRef.
@@ -1103,7 +1106,7 @@ class LinTpConnection(TpConnection, VariationPointCapable):
         """TP address for 1:n connections."""
         return self.multicastRef
 
-    def setMulticastRef(self, value: Optional[RefType]) -> "LinTpConnection":
+    def setMulticastRef(self, value: Optional[RefType]) -> LinTpConnection:
         """
         TP address for 1:n connections.
         A None value is a no-op and does not overwrite an existing multicastRef.
@@ -1112,7 +1115,7 @@ class LinTpConnection(TpConnection, VariationPointCapable):
             self.multicastRef = value
         return self
 
-    def addReceiverRef(self, value: Optional[RefType]) -> "LinTpConnection":
+    def addReceiverRef(self, value: Optional[RefType]) -> LinTpConnection:
         """
         The target of the TP connection.
         A None value is a no-op and does not extend the receiverRefs list.
@@ -1129,7 +1132,7 @@ class LinTpConnection(TpConnection, VariationPointCapable):
         """Time for transmission of the LIN frame (any N-PDU) on the sender side. Specified in seconds."""
         return self.timeoutAs
 
-    def setTimeoutAs(self, value: Optional[TimeValue]) -> "LinTpConnection":
+    def setTimeoutAs(self, value: Optional[TimeValue]) -> LinTpConnection:
         """
         Time for transmission of the LIN frame (any N-PDU) on the sender side. Specified in seconds.
         A None value is a no-op and does not overwrite an existing timeoutAs.
@@ -1142,7 +1145,7 @@ class LinTpConnection(TpConnection, VariationPointCapable):
         """This attribute defines the timeout value for waiting for a CF or FF-x (in case of retry) after receiving the last CF or after sending an FC or AF on the receiver side. Specified in seconds."""
         return self.timeoutCr
 
-    def setTimeoutCr(self, value: Optional[TimeValue]) -> "LinTpConnection":
+    def setTimeoutCr(self, value: Optional[TimeValue]) -> LinTpConnection:
         """
         This attribute defines the timeout value for waiting for a CF or FF-x (in case of retry) after receiving the last CF or after sending an FC or AF on the receiver side. Specified in seconds.
         A None value is a no-op and does not overwrite an existing timeoutCr.
@@ -1155,7 +1158,7 @@ class LinTpConnection(TpConnection, VariationPointCapable):
         """The attribute timeoutCs represents the time (in seconds) which elapses between the transmit request of a CF N-PDU until the transmit request of the next CF N-PDU."""
         return self.timeoutCs
 
-    def setTimeoutCs(self, value: Optional[TimeValue]) -> "LinTpConnection":
+    def setTimeoutCs(self, value: Optional[TimeValue]) -> LinTpConnection:
         """
         The attribute timeoutCs represents the time (in seconds) which elapses between the transmit request of a CF N-PDU until the transmit request of the next CF N-PDU.
         A None value is a no-op and does not overwrite an existing timeoutCs.
@@ -1168,7 +1171,7 @@ class LinTpConnection(TpConnection, VariationPointCapable):
         """The source of the TP connection."""
         return self.transmitterRef
 
-    def setTransmitterRef(self, value: Optional[RefType]) -> "LinTpConnection":
+    def setTransmitterRef(self, value: Optional[RefType]) -> LinTpConnection:
         """
         The source of the TP connection.
         A None value is a no-op and does not overwrite an existing transmitterRef.
@@ -1229,7 +1232,7 @@ class LinTpNode(Identifiable, VariationPointCapable):
         """
         return self.connectorRef
 
-    def setConnectorRef(self, value: Optional[RefType]) -> "LinTpNode":
+    def setConnectorRef(self, value: Optional[RefType]) -> LinTpNode:
         """
         Association to a CommunicationConnector in the topology description. In a System Description this reference is mandatory. In an ECU Extract this reference is optional (references to ECUs that are not part of the ECU Extract shall be avoided).
         A None value is a no-op and does not overwrite an existing connectorRef.
@@ -1244,7 +1247,7 @@ class LinTpNode(Identifiable, VariationPointCapable):
         """
         return self.dropNotRequestedNad
 
-    def setDropNotRequestedNad(self, value: Optional[Boolean]) -> "LinTpNode":
+    def setDropNotRequestedNad(self, value: Optional[Boolean]) -> LinTpNode:
         """
         Configures if TP Frames of not requested LIN-Slaves are dropped or not.
         A None value is a no-op and does not overwrite an existing dropNotRequestedNad.
@@ -1259,7 +1262,7 @@ class LinTpNode(Identifiable, VariationPointCapable):
         """
         return self.maxNumberOfRespPendingFrames
 
-    def setMaxNumberOfRespPendingFrames(self, value: Optional[Integer]) -> "LinTpNode":
+    def setMaxNumberOfRespPendingFrames(self, value: Optional[Integer]) -> LinTpNode:
         """
         Configures the maximum number of allowed response pending frames.
         A None value is a no-op and does not overwrite an existing maxNumberOfRespPendingFrames.
@@ -1274,7 +1277,7 @@ class LinTpNode(Identifiable, VariationPointCapable):
         """
         return self.p2Max
 
-    def setP2Max(self, value: Optional[TimeValue]) -> "LinTpNode":
+    def setP2Max(self, value: Optional[TimeValue]) -> LinTpNode:
         """
         After reception of a response pending frame the P2 timeout counter is reloaded with the timeout time P2max.
         A None value is a no-op and does not overwrite an existing p2Max.
@@ -1289,7 +1292,7 @@ class LinTpNode(Identifiable, VariationPointCapable):
         """
         return self.p2Timing
 
-    def setP2Timing(self, value: Optional[TimeValue]) -> "LinTpNode":
+    def setP2Timing(self, value: Optional[TimeValue]) -> LinTpNode:
         """
         P2 timeout observation parameter.
         A None value is a no-op and does not overwrite an existing p2Timing.
@@ -1304,7 +1307,7 @@ class LinTpNode(Identifiable, VariationPointCapable):
         """
         return self.tpAddressRef
 
-    def setTpAddressRef(self, value: Optional[RefType]) -> "LinTpNode":
+    def setTpAddressRef(self, value: Optional[RefType]) -> LinTpNode:
         """
         Reference to the TP Address that is used by the TpNode. This reference is optional in case that the multicast TP Address is used (reference from TpConnection).
         A None value is a no-op and does not overwrite an existing tpAddressRef.

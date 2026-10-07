@@ -418,7 +418,6 @@ TlsVersionEnum
 TlvDataIdDefinition
 Topic1
 TopicOrMsrQuery
-TpConfig
 TpConnection
 TpConnectionIdent
 TraceableTable
