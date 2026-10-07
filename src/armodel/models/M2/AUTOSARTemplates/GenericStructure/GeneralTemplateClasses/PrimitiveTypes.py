@@ -2903,7 +2903,37 @@ class GlobalTimeCrcSupportEnum(AREnum):
 
 
 class GlobalTimeCrcValidationEnum(AREnum):
-    pass
+    """
+    This enumeration provides values for the evaluation of the CRC
+
+    # GlobalTimeCrcValidationEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.26, p.880
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods; serialized as an enumeration literal on the consuming attribute crcValidated)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    """
+
+    # The CRC is supposed to be ignored Tags: atp.EnumerationLiteralIndex=0
+    CRC_IGNORED = "CRC-IGNORED"
+
+    # The CRC is not supposed to be present. If CRC is present the message is ignored. Tags: atp.EnumerationLiteralIndex=1
+    CRC_NOT_VALIDATED = "CRC-NOT-VALIDATED"
+
+    # Either the CRC is present and then shall be validated or the CRC is not present and no CRC check is done. Tags: atp.EnumerationLiteralIndex=3
+    CRC_OPTIONAL = "CRC-OPTIONAL"
+
+    # This CRC is supposed to be validated. Tags: atp.EnumerationLiteralIndex=2
+    CRC_VALIDATED = "CRC-VALIDATED"
+
+    def __init__(self):
+        super().__init__(
+            [
+                GlobalTimeCrcValidationEnum.CRC_IGNORED,
+                GlobalTimeCrcValidationEnum.CRC_NOT_VALIDATED,
+                GlobalTimeCrcValidationEnum.CRC_OPTIONAL,
+                GlobalTimeCrcValidationEnum.CRC_VALIDATED,
+            ]
+        )
 
 
 class GlobalTimeIcvSupportEnum(AREnum):

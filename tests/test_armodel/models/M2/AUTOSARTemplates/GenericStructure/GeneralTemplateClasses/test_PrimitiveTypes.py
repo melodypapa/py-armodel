@@ -68,6 +68,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     EthGlobalTimeMessageFormatEnum,
     Float,
     GlobalTimeCrcSupportEnum,
+    GlobalTimeCrcValidationEnum,
     Identifier,
     Integer,
     IntervalTypeEnum,
@@ -3674,3 +3675,52 @@ class TestGlobalTimeCrcSupportEnum:
         enum.setValue(GlobalTimeCrcSupportEnum.CRC_SUPPORTED)
 
         assert enum.getValue() == GlobalTimeCrcSupportEnum.CRC_SUPPORTED
+
+
+class TestGlobalTimeCrcValidationEnum:
+    """
+    Test class for GlobalTimeCrcValidationEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.26, p.880
+    """
+
+    def test_initialization(self):
+        """
+        Test GlobalTimeCrcValidationEnum initialization with the spec literals in XSD facet order.
+        """
+        enum = GlobalTimeCrcValidationEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == [
+            GlobalTimeCrcValidationEnum.CRC_IGNORED,
+            GlobalTimeCrcValidationEnum.CRC_NOT_VALIDATED,
+            GlobalTimeCrcValidationEnum.CRC_OPTIONAL,
+            GlobalTimeCrcValidationEnum.CRC_VALIDATED,
+        ]
+
+    def test_enum_values(self):
+        """
+        Test GlobalTimeCrcValidationEnum member values.
+        """
+        enum = GlobalTimeCrcValidationEnum()
+
+        assert GlobalTimeCrcValidationEnum.CRC_IGNORED == "CRC-IGNORED"
+        assert GlobalTimeCrcValidationEnum.CRC_NOT_VALIDATED == "CRC-NOT-VALIDATED"
+        assert GlobalTimeCrcValidationEnum.CRC_OPTIONAL == "CRC-OPTIONAL"
+        assert GlobalTimeCrcValidationEnum.CRC_VALIDATED == "CRC-VALIDATED"
+
+        assert enum.validateEnumValue("CRC-IGNORED") is True
+        assert enum.validateEnumValue("CRC-NOT-VALIDATED") is True
+        assert enum.validateEnumValue("CRC-OPTIONAL") is True
+        assert enum.validateEnumValue("CRC-VALIDATED") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test GlobalTimeCrcValidationEnum instantiability and getValue.
+        """
+        enum = GlobalTimeCrcValidationEnum()
+        enum.setValue(GlobalTimeCrcValidationEnum.CRC_VALIDATED)
+
+        assert enum.getValue() == GlobalTimeCrcValidationEnum.CRC_VALIDATED
