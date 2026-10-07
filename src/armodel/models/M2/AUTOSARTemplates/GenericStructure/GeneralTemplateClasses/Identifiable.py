@@ -1872,10 +1872,6 @@ class FlexrayTpNode(Identifiable):
     pass
 
 
-class FlexrayTpPduPool(Identifiable):
-    pass
-
-
 class GlobalTimeCanSlave(Identifiable):
     pass
 

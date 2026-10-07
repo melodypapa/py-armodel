@@ -14235,6 +14235,9 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readFlexrayTpPduPool(self, element: ET.Element, pool: FlexrayTpPduPool):
         self.readIdentifiable(element, pool)
+        for ref in self.getChildElementRefTypeList(element, "N-PDU-REFS/N-PDU-REF"):
+            pool.addNPduRef(ref)
+        self.readVariationPointCapable(element, pool)
 
     def readFlexrayTpConfigPduPools(self, element: ET.Element, config: FlexrayTpConfig):
         for child_element in self.findall(element, "PDU-POOLS/*"):

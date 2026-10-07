@@ -12,7 +12,6 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import AbstractDoIpL
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     FlexrayArTpNode,
     FlexrayTpNode,
-    FlexrayTpPduPool,
     Identifiable,
     SomeipTpChannel,
 )
@@ -1440,6 +1439,41 @@ class LinTpConfig(TpConfig):
             self.addReferrableElement(address)
             self.tpNodes.append(address)
         return cast(LinTpNode, self.getReferrableElement(short_name, LinTpNode))
+
+
+class FlexrayTpPduPool(Identifiable, VariationPointCapable):
+    """
+    FlexrayTpPduPool is a set of N-PDUs which are defined for FrTp sending or receiving purpose.
+    """
+
+    # FlexrayTpPduPool method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.242, p.596
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addNPduRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNPduRefs  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # (Base = ARObject, Identifiable, MultilanguageReferrable, Referrable)
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Reference to NPdus that are part of the PduPool.
+        self.nPduRefs: List[RefType] = []
+
+    def addNPduRef(self, value: Optional[RefType]) -> FlexrayTpPduPool:
+        """
+        Reference to NPdus that are part of the PduPool.
+        A None value is a no-op and is not appended to nPduRefs.
+        """
+        if value is not None:
+            self.nPduRefs.append(value)
+        return self
+
+    def getNPduRefs(self) -> List[RefType]:
+        """
+        Reference to NPdus that are part of the PduPool.
+        """
+        return self.nPduRefs
 
 
 class FlexrayTpConfig(TpConfig):

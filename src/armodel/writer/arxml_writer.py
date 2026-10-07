@@ -10434,6 +10434,12 @@ class ARXMLWriter(AbstractARXMLWriter):
         if pool is not None:
             child_element = ET.SubElement(element, "FLEXRAY-TP-PDU-POOL")
             self.writeIdentifiable(child_element, pool)
+            refs = pool.getNPduRefs()
+            if len(refs) > 0:
+                refs_element = ET.SubElement(child_element, "N-PDU-REFS")
+                for ref in refs:
+                    self.setChildElementOptionalRefType(refs_element, "N-PDU-REF", ref)
+            self.writeVariationPointCapable(child_element, pool)
 
     def writeFlexrayTpConfigPduPools(self, element: ET.Element, config: FlexrayTpConfig):
         pools = config.getPduPools()
