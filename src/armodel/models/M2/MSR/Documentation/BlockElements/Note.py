@@ -59,15 +59,14 @@ class Note(ARObject, VariationPointCapable):
 
     # Note method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.27, p.310
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getLabel     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setLabel     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getNoteText  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setNoteText  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getNoteType  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setNoteType  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getLabel     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setLabel     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNoteText  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNoteText  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNoteType  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNoteType  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
