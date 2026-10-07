@@ -143,9 +143,9 @@ class CanTpAddressingFormatType(AREnum):
 
     # CanTpAddressingFormatType method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.254, p.610
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # (no methods)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — serialized as value form on CanTpConnection.addressingFormat
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # To use extended addressing format. Tags: atp.EnumerationLiteralIndex=0
     ENUM_EXTENDED = "EXTENDED"
