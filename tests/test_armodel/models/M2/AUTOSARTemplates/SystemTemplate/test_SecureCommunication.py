@@ -283,6 +283,30 @@ class TestMacSecConfidentialityOffsetEnum:
         assert inspect.cleandoc(MacSecConfidentialityOffsetEnum.__doc__) == note
 
 
+class TestMacSecCapabilityEnum:
+    """Test cases for MacSecCapabilityEnum (CP_TPS_SystemTemplate Table 3.126, p.177, R23-11)."""
+
+    def test_member_presence_and_values(self):
+        # spec literal names per Table 3.126 (intergrityAndConfidentiality idx1, intergrityWithoutConfidentiality idx0); note the spec spells both "intergrity"
+        assert MacSecCapabilityEnum.INTERGRITY_AND_CONFIDENTIALITY == "INTERGRITY-AND-CONFIDENTIALITY"
+        assert MacSecCapabilityEnum.INTERGRITY_WITHOUT_CONFIDENTIALITY == "INTERGRITY-WITHOUT-CONFIDENTIALITY"
+        assert list(MacSecCapabilityEnum().getEnumValues()) == [
+            "INTERGRITY-AND-CONFIDENTIALITY",
+            "INTERGRITY-WITHOUT-CONFIDENTIALITY",
+        ]
+
+    def test_instantiability_round_trip(self):
+        both = MacSecCapabilityEnum().setValue(MacSecCapabilityEnum.INTERGRITY_AND_CONFIDENTIALITY)
+        assert both.getValue() == MacSecCapabilityEnum.INTERGRITY_AND_CONFIDENTIALITY
+
+        without = MacSecCapabilityEnum().setValue(MacSecCapabilityEnum.INTERGRITY_WITHOUT_CONFIDENTIALITY)
+        assert without.getValue() == MacSecCapabilityEnum.INTERGRITY_WITHOUT_CONFIDENTIALITY
+
+    def test_class_docstring_note(self):
+        note = "This enum defines the MACsec capability options. Tags: atp.Status=candidate"
+        assert inspect.cleandoc(MacSecCapabilityEnum.__doc__) == note
+
+
 class Test_MacSecLocalKayProps:
     def test_initialization_defaults(self):
         props = MacSecLocalKayProps()

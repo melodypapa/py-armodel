@@ -880,32 +880,6 @@ class CryptoCertificateFormatEnum(AREnum):
         )
 
 
-class MacSecCapabilityEnum(AREnum):
-    """
-    This enum defines the MACsec capability options.
-    """
-
-    # MacSecCapabilityEnum method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.126, p.177
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # (no methods) — enum value form serialized on MacSecCryptoAlgoConfig.capability
-
-    # Option that ensures integrity without confidentiality Tags: atp.EnumerationLiteralIndex=0
-    INTERGRITY_WITHOUT_CONFIDENTIALITY = "INTERGRITY-WITHOUT-CONFIDENTIALITY"
-
-    # Option that ensures confidentiality and integrity Tags: atp.EnumerationLiteralIndex=1
-    INTERGRITY_AND_CONFIDENTIALITY = "INTERGRITY-AND-CONFIDENTIALITY"
-
-    def __init__(self):
-        super().__init__(
-            [
-                MacSecCapabilityEnum.INTERGRITY_WITHOUT_CONFIDENTIALITY,
-                MacSecCapabilityEnum.INTERGRITY_AND_CONFIDENTIALITY,
-            ]
-        )
-
-
 class MacSecRoleEnum(AREnum):
     """
     This enum defines the MACsec Role options.
@@ -1998,6 +1972,32 @@ class MacSecConfidentialityOffsetEnum(AREnum):
                 MacSecConfidentialityOffsetEnum.CONFIDENTIALITY_OFFSET_0,
                 MacSecConfidentialityOffsetEnum.CONFIDENTIALITY_OFFSET_30,
                 MacSecConfidentialityOffsetEnum.CONFIDENTIALITY_OFFSET_50,
+            ]
+        )
+
+
+class MacSecCapabilityEnum(AREnum):
+    """
+    This enum defines the MACsec capability options. Tags: atp.Status=candidate
+    """
+
+    # MacSecCapabilityEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.126, p.177
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on MacSecCryptoAlgoConfig.capability
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # Option that ensures confidentiality and integrity Tags: atp.EnumerationLiteralIndex=1
+    INTERGRITY_AND_CONFIDENTIALITY = "INTERGRITY-AND-CONFIDENTIALITY"
+
+    # Option that ensures integrity without confidentiality Tags: atp.EnumerationLiteralIndex=0
+    INTERGRITY_WITHOUT_CONFIDENTIALITY = "INTERGRITY-WITHOUT-CONFIDENTIALITY"
+
+    def __init__(self):
+        super().__init__(
+            [
+                MacSecCapabilityEnum.INTERGRITY_AND_CONFIDENTIALITY,
+                MacSecCapabilityEnum.INTERGRITY_WITHOUT_CONFIDENTIALITY,
             ]
         )
 
