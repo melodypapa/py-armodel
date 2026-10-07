@@ -2659,6 +2659,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readIndexEntry(self, element: ET.Element) -> IndexEntry:
         index_entry = IndexEntry()
+        self.readARObject(element, index_entry)
         if element.text is not None:
             index_entry.setValue(String().setValue(element.text))
         if "SUP" in element.attrib:

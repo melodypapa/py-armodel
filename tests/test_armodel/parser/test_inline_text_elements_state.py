@@ -38,3 +38,24 @@ class TestEmphasisTextState:
 
         assert emphasis.getChecksum() is None
         assert emphasis.getTimestamp() is None
+
+
+class TestIndexEntryState:
+    def test_read_indexentry_reads_s_and_t(self):
+        element = ET.fromstring(f"""<IE xmlns='{NS}' S="checksum-2" T="2023-02-02T00:00:00Z">text</IE>""")
+
+        index_entry = ARXMLParser().readIndexEntry(element)
+
+        assert isinstance(index_entry, IndexEntry)
+        assert index_entry.getChecksum() is not None
+        assert index_entry.getChecksum().getValue() == "checksum-2"
+        assert index_entry.getTimestamp() is not None
+        assert index_entry.getTimestamp().getValue() == "2023-02-02T00:00:00Z"
+
+    def test_read_indexentry_without_s_and_t(self):
+        element = ET.fromstring(f"""<IE xmlns='{NS}'>text</IE>""")
+
+        index_entry = ARXMLParser().readIndexEntry(element)
+
+        assert index_entry.getChecksum() is None
+        assert index_entry.getTimestamp() is None

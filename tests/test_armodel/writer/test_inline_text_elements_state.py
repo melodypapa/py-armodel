@@ -13,7 +13,10 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DateTime,
     String,
 )
-from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import EmphasisText
+from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import (
+    EmphasisText,
+    IndexEntry,
+)
 from armodel.writer.arxml_writer import ARXMLWriter
 
 
@@ -36,6 +39,30 @@ class TestEmphasisTextState:
         ARXMLWriter().setEmphasisText(element, "E", EmphasisText())
 
         written = element.find("E")
+        assert written is not None
+        assert "S" not in written.attrib
+        assert "T" not in written.attrib
+
+
+class TestIndexEntryState:
+    def test_set_indexentry_writes_s_and_t(self):
+        index_entry = IndexEntry()
+        index_entry.setChecksum(String().setValue("checksum-2"))
+        index_entry.setTimestamp(DateTime().setValue("2023-02-02T00:00:00Z"))
+
+        element = ET.Element("ROOT")
+        ARXMLWriter().setIndexEntry(element, "IE", index_entry)
+
+        written = element.find("IE")
+        assert written is not None
+        assert written.attrib["S"] == "checksum-2"
+        assert written.attrib["T"] == "2023-02-02T00:00:00Z"
+
+    def test_set_indexentry_without_s_and_t(self):
+        element = ET.Element("ROOT")
+        ARXMLWriter().setIndexEntry(element, "IE", IndexEntry())
+
+        written = element.find("IE")
         assert written is not None
         assert "S" not in written.attrib
         assert "T" not in written.attrib

@@ -2383,6 +2383,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setIndexEntry(self, element: ET.Element, key: str, index_entry: Optional[IndexEntry]):
         if index_entry is not None:
             child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, index_entry)
             sup_value = index_entry.getSup()
             if sup_value is not None:
                 child_element.attrib["SUP"] = cast(str, sup_value.getValue())
