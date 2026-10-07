@@ -731,13 +731,12 @@ class Identifier(ARLiteral):
 
     # Identifier method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.5, p.61
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getBlueprintValue   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] setBlueprintValue   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getNamePattern      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] setNamePattern      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBlueprintValue   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setBlueprintValue   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getNamePattern      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setNamePattern      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
