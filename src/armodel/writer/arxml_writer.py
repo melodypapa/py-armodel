@@ -14239,6 +14239,15 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeDocumentationBlock(element, "INTRODUCTION", mapping_constraint.getIntroduction())
         self.writeVariationPoint(element, mapping_constraint.getVariationPoint())
 
+    def writeComponentClustering(self, element: ET.Element, clustering: ComponentClustering):
+        self.writeMappingConstraint(element, clustering)
+        irefs = clustering.getClusteredComponentIRefs()
+        if len(irefs) > 0:
+            irefs_tag = ET.SubElement(element, "CLUSTERED-COMPONENT-IREFS")
+            for iref in irefs:
+                self.setComponentInSystemInstanceRef(irefs_tag, "CLUSTERED-COMPONENT-IREF", iref)
+        self.setChildElementOptionalLiteral(element, "MAPPING-SCOPE", clustering.getMappingScope())
+
     def writeSystemMappingMappingConstraints(self, element: ET.Element, mapping: SystemMapping):
         constraints = mapping.getMappingConstraints()
         if len(constraints) > 0:
@@ -14246,7 +14255,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             for constraint in constraints:
                 if isinstance(constraint, ComponentClustering):
                     child_element = ET.SubElement(mappings_tag, "COMPONENT-CLUSTERING")
-                    self.writeMappingConstraint(child_element, constraint)
+                    self.writeComponentClustering(child_element, constraint)
                 elif isinstance(constraint, ComponentSeparation):
                     child_element = ET.SubElement(mappings_tag, "COMPONENT-SEPARATION")
                     self.writeMappingConstraint(child_element, constraint)

@@ -6,7 +6,7 @@ from typing import List, Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, MappingScopeEnum, RefType
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import ComponentInSystemInstanceRef
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption import ResourceConsumption
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -493,7 +493,59 @@ class MappingConstraint(ARObject, VariationPointCapable, ABC):
 
 
 class ComponentClustering(MappingConstraint):
-    pass
+    """
+    Constraint that forces the mapping of all referenced SW component instances to the same ECU, Core, Partition depending on the defined mappingScope attribute. If mappingScope is not specified then mappingScopeEcu shall be assumed.
+    """
+
+    # ComponentClustering method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 5.9, p.203
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addClusteredComponentIRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getClusteredComponentIRefs  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getMappingScope             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMappingScope             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # Reference to the components that have to be mapped together. InstanceRef implemented by: ComponentInSystemInstanceRef
+        self.clusteredComponentIRefs: List[ComponentInSystemInstanceRef] = []
+
+        # This attribute indicates whether the ComponentClustering mapping constraint applies to different ECUs, partitions or cores. If this attribute is not specified then mappingScope Ecu shall be assumed.
+        self.mappingScope: Optional[MappingScopeEnum] = None
+
+    def addClusteredComponentIRef(self, value: Optional[ComponentInSystemInstanceRef]) -> "ComponentClustering":
+        """
+        Reference to the components that have to be mapped together. InstanceRef implemented by: ComponentInSystemInstanceRef
+
+        A None value is a no-op and does not add to clusteredComponentIRefs.
+        """
+        if value is not None:
+            self.clusteredComponentIRefs.append(value)
+        return self
+
+    def getClusteredComponentIRefs(self) -> List[ComponentInSystemInstanceRef]:
+        """
+        Reference to the components that have to be mapped together. InstanceRef implemented by: ComponentInSystemInstanceRef
+        """
+        return self.clusteredComponentIRefs
+
+    def getMappingScope(self) -> Optional[MappingScopeEnum]:
+        """
+        This attribute indicates whether the ComponentClustering mapping constraint applies to different ECUs, partitions or cores. If this attribute is not specified then mappingScope Ecu shall be assumed.
+        """
+        return self.mappingScope
+
+    def setMappingScope(self, value: Optional[MappingScopeEnum]) -> "ComponentClustering":
+        """
+        This attribute indicates whether the ComponentClustering mapping constraint applies to different ECUs, partitions or cores. If this attribute is not specified then mappingScope Ecu shall be assumed.
+
+        A None value is a no-op and does not overwrite an existing mappingScope.
+        """
+        if value is not None:
+            self.mappingScope = value
+        return self
 
 
 class ComponentSeparation(MappingConstraint):

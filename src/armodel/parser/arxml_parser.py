@@ -812,6 +812,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Ip4AddressString,
     Ip6AddressString,
     Limit,
+    MappingScopeEnum,
     MimeTypeString,
     MonotonyEnum,
     NameToken,
@@ -17527,12 +17528,22 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.logger.warning("VARIATION-POINT on non-variant element <%s> ignored" % self.getPureTagName(element.tag))
 
+    def readComponentClustering(self, element: ET.Element, clustering: ComponentClustering):
+        self.readMappingConstraint(element, clustering)
+        for child_element in self.findall(element, "CLUSTERED-COMPONENT-IREFS/CLUSTERED-COMPONENT-IREF"):
+            clustering.addClusteredComponentIRef(self.getComponentInSystemInstanceRef(child_element))
+        mapping_scope = self.getChildElementOptionalLiteral(element, "MAPPING-SCOPE")
+        if mapping_scope is not None:
+            e: ARLiteral = MappingScopeEnum(("MAPPING-SCOPE-CORE", "MAPPING-SCOPE-ECU", "MAPPING-SCOPE-PARTITION"))
+            e.setValue(mapping_scope.getValue())
+            clustering.setMappingScope(cast(Optional[MappingScopeEnum], e))
+
     def readSystemMappingMappingConstraints(self, element: ET.Element, mapping: SystemMapping):
         for child_element in self.findall(element, "MAPPING-CONSTRAINTS/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "COMPONENT-CLUSTERING":
                 clustering = ComponentClustering()
-                self.readMappingConstraint(child_element, clustering)
+                self.readComponentClustering(child_element, clustering)
                 mapping.addMappingConstraint(clustering)
             elif tag_name == "COMPONENT-SEPARATION":
                 separation = ComponentSeparation()

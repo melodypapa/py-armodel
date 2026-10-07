@@ -2081,16 +2081,57 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 9 — 9a passed 2026-10-07 (22143 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit db9713318
 
 - [ ] `ComponentClustering` — MappingConstraint — R23-11 CP_TPS_SystemTemplate Table 5.9, p.203
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - module: M2/AUTOSARTemplates/SystemTemplate/SWmapping.py (moved from the ArObject.py
+    hint — the stub relocated with the MappingConstraint base sync)
+  - Step 1 finding: Class table confirmed (not Enumeration): `Class |
+    ComponentClustering`. Package row
+    `M2::AUTOSARTemplates::SystemTemplate::SWmapping` → the stub already lives in the
+    leaf module `SystemTemplate/SWmapping.py` (moved there by the MappingConstraint
+    sync, commit a678eca67). Base row `ARObject , MappingConstraint` → direct Python
+    base MappingConstraint (most-derived modeled ancestor). Table 5.9 carries exactly
+    TWO attribute rows (no page split): clusteredComponent (SwComponentPrototype, `*`,
+    iref — "InstanceRef implemented by: ComponentInSystemInstanceRef", XSD element
+    CLUSTERED-COMPONENT-IREF type COMPONENT-IN-SYSTEM-INSTANCE-REF) and mappingScope
+    (MappingScopeEnum, 0..1, attr). Both Notes carry no Tags:/Stereotypes: tail. XSD
+    element order (reader/writer): complexType COMPONENT-CLUSTERING sequence =
+    AR-OBJECT group, MAPPING-CONSTRAINT group (INTRODUCTION, VARIATION-POINT — via the
+    abstract read/writeMappingConstraint level), then own children
+    CLUSTERED-COMPONENT-IREFS (wrapper, unbounded CLUSTERED-COMPONENT-IREF choice),
+    MAPPING-SCOPE. The markdown renders the Table 5.9 class table itself fine (wide
+    4x-repeated cells); the page-split fragment under the Table 5.9 caption (lines
+    5403-5409, `Enumeration | MappingScopeEnum` + mappingScopeCore) is actually
+    Table 5.10's first fragment — MappingScopeEnum material, not ComponentClustering
+    attributes.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - Step 8: No accepted deviations from Table 5.9 — both attributes modeled exactly
+    (clusteredComponentIRefs as dedicated List[ComponentInSystemInstanceRef] field +
+    addClusteredComponentIRef/getClusteredComponentIRefs; mappingScope as
+    Optional[MappingScopeEnum] with verbatim Notes, PEP 526 annotated assignments,
+    blank-line separated blocks, full reader+writer coverage through the new concrete
+    readComponentClustering/writeComponentClustering levels that call the abstract
+    read/writeMappingConstraint level exactly once). No stale legacy marker existed
+    (the pre-sync stub was a bare `pass` — Rule 0023 removal a no-op); fresh 6-column
+    checklist. Referenced classes: ComponentInSystemInstanceRef — fully synced/stamped
+    (Table B.1), no placeholder needed. MappingScopeEnum — exists only as a bare
+    `AREnum` stub (no literals, no `__init__`), queued as the NEXT row (Table 5.10):
+    reported not blocking per Rule 0001.10; the reader/writer/tests construct it
+    inline with the exact XSD facet tuple
+    ("MAPPING-SCOPE-CORE"/"MAPPING-SCOPE-ECU"/"MAPPING-SCOPE-PARTITION") until its own
+    sync lands. Docstring verbatim note: attribute/mappingScope Note text kept exactly
+    as the markdown renders it ("mappingScope Ecu" wrap artifact preserved, same
+    precedent as the sibling Table 5.2 "SwComponent Prototype" body text); the
+    "InstanceRef implemented by:" tail is joined to the real class name
+    (ComponentInSystemInstanceRef) matching the 9b-passed Table 5.2/5.3/5.4
+    docstrings. The `# Spec verified:` marker is deferred to the batch 9b stamp per
+    user instruction (audit STAMP INFO as expected).
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-07 (22161 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 69736e860
 
 - [ ] `MappingScopeEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 5.10, p.204
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
