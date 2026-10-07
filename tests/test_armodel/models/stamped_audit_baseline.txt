@@ -63,11 +63,6 @@ BuildEngineeringObject
 BurstPatternEventTriggering
 BusspecificNmEcu
 CSTransformerErrorReactionEnum
-CanAddressingModeType
-CanFrame
-CanFrameRxBehaviorEnum
-CanFrameTriggering
-CanFrameTxBehaviorEnum
 CanNmEcu
 CanTpAddress
 CanTpAddressingFormatType
@@ -95,7 +90,6 @@ CompuScaleConstantContents
 CompuScaleContents
 CompuScaleRationalFormula
 ConcretePatternEventTriggering
-ConditionalChangeNad
 ConfidenceInterval
 ConsumedEventGroup
 ConsumedServiceInstance
@@ -106,7 +100,6 @@ CouplingPortRoleEnum
 CryptoCertificateAlgorithmFamilyEnum
 CryptoCertificateFormatEnum
 CycleRepetitionType
-DataDumpEntry
 DataFilter
 DataIdModeEnum
 DataPrototype
@@ -163,7 +156,6 @@ FloatValue
 FormulaExpression
 Frame
 FramePid
-FreeFormat
 FreeFormatEntry
 FunctionNameValue
 GlobalTimeCouplingPortProps
@@ -302,9 +294,7 @@ RteEventInEcuInstanceRef
 RtePluginProps
 RunnableEntityArgument
 RunnableEntityInCompositionInstanceRef
-RxIdentifierRange
 SOMEIPMessageTypeEnum
-SaveConfigurationEntry
 ScaleConstr
 ScheduleTableEntry
 Sd

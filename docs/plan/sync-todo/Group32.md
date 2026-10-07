@@ -107,15 +107,32 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `CanFrameTriggering` — FrameTriggering — R23-11 CP_TPS_SystemTemplate Table 6.110, p.443
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Can/CanCommunication.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Step 1 found the class content already spec-correct (10 attributes in displayed row
+    order — absolutelyScheduledTiming TtcanAbsolutelyScheduledTiming `*` aggr with
+    ABSOLUTELY-SCHEDULED-TIMINGS wrapper, canAddressingMode/canFrameRxBehavior/canFrameTxBehavior/
+    canXlFrameTriggeringProps/identifier/j1939requestable/rxIdentifierRange/rxMask/txMask all
+    0..1; Base most-derived = FrameTriggering; XSD CAN-FD-FRAME-SUPPORT is atp.Status="removed",
+    not modeled) — the drift was the legacy 5-column checklist carrying a stale
+    `# Spec verified: R23-11` marker (Rule 0023); marker removed and block re-written 6-column
+    without stamp. Step 2 also fixed drift in the legacy mirrored tests: bare str/int setter
+    assertions replaced with typed-primitive assertions (Rule 0006), and the
+    TYPE_CHECKING-only TtcanAbsolutelyScheduledTiming import converted to a real top-level
+    import (no cycle — TtcanCommunication does not import CanCommunication) so get_type_hints
+    pin tests resolve on Python 3.8 (Rule 0003/bpo-39291). Reader `readCanFrameTriggering` /
+    writer `writeCanFrameTriggering` pre-existed with full XSD-sequence-order coverage (BASE
+    clean); round-trip field-value assertions live in tests/test_armodel/writer/
+    test_writer_frame_channel.py + tests/test_armodel/parser/test_arxml_parser_network_handlers.py.
+    Also refreshed the stale stamped-audit baseline (10 resolved entries incl. the four wave-1
+    Lin classes; the gate test instructed `--write-baseline`).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `CanAddressingModeType` — AREnum — R23-11 CP_TPS_SystemTemplate Table 6.111, p.443
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Can/CanCommunication.py
