@@ -11,7 +11,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 ## Queue (page order per document segment)
 
-- [ ] `CouplingElement` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.52, p.108
+- [x] `CouplingElement` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.52, p.108
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
   - Step 1 finding: Table 3.52 is a page-split table — the markdown's first portion carries two
     more Attribute rows the queue dash omitted (`communicationCluster` 0..1 ref, `couplingElementDetails`
@@ -35,7 +35,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-07** (batch review, user-approved); marker `# Spec verified: R23-11` written; stamp commit: 939fd9894. 9a: 21812 passed / 0 failed, ruff + black clean, member-annotation gate 3 passed, audit_class.py 49/49 PASS (Rules 0024-0026), lossless integration round-trip; Rule 0025 reader/writer base-helper symmetry, Rule 0013.2 read/write name pairs, verbatim Notes, member order and quota shape re-verified against source
 
-- [ ] `CouplingElementEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 3.53, p.108
+- [x] `CouplingElementEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 3.53, p.108
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -47,7 +47,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-07** (batch review, user-approved); marker `# Spec verified: R23-11` written; stamp commit: 3af3a6cf2. 9a: 21812 passed / 0 failed, ruff + black clean, member-annotation gate 3 passed, audit_class.py 49/49 PASS (Rules 0024-0026), lossless integration round-trip; Rule 0025 reader/writer base-helper symmetry, Rule 0013.2 read/write name pairs, verbatim Notes, member order and quota shape re-verified against source
 
-- [ ] `CouplingPort` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.54, p.110
+- [x] `CouplingPort` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.54, p.110
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -59,7 +59,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-07** (batch review, user-approved); marker `# Spec verified: R23-11` written; stamp commit: e5f61db96. 9a: 21812 passed / 0 failed, ruff + black clean, member-annotation gate 3 passed, audit_class.py 49/49 PASS (Rules 0024-0026), lossless integration round-trip; Rule 0025 reader/writer base-helper symmetry, Rule 0013.2 read/write name pairs, verbatim Notes, member order and quota shape re-verified against source
 
-- [ ] `EthernetConnectionNegotiationEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 3.55, p.110
+- [x] `EthernetConnectionNegotiationEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 3.55, p.110
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -71,7 +71,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-07** (batch review, user-approved); marker `# Spec verified: R23-11` written; stamp commit: 2ce08ac21. 9a: 21812 passed / 0 failed, ruff + black clean, member-annotation gate 3 passed, audit_class.py 49/49 PASS (Rules 0024-0026), lossless integration round-trip; Rule 0025 reader/writer base-helper symmetry, Rule 0013.2 read/write name pairs, verbatim Notes, member order and quota shape re-verified against source
 
-- [ ] `EthernetMacLayerTypeEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 3.56, p.110
+- [x] `EthernetMacLayerTypeEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 3.56, p.110
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -83,7 +83,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-07** (batch review, user-approved); marker `# Spec verified: R23-11` written; stamp commit: c39dd7a32. 9a: 21812 passed / 0 failed, ruff + black clean, member-annotation gate 3 passed, audit_class.py 49/49 PASS (Rules 0024-0026), lossless integration round-trip; Rule 0025 reader/writer base-helper symmetry, Rule 0013.2 read/write name pairs, verbatim Notes, member order and quota shape re-verified against source
 
-- [ ] `EthernetPhysicalLayerTypeEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 3.57, p.111
+- [x] `EthernetPhysicalLayerTypeEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 3.57, p.111
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -95,7 +95,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-07** (batch review, user-approved); marker `# Spec verified: R23-11` written; stamp commit: b694498ff. 9a: 21812 passed / 0 failed, ruff + black clean, member-annotation gate 3 passed, audit_class.py 49/49 PASS (Rules 0024-0026), lossless integration round-trip; Rule 0025 reader/writer base-helper symmetry, Rule 0013.2 read/write name pairs, verbatim Notes, member order and quota shape re-verified against source
 
-- [ ] `EthernetSwitchVlanIngressTagEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 3.58, p.111
+- [x] `EthernetSwitchVlanIngressTagEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 3.58, p.111
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -107,7 +107,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-07** (batch review, user-approved); marker `# Spec verified: R23-11` written; stamp commit: 9422ab1f7. 9a: 21812 passed / 0 failed, ruff + black clean, member-annotation gate 3 passed, audit_class.py 49/49 PASS (Rules 0024-0026), lossless integration round-trip; Rule 0025 reader/writer base-helper symmetry, Rule 0013.2 read/write name pairs, verbatim Notes, member order and quota shape re-verified against source
 
-- [ ] `CouplingPortConnection` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.60, p.113
+- [x] `CouplingPortConnection` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.60, p.113
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -119,7 +119,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-07** (batch review, user-approved); marker `# Spec verified: R23-11` written; stamp commit: ee27121d1. 9a: 21812 passed / 0 failed, ruff + black clean, member-annotation gate 3 passed, audit_class.py 49/49 PASS (Rules 0024-0026), lossless integration round-trip; Rule 0025 reader/writer base-helper symmetry, Rule 0013.2 read/write name pairs, verbatim Notes, member order and quota shape re-verified against source
 
-- [ ] `EthernetCommunicationController` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.61, p.116
+- [x] `EthernetCommunicationController` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.61, p.116
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -131,7 +131,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-07** (batch review, user-approved); marker `# Spec verified: R23-11` written; stamp commit: 03497b59c. 9a: 21812 passed / 0 failed, ruff + black clean, member-annotation gate 3 passed, audit_class.py 49/49 PASS (Rules 0024-0026), lossless integration round-trip; Rule 0025 reader/writer base-helper symmetry, Rule 0013.2 read/write name pairs, verbatim Notes, member order and quota shape re-verified against source
 
-- [ ] `EthernetCommunicationConnector` — CommunicationConnector — R23-11 CP_TPS_SystemTemplate Table 3.62, p.117
+- [x] `EthernetCommunicationConnector` — CommunicationConnector — R23-11 CP_TPS_SystemTemplate Table 3.62, p.117
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -143,7 +143,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-07** (batch review, user-approved); marker `# Spec verified: R23-11` written; stamp commit: 0de2c42ad. 9a: 21812 passed / 0 failed, ruff + black clean, member-annotation gate 3 passed, audit_class.py 49/49 PASS (Rules 0024-0026), lossless integration round-trip; Rule 0025 reader/writer base-helper symmetry, Rule 0013.2 read/write name pairs, verbatim Notes, member order and quota shape re-verified against source
 
-- [ ] `CouplingPortDetails` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.63, p.122
+- [x] `CouplingPortDetails` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.63, p.122
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -155,7 +155,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-07** (batch review, user-approved); marker `# Spec verified: R23-11` written; stamp commit: a45755ba3. 9a: 21812 passed / 0 failed, ruff + black clean, member-annotation gate 3 passed, audit_class.py 49/49 PASS (Rules 0024-0026), lossless integration round-trip; Rule 0025 reader/writer base-helper symmetry, Rule 0013.2 read/write name pairs, verbatim Notes, member order and quota shape re-verified against source
 
-- [ ] `EthernetCouplingPortSchedulerEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 3.66, p.123
+- [x] `EthernetCouplingPortSchedulerEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 3.66, p.123
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -167,7 +167,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-07** (batch review, user-approved); marker `# Spec verified: R23-11` written; stamp commit: 264f04038. 9a: 21812 passed / 0 failed, ruff + black clean, member-annotation gate 3 passed, audit_class.py 49/49 PASS (Rules 0024-0026), lossless integration round-trip; Rule 0025 reader/writer base-helper symmetry, Rule 0013.2 read/write name pairs, verbatim Notes, member order and quota shape re-verified against source
 
-- [ ] `CouplingPortShaper` — CouplingPortStructuralElement — R23-11 CP_TPS_SystemTemplate Table 3.67, p.123
+- [x] `CouplingPortShaper` — CouplingPortStructuralElement — R23-11 CP_TPS_SystemTemplate Table 3.67, p.123
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -179,7 +179,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-07** (batch review, user-approved); marker `# Spec verified: R23-11` written; stamp commit: a3502b3e2. 9a: 21812 passed / 0 failed, ruff + black clean, member-annotation gate 3 passed, audit_class.py 49/49 PASS (Rules 0024-0026), lossless integration round-trip; Rule 0025 reader/writer base-helper symmetry, Rule 0013.2 read/write name pairs, verbatim Notes, member order and quota shape re-verified against source
 
-- [ ] `CouplingPortFifo` — CouplingPortStructuralElement — R23-11 CP_TPS_SystemTemplate Table 3.68, p.124
+- [x] `CouplingPortFifo` — CouplingPortStructuralElement — R23-11 CP_TPS_SystemTemplate Table 3.68, p.124
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -191,7 +191,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-07** (batch review, user-approved); marker `# Spec verified: R23-11` written; stamp commit: 20de6ab12. 9a: 21812 passed / 0 failed, ruff + black clean, member-annotation gate 3 passed, audit_class.py 49/49 PASS (Rules 0024-0026), lossless integration round-trip; Rule 0025 reader/writer base-helper symmetry, Rule 0013.2 read/write name pairs, verbatim Notes, member order and quota shape re-verified against source
 
-- [ ] `CouplingPortRatePolicy` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.69, p.124
+- [x] `CouplingPortRatePolicy` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.69, p.124
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -203,7 +203,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-07** (batch review, user-approved); marker `# Spec verified: R23-11` written; stamp commit: 83e5a7de8. 9a: 21812 passed / 0 failed, ruff + black clean, member-annotation gate 3 passed, audit_class.py 49/49 PASS (Rules 0024-0026), lossless integration round-trip; Rule 0025 reader/writer base-helper symmetry, Rule 0013.2 read/write name pairs, verbatim Notes, member order and quota shape re-verified against source
 
-- [ ] `CouplingPortRatePolicyActionEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 3.70, p.125
+- [x] `CouplingPortRatePolicyActionEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 3.70, p.125
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -215,7 +215,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-07** (batch review, user-approved); marker `# Spec verified: R23-11` written; stamp commit: 04d3d90ff. 9a: 21812 passed / 0 failed, ruff + black clean, member-annotation gate 3 passed, audit_class.py 49/49 PASS (Rules 0024-0026), lossless integration round-trip; Rule 0025 reader/writer base-helper symmetry, Rule 0013.2 read/write name pairs, verbatim Notes, member order and quota shape re-verified against source
 
-- [ ] `CouplingPortTrafficClassAssignment` — Referrable — R23-11 CP_TPS_SystemTemplate Table 3.75, p.128
+- [x] `CouplingPortTrafficClassAssignment` — Referrable — R23-11 CP_TPS_SystemTemplate Table 3.75, p.128
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -227,7 +227,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-07** (batch review, user-approved); marker `# Spec verified: R23-11` written; stamp commit: 1ada77419. 9a: 21812 passed / 0 failed, ruff + black clean, member-annotation gate 3 passed, audit_class.py 49/49 PASS (Rules 0024-0026), lossless integration round-trip; Rule 0025 reader/writer base-helper symmetry, Rule 0013.2 read/write name pairs, verbatim Notes, member order and quota shape re-verified against source
 
-- [ ] `EthernetSwitchVlanEgressTaggingEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 3.78, p.130
+- [x] `EthernetSwitchVlanEgressTaggingEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 3.78, p.130
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -239,7 +239,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-07** (batch review, user-approved); marker `# Spec verified: R23-11` written; stamp commit: 482ceab55. 9a: 21812 passed / 0 failed, ruff + black clean, member-annotation gate 3 passed, audit_class.py 49/49 PASS (Rules 0024-0026), lossless integration round-trip; Rule 0025 reader/writer base-helper symmetry, Rule 0013.2 read/write name pairs, verbatim Notes, member order and quota shape re-verified against source
 
-- [ ] `DhcpServerConfiguration` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.79, p.131
+- [x] `DhcpServerConfiguration` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.79, p.131
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -251,7 +251,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-07** (batch review, user-approved); marker `# Spec verified: R23-11` written; stamp commit: 8edfe86ef. 9a: 21812 passed / 0 failed, ruff + black clean, member-annotation gate 3 passed, audit_class.py 49/49 PASS (Rules 0024-0026), lossless integration round-trip; Rule 0025 reader/writer base-helper symmetry, Rule 0013.2 read/write name pairs, verbatim Notes, member order and quota shape re-verified against source
 
-- [ ] `Ipv4DhcpServerConfiguration` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.80, p.132
+- [x] `Ipv4DhcpServerConfiguration` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.80, p.132
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -263,7 +263,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-07** (batch review, user-approved); marker `# Spec verified: R23-11` written; stamp commit: de126f2ef. 9a: 21812 passed / 0 failed, ruff + black clean, member-annotation gate 3 passed, audit_class.py 49/49 PASS (Rules 0024-0026), lossless integration round-trip; Rule 0025 reader/writer base-helper symmetry, Rule 0013.2 read/write name pairs, verbatim Notes, member order and quota shape re-verified against source
 
-- [ ] `Ipv6DhcpServerConfiguration` — Describable — R23-11 CP_TPS_SystemTemplate Table 3.81, p.132
+- [x] `Ipv6DhcpServerConfiguration` — Describable — R23-11 CP_TPS_SystemTemplate Table 3.81, p.132
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -275,7 +275,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-07** (batch review, user-approved); marker `# Spec verified: R23-11` written; stamp commit: ad1e393ba. 9a: 21812 passed / 0 failed, ruff + black clean, member-annotation gate 3 passed, audit_class.py 49/49 PASS (Rules 0024-0026), lossless integration round-trip; Rule 0025 reader/writer base-helper symmetry, Rule 0013.2 read/write name pairs, verbatim Notes, member order and quota shape re-verified against source
 
-- [ ] `CouplingElementAbstractDetails` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 3.82, p.133
+- [x] `CouplingElementAbstractDetails` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 3.82, p.133
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
   - Step 1 finding: Table 3.82 defines no Attribute rows (abstract class; attribute row renders as
     `-`). Placement per Rule 0007 (spec Package row `…Fibex4Ethernet::EthernetTopology`): class moved
@@ -296,7 +296,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-07** (batch review, user-approved); marker `# Spec verified: R23-11` written; stamp commit: 6223223d0. 9a: 21812 passed / 0 failed, ruff + black clean, member-annotation gate 3 passed, audit_class.py 49/49 PASS (Rules 0024-0026), lossless integration round-trip; Rule 0025 reader/writer base-helper symmetry, Rule 0013.2 read/write name pairs, verbatim Notes, member order and quota shape re-verified against source
 
-- [ ] `CouplingElementSwitchDetails` — CouplingElementAbstractDetails — R23-11 CP_TPS_SystemTemplate Table 3.83, p.133
+- [x] `CouplingElementSwitchDetails` — CouplingElementAbstractDetails — R23-11 CP_TPS_SystemTemplate Table 3.83, p.133
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -313,7 +313,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
     `writeSwitchStreamIdentification` (full population, XSD order), replacing the
     readIdentifiable/writeIdentifiable placeholder.
 
-- [ ] `SwitchStreamIdentification` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 3.84, p.135
+- [x] `SwitchStreamIdentification` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 3.84, p.135
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
   - Step 1 finding: Placement per Rule 0007 (spec Package row
     `…Fibex4Ethernet::EthernetTopology`): class moved from the Identifiable.py stub to
@@ -334,7 +334,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-07** (batch review, user-approved); marker `# Spec verified: R23-11` written; stamp commit: 4906ab07d. 9a: 21812 passed / 0 failed, ruff + black clean, member-annotation gate 3 passed, audit_class.py 49/49 PASS (Rules 0024-0026), lossless integration round-trip; Rule 0025 reader/writer base-helper symmetry, Rule 0013.2 read/write name pairs, verbatim Notes, member order and quota shape re-verified against source
 
-- [ ] `SwitchStreamFilterRule` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 3.85, p.136
+- [x] `SwitchStreamFilterRule` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 3.85, p.136
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
   - Step 1 finding: Placement per Rule 0007 (spec Package row
     `…Fibex4Ethernet::EthernetTopology`): class moved from the Identifiable.py stub to
@@ -363,7 +363,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-07** (batch review, user-approved); marker `# Spec verified: R23-11` written; stamp commit: 18175ad8c. 9a: 21812 passed / 0 failed, ruff + black clean, member-annotation gate 3 passed, audit_class.py 49/49 PASS (Rules 0024-0026), lossless integration round-trip; Rule 0025 reader/writer base-helper symmetry, Rule 0013.2 read/write name pairs, verbatim Notes, member order and quota shape re-verified against source
 
-- [ ] `StreamFilterRuleDataLinkLayer` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.86, p.137
+- [x] `StreamFilterRuleDataLinkLayer` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.86, p.137
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
   - Step 1 finding: Placement per Rule 0007 (spec Package row
     `…Fibex4Ethernet::EthernetTopology`): class moved from the ArObject.py stub to
@@ -388,7 +388,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-07** (batch review, user-approved); marker `# Spec verified: R23-11` written; stamp commit: dd40c287a. 9a: 21812 passed / 0 failed, ruff + black clean, member-annotation gate 3 passed, audit_class.py 49/49 PASS (Rules 0024-0026), lossless integration round-trip; Rule 0025 reader/writer base-helper symmetry, Rule 0013.2 read/write name pairs, verbatim Notes, member order and quota shape re-verified against source
 
-- [ ] `StreamFilterMACAddress` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.87, p.137
+- [x] `StreamFilterMACAddress` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.87, p.137
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
   - Step 1 finding: Placement per Rule 0007 (spec Package row
     `…Fibex4Ethernet::EthernetTopology`): class moved from the ArObject.py stub to
@@ -412,7 +412,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-07** (batch review, user-approved); marker `# Spec verified: R23-11` written; stamp commit: bd3889c1d. 9a: 21812 passed / 0 failed, ruff + black clean, member-annotation gate 3 passed, audit_class.py 49/49 PASS (Rules 0024-0026), lossless integration round-trip; Rule 0025 reader/writer base-helper symmetry, Rule 0013.2 read/write name pairs, verbatim Notes, member order and quota shape re-verified against source
 
-- [ ] `StreamFilterRuleIpTp` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.88, p.138
+- [x] `StreamFilterRuleIpTp` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.88, p.138
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
   - Step 1 finding: Placement per Rule 0007 (spec Package row
     `…Fibex4Ethernet::EthernetTopology`): class moved from the ArObject.py stub to
@@ -441,7 +441,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-07** (batch review, user-approved); marker `# Spec verified: R23-11` written; stamp commit: f8e38bb5f. 9a: 21812 passed / 0 failed, ruff + black clean, member-annotation gate 3 passed, audit_class.py 49/49 PASS (Rules 0024-0026), lossless integration round-trip; Rule 0025 reader/writer base-helper symmetry, Rule 0013.2 read/write name pairs, verbatim Notes, member order and quota shape re-verified against source
 
-- [ ] `StreamFilterIpv4Address` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.89, p.138
+- [x] `StreamFilterIpv4Address` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.89, p.138
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
   - Step 1 finding: Placement per Rule 0007 (spec Package row
     `…Fibex4Ethernet::EthernetTopology`): class moved from the ArObject.py stub to
@@ -468,7 +468,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-07** (batch review, user-approved); marker `# Spec verified: R23-11` written; stamp commit: 4e4067bb0. 9a: 21812 passed / 0 failed, ruff + black clean, member-annotation gate 3 passed, audit_class.py 49/49 PASS (Rules 0024-0026), lossless integration round-trip; Rule 0025 reader/writer base-helper symmetry, Rule 0013.2 read/write name pairs, verbatim Notes, member order and quota shape re-verified against source
 
-- [ ] `StreamFilterIpv6Address` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.90, p.138
+- [x] `StreamFilterIpv6Address` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.90, p.138
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
   - Step 1 finding: Placement per Rule 0007 (spec Package row
     `…Fibex4Ethernet::EthernetTopology`): class moved from the ArObject.py stub to
@@ -494,7 +494,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-07** (batch review, user-approved); marker `# Spec verified: R23-11` written; stamp commit: 88d594a1c. 9a: 21812 passed / 0 failed, ruff + black clean, member-annotation gate 3 passed, audit_class.py 49/49 PASS (Rules 0024-0026), lossless integration round-trip; Rule 0025 reader/writer base-helper symmetry, Rule 0013.2 read/write name pairs, verbatim Notes, member order and quota shape re-verified against source
 
-- [ ] `StreamFilterPortRange` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.91, p.139
+- [x] `StreamFilterPortRange` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.91, p.139
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
   - Placement moved per Rule 0007 (spec Package row tail `…::Fibex4Ethernet::EthernetTopology`):
     the class left the ArObject.py stub file for EthernetTopology.py beside its StreamFilter
@@ -516,7 +516,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-07** (batch review, user-approved); marker `# Spec verified: R23-11` written; stamp commit: 8942e2931. 9a: 21812 passed / 0 failed, ruff + black clean, member-annotation gate 3 passed, audit_class.py 49/49 PASS (Rules 0024-0026), lossless integration round-trip; Rule 0025 reader/writer base-helper symmetry, Rule 0013.2 read/write name pairs, verbatim Notes, member order and quota shape re-verified against source
 
-- [ ] `StreamFilterIEEE1722Tp` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.92, p.139
+- [x] `StreamFilterIEEE1722Tp` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.92, p.139
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
   - Placement moved per Rule 0007 (spec Package row tail `…::Fibex4Ethernet::EthernetTopology`):
     the class left the ArObject.py stub file for EthernetTopology.py beside its StreamFilter
@@ -537,7 +537,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-07** (batch review, user-approved); marker `# Spec verified: R23-11` written; stamp commit: 415bd8bfe. 9a: 21812 passed / 0 failed, ruff + black clean, member-annotation gate 3 passed, audit_class.py 49/49 PASS (Rules 0024-0026), lossless integration round-trip; Rule 0025 reader/writer base-helper symmetry, Rule 0013.2 read/write name pairs, verbatim Notes, member order and quota shape re-verified against source
 
-- [ ] `SwitchStreamFilterActionDestPortModification` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 3.93, p.140
+- [x] `SwitchStreamFilterActionDestPortModification` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 3.93, p.140
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -549,7 +549,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-07** (batch review, user-approved); marker `# Spec verified: R23-11` written; stamp commit: a3a74de3f. 9a: 21812 passed / 0 failed, ruff + black clean, member-annotation gate 3 passed, audit_class.py 49/49 PASS (Rules 0024-0026), lossless integration round-trip; Rule 0025 reader/writer base-helper symmetry, Rule 0013.2 read/write name pairs, verbatim Notes, member order and quota shape re-verified against source
 
-- [ ] `SwitchStreamFilterActionPortModificationEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 3.94, p.140
+- [x] `SwitchStreamFilterActionPortModificationEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 3.94, p.140
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -561,7 +561,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-07** (batch review, user-approved); marker `# Spec verified: R23-11` written; stamp commit: 7f7ad8df9. 9a: 21812 passed / 0 failed, ruff + black clean, member-annotation gate 3 passed, audit_class.py 49/49 PASS (Rules 0024-0026), lossless integration round-trip; Rule 0025 reader/writer base-helper symmetry, Rule 0013.2 read/write name pairs, verbatim Notes, member order and quota shape re-verified against source
 
-- [ ] `SwitchStreamFilterEntry` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 3.95, p.142
+- [x] `SwitchStreamFilterEntry` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 3.95, p.142
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
   - Step 1 finding: Placement per Rule 0007 (spec Package row
     `…Fibex4Ethernet::EthernetTopology`): class moved from the Identifiable.py stub to
@@ -588,7 +588,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-07** (batch review, user-approved); marker `# Spec verified: R23-11` written; stamp commit: 617aad481. 9a: 21812 passed / 0 failed, ruff + black clean, member-annotation gate 3 passed, audit_class.py 49/49 PASS (Rules 0024-0026), lossless integration round-trip; Rule 0025 reader/writer base-helper symmetry, Rule 0013.2 read/write name pairs, verbatim Notes, member order and quota shape re-verified against source
 
-- [ ] `SwitchAsynchronousTrafficShaperGroupEntry` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 3.96, p.142
+- [x] `SwitchAsynchronousTrafficShaperGroupEntry` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 3.96, p.142
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
   - Step 1 finding: Placement per Rule 0007 (spec Package row
     `…Fibex4Ethernet::EthernetTopology`): class moved from the Identifiable.py stub to
@@ -607,7 +607,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-07** (batch review, user-approved); marker `# Spec verified: R23-11` written; stamp commit: dc49f6692. 9a: 21812 passed / 0 failed, ruff + black clean, member-annotation gate 3 passed, audit_class.py 49/49 PASS (Rules 0024-0026), lossless integration round-trip; Rule 0025 reader/writer base-helper symmetry, Rule 0013.2 read/write name pairs, verbatim Notes, member order and quota shape re-verified against source
 
-- [ ] `SwitchStreamGateEntry` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 3.97, p.143
+- [x] `SwitchStreamGateEntry` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 3.97, p.143
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
   - Step 1 finding: Placement per Rule 0007 (spec Package row
     `…Fibex4Ethernet::EthernetTopology`): class moved from the Identifiable.py stub to
@@ -628,7 +628,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-07** (batch review, user-approved); marker `# Spec verified: R23-11` written; stamp commit: 1723b30e7. 9a: 21812 passed / 0 failed, ruff + black clean, member-annotation gate 3 passed, audit_class.py 49/49 PASS (Rules 0024-0026), lossless integration round-trip; Rule 0025 reader/writer base-helper symmetry, Rule 0013.2 read/write name pairs, verbatim Notes, member order and quota shape re-verified against source
 
-- [ ] `SwitchFlowMeteringEntry` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 3.98, p.143
+- [x] `SwitchFlowMeteringEntry` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 3.98, p.143
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
   - Step 1 finding: Placement per Rule 0007 (spec Package row
     `…Fibex4Ethernet::EthernetTopology`): class moved from the Identifiable.py stub to
@@ -653,7 +653,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-07** (batch review, user-approved); marker `# Spec verified: R23-11` written; stamp commit: 99f54f629. 9a: 21812 passed / 0 failed, ruff + black clean, member-annotation gate 3 passed, audit_class.py 49/49 PASS (Rules 0024-0026), lossless integration round-trip; Rule 0025 reader/writer base-helper symmetry, Rule 0013.2 read/write name pairs, verbatim Notes, member order and quota shape re-verified against source
 
-- [ ] `FlowMeteringColorModeEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 3.99, p.144
+- [x] `FlowMeteringColorModeEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 3.99, p.144
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
   - Step 1 finding: Placement per Rule 0007 (spec Package row
     `…Fibex4Ethernet::EthernetTopology`): class moved from the PrimitiveTypes.py stub to
@@ -673,7 +673,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-07** (batch review, user-approved); marker `# Spec verified: R23-11` written; stamp commit: 2099d6bf1. 9a: 21812 passed / 0 failed, ruff + black clean, member-annotation gate 3 passed, audit_class.py 49/49 PASS (Rules 0024-0026), lossless integration round-trip; Rule 0025 reader/writer base-helper symmetry, Rule 0013.2 read/write name pairs, verbatim Notes, member order and quota shape re-verified against source
 
-- [ ] `EthIpProps` — ARElement — R23-11 CP_TPS_SystemTemplate Table 3.100, p.146
+- [x] `EthIpProps` — ARElement — R23-11 CP_TPS_SystemTemplate Table 3.100, p.146
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
   - Step 1 finding: Placement per Rule 0007 (spec Package row
     `…Fibex4Ethernet::EthernetTopology`): class moved from the ARPackage.py stub to
@@ -692,7 +692,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-07** (batch review, user-approved); marker `# Spec verified: R23-11` written; stamp commit: 3e5bb7d27. 9a: 21812 passed / 0 failed, ruff + black clean, member-annotation gate 3 passed, audit_class.py 49/49 PASS (Rules 0024-0026), lossless integration round-trip; Rule 0025 reader/writer base-helper symmetry, Rule 0013.2 read/write name pairs, verbatim Notes, member order and quota shape re-verified against source
 
-- [ ] `Ipv4Props` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.101, p.146
+- [x] `Ipv4Props` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.101, p.146
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
   - Step 1 finding: Placement per Rule 0007 (spec Package row
     `…Fibex4Ethernet::EthernetTopology`): class moved from the ArObject.py stub to
@@ -722,7 +722,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-07** (batch review, user-approved); marker `# Spec verified: R23-11` written; stamp commit: f7c2e5277. 9a: 21812 passed / 0 failed, ruff + black clean, member-annotation gate 3 passed, audit_class.py 49/49 PASS (Rules 0024-0026), lossless integration round-trip; Rule 0025 reader/writer base-helper symmetry, Rule 0013.2 read/write name pairs, verbatim Notes, member order and quota shape re-verified against source
 
-- [ ] `Ipv4ArpProps` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.102, p.146
+- [x] `Ipv4ArpProps` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.102, p.146
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
   - Step 1 finding: Placement per Rule 0007 (spec Package row
     `…Fibex4Ethernet::EthernetTopology`): class moved from the ArObject.py stub to
@@ -749,7 +749,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-07** (batch review, user-approved); marker `# Spec verified: R23-11` written; stamp commit: c99303381. 9a: 21812 passed / 0 failed, ruff + black clean, member-annotation gate 3 passed, audit_class.py 49/49 PASS (Rules 0024-0026), lossless integration round-trip; Rule 0025 reader/writer base-helper symmetry, Rule 0013.2 read/write name pairs, verbatim Notes, member order and quota shape re-verified against source
 
-- [ ] `Ipv4AutoIpProps` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.103, p.147
+- [x] `Ipv4AutoIpProps` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.103, p.147
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
   - Step 1 finding: Placement per Rule 0007 (spec Package row
     `…Fibex4Ethernet::EthernetTopology`): class moved from the ArObject.py stub to
@@ -774,7 +774,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-07** (batch review, user-approved); marker `# Spec verified: R23-11` written; stamp commit: 72f4381dd. 9a: 21812 passed / 0 failed, ruff + black clean, member-annotation gate 3 passed, audit_class.py 49/49 PASS (Rules 0024-0026), lossless integration round-trip; Rule 0025 reader/writer base-helper symmetry, Rule 0013.2 read/write name pairs, verbatim Notes, member order and quota shape re-verified against source
 
-- [ ] `Ipv4FragmentationProps` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.104, p.147
+- [x] `Ipv4FragmentationProps` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.104, p.147
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
   - Step 1 finding: Placement per Rule 0007 (spec Package row
     `…Fibex4Ethernet::EthernetTopology`): class moved from the ArObject.py stub to
@@ -803,7 +803,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-07** (batch review, user-approved); marker `# Spec verified: R23-11` written; stamp commit: e3ac0e099. 9a: 21812 passed / 0 failed, ruff + black clean, member-annotation gate 3 passed, audit_class.py 49/49 PASS (Rules 0024-0026), lossless integration round-trip; Rule 0025 reader/writer base-helper symmetry, Rule 0013.2 read/write name pairs, verbatim Notes, member order and quota shape re-verified against source
 
-- [ ] `Ipv6Props` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.105, p.148
+- [x] `Ipv6Props` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.105, p.148
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
   - Step 1 finding: Placement per Rule 0007 (spec Package row
     `…Fibex4Ethernet::EthernetTopology`, PDF p.147 header block — the markdown render
@@ -833,7 +833,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-07** (batch review, user-approved); marker `# Spec verified: R23-11` written; stamp commit: 1719cfdc0. 9a: 21812 passed / 0 failed, ruff + black clean, member-annotation gate 3 passed, audit_class.py 49/49 PASS (Rules 0024-0026), lossless integration round-trip; Rule 0025 reader/writer base-helper symmetry, Rule 0013.2 read/write name pairs, verbatim Notes, member order and quota shape re-verified against source
 
-- [ ] `Ipv6FragmentationProps` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.106, p.148
+- [x] `Ipv6FragmentationProps` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.106, p.148
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
   - Step 1 finding: Placement per Rule 0007 (spec Package row
     `…Fibex4Ethernet::EthernetTopology`): class moved from the ArObject.py stub to
@@ -864,7 +864,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-07** (batch review, user-approved); marker `# Spec verified: R23-11` written; stamp commit: 0a9362c8e. 9a: 21812 passed / 0 failed, ruff + black clean, member-annotation gate 3 passed, audit_class.py 49/49 PASS (Rules 0024-0026), lossless integration round-trip; Rule 0025 reader/writer base-helper symmetry, Rule 0013.2 read/write name pairs, verbatim Notes, member order and quota shape re-verified against source
 
-- [ ] `Dhcpv6Props` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.107, p.149
+- [x] `Dhcpv6Props` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.107, p.149
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
   - Step 1 finding: Placement per Rule 0007 (spec Package row
     `…Fibex4Ethernet::EthernetTopology`): class moved from the ArObject.py stub to
@@ -894,7 +894,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-07** (batch review, user-approved); marker `# Spec verified: R23-11` written; stamp commit: 8dbe4cfac. 9a: 21812 passed / 0 failed, ruff + black clean, member-annotation gate 3 passed, audit_class.py 49/49 PASS (Rules 0024-0026), lossless integration round-trip; Rule 0025 reader/writer base-helper symmetry, Rule 0013.2 read/write name pairs, verbatim Notes, member order and quota shape re-verified against source
 
-- [ ] `Ipv6NdpProps` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.108, p.151
+- [x] `Ipv6NdpProps` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.108, p.151
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
   - Step 1 finding: Table 3.108 is a page-split table (p.150 header + first 12 attribute rows,
     p.151 remaining 14 rows + caption; pdf_page.py cites p.151) — 26 `0..1` attr rows synced in
@@ -920,7 +920,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-07** (batch review, user-approved); marker `# Spec verified: R23-11` written; stamp commit: 76d04b8be. 9a: 21812 passed / 0 failed, ruff + black clean, member-annotation gate 3 passed, audit_class.py 49/49 PASS (Rules 0024-0026), lossless integration round-trip; Rule 0025 reader/writer base-helper symmetry, Rule 0013.2 read/write name pairs, verbatim Notes, member order and quota shape re-verified against source
 
-- [ ] `EthernetWakeupSleepOnDatalineConfig` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.115, p.159
+- [x] `EthernetWakeupSleepOnDatalineConfig` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.115, p.159
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
   - Step 1 finding: Table 3.115 is a page-split table (8 attribute rows on p.158, the remaining
     3 rows + caption on p.159; pdf_page.py cites p.159) — 11 `0..1` attr rows synced in displayed
