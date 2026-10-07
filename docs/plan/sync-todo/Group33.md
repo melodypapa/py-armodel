@@ -282,16 +282,26 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `FlexrayArTpNode` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 6.247, p.603
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - module: M2/AUTOSARTemplates/SystemTemplate/TransportProtocols.py
+  - note: rehoused from the Identifiable.py stub to TransportProtocols.py (spec Package row =
+    SystemTemplate::TransportProtocols, Rule 0007; the parser/writer imports were moved from
+    Identifiable.py to TransportProtocols.py in the same commit). XSD group FLEXRAY-AR-TP-NODE
+    carries VARIATION-POINT, so VariationPointCapable is mixed in and read/writeVariationPointCapable
+    are called. Both spec attrs modeled in displayed order (connector `*` ref → connectorRefs with the
+    CONNECTOR-REFS/CONNECTOR-REF wrapper per the XSD, tpAddress 0..1 ref → tpAddressRef); the PDF
+    table has no Note column, so attribute docstrings are the CONNECTOR-REFS/TP-ADDRESS-REF
+    documentation verbatim from the XSD (the XSD's double space in "Association  to" is reproduced
+    verbatim). The class docstring Note ends at "...the connection to the Topology" — verbatim from
+    the markdown, which lacks the trailing "description." that sibling FlexrayTpNode has.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `FlexrayArTpConnection` — TpConnection — R23-11 CP_TPS_SystemTemplate Table 6.248, p.603
   - module: M2/AUTOSARTemplates/SystemTemplate/DiagnosticConnection.py

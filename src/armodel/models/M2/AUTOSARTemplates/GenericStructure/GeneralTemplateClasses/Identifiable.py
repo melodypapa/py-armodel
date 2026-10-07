@@ -1864,10 +1864,6 @@ class DdsCpQosProfile(Identifiable):
         return self
 
 
-class FlexrayArTpNode(Identifiable):
-    pass
-
-
 class GlobalTimeCanSlave(Identifiable):
     pass
 
