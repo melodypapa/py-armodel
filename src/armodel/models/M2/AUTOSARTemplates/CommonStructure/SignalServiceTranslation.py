@@ -22,17 +22,27 @@ __all__ = [
 class SignalServiceTranslationControlEnum(AREnum):
     """
     This enumeration allows to define how the service instance offer/subscribe control shall behave.
+    """
 
     # SignalServiceTranslationControlEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.343, p.744
-    # Spec verified: R23-11
-    # (no methods; serialized as an enumeration literal on the consuming attribute serviceControl)
-    """
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on the consuming attribute serviceControl
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
+    # Defines the start of service control when all specified partial networks are active. Tags: atp.EnumerationLiteralIndex=3
     ALL_PARTIAL_NETWORKS_ACTIVE = "ALL-PARTIAL-NETWORKS-ACTIVE"
+
+    # Defines the start of service control when any specified partial network is active. Tags: atp.EnumerationLiteralIndex=4
     ANY_PARTIAL_NETWORK_ACTIVE = "ANY-PARTIAL-NETWORK-ACTIVE"
-    PARTIAL_NETWORK = "PARTIAL-NETWORK"  # atp.Status=obsolete
+
+    # Defines the start of service control when specific partial networks are active. Tags: atp.EnumerationLiteralIndex=1 atp.Status=obsolete
+    PARTIAL_NETWORK = "PARTIAL-NETWORK"
+
+    # Defines the start of service control when other service is available. Tags: atp.EnumerationLiteralIndex=2
     SERVICE_DISCOVERY = "SERVICE-DISCOVERY"
+
+    # Defines the start of service control at translation start. Tags: atp.EnumerationLiteralIndex=0
     TRANSLATION_START = "TRANSLATION-START"
 
     def __init__(self):
