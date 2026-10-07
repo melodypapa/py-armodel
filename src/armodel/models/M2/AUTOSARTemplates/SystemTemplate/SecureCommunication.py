@@ -880,32 +880,6 @@ class CryptoCertificateFormatEnum(AREnum):
         )
 
 
-class MacSecRoleEnum(AREnum):
-    """
-    This enum defines the MACsec Role options.
-    """
-
-    # MacSecRoleEnum method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.127, p.177
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # (no methods) — enum value form serialized on MacSecLocalKayProps.role
-
-    # Port acts in the peer role Tags: atp.EnumerationLiteralIndex=0
-    PEER = "PEER"
-
-    # Port acts in the KeyServer role Tags: atp.EnumerationLiteralIndex=1
-    KEY_SERVER = "KEY-SERVER"
-
-    def __init__(self):
-        super().__init__(
-            [
-                MacSecRoleEnum.PEER,
-                MacSecRoleEnum.KEY_SERVER,
-            ]
-        )
-
-
 class MacSecFailPermissiveModeEnum(AREnum):
     """
     Behavior options of the Port Access Entity in case MACsec does not succeed.
@@ -1998,6 +1972,31 @@ class MacSecCapabilityEnum(AREnum):
             [
                 MacSecCapabilityEnum.INTERGRITY_AND_CONFIDENTIALITY,
                 MacSecCapabilityEnum.INTERGRITY_WITHOUT_CONFIDENTIALITY,
+            ]
+        )
+
+
+class MacSecRoleEnum(AREnum):
+    """
+    This enum defines the MACsec Role options. Tags: atp.Status=candidate
+    """
+
+    # MacSecRoleEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.127, p.177
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # Port acts in the KeyServer role Tags: atp.EnumerationLiteralIndex=1
+    KEY_SERVER = "KEY-SERVER"
+
+    # Port acts in the peer role Tags: atp.EnumerationLiteralIndex=0
+    PEER = "PEER"
+
+    def __init__(self):
+        super().__init__(
+            [
+                MacSecRoleEnum.KEY_SERVER,
+                MacSecRoleEnum.PEER,
             ]
         )
 

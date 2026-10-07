@@ -1543,14 +1543,52 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `MacSecRoleEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 3.127, p.177
   - module: M2/AUTOSARTemplates/SystemTemplate/SecureCommunication.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-07 (22000 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit a89d0bb5c
+  - Step 1 finding: Table 3.127 is NOT page-split — single fragment (markdown lines
+    4807-4814: body renders before the caption, same rendering quirk as Table 3.126).
+    Header Enumeration → AREnum. Package
+    `M2::AUTOSARTemplates::SystemTemplate::SecureCommunication`.
+    Note "This enum defines the MACsec Role options. Tags: atp.Status=candidate"
+    (verbatim, Tags tail kept). Aggregated by MacSecLocalKayProps.role. Two literals in
+    displayed/XSD-facet order (KEY-SERVER idx1 first, PEER idx0 second — the XSD facet
+    order AUTOSAR_00052.xsd lines 140038-140052 agrees with the markdown displayed order
+    and DISAGREES with raw EnumerationLiteralIndex order, so Rule 0011's XSD-facet-order
+    rule wins). Member names UPPER_SNAKE of the spec literals (keyServer → KEY_SERVER,
+    peer → PEER); values the exact XSD MAC-SEC-ROLE-ENUM--SIMPLE facets (UPPER-KEBAB,
+    no double-hyphen quirk). No atp.Status=removed facets, no xml.name tags on the
+    facets — nothing deprecated to drop. pdf_page.py cites p.177. Consumer
+    MacSecLocalKayProps.role already typed Optional[MacSecRoleEnum] (Table 3.119 sync)
+    with the parser level (arxml_parser.py readMacSecLocalKayProps instantiates the enum
+    for ROLE) and writer ROLE element wired; the parser/writer tests already use the real
+    constants — no placeholder doubles to upgrade. Placement per Rule 0007 (spec Package
+    row) + batch instruction: class MOVES from its legacy slot (between
+    CryptoCertificateFormatEnum and MacSecFailPermissiveModeEnum) to its
+    spec-table-order slot directly after MacSecCapabilityEnum (Table 3.126 → 3.127 order;
+    safe — the module is PEP 563).
+  - Legacy upgrade: the class was a prior legacy sync carrying the stale
+    `# Spec verified: R23-11` marker + a 5-column checklist with zero method rows — both
+    retired at session start (marker removed per Rule 0023, batch 9b re-stamps; checklist
+    rewritten to the 6-column format with the `__init__` row at Step 7, e609bd926
+    precedent). Entry-time audit FAILed ROWS (1 method vs 0 rows) + STAMP warn as
+    expected. The legacy body also had the literal member order reversed vs the XSD facet
+    order (PEER-before-KEY_SERVER, raw index order) and the class docstring lacked the
+    `Tags: atp.Status=candidate` tail — the Step 2 spec-contract test went RED exactly
+    there (2 failed / 1 passed: getEnumValues facet order + verbatim Note; values and
+    instantiability already matched Table 3.127). Leaves
+    tests/test_armodel/models/stamped_audit_baseline.txt (marker removed → no longer a
+    stamped target; ratchet drain is exactly this one line).
+  - No deviations from Table 3.127; no missing referenced classes (the enum has no Base
+    beyond AREnum and its consumer MacSecLocalKayProps exists). The `# Spec verified:
+    R23-11` marker is deferred to the batch 9b stamp per user instruction; the entry-time
+    stale legacy marker was removed (Rule 0023).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A: standalone AREnum, no own XML element (serialized as an attribute value on MacSecLocalKayProps.role; round-trip covered there)
+  - [x] Step 6 — Update parser & writer (Green) — N/A: standalone AREnum, no own XML element (parser/writer wiring on MacSecLocalKayProps already emits ROLE with the facet value)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
 - [ ] `MacSecFailPermissiveModeEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 3.128, p.178

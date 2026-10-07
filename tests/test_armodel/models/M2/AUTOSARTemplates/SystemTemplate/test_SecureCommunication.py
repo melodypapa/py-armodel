@@ -307,6 +307,30 @@ class TestMacSecCapabilityEnum:
         assert inspect.cleandoc(MacSecCapabilityEnum.__doc__) == note
 
 
+class TestMacSecRoleEnum:
+    """Test cases for MacSecRoleEnum (CP_TPS_SystemTemplate Table 3.127, p.177, R23-11)."""
+
+    def test_member_presence_and_values(self):
+        # spec literal names per Table 3.127 (keyServer idx1, peer idx0)
+        assert MacSecRoleEnum.KEY_SERVER == "KEY-SERVER"
+        assert MacSecRoleEnum.PEER == "PEER"
+        assert list(MacSecRoleEnum().getEnumValues()) == [
+            "KEY-SERVER",
+            "PEER",
+        ]
+
+    def test_instantiability_round_trip(self):
+        key_server = MacSecRoleEnum().setValue(MacSecRoleEnum.KEY_SERVER)
+        assert key_server.getValue() == MacSecRoleEnum.KEY_SERVER
+
+        peer = MacSecRoleEnum().setValue(MacSecRoleEnum.PEER)
+        assert peer.getValue() == MacSecRoleEnum.PEER
+
+    def test_class_docstring_note(self):
+        note = "This enum defines the MACsec Role options. Tags: atp.Status=candidate"
+        assert inspect.cleandoc(MacSecRoleEnum.__doc__) == note
+
+
 class Test_MacSecLocalKayProps:
     def test_initialization_defaults(self):
         props = MacSecLocalKayProps()
