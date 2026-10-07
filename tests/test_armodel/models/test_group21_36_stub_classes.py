@@ -2228,12 +2228,6 @@ STUBS = [
         "Identifiable",
     ),
     (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
-        "FlexrayTpEcu",
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
-        "ARObject",
-    ),
-    (
         "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology",
         "FlowMeteringColorModeEnum",
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes",

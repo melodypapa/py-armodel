@@ -14311,6 +14311,11 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readFlexrayTpEcu(self, element: ET.Element, tp_ecu: FlexrayTpEcu):
         self.readARObject(element, tp_ecu)
+        tp_ecu.setCancellation(self.getChildElementOptionalBooleanValue(element, "CANCELLATION"))
+        tp_ecu.setCycleTimeMainFunction(self.getChildElementOptionalTimeValue(element, "CYCLE-TIME-MAIN-FUNCTION"))
+        tp_ecu.setEcuInstanceRef(self.getChildElementOptionalRefType(element, "ECU-INSTANCE-REF"))
+        tp_ecu.setFullDuplexEnabled(self.getChildElementOptionalBooleanValue(element, "FULL-DUPLEX-ENABLED"))
+        self.readVariationPointCapable(element, tp_ecu)
 
     def readFlexrayTpConfigTpEcus(self, element: ET.Element, config: FlexrayTpConfig):
         for child_element in self.findall(element, "TP-ECUS/*"):

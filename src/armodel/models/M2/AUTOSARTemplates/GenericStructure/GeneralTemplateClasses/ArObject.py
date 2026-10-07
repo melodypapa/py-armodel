@@ -3232,10 +3232,6 @@ class FlexrayArTpChannel(ARObject):
     pass
 
 
-class FlexrayTpEcu(ARObject):
-    pass
-
-
 class GlobalTimeCorrectionProps(ARObject):
     pass
 

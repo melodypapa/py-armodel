@@ -10521,6 +10521,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         if tp_ecu is not None:
             child_element = ET.SubElement(element, "FLEXRAY-TP-ECU")
             self.writeARObject(child_element, tp_ecu)
+            self.setChildElementOptionalBooleanValue(child_element, "CANCELLATION", tp_ecu.getCancellation())
+            self.setChildElementOptionalTimeValue(child_element, "CYCLE-TIME-MAIN-FUNCTION", tp_ecu.getCycleTimeMainFunction())
+            self.setChildElementOptionalRefType(child_element, "ECU-INSTANCE-REF", tp_ecu.getEcuInstanceRef())
+            self.setChildElementOptionalBooleanValue(child_element, "FULL-DUPLEX-ENABLED", tp_ecu.getFullDuplexEnabled())
+            self.writeVariationPointCapable(child_element, tp_ecu)
 
     def writeFlexrayTpConfigTpEcus(self, element: ET.Element, config: FlexrayTpConfig):
         tp_ecus = config.getTpEcus()

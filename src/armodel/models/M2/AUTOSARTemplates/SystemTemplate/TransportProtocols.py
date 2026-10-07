@@ -16,7 +16,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, Integer, PositiveInteger, RefType, TimeValue
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import FibexElement
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject, FlexrayArTpChannel, FlexrayTpEcu, SomeipTpConnection
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject, FlexrayArTpChannel, SomeipTpConnection
 
 
 class TpConfig(FibexElement, ABC):
@@ -1527,6 +1527,105 @@ class FlexrayTpNode(Identifiable, VariationPointCapable):
         """
         if value is not None:
             self.tpAddressRef = value
+        return self
+
+
+class FlexrayTpEcu(ARObject, VariationPointCapable):
+    """
+    ECU specific TP configuration parameters. Each TpEcu element has a reference to exactly one ECUInstance in the topology.
+
+    [constr_9236] Existence of FlexrayTpEcu.ecuInstance: For each FlexrayTpEcu, the reference to EcuInstance in the role ecuInstance shall exist at the time when the System Description is complete.
+
+    [constr_9237] Existence of FlexrayTpEcu.fullDuplexEnabled: For each FlexrayTpEcu, the attribute fullDuplexEnabled shall exist at the time when the System Description is complete.
+    """
+
+    # FlexrayTpEcu method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.244, p.597
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCancellation            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCancellation            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCycleTimeMainFunction   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCycleTimeMainFunction   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEcuInstanceRef          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEcuInstanceRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFullDuplexEnabled       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFullDuplexEnabled       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # (Base = ARObject)
+
+    def __init__(self):
+        super().__init__()
+
+        # With this switch Tx and Rx Cancellation can be turned on or off.
+        self.cancellation: Optional[Boolean] = None
+
+        # The period between successive calls to the Main Function of the AUTOSAR TP. Specified in seconds.
+        self.cycleTimeMainFunction: Optional[TimeValue] = None
+
+        # Connection to the ECUInstance in the Topology
+        self.ecuInstanceRef: Optional[RefType] = None
+
+        # The full duplex mechanisms is enabled if this attribute is set to true. Otherwise half duplex is enabled.
+        self.fullDuplexEnabled: Optional[Boolean] = None
+
+    def getCancellation(self) -> Optional[Boolean]:
+        """
+        With this switch Tx and Rx Cancellation can be turned on or off.
+        """
+        return self.cancellation
+
+    def setCancellation(self, value: Optional[Boolean]) -> FlexrayTpEcu:
+        """
+        With this switch Tx and Rx Cancellation can be turned on or off.
+        A None value is a no-op and does not overwrite an existing cancellation.
+        """
+        if value is not None:
+            self.cancellation = value
+        return self
+
+    def getCycleTimeMainFunction(self) -> Optional[TimeValue]:
+        """
+        The period between successive calls to the Main Function of the AUTOSAR TP. Specified in seconds.
+        """
+        return self.cycleTimeMainFunction
+
+    def setCycleTimeMainFunction(self, value: Optional[TimeValue]) -> FlexrayTpEcu:
+        """
+        The period between successive calls to the Main Function of the AUTOSAR TP. Specified in seconds.
+        A None value is a no-op and does not overwrite an existing cycleTimeMainFunction.
+        """
+        if value is not None:
+            self.cycleTimeMainFunction = value
+        return self
+
+    def getEcuInstanceRef(self) -> Optional[RefType]:
+        """
+        Connection to the ECUInstance in the Topology
+        """
+        return self.ecuInstanceRef
+
+    def setEcuInstanceRef(self, value: Optional[RefType]) -> FlexrayTpEcu:
+        """
+        Connection to the ECUInstance in the Topology
+        A None value is a no-op and does not overwrite an existing ecuInstanceRef.
+        """
+        if value is not None:
+            self.ecuInstanceRef = value
+        return self
+
+    def getFullDuplexEnabled(self) -> Optional[Boolean]:
+        """
+        The full duplex mechanisms is enabled if this attribute is set to true. Otherwise half duplex is enabled.
+        """
+        return self.fullDuplexEnabled
+
+    def setFullDuplexEnabled(self, value: Optional[Boolean]) -> FlexrayTpEcu:
+        """
+        The full duplex mechanisms is enabled if this attribute is set to true. Otherwise half duplex is enabled.
+        A None value is a no-op and does not overwrite an existing fullDuplexEnabled.
+        """
+        if value is not None:
+            self.fullDuplexEnabled = value
         return self
 
 

@@ -215,16 +215,25 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `FlexrayTpEcu` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.244, p.597
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - module: M2/AUTOSARTemplates/SystemTemplate/TransportProtocols.py
+  - note: rehoused from the ArObject.py stub to TransportProtocols.py (spec Package row =
+    SystemTemplate::TransportProtocols, Rule 0007); the ARObject base hint is confirmed by both the
+    PDF Base row and the XSD complexType (AR-OBJECT group only). XSD group FLEXRAY-TP-ECU carries
+    VARIATION-POINT, so VariationPointCapable is mixed in (CanTpEcu precedent) and
+    read/writeVariationPointCapable are called. All 4 spec attrs modeled in displayed order
+    (cancellation, cycleTimeMainFunction, ecuInstance → ecuInstanceRef, fullDuplexEnabled); the
+    XSD-only TRANSMIT-CANCELLATION element is absent from the PDF table and NOT modeled (Rule 0015).
+    The PDF table has no Note column, so attribute docstrings are the XSD element documentation
+    verbatim; class docstring Note + constr_9236/9237 from the markdown.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `FlexrayArTpConfig` — FibexElement — R23-11 CP_TPS_SystemTemplate Table 6.245, p.600
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/__init__.py
