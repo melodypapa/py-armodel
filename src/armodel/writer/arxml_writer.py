@@ -5887,8 +5887,8 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeTDEventVfbPort(self, element: ET.Element, event: TDEventVfbPort):
         self.writeTDEventVfb(element, event)
         self.setChildElementOptionalBooleanValue(element, "IS-EXTERNAL", event.getIsExternal())
-        self.setChildElementOptionalRefType(element, "PORT-REF", event.getPortRef())
         self.setChildElementOptionalRefType(element, "PORT-PROTOTYPE-BLUEPRINT-REF", event.getPortPrototypeBlueprintRef())
+        self.setChildElementOptionalRefType(element, "PORT-REF", event.getPortRef())
 
     def writeTDEventVariableDataPrototype(self, element: ET.Element, event: TDEventVariableDataPrototype):
         self.writeTDEventVfbPort(element, event)
@@ -5915,10 +5915,10 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeTDEventTrigger(self, element: ET.Element, event: TDEventTrigger):
         self.writeTDEventVfbPort(element, event)
-        self.setChildElementOptionalRefType(element, "TRIGGER-REF", event.getTriggerRef())
         enum = event.getTdEventTriggerType()
         if enum is not None:
             self.setChildElementOptionalLiteral(element, "TD-EVENT-TRIGGER-TYPE", enum)
+        self.setChildElementOptionalRefType(element, "TRIGGER-REF", event.getTriggerRef())
 
     def writeTDEventSwc(self, element: ET.Element, event: TDEventSwc):
         self.writeTimingDescriptionEvent(element, event)

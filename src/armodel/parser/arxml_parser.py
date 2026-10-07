@@ -4376,8 +4376,8 @@ class ARXMLParser(AbstractARXMLParser):
         is_external = self.find(element, "IS-EXTERNAL")
         if is_external is not None:
             event.setIsExternal(Boolean().setValue(is_external.text == "true"))
-        event.setPortRef(self.getChildElementOptionalRefType(element, "PORT-REF"))
         event.setPortPrototypeBlueprintRef(self.getChildElementOptionalRefType(element, "PORT-PROTOTYPE-BLUEPRINT-REF"))
+        event.setPortRef(self.getChildElementOptionalRefType(element, "PORT-REF"))
 
     def readTDEventVariableDataPrototype(self, element: ET.Element, event: TDEventVariableDataPrototype):
         self.readTDEventVfbPort(element, event)
@@ -4410,12 +4410,12 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readTDEventTrigger(self, element: ET.Element, event: TDEventTrigger):
         self.readTDEventVfbPort(element, event)
-        event.setTriggerRef(self.getChildElementOptionalRefType(element, "TRIGGER-REF"))
         type_element = self.find(element, "TD-EVENT-TRIGGER-TYPE")
         if type_element is not None and type_element.text is not None:
             enum = TDEventTriggerTypeEnum()
             enum.value = type_element.text
             event.setTdEventTriggerType(enum)
+        event.setTriggerRef(self.getChildElementOptionalRefType(element, "TRIGGER-REF"))
 
     def readTDEventSwc(self, element: ET.Element, event: TDEventSwc):
         self.readTimingDescriptionEvent(element, event)
