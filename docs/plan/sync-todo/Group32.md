@@ -289,15 +289,16 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `ApplicationEndpoint` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.124, p.458
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: verification + drift pass. Field-to-spec cross-check (both directions) clean: all 7 Table 6.124 attrs modeled (`consumedServiceInstance` * aggr, `maxNumberOfConnections`, `networkEndpoint` ref → `networkEndpointRef` per Kind suffix, `priority`, `providedServiceInstance` * aggr, `tlsCryptoMapping` ref → `tlsCryptoMappingRef`, `tpConfiguration` 0..1 aggr); Base chain most-derived = `Identifiable` (row's "ARObject" is the chain root, Rule 0001.2). XSD-only removed-status attrs (`DISCOVERY-TECHNOLOGY`, `REMOTING-TECHNOLOGY`, `SERIALIZATION-TECHNOLOGY-REF`, all `atp.Status="removed"`) correctly unmodeled (Rule 0015). `providedServiceInstance` carries `Tags: atp.Status=obsolete` (obsolete ≠ removed → kept modeled; Rule 0012.2.5.3) — tail was missing from the inline comment + create/getter docstrings and was added (Red→Green via new docstring-pin test). Reader/writer (wave-1 SocketAddress sync) verified complete and XSD `sequenceOffset`-ordered; BASE helpers called exactly once (audit). Legacy 5-column checklist (Rule 0023 drift) rewritten 6-column with per-row release; stale `# Spec verified: R23-11` removed — no stamp (9b deferred to batch confirmation). New model test file `test_ApplicationEndpoint.py` (10 tests: defaults, chaining + None no-op per accessor, create* append + duplicate-returns-existing, verbatim docstrings). No unresolved deviations.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) (verified existing coverage: tests/test_armodel/writer/test_application_endpoint.py round-trip asserts field values)
+  - [x] Step 6 — Update parser & writer (Green) (verified existing coverage — no parser/writer change needed)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `RtpTp` — TransportProtocolConfiguration — R23-11 CP_TPS_SystemTemplate Table 6.130, p.460
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py

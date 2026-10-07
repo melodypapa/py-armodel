@@ -3498,23 +3498,22 @@ class ApplicationEndpoint(Identifiable):
 
     # ApplicationEndpoint method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.124, p.458
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] createConsumedServiceInstance        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getConsumedServiceInstances          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getMaxNumberOfConnections            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMaxNumberOfConnections            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getNetworkEndpointRef                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setNetworkEndpointRef                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPriority                          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setPriority                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] createProvidedServiceInstance        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getProvidedServiceInstances          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getTlsCryptoMappingRef               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTlsCryptoMappingRef               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTpConfiguration                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTpConfiguration                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createConsumedServiceInstance        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getConsumedServiceInstances          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getMaxNumberOfConnections            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxNumberOfConnections            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNetworkEndpointRef                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNetworkEndpointRef                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPriority                          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPriority                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createProvidedServiceInstance        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getProvidedServiceInstances          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getTlsCryptoMappingRef               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTlsCryptoMappingRef               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTpConfiguration                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTpConfiguration                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -3531,7 +3530,7 @@ class ApplicationEndpoint(Identifiable):
         # Defines the frame priority where values from 0 (best effort) to 7 (highest) are allowed.
         self.priority: Optional[PositiveInteger] = None
 
-        # Provided service instances.
+        # Provided service instances. Tags: atp.Status=obsolete
         self.providedServiceInstances: List[ProvidedServiceInstance] = []
 
         # This reference identifies the applicable TlsCryptoServiceMapping that adds the ability for TLS-based encryption on the enclosing ApplicationEndpoint.
@@ -3594,7 +3593,7 @@ class ApplicationEndpoint(Identifiable):
         return self
 
     def createProvidedServiceInstance(self, short_name: str) -> ProvidedServiceInstance:
-        """Provided service instances."""
+        """Provided service instances. Tags: atp.Status=obsolete"""
         from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import ProvidedServiceInstance
 
         if not self.IsReferrableElementExists(short_name, ProvidedServiceInstance):
@@ -3604,7 +3603,7 @@ class ApplicationEndpoint(Identifiable):
         return cast(ProvidedServiceInstance, self.getReferrableElement(short_name, ProvidedServiceInstance))
 
     def getProvidedServiceInstances(self) -> List[ProvidedServiceInstance]:
-        """Provided service instances."""
+        """Provided service instances. Tags: atp.Status=obsolete"""
         return self.providedServiceInstances
 
     def getTlsCryptoMappingRef(self) -> Optional[RefType]:
