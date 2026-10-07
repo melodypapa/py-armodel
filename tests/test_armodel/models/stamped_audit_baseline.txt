@@ -218,7 +218,6 @@ MacSecCipherSuiteConfig
 MacSecConfidentialityOffsetEnum
 MacSecCryptoAlgoConfig
 MacSecFailPermissiveModeEnum
-MacSecKayParticipant
 MacSecRoleEnum
 MaxCommModeEnum
 McDataAccessDetails

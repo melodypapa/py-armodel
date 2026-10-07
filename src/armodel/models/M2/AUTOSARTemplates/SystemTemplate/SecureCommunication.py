@@ -2125,40 +2125,39 @@ class MacSecLocalKayProps(ARObject):
 
 class MacSecKayParticipant(Identifiable):
     """
-    This meta-class configures a MKA participant.
+    This meta-class configures a MKA participant. Tags: atp.Status=candidate atp.recommendedPackage=MacSecKayParticipants
     """
 
     # MacSecKayParticipant method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.122, p.175
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getCknRef                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setCknRef                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getCryptoAlgoConfig           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setCryptoAlgoConfig           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSakRef                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSakRef                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCknRef            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCknRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCryptoAlgoConfig  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCryptoAlgoConfig  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSakRef            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSakRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
-        # Reference to the key where the ckn (Connectivity Association key) is stored.
+        # Reference to the key where the ckn (Connectivity Association key) is stored. Tags: atp.Status=candidate
         self.cknRef: Optional[RefType] = None
 
-        # Cryptography that is used by the MKA Participant.
+        # Cryptography that is used by the MKA Participant. Tags: atp.Status=candidate
         self.cryptoAlgoConfig: Optional[MacSecCryptoAlgoConfig] = None
 
-        # Reference to the key where SAK shall be stored.
+        # Reference to the key where SAK shall be stored. Tags: atp.Status=candidate
         self.sakRef: Optional[RefType] = None
 
     def getCknRef(self) -> Optional[RefType]:
-        """Reference to the key where the ckn (Connectivity Association key) is stored."""
+        """Reference to the key where the ckn (Connectivity Association key) is stored. Tags: atp.Status=candidate"""
         return self.cknRef
 
     def setCknRef(self, value: Optional[RefType]) -> MacSecKayParticipant:
         """
-        Reference to the key where the ckn (Connectivity Association key) is stored.
+        Reference to the key where the ckn (Connectivity Association key) is stored. Tags: atp.Status=candidate
         A None value is a no-op and does not overwrite an existing cknRef.
         """
         if value is not None:
@@ -2166,12 +2165,12 @@ class MacSecKayParticipant(Identifiable):
         return self
 
     def getCryptoAlgoConfig(self) -> Optional[MacSecCryptoAlgoConfig]:
-        """Cryptography that is used by the MKA Participant."""
+        """Cryptography that is used by the MKA Participant. Tags: atp.Status=candidate"""
         return self.cryptoAlgoConfig
 
     def setCryptoAlgoConfig(self, value: Optional[MacSecCryptoAlgoConfig]) -> MacSecKayParticipant:
         """
-        Cryptography that is used by the MKA Participant.
+        Cryptography that is used by the MKA Participant. Tags: atp.Status=candidate
         A None value is a no-op and does not overwrite an existing cryptoAlgoConfig.
         """
         if value is not None:
@@ -2179,12 +2178,12 @@ class MacSecKayParticipant(Identifiable):
         return self
 
     def getSakRef(self) -> Optional[RefType]:
-        """Reference to the key where SAK shall be stored."""
+        """Reference to the key where SAK shall be stored. Tags: atp.Status=candidate"""
         return self.sakRef
 
     def setSakRef(self, value: Optional[RefType]) -> MacSecKayParticipant:
         """
-        Reference to the key where SAK shall be stored.
+        Reference to the key where SAK shall be stored. Tags: atp.Status=candidate
         A None value is a no-op and does not overwrite an existing sakRef.
         """
         if value is not None:

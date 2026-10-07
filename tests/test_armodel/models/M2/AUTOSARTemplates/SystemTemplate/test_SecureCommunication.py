@@ -711,7 +711,7 @@ class Test_MacSecCryptoAlgoConfig:
 
 
 class Test_MacSecKayParticipant:
-    def test_defaults(self):
+    def test_initialization_defaults(self):
         parent = MockParent()
         participant = MacSecKayParticipant(parent, "test_kay_participant")
         assert isinstance(participant, Identifiable)
@@ -719,33 +719,73 @@ class Test_MacSecKayParticipant:
         assert participant.getCryptoAlgoConfig() is None
         assert participant.getSakRef() is None
 
-    def test_get_set_ckn(self):
+    def test_get_set_ckn_ref(self):
         parent = MockParent()
         participant = MacSecKayParticipant(parent, "test_kay_participant")
         ckn = _ref("/Sec/CryptoKeyCkn")
-        assert participant.setCknRef(ckn) is participant
+
+        result = participant.setCknRef(ckn)
+
+        assert result is participant
         assert participant.getCknRef() is ckn
+        assert participant.getCknRef().getValue() == "/Sec/CryptoKeyCkn"
+
+        participant.setCknRef(_ref("/Sec/OtherCkn"))
+        assert participant.getCknRef().getValue() == "/Sec/OtherCkn"
 
     def test_get_set_crypto_algo_config(self):
         parent = MockParent()
         participant = MacSecKayParticipant(parent, "test_kay_participant")
         config = MacSecCryptoAlgoConfig()
-        assert participant.setCryptoAlgoConfig(config) is participant
+
+        result = participant.setCryptoAlgoConfig(config)
+
+        assert result is participant
         assert participant.getCryptoAlgoConfig() is config
 
-    def test_get_set_sak(self):
+        other = MacSecCryptoAlgoConfig()
+        participant.setCryptoAlgoConfig(other)
+        assert participant.getCryptoAlgoConfig() is other
+
+    def test_get_set_sak_ref(self):
         parent = MockParent()
         participant = MacSecKayParticipant(parent, "test_kay_participant")
         sak = _ref("/Sec/CryptoKeySak")
-        assert participant.setSakRef(sak) is participant
+
+        result = participant.setSakRef(sak)
+
+        assert result is participant
         assert participant.getSakRef() is sak
+        assert participant.getSakRef().getValue() == "/Sec/CryptoKeySak"
+
+        participant.setSakRef(_ref("/Sec/OtherSak"))
+        assert participant.getSakRef().getValue() == "/Sec/OtherSak"
 
     def test_none_is_noop(self):
         parent = MockParent()
         participant = MacSecKayParticipant(parent, "test_kay_participant")
-        assert participant.setCknRef(None) is participant
-        assert participant.setCryptoAlgoConfig(None) is participant
-        assert participant.setSakRef(None) is participant
+        ckn = _ref("/Sec/CryptoKeyCkn")
+        config = MacSecCryptoAlgoConfig()
+        sak = _ref("/Sec/CryptoKeySak")
+        participant.setCknRef(ckn)
+        participant.setCryptoAlgoConfig(config)
+        participant.setSakRef(sak)
+
+        participant.setCknRef(None)
+        participant.setCryptoAlgoConfig(None)
+        participant.setSakRef(None)
+
+        assert participant.getCknRef() is ckn
+        assert participant.getCryptoAlgoConfig() is config
+        assert participant.getSakRef() is sak
+
+    def test_none_noop_on_fresh_instance(self):
+        parent = MockParent()
+        participant = MacSecKayParticipant(parent, "test_kay_participant")
+        participant.setCknRef(None)
+        participant.setCryptoAlgoConfig(None)
+        participant.setSakRef(None)
+
         assert participant.getCknRef() is None
         assert participant.getCryptoAlgoConfig() is None
         assert participant.getSakRef() is None

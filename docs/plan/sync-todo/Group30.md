@@ -1239,15 +1239,73 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `MacSecKayParticipant` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 3.122, p.175
   - module: M2/AUTOSARTemplates/SystemTemplate/SecureCommunication.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: Table 3.122 is a page-split table (attribute rows render before the
+    caption, which sits directly before Table 3.123's body; pdf_page.py cites p.175) —
+    Class header (concrete), Base ARObject, Identifiable, MultilanguageReferrable,
+    Referrable (most-derived model ancestor → Identifiable, `__init__(parent, short_name)`),
+    Aggregated by MacSecParticipantSet.mkaParticipant. Three 0..1 rows in displayed order
+    (ckn — CryptoServiceKey — ref; cryptoAlgoConfig — MacSecCryptoAlgoConfig — aggr; sak —
+    CryptoServiceKey — ref); XSD group MAC-SEC-KAY-PARTICIPANT (AUTOSAR_00052.xsd line
+    79093) carries the identical child order CKN-REF → CRYPTO-ALGO-CONFIG → SAK-REF (all
+    minOccurs 0), so member order and XML order coincide; both REF elements carry
+    `DEST type=AR:CRYPTO-SERVICE-KEY--SUBTYPES-ENUM` (facet noted for fixtures). The class
+    Note carries `Tags: atp.Status=candidate atp.recommendedPackage=MacSecKayParticipants`
+    and every attribute Note carries `Tags: atp.Status=candidate` — kept verbatim at every
+    level (Rule 0012.2.5.3). Placement per Rule 0007 (spec Package row
+    `M2::AUTOSARTemplates::SystemTemplate::SecureCommunication`): class already sits in
+    SecureCommunication.py after MacSecParticipantSet (its spec-table slot) — no move
+    needed. ref-kind rows typed per codebase convention (`ckn` → `cknRef: Optional[RefType]`,
+    `sak` → `sakRef: Optional[RefType]`; SakRef/MacSecLocalKayProps.globalKayPropsRef
+    precedent); `cryptoAlgoConfig` is an aggr whose child Base is ARObject (non-Referrable)
+    → `setCryptoAlgoConfig`/`getCryptoAlgoConfig` pair, no create factory; MacSecCryptoAlgoConfig
+    is queued later in this batch (Table 3.123) — stub-typed field stays until its own sync.
+  - Legacy upgrade: the class was a prior legacy sync carrying the stale
+    `# Spec verified: R23-11` marker + a 5-column checklist (no per-row release token) —
+    both retired at session start (marker removed per Rule 0023, batch 9b re-stamps;
+    checklist rewritten to the 6-column format at Step 7). Model fields already matched
+    Table 3.122 (names, types, order, quota shapes), so the Step 2 model tests extend the
+    legacy suite to the current-bar matrix — the field-matrix RED is not observable at
+    model level; entry-time audit FAILed ROWS/STAMP as expected.
+  - Reader/writer wiring: dedicated readMacSecKayParticipant (calls readIdentifiable once)
+    / writeMacSecKayParticipant (calls writeIdentifiable once) levels already exist fully
+    populated (CKN-REF/SAK-REF via getChildElementOptionalRefType, CRYPTO-ALGO-CONFIG via
+    the dedicated readMacSecCryptoAlgoConfig level); the MacSecParticipantSet
+    MKA-PARTICIPANTS dispatch already routes through them (no placeholder). The writer
+    serializes CRYPTO-ALGO-CONFIG INLINE (not via writeMacSecCryptoAlgoConfig) — that is
+    REQUIRED, not debt: the XSD role element inside MAC-SEC-KAY-PARTICIPANT is
+    CRYPTO-ALGO-CONFIG (AUTOSAR_00052.xsd line 79113) while the dedicated writer level
+    emits the type-name tag MAC-SEC-CRYPTO-ALGO-CONFIG (it has no aggregator call site —
+    only its own tests use it). The attempted symmetric refactor (guarded
+    writeMacSecCryptoAlgoConfig call) was caught by the new XSD child-order assertion
+    (2 failed: role tag CRYPTO-ALGO-CONFIG vs emitted MAC-SEC-CRYPTO-ALGO-CONFIG) and
+    REVERTED — writer left byte-identical to HEAD; the child-order test now pins the
+    correct role tag.
+  - Red observation (Step 5): new parser test file
+    (test_armodel/parser/test_mac_sec_kay_participant.py — base level UUID/S/T, field
+    values, DEST facet CRYPTO-SERVICE-KEY, partial/empty/empty-crypto-algo cases) and
+    extended writer tests (cElementTree import modernized to ElementTree per PlcaProps
+    precedent; XSD child-order + DEST-facet + nested-field assertions; UUID round-trip).
+    Initial run failed 3 — all test-contract corrections, not implementation defects
+    (SHORT-NAME is consumed by the dispatching aggregator at construction, not by
+    readIdentifiable — repo-wide convention, MacSecParticipantSet sibling identical;
+    UUID set via setUuid(String), a fresh Identifiable's getUuid() is None). After the
+    corrections all 9 pass — the dedicated levels were already current-bar; no
+    functional RED against the implementation existed to observe.
+  - No deviations from Table 3.122; no missing referenced classes (the ref targets
+    CryptoServiceKey are typed `RefType` per the Kind-suffix convention — ref targets are
+    not pulled into the closure; MacSecCryptoAlgoConfig exists and re-syncs later in this
+    batch as Table 3.123, the stub-typed field stays until its own sync). The
+    `# Spec verified: R23-11` marker is deferred to the batch 9b stamp per user
+    instruction; the entry-time stale legacy marker was removed (Rule 0023).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-07 (21972 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 312fe96ad
 
 - [ ] `MacSecCryptoAlgoConfig` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.123, p.175
   - module: M2/AUTOSARTemplates/SystemTemplate/SecureCommunication.py
