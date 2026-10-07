@@ -7713,7 +7713,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             sub_elements_element = ET.SubElement(element, "SUB-ELEMENTS")
             for sub_element in sub_elements:
                 self.writeMcDataInstance(ET.SubElement(sub_elements_element, "MC-DATA-INSTANCE"), sub_element)
-        self.setChildElementOptionalLiteral(element, "SYMBOL", instance.getSymbol())
+        self.setChildElementOptionalSymbolString(element, "SYMBOL", instance.getSymbol())
 
     def writeRoleBasedMcDataAssignment(self, element: ET.Element, assignment: RoleBasedMcDataAssignment):
         execution_context_refs = assignment.getExecutionContextRefs()

@@ -28,6 +28,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     RegularExpression,
     RevisionLabelString,
     String,
+    SymbolString,
     TimeValue,
     UriString,
     VerbatimString,
@@ -170,6 +171,16 @@ class AbstractARXMLWriter(ABC):
 
     def setChildElementOptionalMcdIdentifier(self, element: ET.Element, key: str, literal: Optional[McdIdentifier]):
         self.setChildElementOptionalLiteral(element, key, literal)
+
+    def setChildElementOptionalSymbolString(self, element: ET.Element, key: str, value: Optional[SymbolString]) -> ET.Element:
+        if value is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeARType(child_element, value)
+            name_pattern = value.getNamePattern()
+            if name_pattern is not None:
+                child_element.attrib["NAME-PATTERN"] = name_pattern
+            child_element.text = value.getText()
+        return element
 
     def setChildElementOptionalString(self, element: ET.Element, key: str, value: Optional[String]):
         self.setChildElementOptionalLiteral(element, key, value)

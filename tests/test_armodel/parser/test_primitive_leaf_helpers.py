@@ -11,6 +11,7 @@ import xml.etree.ElementTree as ET
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     CategoryString,
     McdIdentifier,
+    SymbolString,
 )
 from armodel.parser.arxml_parser import ARXMLParser
 
@@ -47,3 +48,20 @@ class TestMcdIdentifierLeaf:
         element = ET.fromstring(f"<ROOT xmlns='{NS}'/>")
 
         assert ARXMLParser().getChildElementOptionalMcdIdentifier(element, "DISPLAY-IDENTIFIER") is None
+
+
+class TestSymbolStringLeaf:
+    def test_reads_concrete_type_name_pattern_and_t(self):
+        element = ET.fromstring(f"<ROOT xmlns='{NS}'><SYMBOL NAME-PATTERN='[A-Z]+' T='2023-07-07T00:00:00Z'>Sym</SYMBOL></ROOT>")
+
+        value = ARXMLParser().getChildElementOptionalSymbolString(element, "SYMBOL")
+
+        assert isinstance(value, SymbolString)
+        assert value.getValue() == "Sym"
+        assert value.getNamePattern() == "[A-Z]+"
+        assert value.timestamp == "2023-07-07T00:00:00Z"
+
+    def test_missing_returns_none(self):
+        element = ET.fromstring(f"<ROOT xmlns='{NS}'/>")
+
+        assert ARXMLParser().getChildElementOptionalSymbolString(element, "SYMBOL") is None

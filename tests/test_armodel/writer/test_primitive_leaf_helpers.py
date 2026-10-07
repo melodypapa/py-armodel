@@ -10,6 +10,7 @@ import xml.etree.ElementTree as ET
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     CategoryString,
     McdIdentifier,
+    SymbolString,
 )
 from armodel.writer.arxml_writer import ARXMLWriter
 
@@ -54,3 +55,26 @@ class TestMcdIdentifierLeaf:
         ARXMLWriter().setChildElementOptionalMcdIdentifier(element, "DISPLAY-IDENTIFIER", None)
 
         assert element.find("DISPLAY-IDENTIFIER") is None
+
+
+class TestSymbolStringLeaf:
+    def test_writes_concrete_type_name_pattern_and_t(self):
+        value = SymbolString()
+        value.setValue("Sym")
+        value.setNamePattern("[A-Z]+")
+        value.timestamp = "2023-07-07T00:00:00Z"
+
+        element = ET.Element("ROOT")
+        ARXMLWriter().setChildElementOptionalSymbolString(element, "SYMBOL", value)
+
+        written = element.find("SYMBOL")
+        assert written is not None
+        assert written.text == "Sym"
+        assert written.attrib["NAME-PATTERN"] == "[A-Z]+"
+        assert written.attrib["T"] == "2023-07-07T00:00:00Z"
+
+    def test_none_emits_nothing(self):
+        element = ET.Element("ROOT")
+        ARXMLWriter().setChildElementOptionalSymbolString(element, "SYMBOL", None)
+
+        assert element.find("SYMBOL") is None

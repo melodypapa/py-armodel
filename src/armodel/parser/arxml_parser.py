@@ -828,7 +828,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     RevisionLabelString,
     SectionInitializationPolicyType,
     String,
-    SymbolString,
     TRefType,
     UnlimitedInteger,
     UriString,
@@ -6109,7 +6108,7 @@ class ARXMLParser(AbstractARXMLParser):
             self.readImplementationElementInParameterInstanceRef(instance_in_memory_element, instance_in_memory)
             instance.setInstanceInMemory(instance_in_memory)
         instance.setRole(cast(Optional[Identifier], self.getChildElementOptionalLiteral(element, "ROLE")))
-        instance.setSymbol(cast(Optional[SymbolString], self.getChildElementOptionalLiteral(element, "SYMBOL")))
+        instance.setSymbol(self.getChildElementOptionalSymbolString(element, "SYMBOL"))
         mc_data_access_details_element = self.find(element, "MC-DATA-ACCESS-DETAILS")
         if mc_data_access_details_element is not None:
             details = McDataAccessDetails()
