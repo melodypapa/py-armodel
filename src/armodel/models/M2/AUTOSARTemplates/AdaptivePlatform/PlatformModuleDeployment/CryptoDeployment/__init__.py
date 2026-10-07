@@ -25,6 +25,7 @@ class CryptoObjectTypeEnum(AREnum):
 
     # CryptoObjectTypeEnum method parity checklist:
     # Spec: AUTOSAR_AP_TPS_PlatformModuleDeployment (AdaptivePlatform), enum CryptoObjectTypeEnum, AUTOSAR_00052.xsd line 132716 (XSD-only; no own table in repo corpus)
+    # XSD verified: AUTOSAR_00052.xsd
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on CryptoKeySlot.cryptoObjectType
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
