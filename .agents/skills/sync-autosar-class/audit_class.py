@@ -49,6 +49,7 @@ import ast
 import json
 import re
 import sys
+from functools import lru_cache
 from pathlib import Path
 from typing import Dict, List, Optional, Sequence, Set, Tuple
 
@@ -397,8 +398,14 @@ def check_docs(rep: Report, node: ast.ClassDef, blk_lines: Sequence[str], enum: 
         rep.ok("DOC", "`__init__` has no docstring")
 
 
+@lru_cache(maxsize=None)
 def collect_calls(path: Path) -> Dict[str, Set[str]]:
-    """Map function name -> set of attribute/method names it calls."""
+    """Map function name -> set of attribute/method names it calls.
+
+    Cached: a whole-tree sweep calls this once per run, and re-parsing the
+    20k-line parser/writer for every class is what made repo-wide audits
+    quadratic.
+    """
     out: Dict[str, Set[str]] = {}
     if not path.exists():
         return out
@@ -417,6 +424,7 @@ def collect_calls(path: Path) -> Dict[str, Set[str]]:
     return out
 
 
+@lru_cache(maxsize=None)
 def _model_base_map() -> Dict[str, List[str]]:
     out: Dict[str, List[str]] = {}
     for p in MODELS_DIR.rglob("*.py"):
@@ -430,6 +438,7 @@ def _model_base_map() -> Dict[str, List[str]]:
     return out
 
 
+@lru_cache(maxsize=None)
 def known_helper_names(*paths: Path) -> Set[str]:
     """Every reader/writer helper name reachable from these modules, including
     the ones inherited from the abstract base classes."""
