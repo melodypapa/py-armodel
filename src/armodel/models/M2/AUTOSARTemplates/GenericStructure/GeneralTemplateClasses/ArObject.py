@@ -2419,10 +2419,6 @@ class BusMirrorChannel(ARObject):
     pass
 
 
-class BusMirrorChannelMappingIp(ARObject):
-    pass
-
-
 class BusMirrorLinPidToCanIdMapping(ARObject):
     """
     This element defines a rule for remapping a single LIN Frame.
@@ -3593,6 +3589,7 @@ from importlib import import_module as _import_module  # noqa: E402
 
 _LAZY_IMPORTS = {
     "BusMirrorChannelMappingCan": "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore",
+    "BusMirrorChannelMappingIp": "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore",
 }
 
 

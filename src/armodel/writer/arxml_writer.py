@@ -1209,6 +1209,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import (
     BusMirrorChannelMapping,
     BusMirrorChannelMappingCan,
     BusMirrorChannelMappingFlexray,
+    BusMirrorChannelMappingIp,
     BusMirrorChannelMappingUserDefined,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import BusMirrorCanIdRangeMapping, BusMirrorCanIdToCanIdMapping, BusMirrorLinPidToCanIdMapping
@@ -9872,6 +9873,12 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeBusMirrorChannelMappingFlexray(self, element: ET.Element, mapping: BusMirrorChannelMappingFlexray):
         self.logger.debug("Write BusMirrorChannelMappingFlexray %s" % mapping.getShortName())
         child_element = ET.SubElement(element, "BUS-MIRROR-CHANNEL-MAPPING-FLEXRAY")
+        self.writeBusMirrorChannelMapping(child_element, mapping)
+        self.setChildElementOptionalTimeValue(child_element, "TRANSMISSION-DEADLINE", mapping.getTransmissionDeadline())
+
+    def writeBusMirrorChannelMappingIp(self, element: ET.Element, mapping: BusMirrorChannelMappingIp):
+        self.logger.debug("Write BusMirrorChannelMappingIp %s" % mapping.getShortName())
+        child_element = ET.SubElement(element, "BUS-MIRROR-CHANNEL-MAPPING-IP")
         self.writeBusMirrorChannelMapping(child_element, mapping)
         self.setChildElementOptionalTimeValue(child_element, "TRANSMISSION-DEADLINE", mapping.getTransmissionDeadline())
 
@@ -19172,6 +19179,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeBusMirrorChannelMappingCan(element, ar_element)
         elif isinstance(ar_element, BusMirrorChannelMappingFlexray):
             self.writeBusMirrorChannelMappingFlexray(element, ar_element)
+        elif isinstance(ar_element, BusMirrorChannelMappingIp):
+            self.writeBusMirrorChannelMappingIp(element, ar_element)
         elif isinstance(ar_element, BusMirrorChannelMappingUserDefined):
             self.writeBusMirrorChannelMappingUserDefined(element, ar_element)
         elif isinstance(ar_element, FirewallRule):

@@ -1309,6 +1309,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import (
     BusMirrorChannelMapping,
     BusMirrorChannelMappingCan,
     BusMirrorChannelMappingFlexray,
+    BusMirrorChannelMappingIp,
     BusMirrorChannelMappingUserDefined,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import BusMirrorCanIdRangeMapping, BusMirrorCanIdToCanIdMapping, BusMirrorLinPidToCanIdMapping
@@ -10225,6 +10226,11 @@ class ARXMLParser(AbstractARXMLParser):
         self.readBusMirrorChannelMapping(element, mapping)
         mapping.setTransmissionDeadline(self.getChildElementOptionalTimeValue(element, "TRANSMISSION-DEADLINE"))
 
+    def readBusMirrorChannelMappingIp(self, element: ET.Element, mapping: BusMirrorChannelMappingIp):
+        self.logger.debug("Read BusMirrorChannelMappingIp <%s>" % mapping.getShortName())
+        self.readBusMirrorChannelMapping(element, mapping)
+        mapping.setTransmissionDeadline(self.getChildElementOptionalTimeValue(element, "TRANSMISSION-DEADLINE"))
+
     def readBusMirrorChannelMappingUserDefined(self, element: ET.Element, mapping: BusMirrorChannelMappingUserDefined):
         self.logger.debug("Read BusMirrorChannelMappingUserDefined <%s>" % mapping.getShortName())
         self.readBusMirrorChannelMapping(element, mapping)
@@ -18983,6 +18989,9 @@ class ARXMLParser(AbstractARXMLParser):
         elif tag_name == "BUS-MIRROR-CHANNEL-MAPPING-FLEXRAY":
             flexray_mapping = self._getOrCreateReferrableElement(parent, BusMirrorChannelMappingFlexray, self.getShortName(child_element))
             self.readBusMirrorChannelMappingFlexray(child_element, flexray_mapping)
+        elif tag_name == "BUS-MIRROR-CHANNEL-MAPPING-IP":
+            ip_mapping = self._getOrCreateReferrableElement(parent, BusMirrorChannelMappingIp, self.getShortName(child_element))
+            self.readBusMirrorChannelMappingIp(child_element, ip_mapping)
         elif tag_name == "BUS-MIRROR-CHANNEL-MAPPING-USER-DEFINED":
             user_defined_mapping = self._getOrCreateReferrableElement(parent, BusMirrorChannelMappingUserDefined, self.getShortName(child_element))
             self.readBusMirrorChannelMappingUserDefined(child_element, user_defined_mapping)
