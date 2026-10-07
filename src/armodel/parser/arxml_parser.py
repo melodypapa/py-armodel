@@ -16361,11 +16361,11 @@ class ARXMLParser(AbstractARXMLParser):
                 if tag_name == "SENDER-REC-ARRAY-TYPE-MAPPING":
                     type_mapping: ARObject = SenderRecArrayTypeMapping()
                     self.readSenderRecArrayTypeMapping(type_mapping_element, cast(SenderRecArrayTypeMapping, type_mapping))
-                    mapping.setComplexTypeMapping(type_mapping)
+                    mapping.setComplexTypeMapping(cast(Optional[SenderRecCompositeTypeMapping], type_mapping))
                 elif tag_name == "SENDER-REC-RECORD-TYPE-MAPPING":
                     type_mapping = SenderRecRecordTypeMapping()
                     self.readSenderRecRecordTypeMapping(type_mapping_element, type_mapping)
-                    mapping.setComplexTypeMapping(type_mapping)
+                    mapping.setComplexTypeMapping(cast(Optional[SenderRecCompositeTypeMapping], type_mapping))
                 else:
                     self.notImplemented("Unsupported ComplexTypeMapping %s" % tag_name)
         indexed_element = self.find(element, "INDEXED-ARRAY-ELEMENT")

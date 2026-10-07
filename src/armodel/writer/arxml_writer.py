@@ -13177,7 +13177,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.setTextTableMapping(child_element, signalToReceiverTextTableMapping_value, "SIGNAL-TO-RECEIVER-TEXT-TABLE-MAPPING")
             self.setChildElementOptionalRefType(child_element, "SYSTEM-SIGNAL-REF", mapping.getSystemSignalRef())
 
-    def setIndexedArrayElement(self, element: ET.Element, key: str, indexed: IndexedArrayElement):
+    def setIndexedArrayElement(self, element: ET.Element, key: str, indexed: Optional[IndexedArrayElement]):
         if indexed is not None:
             child_element = ET.SubElement(element, key)
             self.writeARObject(child_element, indexed)

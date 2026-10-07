@@ -504,47 +504,73 @@ class IndexedArrayElement(ARObject):
 
 class SenderRecArrayElementMapping(ARObject):
     """
-    Maps individual elements of an array data type between sender/receiver
-    interfaces and system signals, including complex type mapping for
-    nested data structures and indexed array elements.
+    The SenderRecArrayElement may be a primitive one or a composite one. If the element is primitive, it will be mapped to the SystemSignal (multiplicity 1). If the VariableDataPrototype that is referenced by Sender ReceiverToSignalGroupMapping is typed by an ApplicationDataType the reference to the Application ArrayElement shall be used. If the VariableDataPrototype is typed by the ImplementationDataType the reference to the ImplementationArrayElement shall be used. If the element is composite, there will be no mapping to the SystemSignal (multiplicity 0). In this case the ArrayElementMapping element will aggregate the TypeMapping element. In that way also the composite datatypes can be mapped to SystemSignals. Regardless whether composite or primitive array element is mapped the indexed element always needs to be specified.
     """
 
     # SenderRecArrayElementMapping method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getComplexTypeMapping        [x] impl  [ ] docstring  [ ] test
-    # [ ] setComplexTypeMapping        [x] impl  [ ] docstring  [ ] test
-    # [ ] getIndexedArrayElement       [x] impl  [ ] docstring  [ ] test
-    # [ ] setIndexedArrayElement       [x] impl  [ ] docstring  [ ] test
-    # [ ] getSystemSignalRef           [x] impl  [ ] docstring  [ ] test
-    # [ ] setSystemSignalRef           [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 5.31, p.237
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getComplexTypeMapping     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setComplexTypeMapping     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIndexedArrayElement    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIndexedArrayElement    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSystemSignalRef        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSystemSignalRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.complexTypeMapping: SenderRecCompositeTypeMapping = None
-        self.indexedArrayElement: IndexedArrayElement = None
-        self.systemSignalRef: RefType = None
+        # This aggregation will be used if the element is composite.
+        self.complexTypeMapping: Optional[SenderRecCompositeTypeMapping] = None
 
-    def getComplexTypeMapping(self):
+        # Reference to an indexed array element in the context of the dataElement or in the context of a composite element.
+        self.indexedArrayElement: Optional[IndexedArrayElement] = None
+
+        # Reference to the system signal used to carry the primitive ApplicationArrayElement.
+        self.systemSignalRef: Optional[RefType] = None
+
+    def getComplexTypeMapping(self) -> Optional[SenderRecCompositeTypeMapping]:
+        """
+        This aggregation will be used if the element is composite.
+        """
         return self.complexTypeMapping
 
-    def setComplexTypeMapping(self, value):
+    def setComplexTypeMapping(self, value: Optional[SenderRecCompositeTypeMapping]) -> SenderRecArrayElementMapping:
+        """
+        This aggregation will be used if the element is composite.
+        A None value is a no-op and does not overwrite an existing complexTypeMapping.
+        """
         if value is not None:
             self.complexTypeMapping = value
         return self
 
-    def getIndexedArrayElement(self):
+    def getIndexedArrayElement(self) -> Optional[IndexedArrayElement]:
+        """
+        Reference to an indexed array element in the context of the dataElement or in the context of a composite element.
+        """
         return self.indexedArrayElement
 
-    def setIndexedArrayElement(self, value):
+    def setIndexedArrayElement(self, value: Optional[IndexedArrayElement]) -> SenderRecArrayElementMapping:
+        """
+        Reference to an indexed array element in the context of the dataElement or in the context of a composite element.
+        A None value is a no-op and does not overwrite an existing indexedArrayElement.
+        """
         if value is not None:
             self.indexedArrayElement = value
         return self
 
-    def getSystemSignalRef(self):
+    def getSystemSignalRef(self) -> Optional[RefType]:
+        """
+        Reference to the system signal used to carry the primitive ApplicationArrayElement.
+        """
         return self.systemSignalRef
 
-    def setSystemSignalRef(self, value):
+    def setSystemSignalRef(self, value: Optional[RefType]) -> SenderRecArrayElementMapping:
+        """
+        Reference to the system signal used to carry the primitive ApplicationArrayElement.
+        A None value is a no-op and does not overwrite an existing systemSignalRef.
+        """
         if value is not None:
             self.systemSignalRef = value
         return self
