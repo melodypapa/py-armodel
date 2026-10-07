@@ -237,8 +237,8 @@ class EndToEndProfileBehaviorEnum(AREnum):
 
     # EndToEndProfileBehaviorEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.26, p.808
-    # Spec verified: R23-11
-    # (no methods)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # Check has the legacy behavior, before AUTOSAR Release 4.2. Tags: atp.EnumerationLiteralIndex=0 xml.name=PRE-R-4-2
     PRE_R4_2 = "PRE--R-4--2"
