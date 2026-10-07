@@ -376,7 +376,8 @@ class SdgAbstractForeignReference(SdgElementWithGid, SdgAttribute, ABC):
         Returns:
             self for method chaining
         """
-        self.destMetaClass = value
+        if value is not None:
+            self.destMetaClass = value
         return self
 
 
