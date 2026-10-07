@@ -11153,6 +11153,7 @@ class ARXMLParser(AbstractARXMLParser):
         config = None
         if child_element is not None:
             config = SoAdConfig()
+            self.readARObject(child_element, config)
             self.readSoAdConfigConnections(child_element, config)
             self.readSoAdConfigConnectionBundles(child_element, config)
             self.readSoAdConfigSocketAddresses(child_element, config)

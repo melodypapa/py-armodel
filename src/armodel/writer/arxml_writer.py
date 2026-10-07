@@ -11446,6 +11446,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeSoAdConfig(self, element: ET.Element, key: str, config: Optional[SoAdConfig]):
         if config is not None:
             child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, config)
             self.writeSoAdConfigConnections(child_element, config)
             self.writeSoAdConfigConnectionBundles(child_element, config)
             self.writeSoAdConfigSocketAddresses(child_element, config)

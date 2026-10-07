@@ -238,15 +238,16 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `SoAdConfig` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.117, p.452
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: legacy 5-column checklist with stale `# Spec verified: R23-11` (Rule 0023) — marker removed, block re-written 6-column without stamp. Rule 0025 drift fixed: `getSoAdConfig`/`writeSoAdConfig` never called a base helper — `readARObject`/`writeARObject` added (S/T round-trip pinned by new writer tests). Rule 0004 drift fixed: `createSocketConnectionBundle`/`createSocketAddress` now return the existing element on duplicate short name (plain-ARObject aggregator → field-list scan). `Stereotypes:`/`Tags:` tails restored verbatim on connection/connectionBundle/socketAddress notes (Rule 0012.2.5.3; "short Label"/"connection Bundle" markdown wraps reconciled against the XSD atp.Splitkey tags). XSD LOGIC-ADDRESSS child (atp.Status="removed") stays unmodeled. Table is pre-caption split (connection/connectionBundle rows render above the caption) — verified against SO-AD-CONFIG XSD group. No deviations.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `SocketAddress` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.118, p.453
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py

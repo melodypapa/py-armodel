@@ -561,38 +561,56 @@ class Test_Fibex4EthernetServiceInstances:
         assert isinstance(provided_instance, ProvidedServiceInstance)
         assert len(endpoint.getProvidedServiceInstances()) == 1
 
-    def test_SoAdConfig(self):
-        """
-        Test SoAdConfig class functionality (Table 6.117).
-        """
-        config = SoAdConfig()
+
+class TestSoAdConfig:
+    """Test cases for SoAdConfig (Table 6.117)."""
+
+    def _config(self):
+        return SoAdConfig()
+
+    def test_initialization(self):
+        """Test __init__ defaults for all fields."""
+        config = self._config()
 
         assert isinstance(config, ARObject)
-
-        # Test default values
         assert config.getConnections() == []
         assert config.getConnectionBundles() == []
         assert config.getSocketAddresses() == []
 
-        # Test addConnection (connection * aggr, obsolete; SocketConnection is a Describable value type — not Referrable)
+    def test_add_get_connections(self):
+        """Test add/get connections append, chaining and None no-op (SocketConnection is a Describable value type — not Referrable)."""
+        config = self._config()
         connection = SocketConnection()
-        result = config.addConnection(connection)
+
+        assert config.addConnection(connection) is config
         assert config.getConnections() == [connection]
-        assert result == config  # method chaining
 
-        # Test createSocketConnectionBundle (connectionBundle * aggr, obsolete)
-        bundle = config.createSocketConnectionBundle("test_bundle")
+        config.addConnection(None)
+        assert config.getConnections() == [connection]
+
+    def test_create_get_connectionBundles(self):
+        """Test create/get connectionBundles append and duplicate returns existing."""
+        config = self._config()
+        bundle = config.createSocketConnectionBundle("BUNDLE1")
+        bundle2 = config.createSocketConnectionBundle("BUNDLE2")
+
         assert isinstance(bundle, SocketConnectionBundle)
-        assert len(config.getConnectionBundles()) == 1
+        assert config.createSocketConnectionBundle("BUNDLE1") is bundle
+        assert bundle2 is not bundle
+        assert config.getConnectionBundles() == [bundle, bundle2]
+        assert config.getConnectionBundles()[0].getShortName() == "BUNDLE1"
 
-        config.createSocketConnectionBundle("test_bundle2")
-        assert len(config.getConnectionBundles()) == 2
+    def test_create_get_socketAddresses(self):
+        """Test create/get socketAddresses append and duplicate returns existing."""
+        config = self._config()
+        address = config.createSocketAddress("SA1")
+        address2 = config.createSocketAddress("SA2")
 
-        # Test createSocketAddress (socketAddress * aggr)
-        socket_addr = config.createSocketAddress("test_socket_addr")
-        assert isinstance(socket_addr, SocketAddress)
-        assert len(config.getSocketAddresses()) == 1
-        assert config.getSocketAddresses()[0].getShortName() == "test_socket_addr"
+        assert isinstance(address, SocketAddress)
+        assert config.createSocketAddress("SA1") is address
+        assert address2 is not address
+        assert config.getSocketAddresses() == [address, address2]
+        assert config.getSocketAddresses()[0].getShortName() == "SA1"
 
 
 class TestSomeipSdClientServiceInstanceConfig:

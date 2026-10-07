@@ -1809,31 +1809,30 @@ class SoAdConfig(ARObject):
 
     # SoAdConfig method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.117, p.452
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] addConnection                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getConnections               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createSocketConnectionBundle [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getConnectionBundles         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createSocketAddress          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSocketAddresses           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addConnection                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getConnections               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createSocketConnectionBundle [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getConnectionBundles         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createSocketAddress          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSocketAddresses           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        # This aggregation is obsolete and will be removed in the future. The connectionGroup aggregation with bundled Connections shall be used instead. Old description: Collection of socket connections.
+        # This aggregation is obsolete and will be removed in the future. The connectionGroup aggregation with bundled Connections shall be used instead. Old description: Collection of socket connections. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=connection, connection.variationPoint.shortLabel atp.Status=obsolete vh.latestBindingTime=postBuild
         self.connections: List[SocketConnection] = []
 
-        # Collection of SocketConnectionBundles.
+        # Collection of SocketConnectionBundles. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=connectionBundle.shortName, connectionBundle.variationPoint.shortLabel atp.Status=obsolete vh.latestBindingTime=postBuild
         self.connectionBundles: List[SocketConnectionBundle] = []
 
-        # Collection of SoAdAddresses.
+        # Collection of SoAdAddresses. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=socketAddress.shortName, socketAddress.variationPoint.shortLabel vh.latestBindingTime=postBuild
         self.socketAddresses: List[SocketAddress] = []
 
     def addConnection(self, value: Optional[SocketConnection]) -> SoAdConfig:
         """
-        This aggregation is obsolete and will be removed in the future. The connectionGroup aggregation with bundled Connections shall be used instead. Old description: Collection of socket connections.
+        This aggregation is obsolete and will be removed in the future. The connectionGroup aggregation with bundled Connections shall be used instead. Old description: Collection of socket connections. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=connection, connection.variationPoint.shortLabel atp.Status=obsolete vh.latestBindingTime=postBuild
         A None value is a no-op and does not append to connections.
         """
         if value is not None:
@@ -1841,27 +1840,33 @@ class SoAdConfig(ARObject):
         return self
 
     def getConnections(self) -> List[SocketConnection]:
-        """This aggregation is obsolete and will be removed in the future. The connectionGroup aggregation with bundled Connections shall be used instead. Old description: Collection of socket connections."""
+        """This aggregation is obsolete and will be removed in the future. The connectionGroup aggregation with bundled Connections shall be used instead. Old description: Collection of socket connections. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=connection, connection.variationPoint.shortLabel atp.Status=obsolete vh.latestBindingTime=postBuild"""
         return self.connections
 
     def createSocketConnectionBundle(self, short_name: str) -> SocketConnectionBundle:
-        """Collection of SocketConnectionBundles."""
+        """Collection of SocketConnectionBundles. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=connectionBundle.shortName, connectionBundle.variationPoint.shortLabel atp.Status=obsolete vh.latestBindingTime=postBuild"""
+        for existing in self.connectionBundles:
+            if existing.getShortName() == short_name:
+                return existing
         bundle = SocketConnectionBundle(self, short_name)
         self.connectionBundles.append(bundle)
         return bundle
 
     def getConnectionBundles(self) -> List[SocketConnectionBundle]:
-        """Collection of SocketConnectionBundles."""
+        """Collection of SocketConnectionBundles. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=connectionBundle.shortName, connectionBundle.variationPoint.shortLabel atp.Status=obsolete vh.latestBindingTime=postBuild"""
         return self.connectionBundles
 
     def createSocketAddress(self, short_name: str) -> SocketAddress:
-        """Collection of SoAdAddresses."""
+        """Collection of SoAdAddresses. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=socketAddress.shortName, socketAddress.variationPoint.shortLabel vh.latestBindingTime=postBuild"""
+        for existing in self.socketAddresses:
+            if existing.getShortName() == short_name:
+                return existing
         address = SocketAddress(self, short_name)
         self.socketAddresses.append(address)
         return address
 
     def getSocketAddresses(self) -> List[SocketAddress]:
-        """Collection of SoAdAddresses."""
+        """Collection of SoAdAddresses. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=socketAddress.shortName, socketAddress.variationPoint.shortLabel vh.latestBindingTime=postBuild"""
         return self.socketAddresses
 
 

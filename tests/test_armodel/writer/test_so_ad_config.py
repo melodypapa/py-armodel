@@ -288,3 +288,29 @@ class TestSoAdConfigRoundTrip:
         writer.writeSoAdConfig(parent, "SO-AD-CONFIG", config)
         bundle_element = parent.find("SO-AD-CONFIG/CONNECTION-BUNDLES/SOCKET-CONNECTION-BUNDLE")
         assert bundle_element[-1].tag == "VARIATION-POINT"
+
+
+class TestSoAdConfigBaseLevel:
+    def test_round_trip_preserves_arobject_checksum_and_timestamp(self, writer, parser):
+        config = SoAdConfig()
+        config.setChecksum(String().setValue("deadbeef"))
+        timestamp = DateTime()
+        timestamp.setValue("2024-05-06T07:08:09+10:00")
+        config.setTimestamp(timestamp)
+
+        recovered = _write_and_parse(writer, parser, config)
+
+        assert recovered is not None
+        assert recovered.getChecksum().getValue() == "deadbeef"
+        assert recovered.getTimestamp().getValue() == "2024-05-06T07:08:09+10:00"
+
+    def test_round_trip_base_level_absent_is_noop(self, writer, parser):
+        config = SoAdConfig()
+        config.createSocketAddress("SA1")
+
+        recovered = _write_and_parse(writer, parser, config)
+
+        assert recovered is not None
+        assert recovered.getChecksum() is None
+        assert recovered.getTimestamp() is None
+        assert recovered.getSocketAddresses()[0].getShortName() == "SA1"
