@@ -577,6 +577,24 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticParameterSupportInfo,
     DiagnosticPeriodicRate,
     DiagnosticSupportInfoByte,
+    DiagnosticTestIdentifier,
+    DdsCpProvidedServiceInstance,
+    DdsCpServiceInstanceEvent,
+    DdsCpServiceInstanceOperation,
+    DdsDeadline,
+    DdsDestinationOrder,
+    DdsDurability,
+    DdsDurabilityService,
+    DdsHistory,
+    DdsLatencyBudget,
+    DdsLifespan,
+    DdsLiveliness,
+    DdsOwnership,
+    DdsOwnershipStrength,
+    DdsReliability,
+    DdsResourceLimits,
+    DdsTopicData,
+    DdsTransportPriority,
     PhysicalDimensionMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
@@ -668,6 +686,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticSessionControl,
     DiagnosticStorageCondition,
     DiagnosticStorageConditionGroup,
+    DiagnosticTestResult,
     DiagnosticTestRoutineIdentifier,
     DiagnosticTroubleCode,
     DiagnosticTroubleCodeGroup,
@@ -722,6 +741,8 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Enumerations import BindingTimeEnum, XmlSpaceEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     CpSoftwareClusterResource,
+    DdsCpQosProfile,
+    DdsCpTopic,
     Describable,
     DiagnosticAuthTransmitCertificateEvaluation,
     DiagnosticDataElement,
@@ -752,6 +773,13 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     CIdentifier,
     CategoryString,
     DateTime,
+    DdsDurabilityKindEnum,
+    DdsDurabilityServiceHistoryKindEnum,
+    DdsDestinationOrderKindEnum,
+    DdsHistoryKindEnum,
+    DdsLivenessKindEnum,
+    DdsOwnershipKindEnum,
+    DdsReliabilityKindEnum,
     DiagnosticClearDtcLimitationEnum,
     DiagnosticClearEventAllowedBehaviorEnum,
     DiagnosticConnectedIndicatorBehaviorEnum,
@@ -774,6 +802,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticResponseOnEventActionEnum,
     DiagnosticResponseToEcuResetEnum,
     DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum,
+    DiagnosticTestResultUpdateEnum,
     DiagnosticTroubleCodeJ1939DtcKindEnum,
     DiagnosticTypeOfDtcSupportedEnum,
     DiagnosticTypeOfFreezeFrameRecordNumerationEnum,
@@ -1013,7 +1042,17 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import
     VariableAndParameterInterfaceMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface.InstanceRefs import ApplicationCompositeElementInPortInterfaceInstanceRef
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import DiagnosticParameterIdent, ModeAccessPointIdent, RptExecutableEntityProperties, RptImplPolicy, RptServicePointEnum
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import (
+    DiagnosticParameterIdent,
+    ModeAccessPointIdent,
+    RapidPrototypingScenario,
+    RptContainer,
+    RptExecutableEntityProperties,
+    RptHook,
+    RptImplPolicy,
+    RptProfile,
+    RptServicePointEnum,
+)
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SoftwareComponentDocumentation import (
     SwComponentDocumentation,
 )
@@ -1060,6 +1099,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
     OperationInvokedEvent,
     OsTaskExecutionEvent,
     RTEEvent,
+    SwcModeManagerErrorEvent,
     SwcModeSwitchEvent,
     TimingEvent,
     TransformerHardErrorEvent,
@@ -1625,6 +1665,58 @@ AUTO_COLLECT_XML_MAP = {
     "REF-ALL": "REF-ALL",
     "REF-NONE": "REF-NONE",
     "REF-NON-STANDARD": "REF-NON-STANDARD",
+}
+
+#: Mapping between DdsDestinationOrderKindEnum literal values and their XML element text
+#: (AR:DDS-DESTINATION-ORDER-KIND-ENUM--SIMPLE).
+DDS_DESTINATION_ORDER_KIND_XML_MAP = {
+    "BY-RECEPTION-TIMESTAMP": "BY-RECEPTION-TIMESTAMP",
+    "BY-SOURCE-TIMESTAMP": "BY-SOURCE-TIMESTAMP",
+}
+
+#: Mapping between DdsDurabilityKindEnum literal values and their XML element text
+#: (AR:DDS-DURABILITY-KIND-ENUM--SIMPLE).
+DDS_DURABILITY_KIND_XML_MAP = {
+    "PERSISTENT": "PERSISTENT",
+    "TRANSIENT": "TRANSIENT",
+    "TRANSIENT-LOCAL": "TRANSIENT-LOCAL",
+    "VOLATILE": "VOLATILE",
+}
+
+#: Mapping between DdsDurabilityServiceHistoryKindEnum literal values and their XML element text
+#: (AR:DDS-DURABILITY-SERVICE-HISTORY-KIND-ENUM--SIMPLE).
+DDS_DURABILITY_SERVICE_HISTORY_KIND_XML_MAP = {
+    "KEEP-ALL": "KEEP-ALL",
+    "KEEP-LAST": "KEEP-LAST",
+}
+
+#: Mapping between DdsHistoryKindEnum literal values and their XML element text
+#: (AR:DDS-HISTORY-KIND-ENUM--SIMPLE).
+DDS_HISTORY_KIND_XML_MAP = {
+    "KEEP-ALL": "KEEP-ALL",
+    "KEEP-LAST": "KEEP-LAST",
+}
+
+#: Mapping between DdsLivenessKindEnum literal values and their XML element text
+#: (AR:DDS-LIVENESS-KIND-ENUM--SIMPLE).
+DDS_LIVENESS_KIND_XML_MAP = {
+    "AUTOMATIC": "AUTOMATIC",
+    "MANUAL-BY-PARTICIPANT": "MANUAL-BY-PARTICIPANT",
+    "MANUAL-BY-TOPIC": "MANUAL-BY-TOPIC",
+}
+
+#: Mapping between DdsOwnershipKindEnum literal values and their XML element text
+#: (AR:DDS-OWNERSHIP-KIND-ENUM--SIMPLE).
+DDS_OWNERSHIP_KIND_XML_MAP = {
+    "EXCLUSIVE": "EXCLUSIVE",
+    "SHARED": "SHARED",
+}
+
+#: Mapping between DdsReliabilityKindEnum literal values and their XML element text
+#: (AR:DDS-RELIABILITY-KIND-ENUM--SIMPLE).
+DDS_RELIABILITY_KIND_XML_MAP = {
+    "BEST-EFFORT": "BEST-EFFORT",
+    "RELIABLE": "RELIABLE",
 }
 
 #: Mapping between AclScopeEnum literal values and their XML element text
@@ -2760,9 +2852,9 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, descriptor)
         child_element = self.find(element, "BULK-NV-BLOCK")
         if child_element is not None:
-            prototype_element = self.find(child_element, "VARIABLE-DATA-PROTOTYPE")
-            block = descriptor.createBulkNvBlock(self.getShortName(cast(ET.Element, prototype_element)))
-            self.readVariableDataPrototype(cast(ET.Element, prototype_element), block)
+            block = descriptor.createBulkNvBlock(self.getShortName(child_element))
+            self.readAutosarDataPrototype(child_element, block)
+            block.setInitValue(self.getInitValue(child_element))
         for child_element in self.findall(element, "NV-BLOCK-DATA-MAPPINGS/NV-BLOCK-DATA-MAPPING"):
             mapping = NvBlockDataMapping()
             self.readNvBlockDataMapping(child_element, mapping)
@@ -3954,8 +4046,8 @@ class ARXMLParser(AbstractARXMLParser):
         self.readServiceDependency(element, dependency)
         self.readSwcServiceDependencyAssignedData(element, dependency)
         self.readSwcServiceDependencyAssignedPorts(element, dependency)
-        self.readSwcServiceDependencyServiceNeeds(element, dependency)
         self.readSwcServiceDependencyRepresentedPortGroup(element, dependency)
+        self.readSwcServiceDependencyServiceNeeds(element, dependency)
 
     def readSwcInternalBehaviorServiceDependencies(self, element: ET.Element, parent: SwcInternalBehavior):
         for child_element in self.findall(element, "SERVICE-DEPENDENCYS/*"):
@@ -3970,9 +4062,9 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "INCLUDED-DATA-TYPE-SETS/INCLUDED-DATA-TYPE-SET"):
             include_data_type_set = IncludedDataTypeSet()
             self.readARObject(child_element, include_data_type_set)
-            include_data_type_set.setLiteralPrefix(self.getChildElementOptionalLiteral(child_element, "LITERAL-PREFIX"))
             for ref_type in self.getChildElementRefTypeList(child_element, "DATA-TYPE-REFS/DATA-TYPE-REF"):
                 include_data_type_set.addDataTypeRef(ref_type)
+            include_data_type_set.setLiteralPrefix(cast(Optional[Identifier], self.getChildElementOptionalLiteral(child_element, "LITERAL-PREFIX")))
             include_data_type_sets.append(include_data_type_set)
         return include_data_type_sets
 
@@ -4782,6 +4874,7 @@ class ARXMLParser(AbstractARXMLParser):
     def readSwcInternalBehaviorExclusiveAreaPolicies(self, element: ET.Element, behavior: SwcInternalBehavior):
         for child_element in self.findall(element, "EXCLUSIVE-AREA-POLICYS/SWC-EXCLUSIVE-AREA-POLICY"):
             policy = SwcExclusiveAreaPolicy()
+            self.readARObject(child_element, policy)
             policy.setApiPrinciple(cast(Optional[ApiPrincipleEnum], self.getChildElementOptionalLiteral(child_element, "API-PRINCIPLE")))
             policy.setExclusiveAreaRef(self.getChildElementOptionalRefType(child_element, "EXCLUSIVE-AREA-REF"))
             behavior.addExclusiveAreaPolicy(policy)
@@ -4797,6 +4890,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readSwcInternalBehaviorExplicitInterRunnableVariables(element, behavior)
         behavior.setHandleTerminationAndRestart(self.getChildElementOptionalLiteral(element, "HANDLE-TERMINATION-AND-RESTART"))
         self.readSwcInternalBehaviorImplicitInterRunnableVariables(element, behavior)
+        self.readSwcInternalBehaviorIncludedDataTypeSets(element, behavior)
         self.readSwcInternalBehaviorIncludedModeDeclarationGroupSets(element, behavior)
         self.readSwcInternalBehaviorInstantiationDataDefProps(element, behavior)
         self.readSwcInternalBehaviorPerInstanceMemories(element, behavior)
@@ -4826,6 +4920,10 @@ class ARXMLParser(AbstractARXMLParser):
                 self.readSwcInternalBehavior(child_element, behavior)
             else:
                 self.notImplemented("Unsupported Internal Behaviors <%s>" % tag_name)
+
+    def readSwcInternalBehaviorIncludedDataTypeSets(self, element: ET.Element, behavior: SwcInternalBehavior):
+        for data_type_set in self.getIncludedDataTypeSets(element):
+            behavior.addIncludedDataTypeSet(data_type_set)
 
     def getIncludedModeDeclarationGroupSets(self, element: ET.Element) -> List[IncludedModeDeclarationGroupSet]:
         group_sets = []
@@ -5988,6 +6086,76 @@ class ARXMLParser(AbstractARXMLParser):
         properties.setRptExecutionControl(cast(Optional[RptExecutionControlEnum], self.getChildElementOptionalLiteral(element, "RPT-EXECUTION-CONTROL")))
         properties.setRptServicePoint(cast(Optional[RptServicePointEnum], self.getChildElementOptionalLiteral(element, "RPT-SERVICE-POINT")))
 
+    def readRptContainer(self, element: ET.Element, container: RptContainer):
+        self.readIdentifiable(element, container)
+        bypass_irefs_element = self.find(element, "BY-PASS-POINT-IREFS")
+        if bypass_irefs_element is not None:
+            for child_element in self.findall(bypass_irefs_element, "BY-PASS-POINT-IREF"):
+                container.addByPassPointIRef(self.getAnyInstanceRefFromElement(child_element))
+        for ref in self.getChildElementRefTypeList(element, "EXPLICIT-RPT-PROFILE-SELECTION-REFS/EXPLICIT-RPT-PROFILE-SELECTION-REF"):
+            container.addExplicitRptProfileSelectionRef(ref)
+        containers_element = self.find(element, "RPT-CONTAINERS")
+        if containers_element is not None:
+            for child_element in self.findall(containers_element, "RPT-CONTAINER"):
+                sub_container = container.createRptContainer(self.getShortName(child_element))
+                self.readRptContainer(child_element, sub_container)
+        rpt_executable_entity_properties_element = self.find(element, "RPT-EXECUTABLE-ENTITY-PROPERTIES")
+        if rpt_executable_entity_properties_element is not None:
+            properties = RptExecutableEntityProperties()
+            self.readRptExecutableEntityProperties(rpt_executable_entity_properties_element, properties)
+            container.setRptExecutableEntityProperties(properties)
+        rpt_hooks_element = self.find(element, "RPT-HOOKS")
+        if rpt_hooks_element is not None:
+            for child_element in self.findall(rpt_hooks_element, "RPT-HOOK"):
+                hook = RptHook()
+                self.readRptHook(child_element, hook)
+                container.setRptHook(hook)
+        rpt_impl_policy_element = self.find(element, "RPT-IMPL-POLICY")
+        if rpt_impl_policy_element is not None:
+            policy = RptImplPolicy()
+            self.readRptImplPolicy(rpt_impl_policy_element, policy)
+            container.setRptImplPolicy(policy)
+        rpt_sw_prototyping_access_element = self.find(element, "RPT-SW-PROTOTYPING-ACCESS")
+        if rpt_sw_prototyping_access_element is not None:
+            access = RptSwPrototypingAccess()
+            self.readRptSwPrototypingAccess(rpt_sw_prototyping_access_element, access)
+            container.setRptSwPrototypingAccess(access)
+
+    def readRptHook(self, element: ET.Element, hook: RptHook):
+        self.readARObject(element, hook)
+        hook.setCodeLabel(self.getChildElementOptionalCIdentifier(element, "CODE-LABEL"))
+        hook.setMcdIdentifier(self.getChildElementOptionalNameToken(element, "MCD-IDENTIFIER"))
+        hook.setRptArHookIRef(self.getAnyInstanceRef(element, "RPT-AR-HOOK-IREF"))
+        sdgs_element = self.find(element, "SDGS")
+        if sdgs_element is not None:
+            for child_element in self.findall(sdgs_element, "SDG"):
+                hook.addSdg(self.getSdg(child_element))
+        self.readVariationPointCapable(element, hook)
+
+    def readRptProfile(self, element: ET.Element, profile: RptProfile):
+        self.readIdentifiable(element, profile)
+        profile.setMaxServicePointId(self.getChildElementOptionalPositiveInteger(element, "MAX-SERVICE-POINT-ID"))
+        profile.setMinServicePointId(self.getChildElementOptionalPositiveInteger(element, "MIN-SERVICE-POINT-ID"))
+        profile.setServicePointSymbolPost(self.getChildElementOptionalCIdentifier(element, "SERVICE-POINT-SYMBOL-POST"))
+        profile.setServicePointSymbolPre(self.getChildElementOptionalCIdentifier(element, "SERVICE-POINT-SYMBOL-PRE"))
+        profile.setStimEnabler(cast(Optional[RptEnablerImplTypeEnum], self.getChildElementOptionalLiteral(element, "STIM-ENABLER")))
+
+    def readRapidPrototypingScenario(self, element: ET.Element, scenario: RapidPrototypingScenario):
+        self.logger.debug("Read RapidPrototypingScenario <%s>" % scenario.getShortName())
+        self.readIdentifiable(element, scenario)
+        scenario.setHostSystemRef(self.getChildElementOptionalRefType(element, "HOST-SYSTEM-REF"))
+        containers_element = self.find(element, "RPT-CONTAINERS")
+        if containers_element is not None:
+            for child_element in self.findall(containers_element, "RPT-CONTAINER"):
+                container = scenario.createRptContainer(self.getShortName(child_element))
+                self.readRptContainer(child_element, container)
+        profiles_element = self.find(element, "RPT-PROFILES")
+        if profiles_element is not None:
+            for child_element in self.findall(profiles_element, "RPT-PROFILE"):
+                profile = scenario.createRptProfile(self.getShortName(child_element))
+                self.readRptProfile(child_element, profile)
+        scenario.setRptSystemRef(self.getChildElementOptionalRefType(element, "RPT-SYSTEM-REF"))
+
     def readRptServicePoint(self, element: ET.Element, service_point: RptServicePoint):
         service_point.setServiceId(self.getChildElementOptionalPositiveInteger(element, "SERVICE-ID"))
         service_point.setSymbol(cast(Optional[CIdentifier], self.getChildElementOptionalLiteral(element, "SYMBOL")))
@@ -6342,14 +6510,17 @@ class ARXMLParser(AbstractARXMLParser):
     def readRunnableEntityExternalTriggeringPoints(self, element: ET.Element, parent: RunnableEntity):
         for child_element in self.findall(element, "EXTERNAL-TRIGGERING-POINTS/EXTERNAL-TRIGGERING-POINT"):
             point = ExternalTriggeringPoint()
+            self.readARObject(child_element, point)
             ident_element = self.find(child_element, "IDENT")
             if ident_element is not None:
-                point.createIdent(self.getShortName(ident_element))
+                ident = point.createIdent(self.getShortName(ident_element))
+                self.readReferrable(ident_element, ident)
             trigger_element = self.find(child_element, "TRIGGER-IREF")
             if trigger_element is not None:
                 trigger = PTriggerInAtomicSwcTypeInstanceRef()
                 self.readPTriggerInAtomicSwcTypeInstanceRef(trigger_element, trigger)
                 point.setTrigger(trigger)
+            self.readVariationPointCapable(child_element, point)
             parent.addExternalTriggeringPoint(point)
 
     def readModeGroupInAtomicSwcInstanceRef(self, element: ET.Element, instance_ref: ModeGroupInAtomicSwcInstanceRef):
@@ -6715,6 +6886,15 @@ class ARXMLParser(AbstractARXMLParser):
         event.setActivation(self._readEnumToken(element, "ACTIVATION", ModeActivationKind, MODE_ACTIVATION_KIND_XML_MAP))
         self.readRModeInAtomicSwcInstanceRef(element, event)
 
+    def readSwcModeManagerErrorEvent(self, element: ET.Element, event: SwcModeManagerErrorEvent):
+        # self.logger.debug("Read SwcModeManagerErrorEvent <%s>" % event.getShortName())
+        self.readRTEEvent(element, event)
+        child_element = self.find(element, "MODE-GROUP-IREF")
+        if child_element is not None:
+            instance_ref = PModeGroupInAtomicSwcInstanceRef()
+            self.readPModeGroupInAtomicSWCInstanceRef(child_element, instance_ref)
+            event.setModeGroupIRef(instance_ref)
+
     def readInternalTriggerOccurredEvent(self, element: ET.Element, event: InternalTriggerOccurredEvent):
         # self.logger.debug("Read InternalTriggerOccurredEvent <%s>" % event.getShortName())
         self.readRTEEvent(element, event)
@@ -6786,6 +6966,8 @@ class ARXMLParser(AbstractARXMLParser):
                 self.readTimingEvent(child_element, event)
             elif tag_name == "SWC-MODE-SWITCH-EVENT":
                 self.readSwcModeSwitchEvent(child_element, parent.createSwcModeSwitchEvent(self.getShortName(child_element)))
+            elif tag_name == "SWC-MODE-MANAGER-ERROR-EVENT":
+                self.readSwcModeManagerErrorEvent(child_element, parent.createSwcModeManagerErrorEvent(self.getShortName(child_element)))
             elif tag_name == "OPERATION-INVOKED-EVENT":
                 self.readOperationInvokedEvent(child_element, parent.createOperationInvokedEvent(self.getShortName(child_element)))
             elif tag_name == "DATA-RECEIVED-EVENT":
@@ -8388,6 +8570,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readSwComponentDocumentationElement(self, child_element: ET.Element) -> SwComponentDocumentation:
         documentation = SwComponentDocumentation()
+        self.readARObject(child_element, documentation)
         predefined_chapter_map = [
             ("SW-FEATURE-DEF", documentation.createSwFeatureDef),
             ("SW-FEATURE-DESC", documentation.createSwFeatureDesc),
@@ -8405,6 +8588,7 @@ class ARXMLParser(AbstractARXMLParser):
         for chapter_element in self.findall(child_element, "CHAPTER"):
             chapter = documentation.createChapter(self.getShortName(chapter_element))
             self.readChapterBody(chapter_element, chapter)
+        self.readVariationPointCapable(child_element, documentation)
         return documentation
 
     def readSwComponentTypeSwComponentDocumentation(self, element: ET.Element, parent: SwComponentType):
@@ -12191,6 +12375,198 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read DiagnosticParameterSupportInfo")
         support_info.setSupportInfoBit(self.getChildElementOptionalPositiveInteger(element, "SUPPORT-INFO-BIT"))
 
+    def readDdsCpQosProfile(self, element: ET.Element, profile: DdsCpQosProfile):
+        self.logger.debug("Read DdsCpQosProfile")
+        self.readIdentifiable(element, profile)
+        deadline_element = self.find(element, "DEADLINE")
+        if deadline_element is not None:
+            deadline = DdsDeadline()
+            self.readDdsDeadline(deadline_element, deadline)
+            profile.setDeadline(deadline)
+        destination_order_element = self.find(element, "DESTINATION-ORDER")
+        if destination_order_element is not None:
+            destination_order = DdsDestinationOrder()
+            self.readDdsDestinationOrder(destination_order_element, destination_order)
+            profile.setDestinationOrder(destination_order)
+        durability_element = self.find(element, "DURABILITY")
+        if durability_element is not None:
+            durability = DdsDurability()
+            self.readDdsDurability(durability_element, durability)
+            profile.setDurability(durability)
+        durability_service_element = self.find(element, "DURABILITY-SERVICE")
+        if durability_service_element is not None:
+            durability_service = DdsDurabilityService()
+            self.readDdsDurabilityService(durability_service_element, durability_service)
+            profile.setDurabilityService(durability_service)
+        history_element = self.find(element, "HISTORY")
+        if history_element is not None:
+            history = DdsHistory()
+            self.readDdsHistory(history_element, history)
+            profile.setHistory(history)
+        latency_budget_element = self.find(element, "LATENCY-BUDGET")
+        if latency_budget_element is not None:
+            latency_budget = DdsLatencyBudget()
+            self.readDdsLatencyBudget(latency_budget_element, latency_budget)
+            profile.setLatencyBudget(latency_budget)
+        lifespan_element = self.find(element, "LIFESPAN")
+        if lifespan_element is not None:
+            lifespan = DdsLifespan()
+            self.readDdsLifespan(lifespan_element, lifespan)
+            profile.setLifespan(lifespan)
+        liveliness_element = self.find(element, "LIVELINESS")
+        if liveliness_element is not None:
+            liveliness = DdsLiveliness()
+            self.readDdsLiveliness(liveliness_element, liveliness)
+            profile.setLiveliness(liveliness)
+        ownership_element = self.find(element, "OWNERSHIP")
+        if ownership_element is not None:
+            ownership = DdsOwnership()
+            self.readDdsOwnership(ownership_element, ownership)
+            profile.setOwnership(ownership)
+        ownership_strength_element = self.find(element, "OWNERSHIP-STRENGTH")
+        if ownership_strength_element is not None:
+            ownership_strength = DdsOwnershipStrength()
+            self.readDdsOwnershipStrength(ownership_strength_element, ownership_strength)
+            profile.setOwnershipStrength(ownership_strength)
+        reliability_element = self.find(element, "RELIABILITY")
+        if reliability_element is not None:
+            reliability = DdsReliability()
+            self.readDdsReliability(reliability_element, reliability)
+            profile.setReliability(reliability)
+        if self.find(element, "RESOURCE-LIMITS") is not None:
+            profile.setResourceLimits(DdsResourceLimits())
+        topic_data_element = self.find(element, "TOPIC-DATA")
+        if topic_data_element is not None:
+            topic_data = DdsTopicData()
+            self.readDdsTopicData(topic_data_element, topic_data)
+            profile.setTopicData(topic_data)
+        transport_priority_element = self.find(element, "TRANSPORT-PRIORITY")
+        if transport_priority_element is not None:
+            transport_priority = DdsTransportPriority()
+            self.readDdsTransportPriority(transport_priority_element, transport_priority)
+            profile.setTransportPriority(transport_priority)
+
+    def readDdsCpTopic(self, element: ET.Element, topic: DdsCpTopic):
+        self.logger.debug("Read DdsCpTopic")
+        self.readIdentifiable(element, topic)
+        topic.setDdsPartitionRef(self.getChildElementOptionalRefType(element, "DDS-PARTITION-REF"))
+        topic.setTopicName(self.getChildElementOptionalString(element, "TOPIC-NAME"))
+
+    def readDdsTopicData(self, element: ET.Element, topic_data: DdsTopicData):
+        self.logger.debug("Read DdsTopicData")
+        self.readARObject(element, topic_data)
+        topic_data.setTopicData(self.getChildElementOptionalString(element, "TOPIC-DATA"))
+
+    def readDdsLiveliness(self, element: ET.Element, liveliness: DdsLiveliness):
+        self.logger.debug("Read DdsLiveliness")
+        self.readARObject(element, liveliness)
+        liveliness.setLivelinessLeaseDuration(self.getChildElementOptionalFloatValue(element, "LIVELINESS-LEASE-DURATION"))
+        liveliness.setLivenessKind(self._readEnumToken(element, "LIVENESS-KIND", DdsLivenessKindEnum, DDS_LIVENESS_KIND_XML_MAP))
+
+    def readDdsOwnershipStrength(self, element: ET.Element, ownership_strength: DdsOwnershipStrength):
+        self.logger.debug("Read DdsOwnershipStrength")
+        self.readARObject(element, ownership_strength)
+        ownership_strength.setOwnershipStrength(self.getChildElementOptionalPositiveInteger(element, "OWNERSHIP-STRENGTH"))
+
+    def readDdsOwnership(self, element: ET.Element, ownership: DdsOwnership):
+        self.logger.debug("Read DdsOwnership")
+        self.readARObject(element, ownership)
+        ownership.setOwnershipKind(self._readEnumToken(element, "OWNERSHIP-KIND", DdsOwnershipKindEnum, DDS_OWNERSHIP_KIND_XML_MAP))
+
+    def readDdsLatencyBudget(self, element: ET.Element, latency_budget: DdsLatencyBudget):
+        self.logger.debug("Read DdsLatencyBudget")
+        self.readARObject(element, latency_budget)
+        latency_budget.setLatencyBudgetDuration(self.getChildElementOptionalFloatValue(element, "LATENCY-BUDGET-DURATION"))
+
+    def readDdsDeadline(self, element: ET.Element, deadline: DdsDeadline):
+        self.logger.debug("Read DdsDeadline")
+        self.readARObject(element, deadline)
+        deadline.setDeadlinePeriod(self.getChildElementOptionalFloatValue(element, "DEADLINE-PERIOD"))
+
+    def readDdsDurability(self, element: ET.Element, durability: DdsDurability):
+        self.logger.debug("Read DdsDurability")
+        self.readARObject(element, durability)
+        durability.setDurabilityKind(self._readEnumToken(element, "DURABILITY-KIND", DdsDurabilityKindEnum, DDS_DURABILITY_KIND_XML_MAP))
+
+    def readDdsDurabilityService(self, element: ET.Element, durability_service: DdsDurabilityService):
+        self.logger.debug("Read DdsDurabilityService")
+        self.readARObject(element, durability_service)
+        durability_service.setDurabilityServiceCleanupDelay(self.getChildElementOptionalFloatValue(element, "DURABILITY-SERVICE-CLEANUP-DELAY"))
+        durability_service.setDurabilityServiceHistoryDepth(self.getChildElementOptionalPositiveInteger(element, "DURABILITY-SERVICE-HISTORY-DEPTH"))
+        durability_service.setDurabilityServiceHistoryKind(
+            self._readEnumToken(element, "DURABILITY-SERVICE-HISTORY-KIND", DdsDurabilityServiceHistoryKindEnum, DDS_DURABILITY_SERVICE_HISTORY_KIND_XML_MAP)
+        )
+        durability_service.setDurabilityServiceMaxInstances(self.getChildElementOptionalPositiveInteger(element, "DURABILITY-SERVICE-MAX-INSTANCES"))
+        durability_service.setDurabilityServiceMaxSamples(self.getChildElementOptionalPositiveInteger(element, "DURABILITY-SERVICE-MAX-SAMPLES"))
+        durability_service.setDurabilityServiceMaxSamplesPerInstance(self.getChildElementOptionalPositiveInteger(element, "DURABILITY-SERVICE-MAX-SAMPLES-PER-INSTANCE"))
+
+    def readDdsReliability(self, element: ET.Element, reliability: DdsReliability):
+        self.logger.debug("Read DdsReliability")
+        self.readARObject(element, reliability)
+        reliability.setReliabilityKind(self._readEnumToken(element, "RELIABILITY-KIND", DdsReliabilityKindEnum, DDS_RELIABILITY_KIND_XML_MAP))
+        reliability.setReliabilityMaxBlockingTime(self.getChildElementOptionalFloatValue(element, "RELIABILITY-MAX-BLOCKING-TIME"))
+
+    def readDdsTransportPriority(self, element: ET.Element, transport_priority: DdsTransportPriority):
+        self.logger.debug("Read DdsTransportPriority")
+        self.readARObject(element, transport_priority)
+        transport_priority.setTransportPriority(self.getChildElementOptionalPositiveInteger(element, "TRANSPORT-PRIORITY"))
+
+    def readDdsLifespan(self, element: ET.Element, lifespan: DdsLifespan):
+        self.logger.debug("Read DdsLifespan")
+        self.readARObject(element, lifespan)
+        lifespan.setLifespanDuration(self.getChildElementOptionalFloatValue(element, "LIFESPAN-DURATION"))
+
+    def readDdsDestinationOrder(self, element: ET.Element, destination_order: DdsDestinationOrder):
+        self.logger.debug("Read DdsDestinationOrder")
+        self.readARObject(element, destination_order)
+        destination_order.setDestinationOrderKind(self._readEnumToken(element, "DESTINATION-ORDER-KIND", DdsDestinationOrderKindEnum, DDS_DESTINATION_ORDER_KIND_XML_MAP))
+
+    def readDdsHistory(self, element: ET.Element, history: DdsHistory):
+        self.logger.debug("Read DdsHistory")
+        self.readARObject(element, history)
+        history.setHistoryKind(self._readEnumToken(element, "HISTORY-KIND", DdsHistoryKindEnum, DDS_HISTORY_KIND_XML_MAP))
+        history.setHistoryOrderDepth(self.getChildElementOptionalPositiveInteger(element, "HISTORY-ORDER-DEPTH"))
+
+    def readDdsCpProvidedServiceInstance(self, element: ET.Element, instance: DdsCpProvidedServiceInstance):
+        self.logger.debug("Read DdsCpProvidedServiceInstance")
+        self.readARObject(element, instance)
+        local_unicast_addresses_element = self.find(element, "LOCAL-UNICAST-ADDRESSES")
+        if local_unicast_addresses_element is not None:
+            conditional_element = self.find(local_unicast_addresses_element, "APPLICATION-ENDPOINT-REF-CONDITIONAL")
+            if conditional_element is not None:
+                instance.setLocalUnicastAddressRef(self.getChildElementOptionalRefType(conditional_element, "APPLICATION-ENDPOINT-REF"))
+        instance.setMinorVersion(self.getChildElementOptionalPositiveInteger(element, "MINOR-VERSION"))
+        for child_element in self.findall(element, "PROVIDED-DDS-OPERATIONS/DDS-CP-SERVICE-INSTANCE-OPERATION"):
+            operation = DdsCpServiceInstanceOperation()
+            self.readDdsCpServiceInstanceOperation(child_element, operation)
+            instance.addProvidedDdsOperation(operation)
+        for child_element in self.findall(element, "PROVIDED-DDS-SERVICE-INSTANCE-EVENTS/DDS-CP-SERVICE-INSTANCE-EVENT"):
+            event = DdsCpServiceInstanceEvent()
+            self.readDdsCpServiceInstanceEvent(child_element, event)
+            instance.addProvidedDdsServiceInstanceEvent(event)
+        static_remote_multicast_addresses_element = self.find(element, "STATIC-REMOTE-MULTICAST-ADDRESSES")
+        if static_remote_multicast_addresses_element is not None:
+            conditional_element = self.find(static_remote_multicast_addresses_element, "APPLICATION-ENDPOINT-REF-CONDITIONAL")
+            if conditional_element is not None:
+                instance.setStaticRemoteMulticastAddressRef(self.getChildElementOptionalRefType(conditional_element, "APPLICATION-ENDPOINT-REF"))
+        for conditional_element in self.findall(element, "STATIC-REMOTE-UNICAST-ADDRESSES/APPLICATION-ENDPOINT-REF-CONDITIONAL"):
+            instance.addStaticRemoteUnicastAddressRef(self.getChildElementOptionalRefType(conditional_element, "APPLICATION-ENDPOINT-REF"))
+
+    def readDdsCpServiceInstanceEvent(self, element: ET.Element, event: DdsCpServiceInstanceEvent):
+        self.logger.debug("Read DdsCpServiceInstanceEvent")
+        self.readARObject(element, event)
+        event.setDdsEventQosProfileRef(self.getChildElementOptionalRefType(element, "DDS-EVENT-QOS-PROFILE-REF"))
+        event.setDdsEventRef(self.getChildElementOptionalRefType(element, "DDS-EVENT-REF"))
+        event.setDdsEventTopicRef(self.getChildElementOptionalRefType(element, "DDS-EVENT-TOPIC-REF"))
+        self.readVariationPointCapable(element, event)
+
+    def readDdsCpServiceInstanceOperation(self, element: ET.Element, operation: DdsCpServiceInstanceOperation):
+        self.logger.debug("Read DdsCpServiceInstanceOperation")
+        self.readARObject(element, operation)
+        operation.setDdsOperationRequestTriggeringRef(self.getChildElementOptionalRefType(element, "DDS-OPERATION-REQUEST-TRIGGERING-REF"))
+        operation.setDdsOperationResponseTriggeringRef(self.getChildElementOptionalRefType(element, "DDS-OPERATION-RESPONSE-TRIGGERING-REF"))
+        self.readVariationPointCapable(element, operation)
+
     def readDiagnosticParameter(self, element: ET.Element, parameter: DiagnosticParameter):
         self.readDiagnosticAbstractParameter(element, parameter)
         ident_element = self.find(element, "IDENT")
@@ -12794,6 +13170,23 @@ class ARXMLParser(AbstractARXMLParser):
         test_routine_identifier.setId(self.getChildElementOptionalPositiveInteger(element, "ID"))
         test_routine_identifier.setRequestDataSize(self.getChildElementOptionalPositiveInteger(element, "REQUEST-DATA-SIZE"))
         test_routine_identifier.setResponseDataSize(self.getChildElementOptionalPositiveInteger(element, "RESPONSE-DATA-SIZE"))
+
+    def getDiagnosticTestIdentifier(self, element: ET.Element) -> Optional[DiagnosticTestIdentifier]:
+        child_element = self.find(element, "TEST-IDENTIFIER")
+        if child_element is None:
+            return None
+        identifier = DiagnosticTestIdentifier()
+        identifier.setId(self.getChildElementOptionalPositiveInteger(child_element, "ID"))
+        identifier.setUasId(self.getChildElementOptionalPositiveInteger(child_element, "UAS-ID"))
+        return identifier
+
+    def readDiagnosticTestResult(self, element: ET.Element, test_result: DiagnosticTestResult):
+        self.logger.debug("Read DiagnosticTestResult <%s>" % test_result.getShortName())
+        self.readIdentifiable(element, test_result)
+        test_result.setDiagnosticEventRef(self.getChildElementOptionalRefType(element, "DIAGNOSTIC-EVENTS/DIAGNOSTIC-EVENT-REF-CONDITIONAL/DIAGNOSTIC-EVENT-REF"))
+        test_result.setMonitoredIdentifierRef(self.getChildElementOptionalRefType(element, "MONITORED-IDENTIFIER-REF"))
+        test_result.setTestIdentifier(self.getDiagnosticTestIdentifier(element))
+        test_result.setUpdateKind(cast(Optional[DiagnosticTestResultUpdateEnum], self.getChildElementOptionalLiteral(element, "UPDATE-KIND")))
 
     def readDiagnosticRequestVehicleInfo(self, element: ET.Element, request_vehicle_info: DiagnosticRequestVehicleInfo):
         self.logger.debug("Read DiagnosticRequestVehicleInfo <%s>" % request_vehicle_info.getShortName())
@@ -18091,6 +18484,9 @@ class ARXMLParser(AbstractARXMLParser):
         elif tag_name == "VIEW-MAP-SET":
             view_map_set = parent.createViewMapSet(self.getShortName(child_element))
             self.readViewMapSet(child_element, view_map_set)
+        elif tag_name == "RAPID-PROTOTYPING-SCENARIO":
+            scenario = parent.createRapidPrototypingScenario(self.getShortName(child_element))
+            self.readRapidPrototypingScenario(child_element, scenario)
         else:
             self.notImplemented("Unsupported Element type of ARPackage <%s>" % tag_name)
 
@@ -18451,6 +18847,10 @@ class ARXMLParser(AbstractARXMLParser):
         if tag_name == "DIAGNOSTIC-TEST-ROUTINE-IDENTIFIER":
             test_routine_identifier = parent.createDiagnosticTestRoutineIdentifier(self.getShortName(child_element))
             self.readDiagnosticTestRoutineIdentifier(child_element, test_routine_identifier)
+            return True
+        if tag_name == "DIAGNOSTIC-TEST-RESULT":
+            test_result = parent.createDiagnosticTestResult(self.getShortName(child_element))
+            self.readDiagnosticTestResult(child_element, test_result)
             return True
         if tag_name == "DIAGNOSTIC-REQUEST-VEHICLE-INFO":
             request_vehicle_info = parent.createDiagnosticRequestVehicleInfo(self.getShortName(child_element))

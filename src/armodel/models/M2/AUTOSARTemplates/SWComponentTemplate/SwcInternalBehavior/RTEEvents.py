@@ -12,7 +12,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import 
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeActivationKind
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import RVariableInAtomicSwcInstanceRef, RModeInAtomicSwcInstanceRef, RTriggerInAtomicSwcInstanceRef
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import POperationInAtomicSwcInstanceRef
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import PModeGroupInAtomicSwcInstanceRef, POperationInAtomicSwcInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, TimeValue
@@ -696,4 +696,41 @@ class TransformerHardErrorEvent(RTEEvent):
         """
         if value is not None:
             self.requiredTriggerIRef = value
+        return self
+
+
+class SwcModeManagerErrorEvent(RTEEvent):
+    """
+    This event is raised when an error occurred during the handling of the referenced ModeDeclarationGroupPrototype.
+
+    [constr_1978] Existence of attribute SwcModeManagerErrorEvent.modeGroup: For each SwcModeManagerErrorEvent, the instance reference to ModeDeclaration in the role modeGroup shall exist at the time when the RTE is generated.
+    """
+
+    # SwcModeManagerErrorEvent method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 9.8, p.638
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getModeGroupIRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setModeGroupIRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This represents the ModeDeclarationGroupPrototype for which this SwcModeManagerErrorEvent is raised in case of an error. InstanceRef implemented by: PModeGroupInAtomicSwcInstanceRef
+        self.modeGroupIRef: Optional[PModeGroupInAtomicSwcInstanceRef] = None
+
+    def getModeGroupIRef(self) -> Optional[PModeGroupInAtomicSwcInstanceRef]:
+        """
+        This represents the ModeDeclarationGroupPrototype for which this SwcModeManagerErrorEvent is raised in case of an error. InstanceRef implemented by: PModeGroupInAtomicSwcInstanceRef
+        """
+        return self.modeGroupIRef
+
+    def setModeGroupIRef(self, value: Optional[PModeGroupInAtomicSwcInstanceRef]) -> SwcModeManagerErrorEvent:
+        """
+        This represents the ModeDeclarationGroupPrototype for which this SwcModeManagerErrorEvent is raised in case of an error. InstanceRef implemented by: PModeGroupInAtomicSwcInstanceRef
+
+        A None value is a no-op and does not overwrite an existing modeGroupIRef.
+        """
+        if value is not None:
+            self.modeGroupIRef = value
         return self

@@ -6,6 +6,7 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import TextValueSpecification  # noqa E501
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ApiPrincipleEnum  # noqa E501
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     DiagEventDebounceCounterBased,
     DiagEventDebounceMonitorInternal,
@@ -24,6 +25,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     String,
     TimeValue,
 )
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint  # noqa E501
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import (  # noqa E501  # noqa E501
     PModeGroupInAtomicSwcInstanceRef,
     POperationInAtomicSwcInstanceRef,
@@ -33,8 +35,9 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceR
     ROperationInAtomicSwcInstanceRef,
     RVariableInAtomicSwcInstanceRef,
 )
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import (
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import (  # noqa E501
     RunnableEntityArgument,
+    SwcExclusiveAreaPolicy,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import (  # noqa E501
     AutosarParameterRef,  # noqa E501
@@ -101,6 +104,14 @@ def _literal(value):
     lit = ARLiteral()
     lit.setValue(value)
     return lit
+
+
+def _variation_point():
+    variation_point = VariationPoint()
+    label = Identifier()
+    label.setValue("vp1")
+    variation_point.setShortLabel(label)
+    return variation_point
 
 
 def _time(value):
@@ -516,6 +527,31 @@ class TestWriterInternalBehavior:
         parent = _parent()
         writer.writeExclusiveAreas(parent, behavior)
         assert parent.find("EXCLUSIVE-AREAS") is None
+
+    def test_writeSwcInternalBehaviorExclusiveAreaPolicies_s_t(self, writer):
+        behavior = _make_behavior()
+        policy = SwcExclusiveAreaPolicy()
+        policy.setChecksum(String().setValue("9001"))
+        policy.setTimestamp(DateTime().setValue("2024-01-01T00:00:00Z"))
+        policy.setApiPrinciple(ApiPrincipleEnum().setValue(ApiPrincipleEnum.PER_EXECUTABLE))
+        policy.setExclusiveAreaRef(_ref("/ea1", "EXCLUSIVE-AREA"))
+        behavior.addExclusiveAreaPolicy(policy)
+        parent = _parent()
+        writer.writeSwcInternalBehaviorExclusiveAreaPolicies(parent, behavior)
+        wrapper = parent.find("EXCLUSIVE-AREA-POLICYS")
+        assert wrapper is not None
+        policy_element = wrapper.find("SWC-EXCLUSIVE-AREA-POLICY")
+        assert policy_element is not None
+        assert policy_element.attrib["S"] == "9001"
+        assert policy_element.attrib["T"] == "2024-01-01T00:00:00Z"
+        assert policy_element.find("API-PRINCIPLE").text == "PER-EXECUTABLE"
+        assert policy_element.find("EXCLUSIVE-AREA-REF").text == "/ea1"
+
+    def test_writeSwcInternalBehaviorExclusiveAreaPolicies_empty(self, writer):
+        behavior = _make_behavior()
+        parent = _parent()
+        writer.writeSwcInternalBehaviorExclusiveAreaPolicies(parent, behavior)
+        assert parent.find("EXCLUSIVE-AREA-POLICYS") is None
 
     def test_writeConstantValueMappingRefs(self, writer):
         behavior = _make_behavior()
@@ -1264,6 +1300,9 @@ class TestWriterRunnableEntity:
         trigger.setContextPPortRef(_ref("/pp"))
         trigger.setTargetTriggerRef(_ref("/trig"))
         point.setTrigger(trigger)
+        point.setChecksum(String().setValue("7001"))
+        point.setTimestamp(DateTime().setValue("2024-01-01T00:00:00Z"))
+        point.setVariationPoint(_variation_point())
         entity.addExternalTriggeringPoint(point)
         parent = _parent()
         writer.writeRunnableEntity(parent, entity)
@@ -1271,9 +1310,13 @@ class TestWriterRunnableEntity:
         points_tag = re_elem.find("EXTERNAL-TRIGGERING-POINTS")
         assert points_tag is not None
         etp = points_tag.find("EXTERNAL-TRIGGERING-POINT")
+        assert etp.attrib["S"] == "7001"
+        assert etp.attrib["T"] == "2024-01-01T00:00:00Z"
         assert etp.find("IDENT/SHORT-NAME").text == "ExtTrigger"
         assert etp.find("TRIGGER-IREF/CONTEXT-P-PORT-REF").text == "/pp"
         assert etp.find("TRIGGER-IREF/TARGET-TRIGGER-REF").text == "/trig"
+        assert [elem.tag for elem in etp] == ["IDENT", "TRIGGER-IREF", "VARIATION-POINT"]
+        assert etp.find("VARIATION-POINT").find("SHORT-LABEL").text == "vp1"
 
     def test_writeRunnableEntityExternalTriggeringPoints_empty(self, writer):
         behavior = _make_behavior()
@@ -2374,93 +2417,61 @@ class TestWriterServiceNeeds:
 
 class TestWriterSwcServiceDependencyServiceNeeds:
     def test_dispatch_all_needs_types(self, writer):
-        behavior = _make_behavior()
-        dep = behavior.createSwcServiceDependency("dep1")
-        dep.createNvBlockNeeds("nv")
-        dep.createDiagnosticCommunicationManagerNeeds("dcm")
-        dep.createDiagnosticComponentNeeds("dcn")
-        dep.createDiagnosticUploadDownloadNeeds("dudn")
-        dep.createDiagnosticsCommunicationSecurityNeeds("dcsn")
-        dep.createDiagnosticRoutineNeeds("drn")
-        dep.createDiagnosticValueNeeds("dvn")
-        dep.createDiagnosticEventNeeds("den")
-        dep.createDiagnosticEventInfoNeeds("dei")
-        dep.createDiagnosticIoControlNeeds("io")
-        dep.createCryptoServiceNeeds("csn")
-        dep.createEcuStateMgrUserNeeds("esm")
-        dep.createDtcStatusChangeNotificationNeeds("dsc")
-        dep.createDltUserNeeds("dlt")
-        dep.createComMgrUserNeeds("com")
-        dep.createErrorTracerNeeds("etn")
-        dep.createFunctionInhibitionNeeds("fin")
-        dep.createGlobalSupervisionNeeds("gsn")
-        dep.createHardwareTestNeeds("htn")
-        dep.createSupervisedEntityCheckpointNeeds("secn")
-        dep.createSyncTimeBaseMgrUserNeeds("stbn")
-        dep.createCryptoKeyManagementNeeds("ckmn")
-        dep.createCryptoServiceJobNeeds("csjn")
-        dep.createDiagnosticControlNeeds("dcn")
-        dep.createDiagnosticEventManagerNeeds("demn")
-        dep.createDiagnosticRequestFileTransferNeeds("drfn")
-        dep.createDoIpActivationLineNeeds("daln")
-        dep.createDoIpGidNeeds("dgn")
-        dep.createDoIpGidSynchronizationNeeds("dgsn")
-        dep.createDoIpPowerModeStatusNeeds("dpmn")
-        dep.createFurtherActionByteNeeds("fbn")
-        dep.createIdsMgrCustomTimestampNeeds("imctn")
-        dep.createJ1939DcmDm19Support("jdcm19")
-        dep.createJ1939RmIncomingRequestServiceNeeds("jrmin")
-        dep.createJ1939RmOutgoingRequestServiceNeeds("jrmout")
-        dep.createV2xDataManagerNeeds("v2xdm")
-        dep.createV2xFacUserNeeds("v2xfac")
-        dep.createV2xMUserNeeds("v2xm")
-        dep.createVendorSpecificServiceNeeds("vsn")
-        dep.createWarningIndicatorRequestedBitNeeds("wirbn")
-        parent = _parent()
-        writer.writeSwcServiceDependencyServiceNeeds(parent, dep)
-        needs_tag = parent.find("SERVICE-NEEDS")
-        assert needs_tag is not None
-        tags = {c.tag for c in needs_tag}
-        assert "NV-BLOCK-NEEDS" in tags
-        assert "DIAGNOSTIC-COMMUNICATION-MANAGER-NEEDS" in tags
-        assert "DIAGNOSTIC-COMPONENT-NEEDS" in tags
-        assert "DIAGNOSTIC-UPLOAD-DOWNLOAD-NEEDS" in tags
-        assert "DIAGNOSTICS-COMMUNICATION-SECURITY-NEEDS" in tags
-        assert "DIAGNOSTIC-ROUTINE-NEEDS" in tags
-        assert "DIAGNOSTIC-VALUE-NEEDS" in tags
-        assert "DIAGNOSTIC-EVENT-NEEDS" in tags
-        assert "DIAGNOSTIC-EVENT-INFO-NEEDS" in tags
-        assert "DIAGNOSTIC-IO-CONTROL-NEEDS" in tags
-        assert "CRYPTO-SERVICE-NEEDS" in tags
-        assert "ECU-STATE-MGR-USER-NEEDS" in tags
-        assert "DTC-STATUS-CHANGE-NOTIFICATION-NEEDS" in tags
-        assert "DLT-USER-NEEDS" in tags
-        assert "COM-MGR-USER-NEEDS" in tags
-        assert "ERROR-TRACER-NEEDS" in tags
-        assert "FUNCTION-INHIBITION-NEEDS" in tags
-        assert "GLOBAL-SUPERVISION-NEEDS" in tags
-        assert "HARDWARE-TEST-NEEDS" in tags
-        assert "SUPERVISED-ENTITY-CHECKPOINT-NEEDS" in tags
-        assert "SYNC-TIME-BASE-MGR-USER-NEEDS" in tags
-        assert "CRYPTO-KEY-MANAGEMENT-NEEDS" in tags
-        assert "CRYPTO-SERVICE-JOB-NEEDS" in tags
-        assert "DIAGNOSTIC-CONTROL-NEEDS" in tags
-        assert "DIAGNOSTIC-EVENT-MANAGER-NEEDS" in tags
-        assert "DIAGNOSTIC-REQUEST-FILE-TRANSFER-NEEDS" in tags
-        assert "DO-IP-ACTIVATION-LINE-NEEDS" in tags
-        assert "DO-IP-GID-NEEDS" in tags
-        assert "DO-IP-GID-SYNCHRONIZATION-NEEDS" in tags
-        assert "DO-IP-POWER-MODE-STATUS-NEEDS" in tags
-        assert "FURTHER-ACTION-BYTE-NEEDS" in tags
-        assert "IDS-MGR-CUSTOM-TIMESTAMP-NEEDS" in tags
-        assert "J-1939-DCM-DM-19-SUPPORT" in tags
-        assert "J-1939-RM-INCOMING-REQUEST-SERVICE-NEEDS" in tags
-        assert "J-1939-RM-OUTGOING-REQUEST-SERVICE-NEEDS" in tags
-        assert "V-2-X-DATA-MANAGER-NEEDS" in tags
-        assert "V-2-X-FAC-USER-NEEDS" in tags
-        assert "V-2-X-M-USER-NEEDS" in tags
-        assert "VENDOR-SPECIFIC-SERVICE-NEEDS" in tags
-        assert "WARNING-INDICATOR-REQUESTED-BIT-NEEDS" in tags
+        """Each concrete ServiceNeeds subtype dispatches to its own XSD element; one child per SERVICE-NEEDS (0..1 slot)."""
+        cases = [
+            ("createNvBlockNeeds", "NV-BLOCK-NEEDS"),
+            ("createDiagnosticCommunicationManagerNeeds", "DIAGNOSTIC-COMMUNICATION-MANAGER-NEEDS"),
+            ("createDiagnosticComponentNeeds", "DIAGNOSTIC-COMPONENT-NEEDS"),
+            ("createDiagnosticUploadDownloadNeeds", "DIAGNOSTIC-UPLOAD-DOWNLOAD-NEEDS"),
+            ("createDiagnosticsCommunicationSecurityNeeds", "DIAGNOSTICS-COMMUNICATION-SECURITY-NEEDS"),
+            ("createDiagnosticRoutineNeeds", "DIAGNOSTIC-ROUTINE-NEEDS"),
+            ("createDiagnosticValueNeeds", "DIAGNOSTIC-VALUE-NEEDS"),
+            ("createDiagnosticEventNeeds", "DIAGNOSTIC-EVENT-NEEDS"),
+            ("createDiagnosticEventInfoNeeds", "DIAGNOSTIC-EVENT-INFO-NEEDS"),
+            ("createDiagnosticIoControlNeeds", "DIAGNOSTIC-IO-CONTROL-NEEDS"),
+            ("createCryptoServiceNeeds", "CRYPTO-SERVICE-NEEDS"),
+            ("createEcuStateMgrUserNeeds", "ECU-STATE-MGR-USER-NEEDS"),
+            ("createDtcStatusChangeNotificationNeeds", "DTC-STATUS-CHANGE-NOTIFICATION-NEEDS"),
+            ("createDltUserNeeds", "DLT-USER-NEEDS"),
+            ("createComMgrUserNeeds", "COM-MGR-USER-NEEDS"),
+            ("createErrorTracerNeeds", "ERROR-TRACER-NEEDS"),
+            ("createFunctionInhibitionNeeds", "FUNCTION-INHIBITION-NEEDS"),
+            ("createGlobalSupervisionNeeds", "GLOBAL-SUPERVISION-NEEDS"),
+            ("createHardwareTestNeeds", "HARDWARE-TEST-NEEDS"),
+            ("createSupervisedEntityCheckpointNeeds", "SUPERVISED-ENTITY-CHECKPOINT-NEEDS"),
+            ("createSyncTimeBaseMgrUserNeeds", "SYNC-TIME-BASE-MGR-USER-NEEDS"),
+            ("createCryptoKeyManagementNeeds", "CRYPTO-KEY-MANAGEMENT-NEEDS"),
+            ("createCryptoServiceJobNeeds", "CRYPTO-SERVICE-JOB-NEEDS"),
+            ("createDiagnosticControlNeeds", "DIAGNOSTIC-CONTROL-NEEDS"),
+            ("createDiagnosticEventManagerNeeds", "DIAGNOSTIC-EVENT-MANAGER-NEEDS"),
+            ("createDiagnosticRequestFileTransferNeeds", "DIAGNOSTIC-REQUEST-FILE-TRANSFER-NEEDS"),
+            ("createDoIpActivationLineNeeds", "DO-IP-ACTIVATION-LINE-NEEDS"),
+            ("createDoIpGidNeeds", "DO-IP-GID-NEEDS"),
+            ("createDoIpGidSynchronizationNeeds", "DO-IP-GID-SYNCHRONIZATION-NEEDS"),
+            ("createDoIpPowerModeStatusNeeds", "DO-IP-POWER-MODE-STATUS-NEEDS"),
+            ("createFurtherActionByteNeeds", "FURTHER-ACTION-BYTE-NEEDS"),
+            ("createIdsMgrCustomTimestampNeeds", "IDS-MGR-CUSTOM-TIMESTAMP-NEEDS"),
+            ("createJ1939DcmDm19Support", "J-1939-DCM-DM-19-SUPPORT"),
+            ("createJ1939RmIncomingRequestServiceNeeds", "J-1939-RM-INCOMING-REQUEST-SERVICE-NEEDS"),
+            ("createJ1939RmOutgoingRequestServiceNeeds", "J-1939-RM-OUTGOING-REQUEST-SERVICE-NEEDS"),
+            ("createV2xDataManagerNeeds", "V-2-X-DATA-MANAGER-NEEDS"),
+            ("createV2xFacUserNeeds", "V-2-X-FAC-USER-NEEDS"),
+            ("createV2xMUserNeeds", "V-2-X-M-USER-NEEDS"),
+            ("createVendorSpecificServiceNeeds", "VENDOR-SPECIFIC-SERVICE-NEEDS"),
+            ("createWarningIndicatorRequestedBitNeeds", "WARNING-INDICATOR-REQUESTED-BIT-NEEDS"),
+        ]
+        for index, (factory, tag) in enumerate(cases):
+            behavior = _make_behavior()
+            dep = behavior.createSwcServiceDependency("dep%d" % index)
+            getattr(dep, factory)("need")
+            parent = _parent()
+            writer.writeSwcServiceDependencyServiceNeeds(parent, dep)
+            needs_tag = parent.find("SERVICE-NEEDS")
+            assert needs_tag is not None, factory
+            children = list(needs_tag)
+            assert len(children) == 1, factory
+            assert children[0].tag == tag, factory
+            assert children[0].find("SHORT-NAME").text == "need", factory
 
     def test_no_needs_no_tag(self, writer):
         behavior = _make_behavior()
@@ -3582,6 +3593,170 @@ class TestWaitPointRoundTrip:
             assert len(points) == 1
             assert points[0].getTimeout() is None
             assert points[0].getTriggerRef() is None
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+
+class TestIncludedDataTypeSetRoundTrip:
+    def test_round_trip_populated(self):
+        """Test that IncludedDataTypeSet round-trips field values through the SwcInternalBehavior path (Table 7.50)."""
+        import os
+        import tempfile
+        import xml.etree.ElementTree as ET
+
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        app = document.createARPackage("Pkg").createApplicationSwComponentType("App")
+        behavior = app.createSwcInternalBehavior("Behavior")
+        data_type_set = IncludedDataTypeSet()
+        prefix = Identifier()
+        prefix.setValue("CalVal_")
+        data_type_set.setLiteralPrefix(prefix)
+        data_type_set.addDataTypeRef(_ref("/dt/Type1", "APPLICATION-PRIMITIVE-DATA-TYPE"))
+        behavior.addIncludedDataTypeSet(data_type_set)
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            with open(file_path, "r", encoding="utf-8") as f:
+                saved = ET.parse(f).getroot()
+            idts = next(e for e in saved.iter() if e.tag.endswith("INCLUDED-DATA-TYPE-SET"))
+            children = [c.tag for c in idts]
+            refs_pos = next(i for i, t in enumerate(children) if t.endswith("DATA-TYPE-REFS"))
+            prefix_pos = next(i for i, t in enumerate(children) if t.endswith("LITERAL-PREFIX"))
+            assert refs_pos < prefix_pos
+            document.clear()
+            document.setARRelease("R23-11")
+            ARXMLParser().load(file_path, document)
+            package = document.getARPackages()[0]
+            app_2 = next(e for e in package.referrableElements if e.getShortName() == "App")
+            behavior_2 = app_2.getInternalBehavior()
+            sets = behavior_2.getIncludedDataTypeSets()
+            assert len(sets) == 1
+            assert sets[0].getLiteralPrefix() is not None
+            assert sets[0].getLiteralPrefix().getValue() == "CalVal_"
+            refs = sets[0].getDataTypeRefs()
+            assert len(refs) == 1
+            assert refs[0].getValue() == "/dt/Type1"
+            assert refs[0].getDest() == "APPLICATION-PRIMITIVE-DATA-TYPE"
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+    def test_round_trip_empty(self):
+        """Test that a behavior without included data type sets writes no INCLUDED-DATA-TYPE-SETS wrapper."""
+        import os
+        import tempfile
+        import xml.etree.ElementTree as ET
+
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        app = document.createARPackage("Pkg").createApplicationSwComponentType("App")
+        app.createSwcInternalBehavior("Behavior")
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            with open(file_path, "r", encoding="utf-8") as f:
+                saved = ET.parse(f).getroot()
+            assert next((e for e in saved.iter() if e.tag.endswith("INCLUDED-DATA-TYPE-SETS")), None) is None
+            document.clear()
+            document.setARRelease("R23-11")
+            ARXMLParser().load(file_path, document)
+            package = document.getARPackages()[0]
+            app_2 = next(e for e in package.referrableElements if e.getShortName() == "App")
+            behavior_2 = app_2.getInternalBehavior()
+            assert behavior_2.getIncludedDataTypeSets() == []
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+
+class TestSwcModeManagerErrorEventRoundTrip:
+    def test_round_trip_populated(self):
+        """Test set -> save -> reload of a SwcModeManagerErrorEvent with a mode group IRef (Table 9.8)."""
+        import os
+        import tempfile
+
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import SwcModeManagerErrorEvent
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        app = document.createARPackage("Pkg").createApplicationSwComponentType("App")
+        behavior = app.createSwcInternalBehavior("Behavior")
+        event = behavior.createSwcModeManagerErrorEvent("mee1")
+        iref = PModeGroupInAtomicSwcInstanceRef()
+        iref.setContextPPortRef(_ref("/Pkg/App/pp", "P-PORT-PROTOTYPE"))
+        iref.setTargetModeGroupRef(_ref("/Pkg/ModeDclGroup", "MODE-DECLARATION-GROUP-PROTOTYPE"))
+        event.setModeGroupIRef(iref)
+        event.setStartOnEventRef(_ref("/Pkg/App/Behavior/r1", "RUNNABLE-ENTITY"))
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            document.clear()
+            document.setARRelease("R23-11")
+            ARXMLParser().load(file_path, document)
+            package = document.getARPackages()[0]
+            app_2 = next(e for e in package.referrableElements if e.getShortName() == "App")
+            behavior_2 = app_2.getInternalBehavior()
+            event_2 = next(e for e in behavior_2.getRteEvents() if e.getShortName() == "mee1")
+            assert isinstance(event_2, SwcModeManagerErrorEvent)
+            start_ref = event_2.getStartOnEventRef()
+            assert start_ref is not None
+            assert start_ref.getValue() == "/Pkg/App/Behavior/r1"
+            assert start_ref.getDest() == "RUNNABLE-ENTITY"
+            iref_2 = event_2.getModeGroupIRef()
+            assert iref_2 is not None
+            ctx = iref_2.getContextPPortRef()
+            assert ctx.getValue() == "/Pkg/App/pp"
+            assert ctx.getDest() == "P-PORT-PROTOTYPE"
+            tgt = iref_2.getTargetModeGroupRef()
+            assert tgt.getValue() == "/Pkg/ModeDclGroup"
+            assert tgt.getDest() == "MODE-DECLARATION-GROUP-PROTOTYPE"
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+    def test_round_trip_empty(self):
+        """Test that a SwcModeManagerErrorEvent without a mode group IRef round-trips without the element."""
+        import os
+        import tempfile
+        import xml.etree.ElementTree as ET
+
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        app = document.createARPackage("Pkg").createApplicationSwComponentType("App")
+        behavior = app.createSwcInternalBehavior("Behavior")
+        behavior.createSwcModeManagerErrorEvent("mee1")
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            with open(file_path, "r", encoding="utf-8") as f:
+                saved = ET.parse(f).getroot()
+            evt = next(e for e in saved.iter() if e.tag.endswith("SWC-MODE-MANAGER-ERROR-EVENT"))
+            assert all(not c.tag.endswith("MODE-GROUP-IREF") for c in evt)
+            document.clear()
+            document.setARRelease("R23-11")
+            ARXMLParser().load(file_path, document)
+            package = document.getARPackages()[0]
+            app_2 = next(e for e in package.referrableElements if e.getShortName() == "App")
+            behavior_2 = app_2.getInternalBehavior()
+            event_2 = next(e for e in behavior_2.getRteEvents() if e.getShortName() == "mee1")
+            assert event_2.getModeGroupIRef() is None
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)

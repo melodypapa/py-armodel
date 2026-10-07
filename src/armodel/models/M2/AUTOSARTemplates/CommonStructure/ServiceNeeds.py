@@ -2427,9 +2427,6 @@ class DiagnosticMonitorUpdateKindEnum(AREnum):
     STEADY = "STEADY"
 
     def __init__(self):
-        """
-        Initializes the DiagnosticMonitorUpdateKindEnum with all possible values.
-        """
         super().__init__(
             [
                 DiagnosticMonitorUpdateKindEnum.ALWAYS,
@@ -3050,10 +3047,10 @@ class IdsMgrNeeds(ServiceNeeds):
 
     # IdsMgrNeeds method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.81, p.842
-    # Spec verified: R23-11
-    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getUseSmartSensorApi    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setUseSmartSensorApi    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getUseSmartSensorApi  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUseSmartSensorApi  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -3064,9 +3061,6 @@ class IdsMgrNeeds(ServiceNeeds):
     def getUseSmartSensorApi(self) -> Optional[Boolean]:
         """
         This attribute controls whether the reporting of the security event shall be done by means of the smart sensor API.
-
-        Returns:
-            Boolean instance, or None if not set
         """
         return self.useSmartSensorApi
 
@@ -3074,12 +3068,6 @@ class IdsMgrNeeds(ServiceNeeds):
         """
         This attribute controls whether the reporting of the security event shall be done by means of the smart sensor API.
         A None value is a no-op and does not overwrite an existing useSmartSensorApi.
-
-        Args:
-            value: The Boolean instance to set
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.useSmartSensorApi = value
@@ -3114,9 +3102,6 @@ class DiagnosticIndicatorTypeEnum(AREnum):
     WARNING = "WARNING"
 
     def __init__(self):
-        """
-        Initializes the DiagnosticIndicatorTypeEnum with all possible values.
-        """
         super().__init__(
             (
                 DiagnosticIndicatorTypeEnum.AMBER_WARNING,

@@ -244,7 +244,7 @@ class TestWriteBulkNvDataDescriptor:
         elem = parent.find("BULK-NV-DATA-DESCRIPTOR")
         assert elem is not None
         assert elem.find("SHORT-NAME").text == "BulkDesc"
-        assert elem.find("BULK-NV-BLOCK/VARIABLE-DATA-PROTOTYPE/SHORT-NAME").text == "RamBlock"
+        assert elem.find("BULK-NV-BLOCK/SHORT-NAME").text == "RamBlock"
         assert elem.find("NV-BLOCK-DATA-MAPPINGS/NV-BLOCK-DATA-MAPPING") is not None
 
     def test_write_bulk_nv_data_descriptor_minimal(self, writer):
@@ -277,7 +277,7 @@ class TestWriteBulkNvDataDescriptor:
 
         elem = parent.find("BULK-NV-DATA-DESCRIPTOR")
         assert elem is not None
-        assert elem.find("BULK-NV-BLOCK/VARIABLE-DATA-PROTOTYPE/SHORT-NAME").text == "RamBlock"
+        assert elem.find("BULK-NV-BLOCK/SHORT-NAME").text == "RamBlock"
         mappings_elem = elem.find("NV-BLOCK-DATA-MAPPINGS")
         assert mappings_elem is not None
         mappings = mappings_elem.findall("NV-BLOCK-DATA-MAPPING")

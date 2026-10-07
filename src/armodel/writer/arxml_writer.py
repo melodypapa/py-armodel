@@ -488,6 +488,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticRoutine,
     DiagnosticRoutineControl,
     DiagnosticSecurityAccess,
+    DiagnosticTestResult,
     DiagnosticTestRoutineIdentifier,
     DiagnosticTroubleCode,
     DiagnosticTroubleCodeGroup,
@@ -554,6 +555,23 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticParameterSupportInfo,
     DiagnosticPeriodicRate,
     DiagnosticSupportInfoByte,
+    DiagnosticTestIdentifier,
+    DdsCpProvidedServiceInstance,
+    DdsCpServiceInstanceEvent,
+    DdsCpServiceInstanceOperation,
+    DdsDeadline,
+    DdsDestinationOrder,
+    DdsDurability,
+    DdsDurabilityService,
+    DdsHistory,
+    DdsLatencyBudget,
+    DdsLifespan,
+    DdsLiveliness,
+    DdsOwnership,
+    DdsOwnershipStrength,
+    DdsReliability,
+    DdsTopicData,
+    DdsTransportPriority,
     PhysicalDimensionMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import LifeCycleStateDefinitionGroup
@@ -562,6 +580,8 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     CpSoftwareClusterResource,
+    DdsCpQosProfile,
+    DdsCpTopic,
     Describable,
     DiagnosticAuthTransmitCertificateEvaluation,
     DiagnosticDataElement,
@@ -835,7 +855,16 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import
     VariableAndParameterInterfaceMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface.InstanceRefs import ApplicationCompositeElementInPortInterfaceInstanceRef
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import DiagnosticParameterIdent, ModeAccessPointIdent, RptExecutableEntityProperties, RptImplPolicy
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import (
+    DiagnosticParameterIdent,
+    ModeAccessPointIdent,
+    RapidPrototypingScenario,
+    RptContainer,
+    RptExecutableEntityProperties,
+    RptHook,
+    RptImplPolicy,
+    RptProfile,
+)
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import PerInstanceMemorySize, SwcImplementation
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import (
     AsynchronousServerCallPoint,
@@ -872,6 +901,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
     OperationInvokedEvent,
     OsTaskExecutionEvent,
     RTEEvent,
+    SwcModeManagerErrorEvent,
     SwcModeSwitchEvent,
     TimingEvent,
     TransformerHardErrorEvent,
@@ -1358,6 +1388,58 @@ AUTO_COLLECT_XML_MAP = {
     "REF-ALL": "REF-ALL",
     "REF-NONE": "REF-NONE",
     "REF-NON-STANDARD": "REF-NON-STANDARD",
+}
+
+#: Mapping between DdsDestinationOrderKindEnum literal values and their XML element text
+#: (AR:DDS-DESTINATION-ORDER-KIND-ENUM--SIMPLE).
+DDS_DESTINATION_ORDER_KIND_XML_MAP = {
+    "BY-RECEPTION-TIMESTAMP": "BY-RECEPTION-TIMESTAMP",
+    "BY-SOURCE-TIMESTAMP": "BY-SOURCE-TIMESTAMP",
+}
+
+#: Mapping between DdsDurabilityKindEnum literal values and their XML element text
+#: (AR:DDS-DURABILITY-KIND-ENUM--SIMPLE).
+DDS_DURABILITY_KIND_XML_MAP = {
+    "PERSISTENT": "PERSISTENT",
+    "TRANSIENT": "TRANSIENT",
+    "TRANSIENT-LOCAL": "TRANSIENT-LOCAL",
+    "VOLATILE": "VOLATILE",
+}
+
+#: Mapping between DdsDurabilityServiceHistoryKindEnum literal values and their XML element text
+#: (AR:DDS-DURABILITY-SERVICE-HISTORY-KIND-ENUM--SIMPLE).
+DDS_DURABILITY_SERVICE_HISTORY_KIND_XML_MAP = {
+    "KEEP-ALL": "KEEP-ALL",
+    "KEEP-LAST": "KEEP-LAST",
+}
+
+#: Mapping between DdsHistoryKindEnum literal values and their XML element text
+#: (AR:DDS-HISTORY-KIND-ENUM--SIMPLE).
+DDS_HISTORY_KIND_XML_MAP = {
+    "KEEP-ALL": "KEEP-ALL",
+    "KEEP-LAST": "KEEP-LAST",
+}
+
+#: Mapping between DdsLivenessKindEnum literal values and their XML element text
+#: (AR:DDS-LIVENESS-KIND-ENUM--SIMPLE).
+DDS_LIVENESS_KIND_XML_MAP = {
+    "AUTOMATIC": "AUTOMATIC",
+    "MANUAL-BY-PARTICIPANT": "MANUAL-BY-PARTICIPANT",
+    "MANUAL-BY-TOPIC": "MANUAL-BY-TOPIC",
+}
+
+#: Mapping between DdsOwnershipKindEnum literal values and their XML element text
+#: (AR:DDS-OWNERSHIP-KIND-ENUM--SIMPLE).
+DDS_OWNERSHIP_KIND_XML_MAP = {
+    "EXCLUSIVE": "EXCLUSIVE",
+    "SHARED": "SHARED",
+}
+
+#: Mapping between DdsReliabilityKindEnum literal values and their XML element text
+#: (AR:DDS-RELIABILITY-KIND-ENUM--SIMPLE).
+DDS_RELIABILITY_KIND_XML_MAP = {
+    "BEST-EFFORT": "BEST-EFFORT",
+    "RELIABLE": "RELIABLE",
 }
 
 #: Mapping between AclScopeEnum literal values and their XML element text
@@ -3064,7 +3146,9 @@ class ARXMLWriter(AbstractARXMLWriter):
         if documentation is None:
             return
         child_element = ET.SubElement(element, "SW-COMPONENT-DOCUMENTATION")
+        self.writeARObject(child_element, documentation)
         self.writeSwComponentDocumentationElement(child_element, documentation)
+        self.writeVariationPointCapable(child_element, documentation)
 
     def writeChapter(self, element: ET.Element, chapter: Chapter, tag_name: str):
         child_element = ET.SubElement(element, tag_name)
@@ -4751,6 +4835,12 @@ class ARXMLWriter(AbstractARXMLWriter):
                 for iref in irefs:
                     self.setRModeInAtomicSwcInstanceRef(mode_irefs_tag, "MODE-IREF", iref)
 
+    def writeSwcModeManagerErrorEvent(self, element: ET.Element, event: SwcModeManagerErrorEvent):
+        if event is not None:
+            child_element = ET.SubElement(element, "SWC-MODE-MANAGER-ERROR-EVENT")
+            self.writeRTEEvent(child_element, event)
+            self.setPModeGroupInAtomicSwcInstanceRef(child_element, "MODE-GROUP-IREF", event.getModeGroupIRef())
+
     def setRVariableInAtomicSwcInstanceRef(self, element: ET.Element, iref: Optional[RVariableInAtomicSwcInstanceRef]):
         if iref is not None:
             child_element = ET.SubElement(element, "DATA-IREF")
@@ -4851,6 +4941,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeOperationInvokedEvent(child_element, event)
                 elif isinstance(event, SwcModeSwitchEvent):
                     self.writeSwcModeSwitchEvent(child_element, event)
+                elif isinstance(event, SwcModeManagerErrorEvent):
+                    self.writeSwcModeManagerErrorEvent(child_element, event)
                 elif isinstance(event, DataReceivedEvent):
                     self.writeDataReceivedEvent(child_element, event)
                 elif isinstance(event, DataReceiveErrorEvent):
@@ -4980,7 +5072,8 @@ class ARXMLWriter(AbstractARXMLWriter):
         block = descriptor.getBulkNvBlock()
         if block is not None:
             block_element = ET.SubElement(child_element, "BULK-NV-BLOCK")
-            self.writeVariableDataPrototype(block_element, block)
+            self.writeAutosarDataPrototype(block_element, block)
+            self.setChildValueSpecification(block_element, "INIT-VALUE", block.getInitValue())
         mappings = descriptor.getNvBlockDataMappings()
         if len(mappings) > 0:
             mappings_element = ET.SubElement(child_element, "NV-BLOCK-DATA-MAPPINGS")
@@ -5387,6 +5480,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             points_tag = ET.SubElement(element, "EXTERNAL-TRIGGERING-POINTS")
             for point in points:
                 child_element = ET.SubElement(points_tag, "EXTERNAL-TRIGGERING-POINT")
+                self.writeARObject(child_element, point)
                 ident = point.getIdent()
                 if ident is not None:
                     ident_element = ET.SubElement(child_element, "IDENT")
@@ -5394,6 +5488,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 trigger = point.getTrigger()
                 if trigger is not None:
                     self.writePTriggerInAtomicSwcTypeInstanceRef(child_element, "TRIGGER-IREF", trigger)
+                self.writeVariationPointCapable(child_element, point)
 
     def writeInternalTriggeringPoint(self, element: ET.Element, point: InternalTriggeringPoint):
         if point is not None:
@@ -6925,122 +7020,121 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.notImplemented("Unsupported traced failure <%s>" % type(failure))
 
     def writeSwcServiceDependencyServiceNeeds(self, element: ET.Element, parent: SwcServiceDependency):
-        needs_list = parent.getServiceNeeds()
-        if len(needs_list) > 0:
+        needs = parent.getServiceNeeds()
+        if needs is not None:
             child_element = ET.SubElement(element, "SERVICE-NEEDS")
-            for needs in needs_list:
-                if isinstance(needs, NvBlockNeeds):
-                    self.writeNvBlockNeeds(child_element, needs)
-                elif isinstance(needs, DiagnosticCommunicationManagerNeeds):
-                    self.writeDiagnosticCommunicationManagerNeeds(child_element, needs)
-                elif isinstance(needs, DiagnosticComponentNeeds):
-                    self.writeDiagnosticComponentNeeds(child_element, needs)
-                elif isinstance(needs, DiagnosticControlNeeds):
-                    self.writeDiagnosticControlNeeds(child_element, needs)
-                elif isinstance(needs, DiagnosticUploadDownloadNeeds):
-                    self.writeDiagnosticUploadDownloadNeeds(child_element, needs)
-                elif isinstance(needs, DiagnosticsCommunicationSecurityNeeds):
-                    self.writeDiagnosticsCommunicationSecurityNeeds(child_element, needs)
-                elif isinstance(needs, DiagnosticRoutineNeeds):
-                    self.writeDiagnosticRoutineNeeds(child_element, needs)
-                elif isinstance(needs, DiagnosticValueNeeds):
-                    self.writeDiagnosticValueNeeds(child_element, needs)
-                elif isinstance(needs, DiagnosticEventNeeds):
-                    self.writeDiagnosticEventNeeds(child_element, needs)
-                elif isinstance(needs, DiagnosticEventInfoNeeds):
-                    self.writeDiagnosticEventInfoNeeds(child_element, needs)
-                elif isinstance(needs, DiagnosticIoControlNeeds):
-                    self.writeDiagnosticIoControlNeeds(child_element, needs)
-                elif isinstance(needs, DiagnosticEnableConditionNeeds):
-                    self.writeDiagnosticEnableConditionNeeds(child_element, needs)
-                elif isinstance(needs, DiagnosticEventManagerNeeds):
-                    self.writeDiagnosticEventManagerNeeds(child_element, needs)
-                elif isinstance(needs, DiagnosticOperationCycleNeeds):
-                    self.writeDiagnosticOperationCycleNeeds(child_element, needs)
-                elif isinstance(needs, DiagnosticRequestFileTransferNeeds):
-                    self.writeDiagnosticRequestFileTransferNeeds(child_element, needs)
-                elif isinstance(needs, DiagnosticStorageConditionNeeds):
-                    self.writeDiagnosticStorageConditionNeeds(child_element, needs)
-                elif isinstance(needs, IndicatorStatusNeeds):
-                    self.writeIndicatorStatusNeeds(child_element, needs)
-                elif isinstance(needs, J1939DcmDm19Support):
-                    self.writeJ1939DcmDm19Support(child_element, needs)
-                elif isinstance(needs, J1939RmIncomingRequestServiceNeeds):
-                    self.writeJ1939RmIncomingRequestServiceNeeds(child_element, needs)
-                elif isinstance(needs, J1939RmOutgoingRequestServiceNeeds):
-                    self.writeJ1939RmOutgoingRequestServiceNeeds(child_element, needs)
-                elif isinstance(needs, FunctionInhibitionAvailabilityNeeds):
-                    self.writeFunctionInhibitionAvailabilityNeeds(child_element, needs)
-                elif isinstance(needs, FunctionInhibitionNeeds):
-                    self.writeFunctionInhibitionNeeds(child_element, needs)
-                elif isinstance(needs, FurtherActionByteNeeds):
-                    self.writeFurtherActionByteNeeds(child_element, needs)
-                elif isinstance(needs, GlobalSupervisionNeeds):
-                    self.writeGlobalSupervisionNeeds(child_element, needs)
-                elif isinstance(needs, HardwareTestNeeds):
-                    self.writeHardwareTestNeeds(child_element, needs)
-                elif isinstance(needs, SupervisedEntityCheckpointNeeds):
-                    self.writeSupervisedEntityCheckpointNeeds(child_element, needs)
-                elif isinstance(needs, SyncTimeBaseMgrUserNeeds):
-                    self.writeSyncTimeBaseMgrUserNeeds(child_element, needs)
-                elif isinstance(needs, V2xDataManagerNeeds):
-                    self.writeV2xDataManagerNeeds(child_element, needs)
-                elif isinstance(needs, V2xFacUserNeeds):
-                    self.writeV2xFacUserNeeds(child_element, needs)
-                elif isinstance(needs, V2xMUserNeeds):
-                    self.writeV2xMUserNeeds(child_element, needs)
-                elif isinstance(needs, VendorSpecificServiceNeeds):
-                    self.writeVendorSpecificServiceNeeds(child_element, needs)
-                elif isinstance(needs, WarningIndicatorRequestedBitNeeds):
-                    self.writeWarningIndicatorRequestedBitNeeds(child_element, needs)
-                elif isinstance(needs, CryptoKeyManagementNeeds):
-                    self.writeCryptoKeyManagementNeeds(child_element, needs)
-                elif isinstance(needs, CryptoServiceJobNeeds):
-                    self.writeCryptoServiceJobNeeds(child_element, needs)
-                elif isinstance(needs, CryptoServiceNeeds):
-                    self.writeCryptoServiceNeeds(child_element, needs)
-                elif isinstance(needs, EcuStateMgrUserNeeds):
-                    self.writeEcuStateMgrUserNeeds(child_element, needs)
-                elif isinstance(needs, DtcStatusChangeNotificationNeeds):
-                    self.writeDtcStatusChangeNotificationNeeds(child_element, needs)
-                elif isinstance(needs, DltUserNeeds):
-                    self.writeDltUserNeeds(child_element, needs)
-                elif isinstance(needs, ComMgrUserNeeds):
-                    self.writeComMgrUserNeeds(child_element, needs)
-                elif isinstance(needs, ErrorTracerNeeds):
-                    self.writeErrorTracerNeeds(child_element, needs)
-                elif isinstance(needs, ObdInfoServiceNeeds):
-                    self.writeObdInfoServiceNeeds(child_element, needs)
-                elif isinstance(needs, ObdMonitorServiceNeeds):
-                    self.writeObdMonitorServiceNeeds(child_element, needs)
-                elif isinstance(needs, ObdPidServiceNeeds):
-                    self.writeObdPidServiceNeeds(child_element, needs)
-                elif isinstance(needs, ObdControlServiceNeeds):
-                    self.writeObdControlServiceNeeds(child_element, needs)
-                elif isinstance(needs, ObdRatioServiceNeeds):
-                    self.writeObdRatioServiceNeeds(child_element, needs)
-                elif isinstance(needs, ObdRatioDenominatorNeeds):
-                    self.writeObdRatioDenominatorNeeds(child_element, needs)
-                elif isinstance(needs, DoIpActivationLineNeeds):
-                    self.writeDoIpActivationLineNeeds(child_element, needs)
-                elif isinstance(needs, DoIpGidNeeds):
-                    self.writeDoIpGidNeeds(child_element, needs)
-                elif isinstance(needs, DoIpGidSynchronizationNeeds):
-                    self.writeDoIpGidSynchronizationNeeds(child_element, needs)
-                elif isinstance(needs, DoIpPowerModeStatusNeeds):
-                    self.writeDoIpPowerModeStatusNeeds(child_element, needs)
-                elif isinstance(needs, DoIpRoutingActivationAuthenticationNeeds):
-                    self.writeDoIpRoutingActivationAuthenticationNeeds(child_element, needs)
-                elif isinstance(needs, DoIpRoutingActivationConfirmationNeeds):
-                    self.writeDoIpRoutingActivationConfirmationNeeds(child_element, needs)
-                elif isinstance(needs, SecureOnBoardCommunicationNeeds):
-                    self.writeSecureOnBoardCommunicationNeeds(child_element, needs)
-                elif isinstance(needs, IdsMgrCustomTimestampNeeds):
-                    self.writeIdsMgrCustomTimestampNeeds(child_element, needs)
-                elif isinstance(needs, IdsMgrNeeds):
-                    self.writeIdsMgrNeeds(child_element, needs)
-                else:
-                    self.notImplemented("Unsupported service needs <%s>" % type(needs))
+            if isinstance(needs, NvBlockNeeds):
+                self.writeNvBlockNeeds(child_element, needs)
+            elif isinstance(needs, DiagnosticCommunicationManagerNeeds):
+                self.writeDiagnosticCommunicationManagerNeeds(child_element, needs)
+            elif isinstance(needs, DiagnosticComponentNeeds):
+                self.writeDiagnosticComponentNeeds(child_element, needs)
+            elif isinstance(needs, DiagnosticControlNeeds):
+                self.writeDiagnosticControlNeeds(child_element, needs)
+            elif isinstance(needs, DiagnosticUploadDownloadNeeds):
+                self.writeDiagnosticUploadDownloadNeeds(child_element, needs)
+            elif isinstance(needs, DiagnosticsCommunicationSecurityNeeds):
+                self.writeDiagnosticsCommunicationSecurityNeeds(child_element, needs)
+            elif isinstance(needs, DiagnosticRoutineNeeds):
+                self.writeDiagnosticRoutineNeeds(child_element, needs)
+            elif isinstance(needs, DiagnosticValueNeeds):
+                self.writeDiagnosticValueNeeds(child_element, needs)
+            elif isinstance(needs, DiagnosticEventNeeds):
+                self.writeDiagnosticEventNeeds(child_element, needs)
+            elif isinstance(needs, DiagnosticEventInfoNeeds):
+                self.writeDiagnosticEventInfoNeeds(child_element, needs)
+            elif isinstance(needs, DiagnosticIoControlNeeds):
+                self.writeDiagnosticIoControlNeeds(child_element, needs)
+            elif isinstance(needs, DiagnosticEnableConditionNeeds):
+                self.writeDiagnosticEnableConditionNeeds(child_element, needs)
+            elif isinstance(needs, DiagnosticEventManagerNeeds):
+                self.writeDiagnosticEventManagerNeeds(child_element, needs)
+            elif isinstance(needs, DiagnosticOperationCycleNeeds):
+                self.writeDiagnosticOperationCycleNeeds(child_element, needs)
+            elif isinstance(needs, DiagnosticRequestFileTransferNeeds):
+                self.writeDiagnosticRequestFileTransferNeeds(child_element, needs)
+            elif isinstance(needs, DiagnosticStorageConditionNeeds):
+                self.writeDiagnosticStorageConditionNeeds(child_element, needs)
+            elif isinstance(needs, IndicatorStatusNeeds):
+                self.writeIndicatorStatusNeeds(child_element, needs)
+            elif isinstance(needs, J1939DcmDm19Support):
+                self.writeJ1939DcmDm19Support(child_element, needs)
+            elif isinstance(needs, J1939RmIncomingRequestServiceNeeds):
+                self.writeJ1939RmIncomingRequestServiceNeeds(child_element, needs)
+            elif isinstance(needs, J1939RmOutgoingRequestServiceNeeds):
+                self.writeJ1939RmOutgoingRequestServiceNeeds(child_element, needs)
+            elif isinstance(needs, FunctionInhibitionAvailabilityNeeds):
+                self.writeFunctionInhibitionAvailabilityNeeds(child_element, needs)
+            elif isinstance(needs, FunctionInhibitionNeeds):
+                self.writeFunctionInhibitionNeeds(child_element, needs)
+            elif isinstance(needs, FurtherActionByteNeeds):
+                self.writeFurtherActionByteNeeds(child_element, needs)
+            elif isinstance(needs, GlobalSupervisionNeeds):
+                self.writeGlobalSupervisionNeeds(child_element, needs)
+            elif isinstance(needs, HardwareTestNeeds):
+                self.writeHardwareTestNeeds(child_element, needs)
+            elif isinstance(needs, SupervisedEntityCheckpointNeeds):
+                self.writeSupervisedEntityCheckpointNeeds(child_element, needs)
+            elif isinstance(needs, SyncTimeBaseMgrUserNeeds):
+                self.writeSyncTimeBaseMgrUserNeeds(child_element, needs)
+            elif isinstance(needs, V2xDataManagerNeeds):
+                self.writeV2xDataManagerNeeds(child_element, needs)
+            elif isinstance(needs, V2xFacUserNeeds):
+                self.writeV2xFacUserNeeds(child_element, needs)
+            elif isinstance(needs, V2xMUserNeeds):
+                self.writeV2xMUserNeeds(child_element, needs)
+            elif isinstance(needs, VendorSpecificServiceNeeds):
+                self.writeVendorSpecificServiceNeeds(child_element, needs)
+            elif isinstance(needs, WarningIndicatorRequestedBitNeeds):
+                self.writeWarningIndicatorRequestedBitNeeds(child_element, needs)
+            elif isinstance(needs, CryptoKeyManagementNeeds):
+                self.writeCryptoKeyManagementNeeds(child_element, needs)
+            elif isinstance(needs, CryptoServiceJobNeeds):
+                self.writeCryptoServiceJobNeeds(child_element, needs)
+            elif isinstance(needs, CryptoServiceNeeds):
+                self.writeCryptoServiceNeeds(child_element, needs)
+            elif isinstance(needs, EcuStateMgrUserNeeds):
+                self.writeEcuStateMgrUserNeeds(child_element, needs)
+            elif isinstance(needs, DtcStatusChangeNotificationNeeds):
+                self.writeDtcStatusChangeNotificationNeeds(child_element, needs)
+            elif isinstance(needs, DltUserNeeds):
+                self.writeDltUserNeeds(child_element, needs)
+            elif isinstance(needs, ComMgrUserNeeds):
+                self.writeComMgrUserNeeds(child_element, needs)
+            elif isinstance(needs, ErrorTracerNeeds):
+                self.writeErrorTracerNeeds(child_element, needs)
+            elif isinstance(needs, ObdInfoServiceNeeds):
+                self.writeObdInfoServiceNeeds(child_element, needs)
+            elif isinstance(needs, ObdMonitorServiceNeeds):
+                self.writeObdMonitorServiceNeeds(child_element, needs)
+            elif isinstance(needs, ObdPidServiceNeeds):
+                self.writeObdPidServiceNeeds(child_element, needs)
+            elif isinstance(needs, ObdControlServiceNeeds):
+                self.writeObdControlServiceNeeds(child_element, needs)
+            elif isinstance(needs, ObdRatioServiceNeeds):
+                self.writeObdRatioServiceNeeds(child_element, needs)
+            elif isinstance(needs, ObdRatioDenominatorNeeds):
+                self.writeObdRatioDenominatorNeeds(child_element, needs)
+            elif isinstance(needs, DoIpActivationLineNeeds):
+                self.writeDoIpActivationLineNeeds(child_element, needs)
+            elif isinstance(needs, DoIpGidNeeds):
+                self.writeDoIpGidNeeds(child_element, needs)
+            elif isinstance(needs, DoIpGidSynchronizationNeeds):
+                self.writeDoIpGidSynchronizationNeeds(child_element, needs)
+            elif isinstance(needs, DoIpPowerModeStatusNeeds):
+                self.writeDoIpPowerModeStatusNeeds(child_element, needs)
+            elif isinstance(needs, DoIpRoutingActivationAuthenticationNeeds):
+                self.writeDoIpRoutingActivationAuthenticationNeeds(child_element, needs)
+            elif isinstance(needs, DoIpRoutingActivationConfirmationNeeds):
+                self.writeDoIpRoutingActivationConfirmationNeeds(child_element, needs)
+            elif isinstance(needs, SecureOnBoardCommunicationNeeds):
+                self.writeSecureOnBoardCommunicationNeeds(child_element, needs)
+            elif isinstance(needs, IdsMgrCustomTimestampNeeds):
+                self.writeIdsMgrCustomTimestampNeeds(child_element, needs)
+            elif isinstance(needs, IdsMgrNeeds):
+                self.writeIdsMgrNeeds(child_element, needs)
+            else:
+                self.notImplemented("Unsupported service needs <%s>" % type(needs))
 
     def writeSwcServiceDependencyRepresentedPortGroup(self, element: ET.Element, dependency: SwcServiceDependency):
         self.setChildElementOptionalRefType(element, "REPRESENTED-PORT-GROUP-REF", dependency.getRepresentedPortGroupRef())
@@ -7050,8 +7144,8 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeServiceDependency(child_element, dependency)
         self.writeSwcServiceDependencyAssignedData(child_element, dependency)
         self.writeSwcServiceDependencyAssignedPorts(child_element, dependency)
-        self.writeSwcServiceDependencyServiceNeeds(child_element, dependency)
         self.writeSwcServiceDependencyRepresentedPortGroup(child_element, dependency)
+        self.writeSwcServiceDependencyServiceNeeds(child_element, dependency)
 
     def writeSwcInternalBehaviorServiceDependencies(self, element: ET.Element, behavior: SwcInternalBehavior):
         dependencies = behavior.getSwcServiceDependencies()
@@ -7069,12 +7163,12 @@ class ARXMLWriter(AbstractARXMLWriter):
             for set in sets:
                 child_element = ET.SubElement(include_data_type_sets_tag, "INCLUDED-DATA-TYPE-SET")
                 self.writeARObject(child_element, set)
-                self.setChildElementOptionalLiteral(child_element, "LITERAL-PREFIX", set.getLiteralPrefix())
                 type_refs = set.getDataTypeRefs()
                 if len(type_refs) > 0:
                     data_type_refs_tag = ET.SubElement(child_element, "DATA-TYPE-REFS")
                     for type_ref in type_refs:
                         self.setChildElementOptionalRefType(data_type_refs_tag, "DATA-TYPE-REF", type_ref)
+                self.setChildElementOptionalLiteral(child_element, "LITERAL-PREFIX", set.getLiteralPrefix())
 
     def writeIncludedModeDeclarationGroupSet(self, element: ET.Element, set: IncludedModeDeclarationGroupSet):
         if set is not None:
@@ -7103,6 +7197,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             for policy in policies:
                 if isinstance(policy, SwcExclusiveAreaPolicy):
                     policy_element = ET.SubElement(policies_tag, "SWC-EXCLUSIVE-AREA-POLICY")
+                    self.writeARObject(policy_element, policy)
                     self.setChildElementOptionalLiteral(policy_element, "API-PRINCIPLE", policy.getApiPrinciple())
                     self.setChildElementOptionalRefType(policy_element, "EXCLUSIVE-AREA-REF", policy.getExclusiveAreaRef())
 
@@ -7586,6 +7681,81 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalPositiveInteger(element, "MIN-RPT-EVENT-ID", properties.getMinRptEventId())
             self.setChildElementOptionalLiteral(element, "RPT-EXECUTION-CONTROL", properties.getRptExecutionControl())
             self.setChildElementOptionalLiteral(element, "RPT-SERVICE-POINT", properties.getRptServicePoint())
+
+    def writeRptContainer(self, element: ET.Element, container: Optional[RptContainer]):
+        if container is not None:
+            child_element = ET.SubElement(element, "RPT-CONTAINER")
+            self.writeIdentifiable(child_element, container, write_variation_point=False)
+            irefs = container.getByPassPointIRefs()
+            if len(irefs) > 0:
+                irefs_element = ET.SubElement(child_element, "BY-PASS-POINT-IREFS")
+                for iref in irefs:
+                    self.setAnyInstanceRef(irefs_element, "BY-PASS-POINT-IREF", iref)
+            refs = container.getExplicitRptProfileSelectionRefs()
+            if len(refs) > 0:
+                refs_element = ET.SubElement(child_element, "EXPLICIT-RPT-PROFILE-SELECTION-REFS")
+                for ref in refs:
+                    self.setChildElementOptionalRefType(refs_element, "EXPLICIT-RPT-PROFILE-SELECTION-REF", ref)
+            sub_containers = container.getRptContainers()
+            if len(sub_containers) > 0:
+                containers_element = ET.SubElement(child_element, "RPT-CONTAINERS")
+                for sub_container in sub_containers:
+                    self.writeRptContainer(containers_element, sub_container)
+            properties = container.getRptExecutableEntityProperties()
+            if properties is not None:
+                self.writeRptExecutableEntityProperties(ET.SubElement(child_element, "RPT-EXECUTABLE-ENTITY-PROPERTIES"), properties)
+            hook = container.getRptHook()
+            if hook is not None:
+                self.writeRptHook(ET.SubElement(child_element, "RPT-HOOKS"), hook)
+            policy = container.getRptImplPolicy()
+            if policy is not None:
+                self.writeRptImplPolicy(ET.SubElement(child_element, "RPT-IMPL-POLICY"), policy)
+            access = container.getRptSwPrototypingAccess()
+            if access is not None:
+                self.writeRptSwPrototypingAccess(ET.SubElement(child_element, "RPT-SW-PROTOTYPING-ACCESS"), access)
+            self.writeVariationPointCapable(child_element, container)
+
+    def writeRptHook(self, element: ET.Element, hook: Optional[RptHook]):
+        if hook is not None:
+            child_element = ET.SubElement(element, "RPT-HOOK")
+            self.writeARObject(child_element, hook)
+            self.setChildElementOptionalCIdentifier(child_element, "CODE-LABEL", hook.getCodeLabel())
+            self.setChildElementOptionalNameToken(child_element, "MCD-IDENTIFIER", hook.getMcdIdentifier())
+            self.setAnyInstanceRef(child_element, "RPT-AR-HOOK-IREF", hook.getRptArHookIRef())
+            sdgs = hook.getSdgs()
+            if len(sdgs) > 0:
+                sdgs_element = ET.SubElement(child_element, "SDGS")
+                for sdg in sdgs:
+                    self.setSdg(sdgs_element, sdg)
+            self.writeVariationPointCapable(child_element, hook)
+
+    def writeRptProfile(self, element: ET.Element, profile: Optional[RptProfile]):
+        if profile is not None:
+            child_element = ET.SubElement(element, "RPT-PROFILE")
+            self.writeIdentifiable(child_element, profile)
+            self.setChildElementOptionalPositiveInteger(child_element, "MAX-SERVICE-POINT-ID", cast(Integer, profile.getMaxServicePointId()))
+            self.setChildElementOptionalPositiveInteger(child_element, "MIN-SERVICE-POINT-ID", cast(Integer, profile.getMinServicePointId()))
+            self.setChildElementOptionalCIdentifier(child_element, "SERVICE-POINT-SYMBOL-POST", profile.getServicePointSymbolPost())
+            self.setChildElementOptionalCIdentifier(child_element, "SERVICE-POINT-SYMBOL-PRE", profile.getServicePointSymbolPre())
+            self.setChildElementOptionalLiteral(child_element, "STIM-ENABLER", profile.getStimEnabler())
+
+    def writeRapidPrototypingScenario(self, element: ET.Element, scenario: Optional[RapidPrototypingScenario]):
+        if scenario is not None:
+            self.logger.debug("Write RapidPrototypingScenario <%s>" % scenario.getShortName())
+            child_element = ET.SubElement(element, "RAPID-PROTOTYPING-SCENARIO")
+            self.writeIdentifiable(child_element, scenario)
+            self.setChildElementOptionalRefType(child_element, "HOST-SYSTEM-REF", scenario.getHostSystemRef())
+            containers = scenario.getRptContainers()
+            if len(containers) > 0:
+                containers_element = ET.SubElement(child_element, "RPT-CONTAINERS")
+                for container in containers:
+                    self.writeRptContainer(containers_element, container)
+            profiles = scenario.getRptProfiles()
+            if len(profiles) > 0:
+                profiles_element = ET.SubElement(child_element, "RPT-PROFILES")
+                for profile in profiles:
+                    self.writeRptProfile(profiles_element, profile)
+            self.setChildElementOptionalRefType(child_element, "RPT-SYSTEM-REF", scenario.getRptSystemRef())
 
     def writeRptServicePoint(self, element: ET.Element, service_point: RptServicePoint):
         self.writeIdentifiable(element, service_point)
@@ -8609,12 +8779,12 @@ class ARXMLWriter(AbstractARXMLWriter):
                 if isinstance(data_type_set, IncludedDataTypeSet):
                     child_element = ET.SubElement(sets_tag, "INCLUDED-DATA-TYPE-SET")
                     self.writeARObject(child_element, data_type_set)
-                    self.setChildElementOptionalLiteral(child_element, "LITERAL-PREFIX", data_type_set.getLiteralPrefix())
                     type_refs = data_type_set.getDataTypeRefs()
                     if len(type_refs) > 0:
                         data_type_refs_tag = ET.SubElement(child_element, "DATA-TYPE-REFS")
                         for type_ref in type_refs:
                             self.setChildElementOptionalRefType(data_type_refs_tag, "DATA-TYPE-REF", type_ref)
+                    self.setChildElementOptionalLiteral(child_element, "LITERAL-PREFIX", data_type_set.getLiteralPrefix())
                 else:
                     self.notImplemented("Unsupported IncludedDataTypeSet <%s>" % type(data_type_set))
 
@@ -8883,7 +9053,9 @@ class ARXMLWriter(AbstractARXMLWriter):
             return
         container = ET.SubElement(element, "BSW-MODULE-DOCUMENTATIONS")
         child_element = ET.SubElement(container, "SW-COMPONENT-DOCUMENTATION")
+        self.writeARObject(child_element, documentation)
         self.writeSwComponentDocumentationElement(child_element, documentation)
+        self.writeVariationPointCapable(child_element, documentation)
 
     def setSwServiceArg(self, element: ET.Element, key: str, arg: Optional[SwServiceArg]):
         if arg is not None:
@@ -15977,6 +16149,176 @@ class ARXMLWriter(AbstractARXMLWriter):
             support_info_element = ET.SubElement(element, "SUPPORT-INFO")
             self.setChildElementOptionalPositiveInteger(support_info_element, "SUPPORT-INFO-BIT", support_info.getSupportInfoBit())
 
+    def writeDdsCpQosProfile(self, element: ET.Element, profile: DdsCpQosProfile):
+        child_element = ET.SubElement(element, "DDS-CP-QOS-PROFILE")
+        self.writeIdentifiable(child_element, profile)
+        deadline = profile.getDeadline()
+        if deadline is not None:
+            self.writeDdsDeadline(child_element, deadline)
+        destination_order = profile.getDestinationOrder()
+        if destination_order is not None:
+            self.writeDdsDestinationOrder(child_element, destination_order)
+        durability = profile.getDurability()
+        if durability is not None:
+            self.writeDdsDurability(child_element, durability)
+        durability_service = profile.getDurabilityService()
+        if durability_service is not None:
+            self.writeDdsDurabilityService(child_element, durability_service)
+        history = profile.getHistory()
+        if history is not None:
+            self.writeDdsHistory(child_element, history)
+        latency_budget = profile.getLatencyBudget()
+        if latency_budget is not None:
+            self.writeDdsLatencyBudget(child_element, latency_budget)
+        lifespan = profile.getLifespan()
+        if lifespan is not None:
+            self.writeDdsLifespan(child_element, lifespan)
+        liveliness = profile.getLiveliness()
+        if liveliness is not None:
+            self.writeDdsLiveliness(child_element, liveliness)
+        ownership = profile.getOwnership()
+        if ownership is not None:
+            self.writeDdsOwnership(child_element, ownership)
+        ownership_strength = profile.getOwnershipStrength()
+        if ownership_strength is not None:
+            self.writeDdsOwnershipStrength(child_element, ownership_strength)
+        reliability = profile.getReliability()
+        if reliability is not None:
+            self.writeDdsReliability(child_element, reliability)
+        if profile.getResourceLimits() is not None:
+            ET.SubElement(child_element, "RESOURCE-LIMITS")
+        topic_data = profile.getTopicData()
+        if topic_data is not None:
+            self.writeDdsTopicData(child_element, topic_data)
+        transport_priority = profile.getTransportPriority()
+        if transport_priority is not None:
+            self.writeDdsTransportPriority(child_element, transport_priority)
+
+    def writeDdsCpTopic(self, element: ET.Element, topic: DdsCpTopic):
+        child_element = ET.SubElement(element, "DDS-CP-TOPIC")
+        self.writeIdentifiable(child_element, topic)
+        self.setChildElementOptionalRefType(child_element, "DDS-PARTITION-REF", topic.getDdsPartitionRef())
+        self.setChildElementOptionalString(child_element, "TOPIC-NAME", topic.getTopicName())
+
+    def writeDdsTopicData(self, element: ET.Element, topic_data: DdsTopicData):
+        child_element = ET.SubElement(element, "TOPIC-DATA")
+        self.writeARObject(child_element, topic_data)
+        self.setChildElementOptionalString(child_element, "TOPIC-DATA", topic_data.getTopicData())
+
+    def writeDdsLiveliness(self, element: ET.Element, liveliness: DdsLiveliness):
+        child_element = ET.SubElement(element, "LIVELINESS")
+        self.writeARObject(child_element, liveliness)
+        self.setChildElementOptionalFloatValue(child_element, "LIVELINESS-LEASE-DURATION", liveliness.getLivelinessLeaseDuration())
+        self._writeEnumToken(child_element, "LIVENESS-KIND", liveliness.getLivenessKind(), DDS_LIVENESS_KIND_XML_MAP)
+
+    def writeDdsOwnershipStrength(self, element: ET.Element, ownership_strength: DdsOwnershipStrength):
+        child_element = ET.SubElement(element, "OWNERSHIP-STRENGTH")
+        self.writeARObject(child_element, ownership_strength)
+        self.setChildElementOptionalPositiveInteger(child_element, "OWNERSHIP-STRENGTH", ownership_strength.getOwnershipStrength())
+
+    def writeDdsOwnership(self, element: ET.Element, ownership: DdsOwnership):
+        child_element = ET.SubElement(element, "OWNERSHIP")
+        self.writeARObject(child_element, ownership)
+        self._writeEnumToken(child_element, "OWNERSHIP-KIND", ownership.getOwnershipKind(), DDS_OWNERSHIP_KIND_XML_MAP)
+
+    def writeDdsLatencyBudget(self, element: ET.Element, latency_budget: DdsLatencyBudget):
+        child_element = ET.SubElement(element, "LATENCY-BUDGET")
+        self.writeARObject(child_element, latency_budget)
+        self.setChildElementOptionalFloatValue(child_element, "LATENCY-BUDGET-DURATION", latency_budget.getLatencyBudgetDuration())
+
+    def writeDdsDeadline(self, element: ET.Element, deadline: DdsDeadline):
+        child_element = ET.SubElement(element, "DEADLINE")
+        self.writeARObject(child_element, deadline)
+        self.setChildElementOptionalFloatValue(child_element, "DEADLINE-PERIOD", deadline.getDeadlinePeriod())
+
+    def writeDdsDurability(self, element: ET.Element, durability: DdsDurability):
+        child_element = ET.SubElement(element, "DURABILITY")
+        self.writeARObject(child_element, durability)
+        self._writeEnumToken(child_element, "DURABILITY-KIND", durability.getDurabilityKind(), DDS_DURABILITY_KIND_XML_MAP)
+
+    def writeDdsDurabilityService(self, element: ET.Element, durability_service: DdsDurabilityService):
+        child_element = ET.SubElement(element, "DURABILITY-SERVICE")
+        self.writeARObject(child_element, durability_service)
+        self.setChildElementOptionalFloatValue(child_element, "DURABILITY-SERVICE-CLEANUP-DELAY", durability_service.getDurabilityServiceCleanupDelay())
+        self.setChildElementOptionalPositiveInteger(child_element, "DURABILITY-SERVICE-HISTORY-DEPTH", durability_service.getDurabilityServiceHistoryDepth())
+        self._writeEnumToken(child_element, "DURABILITY-SERVICE-HISTORY-KIND", durability_service.getDurabilityServiceHistoryKind(), DDS_DURABILITY_SERVICE_HISTORY_KIND_XML_MAP)
+        self.setChildElementOptionalPositiveInteger(child_element, "DURABILITY-SERVICE-MAX-INSTANCES", durability_service.getDurabilityServiceMaxInstances())
+        self.setChildElementOptionalPositiveInteger(child_element, "DURABILITY-SERVICE-MAX-SAMPLES", durability_service.getDurabilityServiceMaxSamples())
+        self.setChildElementOptionalPositiveInteger(child_element, "DURABILITY-SERVICE-MAX-SAMPLES-PER-INSTANCE", durability_service.getDurabilityServiceMaxSamplesPerInstance())
+
+    def writeDdsReliability(self, element: ET.Element, reliability: DdsReliability):
+        child_element = ET.SubElement(element, "RELIABILITY")
+        self.writeARObject(child_element, reliability)
+        self._writeEnumToken(child_element, "RELIABILITY-KIND", reliability.getReliabilityKind(), DDS_RELIABILITY_KIND_XML_MAP)
+        self.setChildElementOptionalFloatValue(child_element, "RELIABILITY-MAX-BLOCKING-TIME", reliability.getReliabilityMaxBlockingTime())
+
+    def writeDdsTransportPriority(self, element: ET.Element, transport_priority: DdsTransportPriority):
+        child_element = ET.SubElement(element, "TRANSPORT-PRIORITY")
+        self.writeARObject(child_element, transport_priority)
+        self.setChildElementOptionalPositiveInteger(child_element, "TRANSPORT-PRIORITY", transport_priority.getTransportPriority())
+
+    def writeDdsLifespan(self, element: ET.Element, lifespan: DdsLifespan):
+        child_element = ET.SubElement(element, "LIFESPAN")
+        self.writeARObject(child_element, lifespan)
+        self.setChildElementOptionalFloatValue(child_element, "LIFESPAN-DURATION", lifespan.getLifespanDuration())
+
+    def writeDdsDestinationOrder(self, element: ET.Element, destination_order: DdsDestinationOrder):
+        child_element = ET.SubElement(element, "DESTINATION-ORDER")
+        self.writeARObject(child_element, destination_order)
+        self._writeEnumToken(child_element, "DESTINATION-ORDER-KIND", destination_order.getDestinationOrderKind(), DDS_DESTINATION_ORDER_KIND_XML_MAP)
+
+    def writeDdsHistory(self, element: ET.Element, history: DdsHistory):
+        child_element = ET.SubElement(element, "HISTORY")
+        self.writeARObject(child_element, history)
+        self._writeEnumToken(child_element, "HISTORY-KIND", history.getHistoryKind(), DDS_HISTORY_KIND_XML_MAP)
+        self.setChildElementOptionalPositiveInteger(child_element, "HISTORY-ORDER-DEPTH", history.getHistoryOrderDepth())
+
+    def writeDdsCpProvidedServiceInstance(self, element: ET.Element, instance: DdsCpProvidedServiceInstance):
+        child_element = ET.SubElement(element, "DDS-CP-PROVIDED-SERVICE-INSTANCE")
+        self.writeARObject(child_element, instance)
+        local_unicast_address_ref = instance.getLocalUnicastAddressRef()
+        if local_unicast_address_ref is not None:
+            local_unicast_addresses_tag = ET.SubElement(child_element, "LOCAL-UNICAST-ADDRESSES")
+            conditional_tag = ET.SubElement(local_unicast_addresses_tag, "APPLICATION-ENDPOINT-REF-CONDITIONAL")
+            self.setChildElementOptionalRefType(conditional_tag, "APPLICATION-ENDPOINT-REF", local_unicast_address_ref)
+        self.setChildElementOptionalPositiveInteger(child_element, "MINOR-VERSION", cast(Integer, instance.getMinorVersion()))
+        operations = instance.getProvidedDdsOperations()
+        if len(operations) > 0:
+            operations_tag = ET.SubElement(child_element, "PROVIDED-DDS-OPERATIONS")
+            for operation in operations:
+                self.writeDdsCpServiceInstanceOperation(operations_tag, operation)
+        events = instance.getProvidedDdsServiceInstanceEvents()
+        if len(events) > 0:
+            events_tag = ET.SubElement(child_element, "PROVIDED-DDS-SERVICE-INSTANCE-EVENTS")
+            for event in events:
+                self.writeDdsCpServiceInstanceEvent(events_tag, event)
+        static_remote_multicast_address_ref = instance.getStaticRemoteMulticastAddressRef()
+        if static_remote_multicast_address_ref is not None:
+            multicast_addresses_tag = ET.SubElement(child_element, "STATIC-REMOTE-MULTICAST-ADDRESSES")
+            multicast_conditional_tag = ET.SubElement(multicast_addresses_tag, "APPLICATION-ENDPOINT-REF-CONDITIONAL")
+            self.setChildElementOptionalRefType(multicast_conditional_tag, "APPLICATION-ENDPOINT-REF", static_remote_multicast_address_ref)
+        unicast_address_refs = instance.getStaticRemoteUnicastAddressRefs()
+        if len(unicast_address_refs) > 0:
+            unicast_addresses_tag = ET.SubElement(child_element, "STATIC-REMOTE-UNICAST-ADDRESSES")
+            for ref in unicast_address_refs:
+                conditional_tag = ET.SubElement(unicast_addresses_tag, "APPLICATION-ENDPOINT-REF-CONDITIONAL")
+                self.setChildElementOptionalRefType(conditional_tag, "APPLICATION-ENDPOINT-REF", ref)
+
+    def writeDdsCpServiceInstanceEvent(self, element: ET.Element, event: DdsCpServiceInstanceEvent):
+        child_element = ET.SubElement(element, "DDS-CP-SERVICE-INSTANCE-EVENT")
+        self.writeARObject(child_element, event)
+        self.setChildElementOptionalRefType(child_element, "DDS-EVENT-QOS-PROFILE-REF", event.getDdsEventQosProfileRef())
+        self.setChildElementOptionalRefType(child_element, "DDS-EVENT-REF", event.getDdsEventRef())
+        self.setChildElementOptionalRefType(child_element, "DDS-EVENT-TOPIC-REF", event.getDdsEventTopicRef())
+        self.writeVariationPointCapable(child_element, event)
+
+    def writeDdsCpServiceInstanceOperation(self, element: ET.Element, operation: DdsCpServiceInstanceOperation):
+        child_element = ET.SubElement(element, "DDS-CP-SERVICE-INSTANCE-OPERATION")
+        self.writeARObject(child_element, operation)
+        self.setChildElementOptionalRefType(child_element, "DDS-OPERATION-REQUEST-TRIGGERING-REF", operation.getDdsOperationRequestTriggeringRef())
+        self.setChildElementOptionalRefType(child_element, "DDS-OPERATION-RESPONSE-TRIGGERING-REF", operation.getDdsOperationResponseTriggeringRef())
+        self.writeVariationPointCapable(child_element, operation)
+
     def writeDiagnosticParameter(self, element: ET.Element, parameter: DiagnosticParameter):
         child_element = ET.SubElement(element, "DIAGNOSTIC-PARAMETER")
         self.writeDiagnosticAbstractParameter(child_element, parameter)
@@ -16722,6 +17064,26 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalPositiveInteger(child_element, "ID", cast(Integer, test_routine_identifier.getId()))
         self.setChildElementOptionalPositiveInteger(child_element, "REQUEST-DATA-SIZE", cast(Integer, test_routine_identifier.getRequestDataSize()))
         self.setChildElementOptionalPositiveInteger(child_element, "RESPONSE-DATA-SIZE", cast(Integer, test_routine_identifier.getResponseDataSize()))
+
+    def setDiagnosticTestIdentifier(self, element: ET.Element, key: str, identifier: Optional[DiagnosticTestIdentifier]):
+        if identifier is None:
+            return
+        child_element = ET.SubElement(element, key)
+        self.setChildElementOptionalPositiveInteger(child_element, "ID", cast(Integer, identifier.getId()))
+        self.setChildElementOptionalPositiveInteger(child_element, "UAS-ID", cast(Integer, identifier.getUasId()))
+
+    def writeDiagnosticTestResult(self, element: ET.Element, test_result: DiagnosticTestResult):
+        self.logger.debug("Write DiagnosticTestResult %s" % test_result.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-TEST-RESULT")
+        self.writeIdentifiable(child_element, test_result)
+        diagnostic_event_ref = test_result.getDiagnosticEventRef()
+        if diagnostic_event_ref is not None:
+            events_tag = ET.SubElement(child_element, "DIAGNOSTIC-EVENTS")
+            conditional_tag = ET.SubElement(events_tag, "DIAGNOSTIC-EVENT-REF-CONDITIONAL")
+            self.setChildElementOptionalRefType(conditional_tag, "DIAGNOSTIC-EVENT-REF", diagnostic_event_ref)
+        self.setChildElementOptionalRefType(child_element, "MONITORED-IDENTIFIER-REF", test_result.getMonitoredIdentifierRef())
+        self.setDiagnosticTestIdentifier(child_element, "TEST-IDENTIFIER", test_result.getTestIdentifier())
+        self.setChildElementOptionalLiteral(child_element, "UPDATE-KIND", test_result.getUpdateKind())
 
     def writeDiagnosticRequestVehicleInfo(self, element: ET.Element, request_vehicle_info: DiagnosticRequestVehicleInfo):
         self.logger.debug("Write DiagnosticRequestVehicleInfo %s" % request_vehicle_info.getShortName())
@@ -17709,6 +18071,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeLifeCycleStateDefinitionGroup(element, ar_element)
         elif isinstance(ar_element, ViewMapSet):
             self.writeViewMapSet(element, ar_element)
+        elif isinstance(ar_element, RapidPrototypingScenario):
+            self.writeRapidPrototypingScenario(element, ar_element)
         elif isinstance(ar_element, ComplexDeviceDriverSwComponentType):
             self.writeComplexDeviceDriverSwComponentType(element, ar_element)
         elif isinstance(ar_element, SwcImplementation):
@@ -18287,6 +18651,9 @@ class ARXMLWriter(AbstractARXMLWriter):
             return True
         if isinstance(ar_element, DiagnosticTestRoutineIdentifier):
             self.writeDiagnosticTestRoutineIdentifier(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticTestResult):
+            self.writeDiagnosticTestResult(element, ar_element)
             return True
         if isinstance(ar_element, DiagnosticRequestVehicleInfo):
             self.writeDiagnosticRequestVehicleInfo(element, ar_element)

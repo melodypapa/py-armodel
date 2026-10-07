@@ -931,14 +931,15 @@ class AtomicSwComponentType(SwComponentType, ABC):
 
 class EcuAbstractionSwComponentType(AtomicSwComponentType):
     """
-    The ECUAbstraction is a special AtomicSwComponentType that resides between a software-component that wants to access ECU periphery and the Microcontroller Abstraction. The EcuAbstractionSwComponentType introduces the possibility to link from the software representation to its hardware description provided by the ECU Resource Template.
+    The ECUAbstraction is a special AtomicSwComponentType that resides between a software-component that wants to access ECU periphery and the Microcontroller Abstraction. The EcuAbstractionSwComponentType introduces the possibility to link from the software representation to its hardware description provided by the ECU Resource Template. Tags: atp.recommendedPackage=SwComponentTypes
     """
 
+    # EcuAbstractionSwComponentType method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 10.2, p.647
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] addHardwareElementRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getHardwareElementRefs       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addHardwareElementRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getHardwareElementRefs [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -946,33 +947,21 @@ class EcuAbstractionSwComponentType(AtomicSwComponentType):
         # Reference from the EcuAbstractionComponentType to the description of the used HwElements.
         self.hardwareElementRefs: List[RefType] = []
 
-    def getHardwareElementRefs(self) -> List[RefType]:
-        """
-        Gets the references to the descriptions of the used hardware elements.
-
-        Reference from the EcuAbstractionComponentType to the description of the used HwElements.
-
-        Returns:
-            List[RefType]: The list of references to the used HwElements
-        """
-        return self.hardwareElementRefs
-
     def addHardwareElementRef(self, value: Optional[RefType]) -> EcuAbstractionSwComponentType:
         """
-        Adds a reference to the description of a used hardware element.
-        A None value is a no-op and does not append anything.
-
         Reference from the EcuAbstractionComponentType to the description of the used HwElements.
 
-        Args:
-            value: The reference to the used HwElement
-
-        Returns:
-            self for method chaining
+        A None value is a no-op and does not append anything.
         """
         if value is not None:
             self.hardwareElementRefs.append(value)
         return self
+
+    def getHardwareElementRefs(self) -> List[RefType]:
+        """
+        Reference from the EcuAbstractionComponentType to the description of the used HwElements.
+        """
+        return self.hardwareElementRefs
 
 
 class ApplicationSwComponentType(AtomicSwComponentType):
@@ -991,14 +980,15 @@ class ApplicationSwComponentType(AtomicSwComponentType):
 
 class ComplexDeviceDriverSwComponentType(AtomicSwComponentType):
     """
-    The ComplexDeviceDriverSwComponentType is a special AtomicSwComponentType that has direct access to hardware on an ECU and which is therefore linked to a specific ECU or specific hardware. The ComplexDeviceDriverSwComponentType introduces the possibility to link from the software representation to its hardware description provided by the ECU Resource Template.
+    The ComplexDeviceDriverSwComponentType is a special AtomicSwComponentType that has direct access to hardware on an ECU and which is therefore linked to a specific ECU or specific hardware. The ComplexDeviceDriverSwComponentType introduces the possibility to link from the software representation to its hardware description provided by the ECU Resource Template. Tags: atp.recommendedPackage=SwComponentTypes
     """
 
+    # ComplexDeviceDriverSwComponentType method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 10.3, p.648
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] addHardwareElementRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getHardwareElementRefs       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addHardwareElementRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getHardwareElementRefs [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -1006,80 +996,49 @@ class ComplexDeviceDriverSwComponentType(AtomicSwComponentType):
         # Reference from the ComplexDeviceDriverSwComponentType to the description of the used HwElements.
         self.hardwareElementRefs: List[RefType] = []
 
-    def getHardwareElementRefs(self) -> List[RefType]:
-        """
-        Gets the references to the descriptions of the used hardware elements.
-
-        Reference from the ComplexDeviceDriverSwComponentType to the description of the used HwElements.
-
-        Returns:
-            List[RefType]: The list of references to the used HwElements
-        """
-        return self.hardwareElementRefs
-
     def addHardwareElementRef(self, value: Optional[RefType]) -> ComplexDeviceDriverSwComponentType:
         """
-        Adds a reference to the description of a used hardware element.
-        A None value is a no-op and does not append anything.
-
         Reference from the ComplexDeviceDriverSwComponentType to the description of the used HwElements.
 
-        Args:
-            value: The reference to the used HwElement
-
-        Returns:
-            self for method chaining
+        A None value is a no-op and does not append anything.
         """
         if value is not None:
             self.hardwareElementRefs.append(value)
         return self
 
+    def getHardwareElementRefs(self) -> List[RefType]:
+        """
+        Reference from the ComplexDeviceDriverSwComponentType to the description of the used HwElements.
+        """
+        return self.hardwareElementRefs
+
 
 class NvBlockSwComponentType(AtomicSwComponentType):
     """
-    The NvBlockSwComponentType defines non volatile data which data can be shared between SwComponentPrototypes. The non volatile data of the NvBlockSwComponentType are accessible via provided and required ports.
+    The NvBlockSwComponentType defines non volatile data which data can be shared between SwComponentPrototypes. The non volatile data of the NvBlockSwComponentType are accessible via provided and required ports. Tags: atp.recommendedPackage=SwComponentTypes
     """
 
+    # NvBlockSwComponentType method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 11.4, p.664
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] createBulkNvDataDescriptor   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getBulkNvDataDescriptors     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createNvBlockDescriptor      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getNvBlockDescriptors        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createBulkNvDataDescriptor  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getBulkNvDataDescriptors    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createNvBlockDescriptor     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNvBlockDescriptors       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        # This aggregation formally defines the bulk Nv Blocks that are provided to the application software by the enclosing NvBlockSwComponentType.
+        # This aggregation formally defines the bulk Nv Blocks that are provided to the application software by the enclosing NvBlockSwComponentType. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=bulkNvDataDescriptor.shortName, bulkNvDataDescriptor.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
         self.bulkNvDataDescriptors: List[BulkNvDataDescriptor] = []
 
-        # Specification of the properties of exactly one NVRAM Block.
+        # Specification of the properties of exactly one NVRAM Block. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=nvBlockDescriptor.shortName, nvBlockDescriptor.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
         self.nvBlockDescriptors: List[NvBlockDescriptor] = []
-
-    def getBulkNvDataDescriptors(self) -> List[BulkNvDataDescriptor]:
-        """
-        Gets the bulk NV Data Blocks provided to the application software by this NvBlockSwComponentType.
-
-        This aggregation formally defines the bulk Nv Blocks that are provided to the application software by the enclosing NvBlockSwComponentType.
-
-        Returns:
-            List[BulkNvDataDescriptor]: The list of bulk NV data descriptors
-        """
-        return self.bulkNvDataDescriptors
 
     def createBulkNvDataDescriptor(self, short_name: str) -> BulkNvDataDescriptor:
         """
-        Creates a bulk NV data descriptor of this NvBlockSwComponentType.
-        Returns the existing descriptor when the short name already exists.
-
-        This aggregation formally defines the bulk Nv Blocks that are provided to the application software by the enclosing NvBlockSwComponentType.
-
-        Args:
-            short_name: The short name of the BulkNvDataDescriptor
-
-        Returns:
-            The created or existing BulkNvDataDescriptor
+        This aggregation formally defines the bulk Nv Blocks that are provided to the application software by the enclosing NvBlockSwComponentType. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=bulkNvDataDescriptor.shortName, bulkNvDataDescriptor.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
         """
         if not self.IsReferrableElementExists(short_name, BulkNvDataDescriptor):
             descriptor = BulkNvDataDescriptor(self, short_name)
@@ -1087,29 +1046,15 @@ class NvBlockSwComponentType(AtomicSwComponentType):
             self.bulkNvDataDescriptors.append(descriptor)
         return cast(BulkNvDataDescriptor, self.getReferrableElement(short_name, BulkNvDataDescriptor))
 
-    def getNvBlockDescriptors(self) -> List[NvBlockDescriptor]:
+    def getBulkNvDataDescriptors(self) -> List[BulkNvDataDescriptor]:
         """
-        Gets the specification of the properties of the NVRAM Blocks owned by this NvBlockSwComponentType.
-
-        Specification of the properties of exactly one NVRAM Block.
-
-        Returns:
-            List[NvBlockDescriptor]: The list of NV block descriptors
+        This aggregation formally defines the bulk Nv Blocks that are provided to the application software by the enclosing NvBlockSwComponentType. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=bulkNvDataDescriptor.shortName, bulkNvDataDescriptor.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
         """
-        return self.nvBlockDescriptors
+        return self.bulkNvDataDescriptors
 
     def createNvBlockDescriptor(self, short_name: str) -> NvBlockDescriptor:
         """
-        Creates a nvBlockDescriptor of this NvBlockSwComponentType.
-        Returns the existing descriptor when the short name already exists.
-
-        Specification of the properties of exactly one NVRAM Block.
-
-        Args:
-            short_name: The short name of the NvBlockDescriptor
-
-        Returns:
-            The created or existing NvBlockDescriptor
+        Specification of the properties of exactly one NVRAM Block. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=nvBlockDescriptor.shortName, nvBlockDescriptor.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
         """
         if not self.IsReferrableElementExists(short_name, NvBlockDescriptor):
             descriptor = NvBlockDescriptor(self, short_name)
@@ -1117,17 +1062,24 @@ class NvBlockSwComponentType(AtomicSwComponentType):
             self.nvBlockDescriptors.append(descriptor)
         return cast(NvBlockDescriptor, self.getReferrableElement(short_name, NvBlockDescriptor))
 
+    def getNvBlockDescriptors(self) -> List[NvBlockDescriptor]:
+        """
+        Specification of the properties of exactly one NVRAM Block. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=nvBlockDescriptor.shortName, nvBlockDescriptor.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+        """
+        return self.nvBlockDescriptors
+
 
 class SensorActuatorSwComponentType(AtomicSwComponentType):
     """
-    The SensorActuatorSwComponentType introduces the possibility to link from the software representation of a sensor/actuator to its hardware description provided by the ECU Resource Template.
+    The SensorActuatorSwComponentType introduces the possibility to link from the software representation of a sensor/actuator to its hardware description provided by the ECU Resource Template. Tags: atp.recommendedPackage=SwComponentTypes
     """
 
+    # SensorActuatorSwComponentType method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 10.1, p.646
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getSensorActuatorRef         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSensorActuatorRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getSensorActuatorRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSensorActuatorRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -1137,27 +1089,15 @@ class SensorActuatorSwComponentType(AtomicSwComponentType):
 
     def getSensorActuatorRef(self) -> Optional[RefType]:
         """
-        Gets the reference to the description of the actual hardware.
-
         Reference from the Sensor Actuator Software Component Type to the description of the actual hardware.
-
-        Returns:
-            Optional[RefType]: The reference to the actual hardware, or None if not set
         """
         return self.sensorActuatorRef
 
     def setSensorActuatorRef(self, value: Optional[RefType]) -> SensorActuatorSwComponentType:
         """
-        Sets the reference to the description of the actual hardware.
-        A None value is a no-op and does not overwrite an existing reference.
-
         Reference from the Sensor Actuator Software Component Type to the description of the actual hardware.
 
-        Args:
-            value: The reference to the actual hardware
-
-        Returns:
-            self for method chaining
+        A None value is a no-op and does not overwrite an existing sensorActuatorRef.
         """
         if value is not None:
             self.sensorActuatorRef = value
@@ -1187,12 +1127,13 @@ class ServiceProxySwComponentType(AtomicSwComponentType):
 
 class ServiceSwComponentType(AtomicSwComponentType):
     """
-    ServiceSwComponentType is used for configuring services for a given ECU. Instances of this class are only to be created in ECU Configuration phase for the specific purpose of the service configuration.
+    ServiceSwComponentType is used for configuring services for a given ECU. Instances of this class are only to be created in ECU Configuration phase for the specific purpose of the service configuration. Tags: atp.recommendedPackage=SwComponentTypes
     """
 
+    # ServiceSwComponentType method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 11.2, p.659
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)

@@ -1510,84 +1510,84 @@ Status: **0/75** completed
 
 ## Group29
 
-Status: **0/74** completed
+Status: **20/74** completed
 
-| Class Name                                     | Status          | Commit ID  |
-| ---------------------------------------------- | --------------- | ---------- |
-| `SwcExclusiveAreaPolicy`                       | [ ] Implemented | N/A        |
-| `RteApiReturnValueProvisionEnum`               | [ ] Implemented | N/A        |
-| `ExternalTriggeringPoint`                      | [ ] Implemented | N/A        |
-| `IncludedDataTypeSet`                          | [ ] Implemented | N/A        |
-| `SwcServiceDependency`                         | [ ] Implemented | N/A        |
-| `SymbolicNameProps`                            | [ ] Implemented | N/A        |
-| `VariationPointProxy`                          | [ ] Implemented | N/A        |
-| `SwcModeManagerErrorEvent`                     | [ ] Created     | N/A        |
-| `SensorActuatorSwComponentType`                | [ ] Implemented | N/A        |
-| `EcuAbstractionSwComponentType`                | [ ] Implemented | N/A        |
-| `ComplexDeviceDriverSwComponentType`           | [ ] Implemented | N/A        |
-| `ServiceSwComponentType`                       | [ ] Implemented | N/A        |
-| `NvBlockSwComponentType`                       | [ ] Implemented | N/A        |
-| `SwComponentDocumentation`                     | [ ] Implemented | N/A        |
-| `AdditionalBindingTimeEnum`                    | [ ] Created     | N/A        |
-| `FunctionInhibitionAvailabilityNeeds`          | [ ] Implemented | N/A        |
-| `DiagnosticOperationCycleNeeds`                | [ ] Implemented | N/A        |
-| `OperationCycleTypeEnum`                       | [ ] Implemented | N/A        |
-| `DiagnosticEnableConditionNeeds`               | [ ] Implemented | N/A        |
-| `EventAcceptanceStatusEnum`                    | [ ] Implemented | N/A        |
-| `DiagnosticStorageConditionNeeds`              | [ ] Implemented | N/A        |
-| `StorageConditionStatusEnum`                   | [ ] Implemented | N/A        |
-| `IndicatorStatusNeeds`                         | [ ] Implemented | N/A        |
-| `DiagnosticIndicatorTypeEnum`                  | [ ] Implemented | N/A        |
-| `ObdRatioServiceNeeds`                         | [ ] Pending*    | 86d72d7d2c |
-| `ObdControlServiceNeeds`                       | [ ] Implemented | N/A        |
-| `ObdRatioConnectionKindEnum`                   | [ ] Implemented | N/A        |
-| `ObdPidServiceNeeds`                           | [ ] Implemented | N/A        |
-| `ObdInfoServiceNeeds`                          | [ ] Implemented | N/A        |
-| `ObdMonitorServiceNeeds`                       | [ ] Implemented | N/A        |
-| `DiagnosticMonitorUpdateKindEnum`              | [ ] Implemented | N/A        |
-| `ObdRatioDenominatorNeeds`                     | [ ] Pending*    | c4b99a4cf3 |
-| `DiagnosticDenominatorConditionEnum`           | [ ] Implemented | N/A        |
-| `DiagnosticTestResult`                         | [ ] Created     | N/A        |
-| `DoIpRoutingActivationAuthenticationNeeds`     | [ ] Pending*    | ee01eb9e60 |
-| `DoIpRoutingActivationConfirmationNeeds`       | [ ] Pending*    | ca6b7d152b |
-| `SecureOnBoardCommunicationNeeds`              | [ ] Pending*    | 294106f57d |
-| `VerificationStatusIndicationModeEnum`         | [ ] Implemented | N/A        |
-| `IdsMgrNeeds`                                  | [ ] Implemented | N/A        |
-| `RapidPrototypingScenario`                     | [ ] Created     | N/A        |
-| `RptContainer`                                 | [ ] Created     | N/A        |
-| `RptHook`                                      | [ ] Created     | N/A        |
-| `RptProfile`                                   | [ ] Created     | N/A        |
-| `CommunicationConnector`                       | [ ] Pending*    | 7b29ffc2ba |
-| `PhysicalChannel`                              | [ ] Pending*    | 13ae27c195 |
-| `AbstractCanCluster`                           | [ ] Pending*    | b9599507f4 |
-| `CanCluster`                                   | [ ] Pending*    | ec69750f14 |
-| `CanCommunicationController`                   | [ ] Pending*    | 250fded7cd |
-| `AbstractCanCommunicationController`           | [ ] Pending*    | b115cca55e |
-| `AbstractCanCommunicationControllerAttributes` | [ ] Pending*    | a7b009e6e7 |
-| `CanControllerFdConfiguration`                 | [ ] Pending*    | 3cd3adcdc4 |
-| `CanControllerXlConfiguration`                 | [ ] Pending*    | 55877d3a96 |
-| `CanControllerXlConfigurationRequirements`     | [ ] Pending*    | 4e35a9d3b4 |
-| `AbstractCanPhysicalChannel`                   | [ ] Pending*    | d5b7c507aa |
-| `CanPhysicalChannel`                           | [ ] Pending*    | 10e6b6aab3 |
-| `AbstractCanCommunicationConnector`            | [ ] Pending*    | b6aaf97f5d |
-| `TtcanCluster`                                 | [ ] Pending*    | 4c24b5ae37 |
-| `TtcanCommunicationController`                 | [ ] Pending*    | 20da1fc7f6 |
-| `TtcanPhysicalChannel`                         | [ ] Pending*    | d6edfeef67 |
-| `TtcanCommunicationConnector`                  | [ ] Pending*    | 20db1869a0 |
-| `FlexrayCluster`                               | [ ] Pending*    | 00edf04e32 |
-| `FlexrayFifoConfiguration`                     | [ ] Pending*    | d4975bcfb7 |
-| `FlexrayFifoRange`                             | [ ] Pending*    | a2965515fb |
-| `LinCluster`                                   | [ ] Pending*    | d8a563e1f0 |
-| `LinCommunicationController`                   | [ ] Pending*    | f19185283e |
-| `LinMaster`                                    | [ ] Pending*    | 35db48e9b0 |
-| `LinSlaveConfig`                               | [ ] Pending*    | 81ac1ac2a0 |
-| `LinSlaveConfigIdent`                          | [ ] Pending*    | 5e4ae9f277 |
-| `LinSlave`                                     | [ ] Pending*    | c8f1e00c47 |
-| `LinErrorResponse`                             | [ ] Pending*    | 6439b6cbd5 |
-| `LinConfigurableFrame`                         | [ ] Pending*    | eb075693c2 |
-| `LinOrderedConfigurableFrame`                  | [ ] Pending*    | 15a63a22ae |
-| `LinPhysicalChannel`                           | [ ] Pending*    | a60d5418a2 |
-| `EthernetCluster`                              | [ ] Pending*    | 4b9d113878 |
+| Class Name                                     | Status       | Commit ID  |
+| ---------------------------------------------- | ------------ | ---------- |
+| `SwcExclusiveAreaPolicy`                       | [x] Done     | N/A        |
+| `RteApiReturnValueProvisionEnum`               | [x] Done     | N/A        |
+| `ExternalTriggeringPoint`                      | [ ] Pending* | 49038a9617 |
+| `IncludedDataTypeSet`                          | [ ] Pending* | 7ddafb5f11 |
+| `SwcServiceDependency`                         | [ ] Pending* | 38630f7a82 |
+| `SymbolicNameProps`                            | [x] Done     | N/A        |
+| `VariationPointProxy`                          | [ ] Pending* | 128ce8e538 |
+| `SwcModeManagerErrorEvent`                     | [ ] Pending* | 545278ad92 |
+| `SensorActuatorSwComponentType`                | [ ] Pending* | 5395714191 |
+| `EcuAbstractionSwComponentType`                | [ ] Pending* | 7d89ea80c0 |
+| `ComplexDeviceDriverSwComponentType`           | [ ] Pending* | fa1d819e9d |
+| `ServiceSwComponentType`                       | [ ] Pending* | f5ecdcb0a4 |
+| `NvBlockSwComponentType`                       | [ ] Pending* | d70be3bb2d |
+| `SwComponentDocumentation`                     | [ ] Pending* | 35074e8030 |
+| `AdditionalBindingTimeEnum`                    | [ ] Pending* | b72807df62 |
+| `FunctionInhibitionAvailabilityNeeds`          | [x] Done     | N/A        |
+| `DiagnosticOperationCycleNeeds`                | [x] Done     | N/A        |
+| `OperationCycleTypeEnum`                       | [x] Done     | N/A        |
+| `DiagnosticEnableConditionNeeds`               | [x] Done     | N/A        |
+| `EventAcceptanceStatusEnum`                    | [x] Done     | N/A        |
+| `DiagnosticStorageConditionNeeds`              | [x] Done     | N/A        |
+| `StorageConditionStatusEnum`                   | [x] Done     | N/A        |
+| `IndicatorStatusNeeds`                         | [x] Done     | N/A        |
+| `DiagnosticIndicatorTypeEnum`                  | [x] Done     | N/A        |
+| `ObdRatioServiceNeeds`                         | [ ] Pending* | 86d72d7d2c |
+| `ObdControlServiceNeeds`                       | [x] Done     | N/A        |
+| `ObdRatioConnectionKindEnum`                   | [x] Done     | N/A        |
+| `ObdPidServiceNeeds`                           | [x] Done     | N/A        |
+| `ObdInfoServiceNeeds`                          | [x] Done     | N/A        |
+| `ObdMonitorServiceNeeds`                       | [x] Done     | N/A        |
+| `DiagnosticMonitorUpdateKindEnum`              | [x] Done     | N/A        |
+| `ObdRatioDenominatorNeeds`                     | [ ] Pending* | c4b99a4cf3 |
+| `DiagnosticDenominatorConditionEnum`           | [x] Done     | N/A        |
+| `DiagnosticTestResult`                         | [ ] Pending* | 30d1bea627 |
+| `DoIpRoutingActivationAuthenticationNeeds`     | [ ] Pending* | ee01eb9e60 |
+| `DoIpRoutingActivationConfirmationNeeds`       | [ ] Pending* | ca6b7d152b |
+| `SecureOnBoardCommunicationNeeds`              | [ ] Pending* | 294106f57d |
+| `VerificationStatusIndicationModeEnum`         | [x] Done     | N/A        |
+| `IdsMgrNeeds`                                  | [ ] Pending* | 4c1801ebf6 |
+| `RapidPrototypingScenario`                     | [ ] Pending* | dcf4255cac |
+| `RptContainer`                                 | [ ] Pending* | 8c7d753249 |
+| `RptHook`                                      | [ ] Pending* | 81bd63ac93 |
+| `RptProfile`                                   | [ ] Pending* | 917a9b7dfa |
+| `CommunicationConnector`                       | [ ] Pending* | 7b29ffc2ba |
+| `PhysicalChannel`                              | [ ] Pending* | 13ae27c195 |
+| `AbstractCanCluster`                           | [ ] Pending* | b9599507f4 |
+| `CanCluster`                                   | [ ] Pending* | ec69750f14 |
+| `CanCommunicationController`                   | [ ] Pending* | 250fded7cd |
+| `AbstractCanCommunicationController`           | [ ] Pending* | b115cca55e |
+| `AbstractCanCommunicationControllerAttributes` | [ ] Pending* | a7b009e6e7 |
+| `CanControllerFdConfiguration`                 | [ ] Pending* | 3cd3adcdc4 |
+| `CanControllerXlConfiguration`                 | [ ] Pending* | 55877d3a96 |
+| `CanControllerXlConfigurationRequirements`     | [ ] Pending* | 4e35a9d3b4 |
+| `AbstractCanPhysicalChannel`                   | [ ] Pending* | d5b7c507aa |
+| `CanPhysicalChannel`                           | [ ] Pending* | 10e6b6aab3 |
+| `AbstractCanCommunicationConnector`            | [ ] Pending* | b6aaf97f5d |
+| `TtcanCluster`                                 | [ ] Pending* | 4c24b5ae37 |
+| `TtcanCommunicationController`                 | [ ] Pending* | 20da1fc7f6 |
+| `TtcanPhysicalChannel`                         | [ ] Pending* | d6edfeef67 |
+| `TtcanCommunicationConnector`                  | [ ] Pending* | 20db1869a0 |
+| `FlexrayCluster`                               | [ ] Pending* | 00edf04e32 |
+| `FlexrayFifoConfiguration`                     | [ ] Pending* | d4975bcfb7 |
+| `FlexrayFifoRange`                             | [ ] Pending* | a2965515fb |
+| `LinCluster`                                   | [ ] Pending* | d8a563e1f0 |
+| `LinCommunicationController`                   | [ ] Pending* | f19185283e |
+| `LinMaster`                                    | [ ] Pending* | 35db48e9b0 |
+| `LinSlaveConfig`                               | [ ] Pending* | 81ac1ac2a0 |
+| `LinSlaveConfigIdent`                          | [ ] Pending* | 5e4ae9f277 |
+| `LinSlave`                                     | [ ] Pending* | c8f1e00c47 |
+| `LinErrorResponse`                             | [ ] Pending* | 6439b6cbd5 |
+| `LinConfigurableFrame`                         | [ ] Pending* | eb075693c2 |
+| `LinOrderedConfigurableFrame`                  | [ ] Pending* | 15a63a22ae |
+| `LinPhysicalChannel`                           | [ ] Pending* | a60d5418a2 |
+| `EthernetCluster`                              | [ ] Pending* | 4b9d113878 |
 
 ## Group30
 
@@ -1785,10 +1785,10 @@ Status: **0/75** completed
 | `TimeSyncTechnologyEnum`               | [ ] Implemented | N/A       |
 | `DoIpEntityRoleEnum`                   | [ ] Implemented | N/A       |
 | `DdsCpServiceInstance`                 | [ ] Created     | N/A       |
-| `DdsCpProvidedServiceInstance`         | [ ] Created     | N/A       |
+| `DdsCpProvidedServiceInstance`         | [ ] Pending*    | N/A       |
 | `DdsCpConsumedServiceInstance`         | [ ] Created     | N/A       |
-| `DdsCpServiceInstanceEvent`            | [ ] Created     | N/A       |
-| `DdsCpServiceInstanceOperation`        | [ ] Created     | N/A       |
+| `DdsCpServiceInstanceEvent`            | [ ] Pending*    | N/A       |
+| `DdsCpServiceInstanceOperation`        | [ ] Pending*    | N/A       |
 | `ServiceInstanceCollectionSet`         | [ ] Created     | N/A       |
 | `AbstractServiceInstance`              | [ ] Implemented | N/A       |
 | `ProvidedServiceInstance`              | [ ] Implemented | N/A       |
@@ -1804,29 +1804,29 @@ Status: **0/75** completed
 | `SomeipSdClientEventGroupTimingConfig` | [ ] Implemented | N/A       |
 | `DdsCpConfig`                          | [ ] Created     | N/A       |
 | `DdsCpDomain`                          | [ ] Created     | N/A       |
-| `DdsCpTopic`                           | [ ] Created     | N/A       |
+| `DdsCpTopic`                           | [ ] Pending*    | N/A       |
 | `DdsCpPartition`                       | [ ] Created     | N/A       |
-| `DdsCpQosProfile`                      | [ ] Created     | N/A       |
-| `DdsTopicData`                         | [ ] Created     | N/A       |
-| `DdsDurability`                        | [ ] Created     | N/A       |
-| `DdsDurabilityKindEnum`                | [ ] Created     | N/A       |
-| `DdsDurabilityService`                 | [ ] Created     | N/A       |
-| `DdsDurabilityServiceHistoryKindEnum`  | [ ] Created     | N/A       |
-| `DdsDeadline`                          | [ ] Created     | N/A       |
-| `DdsLatencyBudget`                     | [ ] Created     | N/A       |
-| `DdsOwnership`                         | [ ] Created     | N/A       |
-| `DdsOwnershipKindEnum`                 | [ ] Created     | N/A       |
-| `DdsOwnershipStrength`                 | [ ] Created     | N/A       |
-| `DdsLiveliness`                        | [ ] Created     | N/A       |
-| `DdsLivenessKindEnum`                  | [ ] Created     | N/A       |
-| `DdsReliability`                       | [ ] Created     | N/A       |
-| `DdsReliabilityKindEnum`               | [ ] Created     | N/A       |
-| `DdsTransportPriority`                 | [ ] Created     | N/A       |
-| `DdsLifespan`                          | [ ] Created     | N/A       |
-| `DdsDestinationOrder`                  | [ ] Created     | N/A       |
-| `DdsDestinationOrderKindEnum`          | [ ] Created     | N/A       |
-| `DdsHistory`                           | [ ] Created     | N/A       |
-| `DdsHistoryKindEnum`                   | [ ] Created     | N/A       |
+| `DdsCpQosProfile`                      | [ ] Pending*    | N/A       |
+| `DdsTopicData`                         | [ ] Pending*    | N/A       |
+| `DdsDurability`                        | [ ] Pending*    | N/A       |
+| `DdsDurabilityKindEnum`                | [ ] Pending*    | N/A       |
+| `DdsDurabilityService`                 | [ ] Pending*    | N/A       |
+| `DdsDurabilityServiceHistoryKindEnum`  | [ ] Pending*    | N/A       |
+| `DdsDeadline`                          | [ ] Pending*    | N/A       |
+| `DdsLatencyBudget`                     | [ ] Pending*    | N/A       |
+| `DdsOwnership`                         | [ ] Pending*    | N/A       |
+| `DdsOwnershipKindEnum`                 | [ ] Pending*    | N/A       |
+| `DdsOwnershipStrength`                 | [ ] Pending*    | N/A       |
+| `DdsLiveliness`                        | [ ] Pending*    | N/A       |
+| `DdsLivenessKindEnum`                  | [ ] Pending*    | N/A       |
+| `DdsReliability`                       | [ ] Pending*    | N/A       |
+| `DdsReliabilityKindEnum`               | [ ] Pending*    | N/A       |
+| `DdsTransportPriority`                 | [ ] Pending*    | N/A       |
+| `DdsLifespan`                          | [ ] Pending*    | N/A       |
+| `DdsDestinationOrder`                  | [ ] Pending*    | N/A       |
+| `DdsDestinationOrderKindEnum`          | [ ] Pending*    | N/A       |
+| `DdsHistory`                           | [ ] Pending*    | N/A       |
+| `DdsHistoryKindEnum`                   | [ ] Pending*    | N/A       |
 | `DdsResourceLimits`                    | [ ] Created     | N/A       |
 | `StaticSocketConnection`               | [ ] Implemented | N/A       |
 | `IPSecRule`                            | [ ] Pending*    | N/A       |
