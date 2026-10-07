@@ -138,17 +138,16 @@ class SignalServiceTranslationEventProps(Identifiable):
 
     # SignalServiceTranslationEventProps method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.341, p.731
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] createSignalServiceTranslationElementProps     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSignalServiceTranslationElementProps        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getSafeTranslation                            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setSafeTranslation                            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSecureTranslation                          [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setSecureTranslation                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTranslationTarget                          [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setTranslationTarget                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createSignalServiceTranslationElementProps  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSignalServiceTranslationElementProps     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getSafeTranslation                          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSafeTranslation                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSecureTranslation                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSecureTranslation                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTranslationTarget                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTranslationTarget                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     """
 
     def __init__(self, parent: Identifiable, short_name: str):
@@ -163,7 +162,7 @@ class SignalServiceTranslationEventProps(Identifiable):
         # Defined whether the translation shall happen in a secure way.
         self.secureTranslation: Optional[Boolean] = None
 
-        # Reference to a VariableDataPrototype representing the target of signal/service translation.
+        # Reference to a VariableDataPrototype representing the target of signal/service translation. InstanceRef implemented by: VariableDataPrototypeInSystemInstanceRef
         self.translationTarget: Optional[VariableDataPrototypeInSystemInstanceRef] = None
 
     def createSignalServiceTranslationElementProps(self, short_name: str) -> SignalServiceTranslationElementProps:
@@ -213,13 +212,13 @@ class SignalServiceTranslationEventProps(Identifiable):
 
     def getTranslationTarget(self) -> Optional[VariableDataPrototypeInSystemInstanceRef]:
         """
-        Reference to a VariableDataPrototype representing the target of signal/service translation.
+        Reference to a VariableDataPrototype representing the target of signal/service translation. InstanceRef implemented by: VariableDataPrototypeInSystemInstanceRef
         """
         return self.translationTarget
 
     def setTranslationTarget(self, value: Optional[VariableDataPrototypeInSystemInstanceRef]):
         """
-        Reference to a VariableDataPrototype representing the target of signal/service translation.
+        Reference to a VariableDataPrototype representing the target of signal/service translation. InstanceRef implemented by: VariableDataPrototypeInSystemInstanceRef
         A None value is a no-op and does not overwrite an existing translationTarget.
         """
         if value is not None:
