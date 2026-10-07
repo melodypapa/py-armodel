@@ -443,5 +443,6 @@ class SdgDef(ARElement):
         Returns:
             self for method chaining
         """
-        self.sdgClasses.append(value)
+        if value is not None:
+            self.sdgClasses.append(value)
         return self
