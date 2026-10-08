@@ -7,7 +7,7 @@ import pytest
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable, Identifiable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, ByteOrderEnum, Integer, RefType, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, Boolean, ByteOrderEnum, Integer, RefType, TimeValue
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
@@ -553,9 +553,9 @@ class Test_FibexCoreCommunication:
         assert pdu.getDiagPduType() is None
 
         # Test setter/getter methods with method chaining
-        pdu.setDiagPduType("REQUEST")
-        assert pdu.getDiagPduType() == "REQUEST"
-        assert pdu == pdu.setDiagPduType("REQUEST")  # Test method chaining
+        pdu.setDiagPduType(ARLiteral().setValue("DIAG-REQUEST"))
+        assert pdu.getDiagPduType().getValue() == "DIAG-REQUEST"
+        assert pdu == pdu.setDiagPduType(ARLiteral().setValue("DIAG-REQUEST"))  # Test method chaining
 
     def test_IPduTiming(self):
         """Test IPduTiming class functionality."""

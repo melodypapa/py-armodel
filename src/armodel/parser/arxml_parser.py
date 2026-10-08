@@ -781,6 +781,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     CIdentifier,
     DateTime,
     DdsDurabilityKindEnum,
+    DiagPduType,
     FrArTpAckType,
     MaximumMessageLengthType,
     DdsDurabilityServiceHistoryKindEnum,
@@ -14143,7 +14144,7 @@ class ARXMLParser(AbstractARXMLParser):
     def readDcmIPdu(self, element: ET.Element, i_pdu: DcmIPdu):
         self.logger.debug("Read DcmIPdu <%s>" % i_pdu.getShortName())
         self.readIPdu(element, i_pdu)
-        i_pdu.setDiagPduType(self.getChildElementOptionalLiteral(element, "DIAG-PDU-TYPE"))
+        i_pdu.setDiagPduType(cast(Optional[DiagPduType], self.getChildElementOptionalLiteral(element, "DIAG-PDU-TYPE")))
 
     def getSecureCommunicationProps(self, element: ET.Element, key: str) -> Optional[SecureCommunicationProps]:
         props = None

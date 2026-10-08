@@ -6,8 +6,8 @@ from typing import List, Optional, TYPE_CHECKING, cast
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Describable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, ARLiteral, PositiveInteger, Boolean, ByteOrderEnum
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, RefType, String
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, PositiveInteger, Boolean, ByteOrderEnum
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DiagPduType, Integer, RefType, String
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TimeValue, UnlimitedInteger
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
@@ -1486,25 +1486,37 @@ class NPdu(IPdu):
 
 class DcmIPdu(IPdu):
     """
-    Represents a Diagnostic Communication Management Interaction Protocol Data Unit (IPDU)
-    used for diagnostic communication in the AUTOSAR system.
+    Represents the IPdus handled by Dcm. Tags: atp.recommendedPackage=Pdus
+
+    [constr_9194] Existence of DcmIPdu.diagPduType: For each DcmIPdu, the attribute diagPduType shall exist at the time when the System Description is complete.
     """
 
     # DcmIPdu method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getDiagPduType               [x] impl  [ ] docstring  [ ] test
-    # [ ] setDiagPduType               [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.22, p.343
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDiagPduType  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDiagPduType  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.diagPduType: Optional[ARLiteral] = None
+        # Attribute is used to distinguish a request from a response.
+        self.diagPduType: Optional[DiagPduType] = None
 
-    def getDiagPduType(self):
+    def getDiagPduType(self) -> Optional[DiagPduType]:
+        """
+        Attribute is used to distinguish a request from a response.
+        """
         return self.diagPduType
 
-    def setDiagPduType(self, value):
-        self.diagPduType = value
+    def setDiagPduType(self, value: Optional[DiagPduType]) -> DcmIPdu:
+        """
+        Attribute is used to distinguish a request from a response.
+        A None value is a no-op and does not overwrite an existing diagPduType.
+        """
+        if value is not None:
+            self.diagPduType = value
         return self
 
 
