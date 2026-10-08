@@ -1313,15 +1313,31 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `RelativeTolerance` — TimeRangeTypeTolerance — R23-11 CP_TPS_SystemTemplate Table 6.68, p.398
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/Timing.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: Table 6.68 EXISTS (p.398) — the class's `# XSD verified:` marker +
+    XSD-only `# Spec:` line were stale provenance; removed at session start (Rule 0023)
+    and `audit_stamped_classes.py --write-baseline` re-run (baseline unchanged, 285
+    entries). Base row verified from spec: `ARObject, TimeRangeTypeTolerance` → Python
+    base `TimeRangeTypeTolerance` (unchanged). Own attr: `relative` (Integer, 0..1,
+    attr) — already modeled with spec type. XSD group RELATIVE-TOLERANCE: single
+    `RELATIVE` element (AR:INTEGER), no atp.Status="removed" members; atpObject (not
+    VP-capable). Aggregator `getTimeRangeType`/`setTimeRangeType` dispatch already full
+    (isinstance branch writes the RELATIVE child) — no consumer upgrade needed.
+  - Deviation: none — the model already matched its table (field `relative`
+    Optional[Integer], None-no-op setter, base `TimeRangeTypeTolerance`); the sync
+    added the missing accessor docstrings, the constr_9191 class-docstring row, the
+    corrected `# Spec:` citation and the per-class parser/writer round-trip tests.
+    Stale `# XSD verified:` marker removed at entry (Rule 0023 removal +
+    audit_stamped_classes baseline refresh — baseline unchanged). No
+    referenced-but-missing classes.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-08 (23680 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 358656e2a
 
 - [ ] `AbsoluteTolerance` — TimeRangeTypeTolerance — R23-11 CP_TPS_SystemTemplate Table 6.69, p.398
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/Timing.py

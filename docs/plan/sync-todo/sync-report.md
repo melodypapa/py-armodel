@@ -13,8 +13,8 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | [x] Done | 852 | 44.8% |
 | [x] Deferred | 42 | 2.2% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 837 | 44.0% |
-| [ ] Implemented | 29 | 1.5% |
+| [ ] Deferred | 838 | 44.1% |
+| [ ] Implemented | 28 | 1.5% |
 | [ ] Created | 142 | 7.5% |
 | [ ] Pending | 0 | 0.0% |
 
@@ -1461,7 +1461,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `Referrable`                                            | [x] Deferred| N/A                                      | Group21          |
 | `ReferrableSubtypesEnum`                                | [ ] Deferred| N/A                                      | Group21          |
 | `RegularExpression`                                     | [ ] Deferred| N/A                                      | Group21          |
-| `RelativeTolerance`                                     | [ ] Implemented| N/A                                      | Group31          |
+| `RelativeTolerance`                                     | [ ] Deferred| 358656e2a4                               | Group31          |
 | `RequestResponseDelay`                                  | [x] Done    | 1c556f35b4                               | Group16          |
 | `ResolutionPolicyEnum`                                  | [x] Done    | f0a7460898                               | Group3           |
 | `ResourceConsumption`                                   | [x] Done    | 0404020952                               | Group1           |
