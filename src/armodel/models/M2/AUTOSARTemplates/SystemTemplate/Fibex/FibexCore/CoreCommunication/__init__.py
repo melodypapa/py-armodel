@@ -3236,24 +3236,20 @@ class SecureCommunicationFreshnessProps(Identifiable):
 
     # SecureCommunicationFreshnessProps method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.46, p.371
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getFreshnessCounterSyncAttempts            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setFreshnessCounterSyncAttempts            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getFreshnessTimestampTimePeriodFactor      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setFreshnessTimestampTimePeriodFactor      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getFreshnessValueLength                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setFreshnessValueLength                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getFreshnessValueTxLength                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setFreshnessValueTxLength                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getUseFreshnessTimestamp                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setUseFreshnessTimestamp                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getFreshnessCounterSyncAttempts         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFreshnessCounterSyncAttempts         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFreshnessTimestampTimePeriodFactor   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFreshnessTimestampTimePeriodFactor   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFreshnessValueLength                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFreshnessValueLength                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFreshnessValueTxLength               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFreshnessValueTxLength               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getUseFreshnessTimestamp                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUseFreshnessTimestamp                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the SecureCommunicationFreshnessProps.
-        """
         super().__init__(parent, short_name)
 
         # This attribute defines the number of Freshness Counter re-synchronization attempts when a verification failed for a Secured I-PDU. If the value is zero, there will be no additional verification attempt to synchronize with a potentially better fitting Freshness Counter value. This attribute is only applicable if useFreshnessTimestamp is FALSE.

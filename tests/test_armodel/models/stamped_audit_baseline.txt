@@ -225,7 +225,6 @@ SdgCaption
 SdgContents
 SectionInitializationPolicyType
 SecureCommunicationAuthenticationProps
-SecureCommunicationFreshnessProps
 ServiceDependency
 ServiceVersionAcceptanceKindEnum
 SingleLanguageUnitNames
