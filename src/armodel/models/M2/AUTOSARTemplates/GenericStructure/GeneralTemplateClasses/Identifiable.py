@@ -2530,10 +2530,6 @@ class PortElementToCommunicationResourceMapping(Identifiable):
     pass
 
 
-class SOMEIPTransformationProps(Identifiable):
-    pass
-
-
 class SomeipTpChannel(Identifiable):
     pass
 

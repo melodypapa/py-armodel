@@ -1610,6 +1610,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     SOMEIPMessageTypeEnum,
     SOMEIPTransformationDescription,
     SOMEIPTransformationISignalProps,
+    SOMEIPTransformationProps,
     TlvDataIdDefinition,
     TlvDataIdDefinitionSet,
     TransformationDescription,
@@ -16281,6 +16282,17 @@ class ARXMLParser(AbstractARXMLParser):
         # so the helper owns the Identifiable level of the concrete subclass element
         # (AP-SOMEIP-/SOMEIP-/USER-DEFINED-TRANSFORMATION-PROPS).
         self.readIdentifiable(element, props)
+        return props
+
+    def readSOMEIPTransformationProps(self, element: ET.Element, props: SOMEIPTransformationProps) -> SOMEIPTransformationProps:
+        # The XSD SOMEIP-TRANSFORMATION-PROPS group (AUTOSAR_00052.xsd l.111546) follows the
+        # TRANSFORMATION-PROPS group: ALIGNMENT then the four SIZE-OF-*-LENGTH-FIELD elements.
+        self.readTransformationProps(element, props)
+        props.setAlignment(self.getChildElementOptionalPositiveInteger(element, "ALIGNMENT"))
+        props.setSizeOfArrayLengthField(self.getChildElementOptionalPositiveInteger(element, "SIZE-OF-ARRAY-LENGTH-FIELD"))
+        props.setSizeOfStringLengthField(self.getChildElementOptionalPositiveInteger(element, "SIZE-OF-STRING-LENGTH-FIELD"))
+        props.setSizeOfStructLengthField(self.getChildElementOptionalPositiveInteger(element, "SIZE-OF-STRUCT-LENGTH-FIELD"))
+        props.setSizeOfUnionLengthField(self.getChildElementOptionalPositiveInteger(element, "SIZE-OF-UNION-LENGTH-FIELD"))
         return props
 
     def readGlobalTimeSlave(self, element: ET.Element, slave: GlobalTimeSlave) -> GlobalTimeSlave:

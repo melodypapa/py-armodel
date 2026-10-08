@@ -1343,6 +1343,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     EndToEndTransformationISignalProps,
     SOMEIPTransformationDescription,
     SOMEIPTransformationISignalProps,
+    SOMEIPTransformationProps,
     TlvDataIdDefinition,
     TlvDataIdDefinitionSet,
     TransformationDescription,
@@ -13793,6 +13794,17 @@ class ARXMLWriter(AbstractARXMLWriter):
         # (AUTOSAR_00052.xsd l.125529) has an empty sequence, so the helper owns the
         # Identifiable level only.
         self.writeIdentifiable(element, props)
+
+    def writeSOMEIPTransformationProps(self, element: ET.Element, props: SOMEIPTransformationProps):
+        # Populates the SOMEIP-TRANSFORMATION-PROPS element created by the caller; the XSD
+        # SOMEIP-TRANSFORMATION-PROPS group (AUTOSAR_00052.xsd l.111546) follows the
+        # TRANSFORMATION-PROPS group: ALIGNMENT then the four SIZE-OF-*-LENGTH-FIELD elements.
+        self.writeTransformationProps(element, props)
+        self.setChildElementOptionalPositiveInteger(element, "ALIGNMENT", cast(Integer, props.getAlignment()))
+        self.setChildElementOptionalPositiveInteger(element, "SIZE-OF-ARRAY-LENGTH-FIELD", cast(Integer, props.getSizeOfArrayLengthField()))
+        self.setChildElementOptionalPositiveInteger(element, "SIZE-OF-STRING-LENGTH-FIELD", cast(Integer, props.getSizeOfStringLengthField()))
+        self.setChildElementOptionalPositiveInteger(element, "SIZE-OF-STRUCT-LENGTH-FIELD", cast(Integer, props.getSizeOfStructLengthField()))
+        self.setChildElementOptionalPositiveInteger(element, "SIZE-OF-UNION-LENGTH-FIELD", cast(Integer, props.getSizeOfUnionLengthField()))
 
     def writeGlobalTimeSlave(self, element: ET.Element, slave: GlobalTimeSlave):
         # Populates the concrete subclass element (GLOBAL-TIME-CAN-/ETH-/FR-/USER-DEFINED-
