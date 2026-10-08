@@ -1235,25 +1235,28 @@ class TransferPropertyEnum(AREnum):
 class ISignalToIPduMapping(Identifiable, VariationPointCapable):
     """
     An ISignalToIPduMapping describes the mapping of ISignals to ISignalIPdus and defines the position of the ISignal within an ISignalIPdu.
+
+    [constr_5322] Value range of ISignalToIPduMapping.startPosition: The value of ISignalToIPduMapping.startPosition shall be in the range of 0..4294967295 Bits.
+    [constr_5323] Value range of ISignalToIPduMapping.updateIndicationBitPosition: The value of ISignalToIPduMapping.updateIndicationBitPosition shall be in the range of 0..4294967295 Bits.
+    [constr_3514] No two ISignalToIPduMappings shall reference the identical ISignal: No two ISignalToIPduMappings shall reference the identical ISignal in the role iSignal in the scope of one System.
     """
 
     # ISignalToIPduMapping method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.14, p.326
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getISignalRef                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setISignalRef                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getISignalGroupRef           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setISignalGroupRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPackingByteOrder          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setPackingByteOrder          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getStartPosition             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setStartPosition             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTransferProperty          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTransferProperty          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getUpdateIndicationBitPosition [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setUpdateIndicationBitPosition [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getISignalRef                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setISignalRef                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getISignalGroupRef             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setISignalGroupRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPackingByteOrder            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPackingByteOrder            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getStartPosition               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setStartPosition               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTransferProperty            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTransferProperty            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getUpdateIndicationBitPosition [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUpdateIndicationBitPosition [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -1273,7 +1276,7 @@ class ISignalToIPduMapping(Identifiable, VariationPointCapable):
         # Defines how the referenced ISignal contributes to the send triggering of the ISignalIPdu.
         self.transferProperty: Optional[TransferPropertyEnum] = None
 
-        # The UpdateIndicationBit indicates to the receivers that the signal (or the signal group) was updated by the sender. Length is always one bit. The UpdateIndicationBitPosition attribute describes the position of the update bit within the SignalIPdu. For Signals of a ISignalGroup this attribute is irrelevant and shall be ignored. Note that the exact bit position of the updateIndicationBitPosition is linked to the value of the attribute packingByteOrder because the method of finding the bit position is different for the values mostSignificantByteFirst and mostSignificantByteLast. This means that if the value of packingByteOrder is changed while the value of updateIndicationBitPosition remains unchanged the exact bit position of updateIndicationBitPosition within the enclosing ISignalIPdu still undergoes a change. This attribute denotes the least significant bit for "Little Endian" and the most significant bit for "Big Endian" packed signals within the IPdu (see the description of the packingByteOrder attribute). In AUTOSAR the bit counting is always set to "sawtooth" and the bit order is set to "Decreasing". The bit counting in byte 0 starts with bit 0 (least significant bit). The most significant bit in byte 0 is bit 7.
+        # The UpdateIndicationBit indicates to the receivers that the signal (or the signal group) was updated by the sender. Length is always one bit. The UpdateIndicationBitPosition attribute describes the position of the update bit within the SignalIPdu. For Signals of a ISignalGroup this attribute is irrelevant and shall be ignored. Note that the exact bit position of the updateIndicationBit Position is linked to the value of the attribute packingByte Order because the method of finding the bit position is different for the values mostSignificantByteFirst and most SignificantByteLast. This means that if the value of packingByteOrder is changed while the value of update IndicationBitPosition remains unchanged the exact bit position of updateIndicationBitPosition within the enclosing ISignalIPdu still undergoes a change. This attribute denotes the least significant bit for "Little Endian" and the most significant bit for "Big Endian" packed signals within the IPdu (see the description of the packingByteOrder attribute). In AUTOSAR the bit counting is always set to "sawtooth" and the bit order is set to "Decreasing". The bit counting in byte 0 starts with bit 0 (least significant bit). The most significant bit in byte 0 is bit 7.
         self.updateIndicationBitPosition: Optional[UnlimitedInteger] = None
 
     def getISignalRef(self) -> Optional[RefType]:
@@ -1353,13 +1356,13 @@ class ISignalToIPduMapping(Identifiable, VariationPointCapable):
 
     def getUpdateIndicationBitPosition(self) -> Optional[UnlimitedInteger]:
         """
-        The UpdateIndicationBit indicates to the receivers that the signal (or the signal group) was updated by the sender. Length is always one bit. The UpdateIndicationBitPosition attribute describes the position of the update bit within the SignalIPdu. For Signals of a ISignalGroup this attribute is irrelevant and shall be ignored. Note that the exact bit position of the updateIndicationBitPosition is linked to the value of the attribute packingByteOrder because the method of finding the bit position is different for the values mostSignificantByteFirst and mostSignificantByteLast. This means that if the value of packingByteOrder is changed while the value of updateIndicationBitPosition remains unchanged the exact bit position of updateIndicationBitPosition within the enclosing ISignalIPdu still undergoes a change. This attribute denotes the least significant bit for "Little Endian" and the most significant bit for "Big Endian" packed signals within the IPdu (see the description of the packingByteOrder attribute). In AUTOSAR the bit counting is always set to "sawtooth" and the bit order is set to "Decreasing". The bit counting in byte 0 starts with bit 0 (least significant bit). The most significant bit in byte 0 is bit 7.
+        The UpdateIndicationBit indicates to the receivers that the signal (or the signal group) was updated by the sender. Length is always one bit. The UpdateIndicationBitPosition attribute describes the position of the update bit within the SignalIPdu. For Signals of a ISignalGroup this attribute is irrelevant and shall be ignored. Note that the exact bit position of the updateIndicationBit Position is linked to the value of the attribute packingByte Order because the method of finding the bit position is different for the values mostSignificantByteFirst and most SignificantByteLast. This means that if the value of packingByteOrder is changed while the value of update IndicationBitPosition remains unchanged the exact bit position of updateIndicationBitPosition within the enclosing ISignalIPdu still undergoes a change. This attribute denotes the least significant bit for "Little Endian" and the most significant bit for "Big Endian" packed signals within the IPdu (see the description of the packingByteOrder attribute). In AUTOSAR the bit counting is always set to "sawtooth" and the bit order is set to "Decreasing". The bit counting in byte 0 starts with bit 0 (least significant bit). The most significant bit in byte 0 is bit 7.
         """
         return self.updateIndicationBitPosition
 
     def setUpdateIndicationBitPosition(self, value: Optional[UnlimitedInteger]) -> ISignalToIPduMapping:
         """
-        The UpdateIndicationBit indicates to the receivers that the signal (or the signal group) was updated by the sender. Length is always one bit. The UpdateIndicationBitPosition attribute describes the position of the update bit within the SignalIPdu. For Signals of a ISignalGroup this attribute is irrelevant and shall be ignored. Note that the exact bit position of the updateIndicationBitPosition is linked to the value of the attribute packingByteOrder because the method of finding the bit position is different for the values mostSignificantByteFirst and mostSignificantByteLast. This means that if the value of packingByteOrder is changed while the value of updateIndicationBitPosition remains unchanged the exact bit position of updateIndicationBitPosition within the enclosing ISignalIPdu still undergoes a change. This attribute denotes the least significant bit for "Little Endian" and the most significant bit for "Big Endian" packed signals within the IPdu (see the description of the packingByteOrder attribute). In AUTOSAR the bit counting is always set to "sawtooth" and the bit order is set to "Decreasing". The bit counting in byte 0 starts with bit 0 (least significant bit). The most significant bit in byte 0 is bit 7.
+        The UpdateIndicationBit indicates to the receivers that the signal (or the signal group) was updated by the sender. Length is always one bit. The UpdateIndicationBitPosition attribute describes the position of the update bit within the SignalIPdu. For Signals of a ISignalGroup this attribute is irrelevant and shall be ignored. Note that the exact bit position of the updateIndicationBit Position is linked to the value of the attribute packingByte Order because the method of finding the bit position is different for the values mostSignificantByteFirst and most SignificantByteLast. This means that if the value of packingByteOrder is changed while the value of update IndicationBitPosition remains unchanged the exact bit position of updateIndicationBitPosition within the enclosing ISignalIPdu still undergoes a change. This attribute denotes the least significant bit for "Little Endian" and the most significant bit for "Big Endian" packed signals within the IPdu (see the description of the packingByteOrder attribute). In AUTOSAR the bit counting is always set to "sawtooth" and the bit order is set to "Decreasing". The bit counting in byte 0 starts with bit 0 (least significant bit). The most significant bit in byte 0 is bit 7.
         A None value is a no-op and does not overwrite an existing updateIndicationBitPosition.
         """
         if value is not None:

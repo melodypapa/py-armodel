@@ -14072,12 +14072,12 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readISignalToIPduMapping(self, element: ET.Element, mapping: ISignalToIPduMapping):
         self.readIdentifiable(element, mapping)
-        mapping.setISignalRef(self.getChildElementOptionalRefType(element, "I-SIGNAL-REF"))
         mapping.setISignalGroupRef(self.getChildElementOptionalRefType(element, "I-SIGNAL-GROUP-REF"))
+        mapping.setISignalRef(self.getChildElementOptionalRefType(element, "I-SIGNAL-REF"))
         mapping.setPackingByteOrder(self._readEnumToken(element, "PACKING-BYTE-ORDER", ByteOrderEnum, BYTE_ORDER_XML_MAP))
-        mapping.setStartPosition(cast(Optional[UnlimitedInteger], self.getChildElementOptionalIntegerValue(element, "START-POSITION")))
+        mapping.setStartPosition(self.getChildElementOptionalUnlimitedInteger(element, "START-POSITION"))
         mapping.setTransferProperty(cast(Optional[TransferPropertyEnum], self.getChildElementOptionalLiteral(element, "TRANSFER-PROPERTY")))
-        mapping.setUpdateIndicationBitPosition(cast(Optional[UnlimitedInteger], self.getChildElementOptionalNumericalValue(element, "UPDATE-INDICATION-BIT-POSITION")))
+        mapping.setUpdateIndicationBitPosition(self.getChildElementOptionalUnlimitedInteger(element, "UPDATE-INDICATION-BIT-POSITION"))
 
     def readNmPduISignalToIPduMappings(self, element: ET.Element, pdu: NmPdu):
         for child_element in self.findall(element, "I-SIGNAL-TO-I-PDU-MAPPINGS/*"):
@@ -17605,13 +17605,7 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "I-SIGNAL-TO-PDU-MAPPINGS/I-SIGNAL-TO-I-PDU-MAPPING"):
             short_name = self.getShortName(child_element)
             mapping = parent.createISignalToPduMappings(short_name)
-            self.readIdentifiable(child_element, mapping)
-            mapping.setISignalRef(self.getChildElementOptionalRefType(child_element, "I-SIGNAL-REF"))
-            mapping.setISignalGroupRef(self.getChildElementOptionalRefType(child_element, "I-SIGNAL-GROUP-REF"))
-            mapping.setPackingByteOrder(self._readEnumToken(child_element, "PACKING-BYTE-ORDER", ByteOrderEnum, BYTE_ORDER_XML_MAP))
-            mapping.setStartPosition(cast(Optional[UnlimitedInteger], self.getChildElementOptionalNumericalValue(child_element, "START-POSITION")))
-            mapping.setTransferProperty(cast(Optional[TransferPropertyEnum], self.getChildElementOptionalLiteral(child_element, "TRANSFER-PROPERTY")))
-            mapping.setUpdateIndicationBitPosition(cast(Optional[UnlimitedInteger], self.getChildElementOptionalNumericalValue(child_element, "UPDATE-INDICATION-BIT-POSITION")))
+            self.readISignalToIPduMapping(child_element, mapping)
 
     def getDataFilter(self, element: ET.Element, key: str) -> Optional[DataFilter]:
         filter = None

@@ -130,7 +130,6 @@ IPSecConfig
 IPdu
 IPduTiming
 ISignalIPdu
-ISignalToIPduMapping
 ISignalTriggering
 Identifiable
 ImplementationElementInParameterInstanceRef

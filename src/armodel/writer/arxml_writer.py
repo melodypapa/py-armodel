@@ -10332,13 +10332,14 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeISignalToIPduMapping(self, element: ET.Element, mapping: ISignalToIPduMapping):
         if mapping is not None:
             child_element = ET.SubElement(element, "I-SIGNAL-TO-I-PDU-MAPPING")
-            self.writeIdentifiable(child_element, mapping)
-            self.setChildElementOptionalRefType(child_element, "I-SIGNAL-REF", mapping.getISignalRef())
+            self.writeIdentifiable(child_element, mapping, write_variation_point=False)
             self.setChildElementOptionalRefType(child_element, "I-SIGNAL-GROUP-REF", mapping.getISignalGroupRef())
+            self.setChildElementOptionalRefType(child_element, "I-SIGNAL-REF", mapping.getISignalRef())
             self._writeEnumToken(child_element, "PACKING-BYTE-ORDER", mapping.getPackingByteOrder(), BYTE_ORDER_XML_MAP)
-            self.setChildElementOptionalIntegerValue(child_element, "START-POSITION", mapping.getStartPosition())
+            self.setChildElementOptionalUnlimitedInteger(child_element, "START-POSITION", mapping.getStartPosition())
             self.setChildElementOptionalLiteral(child_element, "TRANSFER-PROPERTY", mapping.getTransferProperty())
-            self.setChildElementOptionalNumericalValue(child_element, "UPDATE-INDICATION-BIT-POSITION", mapping.getUpdateIndicationBitPosition())
+            self.setChildElementOptionalUnlimitedInteger(child_element, "UPDATE-INDICATION-BIT-POSITION", mapping.getUpdateIndicationBitPosition())
+            self.writeVariationPointCapable(child_element, mapping)
 
     def writeNmPduISignalToIPduMappings(self, element: ET.Element, pdu: NmPdu):
         mappings = pdu.getISignalToIPduMappings()
@@ -19203,14 +19204,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         if len(mappings) > 0:
             mappings_tag = ET.SubElement(element, "I-SIGNAL-TO-PDU-MAPPINGS")
             for mapping in mappings:
-                child_element = ET.SubElement(mappings_tag, "I-SIGNAL-TO-I-PDU-MAPPING")
-                self.writeIdentifiable(child_element, mapping)
-                self.setChildElementOptionalRefType(child_element, "I-SIGNAL-REF", mapping.getISignalRef())
-                self.setChildElementOptionalRefType(child_element, "I-SIGNAL-GROUP-REF", mapping.getISignalGroupRef())
-                self._writeEnumToken(child_element, "PACKING-BYTE-ORDER", mapping.getPackingByteOrder(), BYTE_ORDER_XML_MAP)
-                self.setChildElementOptionalNumericalValue(child_element, "START-POSITION", mapping.getStartPosition())
-                self.setChildElementOptionalLiteral(child_element, "TRANSFER-PROPERTY", mapping.getTransferProperty())
-                self.setChildElementOptionalNumericalValue(child_element, "UPDATE-INDICATION-BIT-POSITION", mapping.getUpdateIndicationBitPosition())
+                self.writeISignalToIPduMapping(mappings_tag, mapping)
 
     def setDataFilter(self, element: ET.Element, key: str, filter: Optional[DataFilter]):
         if filter is not None:
