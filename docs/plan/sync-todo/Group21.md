@@ -120,7 +120,7 @@ pending that confirmation.
       recorded as accepted. No missing referenced classes.
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (139 passed / 0 failed
     test_PrimitiveTypes.py); 9b confirmed 2026-10-08; sync commit a097cb3d4
-- [ ] `SdgDef` — ARElement — R23-11 FO_TPS_GenericStructureTemplate Table 4.24, p.99
+- [x] `SdgDef` — ARElement — R23-11 FO_TPS_GenericStructureTemplate Table 4.24, p.99
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/SpecialDataDef.py
   - [x] Step 1 — Sync members & description from spec
     - note (Step 1): Table 4.24 (trailing-caption page-split; p.99 via pdf_page.py); Package M2::...::GeneralTemplateClasses::SpecialDataDef — REHOUSED from the ARPackage.py stub to the spec package (new module); Base ARElement (most-derived); attr sdgClass (SdgClass, *, aggr) → sdgClasses + addSdgClass; ARPackage.createSdgDef factory added (late import, mirroring the VariantHandling pattern).
@@ -150,9 +150,9 @@ pending that confirmation.
     - note (Step 7): 6-column block + release column; marker withheld (batch mode).
   - [x] Step 8 — Deviations
     - note (Step 8): none; consumer dispatch added to the ARPackage element writer/parser chains.
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (362 passed / 0 failed
-    family suites; 14,043 passed / 0 failed models+parser+writer sweep); 9b deferred to
-    batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (362 passed / 0 failed
+    family suites; 14,043 passed / 0 failed models+parser+writer sweep); 9b confirmed
+    2026-10-08; sync commit c7d395806
 
 - [ ] `SdgElementWithGid` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.25, p.99
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/SpecialDataDef.py
