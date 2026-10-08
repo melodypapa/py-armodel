@@ -10300,6 +10300,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read BusMirrorChannelMappingUserDefined <%s>" % mapping.getShortName())
         self.readBusMirrorChannelMapping(element, mapping)
         mapping.setTransmissionDeadline(self.getChildElementOptionalTimeValue(element, "TRANSMISSION-DEADLINE"))
+
     def readTDCpSoftwareClusterMapping(self, element: ET.Element, mapping: TDCpSoftwareClusterMapping):
         self.logger.debug("Read TDCpSoftwareClusterMapping <%s>" % mapping.getShortName())
         self.readIdentifiable(element, mapping)

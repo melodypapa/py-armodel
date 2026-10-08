@@ -9942,6 +9942,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "BUS-MIRROR-CHANNEL-MAPPING-USER-DEFINED")
         self.writeBusMirrorChannelMapping(child_element, mapping)
         self.setChildElementOptionalTimeValue(child_element, "TRANSMISSION-DEADLINE", mapping.getTransmissionDeadline())
+
     def writeTDCpSoftwareClusterMapping(self, element: ET.Element, mapping: TDCpSoftwareClusterMapping):
         child_element = ET.SubElement(element, "TD-CP-SOFTWARE-CLUSTER-MAPPING")
         self.writeIdentifiable(child_element, mapping)
