@@ -3588,10 +3588,6 @@ class GlobalTimeCorrectionProps(ARObject):
         return self
 
 
-class GlobalTimeSlave(ARObject, ABC):
-    pass
-
-
 class IEEE1722TpAcfBusPart(ARObject, ABC):
     pass
 

@@ -51,6 +51,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticRoutineSubfunction,
     DiagnosticStartRoutine,
     DiagnosticStopRoutine,
+    GlobalTimeSlave,
     Identifiable,
     MultilanguageReferrable,
     Referrable,
@@ -62,11 +63,15 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Boolean,
     CategoryString,
     DiagnosticDebounceBehaviorEnum,
+    GlobalTimeIcvVerificationEnum,
     Identifier,
     PositiveInteger,
     RefType,
     String,
+    TimeValue,
 )
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.ViewMapSet import ViewMap
 from armodel.models.M2.MSR.AsamHdo.AdminData import AdminData
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
@@ -2730,3 +2735,235 @@ class TestDdsCpPartition:
         """
         assert inspect.cleandoc(DdsCpPartition.getPartitionName.__doc__) == self.PARTITION_NAME_NOTE
         assert inspect.cleandoc(DdsCpPartition.setPartitionName.__doc__) == (self.PARTITION_NAME_NOTE + "\n\nA None value is a no-op and does not overwrite an existing partitionName.")
+
+
+class ConcreteGlobalTimeSlave(GlobalTimeSlave):
+    pass
+
+
+class TestGlobalTimeSlave:
+    """
+    Test class for GlobalTimeSlave functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.5, p.861
+    (abstract; subclasses GlobalTimeCanSlave, GlobalTimeEthSlave, GlobalTimeFrSlave and
+    UserDefinedGlobalTimeSlave — exercised through a local concrete subclass per the
+    abstract-class test convention.)
+    """
+
+    CLASS_NOTE = "This represents the generic concept of a global time slave."
+    COMMUNICATION_CONNECTOR_REF_NOTE = "The GlobalTimeSlave is bound to the Communication Connector."
+    FOLLOW_UP_TIMEOUT_VALUE_NOTE = "Rx timeout for the follow-up message."
+    ICV_VERIFICATION_NOTE = "Defines how an Integrity Check Value (ICV) shall be handled at the receiver. Tags: atp.Status=candidate"
+    TIME_LEAP_FUTURE_THRESHOLD_NOTE = "Defines the maximum allowed positive difference between the current Local Time Base value and a newly received Global Time Base value."
+    TIME_LEAP_HEALING_COUNTER_NOTE = "Defines the required number of updates to the Time Base where the time difference to the previous received value has to remain within the bounds of timeLeapFutureThreshold and timeLeapPastThreshold until that Time Base is considered healed."
+    TIME_LEAP_PAST_THRESHOLD_NOTE = "Defines the maximum allowed negative difference between the current Local Time Base value and a newly received Global Time Base value."
+
+    def _create_slave(self) -> ConcreteGlobalTimeSlave:
+        return ConcreteGlobalTimeSlave(AUTOSAR.getInstance(), "slave")
+
+    def test_abstract_initialization(self):
+        """
+        GlobalTimeSlave is abstract and cannot be instantiated directly.
+        """
+        with pytest.raises(TypeError):
+            GlobalTimeSlave(AUTOSAR.getInstance(), "slave")
+
+    def test_is_identifiable_subclass_with_variation_point_capable(self):
+        """
+        Test that GlobalTimeSlave derives from Identifiable per the Table 9.5 Base row
+        (ARObject, Identifiable, MultilanguageReferrable, Referrable — most-derived
+        Identifiable) and from VariationPointCapable (the atpVariation on the owning
+        GlobalTimeDomain.slave row makes the class VP-capable; the XSD GLOBAL-TIME-SLAVE
+        group carries VARIATION-POINT last, xml.sequenceOffset=10000).
+        """
+        assert issubclass(GlobalTimeSlave, Identifiable)
+        assert issubclass(GlobalTimeSlave, VariationPointCapable)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(GlobalTimeSlave.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert GlobalTimeSlave.__init__.__doc__ is None
+
+    def test_member_order_follows_spec_rows(self):
+        """
+        Test that the accessors follow the Table 9.5 displayed row order (getter first per attribute).
+        """
+        methods = [name for name, value in GlobalTimeSlave.__dict__.items() if callable(value) and not name.startswith("_")]
+        assert methods == [
+            "getCommunicationConnectorRef",
+            "setCommunicationConnectorRef",
+            "getFollowUpTimeoutValue",
+            "setFollowUpTimeoutValue",
+            "getIcvVerification",
+            "setIcvVerification",
+            "getTimeLeapFutureThreshold",
+            "setTimeLeapFutureThreshold",
+            "getTimeLeapHealingCounter",
+            "setTimeLeapHealingCounter",
+            "getTimeLeapPastThreshold",
+            "setTimeLeapPastThreshold",
+        ]
+
+    def test_initialization_defaults(self):
+        """
+        Test that a concrete subclass initializes all attributes to their defaults.
+        """
+        obj = self._create_slave()
+
+        assert obj.getShortName() == "slave"
+        assert obj.getChecksum() is None
+        assert obj.getCommunicationConnectorRef() is None
+        assert obj.getFollowUpTimeoutValue() is None
+        assert obj.getIcvVerification() is None
+        assert obj.getTimeLeapFutureThreshold() is None
+        assert obj.getTimeLeapHealingCounter() is None
+        assert obj.getTimeLeapPastThreshold() is None
+        assert obj.getVariationPoint() is None
+
+    def test_annotations_are_optional_typed(self):
+        """
+        Test that the accessors carry the spec types (0..1 rows).
+        """
+        hints = typing.get_type_hints(GlobalTimeSlave.getCommunicationConnectorRef)
+        assert hints.get("return") == typing.Optional[RefType]
+        hints = typing.get_type_hints(GlobalTimeSlave.setCommunicationConnectorRef)
+        assert hints.get("value") == typing.Optional[RefType]
+        assert hints.get("return") is GlobalTimeSlave
+
+        hints = typing.get_type_hints(GlobalTimeSlave.getFollowUpTimeoutValue)
+        assert hints.get("return") == typing.Optional[TimeValue]
+        hints = typing.get_type_hints(GlobalTimeSlave.getIcvVerification)
+        assert hints.get("return") == typing.Optional[GlobalTimeIcvVerificationEnum]
+        hints = typing.get_type_hints(GlobalTimeSlave.getTimeLeapFutureThreshold)
+        assert hints.get("return") == typing.Optional[TimeValue]
+        hints = typing.get_type_hints(GlobalTimeSlave.getTimeLeapHealingCounter)
+        assert hints.get("return") == typing.Optional[PositiveInteger]
+        hints = typing.get_type_hints(GlobalTimeSlave.getTimeLeapPastThreshold)
+        assert hints.get("return") == typing.Optional[TimeValue]
+
+    def test_get_set_communication_connector_ref(self):
+        """
+        Test getCommunicationConnectorRef and setCommunicationConnectorRef round-trip and None no-op.
+        """
+        obj = self._create_slave()
+
+        value = RefType()
+        value.setValue("/CommunicationClusters/Cluster/Connector")
+        result = obj.setCommunicationConnectorRef(value)
+        assert result is obj
+        assert obj.getCommunicationConnectorRef() is value
+        assert obj.getCommunicationConnectorRef().getValue() == "/CommunicationClusters/Cluster/Connector"
+
+        result = obj.setCommunicationConnectorRef(None)
+        assert result is obj
+        assert obj.getCommunicationConnectorRef() is value
+
+    def test_get_set_follow_up_timeout_value(self):
+        """
+        Test getFollowUpTimeoutValue and setFollowUpTimeoutValue round-trip and None no-op.
+        """
+        obj = self._create_slave()
+
+        value = TimeValue()
+        value.setValue("0.05")
+        result = obj.setFollowUpTimeoutValue(value)
+        assert result is obj
+        assert obj.getFollowUpTimeoutValue() is value
+
+        result = obj.setFollowUpTimeoutValue(None)
+        assert result is obj
+        assert obj.getFollowUpTimeoutValue() is value
+
+    def test_get_set_icv_verification(self):
+        """
+        Test getIcvVerification and setIcvVerification round-trip and None no-op.
+        """
+        obj = self._create_slave()
+
+        value = GlobalTimeIcvVerificationEnum()
+        value.setValue(GlobalTimeIcvVerificationEnum.ICV_VERIFIED)
+        result = obj.setIcvVerification(value)
+        assert result is obj
+        assert obj.getIcvVerification() is value
+        assert obj.getIcvVerification().getValue() == GlobalTimeIcvVerificationEnum.ICV_VERIFIED
+
+        result = obj.setIcvVerification(None)
+        assert result is obj
+        assert obj.getIcvVerification() is value
+
+    def test_get_set_time_leap_thresholds(self):
+        """
+        Test the timeLeap* getter/setter pairs round-trip and None no-op.
+        """
+        obj = self._create_slave()
+
+        future = TimeValue()
+        future.setValue("0.5")
+        result = obj.setTimeLeapFutureThreshold(future)
+        assert result is obj
+        assert obj.getTimeLeapFutureThreshold() is future
+
+        healing = PositiveInteger()
+        healing.setValue("4")
+        result = obj.setTimeLeapHealingCounter(healing)
+        assert result is obj
+        assert obj.getTimeLeapHealingCounter() is healing
+        assert obj.getTimeLeapHealingCounter().getValue() == 4
+
+        past = TimeValue()
+        past.setValue("-0.5")
+        result = obj.setTimeLeapPastThreshold(past)
+        assert result is obj
+        assert obj.getTimeLeapPastThreshold() is past
+
+        result = obj.setTimeLeapFutureThreshold(None)
+        assert result is obj
+        assert obj.getTimeLeapFutureThreshold() is future
+
+    def test_variation_point_base_accessors(self):
+        """
+        Exercise the inherited VariationPointCapable accessors: chaining, round-trip, None no-op.
+        """
+        obj = self._create_slave()
+
+        variation_point = VariationPoint()
+        assert obj.setVariationPoint(variation_point) is obj
+        assert obj.getVariationPoint() is variation_point
+
+        obj.setVariationPoint(None)
+        assert obj.getVariationPoint() is variation_point
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        assert inspect.cleandoc(GlobalTimeSlave.getCommunicationConnectorRef.__doc__) == self.COMMUNICATION_CONNECTOR_REF_NOTE
+        assert inspect.cleandoc(GlobalTimeSlave.setCommunicationConnectorRef.__doc__) == (
+            self.COMMUNICATION_CONNECTOR_REF_NOTE + "\n\nA None value is a no-op and does not overwrite an existing communicationConnectorRef."
+        )
+        assert inspect.cleandoc(GlobalTimeSlave.getFollowUpTimeoutValue.__doc__) == self.FOLLOW_UP_TIMEOUT_VALUE_NOTE
+        assert inspect.cleandoc(GlobalTimeSlave.setFollowUpTimeoutValue.__doc__) == (
+            self.FOLLOW_UP_TIMEOUT_VALUE_NOTE + "\n\nA None value is a no-op and does not overwrite an existing followUpTimeoutValue."
+        )
+        assert inspect.cleandoc(GlobalTimeSlave.getIcvVerification.__doc__) == self.ICV_VERIFICATION_NOTE
+        assert inspect.cleandoc(GlobalTimeSlave.setIcvVerification.__doc__) == (self.ICV_VERIFICATION_NOTE + "\n\nA None value is a no-op and does not overwrite an existing icvVerification.")
+        assert inspect.cleandoc(GlobalTimeSlave.getTimeLeapFutureThreshold.__doc__) == self.TIME_LEAP_FUTURE_THRESHOLD_NOTE
+        assert inspect.cleandoc(GlobalTimeSlave.setTimeLeapFutureThreshold.__doc__) == (
+            self.TIME_LEAP_FUTURE_THRESHOLD_NOTE + "\n\nA None value is a no-op and does not overwrite an existing timeLeapFutureThreshold."
+        )
+        assert inspect.cleandoc(GlobalTimeSlave.getTimeLeapHealingCounter.__doc__) == self.TIME_LEAP_HEALING_COUNTER_NOTE
+        assert inspect.cleandoc(GlobalTimeSlave.setTimeLeapHealingCounter.__doc__) == (
+            self.TIME_LEAP_HEALING_COUNTER_NOTE + "\n\nA None value is a no-op and does not overwrite an existing timeLeapHealingCounter."
+        )
+        assert inspect.cleandoc(GlobalTimeSlave.getTimeLeapPastThreshold.__doc__) == self.TIME_LEAP_PAST_THRESHOLD_NOTE
+        assert inspect.cleandoc(GlobalTimeSlave.setTimeLeapPastThreshold.__doc__) == (
+            self.TIME_LEAP_PAST_THRESHOLD_NOTE + "\n\nA None value is a no-op and does not overwrite an existing timeLeapPastThreshold."
+        )

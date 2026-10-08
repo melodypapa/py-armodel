@@ -32,10 +32,12 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Boolean,
     CategoryString,
     DiagnosticDebounceBehaviorEnum,
+    GlobalTimeIcvVerificationEnum,
     Identifier,
     PositiveInteger,
     RefType,
     String,
+    TimeValue,
     VerbatimString,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
@@ -2200,6 +2202,156 @@ class GlobalTimeGateway(Identifiable):
 
 class GlobalTimeMaster(Identifiable, ABC):
     pass
+
+
+class GlobalTimeSlave(Identifiable, VariationPointCapable, ABC):
+    """
+    This represents the generic concept of a global time slave.
+    """
+
+    # GlobalTimeSlave method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.5, p.861
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCommunicationConnectorRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCommunicationConnectorRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFollowUpTimeoutValue        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFollowUpTimeoutValue        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIcvVerification             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIcvVerification             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeLeapFutureThreshold     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeLeapFutureThreshold     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeLeapHealingCounter      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeLeapHealingCounter      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeLeapPastThreshold       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeLeapPastThreshold       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # getVariationPoint / setVariationPoint provided by the VariationPointCapable base (mixin) — no spec row
+    # (stereotype-inherent). VARIATION-POINT is the last element of the XSD GLOBAL-TIME-SLAVE group
+    # (AUTOSAR_00052.xsd l.64988, xml.sequenceOffset=10000, "Applicable for: GlobalTimeDomain.slave"):
+    # the reader reads it inside readIdentifiable, the writer emits it as the tail after the class's
+    # own elements (writeIdentifiable is called with write_variation_point=False). Aggregator dispatch
+    # (GlobalTimeDomain.slave) is pending — GlobalTimeDomain is a later-wave class.
+
+    def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is GlobalTimeSlave:
+            raise TypeError("GlobalTimeSlave is an abstract class.")
+
+        super().__init__(parent, short_name)
+
+        # The GlobalTimeSlave is bound to the Communication Connector.
+        self.communicationConnectorRef: Optional[RefType] = None
+
+        # Rx timeout for the follow-up message.
+        self.followUpTimeoutValue: Optional[TimeValue] = None
+
+        # Defines how an Integrity Check Value (ICV) shall be handled at the receiver. Tags: atp.Status=candidate
+        self.icvVerification: Optional[GlobalTimeIcvVerificationEnum] = None
+
+        # Defines the maximum allowed positive difference between the current Local Time Base value and a newly received Global Time Base value.
+        self.timeLeapFutureThreshold: Optional[TimeValue] = None
+
+        # Defines the required number of updates to the Time Base where the time difference to the previous received value has to remain within the bounds of timeLeapFutureThreshold and timeLeapPastThreshold until that Time Base is considered healed.
+        self.timeLeapHealingCounter: Optional[PositiveInteger] = None
+
+        # Defines the maximum allowed negative difference between the current Local Time Base value and a newly received Global Time Base value.
+        self.timeLeapPastThreshold: Optional[TimeValue] = None
+
+    def getCommunicationConnectorRef(self) -> Optional[RefType]:
+        """
+        The GlobalTimeSlave is bound to the Communication Connector.
+        """
+        return self.communicationConnectorRef
+
+    def setCommunicationConnectorRef(self, value: Optional[RefType]) -> GlobalTimeSlave:
+        """
+        The GlobalTimeSlave is bound to the Communication Connector.
+
+        A None value is a no-op and does not overwrite an existing communicationConnectorRef.
+        """
+        if value is not None:
+            self.communicationConnectorRef = value
+        return self
+
+    def getFollowUpTimeoutValue(self) -> Optional[TimeValue]:
+        """
+        Rx timeout for the follow-up message.
+        """
+        return self.followUpTimeoutValue
+
+    def setFollowUpTimeoutValue(self, value: Optional[TimeValue]) -> GlobalTimeSlave:
+        """
+        Rx timeout for the follow-up message.
+
+        A None value is a no-op and does not overwrite an existing followUpTimeoutValue.
+        """
+        if value is not None:
+            self.followUpTimeoutValue = value
+        return self
+
+    def getIcvVerification(self) -> Optional[GlobalTimeIcvVerificationEnum]:
+        """
+        Defines how an Integrity Check Value (ICV) shall be handled at the receiver. Tags: atp.Status=candidate
+        """
+        return self.icvVerification
+
+    def setIcvVerification(self, value: Optional[GlobalTimeIcvVerificationEnum]) -> GlobalTimeSlave:
+        """
+        Defines how an Integrity Check Value (ICV) shall be handled at the receiver. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing icvVerification.
+        """
+        if value is not None:
+            self.icvVerification = value
+        return self
+
+    def getTimeLeapFutureThreshold(self) -> Optional[TimeValue]:
+        """
+        Defines the maximum allowed positive difference between the current Local Time Base value and a newly received Global Time Base value.
+        """
+        return self.timeLeapFutureThreshold
+
+    def setTimeLeapFutureThreshold(self, value: Optional[TimeValue]) -> GlobalTimeSlave:
+        """
+        Defines the maximum allowed positive difference between the current Local Time Base value and a newly received Global Time Base value.
+
+        A None value is a no-op and does not overwrite an existing timeLeapFutureThreshold.
+        """
+        if value is not None:
+            self.timeLeapFutureThreshold = value
+        return self
+
+    def getTimeLeapHealingCounter(self) -> Optional[PositiveInteger]:
+        """
+        Defines the required number of updates to the Time Base where the time difference to the previous received value has to remain within the bounds of timeLeapFutureThreshold and timeLeapPastThreshold until that Time Base is considered healed.
+        """
+        return self.timeLeapHealingCounter
+
+    def setTimeLeapHealingCounter(self, value: Optional[PositiveInteger]) -> GlobalTimeSlave:
+        """
+        Defines the required number of updates to the Time Base where the time difference to the previous received value has to remain within the bounds of timeLeapFutureThreshold and timeLeapPastThreshold until that Time Base is considered healed.
+
+        A None value is a no-op and does not overwrite an existing timeLeapHealingCounter.
+        """
+        if value is not None:
+            self.timeLeapHealingCounter = value
+        return self
+
+    def getTimeLeapPastThreshold(self) -> Optional[TimeValue]:
+        """
+        Defines the maximum allowed negative difference between the current Local Time Base value and a newly received Global Time Base value.
+        """
+        return self.timeLeapPastThreshold
+
+    def setTimeLeapPastThreshold(self, value: Optional[TimeValue]) -> GlobalTimeSlave:
+        """
+        Defines the maximum allowed negative difference between the current Local Time Base value and a newly received Global Time Base value.
+
+        A None value is a no-op and does not overwrite an existing timeLeapPastThreshold.
+        """
+        if value is not None:
+            self.timeLeapPastThreshold = value
+        return self
 
 
 class IEEE1722TpAcfBus(Identifiable, ABC):

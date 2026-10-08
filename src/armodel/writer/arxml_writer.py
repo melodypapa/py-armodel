@@ -603,6 +603,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticRoutineSubfunction,
     DiagnosticStartRoutine,
     DiagnosticStopRoutine,
+    GlobalTimeSlave,
     Identifiable,
     MultilanguageReferrable,
     Referrable,
@@ -13761,6 +13762,21 @@ class ARXMLWriter(AbstractARXMLWriter):
         # (AUTOSAR_00052.xsd l.125529) has an empty sequence, so the helper owns the
         # Identifiable level only.
         self.writeIdentifiable(element, props)
+
+    def writeGlobalTimeSlave(self, element: ET.Element, slave: GlobalTimeSlave):
+        # Populates the concrete subclass element (GLOBAL-TIME-CAN-/ETH-/FR-/USER-DEFINED-
+        # GLOBAL-TIME-SLAVE) created by the caller. VARIATION-POINT is the last element of the
+        # XSD GLOBAL-TIME-SLAVE group (AUTOSAR_00052.xsd l.64988, xml.sequenceOffset=10000),
+        # so the generic emission inside writeIdentifiable is suppressed here and re-emitted
+        # after the class's own elements.
+        self.writeIdentifiable(element, slave, write_variation_point=False)
+        self.setChildElementOptionalRefType(element, "COMMUNICATION-CONNECTOR-REF", slave.getCommunicationConnectorRef())
+        self.setChildElementOptionalTimeValue(element, "FOLLOW-UP-TIMEOUT-VALUE", slave.getFollowUpTimeoutValue())
+        self.setChildElementOptionalLiteral(element, "ICV-VERIFICATION", slave.getIcvVerification())
+        self.setChildElementOptionalTimeValue(element, "TIME-LEAP-FUTURE-THRESHOLD", slave.getTimeLeapFutureThreshold())
+        self.setChildElementOptionalPositiveInteger(element, "TIME-LEAP-HEALING-COUNTER", cast(Integer, slave.getTimeLeapHealingCounter()))
+        self.setChildElementOptionalTimeValue(element, "TIME-LEAP-PAST-THRESHOLD", slave.getTimeLeapPastThreshold())
+        self.writeVariationPoint(element, slave.getVariationPoint())
 
     def setGlobalTimeProps(self, element: ET.Element, key: str, props: Optional[GlobalTimeCouplingPortProps]):
         if props is not None:

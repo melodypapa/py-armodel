@@ -760,6 +760,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticRoutineSubfunction,
     DiagnosticStartRoutine,
     DiagnosticStopRoutine,
+    GlobalTimeSlave,
     Identifiable,
     MultilanguageReferrable,
     Referrable,
@@ -782,6 +783,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DateTime,
     DdsDurabilityKindEnum,
     FrArTpAckType,
+    GlobalTimeIcvVerificationEnum,
     MaximumMessageLengthType,
     DdsDurabilityServiceHistoryKindEnum,
     DdsDestinationOrderKindEnum,
@@ -16242,6 +16244,23 @@ class ARXMLParser(AbstractARXMLParser):
         # (AP-SOMEIP-/SOMEIP-/USER-DEFINED-TRANSFORMATION-PROPS).
         self.readIdentifiable(element, props)
         return props
+
+    def readGlobalTimeSlave(self, element: ET.Element, slave: GlobalTimeSlave) -> GlobalTimeSlave:
+        # VARIATION-POINT is the last element of the XSD GLOBAL-TIME-SLAVE group
+        # (AUTOSAR_00052.xsd l.64988, xml.sequenceOffset=10000); readIdentifiable picks it up
+        # because GlobalTimeSlave is VariationPointCapable.
+        self.readIdentifiable(element, slave)
+        slave.setCommunicationConnectorRef(self.getChildElementOptionalRefType(element, "COMMUNICATION-CONNECTOR-REF"))
+        slave.setFollowUpTimeoutValue(self.getChildElementOptionalTimeValue(element, "FOLLOW-UP-TIMEOUT-VALUE"))
+        literal = self.getChildElementOptionalLiteral(element, "ICV-VERIFICATION")
+        if literal is not None:
+            icv_verification = GlobalTimeIcvVerificationEnum()
+            icv_verification.setValue(literal.getValue())
+            slave.setIcvVerification(icv_verification)
+        slave.setTimeLeapFutureThreshold(self.getChildElementOptionalTimeValue(element, "TIME-LEAP-FUTURE-THRESHOLD"))
+        slave.setTimeLeapHealingCounter(self.getChildElementOptionalPositiveInteger(element, "TIME-LEAP-HEALING-COUNTER"))
+        slave.setTimeLeapPastThreshold(self.getChildElementOptionalTimeValue(element, "TIME-LEAP-PAST-THRESHOLD"))
+        return slave
 
     def getGlobalTimeProps(self, element: ET.Element, key: str) -> Optional[GlobalTimeCouplingPortProps]:
         props = None
