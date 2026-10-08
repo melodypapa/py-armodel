@@ -424,7 +424,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (
     EvaluatedVariantSet,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, FMFeature, FMFeatureModel, ReferenceBase
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, FMFeature, FMFeatureModel, FMFeatureSelectionSet, ReferenceBase
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import AclObjectSet, AclOperation, AclPermission, AclRole
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import DiagnosticCustomServiceInstance, DiagnosticMapping
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
@@ -2245,6 +2245,27 @@ class ARXMLWriter(AbstractARXMLWriter):
                 for ref in refs:
                     self.setChildElementOptionalRefType(refs_tag, "FEATURE-REF", ref)
             self.setChildElementOptionalRefType(child_element, "ROOT-REF", feature_model.getRootRef())
+
+
+    def writeFMFeatureSelectionSet(self, element: ET.Element, selection_set: FMFeatureSelectionSet):
+        if selection_set is not None:
+            child_element = ET.SubElement(element, "FM-FEATURE-SELECTION-SET")
+            self.writeIdentifiable(child_element, selection_set)
+            refs = selection_set.getFeatureModelRefs()
+            if len(refs) > 0:
+                refs_tag = ET.SubElement(child_element, "FEATURE-MODEL-REFS")
+                for ref in refs:
+                    self.setChildElementOptionalRefType(refs_tag, "FEATURE-MODEL-REF", ref)
+            refs = selection_set.getIncludeRefs()
+            if len(refs) > 0:
+                refs_tag = ET.SubElement(child_element, "INCLUDE-REFS")
+                for ref in refs:
+                    self.setChildElementOptionalRefType(refs_tag, "INCLUDE-REF", ref)
+            selections = selection_set.getSelections()
+            if len(selections) > 0:
+                selections_tag = ET.SubElement(child_element, "SELECTIONS")
+                for selection in selections:
+                    self.writeFMFeatureSelection(selections_tag, selection)
 
     def writePostBuildVariantCondition(self, element: ET.Element, condition: PostBuildVariantCondition):
         child_element = ET.SubElement(element, "POST-BUILD-VARIANT-CONDITION")
@@ -20110,6 +20131,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeFMFeature(element, ar_element)
         elif isinstance(ar_element, FMFeatureModel):
             self.writeFMFeatureModel(element, ar_element)
+        elif isinstance(ar_element, FMFeatureSelectionSet):
+            self.writeFMFeatureSelectionSet(element, ar_element)
         elif isinstance(ar_element, SystemTiming):
             self.writeSystemTiming(element, ar_element)
         elif isinstance(ar_element, BswModuleTiming):

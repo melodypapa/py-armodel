@@ -623,7 +623,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (
     EvaluatedVariantSet,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, CalibrationParameterValueSet, FMFeature, FMFeatureModel, PhysicalDimensionMappingSet, ReferenceBase
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, CalibrationParameterValueSet, FMFeature, FMFeatureModel, FMFeatureSelectionSet, PhysicalDimensionMappingSet, ReferenceBase
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import AclObjectSet, AclOperation, AclPermission, AclRole
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import DiagnosticCustomServiceInstance, DiagnosticMapping
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
@@ -2498,6 +2498,18 @@ class ARXMLParser(AbstractARXMLParser):
             feature_model.addFeatureRef(ref)
         feature_model.setRootRef(self.getChildElementOptionalRefType(element, "ROOT-REF"))
         return feature_model
+
+    def readFMFeatureSelectionSet(self, element: ET.Element, selection_set: FMFeatureSelectionSet) -> FMFeatureSelectionSet:
+        self.readIdentifiable(element, selection_set)
+        for ref in self.getChildElementRefTypeList(element, "FEATURE-MODEL-REFS/FEATURE-MODEL-REF"):
+            selection_set.addFeatureModelRef(ref)
+        for ref in self.getChildElementRefTypeList(element, "INCLUDE-REFS/INCLUDE-REF"):
+            selection_set.addIncludeRef(ref)
+        for child_element in self.findall(element, "SELECTIONS/FM-FEATURE-SELECTION"):
+            selection = FMFeatureSelection(selection_set, self.getShortName(child_element))
+            self.readFMFeatureSelection(child_element, selection)
+            selection_set.addSelection(selection)
+        return selection_set
 
     def getBindingTimeEnumElement(self, element: ET.Element, key: str) -> Optional[BindingTimeEnum]:
         literal = self.getChildElementOptionalLiteral(element, key)
@@ -19642,6 +19654,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "FM-FEATURE-MODEL":
                 feature_model = parent.createFMFeatureModel(self.getShortName(child_element))
                 self.readFMFeatureModel(child_element, feature_model)
+            elif tag_name == "FM-FEATURE-SELECTION-SET":
+                selection_set = parent.createFMFeatureSelectionSet(self.getShortName(child_element))
+                self.readFMFeatureSelectionSet(child_element, selection_set)
             elif tag_name == "SYSTEM-TIMING":
                 system_timing = parent.createSystemTiming(self.getShortName(child_element))
                 self.readSystemTiming(child_element, system_timing)

@@ -2378,6 +2378,14 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(feature_model)
         return cast(FMFeatureModel, self.getReferrableElement(short_name, FMFeatureModel))
 
+
+    def createFMFeatureSelectionSet(self, short_name: str) -> FMFeatureSelectionSet:
+
+        if not self.IsReferrableElementExists(short_name, FMFeatureSelectionSet):
+            selection_set = FMFeatureSelectionSet(self, short_name)
+            self.addReferrableElement(selection_set)
+        return cast(FMFeatureSelectionSet, self.getReferrableElement(short_name, FMFeatureSelectionSet))
+
     def createSystemTiming(self, short_name: str) -> SystemTiming:
 
         if not self.IsReferrableElementExists(short_name, SystemTiming):
@@ -11770,7 +11778,71 @@ class FMFeatureModel(ARElement):
 
 
 class FMFeatureSelectionSet(ARElement):
-    pass
+    """
+    A FMFeatureSelectionSet is a set of FMFeatures that describes a specific product. Tags: atp.recommendedPackage=FMFeatureModelSelectionSets
+    """
+
+    # FMFeatureSelectionSet method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf, Table 5.5, p.44
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addFeatureModelRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFeatureModelRefs   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addIncludeRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIncludeRefs        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addSelection          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSelections         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # All FMFeatures in this FMFeatureSelectionSet shall be part of the referenced FMFeatureModel.
+        self.featureModelRefs: List[RefType] = []
+
+        # Each FMFeatureSelectionSet may include one or more FMFeatureSelectionSets. This establishes a hierarchy among FMFeatureSelectionSets. See constr_5003 and constr_5025 for details.
+        self.includeRefs: List[RefType] = []
+
+        # The set of FMFeatureSelections of this FMFeature SelectionSet.
+        self.selections: List[FMFeatureSelection] = []
+
+    def addFeatureModelRef(self, ref: RefType) -> FMFeatureSelectionSet:
+        """
+        All FMFeatures in this FMFeatureSelectionSet shall be part of the referenced FMFeatureModel.
+        """
+        self.featureModelRefs.append(ref)
+        return self
+
+    def getFeatureModelRefs(self) -> List[RefType]:
+        """
+        All FMFeatures in this FMFeatureSelectionSet shall be part of the referenced FMFeatureModel.
+        """
+        return self.featureModelRefs
+
+    def addIncludeRef(self, ref: RefType) -> FMFeatureSelectionSet:
+        """
+        Each FMFeatureSelectionSet may include one or more FMFeatureSelectionSets. This establishes a hierarchy among FMFeatureSelectionSets. See constr_5003 and constr_5025 for details.
+        """
+        self.includeRefs.append(ref)
+        return self
+
+    def getIncludeRefs(self) -> List[RefType]:
+        """
+        Each FMFeatureSelectionSet may include one or more FMFeatureSelectionSets. This establishes a hierarchy among FMFeatureSelectionSets. See constr_5003 and constr_5025 for details.
+        """
+        return self.includeRefs
+
+    def addSelection(self, value: FMFeatureSelection) -> FMFeatureSelectionSet:
+        """
+        The set of FMFeatureSelections of this FMFeature SelectionSet.
+        """
+        self.selections.append(value)
+        return self
+
+    def getSelections(self) -> List[FMFeatureSelection]:
+        """
+        The set of FMFeatureSelections of this FMFeature SelectionSet.
+        """
+        return self.selections
 
 
 class IdsDesign(ARElement):
