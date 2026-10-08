@@ -14069,7 +14069,7 @@ class ARXMLParser(AbstractARXMLParser):
     def readPdu(self, element: ET.Element, pdu: Pdu):
         self.readIdentifiable(element, pdu)
         pdu.setHasDynamicLength(self.getChildElementOptionalBooleanValue(element, "HAS-DYNAMIC-LENGTH"))
-        pdu.setLength(cast(Optional[UnlimitedInteger], self.getChildElementOptionalNumericalValue(element, "LENGTH")))
+        pdu.setLength(self.getChildElementOptionalUnlimitedInteger(element, "LENGTH"))
 
     def readISignalToIPduMapping(self, element: ET.Element, mapping: ISignalToIPduMapping):
         self.readIdentifiable(element, mapping)

@@ -18692,7 +18692,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writePdu(self, element: ET.Element, pdu: Pdu):
         self.writeIdentifiable(element, pdu)
         self.setChildElementOptionalBooleanValue(element, "HAS-DYNAMIC-LENGTH", pdu.getHasDynamicLength())
-        self.setChildElementOptionalNumericalValue(element, "LENGTH", pdu.getLength())
+        self.setChildElementOptionalUnlimitedInteger(element, "LENGTH", pdu.getLength())
 
     def writeContainedIPduProps(self, element: ET.Element, props: Optional[ContainedIPduProps]):
         if props is not None:
