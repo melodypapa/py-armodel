@@ -474,17 +474,30 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-08 (23282 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 724ee746c
 
-- [ ] `ISignalGroup` — ARElement — R23-11 CP_TPS_SystemTemplate Table 6.12, p.324
+- [x] `ISignalGroup` — ARElement — R23-11 CP_TPS_SystemTemplate Table 6.12, p.324
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Table 6.12 body renders above its caption (ll.8400-8421, caption l.8414), p.324 confirmed via
+    pdf_page.py; Base column flattens to most-derived `FibexElement` (CollectableElement/Uploadable* are its
+    ancestors); 4 attrs in displayed order — comBasedSignalGroupTransformation (ref 0..1), iSignal (ref *),
+    systemSignalGroup (ref 0..1), transformationISignalProps (aggr *, abstract → E2E/SOMEIP/UserDefined
+    subtypes); XSD group (AUTOSAR_00052.xsd l.66868) confirms the same 4-element sequence, no
+    atp.Status="removed" elements; not VP-capable (ref-kind atpVariation → DATA-TRANSFORMATION-REF-CONDITIONAL
+    wrapper; no VARIATION-POINT in the group); legacy 5-column checklist + stale `# Spec verified: R23-11`
+    marker forced the full re-sync (Rule 0023) — marker removed at session start, stamped-audit baseline
+    regenerated.
+  - Deviation: none — fixed in-pass: addISignalRef/addTransformationISignalProps gained the Rule 0004 None
+    no-op + `Optional[...]` params; legacy test migrated to the mirrored CoreCommunication home;
+    constr_9225 added to the class docstring; reader/writer coverage already complete (no parser/writer
+    change; ARPackage dispatch already identity-based on both sides).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-08 (23299 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 9e6350c7c
 
 - [ ] `SystemSignalGroup` — ARElement — R23-11 CP_TPS_SystemTemplate Table 6.13, p.324
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
