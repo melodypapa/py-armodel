@@ -11,11 +11,11 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | Status | Classes | Percent |
 | --- | --- | --- |
 | [x] Done | 852 | 44.8% |
-| [x] Deferred | 37 | 1.9% |
+| [x] Deferred | 38 | 2.0% |
 | [x] Retired | 0 | 0.0% |
 | [ ] Deferred | 829 | 43.6% |
 | [ ] Implemented | 36 | 1.9% |
-| [ ] Created | 148 | 7.8% |
+| [ ] Created | 147 | 7.7% |
 | [ ] Pending | 0 | 0.0% |
 
 | Class Name                                              | Status      | Commit ID                                | Groups           |
@@ -489,7 +489,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `DiagEventDebounceCounterBased`                         | [x] Done    | f41b486233                               | Group14          |
 | `DiagEventDebounceMonitorInternal`                      | [x] Done    | 103cfd4316                               | Group4           |
 | `DiagEventDebounceTimeBased`                            | [ ] Deferred| eb9e198676                               | Group23          |
-| `DiagPduType`                                           | [ ] Created | N/A                                      | Group31          |
+| `DiagPduType`                                           | [x] Deferred| de6338d747                               | Group31          |
 | `DiagRequirementIdString`                               | [ ] Deferred| N/A                                      | Group21          |
 | `DiagnosticAbstractAliasEvent`                          | [ ] Deferred| 5ff78dec55                               | Group25          |
 | `DiagnosticAbstractDataIdentifier`                      | [ ] Deferred| d32c585340                               | Group23          |

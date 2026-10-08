@@ -806,17 +806,41 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-08 (23441 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit edf35e5e2
 
-- [ ] `DiagPduType` — AREnum — R23-11 CP_TPS_SystemTemplate Table 6.23, p.344
+- [x] `DiagPduType` — AREnum — R23-11 CP_TPS_SystemTemplate Table 6.23, p.344 (sync commit de6338d74)
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: own table = CP_TPS_SystemTemplate Table 6.23, p.344 (pdf_page.py);
+    header `Enumeration` → AREnum confirmed (Rule 0001.1); Package row
+    `...Fibex::FibexCore::CoreCommunication` but home stays PrimitiveTypes.py per
+    confirmed Phase 0 module + sibling precedent (DdsOwnershipKindEnum Table 6.188,
+    spec package Fibex4Ethernet::Dds, also lives in PrimitiveTypes.py, stamped).
+    Note "Used to distinguish a diagnostic request from a response." (matches XSD
+    complexType doc verbatim). Literals display order = XSD facet order:
+    diagRequest (idx 0) → DIAG-REQUEST, diagResponse (idx 1) → DIAG-RESPONSE
+    (AUTOSAR_00052.xsd l.133781 `DIAG-PDU-TYPE--SIMPLE`); no
+    atp.Status="removed" facets — nothing excluded; Aggregated by DcmIPdu.diagPduType.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A: standalone AREnum, no own XML element; round-tripped as value form on DcmIPdu.diagPduType
+  - [x] Step 6 — Update parser & writer (Green) — N/A: standalone AREnum, no own XML element; round-tripped as value form on DcmIPdu.diagPduType
+  - [x] Step 7 — Update checklist comment
+  - Deviation: none in scope — both spec literals (diagRequest idx 0, diagResponse
+    idx 1) fully modeled as UPPER_SNAKE constants with XSD facet values
+    (DIAG-REQUEST / DIAG-RESPONSE, exact XSD `--SIMPLE` spelling) in facet order;
+    Note verbatim in the class docstring; no atp.Status="removed" facets; no
+    Rule 0001.10 placeholder classes. Consumer upgrade (planned by the DcmIPdu
+    session): its 4 construction sites now use enum constants instead of the
+    typed-`ARLiteral` test double — test_DcmIPdu.py + test_CoreCommunication.py
+    (models), test_dcm_ipdu.py + test_writer_pdu_tp.py (writer); round-trip
+    assertions compare against `DiagPduType.DIAG_REQUEST` (IPduSignalProcessingEnum
+    precedent). Raw strings remain only in XML wire-format fixtures and lenient
+    parse-value assertions (Rule 0011 allows). No other consumer uses raw strings
+    (grep: parser/writer call sites unchanged — value form via
+    getChildElementOptionalLiteral/setChildElementOptionalLiteral, same loose
+    pattern as IPduSignalProcessingEnum).
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-08 (23444 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit de6338d74
 
 - [ ] `J1939DcmIPdu` — IPdu — R23-11 CP_TPS_SystemTemplate Table 6.24, p.344
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
