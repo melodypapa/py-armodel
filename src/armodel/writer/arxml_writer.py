@@ -586,6 +586,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.ViewMapSet import ViewM
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import Collection
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    FMAttributeDef,
     BinaryManifestMetaDataField,
     CpSoftwareClusterResource,
     CpSoftwareClusterToResourceMapping,
@@ -2116,6 +2117,15 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.setChildElementOptionalRefType(refs_tag, "FEATURE-REF", ref)
             self.setChildElementOptionalPositiveInteger(child_element, "MAX", decomposition.getMax())
             self.setChildElementOptionalPositiveInteger(child_element, "MIN", decomposition.getMin())
+
+
+    def writeFMAttributeDef(self, element: ET.Element, attribute_def: FMAttributeDef):
+        if attribute_def is not None:
+            child_element = ET.SubElement(element, "FM-ATTRIBUTE-DEF")
+            self.writeIdentifiable(child_element, attribute_def)
+            self.setChildElementOptionalNumericalValue(child_element, "DEFAULT-VALUE", attribute_def.getDefaultValue())
+            self.setChildLimitElement(child_element, "MAX", attribute_def.getMax())
+            self.setChildLimitElement(child_element, "MIN", attribute_def.getMin())
 
     def writePostBuildVariantCondition(self, element: ET.Element, condition: PostBuildVariantCondition):
         child_element = ET.SubElement(element, "POST-BUILD-VARIANT-CONDITION")

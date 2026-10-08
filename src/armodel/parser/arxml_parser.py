@@ -745,6 +745,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Enumerations import BindingTimeEnum, XmlSpaceEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    FMAttributeDef,
     BinaryManifestMetaDataField,
     CpSoftwareClusterResource,
     DdsCpConsumedServiceInstance,
@@ -2396,6 +2397,13 @@ class ARXMLParser(AbstractARXMLParser):
         decomposition.setMax(self.getChildElementOptionalPositiveInteger(element, "MAX"))
         decomposition.setMin(self.getChildElementOptionalPositiveInteger(element, "MIN"))
         return decomposition
+
+    def readFMAttributeDef(self, element: ET.Element, attribute_def: FMAttributeDef) -> FMAttributeDef:
+        self.readIdentifiable(element, attribute_def)
+        attribute_def.setDefaultValue(self.getChildElementOptionalNumericalValue(element, "DEFAULT-VALUE"))
+        attribute_def.setMax(self.getChildLimitElement(element, "MAX"))
+        attribute_def.setMin(self.getChildLimitElement(element, "MIN"))
+        return attribute_def
 
     def readPostBuildVariantCondition(self, element: ET.Element, condition: PostBuildVariantCondition) -> PostBuildVariantCondition:
         self.readARObject(element, condition)

@@ -33,6 +33,8 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     CategoryString,
     DiagnosticDebounceBehaviorEnum,
     Identifier,
+    Limit,
+    Numerical,
     PositiveInteger,
     RefType,
     String,
@@ -1391,7 +1393,80 @@ class DocumentElementScope(SpecElementScope):
 
 
 class FMAttributeDef(Identifiable):
-    pass
+    """
+    This metaclass represents the ability to define attributes for a feature.
+    """
+
+    # FMAttributeDef method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf, Table 4.3, p.26
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDefaultValue     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDefaultValue     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMax              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMax              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMin              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMin              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This represents the default value of the attribute.
+        self.defaultValue: Optional[Numerical] = None
+
+        # Maximum possible value for the value of this attribute
+        self.max: Optional[Limit] = None
+
+        # Minimum possible value for the value of this attribute
+        self.min: Optional[Limit] = None
+
+    def getDefaultValue(self) -> Optional[Numerical]:
+        """
+        This represents the default value of the attribute.
+        """
+        return self.defaultValue
+
+    def setDefaultValue(self, value: Optional[Numerical]) -> FMAttributeDef:
+        """
+        This represents the default value of the attribute.
+
+        A None value is a no-op and does not overwrite an existing defaultValue.
+        """
+        if value is not None:
+            self.defaultValue = value
+        return self
+
+    def getMax(self) -> Optional[Limit]:
+        """
+        Maximum possible value for the value of this attribute
+        """
+        return self.max
+
+    def setMax(self, value: Optional[Limit]) -> FMAttributeDef:
+        """
+        Maximum possible value for the value of this attribute
+
+        A None value is a no-op and does not overwrite an existing max.
+        """
+        if value is not None:
+            self.max = value
+        return self
+
+    def getMin(self) -> Optional[Limit]:
+        """
+        Minimum possible value for the value of this attribute
+        """
+        return self.min
+
+    def setMin(self, value: Optional[Limit]) -> FMAttributeDef:
+        """
+        Minimum possible value for the value of this attribute
+
+        A None value is a no-op and does not overwrite an existing min.
+        """
+        if value is not None:
+            self.min = value
+        return self
 
 
 class FMFeatureMapAssertion(Identifiable):
