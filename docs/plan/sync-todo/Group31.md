@@ -526,17 +526,35 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-08 (23314 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit bf1e67996
 
-- [ ] `ISignalToIPduMapping` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.14, p.326
+- [x] `ISignalToIPduMapping` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.14, p.326 (sync commit 036440b90)
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: own table = CP_TPS_SystemTemplate Table 6.14, p.326 (page-split: header rows
+    above the caption, `updateIndicationBitPosition` row below it); Base most-derived =
+    `Identifiable` + `VariationPointCapable` mixin (XSD group carries VARIATION-POINT,
+    sequenceOffset=10000, "Applicable for: ISignalIPdu.iSignalToPduMapping") — both
+    pre-existing bases correct; 6 spec attrs 0..1, no flattening, no missing members.
+    Entry audit FAIL (Rule 0023 legacy 5-col checklist + stale `# Spec verified:`
+    marker) — marker removed at session start, baseline refreshed (one-line diff).
+    Drift fixed: reader/writer child order was I-SIGNAL-REF before I-SIGNAL-GROUP-REF
+    (XSD: GROUP-REF first); VARIATION-POINT was emitted before own children (now last
+    via `write_variation_point=False` + `writeVariationPointCapable`); START-POSITION/
+    UPDATE-INDICATION-BIT-POSITION upgraded to the spec-typed
+    `getChildElementOptionalUnlimitedInteger`/`setChildElementOptionalUnlimitedInteger`
+    pair (new writer delegation); `updateIndicationBitPosition` Note re-wrapped
+    verbatim (markdown wrap artifacts restored); class docstring gained the
+    constr_5322/5323/3514 rows; ISignalIPdu-side `readISignalToPduMappings`/
+    `writeISignalToPduMappings` dispatch upgraded from inline duplication to the
+    shared `readISignalToIPduMapping`/`writeISignalToIPduMapping` helpers.
+  - Deviation: none.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-08 (23332 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 036440b90
 
 - [ ] `ISignalTriggering` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 6.16, p.330
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py

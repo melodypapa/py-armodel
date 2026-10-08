@@ -1673,7 +1673,7 @@ Status: **0/75** completed
 
 ## Group31
 
-Status: **4/75** completed
+Status: **5/75** completed
 
 | Class Name                                               | Status          | Commit ID  |
 | -------------------------------------------------------- | --------------- | ---------- |
@@ -1710,7 +1710,7 @@ Status: **4/75** completed
 | `ISignalProps`                                           | [ ] Pending*    | 724ee746c9 |
 | `ISignalGroup`                                           | [x] Done*       | 9e6350c7c6 |
 | `SystemSignalGroup`                                      | [x] Done*       | bf1e679967 |
-| `ISignalToIPduMapping`                                   | [ ] Implemented | N/A        |
+| `ISignalToIPduMapping`                                   | [x] Done*       | 036440b90e |
 | `ISignalTriggering`                                      | [ ] Implemented | N/A        |
 | `Pdu`                                                    | [ ] Implemented | N/A        |
 | `IPdu`                                                   | [ ] Implemented | N/A        |
