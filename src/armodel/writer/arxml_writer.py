@@ -10926,6 +10926,9 @@ class ARXMLWriter(AbstractARXMLWriter):
         if connection is not None:
             child_element = ET.SubElement(element, "SOMEIP-TP-CONNECTION")
             self.writeARObject(child_element, connection)
+            self.setChildElementOptionalRefType(child_element, "TP-CHANNEL-REF", connection.getTpChannelRef())
+            self.setChildElementOptionalRefType(child_element, "TP-SDU-REF", connection.getTpSduRef())
+            self.setChildElementOptionalRefType(child_element, "TRANSPORT-PDU-REF", connection.getTransportPduRef())
 
     def writeSomeipTpConfigTpConnections(self, element: ET.Element, config: SomeipTpConfig):
         connections = config.getTpConnections()

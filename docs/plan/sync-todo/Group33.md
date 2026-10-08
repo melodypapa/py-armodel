@@ -615,15 +615,29 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `SomeipTpConnection` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.265, p.620
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note: rehoused from the ArObject.py stub to TransportProtocols/__init__.py (spec Package row =
+    SystemTemplate::TransportProtocols, Rule 0007). Base row = ARObject only, confirmed by the XSD
+    complexType (groups AR-OBJECT + SOMEIP-TP-CONNECTION only — no TP-CONNECTION group), so the
+    most-derived base is ARObject, NOT TpConnection; no VARIATION-POINT → no mixin. All 3 spec attrs
+    modeled in displayed order (tpChannel → tpChannelRef, tpSdu → tpSduRef, transportPdu →
+    transportPduRef; all 0..1 ref, Optional[RefType]). XSD-only SEPARATION-TIME carries
+    atp.Status="removed" — not modeled (Rule 0001.3/0015). Writer XML element order per XSD
+    sequenceOffset: TP-CHANNEL-REF, TP-SDU-REF, TRANSPORT-PDU-REF.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
+    - Note: no code-shape deviations — field↔spec verified both directions (3 attrs, Optional[RefType]
+      quota shapes match Mult. 0..1, verbatim Notes incl. the 4 table constraints constr_3328/3329/3330/
+      5378 appended to the class docstring). Accepted deviation: XSD-only SEPARATION-TIME
+      (atp.Status="removed" since 4.4.0) absent from the PDF table — not modeled per Rule 0001.3/0015
+      (no field, no deviation row). Rehousing updated the stale ArObject import in
+      tests/test_armodel/writer/test_writer_someip_tp_config.py and removed the stub-registry tuple.
 
 - [ ] `SomeipTpChannel` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 6.266, p.620
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py

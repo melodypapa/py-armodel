@@ -24,7 +24,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     TimeValue,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import FibexElement
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject, SomeipTpConnection
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 
 class TpConfig(FibexElement, ABC):
@@ -3058,6 +3058,89 @@ class SomeipTpConfig(TpConfig):
         """
         if value is not None:
             self.tpConnections.append(value)
+        return self
+
+
+class SomeipTpConnection(ARObject):
+    """
+    A connection identifies the sender and the receiver of this particular communication. The SOME/IP TP module routes a Pdu through this connection.
+
+    [constr_3328] SomeipTpConnection.transportPdu reference restriction: A PduTriggering that is referenced by a SomeipTpConnection in the role transportPdu shall reference a GeneralPurposeIPdu with category SOMEIP_SEGMENTED_IPDU in the role iPdu.
+
+    [constr_3329] SomeipTpConnection.tpSdu reference restriction: A PduTriggering that is referenced by a SomeipTpConnection in the role tpSdu shall reference an IPdu in the role iPdu.
+
+    [constr_3330] Same transportPdu shall not be used in different SomeipTpConnections: A PduTriggering that is referencing a GeneralPurposeIPdu with category SOMEIP_SEGMENTED_IPDU in the role iPdu shall be referenced at most once by a SomeipTpConnection in the role transportPdu.
+
+    [constr_5378] PduTriggering shall only be referenced once from a SomeipTpConnection in the role tpSdu: Each PduTriggering that is referenced in the role tpSdu from a SomeipTpConnection shall not be referenced in the role tpSdu from a different SomeipTpConnection.
+    """
+
+    # SomeipTpConnection method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.265, p.620
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTpChannelRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTpChannelRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTpSduRef           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTpSduRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTransportPduRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTransportPduRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # (Base = ARObject; XSD group SOMEIP-TP-CONNECTION carries no VARIATION-POINT)
+
+    def __init__(self):
+        super().__init__()
+
+        # Assignment of configuration properties valid for this SomeipTpConnection.
+        self.tpChannelRef: Optional[RefType] = None
+
+        # Reference to an IPdu that is segmented by the Transport Protocol.
+        self.tpSduRef: Optional[RefType] = None
+
+        # Reference to the segmented IPdu.
+        self.transportPduRef: Optional[RefType] = None
+
+    def getTpChannelRef(self) -> Optional[RefType]:
+        """
+        Assignment of configuration properties valid for this SomeipTpConnection.
+        """
+        return self.tpChannelRef
+
+    def setTpChannelRef(self, value: Optional[RefType]) -> SomeipTpConnection:
+        """
+        Assignment of configuration properties valid for this SomeipTpConnection.
+        A None value is a no-op and does not overwrite an existing tpChannelRef.
+        """
+        if value is not None:
+            self.tpChannelRef = value
+        return self
+
+    def getTpSduRef(self) -> Optional[RefType]:
+        """
+        Reference to an IPdu that is segmented by the Transport Protocol.
+        """
+        return self.tpSduRef
+
+    def setTpSduRef(self, value: Optional[RefType]) -> SomeipTpConnection:
+        """
+        Reference to an IPdu that is segmented by the Transport Protocol.
+        A None value is a no-op and does not overwrite an existing tpSduRef.
+        """
+        if value is not None:
+            self.tpSduRef = value
+        return self
+
+    def getTransportPduRef(self) -> Optional[RefType]:
+        """
+        Reference to the segmented IPdu.
+        """
+        return self.transportPduRef
+
+    def setTransportPduRef(self, value: Optional[RefType]) -> SomeipTpConnection:
+        """
+        Reference to the segmented IPdu.
+        A None value is a no-op and does not overwrite an existing transportPduRef.
+        """
+        if value is not None:
+            self.transportPduRef = value
         return self
 
 

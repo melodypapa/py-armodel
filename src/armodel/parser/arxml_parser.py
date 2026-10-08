@@ -14853,6 +14853,9 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readSomeipTpConnection(self, element: ET.Element, connection: SomeipTpConnection):
         self.readARObject(element, connection)
+        connection.setTpChannelRef(self.getChildElementOptionalRefType(element, "TP-CHANNEL-REF"))
+        connection.setTpSduRef(self.getChildElementOptionalRefType(element, "TP-SDU-REF"))
+        connection.setTransportPduRef(self.getChildElementOptionalRefType(element, "TRANSPORT-PDU-REF"))
 
     def readSomeipTpConfigTpConnections(self, element: ET.Element, config: SomeipTpConfig):
         for child_element in self.findall(element, "TP-CONNECTIONS/*"):

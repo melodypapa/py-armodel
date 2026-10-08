@@ -3683,10 +3683,6 @@ class SecurityEventStateFilter(ARObject):
     pass
 
 
-class SomeipTpConnection(ARObject):
-    pass
-
-
 class TransformationProps(ARObject, ABC):
     pass
 
