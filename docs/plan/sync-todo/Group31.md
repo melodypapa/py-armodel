@@ -903,17 +903,36 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
     its dedicated pduToFrameMappings field (Rule 0004 shape).
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-08 (23484 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit a8e5ac35e
 
-- [ ] `IPduTiming` — Describable — R23-11 CP_TPS_SystemTemplate Table 6.30, p.348
+- [x] `IPduTiming` — Describable — R23-11 CP_TPS_SystemTemplate Table 6.30, p.348 (sync commit 028e48768)
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note (Step 1): markdown renders table body BEFORE caption — Table 6.30 body at
+    md lines 9237-9245, caption line 9247; p.348 (R23-11 PDF). Base `ARObject,
+    Describable` → most-derived `Describable`; XSD group I-PDU-TIMING
+    (AUTOSAR_00052.xsd line 66546) = MINIMUM-DELAY, TRANSMISSION-MODE-DECLARATION,
+    VARIATION-POINT (sequenceOffset=10000, "Applicable for:
+    ISignalIPdu.iPduTimingSpecification") → VP-capable per Rule 0020, keep the
+    `VariationPointCapable` mixin. Sole aggregator: ISignalIPdu wrapper
+    I-PDU-TIMING-SPECIFICATIONS/I-PDU-TIMING (xsd lines 66982-66994). Member types
+    TimeValue + TransmissionModeDeclaration both stamped — no Rule 0001.10 gaps.
+    Legacy 4-column checklist + stale `# Spec verified: R23-11` removed at entry
+    (Rule 0023); baseline regenerated. Reader/writer drop the Describable /
+    ARObject / VariationPointCapable levels on both sides (Rule 0025).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - Deviation: none — both spec attributes (minimumDelay TimeValue 0..1 attr,
+    transmissionModeDeclaration TransmissionModeDeclaration 0..1 aggr) modeled
+    spec-typed with full reader/writer coverage; no referenced-but-missing
+    classes (TimeValue, TransmissionModeDeclaration both stamped R23-11). The
+    prior Rule 0025 base-helper gap (reader/writer dropped the Describable /
+    ARObject / VariationPointCapable levels) was fixed in Step 6 via the new
+    readIPduTiming/writeIPduTiming pair, not recorded as a deviation.
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-08 (23504 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 028e48768
 
 - [ ] `PduTriggering` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 6.31, p.349
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
