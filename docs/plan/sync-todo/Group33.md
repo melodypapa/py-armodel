@@ -1527,15 +1527,31 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `J1939NmNode` — NmNode — R23-11 CP_TPS_SystemTemplate Table 6.320, p.691
   - module: M2/AUTOSARTemplates/SystemTemplate/NetworkManagement.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note: drift re-sync of a pre-existing implementation — stale `# Spec verified: R23-11`
+    marker removed at session start (Rule 0023/0012.3); legacy 5-column checklist upgraded to
+    6-column with the reader/writer split corrected (reader [x] on the setXxx mutator rows,
+    writer [x] on the getXxx rows). Step 1 finding — the markdown renders the table BODY ABOVE
+    its caption at this page split (p.691-692): the block under the "Table 6.320" heading is
+    Table 6.321 J1939NodeName's metadata; Table 6.320's real body (Class J1939NmNode, Note
+    "J1939 specific NM Node attributes.", Base ...NmNode most-derived — hint confirmed, rows
+    addressConfigurationCapability + nodeName) renders above the caption. Both attrs 0..1;
+    nodeName's Note is "NodeName configuration" with NO trailing period — the code's added
+    period removed (Rule 0001.4). Rule 0001.3 fix: ADDRESS-CONFIGURATION-CAPABILITY was read
+    via getChildElementOptionalLiteral + cast (materializes plain ARLiteral — Rule 0013.2
+    anti-pair); reader now constructs J1939NmAddressConfigurationCapabilityEnum
+    (CanTpConnection/NetworkTargetAddressType precedent) — pinned by an isinstance round-trip
+    assertion. XSD complexType groups AR-OBJECT/REFERRABLE/MULTILANGUAGE-REFERRABLE/
+    IDENTIFIABLE/NM-NODE/J-1939-NM-NODE; concrete (abstract="false"); VP-last via the concrete
+    writer per the NmNode wave convention. NM-NODES dispatch pre-exists.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `J1939NodeName` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.321, p.692
   - module: M2/AUTOSARTemplates/SystemTemplate/NetworkManagement.py

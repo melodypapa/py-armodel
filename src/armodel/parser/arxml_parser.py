@@ -14229,7 +14229,11 @@ class ARXMLParser(AbstractARXMLParser):
     def readJ1939NmNode(self, element: ET.Element, nm_node: J1939NmNode):
         self.logger.debug("Read J1939NmNode <%s>" % nm_node.getShortName())
         self.readNmNode(element, nm_node)
-        nm_node.setAddressConfigurationCapability(cast(Optional[J1939NmAddressConfigurationCapabilityEnum], self.getChildElementOptionalLiteral(element, "ADDRESS-CONFIGURATION-CAPABILITY")))
+        capability_literal = self.getChildElementOptionalLiteral(element, "ADDRESS-CONFIGURATION-CAPABILITY")
+        if capability_literal is not None:
+            capability = J1939NmAddressConfigurationCapabilityEnum()
+            capability.setValue(capability_literal.getValue())
+            nm_node.setAddressConfigurationCapability(capability)
         nm_node.setNodeName(self.getJ1939NodeName(element, "NODE-NAME"))
 
     def readNmClusterNmNodes(self, element: ET.Element, cluster: NmCluster):

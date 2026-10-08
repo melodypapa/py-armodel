@@ -774,15 +774,14 @@ class J1939NmNode(NmNode):
     J1939 specific NM Node attributes.
     """
 
-    # Spec verified: R23-11
     # J1939NmNode method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.320, p.691
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getAddressConfigurationCapability                 [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setAddressConfigurationCapability                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getNodeName                                       [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setNodeName                                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAddressConfigurationCapability  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAddressConfigurationCapability  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNodeName                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNodeName                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -790,7 +789,7 @@ class J1939NmNode(NmNode):
         # Defines the Address Configuration Capability of the J1939NmNode (corresponding to an SAE J1939 Controller Application, CA).
         self.addressConfigurationCapability: Optional[J1939NmAddressConfigurationCapabilityEnum] = None
 
-        # NodeName configuration.
+        # NodeName configuration
         self.nodeName: Optional[J1939NodeName] = None
 
     def getAddressConfigurationCapability(self) -> Optional[J1939NmAddressConfigurationCapabilityEnum]:
@@ -810,13 +809,13 @@ class J1939NmNode(NmNode):
 
     def getNodeName(self) -> Optional[J1939NodeName]:
         """
-        NodeName configuration.
+        NodeName configuration
         """
         return self.nodeName
 
     def setNodeName(self, value: Optional[J1939NodeName]) -> J1939NmNode:
         """
-        NodeName configuration.
+        NodeName configuration
         A None value is a no-op and does not overwrite an existing nodeName.
         """
         if value is not None:
