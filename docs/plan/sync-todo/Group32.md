@@ -13,315 +13,439 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `ConditionalChangeNad` — LinConfigurationEntry — R23-11 CP_TPS_SystemTemplate Table 6.105, p.438
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Lin/LinCommunication.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Step 1 found the pre-existing class content already spec-correct (byte/id/invert/mask/newNad
+    Integer/PositiveInteger 0..1 in displayed row order, Base = LinConfigurationEntry) — the drift was the
+    legacy 5-column checklist carrying a stale `# Spec verified: R23-11` marker (Rule 0023); marker removed
+    and block re-written 6-column without stamp. Reader `getConditionalChangeNad`/writer
+    `setConditionalChangeNad` pre-existed; XML order verified against XSD group CONDITIONAL-CHANGE-NAD
+    (BYTE, ID, INVERT, MASK, NEW-NAD after the SCHEDULE-TABLE-ENTRY/LIN-CONFIGURATION-ENTRY groups).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `SaveConfigurationEntry` — LinConfigurationEntry — R23-11 CP_TPS_SystemTemplate Table 6.106, p.439
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Lin/LinCommunication.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Step 1 found the class content already spec-correct (no own attributes; Base = LinConfigurationEntry) —
+    the drift was the legacy 5-column checklist with a stale `# Spec verified: R23-11` marker whose `__init__`
+    row wrongly claimed reader/writer `[x]` (Rule 0023/0002: `__init__` is `[—]/[—]`); marker removed, block
+    re-written 6-column without stamp. Reader `getSaveConfigurationEntry`/writer `setSaveConfigurationEntry`
+    pre-existed; inherited ASSIGNED-*-REF round-trip pinned by new parser tests.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `DataDumpEntry` — LinConfigurationEntry — R23-11 CP_TPS_SystemTemplate Table 6.107, p.439
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Lin/LinCommunication.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Step 1 found the class content already spec-correct (byteValue (ordered) Integer `*` → plural
+    `byteValues` + addByteValue/getByteValues per Rule 0001.4; Base = LinConfigurationEntry) — the drift was
+    the legacy 5-column checklist with a stale `# Spec verified: R23-11` marker (Rule 0023); marker removed,
+    block re-written 6-column without stamp. Reader `getDataDumpEntry`/writer `setDataDumpEntry` pre-existed;
+    BYTE-VALUES wrapper (omit-when-empty) verified against XSD group DATA-DUMP-ENTRY; constr_9148 (5 byteValues)
+    is a completeness constraint, not an attribute — not modeled.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `FreeFormat` — FreeFormatEntry — R23-11 CP_TPS_SystemTemplate Table 6.108, p.439
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Lin/LinCommunication.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: FreeFormatEntry pre-check per briefing — exists, stamped, content matches Table 6.98 (abstract, no own
+    attributes, Base = ARObject/ScheduleTableEntry, XSD group FREE-FORMAT-ENTRY empty) → NOT a stub, not synced
+    here; its own checklist block is legacy 5-column with a stale marker (Rule 0023 drift for a future pass).
+    Step 1 found FreeFormat content already spec-correct (byteValue (ordered) Integer `*` → plural `byteValues`
+    + addByteValue/getByteValues; Base = FreeFormatEntry) — drift was the legacy 5-column checklist with a stale
+    `# Spec verified: R23-11` marker (Rule 0023); marker removed, block re-written 6-column without stamp.
+    Reader `getFreeFormat`/writer `setFreeFormat` pre-existed; BYTE-VALUES wrapper (omit-when-empty) verified
+    against XSD group FREE-FORMAT; constr_9149 (8 byteValues) is a completeness constraint — not modeled.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `CanFrame` — Frame — R23-11 CP_TPS_SystemTemplate Table 6.109, p.442
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Can/CanCommunication.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Step 1 found the class content already spec-correct (no own attributes — XSD group
+    CAN-FRAME has an empty sequence; Base most-derived = Frame) — the drift was the legacy
+    5-column checklist carrying a stale `# Spec verified: R23-11` marker whose `__init__` row
+    wrongly claimed reader/writer `[x]` (Rule 0023/0002: `__init__` is `[—]/[—]`); marker removed
+    and block re-written 6-column without stamp. Step 4 fix: class docstring re-written to carry
+    the Note verbatim including the `Tags: atp.recommendedPackage=Frames` tail (Rule 0012.2.5.3).
+    Reader `readCanFrame`→`readFrame` / writer `writeCanFrame`→`writeFrame` pre-existed (BASE
+    clean); round-trip covered by tests/test_armodel/parser/test_frame.py +
+    tests/test_armodel/writer/test_writer_frame.py.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `CanFrameTriggering` — FrameTriggering — R23-11 CP_TPS_SystemTemplate Table 6.110, p.443
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Can/CanCommunication.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Step 1 found the class content already spec-correct (10 attributes in displayed row
+    order — absolutelyScheduledTiming TtcanAbsolutelyScheduledTiming `*` aggr with
+    ABSOLUTELY-SCHEDULED-TIMINGS wrapper, canAddressingMode/canFrameRxBehavior/canFrameTxBehavior/
+    canXlFrameTriggeringProps/identifier/j1939requestable/rxIdentifierRange/rxMask/txMask all
+    0..1; Base most-derived = FrameTriggering; XSD CAN-FD-FRAME-SUPPORT is atp.Status="removed",
+    not modeled) — the drift was the legacy 5-column checklist carrying a stale
+    `# Spec verified: R23-11` marker (Rule 0023); marker removed and block re-written 6-column
+    without stamp. Step 2 also fixed drift in the legacy mirrored tests: bare str/int setter
+    assertions replaced with typed-primitive assertions (Rule 0006), and the
+    TYPE_CHECKING-only TtcanAbsolutelyScheduledTiming import converted to a real top-level
+    import (no cycle — TtcanCommunication does not import CanCommunication) so get_type_hints
+    pin tests resolve on Python 3.8 (Rule 0003/bpo-39291). Reader `readCanFrameTriggering` /
+    writer `writeCanFrameTriggering` pre-existed with full XSD-sequence-order coverage (BASE
+    clean); round-trip field-value assertions live in tests/test_armodel/writer/
+    test_writer_frame_channel.py + tests/test_armodel/parser/test_arxml_parser_network_handlers.py.
+    Also refreshed the stale stamped-audit baseline (10 resolved entries incl. the four wave-1
+    Lin classes; the gate test instructed `--write-baseline`).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `CanAddressingModeType` — AREnum — R23-11 CP_TPS_SystemTemplate Table 6.111, p.443
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Can/CanCommunication.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Step 1 found the enum content already spec-correct (literals extended/standard →
+    ENUM_EXTENDED="EXTENDED"/ENUM_STANDARD="STANDARD", exact XSD CAN-ADDRESSING-MODE-TYPE--SIMPLE
+    facets, class Note + literal comments verbatim with Tags tails) — the drift was the legacy
+    5-column checklist carrying a stale `# Spec verified: R23-11` marker (Rule 0023); marker
+    removed and block re-written 6-column without stamp. Steps 5/6 N/A (standalone enum — value
+    form serialized on CanFrameTriggering, round-trip pinned there).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) (N/A: standalone enum)
+  - [x] Step 6 — Update parser & writer (Green) (N/A: standalone enum)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `RxIdentifierRange` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.112, p.444
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Can/CanCommunication.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Step 1 found the class content already spec-correct (lowerCanId/upperCanId PositiveInteger
+    0..1 in displayed row order, Base = ARObject, class Note + attribute Notes verbatim) — the drift
+    was the legacy 5-column checklist carrying a stale `# Spec verified: R23-11` marker (Rule 0023);
+    marker removed and block re-written 6-column without stamp. Step 5/6 found a real Rule 0025 BASE
+    defect: the shared helpers (parser `getRxIdentifierRange` / writer `setRxIdentifierRange`) never
+    called readARObject/writeARObject, silently dropping S/T on round-trip — both calls added and
+    pinned by a new S/T round-trip test; writer leaf calls upgraded to
+    `setChildElementOptionalPositiveInteger` (Rule 0013.2 matched pair with the reader). Aggregators
+    CanXlNmNodeProps.rxIdentifierRange / IEEE1722TpAcfCanPart.canIdentifierRange are unsynced
+    classes — no identity-only placeholder exists to rehouse.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `CanFrameRxBehaviorEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 6.113, p.444
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Can/CanCommunication.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Step 1 found the enum content already spec-correct (literals any/can20/canFd →
+    ENUM_ANY="ANY"/ENUM_CAN_20="CAN-20"/ENUM_CAN_FD="CAN-FD", exact XSD
+    CAN-FRAME-RX-BEHAVIOR-ENUM--SIMPLE facets, class Note + literal comments verbatim with Tags
+    tails) — the drift was the legacy 5-column checklist carrying a stale `# Spec verified: R23-11`
+    marker (Rule 0023); marker removed and block re-written 6-column without stamp. Steps 5/6 N/A
+    (standalone enum — value form serialized on CanFrameTriggering, round-trip pinned there).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) (N/A: standalone enum)
+  - [x] Step 6 — Update parser & writer (Green) (N/A: standalone enum)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `CanFrameTxBehaviorEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 6.114, p.445
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Can/CanCommunication.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Step 1 found the enum content already spec-correct (literals can20/canFd →
+    ENUM_CAN_20="CAN-20"/ENUM_CAN_FD="CAN-FD", exact XSD CAN-FRAME-TX-BEHAVIOR-ENUM--SIMPLE
+    facets, class Note + literal comments verbatim with Tags tails) — the drift was the legacy
+    5-column checklist carrying a stale `# Spec verified: R23-11` marker (Rule 0023); marker
+    removed and block re-written 6-column without stamp. Steps 5/6 N/A (standalone enum — value
+    form serialized on CanFrameTriggering, round-trip pinned there).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) (N/A: standalone enum)
+  - [x] Step 6 — Update parser & writer (Green) (N/A: standalone enum)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `TtcanAbsolutelyScheduledTiming` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.115, p.450
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ttcan/TtcanCommunication.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: legacy 5-column checklist with stale `# Spec verified: R23-11` (Rule 0023) — marker removed, block re-written 6-column without stamp. Rule 0003 drift fixed: module now PEP 563 (`from __future__ import annotations`) and the three quoted `-> "TtcanAbsolutelyScheduledTiming"` returns unquoted. Field/accessor set already matched the table (communicationCycle/timeMark/trigger — "communication Cycle" in the markdown is a rendering wrap); reader/writer already called readARObject/writeARObject (audit BASE clean); S/T round-trip pinned by a new writer test. No deviations.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `TtcanTriggerType` — AREnum — R23-11 CP_TPS_SystemTemplate Table 6.116, p.450
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ttcan/TtcanCommunication.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: standalone AREnum (Steps 5/6 N/A — value form serialized on TtcanAbsolutelyScheduledTiming.trigger / round-trip pinned there). Legacy 5-column checklist with stale `# Spec verified: R23-11` (Rule 0023) — marker removed, block re-written 6-column without stamp. Literals/values/order verified against the TTCAN-TRIGGER-TYPE--SIMPLE XSD facets (AUTOSAR_00052.xsd) — no drift, no deviations.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) (N/A: standalone enum)
+  - [x] Step 6 — Update parser & writer (Green) (N/A: standalone enum)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `SoAdConfig` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.117, p.452
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: legacy 5-column checklist with stale `# Spec verified: R23-11` (Rule 0023) — marker removed, block re-written 6-column without stamp. Rule 0025 drift fixed: `getSoAdConfig`/`writeSoAdConfig` never called a base helper — `readARObject`/`writeARObject` added (S/T round-trip pinned by new writer tests). Rule 0004 drift fixed: `createSocketConnectionBundle`/`createSocketAddress` now return the existing element on duplicate short name (plain-ARObject aggregator → field-list scan). `Stereotypes:`/`Tags:` tails restored verbatim on connection/connectionBundle/socketAddress notes (Rule 0012.2.5.3; "short Label"/"connection Bundle" markdown wraps reconciled against the XSD atp.Splitkey tags). XSD LOGIC-ADDRESSS child (atp.Status="removed") stays unmodeled. Table is pre-caption split (connection/connectionBundle rows render above the caption) — verified against SO-AD-CONFIG XSD group. No deviations.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `SocketAddress` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.118, p.453
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: legacy 5-column checklist with stale `# Spec verified: R23-11` (Rule 0023) — marker removed, block re-written 6-column without stamp. Rule 0001.6 drift fixed: `addStaticSocketConnection(value)` migrated to `createStaticSocketConnection(short_name)` (StaticSocketConnection Base = Identifiable) with registry dup-check + dedicated field append; parser switched to create+`readStaticSocketConnection(element, obj)` (was constructing with a None parent in `getStaticSocketConnection`), writer helper renamed `setStaticSocketConnection` → `writeStaticSocketConnection` (Rule 0013.2 matched pair). `Stereotypes:`/`Tags:` tails restored verbatim on multicastConnector + staticSocketConnection notes (Rule 0012.2.5.3). Removed IP-ADDRESS/PORT-ADDRESS stay unmodeled (atp.Status="removed", XSD-only). Referenced types all exist: ApplicationEndpoint (own Table 6.124 = separate queued row), StaticSocketConnection (Table 6.201, legacy 5-col checklist — drift candidate for its own pass; consumed as-is), IPv6ExtHeaderFilterList/TcpOptionFilterList/EthernetCommunicationConnector (ref'd via RefType). No deviations.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `UdpChecksumCalculationEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 6.119, p.454
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: standalone AREnum (Steps 5/6 N/A — value form serialized on SocketAddress.udpChecksumHandling and SocketConnectionBundle.udpChecksumHandling; wire text pinned in writer/test_socket_address.py). Legacy 5-column checklist with stale `# Spec verified: R23-11` (Rule 0023) — marker removed, block re-written 6-column without stamp. Rule 0011 drift fixed: `__init__` tuple was in literal-index order (ENABLED, DISABLED) — corrected to XSD facet order (DISABLED, ENABLED) per UDP-CHECKSUM-CALCULATION-ENUM--SIMPLE in AUTOSAR_00052.xsd; member names/values already matched. No other deviations.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) (N/A: standalone enum)
+  - [x] Step 6 — Update parser & writer (Green) (N/A: standalone enum)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `IPv6ExtHeaderFilterSet` — ARElement — R23-11 CP_TPS_SystemTemplate Table 6.120, p.455
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/IPv6HeaderFilterList.py
+  - Note: REHOUSED from the stub at GenericStructure/GeneralTemplateClasses/ARPackage.py — the spec `Package` row says `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::IPv6HeaderFilterList` (XSD complexType comment confirms `...IPv6HeaderFilterList::IPv6ExtHeaderFilterSet`) so the spec Package row wins (G30 precedent, Rule 0007); `armodel.IPv6ExtHeaderFilterSet` export chain verified intact (models/__init__.py already wildcards IPv6HeaderFilterList). Markdown rendering reconciliation (trap 12): Table 6.120's caption sits AFTER the class-level rows (pre-caption split) and its Class cell renders "IPv6ExtHeaderFilterList" — the rows (Package/Note/Base/Aggregated by/Attribute extHeaderFilterList) belong to IPv6ExtHeaderFilterSet; Table 6.120's own Base row = `ARElement, ARObject, CollectableElement, Identifiable, MultilanguageReferrable, PackageableElement, Referrable` → most-derived = `ARElement`; XSD complexType confirms. Attr `extHeaderFilterList` (IPv6ExtHeaderFilterList, `*` aggr — Identifiable child → `createExtHeaderFilterList(short_name)` + `getExtHeaderFilterLists()`, dedicated typed list field per Rule 0004; XSD wrapper `EXT-HEADER-FILTER-LISTS` with choice of `I-PV-6-EXT-HEADER-FILTER-LIST`). Aggregated by `ARPackage.element` → full 5-place dispatch: `createIPv6ExtHeaderFilterSet` factory on ARPackage (bottom-of-module cycle import per TcpOptionFilterSet precedent), reader `readIPv6ExtHeaderFilterSet` + `I-PV-6-EXT-HEADER-FILTER-SET` branch in `readARPackageElementsRest`, writer `writeIPv6ExtHeaderFilterSet` + isinstance branch, dispatch tests both sides (parser +2, writer round-trip +3 with field-value assertions incl. wrapper-empty omission). Member child IPv6ExtHeaderFilterList already synced/stamped (Table 6.121) — reader/writer helpers reused. Class `Note` carries `Tags: atp.recommendedPackage=IPv6ExtHeaderFilterSets` — kept verbatim. Stub tuple removed from `test_group21_36_stub_classes.py`. No deviations.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `ApplicationEndpoint` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.124, p.458
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: verification + drift pass. Field-to-spec cross-check (both directions) clean: all 7 Table 6.124 attrs modeled (`consumedServiceInstance` * aggr, `maxNumberOfConnections`, `networkEndpoint` ref → `networkEndpointRef` per Kind suffix, `priority`, `providedServiceInstance` * aggr, `tlsCryptoMapping` ref → `tlsCryptoMappingRef`, `tpConfiguration` 0..1 aggr); Base chain most-derived = `Identifiable` (row's "ARObject" is the chain root, Rule 0001.2). XSD-only removed-status attrs (`DISCOVERY-TECHNOLOGY`, `REMOTING-TECHNOLOGY`, `SERIALIZATION-TECHNOLOGY-REF`, all `atp.Status="removed"`) correctly unmodeled (Rule 0015). `providedServiceInstance` carries `Tags: atp.Status=obsolete` (obsolete ≠ removed → kept modeled; Rule 0012.2.5.3) — tail was missing from the inline comment + create/getter docstrings and was added (Red→Green via new docstring-pin test). Reader/writer (wave-1 SocketAddress sync) verified complete and XSD `sequenceOffset`-ordered; BASE helpers called exactly once (audit). Legacy 5-column checklist (Rule 0023 drift) rewritten 6-column with per-row release; stale `# Spec verified: R23-11` removed — no stamp (9b deferred to batch confirmation). New model test file `test_ApplicationEndpoint.py` (10 tests: defaults, chaining + None no-op per accessor, create* append + duplicate-returns-existing, verbatim docstrings). No unresolved deviations.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) (verified existing coverage: tests/test_armodel/writer/test_application_endpoint.py round-trip asserts field values)
+  - [x] Step 6 — Update parser & writer (Green) (verified existing coverage — no parser/writer change needed)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `RtpTp` — TransportProtocolConfiguration — R23-11 CP_TPS_SystemTemplate Table 6.130, p.460
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: full sync from bare `pass` stub. Table 6.130: Base most-derived = `TransportProtocolConfiguration` (synced/stamped, Table 6.125); attrs `ssrc` (PositiveInteger 0..1 attr) + `tcpUdpConfig` (TcpUdpConfig 0..1 aggr — abstract non-Referrable child → `setTcpUdpConfig(value)` + parser/writer isinstance dispatch, no createXxx factory per Rule 0001.6). XSD `RTP-TP` group: `SSRC` then `TCP-UDP-CONFIG` wrapper with choice `TCP-TP`/`UDP-TP` — reader `readRtpTp` dispatches the wrapper's child into `readUdpTp`/`readTcpTp` (base helper `readARObject` called once at the RtpTp level), writer `writeRtpTp` emits the wrapper only when set; both wired into `getTransportProtocolConfiguration`/`writeTransportProtocolConfiguration` dispatch. New model test `test_RtpTp.py` (6 tests), parser tests +3, writer round-trip tests +4 (UDP + TCP variants, empty-wrapper omission, field-value assertions). Stub tuple removed from `test_group21_36_stub_classes.py` in this commit. No deviations.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `Ieee1722Tp` — TransportProtocolConfiguration — R23-11 CP_TPS_SystemTemplate Table 6.131, p.461
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: full sync from bare `pass` stub. Table 6.131 renders page-split (attr `relativeRepresentationTime` in part 1; `streamIdentifier`/`subType`/`version` in part 2 after a figure) — member order = displayed concatenation order. Class `Note` and all 4 attribute `Note`s carry `Tags: atp.Status=obsolete` — obsolete ≠ removed → modeled with tails kept verbatim (Rule 0012.2.5.3; XSD `IEEE-1722-TP` group confirms all 4 elements present). Base most-derived = `TransportProtocolConfiguration` (synced/stamped, Table 6.125). XSD element order RELATIVE-REPRESENTATION-TIME, STREAM-IDENTIFIER, SUB-TYPE, VERSION → reader `readIeee1722Tp`/writer `writeIeee1722Tp` (base helper `readARObject`/`writeARObject` called once) wired into the `getTransportProtocolConfiguration`/`writeTransportProtocolConfiguration` dispatch as `IEEE-1722-TP`. New model test `test_Ieee1722Tp.py` (7 tests), parser tests +2, writer round-trip tests +3 (field-value assertions + empty-element omission). Stub tuple removed from `test_group21_36_stub_classes.py` in this commit. No deviations.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `HttpTp` — TransportProtocolConfiguration — R23-11 CP_TPS_SystemTemplate Table 6.132, p.461
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: full sync from bare `pass` stub. Table 6.132: Base most-derived = `TransportProtocolConfiguration`; attrs `contentType` (String 0..1), `protocolVersion` (String 0..1), `requestMethod` (RequestMethodEnum 0..1 attr), `tcpTpConfig` (TcpTp 0..1 aggr — non-Referrable child → `setTcpTpConfig(value)`; XSD `TCP-TP-CONFIG` is directly typed `AR:TCP-TP` (no choice wrapper, unlike RtpTp's TCP-UDP-CONFIG) so the reader reads the TCP-TP-CONFIG element via `readTcpTp` and the writer emits TcpTp content inline under TCP-TP-CONFIG), `uri` (UriString 0..1). Referenced enum `RequestMethodEnum` did not exist in the codebase and has NO table in either corpus → implemented as XSD-only enum (8 literals CONNECT/DELETE/GET/HEAD/OPTIONS/POST/PUT/TRACE, values = exact `REQUEST-METHOD-ENUM--SIMPLE` facets, AUTOSAR_00052.xsd line 141655; `# XSD verified:` marker deferred to batch confirmation like the spec classes). XSD element order CONTENT-TYPE, PROTOCOL-VERSION, REQUEST-METHOD, TCP-TP-CONFIG, URI → reader `readHttpTp`/writer `writeHttpTp` (base helper `readARObject`/`writeARObject` exactly once) wired into the `getTransportProtocolConfiguration`/`writeTransportProtocolConfiguration` dispatch. Stub tuple removed from `test_group21_36_stub_classes.py`. No deviations.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `Ipv6Configuration` — NetworkEndpointAddress — R23-11 CP_TPS_SystemTemplate Table 6.139, p.466
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: verification + drift pass. Field-to-spec cross-check (both directions) clean: all 9 Table 6.139 attrs modeled in displayed order (`assignmentPriority`, `defaultRouter`, `dnsServerAddress` * → `dnsServerAddresses`, `enableAnycast`, `hopCount`, `ipAddressKeepBehavior`, `ipAddressPrefixLength`, `ipv6Address`, `ipv6AddressSource`); Base most-derived = `NetworkEndpointAddress` ✓. Drift found and fixed: (1) legacy 5-column checklist + stale `# Spec verified: R23-11` (Rule 0023) — marker removed, block rewritten 6-column, no stamp (9b deferred); (2) accessor order had `getDnsServerAddresses` before `addDnsServerAddress` (Rule 0001.11 mutator-first) — swapped; (3) `Tags: xml.namePlural=DNS-SERVER-ADDRESSES` tail missing on the dnsServerAddress inline comment + getter/adder docstrings (Rule 0012.2.5.3) — added (Red→Green via new docstring-pin test); (4) Rule 0025 BASE: reader `getIpv6Configuration`/writer `setIpv6Configuration` never called `readARObject`/`writeARObject` (silent S/T loss; XSD complexType IPV-6-CONFIGURATION carries the AR-OBJECT group) — added on both sides, pinned by a new S/T round-trip assertion. Reader/writer XML order already matches the XSD `sequenceOffset`. New model test `test_Ipv6Configuration.py` (12 tests). No unresolved deviations.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `MacMulticastConfiguration` — NetworkEndpointAddress — R23-11 CP_TPS_SystemTemplate Table 6.141, p.467
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: full sync from bare `pass` stub. Table 6.141: Base most-derived = `NetworkEndpointAddress`; single attr `macMulticastGroup` (MacMulticastGroup, 0..1, Kind **ref** → `macMulticastGroupRef: Optional[RefType]` per Rule 0001.5 Kind-suffix; ref target MacMulticastGroup already synced/stamped Table 3.48). XSD `MAC-MULTICAST-CONFIGURATION` complexType = AR-OBJECT + NETWORK-ENDPOINT-ADDRESS + MAC-MULTICAST-CONFIGURATION groups → reader branch `MAC-MULTICAST-CONFIGURATION` in `readNetworkEndPointNetworkEndPointAddress` (readARObject + `getChildElementOptionalRefType("MAC-MULTICAST-GROUP-REF")`, DEST preserved), writer isinstance branch in `writeNetworkEndPointNetworkEndPointAddresses` (writeARObject + `setChildElementOptionalRefType`) — S/T round-trip pinned by tests on both sides. Ref type `MAC-MULTICAST-GROUP--SUBTYPES-ENUM` handled by the generic RefType DEST machinery (no dedicated enum class needed). New model test `test_MacMulticastConfiguration.py` (5 tests), parser tests +2, writer tests +3. Stub tuple removed from `test_group21_36_stub_classes.py`. No deviations.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `InfrastructureServices` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.144, p.469
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: verification + drift pass. Field-to-spec cross-check (both directions) clean: both Table 6.144 attrs modeled (`doIpEntity`, `timeSynchronization`, both 0..1 aggr — children DoIpEntity (Table 6.150) and TimeSynchronization (Table 6.145) already synced/stamped, so no identity-only debt); Base = `ARObject` ✓; XSD-only `DHCP-SERVER-CONFIGURATION` element carries `atp.Status="removed"` → correctly unmodeled (Rule 0001.3/0015). Docstrings verbatim vs the spec `Note`s ✓. Drift found and fixed: (1) legacy 5-column checklist + stale `# Spec verified: R23-11` (Rule 0023) — marker removed, block rewritten 6-column, no stamp (9b deferred); (2) Rule 0025 BASE: reader `getInfrastructureServices`/writer `setInfrastructureServices` never called `readARObject`/`writeARObject` (silent S/T loss; XSD complexType INFRASTRUCTURE-SERVICES carries the AR-OBJECT group) — added on both sides, pinned by new S/T round-trip tests (parser +3 assertions in `test_getInfrastructureServices_full`, writer `test_round_trip_infrastructure_services_preserves_values`). New model test `test_InfrastructureServices.py` (6 tests). No unresolved deviations.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `TimeSyncTechnologyEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 6.149, p.471
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: verification pass — literals/values already matched Table 6.149 and the XSD `TIME-SYNC-TECHNOLOGY-ENUM--SIMPLE` facets exactly (`AVB--IEEE-802--1-AS`, `NTP--RFC-958`, `PTP--IEEE-1588--2002`, `PTP--IEEE-1588--2008`), so Steps 2/3 pinned existing behavior (extended tests: member/value pins + instantiability setValue round-trip + class-docstring pin). Table 6.149 renders no `Note` row — class docstring = XSD complexType documentation verbatim ("Timesynchronization. Server/Client configuration."). Added the markdown `Tags:` tails (`atp.EnumerationLiteralIndex=N xml.name=…`) to the literal comments verbatim; the markdown renders the xml.name tokens single-hyphen (`AVB-IEEE-802-1-AS`) while the XSD appinfo carries double-hyphen (`AVB--IEEE-802--1-AS`) — comment keeps the markdown rendering, the enum VALUE keeps the XSD facet (reconciliation per batch trap 12; file convention matches Ipv4AddressSourceEnum.AUTO_IP_DOIP). Legacy `(no methods)` block carried a stale `# Spec verified: R23-11` (Rule 0023 drift) — marker removed, block rewritten to the 6-column form with the `__init__` row, no stamp (9b deferred to batch confirmation).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) (N/A: standalone enum)
+  - [x] Step 6 — Update parser & writer (Green) (N/A: standalone enum)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `DoIpEntityRoleEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 6.151, p.471
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: verification pass — literals/values already matched Table 6.151 and the XSD `DO-IP-ENTITY-ROLE-ENUM--SIMPLE` facets exactly (`EDGE-NODE`, `GATEWAY`, `NODE`, indexes 0-2), so Steps 2/3 pinned existing behavior (extended tests: member/value pins + instantiability setValue round-trip + class-docstring pin; Table 6.151 `Note` "DoIP role a network-node has." already verbatim in the docstring). Legacy `(no methods)` block carried a stale `# Spec verified: R23-11` (Rule 0023 drift) — marker removed, block rewritten to the 6-column form with the `__init__` row, no stamp (9b deferred to batch confirmation). No deviations.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) (N/A: standalone enum)
+  - [x] Step 6 — Update parser & writer (Green) (N/A: standalone enum)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `DdsCpServiceInstance` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 6.152, p.472
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: full sync from the bare `pass` stub. Package arbitration: spec `Package` row =
+    Fibex4Ethernet::Dds, but the class STAYS in Identifiable.py per the wave-1 DdsCp* Identifiable-family
+    runtime-cycle precedent 0babf1fb0 (the stub subclass DdsCpConsumedServiceInstance(
+    DdsCpServiceInstance) lives here; rehousing the base out of Identifiable.py recreates the
+    Identifiable.py↔Fibex4Ethernet import cycle that precedent removed — Rule 0007 deviation noted, not
+    rehoused). Base arbitration: spec `Base` row = ARObject, AbstractServiceInstance, Identifiable,
+    MultilanguageReferrable, Referrable → most-derived SPEC class AbstractServiceInstance (synced,
+    ServiceInstances.py) is unreachable at runtime from Identifiable.py (ServiceInstances.py imports
+    Identifiable.py) → synced base = Identifiable per the row label + brief; XSD has NO own complexType
+    (abstract class — element GROUP DDS-CP-SERVICE-INSTANCE only, AUTOSAR_00052.xsd l.29079; group content
+    sits after IDENTIFIABLE inside the subclass complexTypes), consistent with the Identifiable level.
+    Abstract (spec "(abstract)") → instantiation guard kept; concrete stub subclass
+    DdsCpConsumedServiceInstance inherits the 7 new fields for free (its own Table 6.154 row queued).
+    All 7 Table 6.152 attrs modeled in displayed order (= XSD group order), all 0..1 → Optional:
+    ddsFieldReplyTopic/ddsFieldRequestTopic/ddsMethodReplyTopic/ddsMethodRequestTopic (DdsCpTopic refs,
+    Kind ref → RefType-typed +Ref suffix) / ddsServiceQosProfile (DdsCpQosProfile ref → RefType) /
+    serviceInstanceId PositiveInteger / serviceInterfaceId String — ref fields RefType-typed so the
+    synced ref targets need no import (DdsCpProvidedServiceInstance precedent); Notes verbatim incl.
+    `Tags: atp.Status=candidate` tails. Nested reusable helpers read/writeDdsCpServiceInstance added
+    (AbstractServiceInstance abstract-base pattern: writer writes INTO the caller's element, base helpers
+    readIdentifiable/writeIdentifiable exactly once — audit BASE/PASS; exercised via
+    DdsCpConsumedServiceInstance); aggregator hook-in (ServiceInstanceCollectionSet.serviceInstance —
+    Table 6.157 queued) still pending. Wave-1 identity-debt check (Rule 0001.7): DdsCpProvidedServiceInstance/
+    DdsCpServiceInstanceEvent/DdsCpServiceInstanceOperation hold NO identity-only placeholders pointing at
+    Table 6.152 (their helpers emit real content for their own groups only); DdsCpProvidedServiceInstance
+    (wave-1, ArObject.py) keeps its ARObject base — re-basing onto this class is blocked by the
+    ArObject.py↔Identifiable.py runtime cycle, so its reader/writer does not yet round-trip the inherited
+    ABSTRACT-SERVICE-INSTANCE + DDS-CP-SERVICE-INSTANCE group content — pending that class's own
+    re-base/rehouse pass (recorded, not a Table 6.152 deviation). Stub tuple removed from
+    test_group21_36_stub_classes.py; `armodel.DdsCpServiceInstance` export chain verified. No deviations.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `DdsCpProvidedServiceInstance` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.153, p.473
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
@@ -353,15 +477,49 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DdsCpConsumedServiceInstance` — DdsCpServiceInstance — R23-11 CP_TPS_SystemTemplate Table 6.154, p.475
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Step 1 — table renders split (Class/Package/Note/Base/Aggregated-by header + 5 attribute rows
+    before the caption; staticRemoteUnicastAddress row in a post-caption segment); rows verified against
+    XSD group DDS-CP-CONSUMED-SERVICE-INSTANCE (AUTOSAR_00052.xsd l.28609, complexType l.28692: sequence
+    = AR-OBJECT, REFERRABLE, MULTILANGUAGE-REFERRABLE, IDENTIFIABLE, ABSTRACT-SERVICE-INSTANCE,
+    DDS-CP-SERVICE-INSTANCE, DDS-CP-CONSUMED-SERVICE-INSTANCE — reader/writer call
+    read/writeDdsCpServiceInstance once + own group). Base most-derived = DdsCpServiceInstance (synced
+    50f39c6ba); concrete class (XSD abstract="false") — no instantiation guard. 6 attrs in displayed
+    row order: consumedDdsOperation `*` aggr → List + add/get; consumedDdsServiceEvent `*` aggr → List +
+    add/get; localUnicastAddress 0..1 ref → Optional[RefType] +Ref (provided-instance precedent);
+    minorVersion 0..1 attr → Optional[AnyVersionString]; staticRemoteMulticastAddress 0..1 ref →
+    Optional[RefType] (markdown Mult wins over the XSD unbounded wrapper — Rule 0015, provided-instance
+    multicast precedent); staticRemoteUnicastAddress 0..1 ref → Optional[RefType] (markdown Mult 0..1,
+    unlike provided's `*`). Note-cell rendering artefacts reconciled per wave-1
+    DdsCpProvidedServiceInstance precedent: consumedDdsServiceEvent leading spill fragment
+    "vh.latestBindingTime=systemDesignTime" dropped (tail keeps it); staticRemoteMulticastAddress
+    leading "Tags: atp.Status=candidate" spill dropped (tail keeps it) and tail "xml.name" restored to
+    "xml.namePlural=STATIC-REMOTE-MULTICAST-ADDRESSES"; staticRemoteUnicastAddress tail
+    "xml.name Plural=STATIC-REMOTE-UNICAST-ADDRESSES" restored to
+    "xml.namePlural=STATIC-REMOTE-UNICAST-ADDRESSES". Not VP-capable at class level — the two aggr rows
+    and three ref rows carry atpVariation Splitkey stereotypes per attribute (DirectedAssociationPattern
+    on the REF wrappers, no VARIATION-POINT element in the group) so no VariationPointCapable base.
+    Identity debt (wave-1 rows): DdsCpServiceInstanceEvent/DdsCpServiceInstanceOperation note pending
+    aggregator hook-ins consumedDdsServiceEvent/consumedDdsOperation — wired with REAL coverage in this
+    class's reader/writer in this commit.
+  - Note: Step 8 — no deviations: all 6 Table 6.154 attrs modeled (field+accessor+reader+writer), types
+    match the PDF (AnyVersionString for minorVersion; RefType-typed ref fields per the
+    DdsCpProvidedServiceInstance precedent), mult shapes match the markdown Mult column (List for the
+    two `*` aggr rows, Optional for the four 0..1 rows); staticRemoteUnicastAddress modeled single-ref
+    per markdown Mult 0..1 although the XSD wrapper is unbounded-choice (Rule 0001.4/0015 — markdown
+    wins; recorded in the Step 1 note). Wave-1 identity debt resolved: consumedDdsOperation/
+    consumedDdsServiceEvent wired with real coverage (no identity-only placeholders remain — grep
+    clean); wave-1 Event/Operation rows' "pending hook-in" notes are satisfied by this class's sync
+    (their own rows stay untouched per batch instruction). Aggregator hook-in
+    ServiceInstanceCollectionSet.serviceInstance (Table 6.157) remains queued — not this class's debt.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `DdsCpServiceInstanceEvent` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.155, p.475
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
@@ -405,184 +563,408 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `ServiceInstanceCollectionSet` — FibexElement — R23-11 CP_TPS_SystemTemplate Table 6.157, p.476
-  - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py
+  - Note: Step 1 — rehoused from the FibexCore stub to the spec `Package` row
+    Fibex4Ethernet::ServiceInstances (Rule 0007; stub tuple removed from
+    test_group21_36_stub_classes.py). Table 6.157 lists exactly ONE attribute row
+    (serviceInstance, `*`, aggr, type AbstractServiceInstance) — no other rows (no
+    clientIdentifierRange or similar); verified against XSD group SERVICE-INSTANCE-COLLECTION-SET
+    (AUTOSAR_00052.xsd l.105332, complexType l.105357 — FIBEX-ELEMENT group is EMPTY, no
+    VARIATION-POINT anchor, not VP-capable). The SERVICE-INSTANCES wrapper carries an unbounded
+    XSD choice of CONSUMED-SERVICE-INSTANCE / DDS-CP-CONSUMED-SERVICE-INSTANCE /
+    DDS-CP-PROVIDED-SERVICE-INSTANCE / PROVIDED-SERVICE-INSTANCE → full polymorphic five-place
+    dispatch over the four concrete subtypes (all synced on this branch). Member typing:
+    List[Union[ConsumedServiceInstance, DdsCpConsumedServiceInstance, DdsCpProvidedServiceInstance,
+    ProvidedServiceInstance]] instead of the PDF's AbstractServiceInstance — the wave-1 DdsCp*
+    pinning (0babf1fb0) leaves DdsCpProvidedServiceInstance(ARObject) and
+    DdsCpConsumedServiceInstance(DdsCpServiceInstance) OFF the AbstractServiceInstance hierarchy,
+    so List[AbstractServiceInstance] fails mypy; family-consistent arbitration recorded
+    (DdsCpServiceInstance row precedent), collapses to the spec type on the family's own re-base
+    pass — not a Table 6.157 deviation. DdsCpProvidedServiceInstance is a plain ARObject child
+    (no short name) → addDdsCpProvidedServiceInstance(value) per Rule 0001.6; the other three get
+    createXxx(short_name) factories. Markdown mid-token wrap "service Instance.variationPoint"
+    reconciled to the XSD appinfo "serviceInstance.variationPoint" (Splitkey tag). Base
+    most-derived AVAILABLE = FibexElement (empty group; SocketConnectionIpduIdentifierSet
+    precedent 6aaa3b06b) — reader/writer call read/writeIdentifiable exactly once.
+  - Note: Step 8 — no deviations: the single Table 6.157 attr (serviceInstance) fully modeled
+    (field + accessors + reader dispatch + writer dispatch + dispatch tests asserting field
+    values); wave-1 identity-debt resolved — the Dds rows' "aggregator hook-in
+    ServiceInstanceCollectionSet.serviceInstance pending" notes are satisfied by the real
+    dispatch in this commit (no identity-only placeholder existed, grep clean; no wave-1 file
+    edits needed). Wrapper-element empty-list case covered both sides (parse yields [] / writer
+    omits SERVICE-INSTANCES).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `AbstractServiceInstance` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.158, p.477
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Step 1 — markdown Table 6.158 renders NO Package/Base/Note rows (pre-caption split artifact);
+    reconciled against XSD: ABSTRACT-SERVICE-INSTANCE is an element GROUP (no complexType) whose content
+    sits after IDENTIFIABLE in every subclass complexType — model base stays Identifiable (chain
+    ARObject→Referrable→MultilanguageReferrable→Identifiable; XSD group doc supplies the class
+    docstring verbatim). Rule 0023 drift: stale `# Spec verified:` marker removed; legacy 5-column
+    block rewritten 6-column. Rule 0001.7: abstract XML-bearing base now OWNS reusable
+    readAbstractServiceInstance/writeAbstractServiceInstance helpers (identifiable level + group attrs
+    in XSD order: CAPABILITY-RECORDS, MAJOR-VERSION, METHOD-ACTIVATION-ROUTING-GROUPS,
+    ROUTING-GROUP-REFS); concrete subclass ProvidedServiceInstance rewired to call them exactly once
+    (Rule 0013.1 symmetric leveling — reader and writer). methodActivationRoutingGroup modeled as
+    Optional single per PDF Mult 0..1 (XSD wrapper is unbounded via atpVariation — PDF wins,
+    Rule 0015/0001.4). ConsumedServiceInstance + DdsCp* subclasses rewire in their queued rows' passes.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `ProvidedServiceInstance` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.160, p.486
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Step 1 — spec `Base` row = ARObject, AbstractServiceInstance, Identifiable, MultilanguageReferrable,
+    Referrable → most-derived base AbstractServiceInstance (synced this batch); todo row's "ARObject"
+    predated it. Old checklist cited the WRONG table (Swc TPS Table E.37) — corrected to Table 6.160 p.486.
+    Rule 0023 drift: stale marker removed, block rewritten 6-column in source order. Rule 0015 removals:
+    allowedServiceConsumer (XSD atp.Status=draft) and autoAvailable are absent from Table 6.160 and no
+    integration fixture carries them — fields, accessors, reader/writer lines and tests removed (not
+    deviations). Invented list-setter shapes (setLocalUnicastAddressRefs/setRemoteMulticastSubscriptionAddressRefs/
+    setRemoteUnicastAddressRefs/setAllowedServiceConsumerRefs) removed per Rule 0001.6; untyped accessors
+    typed (Rule 0003). Reader delegates to readAbstractServiceInstance (base, exactly once); writer XSD
+    group order: ABSTRACT-SERVICE-INSTANCE group (via writeAbstractServiceInstance) → EVENT-HANDLERS →
+    INSTANCE-IDENTIFIER → … → SERVICE-IDENTIFIER. sdServerTimerConfig stays a RefType ref
+    (SomeipSdServerServiceInstanceConfig remains an unsynced stub — Table 6.169 queued; identity debt
+    recorded per Rule 0001.7). Markdown cell wraps ("SOME/ IP", "sdServerTimer Config") reconciled via
+    XSD tags.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `PduActivationRoutingGroup` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 6.161, p.489
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: synced 2026-10-08 (sync commit 5cb5ddacc; this row-flip is the follow-up — the class commit
+    omitted the todo-file flip). Entry audit FAIL (legacy 5-col checklist + stale `# Spec verified:`) drove
+    the full re-sync: stale marker removed, block rewritten 6-column; old rows carried reader AND writer
+    `[x]` on both get/set — corrected to the mutator/getter split. VP-capable per XSD (l.88622) — mixin
+    kept. Writer test upgraded from camelCase ARLiteral values to EventGroupControlTypeEnum XSD facets.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `EventGroupControlTypeEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 6.162, p.489
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Step 1 — markdown renders this table PRE-caption (body sits under the Table 6.161 caption;
+    the body following the 6.162 caption belongs to SoConIPduIdentifier). Literals/values verified
+    against EVENT-GROUP-CONTROL-TYPE-ENUM--SIMPLE facets (ACTIVATION-AND-TRIGGER-UNICAST …
+    TRIGGER-UNICAST) — impl already matched, no field change. Rule 0023 drift: stale
+    `# Spec verified:` marker removed; legacy 5-column block rewritten 6-column (no marker — 9b
+    deferred). Round-trip via consuming class PduActivationRoutingGroup.eventGroupControlType
+    (reader/writer already cover EVENT-GROUP-CONTROL-TYPE); SoAdRoutingGroup consumes it too.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) (N/A: standalone AREnum — serialized as
+      attribute value on PduActivationRoutingGroup.eventGroupControlType; existing consuming-class
+      reader/writer tests pin the round-trip)
+  - [x] Step 6 — Update parser & writer (Green) (N/A: standalone AREnum — see Step 5)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `SoConIPduIdentifier` — Referrable — R23-11 CP_TPS_SystemTemplate Table 6.163, p.490
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py
+  - Note: Step 1 — spec `Package` row = Fibex4Ethernet::ServiceInstances → REHOUSED from the
+    GenericStructure/GeneralTemplateClasses/Identifiable.py stub (Rule 0007; stub removed there and its
+    tuple dropped from test_group21_36_stub_classes.py). XSD complexType = SO-CON-I-PDU-IDENTIFIER
+    (AR-OBJECT + REFERRABLE + group) — sibling obsolete SOCKET-CONNECTION-IPDU-IDENTIFIER
+    (SocketConnectionIpduIdentifier, ObsoleteModel) is a DIFFERENT class, not touched. Markdown renders
+    this table pre-caption under Table 6.162 + post-image continuation; attribute names reconciled
+    against the XSD group (pduCollectionPduTimeout etc.). Aggregator SocketConnectionIpduIdentifierSet
+    (Table 6.164) still queued — read/writeSoConIPduIdentifier helpers land with full coverage now,
+    dispatch wiring is that row's pass.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `SocketConnectionIpduIdentifierSet` — ARElement — R23-11 CP_TPS_SystemTemplate Table 6.164, p.490
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py
+  - Note: Step 1 — spec `Package` row = Fibex4Ethernet::ServiceInstances → REHOUSED from the
+    ARPackage.py stub (Rule 0007; stub removed, stub-guard tuple dropped from
+    test_group21_36_stub_classes.py). spec `Base` row chain = ARElement, CollectableElement,
+    FibexElement, Identifiable, ..., UploadableDesignElement, UploadablePackageElement →
+    most-derived AVAILABLE base = FibexElement (ServiceInstanceCollectionSet precedent; the
+    FIBEX-ELEMENT XSD group has an empty sequence so readIdentifiable/writeIdentifiable is the
+    nearest ancestor helper — audit BASE green, Rule 0025). Single attribute iPduIdentifier
+    (SoConIPduIdentifier, *, aggr; `Stereotypes: atpSplitable Tags: atp.Splitkey=iPduIdentifier
+    .shortName` tail verbatim from the post-caption body at l.13038) → createIPduIdentifier
+    (Referrable child, Rule 0001.6) + getIPduIdentifiers backed by a dedicated typed list
+    (Rule 0004). ARPackage.element polymorphic dispatch wired: createSocketConnectionIpduIdentifierSet
+    + reader SOCKET-CONNECTION-IPDU-IDENTIFIER-SET branch + writer isinstance branch + dispatch
+    tests (IPv6ExtHeaderFilterSet precedent 281718563); XSD order = I-PDU-IDENTIFIERS wrapper →
+    SO-CON-I-PDU-IDENTIFIER children. SoConIPduIdentifier (synced 70d2ac28c) round-tripped with
+    real child field values (headerId, pduCollection*, pduTriggeringRef).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `EventHandler` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 6.166, p.492
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Step 1 — markdown renders attribute names/cells with mid-token wraps ("SOME/ IP .",
+    "SD-SubscribeEvent GroupAck", "pduActivation RoutingGroup") — reconciled against XSD group
+    EVENT-HANDLER (unique per complexType; XSD doc confirms SOME/IP, SD-SubscribeEventGroupAck).
+    Rule 0023 drift: stale `# Spec verified:` marker removed; legacy 5-column block rewritten
+    6-column in source order (mutator-first for the three list pairs). Fields/accessors already
+    matched the 8 spec rows (8th = sdServerEgTimingConfig → RefType ref; consumedEventGroup/
+    routingGroup/sdServerConfig kept despite atp.Status=obsolete — PDF table keeps them). Reader:
+    eventMulticastAddressRef + sdServerEgTimingConfigRef switched to optional-typed nested reads
+    (Rule 0001.4). SomeipSdServerEventGroupTimingConfig (Table 6.172) + SomeipSdClientEventGroupTimingConfig
+    (Table 6.173) remain unsynced stubs — sdServerEgTimingConfigRef is ref-typed so its own
+    reader/writer coverage is real; the referenced classes' identity sync is their queued rows' debt
+    (Rule 0001.7 identity-only note).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `ConsumedServiceInstance` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 6.167, p.501
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Step 1 — spec `Base` row = ARObject, AbstractServiceInstance, Identifiable, ... →
+    most-derived base AbstractServiceInstance (synced f89169aa6; row label "Identifiable" was the
+    chain head only). Rule 0023 drift: stale `# Spec verified:` marker removed, legacy 5-column
+    block rewritten 6-column in source order. Docstrings wiped and rewritten with the
+    `Tags:`/`Stereotypes:` tails verbatim (Rule 0012.2.5.3); markdown mid-token wraps reconciled
+    against XSD group CONSUMED-SERVICE-INSTANCE (AUTOSAR_00052.xsd l.22624): "ConsumedService
+    Instance"→ConsumedServiceInstance, "ProvidedService Instance."→ProvidedServiceInstance.,
+    "SOME/ IP"→SOME/IP, "eventMulticastSubscription Address."/"sdClientTimerConfig.someipSdClient
+    Service InstanceConfig"/"variationPoint.short Label" unwrapped. Rule 0015 pins: XSD-only
+    blacklistedVersion is atp.Status=removed (table keeps only draft blocklistedVersion) — pinned
+    by test; no integration fixture carries either wrapper. Reader delegates to
+    readAbstractServiceInstance (base, exactly once — Rule 0025) and writer to
+    writeAbstractServiceInstance; XSD group order ABSTRACT-SERVICE-INSTANCE (CAPABILITY-RECORDS →
+    MAJOR-VERSION → METHOD-ACTIVATION-ROUTING-GROUPS → ROUTING-GROUP-REFS) before the
+    CONSUMED-SERVICE-INSTANCE group, pinned by a new order+base-fields round-trip test
+    (consumedEventGroups→ConsumedEventGroup child real coverage via its synced reader/writer).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `ConsumedEventGroup` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.168, p.505
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Step 1 — spec `Base` row = ARObject, Identifiable, MultilanguageReferrable, Referrable →
+    most-derived base Identifiable (row label "ARObject" was the chain head only). Rule 0023 drift:
+    stale `# Spec verified:` marker removed, legacy 5-column block rewritten 6-column in source order.
+    Docstrings wiped and rewritten with the `Tags:`/`Stereotypes:` tails verbatim (Rule 0012.2.5.3);
+    markdown mid-token wraps ("ConsumedService Instance.autoRequire", "someipSdClientEvent
+    GroupTimingConfig", "variation Point.shortLabel") reconciled against XSD group
+    CONSUMED-EVENT-GROUP (AUTOSAR_00052.xsd l.22376). XSD-only instanceIdentifier is
+    atp.Status=removed and absent from the table → not modeled (Rule 0015), pinned by test.
+    Reader/writer coverage already matched the XSD element order (verified; audit BASE green) —
+    no parser/writer source change needed; existing round-trip tests upgraded (enum constants per
+    Rule 0011, DEST=SO-AD-ROUTING-GROUP) + new parser tests with field-value assertions.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `SomeipSdServerServiceInstanceConfig` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.169, p.514
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py
+  - Note: Step 1 — spec `Package` row = Fibex4Ethernet::ServiceInstances → REHOUSED from the
+    ArObject.py stub (Rule 0007; stub removed, stub-guard tuple dropped from
+    test_group21_36_stub_classes.py). spec `Base` row chain = ARElement, CollectableElement,
+    Identifiable, ..., UploadableDesignElement, UploadablePackageElement → most-derived AVAILABLE
+    base = ARElement (row label "ARObject" was the stub's old base; Uploadable*/CollectableElement
+    have no model classes). Not VP-capable itself (no VARIATION-POINT in XSD group
+    SOMEIP-SD-SERVER-SERVICE-INSTANCE-CONFIG, l.110751). Markdown priority-note mid-token wraps
+    ("ProvidedSomeip ServiceInstances", "SomeipSd ServerServiceInstanceConfig", "StopOffer Service")
+    reconciled against the XSD doc. Member order = displayed table order (initialOfferBehavior,
+    offerCyclicDelay, priority | requestResponseDelay, serviceOfferTimeToLive across the page
+    split). ARPackage.element aggregation wired: createSomeipSdServerServiceInstanceConfig +
+    reader SOME-IP-SD-SERVER-SERVICE-INSTANCE-CONFIG branch + writer isinstance branch +
+    dispatch tests. Identity debt (Rule 0001.7): ProvidedServiceInstance.sdServerTimerConfigRef
+    round-trip test upgraded to serialize the referenced config element and assert its field
+    values; EventHandler's remaining identity debt targets Tables 6.172/6.173 (not this class,
+    per its own row note) — no EventHandler change needed.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `SomeipSdServerEventGroupTimingConfig` — ARElement — R23-11 CP_TPS_SystemTemplate Table 6.172, p.517
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: verification + drift pass. Field-to-spec cross-check (both directions) clean: single Table 6.172
+    attr requestResponseDelay (RequestResponseDelay 0..1 aggr, non-Referrable child → set/get shape) already
+    modeled in displayed order; Base most-derived = ARElement ✓ (chain to UploadableDesignElement — no model
+    classes); class/attr `Note`s verbatim incl. the `Tags: atp.recommendedPackage=SomeipSdTimingConfigs`
+    tail; not VP-capable (no VARIATION-POINT in XSD group, l.110665). Aggregated by ARPackage.element —
+    factory/reader/writer dispatch pre-existed. Drift fixed: (1) Rule 0023 legacy 5-column checklist with
+    stale `# Spec verified: R23-11` — marker removed, block rewritten 6-column, no stamp (9b deferred);
+    (2) parser/writer element tag `SOME-IP-SD-SERVER-EVENT-GROUP-TIMING-CONFIG` corrected to the XSD name
+    `SOMEIP-SD-SERVER-EVENT-GROUP-TIMING-CONFIG` (AUTOSAR_00052.xsd l.5467/l.110681; the XSD carries zero
+    "SOME-IP-SD" tokens) in the readARPackageElementsRest branch, writeSomeipSdServerEventGroupTimingConfig,
+    and the writer/dispatch tests — SIBLING CLASSES SomeipSdClientServiceInstanceConfig/
+    SomeipSdServerServiceInstanceConfig still emit `SOME-IP-SD-*-SERVICE-INSTANCE-CONFIG` (same XSD
+    discrepancy; left for their own passes). Identity debt (Rule 0001.7) resolved: EventHandler
+    sdServerEgTimingConfigRef round-trip test upgraded to also serialize the referenced config element and
+    assert its requestResponseDelay min/max field values (writer
+    test_someip_sd_server_event_group_timing_config.py). Audit PASS (STAMP INFO = expected pre-9b state);
+    stamped-audit baseline refreshed (entry drained). No deviations.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `SomeipSdClientEventGroupTimingConfig` — ARElement — R23-11 CP_TPS_SystemTemplate Table 6.173, p.521
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: verification + drift pass. Field-to-spec cross-check (both directions) clean: all 4 Table 6.173
+    attrs modeled in displayed order (requestResponseDelay RequestResponseDelay 0..1 aggr — non-Referrable
+    child → set/get shape; subscribeEventgroupRetryDelay TimeValue; subscribeEventgroupRetryMax
+    PositiveInteger; timeToLive PositiveInteger); Base most-derived = ARElement ✓; class/attr `Note`s
+    verbatim incl. the `Tags: atp.recommendedPackage=SomeipSdTimingConfigs` tail; not VP-capable (no
+    VARIATION-POINT in XSD group, l.110389). Aggregated by ARPackage.element — factory/reader/writer
+    dispatch pre-existed. Drift fixed: (1) Rule 0023 legacy 5-column checklist with stale
+    `# Spec verified: R23-11` — marker removed, block rewritten 6-column, no stamp (9b deferred);
+    (2) parser/writer element tag `SOME-IP-SD-CLIENT-EVENT-GROUP-TIMING-CONFIG` corrected to the XSD name
+    `SOMEIP-SD-CLIENT-EVENT-GROUP-TIMING-CONFIG` (AUTOSAR_00052.xsd l.5465/l.110424) in the
+    readARPackageElementsRest branch, writeSomeipSdClientEventGroupTimingConfig, and the writer/dispatch
+    tests. Identity debt (Rule 0001.7) resolved: ConsumedEventGroup sdClientTimerConfigRef round-trip test
+    upgraded to also serialize the referenced config element and assert its field values (writer
+    test_someip_sd_client_event_group_timing_config.py). Audit PASS (STAMP INFO = expected pre-9b state);
+    stamped-audit baseline refreshed (entry drained). No deviations.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `DdsCpConfig` — ARElement — R23-11 CP_TPS_SystemTemplate Table 6.175, p.526
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
-- [ ] `DdsCpDomain` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 6.176, p.526
+  - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/Dds.py (REHOUSED from
+    GenericStructure/GeneralTemplateClasses/ARPackage.py — spec Package row =
+    M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds wins per Rule 0007; DdsCpConfig is
+    NOT in the wave-1 DdsCp* Identifiable-family exception (trap 3), and Fibex4Ethernet/Dds.py already
+    hosts the sibling DdsCpISignalToDdsTopicMapping; Dds.py imports ARElement from ARPackage.py at top
+    (IPv6HeaderFilterList precedent) with no cycle since ARPackage reaches back only via a bottom
+    `# noqa: E402` import; stub-batch test tuple rehoused, `armodel.DdsCpConfig` export chain verified)
+  - Note: Step 1 — the Class/Package/Note rows render pre-caption (Table 6.175 at markdown l.13764;
+    Base/Aggregated-by/Attribute rows in the post-caption block); verified against XSD group
+    DDS-CP-CONFIG (AUTOSAR_00052.xsd l.28557: DDS-DOMAINS, DDS-QOS-PROFILES wrappers; complexType
+    l.28589 sequence = AR-OBJECT ... AR-ELEMENT groups, DDS-CP-CONFIG). Base most-derived = ARElement;
+    Aggregated by ARPackage.element → ARPackage `element` polymorphic dispatch added (createDdsConfig
+    factory + reader/writer dispatch branches, IPv6ExtHeaderFilterSet precedent 281718563). Not
+    VP-capable (no VARIATION-POINT in group). 2 attrs in displayed row order: ddsDomain `*` aggr →
+    List + createDdsDomain/getDdsDomains (child Identifiable → create shape); ddsQosProfile `*` aggr →
+    List + createDdsQosProfile/getDdsQosProfiles.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
+  - Note: Step 8 — no deviations: both Table 6.175 attrs modeled (field+accessor+reader+writer, create
+    shape per child Base=Identifiable). Wave-1 identity debt resolved: DdsCpQosProfile's "pending
+    hook-in DdsCpConfig.ddsQosProfile" satisfied — readDdsCpConfig calls readDdsCpQosProfile and
+    writeDdsCpConfig calls writeDdsCpQosProfile (real child coverage, round-trip asserts
+    topicData/domainId field values); ddsDomain likewise via the synced read/writeDdsCpDomain. The
+    DdsCpDomain/DdsCpPartition rows' "pending DdsCpConfig.ddsDomain hook-in" notes are satisfied by
+    this sync (their own rows stay untouched per batch instruction). read/writeDdsCpQosProfile helper
+    contract verified: the reader reads INTO the caller's element, the writer creates its own
+    DDS-CP-QOS-PROFILE SubElement — both used as-is, no helper changes needed.
+  - [x] Step 1 — Sync members & description from spec — Identifiable — R23-11 CP_TPS_SystemTemplate Table 6.176, p.526
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Step 1 — the Class/Package/Note/Base/Aggregated-by header + all three attribute rows render
+    BEFORE the caption (Table 6.176 at markdown l.13778); rows verified against XSD group
+    DDS-CP-DOMAIN (AUTOSAR_00052.xsd l.28712: DDS-PARTITIONS, DDS-TOPICS wrappers + DOMAIN-ID direct;
+    complexType l.28746 sequence = AR-OBJECT, REFERRABLE, MULTILANGUAGE-REFERRABLE, IDENTIFIABLE,
+    DDS-CP-DOMAIN). Base most-derived = Identifiable (confirmed); concrete; not VP-capable (no
+    VARIATION-POINT in group). 3 attrs in displayed row order: ddsPartition `*` aggr → List +
+    createDdsPartition(short_name)/getDdsPartitions (child Base = Identifiable → create shape, Rule
+    0001.6; DdsCpPartition is still a stub queued Table 6.178 — typed against it per Rule 0001.10
+    placeholder relaxation, sync lands later in this batch); ddsTopic `*` aggr → List +
+    createDdsTopic/getDdsTopics (DdsCpTopic synced wave-1); domainId 0..1 attr → Optional[PositiveInteger].
+    Resolves wave-1 DdsCpTopic row's pending aggregator hook-in (DdsCpDomain.ddsTopic) with REAL
+    read/writeDdsCpTopic calls in this commit; ddsPartition reader/writer carries an identity-only
+    placeholder until DdsCpPartition's own sync (queued Table 6.178) replaces it.
+  - Note: Step 8 — no deviations: all 3 Table 6.176 attrs modeled (field+accessor+reader+writer),
+    create-shape per child Base=Identifiable (Rule 0001.6), domainId Optional[PositiveInteger] per PDF
+    type. Wave-1 identity debt resolved: DdsCpTopic wired with real read/writeDdsCpTopic calls (its
+    row's "pending hook-in DdsCpDomain.ddsTopic" is satisfied; its own row stays untouched per batch
+    instruction). ddsPartition reader constructs the stub child from SHORT-NAME / writer emits
+    Identifiable-level content (identity-only placeholder, replaced by the DdsCpPartition sync later
+    in this batch — recorded in the class checklist block). Aggregator hook-in DdsCpConfig.ddsDomain
+    (Table 6.175) remains queued — not this class's debt.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `DdsCpTopic` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 6.177, p.527
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py (FIXED from ArObject.py — spec Base most-derived = Identifiable, Rule 0007/0001.2; Identifiable.py hosts the sibling DdsCp* Identifiable stubs DdsCpDomain/DdsCpPartition/DdsCpServiceInstance, and ArObject.py cannot import Identifiable at runtime — cycle via Identifiable.py l.8. Stub-batch test tuple rehoused, VariableAccessScopeEnum precedent 12e743cc9.)
@@ -606,15 +988,29 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DdsCpPartition` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 6.178, p.527
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Step 1 — the Class/Package/Note/Base/Aggregated-by header + the single attribute row render
+    BEFORE the caption (Table 6.178 at markdown l.13820); verified against XSD group DDS-CP-PARTITION
+    (AUTOSAR_00052.xsd l.28823: PARTITION-NAME direct element; complexType l.28839 sequence =
+    AR-OBJECT, REFERRABLE, MULTILANGUAGE-REFERRABLE, IDENTIFIABLE, DDS-CP-PARTITION). Base
+    most-derived = Identifiable (confirmed); concrete; not VP-capable (no VARIATION-POINT in group).
+    1 attr: partitionName 0..1 attr → Optional[String]. Resolves the DdsCpDomain.ddsPartition
+    identity-only placeholder from the DdsCpDomain sync (this batch) with real read/writeDdsCpPartition
+    calls in this commit; the DdsCpDomain round-trip test is upgraded to assert partition field values.
+  - Note: Step 8 — no deviations: the single Table 6.178 attr modeled (field+accessor+reader+writer),
+    Optional[String] per PDF type; wildcard '*' default-partition value round-trips (pinned by test).
+    Identity debt resolved in this commit: DdsCpDomain.ddsPartition placeholder replaced with real
+    read/writeDdsCpPartition calls in BOTH sides; DdsCpDomain's writer/reader call sites replaced (not
+    inserted-after) and its round-trip test now asserts partitionName. Aggregator hook-in
+    DdsCpConfig.ddsDomain (Table 6.175) remains queued — not this class's debt.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `DdsCpQosProfile` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 6.179, p.529
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py (FIXED from ArObject.py — spec Base most-derived = Identifiable, Rule 0007/0001.2, same rehousing as DdsCpTopic 0babf1fb0; stub-batch test tuple rehoused.)
@@ -926,28 +1322,72 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `DdsResourceLimits` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.200, p.538
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py (KEPT — the spec
+    Package row is Fibex4Ethernet::Dds, the same row all 13 wave-1 sibling Dds* QoS policy classes
+    carry; kept consistent with them in ArObject.py per the batch instruction, same family-consistency
+    decision as the Identifiable DdsCp* exception; stub tuple removed)
+  - Note: Step 1 — table renders split (Class/Package/Note/Base/Aggregated-by header + maxInstances row
+    before the caption; maxSamples/maxSamplesPerInstance in the post-caption segment); verified against
+    XSD group DDS-RESOURCE-LIMITS (AUTOSAR_00052.xsd l.30104: MAX-INSTANCES, MAX-SAMPLES,
+    MAX-SAMPLES-PER-INSTANCE; complexType l.30132 sequence = AR-OBJECT + DDS-RESOURCE-LIMITS).
+    Base most-derived = ARObject (confirmed); concrete; not VP-capable (no VARIATION-POINT in group).
+    3 attrs in displayed row order, all PositiveInteger 0..1: maxInstances / maxSamples /
+    maxSamplesPerInstance — the maxInstances and maxSamplesPerInstance Note cells carry NO Tags tail
+    (XSD appinfo has no atp.Status for those two — copied verbatim without a tail; maxSamples keeps
+    `Tags: atp.Status=candidate`).
+  - Note: Step 8 — no deviations: all 3 Table 6.200 attrs modeled (field+accessor+reader+writer),
+    Optional[PositiveInteger] per PDF type; Note tails differ per row (maxInstances/maxSamplesPerInstance
+    have no Tags tail in markdown+XSD, maxSamples does) — copied verbatim. Identity debt resolved in
+    this commit: the DdsCpQosProfile.resourceLimits identity-only placeholder in read/writeDdsCpQosProfile
+    REPLACED with real read/writeDdsResourceLimits calls (both sides, delete-not-insert — no dead code);
+    witness test test_write_emits_stub_child_identity_only rewritten as
+    test_write_emits_resource_limits_fully (asserts MAX-* values) and the QosProfile round-trip test
+    upgraded to assert resourceLimits field values. With this sync ALL 14 DdsCpQosProfile children are
+    fully serialized (checklist debt note updated to RESOLVED). Wave-1 QosProfile row's pending-children
+    note is fully satisfied (its own row stays untouched per batch instruction).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
-- [ ] `StaticSocketConnection` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.201, p.544
+- [ ] `StaticSocketConnection` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 6.201, p.544
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: verification + drift pass. Field-to-spec cross-check (both directions) clean: all 4 Table 6.201
+    attrs modeled in displayed order (iPduIdentifier SoConIPduIdentifier `*` ref → plural
+    `iPduIdentifierRefs` + add/get per Rule 0001.5; remoteAddress SocketAddress 0..1 ref →
+    `remoteAddressRef`; tcpConnectTimeout TimeValue; tcpRole TcpRoleEnum). spec `Base` row chain =
+    ARObject, Identifiable, MultilanguageReferrable, Referrable → most-derived = Identifiable (row label
+    "ARObject" was the chain head only; ConsumedEventGroup precedent); VP-capable per XSD group
+    STATIC-SOCKET-CONNECTION (VARIATION-POINT last, l.113239) ✓. Table renders PRE-caption split (header +
+    iPduIdentifier row above the caption; remoteAddress/tcpConnectTimeout/tcpRole after) — XSD group
+    reconciled. Reader/writer helpers pre-existed with full XSD-order coverage (I-PDU-IDENTIFIERS →
+    REMOTE-ADDRESSS → TCP-CONNECT-TIMEOUT → TCP-ROLE, base helpers once — audit BASE green); SocketAddress
+    aggregation (createStaticSocketConnection + read/writeStaticSocketConnection) verified — round-trip
+    asserts child field values (test_socket_address.py TCP-ROLE), no duplication. Drift fixed: (1) Rule
+    0023 legacy 5-column checklist with stale `# Spec verified: R23-11` — marker removed, block rewritten
+    6-column, getTcpRole/setTcpRole reader/writer split corrected (legacy block wrongly claimed both), no
+    stamp (9b deferred); (2) Rule 0012.2.5.3 — `Stereotypes:`/`Tags:` tails restored verbatim on the
+    iPduIdentifier + remoteAddress notes (markdown mid-token wraps "iPdu
+    Identifier.variationPoint.shortLabel" / "remote Address.variationPoint.shortLabel" reconciled against
+    the XSD atp.Splitkey appinfo, l.113252/l.113264); class docstring "aggregating Socket Address" wrap
+    reconciled to "aggregating SocketAddress" per XSD doc; (3) writer test upgraded to TcpRoleEnum
+    constants (Rule 0006, was ARLiteral). remoteAddress stays Optional single per PDF Mult 0..1 (XSD
+    wrapper unbounded via atpVariation — PDF wins, methodActivationRoutingGroup precedent). Audit PASS
+    (STAMP INFO = expected pre-9b state); stamped-audit baseline refreshed (entry drained). No deviations.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `IPSecRule` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 6.222, p.572
   - module: M2/AUTOSARTemplates/SystemTemplate/SecureCommunication.py (FIXED from Identifiable.py — spec Package M2::AUTOSARTemplates::SystemTemplate::SecureCommunication)

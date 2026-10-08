@@ -55,7 +55,8 @@ class SdgElementWithGid(ARObject, ABC):
         Returns:
             self for method chaining
         """
-        self.gid = value
+        if value is not None:
+            self.gid = value
         return self
 
 
@@ -85,55 +86,52 @@ class SdgClass(SdgElementWithGid, Identifiable):
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.26, p.100
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
-    # [x] getExtendsMetaClass   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setExtendsMetaClass   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addAttribute          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAttributes         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] getCaption            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setCaption            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getAttributes         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] addAttribute          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getSdgConstraintRefs  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getExtendsMetaClass   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setExtendsMetaClass   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] addSdgConstraintRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSdgConstraintRefs  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent, short_name: str):
         super().__init__(parent, short_name)
 
-        # The AUTOSAR Meta-Class that may be extended by this SdgClass.
-        self.extendsMetaClass: Optional[str] = None
-
-        # Specifies if a caption is required. Note: only Sdgs that have a caption can be referenced
-        self.caption: Optional[Boolean] = None
-
-        # Defintion of the structure of the Sdg
+        # Defintion of the structure of the Sdg Tags: xml.sequenceOffset=30
         self.attributes: List[SdgAttribute] = []
 
-        # Semantic constraints that restrict the structure of the special data group.
+        # Specifies if a caption is required. Note: only Sdgs that have a caption can be referenced Tags: xml.sequenceOffset=20
+        self.caption: Optional[Boolean] = None
+
+        # The AUTOSAR Meta-Class that may be extended by this SdgClass. Tags: xml.sequenceOffset=10
+        self.extendsMetaClass: Optional[str] = None
+
+        # Semantic constraints that restrict the structure of the special data group. Tags: xml.sequenceOffset=40
         self.sdgConstraintRefs: List[RefType] = []
 
-    def getExtendsMetaClass(self) -> Optional[str]:
+    def addAttribute(self, value: SdgAttribute):
         """
-        The AUTOSAR Meta-Class that may be extended by this SdgClass.
+        Defintion of the structure of the Sdg Tags: xml.sequenceOffset=30
 
-        Returns:
-            The extended meta-class name, or None if not set
+        A None value is a no-op and does not append anything.
         """
-        return self.extendsMetaClass
-
-    def setExtendsMetaClass(self, value: Optional[str]):
-        """
-        The AUTOSAR Meta-Class that may be extended by this SdgClass.
-
-        Args:
-            value: The extended meta-class name to set
-
-        Returns:
-            self for method chaining
-        """
-        self.extendsMetaClass = value
+        if value is not None:
+            self.attributes.append(value)
         return self
+
+    def getAttributes(self) -> List[SdgAttribute]:
+        """
+        Defintion of the structure of the Sdg Tags: xml.sequenceOffset=30
+
+        Returns:
+            The list of Sdg attributes
+        """
+        return self.attributes
 
     def getCaption(self) -> Optional[Boolean]:
         """
-        Specifies if a caption is required. Note: only Sdgs that have a caption can be referenced
+        Specifies if a caption is required. Note: only Sdgs that have a caption can be referenced Tags: xml.sequenceOffset=20
 
         Returns:
             The caption flag, or None if not set
@@ -142,60 +140,51 @@ class SdgClass(SdgElementWithGid, Identifiable):
 
     def setCaption(self, value: Optional[Boolean]):
         """
-        Specifies if a caption is required. Note: only Sdgs that have a caption can be referenced
+        Specifies if a caption is required. Note: only Sdgs that have a caption can be referenced Tags: xml.sequenceOffset=20
 
-        Args:
-            value: The caption flag to set
-
-        Returns:
-            self for method chaining
+        A None value is a no-op and does not overwrite an existing caption.
         """
-        self.caption = value
+        if value is not None:
+            self.caption = value
         return self
 
-    def getAttributes(self) -> List[SdgAttribute]:
+    def getExtendsMetaClass(self) -> Optional[str]:
         """
-        Defintion of the structure of the Sdg
+        The AUTOSAR Meta-Class that may be extended by this SdgClass. Tags: xml.sequenceOffset=10
 
         Returns:
-            The list of Sdg attributes
+            The extended meta-class name, or None if not set
         """
-        return self.attributes
+        return self.extendsMetaClass
 
-    def addAttribute(self, value: SdgAttribute):
+    def setExtendsMetaClass(self, value: Optional[str]):
         """
-        Defintion of the structure of the Sdg
+        The AUTOSAR Meta-Class that may be extended by this SdgClass. Tags: xml.sequenceOffset=10
 
-        Args:
-            value: The Sdg attribute to append
-
-        Returns:
-            self for method chaining
+        A None value is a no-op and does not overwrite an existing extendsMetaClass.
         """
-        self.attributes.append(value)
+        if value is not None:
+            self.extendsMetaClass = value
+        return self
+
+    def addSdgConstraintRef(self, value: RefType):
+        """
+        Semantic constraints that restrict the structure of the special data group. Tags: xml.sequenceOffset=40
+
+        A None value is a no-op and does not append anything.
+        """
+        if value is not None:
+            self.sdgConstraintRefs.append(value)
         return self
 
     def getSdgConstraintRefs(self) -> List[RefType]:
         """
-        Semantic constraints that restrict the structure of the special data group.
+        Semantic constraints that restrict the structure of the special data group. Tags: xml.sequenceOffset=40
 
         Returns:
             The list of Sdg constraint references
         """
         return self.sdgConstraintRefs
-
-    def addSdgConstraintRef(self, value: RefType):
-        """
-        Semantic constraints that restrict the structure of the special data group.
-
-        Args:
-            value: The Sdg constraint reference to append
-
-        Returns:
-            self for method chaining
-        """
-        self.sdgConstraintRefs.append(value)
-        return self
 
 
 class SdgAbstractPrimitiveAttribute(SdgElementWithGid, SdgAttribute, AbstractValueRestriction, ABC):
@@ -263,6 +252,7 @@ class SdgAggregationWithVariation(SdgElementWithGid, SdgAttribute, AbstractVaria
 
         # List of valid binding times. Tags: xml.sequenceOffset=20
         self.validBindingTimes: List[FullBindingTimeEnum] = []
+
         # Supported sub Sdg Class
         self.subSdgRef: Optional[RefType] = None
 
@@ -285,7 +275,8 @@ class SdgAggregationWithVariation(SdgElementWithGid, SdgAttribute, AbstractVaria
         Returns:
             self for method chaining
         """
-        self.subSdgRef = value
+        if value is not None:
+            self.subSdgRef = value
         return self
 
 
@@ -326,7 +317,8 @@ class SdgReference(SdgAttribute):
         Returns:
             self for method chaining
         """
-        self.destSdgRef = value
+        if value is not None:
+            self.destSdgRef = value
         return self
 
 
@@ -370,7 +362,8 @@ class SdgAbstractForeignReference(SdgElementWithGid, SdgAttribute, ABC):
         Returns:
             self for method chaining
         """
-        self.destMetaClass = value
+        if value is not None:
+            self.destMetaClass = value
         return self
 
 
@@ -414,33 +407,30 @@ class SdgDef(ARElement):
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.24, p.99
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getSdgClasses   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] addSdgClass     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSdgClasses   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent, short_name: str):
         super().__init__(parent, short_name)
 
-        # The owned sdgClasses which define the structure of the Sdgs
+        # The owned sdgClasses which define the structure of the Sdgs Tags: xml.namePlural=SDG-CLASSES
         self.sdgClasses: List[SdgClass] = []
+
+    def addSdgClass(self, value: SdgClass):
+        """
+        The owned sdgClasses which define the structure of the Sdgs Tags: xml.namePlural=SDG-CLASSES
+
+        A None value is a no-op and does not append anything.
+        """
+        if value is not None:
+            self.sdgClasses.append(value)
+        return self
 
     def getSdgClasses(self) -> List[SdgClass]:
         """
-        The owned sdgClasses which define the structure of the Sdgs
+        The owned sdgClasses which define the structure of the Sdgs Tags: xml.namePlural=SDG-CLASSES
 
         Returns:
             The list of owned Sdg classes
         """
         return self.sdgClasses
-
-    def addSdgClass(self, value: SdgClass):
-        """
-        The owned sdgClasses which define the structure of the Sdgs
-
-        Args:
-            value: The Sdg class to append
-
-        Returns:
-            self for method chaining
-        """
-        self.sdgClasses.append(value)
-        return self

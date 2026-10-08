@@ -6,9 +6,16 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AnyServiceInstanceId, AnyVersionString, Boolean, PositiveInteger, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AnyServiceInstanceId, AnyVersionString, Boolean, PositiveInteger, RefType, String
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import SdClientConfig
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import ConsumedServiceInstance, ServiceVersionAcceptanceKindEnum, SomeipServiceVersion
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import (
+    ConsumedServiceInstance,
+    EventGroupControlTypeEnum,
+    PduActivationRoutingGroup,
+    ServiceVersionAcceptanceKindEnum,
+    SomeipServiceVersion,
+    TagWithOptionalValue,
+)
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 
@@ -173,6 +180,56 @@ class TestWriteConsumedServiceInstance:
         assert el.find("SD-CLIENT-TIMER-CONFIGS") is None
         assert el.find("SERVICE-IDENTIFIER") is None
         assert el.find("VERSION-DRIVEN-FIND-BEHAVIOR") is None
+
+
+class TestWriteConsumedServiceInstanceAbstractGroupOrder:
+    def _instance_with_base_fields(self):
+        instance = ConsumedServiceInstance(MockParent(), "WithBase")
+        record = TagWithOptionalValue()
+        record.setKey(String().setValue("PlugIns"))
+        instance.addCapabilityRecord(record)
+        instance.setMajorVersion(_pos_int("3"))
+        routing_group = PduActivationRoutingGroup(instance, "parg1")
+        routing_group.setEventGroupControlType(EventGroupControlTypeEnum().setValue(EventGroupControlTypeEnum.ACTIVATION_MULTICAST))
+        instance.setMethodActivationRoutingGroup(routing_group)
+        instance.addRoutingGroupRef(_ref("SO-AD-ROUTING-GROUP", "/SoAd/RoutingGroup/RG9"))
+        instance.addAllowedServiceProviderRef(_ref("NETWORK-ENDPOINT", "/Ether/NetworkEndpoint/NE1"))
+        instance.setAutoRequire(_bool("true"))
+        return instance
+
+    def test_write_emits_abstract_service_instance_group_before_csi_group(self, writer):
+        """XSD complexType order: AR-OBJECT, REFERRABLE, ..., IDENTIFIABLE, ABSTRACT-SERVICE-INSTANCE, CONSUMED-SERVICE-INSTANCE."""
+        parent = _parent()
+        writer.writeConsumedServiceInstance(parent, self._instance_with_base_fields())
+
+        el = parent.find("CONSUMED-SERVICE-INSTANCE")
+        tags = [child.tag for child in el]
+        assert tags.index("SHORT-NAME") < tags.index("CAPABILITY-RECORDS")
+        assert tags.index("CAPABILITY-RECORDS") < tags.index("MAJOR-VERSION")
+        assert tags.index("MAJOR-VERSION") < tags.index("METHOD-ACTIVATION-ROUTING-GROUPS")
+        assert tags.index("METHOD-ACTIVATION-ROUTING-GROUPS") < tags.index("ROUTING-GROUP-REFS")
+        assert tags.index("ROUTING-GROUP-REFS") < tags.index("ALLOWED-SERVICE-PROVIDERS")
+        assert tags.index("ALLOWED-SERVICE-PROVIDERS") < tags.index("AUTO-REQUIRE")
+
+    def test_round_trip_base_fields(self, writer, parser):
+        parent = _parent()
+        writer.writeConsumedServiceInstance(parent, self._instance_with_base_fields())
+        element = _namespaced_wrap(parent)
+
+        recovered = ConsumedServiceInstance(MockParent(), "WithBase")
+        parser.readConsumedServiceInstance(element, recovered)
+
+        records = recovered.getCapabilityRecords()
+        assert len(records) == 1
+        assert records[0].getKey().getValue() == "PlugIns"
+        assert recovered.getMajorVersion().getValue() == 3
+        group = recovered.getMethodActivationRoutingGroup()
+        assert isinstance(group, PduActivationRoutingGroup)
+        assert group.getShortName() == "parg1"
+        assert group.getEventGroupControlType().getValue() == EventGroupControlTypeEnum.ACTIVATION_MULTICAST
+        assert [r.getValue() for r in recovered.getRoutingGroupRefs()] == ["/SoAd/RoutingGroup/RG9"]
+        assert [r.getValue() for r in recovered.getAllowedServiceProviderRefs()] == ["/Ether/NetworkEndpoint/NE1"]
+        assert recovered.getAutoRequire().getValue() is True
 
 
 class TestConsumedServiceInstanceRoundTrip:

@@ -35,62 +35,76 @@ class ModeInSwcBswInstanceRef(ARObject, ABC):
 
 class ModeInBswInstanceRef(ModeInSwcBswInstanceRef):
     """
-    Instance reference to be capable of referencing a specific ModeDeclaration of a ModeDeclarationGroupPrototype utilized in a BSW module.
-
-    [constr_6853] Existence of ModeInBswInstanceRef.contextModeDeclarationGroupPrototype: For each ModeInBswInstanceRef, the reference to ModeDeclarationGroupPrototype in the role contextModeDeclarationGroupPrototype shall exist at least once at the time when the Bsw Timing Description is complete.
-    [constr_6854] Existence of ModeInBswInstanceRef.targetModeDeclaration: For each ModeInBswInstanceRef, the reference to ModeDeclaration in the role targetModeDeclaration shall exist at least once at the time when the Bsw Timing Description is complete.
+    Instance reference to be capable of referencing a specific ModeDeclaration of a ModeDeclarationGroup Prototype utilized in a BSW module.
     """
 
     # ModeInBswInstanceRef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.11, p.38
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getContextBswImplementationRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setContextBswImplementationRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getContextModeDeclarationGroupPrototypeRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setContextModeDeclarationGroupPrototypeRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTargetModeDeclarationRef          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTargetModeDeclarationRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getContextBswImplementationRef                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setContextBswImplementationRef                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getContextModeDeclarationGroupPrototypeRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setContextModeDeclarationGroupPrototypeRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTargetModeDeclarationRef                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTargetModeDeclarationRef                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        # Specifies the BSW implementation that manifests the context.
+        # Specifies the BSW implementation that manifests the context. Tags: xml.sequenceOffset=10
         self.contextBswImplementationRef: Optional[RefType] = None
 
-        # Specifies the mode declaration group prototype that manifests the context. [constr_6853] The reference shall exist at least once at the time when the Bsw Timing Description is complete.
+        # Specifies the mode declaration group prototype that manifests the context. Tags: xml.sequenceOffset=20
         self.contextModeDeclarationGroupPrototypeRef: Optional[RefType] = None
 
-        # Specifies the specific mode declaration in the given context. [constr_6854] The reference shall exist at least once at the time when the Bsw Timing Description is complete.
+        # Specifies the specific mode declaration in the given context. Tags: xml.sequenceOffset=30
         self.targetModeDeclarationRef: Optional[RefType] = None
 
     def getContextBswImplementationRef(self) -> Optional[RefType]:
-        """Specifies the BSW implementation that manifests the context."""
+        """
+        Specifies the BSW implementation that manifests the context. Tags: xml.sequenceOffset=10
+        """
         return self.contextBswImplementationRef
 
     def setContextBswImplementationRef(self, value: Optional[RefType]) -> ModeInBswInstanceRef:
-        """Specifies the BSW implementation that manifests the context. A None value is a no-op and does not overwrite an existing contextBswImplementationRef."""
+        """
+        Specifies the BSW implementation that manifests the context. Tags: xml.sequenceOffset=10
+
+        A None value is a no-op and does not overwrite an existing contextBswImplementationRef.
+        """
         if value is not None:
             self.contextBswImplementationRef = value
         return self
 
     def getContextModeDeclarationGroupPrototypeRef(self) -> Optional[RefType]:
-        """Specifies the mode declaration group prototype that manifests the context. [constr_6853] The reference shall exist at least once at the time when the Bsw Timing Description is complete."""
+        """
+        Specifies the mode declaration group prototype that manifests the context. Tags: xml.sequenceOffset=20
+        """
         return self.contextModeDeclarationGroupPrototypeRef
 
     def setContextModeDeclarationGroupPrototypeRef(self, value: Optional[RefType]) -> ModeInBswInstanceRef:
-        """Specifies the mode declaration group prototype that manifests the context. [constr_6853] The reference shall exist at least once at the time when the Bsw Timing Description is complete. A None value is a no-op and does not overwrite an existing contextModeDeclarationGroupPrototypeRef."""
+        """
+        Specifies the mode declaration group prototype that manifests the context. Tags: xml.sequenceOffset=20
+
+        A None value is a no-op and does not overwrite an existing contextModeDeclarationGroupPrototypeRef.
+        """
         if value is not None:
             self.contextModeDeclarationGroupPrototypeRef = value
         return self
 
     def getTargetModeDeclarationRef(self) -> Optional[RefType]:
-        """Specifies the specific mode declaration in the given context. [constr_6854] The reference shall exist at least once at the time when the Bsw Timing Description is complete."""
+        """
+        Specifies the specific mode declaration in the given context. Tags: xml.sequenceOffset=30
+        """
         return self.targetModeDeclarationRef
 
     def setTargetModeDeclarationRef(self, value: Optional[RefType]) -> ModeInBswInstanceRef:
-        """Specifies the specific mode declaration in the given context. [constr_6854] The reference shall exist at least once at the time when the Bsw Timing Description is complete. A None value is a no-op and does not overwrite an existing targetModeDeclarationRef."""
+        """
+        Specifies the specific mode declaration in the given context. Tags: xml.sequenceOffset=30
+
+        A None value is a no-op and does not overwrite an existing targetModeDeclarationRef.
+        """
         if value is not None:
             self.targetModeDeclarationRef = value
         return self
@@ -195,13 +209,12 @@ class TimingModeInstance(Identifiable, VariationPointCapable):
 
     # TimingModeInstance method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.10, p.37
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getModeInstance          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setModeInstance          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getModeInstance  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setModeInstance  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
-    def __init__(self, parent, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
         # This refers to a specific mode declaration in the given context.
@@ -209,11 +222,17 @@ class TimingModeInstance(Identifiable, VariationPointCapable):
         self.modeInstance: Optional[ModeInSwcBswInstanceRef] = None
 
     def getModeInstance(self) -> Optional[ModeInSwcBswInstanceRef]:
-        """This refers to a specific mode declaration in the given context."""
+        """
+        This refers to a specific mode declaration in the given context.
+        """
         return self.modeInstance
 
     def setModeInstance(self, value: Optional[ModeInSwcBswInstanceRef]) -> TimingModeInstance:
-        """This refers to a specific mode declaration in the given context. A None value is a no-op and does not overwrite an existing modeInstance."""
+        """
+        This refers to a specific mode declaration in the given context.
+
+        A None value is a no-op and does not overwrite an existing modeInstance.
+        """
         if value is not None:
             self.modeInstance = value
         return self
@@ -226,24 +245,29 @@ class TimingCondition(Identifiable, VariationPointCapable):
 
     # TimingCondition method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.7, p.35
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getTimingConditionFormula  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTimingConditionFormula  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTimingConditionFormula  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimingConditionFormula  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
-    def __init__(self, parent, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
         # This is the expression describing the dependency on a specific condition.
         self.timingConditionFormula: Optional[TimingConditionFormula] = None
 
     def getTimingConditionFormula(self) -> Optional[TimingConditionFormula]:
-        """This is the expression describing the dependency on a specific condition."""
+        """
+        This is the expression describing the dependency on a specific condition.
+        """
         return self.timingConditionFormula
 
     def setTimingConditionFormula(self, value: Optional[TimingConditionFormula]) -> TimingCondition:
-        """This is the expression describing the dependency on a specific condition. A None value is a no-op and does not overwrite an existing formula."""
+        """
+        This is the expression describing the dependency on a specific condition.
+
+        A None value is a no-op and does not overwrite an existing timingConditionFormula.
+        """
         if value is not None:
             self.timingConditionFormula = value
         return self
@@ -256,22 +280,22 @@ class TimingConditionFormula(FormulaExpression):
 
     # TimingConditionFormula method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.8, p.35
-    # Spec verified: R23-11
-    # 2026-09-25 drift fix (Rule 0012.3): re-parented to FormulaExpression per spec Base row (most-derived) — see docs/plan/atp_mixed_string_hierarchy.md
-    # (Referrable base dropped — XSD complexType composes AR-OBJECT + FORMULA-EXPRESSION only, no SHORT-NAME)
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Base per spec = FormulaExpression (most-derived; 2026-09-25 drift fix, Rule 0012.3 — see
+    # docs/plan/atp_mixed_string_hierarchy.md; Referrable base dropped — XSD complexType composes
+    # AR-OBJECT + FORMULA-EXPRESSION only, no SHORT-NAME).
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # getMixedString / setMixedString provided by the AtpMixedString base (mixin) — no spec row (stereotype-inherent)
-    # [x] getTimingArgumentRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTimingArgumentRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTimingConditionRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTimingConditionRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTimingEventRef        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTimingEventRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTimingModeRef         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTimingModeRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTimingVariableRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTimingVariableRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTimingArgumentRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimingArgumentRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimingConditionRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimingConditionRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimingEventRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimingEventRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimingModeRef      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimingModeRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimingVariableRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimingVariableRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -292,51 +316,81 @@ class TimingConditionFormula(FormulaExpression):
         self.timingVariableRef: Optional[RefType] = None
 
     def getTimingArgumentRef(self) -> Optional[RefType]:
-        """This refers to an argument of an operation call."""
+        """
+        This refers to an argument of an operation call.
+        """
         return self.timingArgumentRef
 
     def setTimingArgumentRef(self, value: Optional[RefType]) -> TimingConditionFormula:
-        """This refers to an argument of an operation call. A None value is a no-op and does not overwrite an existing timingArgumentRef."""
+        """
+        This refers to an argument of an operation call.
+
+        A None value is a no-op and does not overwrite an existing timingArgumentRef.
+        """
         if value is not None:
             self.timingArgumentRef = value
         return self
 
     def getTimingConditionRef(self) -> Optional[RefType]:
-        """This refers to a timing condition that is part of an expression describing the dependency on a specific condition."""
+        """
+        This refers to a timing condition that is part of an expression describing the dependency on a specific condition.
+        """
         return self.timingConditionRef
 
     def setTimingConditionRef(self, value: Optional[RefType]) -> TimingConditionFormula:
-        """This refers to a timing condition that is part of an expression describing the dependency on a specific condition. A None value is a no-op and does not overwrite an existing timingConditionRef."""
+        """
+        This refers to a timing condition that is part of an expression describing the dependency on a specific condition.
+
+        A None value is a no-op and does not overwrite an existing timingConditionRef.
+        """
         if value is not None:
             self.timingConditionRef = value
         return self
 
     def getTimingEventRef(self) -> Optional[RefType]:
-        """This refers to a timing event."""
+        """
+        This refers to a timing event.
+        """
         return self.timingEventRef
 
     def setTimingEventRef(self, value: Optional[RefType]) -> TimingConditionFormula:
-        """This refers to a timing event. A None value is a no-op and does not overwrite an existing timingEventRef."""
+        """
+        This refers to a timing event.
+
+        A None value is a no-op and does not overwrite an existing timingEventRef.
+        """
         if value is not None:
             self.timingEventRef = value
         return self
 
     def getTimingModeRef(self) -> Optional[RefType]:
-        """This refers to a mode declaration."""
+        """
+        This refers to a mode declaration.
+        """
         return self.timingModeRef
 
     def setTimingModeRef(self, value: Optional[RefType]) -> TimingConditionFormula:
-        """This refers to a mode declaration. A None value is a no-op and does not overwrite an existing timingModeRef."""
+        """
+        This refers to a mode declaration.
+
+        A None value is a no-op and does not overwrite an existing timingModeRef.
+        """
         if value is not None:
             self.timingModeRef = value
         return self
 
     def getTimingVariableRef(self) -> Optional[RefType]:
-        """This refers to a variable."""
+        """
+        This refers to a variable.
+        """
         return self.timingVariableRef
 
     def setTimingVariableRef(self, value: Optional[RefType]) -> TimingConditionFormula:
-        """This refers to a variable. A None value is a no-op and does not overwrite an existing timingVariableRef."""
+        """
+        This refers to a variable.
+
+        A None value is a no-op and does not overwrite an existing timingVariableRef.
+        """
         if value is not None:
             self.timingVariableRef = value
         return self
@@ -349,30 +403,31 @@ class TimingExtensionResource(Identifiable):
 
     # TimingExtensionResource method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.9, p.36
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] createTimingArgument     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTimingArguments       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createTimingMode         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTimingModes           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createTimingVariable     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTimingVariables       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createTimingArgument  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimingArguments    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createTimingMode      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimingModes        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createTimingVariable  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimingVariables    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
-    def __init__(self, parent, short_name):
+    def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        # This refers to an instance reference of an argument of an operation call.
+        # This refers to an instance reference of an argument of an operation call. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=timingArgument.shortName, timing Argument.variationPoint.shortLabel vh.latestBindingTime=postBuild
         self.timingArguments: List[AutosarOperationArgumentInstance] = []
 
-        # This refers to an instance reference of a mode declaration.
+        # This refers to an instance reference of a mode declaration. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=timingMode.shortName, timing Mode.variationPoint.shortLabel vh.latestBindingTime=postBuild
         self.timingModes: List[TimingModeInstance] = []
 
-        # This refers to an instance reference of a variable.
+        # This refers to an instance reference of a variable. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=timingVariable.shortName, timing Variable.variationPoint.shortLabel vh.latestBindingTime=postBuild
         self.timingVariables: List[AutosarVariableInstance] = []
 
     def createTimingArgument(self, short_name: str) -> AutosarOperationArgumentInstance:
-        """This refers to an instance reference of an argument of an operation call."""
+        """
+        This refers to an instance reference of an argument of an operation call. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=timingArgument.shortName, timing Argument.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
         if not self.IsReferrableElementExists(short_name, AutosarOperationArgumentInstance):
             argument = AutosarOperationArgumentInstance(self, short_name)
             self.addReferrableElement(argument)
@@ -380,11 +435,15 @@ class TimingExtensionResource(Identifiable):
         return cast(AutosarOperationArgumentInstance, self.getReferrableElement(short_name, AutosarOperationArgumentInstance))
 
     def getTimingArguments(self) -> List[AutosarOperationArgumentInstance]:
-        """This refers to an instance reference of an argument of an operation call."""
+        """
+        This refers to an instance reference of an argument of an operation call. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=timingArgument.shortName, timing Argument.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
         return self.timingArguments
 
     def createTimingMode(self, short_name: str) -> TimingModeInstance:
-        """This refers to an instance reference of a mode declaration."""
+        """
+        This refers to an instance reference of a mode declaration. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=timingMode.shortName, timing Mode.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
         if not self.IsReferrableElementExists(short_name, TimingModeInstance):
             mode = TimingModeInstance(self, short_name)
             self.addReferrableElement(mode)
@@ -392,11 +451,15 @@ class TimingExtensionResource(Identifiable):
         return cast(TimingModeInstance, self.getReferrableElement(short_name, TimingModeInstance))
 
     def getTimingModes(self) -> List[TimingModeInstance]:
-        """This refers to an instance reference of a mode declaration."""
+        """
+        This refers to an instance reference of a mode declaration. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=timingMode.shortName, timing Mode.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
         return self.timingModes
 
     def createTimingVariable(self, short_name: str) -> AutosarVariableInstance:
-        """This refers to an instance reference of a variable."""
+        """
+        This refers to an instance reference of a variable. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=timingVariable.shortName, timing Variable.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
         if not self.IsReferrableElementExists(short_name, AutosarVariableInstance):
             variable = AutosarVariableInstance(self, short_name)
             self.addReferrableElement(variable)
@@ -404,5 +467,7 @@ class TimingExtensionResource(Identifiable):
         return cast(AutosarVariableInstance, self.getReferrableElement(short_name, AutosarVariableInstance))
 
     def getTimingVariables(self) -> List[AutosarVariableInstance]:
-        """This refers to an instance reference of a variable."""
+        """
+        This refers to an instance reference of a variable. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=timingVariable.shortName, timing Variable.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
         return self.timingVariables

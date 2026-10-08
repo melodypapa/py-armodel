@@ -401,7 +401,8 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.
     SynchronizationTypeEnum,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint import TimingConstraint
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import SwcTiming, TimingExtension
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import BswCompositionTiming, BswModuleTiming, EcuTiming, SwcTiming, SystemTiming, TimingExtension, VfbTiming
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCpSoftwareCluster import TDCpSoftwareClusterMapping, TDCpSoftwareClusterMappingSet, TDCpSoftwareClusterResourceMapping
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import TimingConditionFormula
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import ModeInBswInstanceRef, ModeInSwcInstanceRef
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import (
@@ -739,8 +740,13 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Enumerations import BindingTimeEnum, XmlSpaceEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    BinaryManifestMetaDataField,
     CpSoftwareClusterResource,
+    DdsCpConsumedServiceInstance,
+    DdsCpDomain,
+    DdsCpPartition,
     DdsCpQosProfile,
+    DdsCpServiceInstance,
     DdsCpTopic,
     Describable,
     DiagnosticAuthTransmitCertificateEvaluation,
@@ -772,6 +778,8 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     CIdentifier,
     DateTime,
     DdsDurabilityKindEnum,
+    FrArTpAckType,
+    MaximumMessageLengthType,
     DdsDurabilityServiceHistoryKindEnum,
     DdsDestinationOrderKindEnum,
     DdsHistoryKindEnum,
@@ -1195,7 +1203,9 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.TcpO
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.IPv6HeaderFilterList import (
     IPv6ExtHeaderFilterList,
+    IPv6ExtHeaderFilterSet,
 )
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Dds import DdsCpConfig
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ObsoleteModel import (
     SoAdRoutingGroup,
     SocketConnection,
@@ -1233,6 +1243,8 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     GenericTp,
     GlobalTimeCouplingPortProps,
     Dhcpv6Props,
+    HttpTp,
+    Ieee1722Tp,
     Ipv4ArpProps,
     Ipv4AutoIpProps,
     Ipv4DhcpServerConfiguration,
@@ -1242,8 +1254,11 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     Ipv6FragmentationProps,
     Ipv6NdpProps,
     Ipv6Props,
+    MacMulticastConfiguration,
     MacMulticastGroup,
     PlcaProps,
+    RequestMethodEnum,
+    RtpTp,
     SdClientConfig,
     SdServerConfig,
     StreamFilterIEEE1722Tp,
@@ -1265,6 +1280,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     TcpIpIcmpv6Props,
     TcpProps,
     TcpTp,
+    TcpUdpConfig,
     TpPort,
     TransportProtocolConfiguration,
     UdpProps,
@@ -1340,14 +1356,19 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Serv
     EventHandler,
     InitialSdDelayConfig,
     PduActivationRoutingGroup,
+    PduCollectionSemanticsEnum,
     PduCollectionTriggerEnum,
     ProvidedServiceInstance,
     ServiceVersionAcceptanceKindEnum,
     SoAdConfig,
     SocketAddress,
+    SoConIPduIdentifier,
+    ServiceInstanceCollectionSet,
     SomeipSdClientEventGroupTimingConfig,
     SomeipSdClientServiceInstanceConfig,
     SomeipSdServerEventGroupTimingConfig,
+    SomeipSdServerServiceInstanceConfig,
+    SocketConnectionIpduIdentifierSet,
     SomeipServiceVersion,
     StaticSocketConnection,
     TcpRoleEnum,
@@ -1572,9 +1593,32 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import
     DoIpLogicAddress,
     DoIpTpConfig,
     DoIpTpConnection,
+    EthTpConfig,
+    EthTpConnection,
+    FlexrayArTpChannel,
+    FlexrayArTpConfig,
+    FlexrayArTpConnection,
+    FlexrayArTpNode,
+    FlexrayTpConfig,
+    FlexrayTpConnection,
+    FlexrayTpConnectionControl,
+    FlexrayTpEcu,
+    FlexrayTpNode,
+    FlexrayTpPduPool,
+    IEEE1722TpConfig,
+    IEEE1722TpConnection,
+    IEEE1722TpAvConnection,
+    IEEE1722TpCrfConnection,
+    IEEE1722TpCrfPullEnum,
+    IEEE1722TpCrfTypeEnum,
     LinTpConfig,
     LinTpConnection,
     LinTpNode,
+    NetworkTargetAddressType,
+    SomeipTpChannel,
+    SomeipTpConfig,
+    SomeipTpConnection,
+    TpAckType,
     TpAddress,
     TpConfig,
 )
@@ -2152,6 +2196,7 @@ class ARXMLParser(AbstractARXMLParser):
         range = None
         if child_element is not None:
             range = RxIdentifierRange()
+            self.readARObject(child_element, range)
             range.setLowerCanId(self.getChildElementOptionalPositiveInteger(child_element, "LOWER-CAN-ID"))
             range.setUpperCanId(self.getChildElementOptionalPositiveInteger(child_element, "UPPER-CAN-ID"))
         return range
@@ -4287,8 +4332,9 @@ class ARXMLParser(AbstractARXMLParser):
             event.setTdEventType(enum)
 
     def readTDHeaderIdRange(self, element: ET.Element, header_id_range: "TDHeaderIdRange"):
-        header_id_range.setMinHeaderId(self.getChildElementOptionalIntegerValue(element, "MIN-HEADER-ID"))
+        self.readARObject(element, header_id_range)
         header_id_range.setMaxHeaderId(self.getChildElementOptionalIntegerValue(element, "MAX-HEADER-ID"))
+        header_id_range.setMinHeaderId(self.getChildElementOptionalIntegerValue(element, "MIN-HEADER-ID"))
 
     def readTDEventFrameEthernet(self, element: ET.Element, event: "TDEventFrameEthernet"):
         self.readTDEventCom(element, event)
@@ -4390,8 +4436,8 @@ class ARXMLParser(AbstractARXMLParser):
         is_external = self.find(element, "IS-EXTERNAL")
         if is_external is not None:
             event.setIsExternal(Boolean().setValue(is_external.text == "true"))
-        event.setPortRef(self.getChildElementOptionalRefType(element, "PORT-REF"))
         event.setPortPrototypeBlueprintRef(self.getChildElementOptionalRefType(element, "PORT-PROTOTYPE-BLUEPRINT-REF"))
+        event.setPortRef(self.getChildElementOptionalRefType(element, "PORT-REF"))
 
     def readTDEventVariableDataPrototype(self, element: ET.Element, event: TDEventVariableDataPrototype):
         self.readTDEventVfbPort(element, event)
@@ -4424,12 +4470,12 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readTDEventTrigger(self, element: ET.Element, event: TDEventTrigger):
         self.readTDEventVfbPort(element, event)
-        event.setTriggerRef(self.getChildElementOptionalRefType(element, "TRIGGER-REF"))
         type_element = self.find(element, "TD-EVENT-TRIGGER-TYPE")
         if type_element is not None and type_element.text is not None:
             enum = TDEventTriggerTypeEnum()
             enum.value = type_element.text
             event.setTdEventTriggerType(enum)
+        event.setTriggerRef(self.getChildElementOptionalRefType(element, "TRIGGER-REF"))
 
     def readTDEventSwc(self, element: ET.Element, event: TDEventSwc):
         self.readTimingDescriptionEvent(element, event)
@@ -4511,6 +4557,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readTDEventOccurrenceExpressionFormula(self, element: ET.Element) -> TDEventOccurrenceExpressionFormula:
         formula = TDEventOccurrenceExpressionFormula()
+        self.readARObject(element, formula)
         formula.setArgumentRef(self.getChildElementOptionalRefType(element, "ARGUMENT-REF"))
         formula.setEventRef(self.getChildElementOptionalRefType(element, "EVENT-REF"))
         formula.setModeRef(self.getChildElementOptionalRefType(element, "MODE-REF"))
@@ -4521,6 +4568,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readTimingConditionFormula(self, element: ET.Element) -> TimingConditionFormula:
         tcf = TimingConditionFormula()
+        self.readARObject(element, tcf)
         tcf.setTimingArgumentRef(self.getChildElementOptionalRefType(element, "TIMING-ARGUMENT-REF"))
         tcf.setTimingConditionRef(self.getChildElementOptionalRefType(element, "TIMING-CONDITION-REF"))
         tcf.setTimingEventRef(self.getChildElementOptionalRefType(element, "TIMING-EVENT-REF"))
@@ -4886,6 +4934,7 @@ class ARXMLParser(AbstractARXMLParser):
         sync_accuracy.setUpperRef(self.getChildElementOptionalRefType(element, "UPPER-REF"))
 
     def readEOCExecutableEntityRefAbstract(self, element: ET.Element, obj: EOCExecutableEntityRefAbstract):
+        self.readIdentifiable(element, obj)
         for ref in self.getChildElementRefTypeList(element, "DIRECT-SUCCESSOR-REFS/DIRECT-SUCCESSOR-REF"):
             obj.addDirectSuccessorRef(ref)
 
@@ -4896,7 +4945,6 @@ class ARXMLParser(AbstractARXMLParser):
         return None
 
     def readEOCExecutableEntityRef(self, element: ET.Element, entity_ref: EOCExecutableEntityRef):
-        self.readIdentifiable(element, entity_ref)
         self.readEOCExecutableEntityRefAbstract(element, entity_ref)
         entity_ref.setBswModuleInstanceRef(self.getChildElementOptionalRefType(element, "BSW-MODULE-INSTANCE-REF"))
         entity_ref.setComponentIRef(self.readEOCComponentIRef(element, "COMPONENT-IREF"))
@@ -4905,7 +4953,6 @@ class ARXMLParser(AbstractARXMLParser):
             entity_ref.addSuccessorRef(ref)
 
     def readEOCEventRef(self, element: ET.Element, event_ref: EOCEventRef):
-        self.readIdentifiable(element, event_ref)
         self.readEOCExecutableEntityRefAbstract(element, event_ref)
         event_ref.setBswModuleInstanceRef(self.getChildElementOptionalRefType(element, "BSW-MODULE-INSTANCE-REF"))
         event_ref.setComponentIRef(self.readEOCComponentIRef(element, "COMPONENT-IREF"))
@@ -4914,7 +4961,6 @@ class ARXMLParser(AbstractARXMLParser):
             event_ref.addSuccessorRef(ref)
 
     def readEOCExecutableEntityRefGroup(self, element: ET.Element, group: EOCExecutableEntityRefGroup):
-        self.readIdentifiable(element, group)
         self.readEOCExecutableEntityRefAbstract(element, group)
         literal = self.getChildElementOptionalLiteral(element, "LET-DATA-EXCHANGE-PARADIGM")
         if literal is not None:
@@ -10170,6 +10216,63 @@ class ARXMLParser(AbstractARXMLParser):
         self.readTimingExtension(element, timing)
         timing.setBehaviorRef(self.getChildElementOptionalRefType(element, "BEHAVIOR-REF"))
 
+    def readTDCpSoftwareClusterMapping(self, element: ET.Element, mapping: TDCpSoftwareClusterMapping):
+        self.logger.debug("Read TDCpSoftwareClusterMapping <%s>" % mapping.getShortName())
+        self.readIdentifiable(element, mapping)
+        mapping.setProviderRef(self.getChildElementOptionalRefType(element, "PROVIDER-REF"))
+        for ref in self.getChildElementRefTypeList(element, "REQUESTOR-REFS/REQUESTOR-REF"):
+            mapping.addRequestorRef(ref)
+        mapping.setTimingDescriptionRef(self.getChildElementOptionalRefType(element, "TIMING-DESCRIPTION-REF"))
+        self.readVariationPointCapable(element, mapping)
+
+    def readTDCpSoftwareClusterResourceMapping(self, element: ET.Element, mapping: TDCpSoftwareClusterResourceMapping):
+        self.logger.debug("Read TDCpSoftwareClusterResourceMapping <%s>" % mapping.getShortName())
+        self.readIdentifiable(element, mapping)
+        mapping.setResourceRef(self.getChildElementOptionalRefType(element, "RESOURCE-REF"))
+        mapping.setTimingDescriptionRef(self.getChildElementOptionalRefType(element, "TIMING-DESCRIPTION-REF"))
+        self.readVariationPointCapable(element, mapping)
+
+    def readTDCpSoftwareClusterMappingSet(self, element: ET.Element, mapping_set: TDCpSoftwareClusterMappingSet):
+        self.logger.debug("Read TDCpSoftwareClusterMappingSet <%s>" % mapping_set.getShortName())
+        self.readIdentifiable(element, mapping_set)
+        for child_element in self.findall(element, "TD-CP-SOFTWARE-CLUSTER-RESOURCE-TO-TD-MAPPINGS/TD-CP-SOFTWARE-CLUSTER-RESOURCE-MAPPING"):
+            resource_mapping = mapping_set.createTdCpSoftwareClusterResourceToTdMapping(self.getShortName(child_element))
+            self.readTDCpSoftwareClusterResourceMapping(child_element, resource_mapping)
+        for child_element in self.findall(element, "TD-CP-SOFTWARE-CLUSTER-TO-TD-MAPPINGS/TD-CP-SOFTWARE-CLUSTER-MAPPING"):
+            cluster_mapping = mapping_set.createTdCpSoftwareClusterToTdMapping(self.getShortName(child_element))
+            self.readTDCpSoftwareClusterMapping(child_element, cluster_mapping)
+
+    def readVfbTiming(self, element: ET.Element, timing: VfbTiming):
+        self.logger.debug("Read VfbTiming <%s>" % timing.getShortName())
+        self.readIdentifiable(element, timing)
+        self.readTimingExtension(element, timing)
+        timing.setComponentRef(self.getChildElementOptionalRefType(element, "COMPONENT-REF"))
+
+    def readSystemTiming(self, element: ET.Element, timing: SystemTiming):
+        self.logger.debug("Read SystemTiming <%s>" % timing.getShortName())
+        self.readIdentifiable(element, timing)
+        self.readTimingExtension(element, timing)
+        timing.setSystemRef(self.getChildElementOptionalRefType(element, "SYSTEM-REF"))
+
+    def readBswModuleTiming(self, element: ET.Element, timing: BswModuleTiming):
+        self.logger.debug("Read BswModuleTiming <%s>" % timing.getShortName())
+        self.readIdentifiable(element, timing)
+        self.readTimingExtension(element, timing)
+        timing.setBehaviorRef(self.getChildElementOptionalRefType(element, "BEHAVIOR-REF"))
+
+    def readBswCompositionTiming(self, element: ET.Element, timing: BswCompositionTiming):
+        self.logger.debug("Read BswCompositionTiming <%s>" % timing.getShortName())
+        self.readIdentifiable(element, timing)
+        self.readTimingExtension(element, timing)
+        for ref in self.getChildElementRefTypeList(element, "IMPLEMENTATION-REFS/IMPLEMENTATION-REF"):
+            timing.addImplementationRef(ref)
+
+    def readEcuTiming(self, element: ET.Element, timing: EcuTiming):
+        self.logger.debug("Read EcuTiming <%s>" % timing.getShortName())
+        self.readIdentifiable(element, timing)
+        self.readTimingExtension(element, timing)
+        timing.setEcuConfigurationRef(self.getChildElementOptionalRefType(element, "ECU-CONFIGURATION-REF"))
+
     def readFrameTriggering(self, element: ET.Element, triggering: FrameTriggering):
         self.readIdentifiable(element, triggering)
         for ref in self.getChildElementRefTypeList(element, "FRAME-PORT-REFS/FRAME-PORT-REF"):
@@ -10576,6 +10679,7 @@ class ARXMLParser(AbstractARXMLParser):
         configuration = None
         if element is not None:
             configuration = Ipv6Configuration()
+            self.readARObject(element, configuration)
             configuration.setAssignmentPriority(self.getChildElementOptionalPositiveInteger(element, "ASSIGNMENT-PRIORITY"))
             configuration.setDefaultRouter(self.getChildElementOptionalIp6AddressString(element, "DEFAULT-ROUTER"))
             for address in self.findall(element, "DNS-SERVER-ADDRESSES/DNS-SERVER-ADDRESS"):
@@ -10606,6 +10710,13 @@ class ARXMLParser(AbstractARXMLParser):
                 end_point.addNetworkEndpointAddress(self.getIpv4Configuration(child_element))
             elif tag_name == "IPV-6-CONFIGURATION":
                 end_point.addNetworkEndpointAddress(self.getIpv6Configuration(child_element))
+            elif tag_name == "MAC-MULTICAST-CONFIGURATION":
+                configuration = MacMulticastConfiguration()
+                self.readARObject(child_element, configuration)
+                ref = self.getChildElementOptionalRefType(child_element, "MAC-MULTICAST-GROUP-REF")
+                if ref is not None:
+                    configuration.setMacMulticastGroupRef(ref)
+                end_point.addNetworkEndpointAddress(configuration)
             else:
                 self.notImplemented("Unsupported Network EndPoint Address <%s>" % tag_name)
 
@@ -10666,6 +10777,7 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         if child_element is not None:
             services = InfrastructureServices()
+            self.readARObject(child_element, services)
             services.setDoIpEntity(self.getDoIpEntity(child_element, "DO-IP-ENTITY"))
             services.setTimeSynchronization(self.getTimeSynchronization(child_element, "TIME-SYNCHRONIZATION"))
         return services
@@ -10785,6 +10897,17 @@ class ARXMLParser(AbstractARXMLParser):
             for value in self.getChildElementPositiveIntegerValueList(options_element, "ALLOWED-TCP-OPTION"):
                 tcp_filter_list.addAllowedTcpOption(value)
 
+    def readIPv6ExtHeaderFilterSet(self, element: ET.Element, ipv6_ext_header_filter_set: IPv6ExtHeaderFilterSet):
+        self.logger.debug("Read IPv6ExtHeaderFilterSet <%s>" % ipv6_ext_header_filter_set.getShortName())
+        self.readIdentifiable(element, ipv6_ext_header_filter_set)
+        for child_element in self.findall(element, "EXT-HEADER-FILTER-LISTS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "I-PV-6-EXT-HEADER-FILTER-LIST":
+                filter_list = ipv6_ext_header_filter_set.createExtHeaderFilterList(self.getShortName(child_element))
+                self.readIPv6ExtHeaderFilterList(child_element, filter_list)
+            else:
+                self.notImplemented("Unsupported IPv6ExtHeaderFilterList <%s>" % tag_name)
+
     def readIPv6ExtHeaderFilterList(self, element: ET.Element, ipv6_ext_header_filter_list: IPv6ExtHeaderFilterList):
         self.readIdentifiable(element, ipv6_ext_header_filter_list)
         allowed_element = self.find(element, "ALLOWED-I-PV-6-EXT-HEADERS")
@@ -10831,6 +10954,47 @@ class ARXMLParser(AbstractARXMLParser):
         tp.setTpAddress(cast(Optional[String], self.getChildElementOptionalLiteral(element, "TP-ADDRESS")))
         tp.setTpTechnology(cast(Optional[String], self.getChildElementOptionalLiteral(element, "TP-TECHNOLOGY")))
 
+    def readRtpTp(self, element: ET.Element, tp: RtpTp):
+        self.readARObject(element, tp)
+        tp.setSsrc(self.getChildElementOptionalPositiveInteger(element, "SSRC"))
+        child_element = self.find(element, "TCP-UDP-CONFIG/*")
+        if child_element is not None:
+            tag_name = self.getTagName(child_element)
+            config: Optional[TcpUdpConfig] = None
+            if tag_name == "UDP-TP":
+                config = UdpTp()
+                self.readUdpTp(child_element, config)
+            elif tag_name == "TCP-TP":
+                config = TcpTp()
+                self.readTcpTp(child_element, config)
+            else:
+                self.notImplemented("Unsupported RtpTp tcpUdpConfig <%s>" % tag_name)
+            if config is not None:
+                tp.setTcpUdpConfig(config)
+
+    def readIeee1722Tp(self, element: ET.Element, tp: Ieee1722Tp):
+        self.readARObject(element, tp)
+        tp.setRelativeRepresentationTime(self.getChildElementOptionalTimeValue(element, "RELATIVE-REPRESENTATION-TIME"))
+        tp.setStreamIdentifier(self.getChildElementOptionalPositiveInteger(element, "STREAM-IDENTIFIER"))
+        tp.setSubType(self.getChildElementOptionalPositiveInteger(element, "SUB-TYPE"))
+        tp.setVersion(self.getChildElementOptionalPositiveInteger(element, "VERSION"))
+
+    def readHttpTp(self, element: ET.Element, tp: HttpTp):
+        self.readARObject(element, tp)
+        tp.setContentType(cast(Optional[String], self.getChildElementOptionalLiteral(element, "CONTENT-TYPE")))
+        tp.setProtocolVersion(cast(Optional[String], self.getChildElementOptionalLiteral(element, "PROTOCOL-VERSION")))
+        method_literal = self.getChildElementOptionalLiteral(element, "REQUEST-METHOD")
+        if method_literal is not None:
+            method = RequestMethodEnum()
+            method.setValue(method_literal.getValue())
+            tp.setRequestMethod(method)
+        config_element = self.find(element, "TCP-TP-CONFIG")
+        if config_element is not None:
+            config = TcpTp()
+            self.readTcpTp(config_element, config)
+            tp.setTcpTpConfig(config)
+        tp.setUri(self.getChildElementOptionalUriString(element, "URI"))
+
     def getTransportProtocolConfiguration(self, element: ET.Element, key: str) -> Optional[TransportProtocolConfiguration]:
         configuration: Optional[TransportProtocolConfiguration] = None
         child_element = self.find(element, "%s/*" % key)
@@ -10845,6 +11009,15 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "GENERIC-TP":
                 configuration = GenericTp()
                 self.readGenericTp(child_element, configuration)
+            elif tag_name == "RTP-TP":
+                configuration = RtpTp()
+                self.readRtpTp(child_element, configuration)
+            elif tag_name == "IEEE-1722-TP":
+                configuration = Ieee1722Tp()
+                self.readIeee1722Tp(child_element, configuration)
+            elif tag_name == "HTTP-TP":
+                configuration = HttpTp()
+                self.readHttpTp(child_element, configuration)
             else:
                 self.notImplemented("Unsupported TransportProtocolConfiguration <%s>" % tag_name)
         return configuration
@@ -10880,6 +11053,15 @@ class ARXMLParser(AbstractARXMLParser):
     def readAbstractServiceInstanceMethodActivationRoutingGroups(self, element: ET.Element, instance: AbstractServiceInstance):
         for child_element in self.findall(element, "METHOD-ACTIVATION-ROUTING-GROUPS/PDU-ACTIVATION-ROUTING-GROUP"):
             instance.setMethodActivationRoutingGroup(self.getPduActivationRoutingGroup(child_element))
+
+    def readAbstractServiceInstance(self, element: ET.Element, instance: AbstractServiceInstance):
+        self.readIdentifiable(element, instance)
+        for tag in self.getTagWithOptionalValues(element, "CAPABILITY-RECORDS"):
+            instance.addCapabilityRecord(tag)
+        instance.setMajorVersion(self.getChildElementOptionalPositiveInteger(element, "MAJOR-VERSION"))
+        self.readAbstractServiceInstanceMethodActivationRoutingGroups(element, instance)
+        for ref in self.getChildElementRefTypeList(element, "ROUTING-GROUP-REFS/ROUTING-GROUP-REF"):
+            instance.addRoutingGroupRef(ref)
 
     def readConsumedEventGroup(self, element: ET.Element, group: ConsumedEventGroup):
         self.readIdentifiable(element, group)
@@ -10925,15 +11107,12 @@ class ARXMLParser(AbstractARXMLParser):
             instance.addProvidedServiceInstanceRef(ref)
 
     def readConsumedServiceInstance(self, element: ET.Element, instance: ConsumedServiceInstance):
-        self.readIdentifiable(element, instance)
+        self.readAbstractServiceInstance(element, instance)
         for ref in self.getChildElementRefTypeList(element, "ALLOWED-SERVICE-PROVIDERS/NETWORK-ENDPOINT-REF-CONDITIONAL/NETWORK-ENDPOINT-REF"):
             instance.addAllowedServiceProviderRef(ref)
         instance.setAutoRequire(self.getChildElementOptionalBooleanValue(element, "AUTO-REQUIRE"))
         for version in self.getSomeipServiceVersions(element, "BLOCKLISTED-VERSIONS"):
             instance.addBlocklistedVersion(version)
-        for tag in self.getTagWithOptionalValues(element, "CAPABILITY-RECORDS"):
-            instance.addCapabilityRecord(tag)
-        self.readAbstractServiceInstanceMethodActivationRoutingGroups(element, instance)
         self.readConsumedServiceInstanceConsumedEventGroups(element, instance)
         instance.setEventMulticastSubscriptionAddressRef(
             self.getChildElementOptionalRefType(element, "EVENT-MULTICAST-SUBSCRIPTION-ADDRESSS/APPLICATION-ENDPOINT-REF-CONDITIONAL/APPLICATION-ENDPOINT-REF")
@@ -10945,7 +11124,6 @@ class ARXMLParser(AbstractARXMLParser):
             instance.setInstanceIdentifier(instance_id)
         for ref in self.getChildElementRefTypeList(element, "LOCAL-UNICAST-ADDRESSS/APPLICATION-ENDPOINT-REF-CONDITIONAL/APPLICATION-ENDPOINT-REF"):
             instance.addLocalUnicastAddressRef(ref)
-        instance.setMajorVersion(self.getChildElementOptionalPositiveInteger(element, "MAJOR-VERSION"))
         minor_version_literal = self.getChildElementOptionalLiteral(element, "MINOR-VERSION")
         if minor_version_literal is not None:
             minor_version = AnyVersionString()
@@ -10954,8 +11132,6 @@ class ARXMLParser(AbstractARXMLParser):
         instance.setProvidedServiceInstanceRef(self.getChildElementOptionalRefType(element, "PROVIDED-SERVICE-INSTANCE-REF"))
         for ref in self.getChildElementRefTypeList(element, "REMOTE-UNICAST-ADDRESSS/APPLICATION-ENDPOINT-REF-CONDITIONAL/APPLICATION-ENDPOINT-REF"):
             instance.addRemoteUnicastAddressRef(ref)
-        for ref in self.getChildElementRefTypeList(element, "ROUTING-GROUP-REFS/ROUTING-GROUP-REF"):
-            instance.addRoutingGroupRef(ref)
         instance.setSdClientConfig(self.getSdClientConfig(element, "SD-CLIENT-CONFIG"))
         instance.setSdClientTimerConfigRef(
             self.getChildElementOptionalRefType(element, "SD-CLIENT-TIMER-CONFIGS/SOMEIP-SD-CLIENT-SERVICE-INSTANCE-CONFIG-REF-CONDITIONAL/SOMEIP-SD-CLIENT-SERVICE-INSTANCE-CONFIG-REF")
@@ -11032,6 +11208,15 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, config)
         config.setRequestResponseDelay(self.getRequestResponseDelay(element, "REQUEST-RESPONSE-DELAY"))
 
+    def readSomeipSdServerServiceInstanceConfig(self, element: ET.Element, config: SomeipSdServerServiceInstanceConfig):
+        self.logger.debug("Read SomeipSdServerServiceInstanceConfig <%s>" % config.getShortName())
+        self.readIdentifiable(element, config)
+        config.setInitialOfferBehavior(self.getInitialSdDelayConfig(element, "INITIAL-OFFER-BEHAVIOR"))
+        config.setOfferCyclicDelay(self.getChildElementOptionalTimeValue(element, "OFFER-CYCLIC-DELAY"))
+        config.setPriority(self.getChildElementOptionalPositiveInteger(element, "PRIORITY"))
+        config.setRequestResponseDelay(self.getRequestResponseDelay(element, "REQUEST-RESPONSE-DELAY"))
+        config.setServiceOfferTimeToLive(self.getChildElementOptionalPositiveInteger(element, "SERVICE-OFFER-TIME-TO-LIVE"))
+
     def getSdServerConfig(self, element: ET.Element, key: str) -> Optional[SdServerConfig]:
         config = None
         child_element = self.find(element, key)
@@ -11053,16 +11238,16 @@ class ARXMLParser(AbstractARXMLParser):
         for ref in self.getChildElementRefTypeList(element, "CONSUMED-EVENT-GROUP-REFS/CONSUMED-EVENT-GROUP-REF"):
             handler.addConsumedEventGroupRef(ref)
         handler.setEventGroupIdentifier(self.getChildElementOptionalPositiveInteger(element, "EVENT-GROUP-IDENTIFIER"))
-        for ref in self.getChildElementRefTypeList(element, "EVENT-MULTICAST-ADDRESSS/APPLICATION-ENDPOINT-REF-CONDITIONAL/APPLICATION-ENDPOINT-REF"):
-            handler.setEventMulticastAddressRef(ref)
+        handler.setEventMulticastAddressRef(self.getChildElementOptionalRefType(element, "EVENT-MULTICAST-ADDRESSS/APPLICATION-ENDPOINT-REF-CONDITIONAL/APPLICATION-ENDPOINT-REF"))
         handler.setMulticastThreshold(self.getChildElementOptionalPositiveInteger(element, "MULTICAST-THRESHOLD"))
         for child_element in self.findall(element, "PDU-ACTIVATION-ROUTING-GROUPS/PDU-ACTIVATION-ROUTING-GROUP"):
             handler.addPduActivationRoutingGroup(self.getPduActivationRoutingGroup(child_element))
         for ref in self.getChildElementRefTypeList(element, "ROUTING-GROUP-REFS/ROUTING-GROUP-REF"):
             handler.addRoutingGroupRef(ref)
         handler.setSdServerConfig(self.getSdServerConfig(element, "SD-SERVER-CONFIG"))
-        for ref in self.getChildElementRefTypeList(element, "SD-SERVER-EG-TIMING-CONFIGS/SOMEIP-SD-SERVER-EVENT-GROUP-TIMING-CONFIG-REF-CONDITIONAL/SOMEIP-SD-SERVER-EVENT-GROUP-TIMING-CONFIG-REF"):
-            handler.setSdServerEgTimingConfigRef(ref)
+        handler.setSdServerEgTimingConfigRef(
+            self.getChildElementOptionalRefType(element, "SD-SERVER-EG-TIMING-CONFIGS/SOMEIP-SD-SERVER-EVENT-GROUP-TIMING-CONFIG-REF-CONDITIONAL/SOMEIP-SD-SERVER-EVENT-GROUP-TIMING-CONFIG-REF")
+        )
 
     def readProvidedServiceInstanceEventHandlers(self, element: ET.Element, instance: ProvidedServiceInstance):
         for child_element in self.findall(element, "EVENT-HANDLERS/*"):
@@ -11074,10 +11259,7 @@ class ARXMLParser(AbstractARXMLParser):
                 self.notImplemented("Unsupported Event Handler <%s>" % tag_name)
 
     def readProvidedServiceInstance(self, element: ET.Element, instance: ProvidedServiceInstance):
-        self.readIdentifiable(element, instance)
-        for tag in self.getTagWithOptionalValues(element, "CAPABILITY-RECORDS"):
-            instance.addCapabilityRecord(tag)
-        self.readAbstractServiceInstanceMethodActivationRoutingGroups(element, instance)
+        self.readAbstractServiceInstance(element, instance)
         self.readProvidedServiceInstanceEventHandlers(element, instance)
         instance.setInstanceIdentifier(self.getChildElementOptionalPositiveInteger(element, "INSTANCE-IDENTIFIER"))
         instance.setLoadBalancingPriority(self.getChildElementOptionalPositiveInteger(element, "LOAD-BALANCING-PRIORITY"))
@@ -11091,15 +11273,10 @@ class ARXMLParser(AbstractARXMLParser):
             instance.addRemoteMulticastSubscriptionAddressRef(ref)
         for ref in self.getChildElementRefTypeList(element, "REMOTE-UNICAST-ADDRESSS/APPLICATION-ENDPOINT-REF-CONDITIONAL/APPLICATION-ENDPOINT-REF"):
             instance.addRemoteUnicastAddressRef(ref)
-        for ref in self.getChildElementRefTypeList(element, "ROUTING-GROUP-REFS/ROUTING-GROUP-REF"):
-            instance.addRoutingGroupRef(ref)
         instance.setSdServerConfig(self.getSdServerConfig(element, "SD-SERVER-CONFIG"))
         instance.setSdServerTimerConfigRef(
             self.getChildElementOptionalRefType(element, "SD-SERVER-TIMER-CONFIGS/SOMEIP-SD-SERVER-SERVICE-INSTANCE-CONFIG-REF-CONDITIONAL/SOMEIP-SD-SERVER-SERVICE-INSTANCE-CONFIG-REF")
         )
-        for ref in self.getChildElementRefTypeList(element, "ALLOWED-SERVICE-CONSUMERS/NETWORK-ENDPOINT-REF-CONDITIONAL/NETWORK-ENDPOINT-REF"):
-            instance.addAllowedServiceConsumerRef(ref)
-        instance.setAutoAvailable(self.getChildElementOptionalBooleanValue(element, "AUTO-AVAILABLE"))
         instance.setServiceIdentifier(self.getChildElementOptionalPositiveInteger(element, "SERVICE-IDENTIFIER"))
 
     def readSocketAddressApplicationEndpointProvidedServiceInstance(self, element: ET.Element, end_point: ApplicationEndpoint):
@@ -11141,7 +11318,8 @@ class ARXMLParser(AbstractARXMLParser):
         address.setPduCollectionMaxBufferSize(self.getChildElementOptionalPositiveInteger(element, "PDU-COLLECTION-MAX-BUFFER-SIZE"))
         address.setPduCollectionTimeout(self.getChildElementOptionalTimeValue(element, "PDU-COLLECTION-TIMEOUT"))
         for child_element in self.findall(element, "STATIC-SOCKET-CONNECTIONS/STATIC-SOCKET-CONNECTION"):
-            address.addStaticSocketConnection(self.getStaticSocketConnection(child_element))
+            connection = address.createStaticSocketConnection(self.getShortName(child_element))
+            self.readStaticSocketConnection(child_element, connection)
         behavior_literal = self.getChildElementOptionalLiteral(element, "UDP-CHECKSUM-HANDLING")
         if behavior_literal is not None:
             behavior = UdpChecksumCalculationEnum()
@@ -11170,6 +11348,7 @@ class ARXMLParser(AbstractARXMLParser):
         config = None
         if child_element is not None:
             config = SoAdConfig()
+            self.readARObject(child_element, config)
             self.readSoAdConfigConnections(child_element, config)
             self.readSoAdConfigConnectionBundles(child_element, config)
             self.readSoAdConfigSocketAddresses(child_element, config)
@@ -12498,8 +12677,11 @@ class ARXMLParser(AbstractARXMLParser):
             reliability = DdsReliability()
             self.readDdsReliability(reliability_element, reliability)
             profile.setReliability(reliability)
-        if self.find(element, "RESOURCE-LIMITS") is not None:
-            profile.setResourceLimits(DdsResourceLimits())
+        resource_limits_element = self.find(element, "RESOURCE-LIMITS")
+        if resource_limits_element is not None:
+            resource_limits = DdsResourceLimits()
+            self.readDdsResourceLimits(resource_limits_element, resource_limits)
+            profile.setResourceLimits(resource_limits)
         topic_data_element = self.find(element, "TOPIC-DATA")
         if topic_data_element is not None:
             topic_data = DdsTopicData()
@@ -12511,16 +12693,40 @@ class ARXMLParser(AbstractARXMLParser):
             self.readDdsTransportPriority(transport_priority_element, transport_priority)
             profile.setTransportPriority(transport_priority)
 
+    def readBinaryManifestMetaDataField(self, element: ET.Element, field: BinaryManifestMetaDataField):
+        self.logger.debug("Read BinaryManifestMetaDataField")
+        self.readIdentifiable(element, field)
+        field.setSize(self.getChildElementOptionalPositiveInteger(element, "SIZE"))
+        field.setValue(self.getChildElementOptionalVerbatimString(element, "VALUE"))
+
     def readDdsCpTopic(self, element: ET.Element, topic: DdsCpTopic):
         self.logger.debug("Read DdsCpTopic")
         self.readIdentifiable(element, topic)
         topic.setDdsPartitionRef(self.getChildElementOptionalRefType(element, "DDS-PARTITION-REF"))
         topic.setTopicName(self.getChildElementOptionalString(element, "TOPIC-NAME"))
 
+    def readDdsCpServiceInstance(self, element: ET.Element, instance: DdsCpServiceInstance):
+        self.logger.debug("Read DdsCpServiceInstance")
+        self.readIdentifiable(element, instance)
+        instance.setDdsFieldReplyTopicRef(self.getChildElementOptionalRefType(element, "DDS-FIELD-REPLY-TOPIC-REF"))
+        instance.setDdsFieldRequestTopicRef(self.getChildElementOptionalRefType(element, "DDS-FIELD-REQUEST-TOPIC-REF"))
+        instance.setDdsMethodReplyTopicRef(self.getChildElementOptionalRefType(element, "DDS-METHOD-REPLY-TOPIC-REF"))
+        instance.setDdsMethodRequestTopicRef(self.getChildElementOptionalRefType(element, "DDS-METHOD-REQUEST-TOPIC-REF"))
+        instance.setDdsServiceQosProfileRef(self.getChildElementOptionalRefType(element, "DDS-SERVICE-QOS-PROFILE-REF"))
+        instance.setServiceInstanceId(self.getChildElementOptionalPositiveInteger(element, "SERVICE-INSTANCE-ID"))
+        instance.setServiceInterfaceId(self.getChildElementOptionalString(element, "SERVICE-INTERFACE-ID"))
+
     def readDdsTopicData(self, element: ET.Element, topic_data: DdsTopicData):
         self.logger.debug("Read DdsTopicData")
         self.readARObject(element, topic_data)
         topic_data.setTopicData(self.getChildElementOptionalString(element, "TOPIC-DATA"))
+
+    def readDdsResourceLimits(self, element: ET.Element, resource_limits: DdsResourceLimits):
+        self.logger.debug("Read DdsResourceLimits")
+        self.readARObject(element, resource_limits)
+        resource_limits.setMaxInstances(self.getChildElementOptionalPositiveInteger(element, "MAX-INSTANCES"))
+        resource_limits.setMaxSamples(self.getChildElementOptionalPositiveInteger(element, "MAX-SAMPLES"))
+        resource_limits.setMaxSamplesPerInstance(self.getChildElementOptionalPositiveInteger(element, "MAX-SAMPLES-PER-INSTANCE"))
 
     def readDdsLiveliness(self, element: ET.Element, liveliness: DdsLiveliness):
         self.logger.debug("Read DdsLiveliness")
@@ -12591,6 +12797,64 @@ class ARXMLParser(AbstractARXMLParser):
         self.readARObject(element, history)
         history.setHistoryKind(self._readEnumToken(element, "HISTORY-KIND", DdsHistoryKindEnum, DDS_HISTORY_KIND_XML_MAP))
         history.setHistoryOrderDepth(self.getChildElementOptionalPositiveInteger(element, "HISTORY-ORDER-DEPTH"))
+
+    def readDdsCpPartition(self, element: ET.Element, partition: DdsCpPartition):
+        self.logger.debug("Read DdsCpPartition")
+        self.readIdentifiable(element, partition)
+        partition.setPartitionName(self.getChildElementOptionalString(element, "PARTITION-NAME"))
+
+    def readDdsCpConfig(self, element: ET.Element, config: DdsCpConfig):
+        self.logger.debug("Read DdsCpConfig")
+        self.readIdentifiable(element, config)
+        for child_element in self.findall(element, "DDS-DOMAINS/DDS-CP-DOMAIN"):
+            domain = config.createDdsDomain(self.getShortName(child_element))
+            self.readDdsCpDomain(child_element, domain)
+        for child_element in self.findall(element, "DDS-QOS-PROFILES/DDS-CP-QOS-PROFILE"):
+            profile = config.createDdsQosProfile(self.getShortName(child_element))
+            self.readDdsCpQosProfile(child_element, profile)
+
+    def readDdsCpDomain(self, element: ET.Element, domain: DdsCpDomain):
+        self.logger.debug("Read DdsCpDomain")
+        self.readIdentifiable(element, domain)
+        for child_element in self.findall(element, "DDS-PARTITIONS/DDS-CP-PARTITION"):
+            partition = domain.createDdsPartition(self.getShortName(child_element))
+            self.readDdsCpPartition(child_element, partition)
+        for child_element in self.findall(element, "DDS-TOPICS/DDS-CP-TOPIC"):
+            topic = domain.createDdsTopic(self.getShortName(child_element))
+            self.readDdsCpTopic(child_element, topic)
+        domain.setDomainId(self.getChildElementOptionalPositiveInteger(element, "DOMAIN-ID"))
+
+    def readDdsCpConsumedServiceInstance(self, element: ET.Element, instance: DdsCpConsumedServiceInstance):
+        self.logger.debug("Read DdsCpConsumedServiceInstance")
+        self.readDdsCpServiceInstance(element, instance)
+        for child_element in self.findall(element, "CONSUMED-DDS-OPERATIONS/DDS-CP-SERVICE-INSTANCE-OPERATION"):
+            operation = DdsCpServiceInstanceOperation()
+            self.readDdsCpServiceInstanceOperation(child_element, operation)
+            instance.addConsumedDdsOperation(operation)
+        for child_element in self.findall(element, "CONSUMED-DDS-SERVICE-EVENTS/DDS-CP-SERVICE-INSTANCE-EVENT"):
+            event = DdsCpServiceInstanceEvent()
+            self.readDdsCpServiceInstanceEvent(child_element, event)
+            instance.addConsumedDdsServiceEvent(event)
+        local_unicast_addresses_element = self.find(element, "LOCAL-UNICAST-ADDRESSES")
+        if local_unicast_addresses_element is not None:
+            conditional_element = self.find(local_unicast_addresses_element, "APPLICATION-ENDPOINT-REF-CONDITIONAL")
+            if conditional_element is not None:
+                instance.setLocalUnicastAddressRef(self.getChildElementOptionalRefType(conditional_element, "APPLICATION-ENDPOINT-REF"))
+        minor_version_literal = self.getChildElementOptionalLiteral(element, "MINOR-VERSION")
+        if minor_version_literal is not None:
+            minor_version = AnyVersionString()
+            minor_version.setValue(minor_version_literal.getValue())
+            instance.setMinorVersion(minor_version)
+        static_remote_multicast_addresses_element = self.find(element, "STATIC-REMOTE-MULTICAST-ADDRESSES")
+        if static_remote_multicast_addresses_element is not None:
+            conditional_element = self.find(static_remote_multicast_addresses_element, "APPLICATION-ENDPOINT-REF-CONDITIONAL")
+            if conditional_element is not None:
+                instance.setStaticRemoteMulticastAddressRef(self.getChildElementOptionalRefType(conditional_element, "APPLICATION-ENDPOINT-REF"))
+        static_remote_unicast_addresses_element = self.find(element, "STATIC-REMOTE-UNICAST-ADDRESSES")
+        if static_remote_unicast_addresses_element is not None:
+            conditional_element = self.find(static_remote_unicast_addresses_element, "APPLICATION-ENDPOINT-REF-CONDITIONAL")
+            if conditional_element is not None:
+                instance.setStaticRemoteUnicastAddressRef(self.getChildElementOptionalRefType(conditional_element, "APPLICATION-ENDPOINT-REF"))
 
     def readDdsCpProvidedServiceInstance(self, element: ET.Element, instance: DdsCpProvidedServiceInstance):
         self.logger.debug("Read DdsCpProvidedServiceInstance")
@@ -14111,7 +14375,7 @@ class ARXMLParser(AbstractARXMLParser):
             ident = connection.createTpConnectionIdent(self.getShortName(child_element))
             self.readReferrable(child_element, ident)
 
-    def readTpConnectionReceiverRefs(self, element: ET.Element, connection: CanTpConnection):
+    def readTpConnectionReceiverRefs(self, element: ET.Element, connection: Union[CanTpConnection, FlexrayTpConnection, LinTpConnection]):
         for ref in self.getChildElementRefTypeList(element, "RECEIVER-REFS/RECEIVER-REF"):
             connection.addReceiverRef(ref)
 
@@ -14130,7 +14394,11 @@ class ARXMLParser(AbstractARXMLParser):
         connection.setMulticastRef(self.getChildElementOptionalRefType(element, "MULTICAST-REF"))
         connection.setPaddingActivation(self.getChildElementOptionalBooleanValue(element, "PADDING-ACTIVATION"))
         self.readTpConnectionReceiverRefs(element, connection)
-        connection.setTaType(self.getChildElementOptionalLiteral(element, "TA-TYPE"))
+        ta_type_literal = self.getChildElementOptionalLiteral(element, "TA-TYPE")
+        if ta_type_literal is not None:
+            ta_type = NetworkTargetAddressType()
+            ta_type.setValue(ta_type_literal.getValue())
+            connection.setTaType(ta_type)
         connection.setTimeoutBr(self.getChildElementOptionalTimeValue(element, "TIMEOUT-BR"))
         connection.setTimeoutBs(self.getChildElementOptionalTimeValue(element, "TIMEOUT-BS"))
         connection.setTimeoutCr(self.getChildElementOptionalTimeValue(element, "TIMEOUT-CR"))
@@ -14251,6 +14519,312 @@ class ARXMLParser(AbstractARXMLParser):
         self.readLinTpConfigTpAddresses(element, config)
         self.readLinTpConfigTpConnections(element, config)
         self.readLinTpConfigTpNodes(element, config)
+
+    def readFlexrayTpPduPool(self, element: ET.Element, pool: FlexrayTpPduPool):
+        self.readIdentifiable(element, pool)
+        for ref in self.getChildElementRefTypeList(element, "N-PDU-REFS/N-PDU-REF"):
+            pool.addNPduRef(ref)
+        self.readVariationPointCapable(element, pool)
+
+    def readFlexrayTpConfigPduPools(self, element: ET.Element, config: FlexrayTpConfig):
+        for child_element in self.findall(element, "PDU-POOLS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "FLEXRAY-TP-PDU-POOL":
+                pool = config.createFlexrayTpPduPool(self.getShortName(child_element))
+                self.readFlexrayTpPduPool(child_element, pool)
+            else:
+                self.notImplemented("Unsupported TpPduPool <%s>" % tag_name)
+
+    def readFlexrayTpConfigTpAddresses(self, element: ET.Element, config: FlexrayTpConfig):
+        for child_element in self.findall(element, "TP-ADDRESSS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "TP-ADDRESS":
+                address = config.createTpAddress(self.getShortName(child_element))
+                self.readTpAddress(child_element, address)
+            else:
+                self.notImplemented("Unsupported TpAddress <%s>" % tag_name)
+
+    def readFlexrayTpConnection(self, element: ET.Element, connection: FlexrayTpConnection):
+        self.readTpConnection(element, connection)
+        connection.setBandwidthLimitation(self.getChildElementOptionalBooleanValue(element, "BANDWIDTH-LIMITATION"))
+        connection.setDirectTpSduRef(self.getChildElementOptionalRefType(element, "DIRECT-TP-SDU-REF"))
+        connection.setMulticastRef(self.getChildElementOptionalRefType(element, "MULTICAST-REF"))
+        self.readTpConnectionReceiverRefs(element, connection)
+        connection.setReversedTpSduRef(self.getChildElementOptionalRefType(element, "REVERSED-TP-SDU-REF"))
+        connection.setRxPduPoolRef(self.getChildElementOptionalRefType(element, "RX-PDU-POOL-REF"))
+        connection.setTpConnectionControlRef(self.getChildElementOptionalRefType(element, "TP-CONNECTION-CONTROL-REF"))
+        connection.setTransmitterRef(self.getChildElementOptionalRefType(element, "TRANSMITTER-REF"))
+        connection.setTxPduPoolRef(self.getChildElementOptionalRefType(element, "TX-PDU-POOL-REF"))
+        self.readVariationPointCapable(element, connection)
+
+    def readFlexrayTpConfigTpConnections(self, element: ET.Element, config: FlexrayTpConfig):
+        for child_element in self.findall(element, "TP-CONNECTIONS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "FLEXRAY-TP-CONNECTION":
+                connection = FlexrayTpConnection()
+                self.readFlexrayTpConnection(child_element, connection)
+                config.addTpConnection(connection)
+            else:
+                self.notImplemented("Unsupported TpConnection <%s>" % tag_name)
+
+    def readFlexrayTpConnectionControl(self, element: ET.Element, control: FlexrayTpConnectionControl):
+        self.readIdentifiable(element, control)
+        ack_type_literal = self.getChildElementOptionalLiteral(element, "ACK-TYPE")
+        if ack_type_literal is not None:
+            ack_type = TpAckType()
+            ack_type.setValue(ack_type_literal.getValue())
+            control.setAckType(ack_type)
+        control.setMaxFcWait(self.getChildElementOptionalIntegerValue(element, "MAX-FC-WAIT"))
+        control.setMaxNumberOfNpduPerCycle(self.getChildElementOptionalIntegerValue(element, "MAX-NUMBER-OF-NPDU-PER-CYCLE"))
+        control.setMaxRetries(self.getChildElementOptionalIntegerValue(element, "MAX-RETRIES"))
+        control.setSeparationCycleExponent(self.getChildElementOptionalIntegerValue(element, "SEPARATION-CYCLE-EXPONENT"))
+        control.setTimeBr(self.getChildElementOptionalTimeValue(element, "TIME-BR"))
+        control.setTimeBuffer(self.getChildElementOptionalTimeValue(element, "TIME-BUFFER"))
+        control.setTimeCs(self.getChildElementOptionalTimeValue(element, "TIME-CS"))
+        control.setTimeoutAr(self.getChildElementOptionalTimeValue(element, "TIMEOUT-AR"))
+        control.setTimeoutAs(self.getChildElementOptionalTimeValue(element, "TIMEOUT-AS"))
+        control.setTimeoutBs(self.getChildElementOptionalTimeValue(element, "TIMEOUT-BS"))
+        control.setTimeoutCr(self.getChildElementOptionalTimeValue(element, "TIMEOUT-CR"))
+        self.readVariationPointCapable(element, control)
+
+    def readFlexrayTpConfigTpConnectionControls(self, element: ET.Element, config: FlexrayTpConfig):
+        for child_element in self.findall(element, "TP-CONNECTION-CONTROLS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "FLEXRAY-TP-CONNECTION-CONTROL":
+                control = config.createFlexrayTpConnectionControl(self.getShortName(child_element))
+                self.readFlexrayTpConnectionControl(child_element, control)
+            else:
+                self.notImplemented("Unsupported TpConnectionControl <%s>" % tag_name)
+
+    def readFlexrayTpEcu(self, element: ET.Element, tp_ecu: FlexrayTpEcu):
+        self.readARObject(element, tp_ecu)
+        tp_ecu.setCancellation(self.getChildElementOptionalBooleanValue(element, "CANCELLATION"))
+        tp_ecu.setCycleTimeMainFunction(self.getChildElementOptionalTimeValue(element, "CYCLE-TIME-MAIN-FUNCTION"))
+        tp_ecu.setEcuInstanceRef(self.getChildElementOptionalRefType(element, "ECU-INSTANCE-REF"))
+        tp_ecu.setFullDuplexEnabled(self.getChildElementOptionalBooleanValue(element, "FULL-DUPLEX-ENABLED"))
+        self.readVariationPointCapable(element, tp_ecu)
+
+    def readFlexrayTpConfigTpEcus(self, element: ET.Element, config: FlexrayTpConfig):
+        for child_element in self.findall(element, "TP-ECUS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "FLEXRAY-TP-ECU":
+                tp_ecu = FlexrayTpEcu()
+                self.readFlexrayTpEcu(child_element, tp_ecu)
+                config.addTpEcu(tp_ecu)
+            else:
+                self.notImplemented("Unsupported TpEcu <%s>" % tag_name)
+
+    def readFlexrayTpNode(self, element: ET.Element, tp_node: FlexrayTpNode):
+        self.readIdentifiable(element, tp_node)
+        for ref in self.getChildElementRefTypeList(element, "CONNECTOR-REFS/CONNECTOR-REF"):
+            tp_node.addConnectorRef(ref)
+        tp_node.setTpAddressRef(self.getChildElementOptionalRefType(element, "TP-ADDRESS-REF"))
+        self.readVariationPointCapable(element, tp_node)
+
+    def readFlexrayTpConfigTpNodes(self, element: ET.Element, config: FlexrayTpConfig):
+        for child_element in self.findall(element, "TP-NODES/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "FLEXRAY-TP-NODE":
+                tp_node = config.createFlexrayTpNode(self.getShortName(child_element))
+                self.readFlexrayTpNode(child_element, tp_node)
+            else:
+                self.notImplemented("Unsupported TpNode <%s>" % tag_name)
+
+    def readFlexrayTpConfig(self, element: ET.Element, config: FlexrayTpConfig):
+        self.logger.debug("Read FlexrayTpConfig <%s>" % config.getShortName())
+        self.readTpConfig(element, config)
+        self.readFlexrayTpConfigPduPools(element, config)
+        self.readFlexrayTpConfigTpAddresses(element, config)
+        self.readFlexrayTpConfigTpConnections(element, config)
+        self.readFlexrayTpConfigTpConnectionControls(element, config)
+        self.readFlexrayTpConfigTpEcus(element, config)
+        self.readFlexrayTpConfigTpNodes(element, config)
+
+    def readFlexrayArTpConfigTpAddresses(self, element: ET.Element, config: FlexrayArTpConfig):
+        for child_element in self.findall(element, "TP-ADDRESSS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "TP-ADDRESS":
+                address = config.createTpAddress(self.getShortName(child_element))
+                self.readTpAddress(child_element, address)
+            else:
+                self.notImplemented("Unsupported TpAddress <%s>" % tag_name)
+
+    def readFlexrayArTpChannel(self, element: ET.Element, channel: FlexrayArTpChannel):
+        self.readARObject(element, channel)
+        ack_type_literal = self.getChildElementOptionalLiteral(element, "ACK-TYPE")
+        if ack_type_literal is not None:
+            ack_type = FrArTpAckType()
+            ack_type.setValue(ack_type_literal.getValue())
+            channel.setAckType(ack_type)
+        channel.setCancellation(self.getChildElementOptionalBooleanValue(element, "CANCELLATION"))
+        channel.setExtendedAddressing(self.getChildElementOptionalBooleanValue(element, "EXTENDED-ADDRESSING"))
+        channel.setMaxAr(self.getChildElementOptionalIntegerValue(element, "MAX-AR"))
+        channel.setMaxAs(self.getChildElementOptionalIntegerValue(element, "MAX-AS"))
+        channel.setMaxBs(self.getChildElementOptionalIntegerValue(element, "MAX-BS"))
+        channel.setMaxFcWait(self.getChildElementOptionalPositiveInteger(element, "MAX-FC-WAIT"))
+        maximum_message_length_literal = self.getChildElementOptionalLiteral(element, "MAXIMUM-MESSAGE-LENGTH")
+        if maximum_message_length_literal is not None:
+            maximum_message_length = MaximumMessageLengthType()
+            maximum_message_length.setValue(maximum_message_length_literal.getValue())
+            channel.setMaximumMessageLength(maximum_message_length)
+        channel.setMaxRetries(self.getChildElementOptionalIntegerValue(element, "MAX-RETRIES"))
+        channel.setMinimumMulticastSeperationTime(self.getChildElementOptionalTimeValue(element, "MINIMUM-MULTICAST-SEPERATION-TIME"))
+        channel.setMinimumSeparationTime(self.getChildElementOptionalTimeValue(element, "MINIMUM-SEPARATION-TIME"))
+        channel.setMulticastSegmentation(self.getChildElementOptionalBooleanValue(element, "MULTICAST-SEGMENTATION"))
+        for ref in self.getChildElementRefTypeList(element, "N-PDU-REFS/N-PDU-REF"):
+            channel.addNPduRef(ref)
+        channel.setTimeBr(self.getChildElementOptionalTimeValue(element, "TIME-BR"))
+        channel.setTimeCs(self.getChildElementOptionalTimeValue(element, "TIME-CS"))
+        channel.setTimeoutAr(self.getChildElementOptionalTimeValue(element, "TIMEOUT-AR"))
+        channel.setTimeoutAs(self.getChildElementOptionalTimeValue(element, "TIMEOUT-AS"))
+        channel.setTimeoutBs(self.getChildElementOptionalTimeValue(element, "TIMEOUT-BS"))
+        channel.setTimeoutCr(self.getChildElementOptionalTimeValue(element, "TIMEOUT-CR"))
+        self.readFlexrayArTpChannelTpConnections(element, channel)
+        self.readVariationPointCapable(element, channel)
+
+    def readFlexrayArTpChannelTpConnections(self, element: ET.Element, channel: FlexrayArTpChannel):
+        for child_element in self.findall(element, "TP-CONNECTIONS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "FLEXRAY-AR-TP-CONNECTION":
+                connection = FlexrayArTpConnection()
+                self.readFlexrayArTpConnection(child_element, connection)
+                channel.addTpConnection(connection)
+            else:
+                self.notImplemented("Unsupported TpConnection <%s>" % tag_name)
+
+    def readFlexrayArTpConnection(self, element: ET.Element, connection: FlexrayArTpConnection):
+        self.readTpConnection(element, connection)
+        connection.setConnectionPrioPdus(self.getChildElementOptionalIntegerValue(element, "CONNECTION-PRIO-PDUS"))
+        connection.setDirectTpSduRef(self.getChildElementOptionalRefType(element, "DIRECT-TP-SDU-REF"))
+        connection.setMulticastRef(self.getChildElementOptionalRefType(element, "MULTICAST-REF"))
+        connection.setReversedTpSduRef(self.getChildElementOptionalRefType(element, "REVERSED-TP-SDU-REF"))
+        connection.setSourceRef(self.getChildElementOptionalRefType(element, "SOURCE-REF"))
+        for ref in self.getChildElementRefTypeList(element, "TARGET-REFS/TARGET-REF"):
+            connection.addTargetRef(ref)
+
+    def readFlexrayArTpConfigTpChannels(self, element: ET.Element, config: FlexrayArTpConfig):
+        for child_element in self.findall(element, "TP-CHANNELS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "FLEXRAY-AR-TP-CHANNEL":
+                channel = FlexrayArTpChannel()
+                self.readFlexrayArTpChannel(child_element, channel)
+                config.addTpChannel(channel)
+            else:
+                self.notImplemented("Unsupported TpChannel <%s>" % tag_name)
+
+    def readFlexrayArTpNode(self, element: ET.Element, tp_node: FlexrayArTpNode):
+        self.readIdentifiable(element, tp_node)
+        for ref in self.getChildElementRefTypeList(element, "CONNECTOR-REFS/CONNECTOR-REF"):
+            tp_node.addConnectorRef(ref)
+        tp_node.setTpAddressRef(self.getChildElementOptionalRefType(element, "TP-ADDRESS-REF"))
+        self.readVariationPointCapable(element, tp_node)
+
+    def readFlexrayArTpConfigTpNodes(self, element: ET.Element, config: FlexrayArTpConfig):
+        for child_element in self.findall(element, "TP-NODES/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "FLEXRAY-AR-TP-NODE":
+                tp_node = config.createFlexrayArTpNode(self.getShortName(child_element))
+                self.readFlexrayArTpNode(child_element, tp_node)
+            else:
+                self.notImplemented("Unsupported TpNode <%s>" % tag_name)
+
+    def readFlexrayArTpConfig(self, element: ET.Element, config: FlexrayArTpConfig):
+        self.logger.debug("Read FlexrayArTpConfig <%s>" % config.getShortName())
+        self.readTpConfig(element, config)
+        self.readFlexrayArTpConfigTpAddresses(element, config)
+        self.readFlexrayArTpConfigTpChannels(element, config)
+        self.readFlexrayArTpConfigTpNodes(element, config)
+
+    def readEthTpConnection(self, element: ET.Element, connection: EthTpConnection):
+        self.readTpConnection(element, connection)
+        for ref in self.getChildElementRefTypeList(element, "TP-SDU-REFS/TP-SDU-REF"):
+            connection.addTpSduRef(ref)
+
+    def readEthTpConfigTpConnections(self, element: ET.Element, config: EthTpConfig):
+        for child_element in self.findall(element, "TP-CONNECTIONS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "ETH-TP-CONNECTION":
+                connection = EthTpConnection()
+                self.readEthTpConnection(child_element, connection)
+                config.addTpConnection(connection)
+            else:
+                self.notImplemented("Unsupported TpConnection <%s>" % tag_name)
+
+    def readEthTpConfig(self, element: ET.Element, config: EthTpConfig):
+        self.logger.debug("Read EthTpConfig <%s>" % config.getShortName())
+        self.readTpConfig(element, config)
+        self.readEthTpConfigTpConnections(element, config)
+
+    def readSomeipTpChannel(self, element: ET.Element, channel: SomeipTpChannel):
+        self.readIdentifiable(element, channel)
+
+    def readSomeipTpConfigTpChannels(self, element: ET.Element, config: SomeipTpConfig):
+        for child_element in self.findall(element, "TP-CHANNELS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "SOMEIP-TP-CHANNEL":
+                channel = config.createSomeipTpChannel(self.getShortName(child_element))
+                self.readSomeipTpChannel(child_element, channel)
+            else:
+                self.notImplemented("Unsupported TpChannel <%s>" % tag_name)
+
+    def readSomeipTpConnection(self, element: ET.Element, connection: SomeipTpConnection):
+        self.readARObject(element, connection)
+
+    def readSomeipTpConfigTpConnections(self, element: ET.Element, config: SomeipTpConfig):
+        for child_element in self.findall(element, "TP-CONNECTIONS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "SOMEIP-TP-CONNECTION":
+                connection = SomeipTpConnection()
+                self.readSomeipTpConnection(child_element, connection)
+                config.addTpConnection(connection)
+            else:
+                self.notImplemented("Unsupported TpConnection <%s>" % tag_name)
+
+    def readSomeipTpConfig(self, element: ET.Element, config: SomeipTpConfig):
+        self.logger.debug("Read SomeipTpConfig <%s>" % config.getShortName())
+        self.readTpConfig(element, config)
+        self.readSomeipTpConfigTpChannels(element, config)
+        self.readSomeipTpConfigTpConnections(element, config)
+
+    def readIEEE1722TpConfigTpConnectionRefs(self, element: ET.Element, config: IEEE1722TpConfig):
+        for ref in self.getChildElementRefTypeList(element, "TP-CONNECTIONS/IEEE-1722-TP-CONNECTION-REF-CONDITIONAL/IEEE-1722-TP-CONNECTION-REF"):
+            config.addTpConnectionRef(ref)
+
+    def readIEEE1722TpConfig(self, element: ET.Element, config: IEEE1722TpConfig):
+        self.logger.debug("Read IEEE1722TpConfig <%s>" % config.getShortName())
+        self.readTpConfig(element, config)
+        self.readIEEE1722TpConfigTpConnectionRefs(element, config)
+
+    def readIEEE1722TpConnection(self, element: ET.Element, connection: IEEE1722TpConnection):
+        self.readIdentifiable(element, connection)
+        connection.setDestinationMacAddress(self.getChildElementOptionalMacAddressString(element, "DESTINATION-MAC-ADDRESS"))
+        connection.setMacAddressStreamId(self.getChildElementOptionalMacAddressString(element, "MAC-ADDRESS-STREAM-ID"))
+        connection.setPduRef(self.getChildElementOptionalRefType(element, "PDU-REF"))
+        connection.setUniqueStreamId(self.getChildElementOptionalPositiveInteger(element, "UNIQUE-STREAM-ID"))
+        connection.setVersion(self.getChildElementOptionalPositiveInteger(element, "VERSION"))
+        connection.setVlanPriority(self.getChildElementOptionalPositiveInteger(element, "VLAN-PRIORITY"))
+
+    def readIEEE1722TpAvConnection(self, element: ET.Element, connection: IEEE1722TpAvConnection):
+        self.readIEEE1722TpConnection(element, connection)
+        connection.setMaxTransitTime(self.getChildElementOptionalTimeValue(element, "MAX-TRANSIT-TIME"))
+        for ref in self.getChildElementRefTypeList(element, "SDU-REFS/SDU-REF"):
+            connection.addSduRef(ref)
+
+    def readIEEE1722TpCrfConnection(self, element: ET.Element, connection: IEEE1722TpCrfConnection):
+        self.readIEEE1722TpAvConnection(element, connection)
+        connection.setBaseFrequency(self.getChildElementOptionalPositiveInteger(element, "BASE-FREQUENCY"))
+        crf_pull_literal = self.getChildElementOptionalLiteral(element, "CRF-PULL")
+        if crf_pull_literal is not None:
+            crf_pull = IEEE1722TpCrfPullEnum()
+            crf_pull.setValue(crf_pull_literal.getValue())
+            connection.setCrfPull(crf_pull)
+        crf_type_literal = self.getChildElementOptionalLiteral(element, "CRF-TYPE")
+        if crf_type_literal is not None:
+            crf_type = IEEE1722TpCrfTypeEnum()
+            crf_type.setValue(crf_type_literal.getValue())
+            connection.setCrfType(crf_type)
+        connection.setFrameSyncEnabled(self.getChildElementOptionalBooleanValue(element, "FRAME-SYNC-ENABLED"))
+        connection.setTimestampInterval(self.getChildElementOptionalPositiveInteger(element, "TIMESTAMP-INTERVAL"))
 
     def readCanFrame(self, element: ET.Element, frame: CanFrame):
         self.logger.debug("Read CanFrame <%s>" % frame.getShortName())
@@ -15710,10 +16284,53 @@ class ARXMLParser(AbstractARXMLParser):
                 group.addIPduIdentifierUdpRef(ref)
         return group
 
-    def getStaticSocketConnection(self, element: ET.Element) -> Optional[StaticSocketConnection]:
-        connection = None
+    def readServiceInstanceCollectionSet(self, element: ET.Element, collection_set: ServiceInstanceCollectionSet):
+        self.logger.debug("Read ServiceInstanceCollectionSet <%s>" % collection_set.getShortName())
+        self.readIdentifiable(element, collection_set)
+        for child_element in self.findall(element, "SERVICE-INSTANCES/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "CONSUMED-SERVICE-INSTANCE":
+                consumed_instance = collection_set.createConsumedServiceInstance(self.getShortName(child_element))
+                self.readConsumedServiceInstance(child_element, consumed_instance)
+            elif tag_name == "DDS-CP-CONSUMED-SERVICE-INSTANCE":
+                dds_consumed_instance = collection_set.createDdsCpConsumedServiceInstance(self.getShortName(child_element))
+                self.readDdsCpConsumedServiceInstance(child_element, dds_consumed_instance)
+            elif tag_name == "DDS-CP-PROVIDED-SERVICE-INSTANCE":
+                dds_provided_instance = DdsCpProvidedServiceInstance()
+                self.readDdsCpProvidedServiceInstance(child_element, dds_provided_instance)
+                collection_set.addDdsCpProvidedServiceInstance(dds_provided_instance)
+            elif tag_name == "PROVIDED-SERVICE-INSTANCE":
+                provided_instance = collection_set.createProvidedServiceInstance(self.getShortName(child_element))
+                self.readProvidedServiceInstance(child_element, provided_instance)
+            else:
+                self.notImplemented("Unsupported ServiceInstances <%s>" % tag_name)
+
+    def readSoConIPduIdentifier(self, element: ET.Element, identifier: SoConIPduIdentifier):
+        self.logger.debug("Read SoConIPduIdentifier <%s>" % identifier.getShortName())
+        self.readReferrable(element, identifier)
+        identifier.setHeaderId(self.getChildElementOptionalPositiveInteger(element, "HEADER-ID"))
+        identifier.setPduCollectionPduTimeout(self.getChildElementOptionalTimeValue(element, "PDU-COLLECTION-PDU-TIMEOUT"))
+        semantics_literal = self.getChildElementOptionalLiteral(element, "PDU-COLLECTION-SEMANTICS")
+        if semantics_literal is not None:
+            semantics = PduCollectionSemanticsEnum()
+            semantics.setValue(semantics_literal.getValue())
+            identifier.setPduCollectionSemantics(semantics)
+        trigger_literal = self.getChildElementOptionalLiteral(element, "PDU-COLLECTION-TRIGGER")
+        if trigger_literal is not None:
+            trigger = PduCollectionTriggerEnum()
+            trigger.setValue(trigger_literal.getValue())
+            identifier.setPduCollectionTrigger(trigger)
+        identifier.setPduTriggeringRef(self.getChildElementOptionalRefType(element, "PDU-TRIGGERING-REF"))
+
+    def readSocketConnectionIpduIdentifierSet(self, element: ET.Element, identifier_set: SocketConnectionIpduIdentifierSet):
+        self.logger.debug("Read SocketConnectionIpduIdentifierSet <%s>" % identifier_set.getShortName())
+        self.readIdentifiable(element, identifier_set)
+        for child_element in self.findall(element, "I-PDU-IDENTIFIERS/SO-CON-I-PDU-IDENTIFIER"):
+            identifier = identifier_set.createIPduIdentifier(self.getShortName(child_element))
+            self.readSoConIPduIdentifier(child_element, identifier)
+
+    def readStaticSocketConnection(self, element: ET.Element, connection: StaticSocketConnection):
         if element is not None:
-            connection = StaticSocketConnection(cast(ARObject, None), self.getShortName(element))
             self.readIdentifiable(element, connection)
             for ref in self.getChildElementRefTypeList(element, "I-PDU-IDENTIFIERS/SO-CON-I-PDU-IDENTIFIER-REF-CONDITIONAL/SO-CON-I-PDU-IDENTIFIER-REF"):
                 connection.addIPduIdentifierRef(ref)
@@ -15725,7 +16342,6 @@ class ARXMLParser(AbstractARXMLParser):
                 tcp_role = TcpRoleEnum()
                 tcp_role.setValue(tcp_role_literal.getValue())
                 connection.setTcpRole(tcp_role)
-        return connection
 
     def getIpv6DhcpServerConfiguration(self, element: ET.Element, key: str) -> Optional[Ipv6DhcpServerConfiguration]:
         config = None
@@ -18482,6 +19098,24 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "SWC-TIMING":
                 timing = parent.createSwcTiming(self.getShortName(child_element))
                 self.readSwcTiming(child_element, timing)
+            elif tag_name == "VFB-TIMING":
+                vfb_timing = parent.createVfbTiming(self.getShortName(child_element))
+                self.readVfbTiming(child_element, vfb_timing)
+            elif tag_name == "SYSTEM-TIMING":
+                system_timing = parent.createSystemTiming(self.getShortName(child_element))
+                self.readSystemTiming(child_element, system_timing)
+            elif tag_name == "BSW-MODULE-TIMING":
+                bsw_module_timing = parent.createBswModuleTiming(self.getShortName(child_element))
+                self.readBswModuleTiming(child_element, bsw_module_timing)
+            elif tag_name == "BSW-COMPOSITION-TIMING":
+                bsw_composition_timing = parent.createBswCompositionTiming(self.getShortName(child_element))
+                self.readBswCompositionTiming(child_element, bsw_composition_timing)
+            elif tag_name == "ECU-TIMING":
+                ecu_timing = parent.createEcuTiming(self.getShortName(child_element))
+                self.readEcuTiming(child_element, ecu_timing)
+            elif tag_name == "TD-CP-SOFTWARE-CLUSTER-MAPPING-SET":
+                td_cp_mapping_set = parent.createTDCpSoftwareClusterMappingSet(self.getShortName(child_element))
+                self.readTDCpSoftwareClusterMappingSet(child_element, td_cp_mapping_set)
             elif tag_name == "LIN-CLUSTER":
                 cluster = parent.createLinCluster(self.getShortName(child_element))
                 self.readLinCluster(child_element, cluster)
@@ -18507,6 +19141,18 @@ class ARXMLParser(AbstractARXMLParser):
                 self.readCanTpConfig(child_element, parent.createCanTpConfig(self.getShortName(child_element)))
             elif tag_name == "LIN-TP-CONFIG":
                 self.readLinTpConfig(child_element, parent.createLinTpConfig(self.getShortName(child_element)))
+            elif tag_name == "FLEXRAY-TP-CONFIG":
+                self.readFlexrayTpConfig(child_element, parent.createFlexrayTpConfig(self.getShortName(child_element)))
+            elif tag_name == "FLEXRAY-AR-TP-CONFIG":
+                self.readFlexrayArTpConfig(child_element, parent.createFlexrayArTpConfig(self.getShortName(child_element)))
+            elif tag_name == "ETH-TP-CONFIG":
+                self.readEthTpConfig(child_element, parent.createEthTpConfig(self.getShortName(child_element)))
+            elif tag_name == "SOMEIP-TP-CONFIG":
+                self.readSomeipTpConfig(child_element, parent.createSomeipTpConfig(self.getShortName(child_element)))
+            elif tag_name == "IEEE-1722-TP-CONFIG":
+                self.readIEEE1722TpConfig(child_element, parent.createIEEE1722TpConfig(self.getShortName(child_element)))
+            elif tag_name == "IEEE-1722-TP-CRF-CONNECTION":
+                self.readIEEE1722TpCrfConnection(child_element, parent.createIEEE1722TpCrfConnection(self.getShortName(child_element)))
             elif tag_name == "CLIENT-ID-DEFINITION-SET":
                 id_definition_set = parent.createClientIdDefinitionSet(self.getShortName(child_element))
                 self.readClientIdDefinitionSet(child_element, id_definition_set)
@@ -18917,19 +19563,34 @@ class ARXMLParser(AbstractARXMLParser):
         elif tag_name == "CRYPTO-SERVICE-PRIMITIVE":
             primitive = parent.createCryptoServicePrimitive(self.getShortName(child_element))
             self.readCryptoServicePrimitive(child_element, primitive)
+        elif tag_name == "DDS-CP-CONFIG":
+            dds_config = parent.createDdsConfig(self.getShortName(child_element))
+            self.readDdsCpConfig(child_element, dds_config)
         elif tag_name == "SO-AD-ROUTING-GROUP":
             group = parent.createSoAdRoutingGroup(self.getShortName(child_element))
             self.readSoAdRoutingGroup(child_element, group)
         elif tag_name == "TCP-OPTION-FILTER-SET":
             tcp_option_filter_set = parent.createTcpOptionFilterSet(self.getShortName(child_element))
             self.readTcpOptionFilterSet(child_element, tcp_option_filter_set)
-        elif tag_name == "SOME-IP-SD-CLIENT-SERVICE-INSTANCE-CONFIG":
+        elif tag_name == "I-PV-6-EXT-HEADER-FILTER-SET":
+            ipv6_ext_header_filter_set = parent.createIPv6ExtHeaderFilterSet(self.getShortName(child_element))
+            self.readIPv6ExtHeaderFilterSet(child_element, ipv6_ext_header_filter_set)
+        elif tag_name == "SOMEIP-SD-CLIENT-SERVICE-INSTANCE-CONFIG":
             config = parent.createSomeipSdClientServiceInstanceConfig(self.getShortName(child_element))
             self.readSomeipSdClientServiceInstanceConfig(child_element, config)
-        elif tag_name == "SOME-IP-SD-CLIENT-EVENT-GROUP-TIMING-CONFIG":
+        elif tag_name == "SOMEIP-SD-CLIENT-EVENT-GROUP-TIMING-CONFIG":
             self.readSomeipSdClientEventGroupTimingConfig(child_element, parent.createSomeipSdClientEventGroupTimingConfig(self.getShortName(child_element)))
-        elif tag_name == "SOME-IP-SD-SERVER-EVENT-GROUP-TIMING-CONFIG":
+        elif tag_name == "SOMEIP-SD-SERVER-EVENT-GROUP-TIMING-CONFIG":
             self.readSomeipSdServerEventGroupTimingConfig(child_element, parent.createSomeipSdServerEventGroupTimingConfig(self.getShortName(child_element)))
+        elif tag_name == "SOMEIP-SD-SERVER-SERVICE-INSTANCE-CONFIG":
+            server_config = parent.createSomeipSdServerServiceInstanceConfig(self.getShortName(child_element))
+            self.readSomeipSdServerServiceInstanceConfig(child_element, server_config)
+        elif tag_name == "SERVICE-INSTANCE-COLLECTION-SET":
+            collection_set = parent.createServiceInstanceCollectionSet(self.getShortName(child_element))
+            self.readServiceInstanceCollectionSet(child_element, collection_set)
+        elif tag_name == "SOCKET-CONNECTION-IPDU-IDENTIFIER-SET":
+            identifier_set = parent.createSocketConnectionIpduIdentifierSet(self.getShortName(child_element))
+            self.readSocketConnectionIpduIdentifierSet(child_element, identifier_set)
         elif tag_name == "DO-IP-TP-CONFIG":
             self.readDoIpTpConfig(child_element, parent.createDoIpTpConfig(self.getShortName(child_element)))
         elif tag_name == "HW-ELEMENT":

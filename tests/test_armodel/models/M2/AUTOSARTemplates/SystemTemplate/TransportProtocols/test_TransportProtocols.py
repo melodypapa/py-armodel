@@ -12,9 +12,23 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import
     DoIpLogicAddress,
     DoIpTpConfig,
     DoIpTpConnection,
+    EthTpConfig,
+    EthTpConnection,
+    FlexrayArTpChannel,
+    FlexrayArTpConfig,
+    FlexrayArTpNode,
+    FlexrayTpConfig,
+    FlexrayTpConnection,
+    FlexrayTpConnectionControl,
+    FlexrayTpEcu,
+    FlexrayTpNode,
+    FlexrayTpPduPool,
     LinTpConfig,
     LinTpConnection,
     LinTpNode,
+    SomeipTpChannel,
+    SomeipTpConfig,
+    SomeipTpConnection,
     TpAddress,
     TpConfig,
 )
@@ -692,6 +706,126 @@ class TestTransportProtocols:
 
         # Test addTpConnection
         connection = LinTpConnection()
+        config.addTpConnection(connection)
+        assert connection in config.getTpConnections()
+        assert config == config.addTpConnection(connection)
+
+    def test_flexray_tp_config(self):
+        """
+        Test FlexrayTpConfig class functionality (R23-11, Table 6.239, p.592).
+        """
+        parent = MockParent()
+        config = FlexrayTpConfig(parent, "test_flexray_tp_config")
+
+        # Test constructor
+        assert config is not None
+
+        # Test default values
+        assert config.getPduPools() == []
+        assert config.getTpAddresses() == []
+        assert config.getTpConnections() == []
+        assert config.getTpConnectionControls() == []
+        assert config.getTpEcus() == []
+        assert config.getTpNodes() == []
+
+        # Test create methods
+        pool = config.createFlexrayTpPduPool("pool_name")
+        assert isinstance(pool, FlexrayTpPduPool)
+        assert pool in config.getPduPools()
+
+        address = config.createTpAddress("address_name")
+        assert isinstance(address, TpAddress)
+        assert address in config.getTpAddresses()
+
+        control = config.createFlexrayTpConnectionControl("control_name")
+        assert isinstance(control, FlexrayTpConnectionControl)
+        assert control in config.getTpConnectionControls()
+
+        node = config.createFlexrayTpNode("node_name")
+        assert isinstance(node, FlexrayTpNode)
+        assert node in config.getTpNodes()
+
+        # Test add methods
+        connection = FlexrayTpConnection()
+        config.addTpConnection(connection)
+        assert connection in config.getTpConnections()
+        assert config == config.addTpConnection(connection)
+
+        ecu = FlexrayTpEcu()
+        config.addTpEcu(ecu)
+        assert ecu in config.getTpEcus()
+        assert config == config.addTpEcu(ecu)
+
+    def test_flexray_ar_tp_config(self):
+        """
+        Test FlexrayArTpConfig class functionality (R23-11, Table 6.245, p.600).
+        """
+        parent = MockParent()
+        config = FlexrayArTpConfig(parent, "test_flexray_ar_tp_config")
+
+        # Test constructor
+        assert config is not None
+
+        # Test default values
+        assert config.getTpAddresses() == []
+        assert config.getTpChannels() == []
+        assert config.getTpNodes() == []
+
+        # Test create methods
+        address = config.createTpAddress("address_name")
+        assert isinstance(address, TpAddress)
+        assert address in config.getTpAddresses()
+
+        node = config.createFlexrayArTpNode("node_name")
+        assert isinstance(node, FlexrayArTpNode)
+        assert node in config.getTpNodes()
+
+        # Test addTpChannel
+        channel = FlexrayArTpChannel()
+        config.addTpChannel(channel)
+        assert channel in config.getTpChannels()
+        assert config == config.addTpChannel(channel)
+
+    def test_eth_tp_config(self):
+        """
+        Test EthTpConfig class functionality (R23-11, Table 6.262, p.617).
+        """
+        parent = MockParent()
+        config = EthTpConfig(parent, "test_eth_tp_config")
+
+        # Test constructor
+        assert config is not None
+
+        # Test default values
+        assert config.getTpConnections() == []
+
+        # Test addTpConnection
+        connection = EthTpConnection()
+        config.addTpConnection(connection)
+        assert connection in config.getTpConnections()
+        assert config == config.addTpConnection(connection)
+
+    def test_someip_tp_config(self):
+        """
+        Test SomeipTpConfig class functionality (R23-11, Table 6.264, p.619).
+        """
+        parent = MockParent()
+        config = SomeipTpConfig(parent, "test_someip_tp_config")
+
+        # Test constructor
+        assert config is not None
+
+        # Test default values
+        assert config.getTpChannels() == []
+        assert config.getTpConnections() == []
+
+        # Test createSomeipTpChannel
+        channel = config.createSomeipTpChannel("channel_name")
+        assert isinstance(channel, SomeipTpChannel)
+        assert channel in config.getTpChannels()
+
+        # Test addTpConnection
+        connection = SomeipTpConnection()
         config.addTpConnection(connection)
         assert connection in config.getTpConnections()
         assert config == config.addTpConnection(connection)

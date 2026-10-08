@@ -36,23 +36,3 @@ class BusMirrorChannelMappingFlexray(BusMirrorChannelMapping):
 
 class BusMirrorChannelMappingUserDefined(BusMirrorChannelMapping):
     pass
-
-
-class EthTpConfig(FibexElement):
-    pass
-
-
-class FlexrayArTpConfig(FibexElement):
-    pass
-
-
-class FlexrayTpConfig(FibexElement):
-    pass
-
-
-class ServiceInstanceCollectionSet(FibexElement):
-    pass
-
-
-class SomeipTpConfig(FibexElement):
-    pass

@@ -194,8 +194,8 @@ def _wrap(element: ET.Element) -> ET.Element:
     return ET.fromstring(f"<AUTOSAR xmlns='{NS}'>{inner}</AUTOSAR>")
 
 
-def _static_connection(short_name):
-    connection = StaticSocketConnection(MockParent(), short_name)
+def _static_connection(address, short_name):
+    connection = address.createStaticSocketConnection(short_name)
     role = ARLiteral()
     role.setValue("LISTEN")
     connection.setTcpRole(role)
@@ -206,8 +206,8 @@ class TestSocketAddressStaticSocketConnections:
     def test_write_static_socket_connections(self, writer):
         parent = ET.Element("SO-AD-CONFIG")
         address = SocketAddress(MockParent(), "SA1")
-        address.addStaticSocketConnection(_static_connection("SSC1"))
-        address.addStaticSocketConnection(_static_connection("SSC2"))
+        _static_connection(address, "SSC1")
+        _static_connection(address, "SSC2")
         writer.writeSocketAddress(parent, address)
 
         el = parent.find("SOCKET-ADDRESS")
@@ -221,8 +221,8 @@ class TestSocketAddressStaticSocketConnections:
 
     def test_round_trip_preserves_static_socket_connections(self, writer, parser, tmp_path):
         address = SocketAddress(MockParent(), "SA1")
-        address.addStaticSocketConnection(_static_connection("SSC1"))
-        address.addStaticSocketConnection(_static_connection("SSC2"))
+        _static_connection(address, "SSC1")
+        _static_connection(address, "SSC2")
 
         parent = ET.Element("SO-AD-CONFIG")
         writer.writeSocketAddress(parent, address)

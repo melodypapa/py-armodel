@@ -821,56 +821,47 @@ class CIdentifier(ARLiteral):
     def __init__(self):
         super().__init__()
 
+        # This represents a description that documents how the value shall be defined when deriving objects from the blueprint. Tags: atp.Status=draft xml.attribute=true
         self.blueprintValue: Optional[str] = None
+
+        # This attribute represents a pattern which shall be used to define the value of the identifier if the CIdentifier in question is part of a blueprint. For more details refer to TPS_StandardizationTemplate. Tags: xml.attribute=true
         self.namePattern: Optional[str] = None
 
     def getBlueprintValue(self) -> Optional[str]:
         """
-        Gets the blueprint value of this C identifier.
-
-        Returns:
-            The blueprint value, or None if not set
+        This represents a description that documents how the value shall be defined when deriving objects from the blueprint. Tags: atp.Status=draft xml.attribute=true
         """
         return self.blueprintValue
 
-    def setBlueprintValue(self, value: str):
+    def setBlueprintValue(self, value: Optional[str]):
         """
-        Sets the blueprint value of this C identifier.
+        This represents a description that documents how the value shall be defined when deriving objects from the blueprint. Tags: atp.Status=draft xml.attribute=true
 
-        Args:
-            value: The blueprint value to set
-
-        Returns:
-            self for method chaining
+        A None value is a no-op and does not overwrite an existing blueprintValue.
         """
-        self.blueprintValue = value
+        if value is not None:
+            self.blueprintValue = value
         return self
 
     def getNamePattern(self) -> Optional[str]:
         """
-        Gets the name pattern of this C identifier.
-
-        Returns:
-            The name pattern, or None if not set
+        This attribute represents a pattern which shall be used to define the value of the identifier if the CIdentifier in question is part of a blueprint. For more details refer to TPS_StandardizationTemplate. Tags: xml.attribute=true
         """
         return self.namePattern
 
-    def setNamePattern(self, value: str):
+    def setNamePattern(self, value: Optional[str]):
         """
-        Sets the name pattern of this C identifier.
+        This attribute represents a pattern which shall be used to define the value of the identifier if the CIdentifier in question is part of a blueprint. For more details refer to TPS_StandardizationTemplate. Tags: xml.attribute=true
 
-        Args:
-            value: The name pattern to set
-
-        Returns:
-            self for method chaining
+        A None value is a no-op and does not overwrite an existing namePattern.
         """
-        self.namePattern = value
+        if value is not None:
+            self.namePattern = value
         return self
 
 
 class RevisionLabelString(ARLiteral):
-    """
+    r"""
     This primitive represents an internal AUTOSAR revision label which identifies an engineering object. It
     represents a pattern which:
 
@@ -883,11 +874,21 @@ class RevisionLabelString(ARLiteral):
     * 4.0.0.1234565
     * 4.0.0_vendor specific;13
     * 4.0.0;12
+
+    Tags:
+
+    * xml.xsd.customType=REVISION-LABEL-STRING
+    * xml.xsd.pattern=[0-9]+\.[0-9]+\.[0-9]+([\._;].*)?
+    * xml.xsd.type=string
     """
 
     # RevisionLabelString method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.61, p.113
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
 
 
 class IntervalTypeEnum(AREnum):
@@ -1461,6 +1462,11 @@ class VerbatimStringPlain(ARLiteral):
     This primitive is applied in cases where xml:space attribute cannot be provided by
     the primitive type but needs to be provided by the container class. This is in
     particular the case in applications of [TPS_XMLSPR_00024].
+
+    Tags:
+        * xml.xsd.customType=VERBATIM-STRING-PLAIN
+        * xml.xsd.type=string
+        * xml.xsd.whiteSpace=preserve
     """
 
     # VerbatimStringPlain method parity checklist:
@@ -1503,62 +1509,29 @@ class SymbolString(ARLiteral):
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.65, p.114
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getBlueprintValue   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] setBlueprintValue   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getNamePattern      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] setNamePattern      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        # This represents a description that documents how the value shall be defined when deriving objects from the blueprint. Tags: atp.Status=draft xml.attribute=true
-        self.blueprintValue: Optional[str] = None
-
         # This attribute represents a pattern which shall be used to define the value of the identifier if the CIdentifier in question is part of a blueprint. For more details refer to TPS_StandardizationTemplate. Tags: xml.attribute=true
         self.namePattern: Optional[str] = None
 
-    def getBlueprintValue(self) -> Optional[str]:
-        """
-        This represents a description that documents how the value shall be defined when deriving objects from the blueprint.
-
-        Returns:
-            The blueprint value, or None if not set
-        """
-        return self.blueprintValue
-
-    def setBlueprintValue(self, value: str):
-        """
-        This represents a description that documents how the value shall be defined when deriving objects from the blueprint.
-
-        Args:
-            value: The blueprint value to set
-
-        Returns:
-            self for method chaining
-        """
-        self.blueprintValue = value
-        return self
-
     def getNamePattern(self) -> Optional[str]:
         """
-        This attribute represents a pattern which shall be used to define the value of the identifier if the CIdentifier in question is part of a blueprint. For more details refer to TPS_StandardizationTemplate.
-
-        Returns:
-            The name pattern, or None if not set
+        This attribute represents a pattern which shall be used to define the value of the identifier if the CIdentifier in question is part of a blueprint. For more details refer to TPS_StandardizationTemplate. Tags: xml.attribute=true
         """
         return self.namePattern
 
-    def setNamePattern(self, value: str):
+    def setNamePattern(self, value: Optional[str]):
         """
-        This attribute represents a pattern which shall be used to define the value of the identifier if the CIdentifier in question is part of a blueprint. For more details refer to TPS_StandardizationTemplate.
+        This attribute represents a pattern which shall be used to define the value of the identifier if the CIdentifier in question is part of a blueprint. For more details refer to TPS_StandardizationTemplate. Tags: xml.attribute=true
 
-        Args:
-            value: The name pattern to set
-
-        Returns:
-            self for method chaining
+        A None value is a no-op and does not overwrite an existing namePattern.
         """
-        self.namePattern = value
+        if value is not None:
+            self.namePattern = value
         return self
 
 
@@ -1567,7 +1540,7 @@ class McdIdentifier(ARLiteral):
     This primitive denotes a name used for measurement and calibration systems and shall follow the restrictions for an ASAM ASAP2 ident. For detailed syntax see the xsd.pattern. The size limitations are not captured.
 
     McdIdentifiers are random names which may contain characters A through Z, a through z, underscore (_), numerals 0 through 9, points ('.') and brackets ( '[',']' ).
-    However, the following limitations apply: the first character must be a letter or an underscore, brackets must occur in pairs at the end of a partial string and must contain a number or an alpha-numerical string (description of the index of an array element).
+    However, the following limitations apply: the first character shall be a letter or an underscore, brackets shall occur in pairs at the end of a partial string and shall contain a number or an alpha-numerical string (description of the index of an array element).
 
     Tags:
         * xml.xsd.customType=MCD-IDENTIFIER
@@ -2829,7 +2802,31 @@ class FMFeatureSelectionState(AREnum):
 
 
 class FrArTpAckType(AREnum):
-    pass
+    """Type of Acknowledgement."""
+
+    # FrArTpAckType method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.249, p.604
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — serialized as value form on FlexrayArTpChannel.ackType
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # Acknowledgement with retry. Tags: atp.EnumerationLiteralIndex=1
+    ENUM_ACK_WITH_RT = "ACK-WITH-RT"
+
+    # Acknowledgement without retry. Tags: atp.EnumerationLiteralIndex=0
+    ENUM_ACK_WITHOUT_RT = "ACK-WITHOUT-RT"
+
+    # No acknowledgement. Tags: atp.EnumerationLiteralIndex=2
+    ENUM_NO_ACK = "NO-ACK"
+
+    def __init__(self):
+        super().__init__(
+            [
+                FrArTpAckType.ENUM_ACK_WITH_RT,
+                FrArTpAckType.ENUM_ACK_WITHOUT_RT,
+                FrArTpAckType.ENUM_NO_ACK,
+            ]
+        )
 
 
 class GlobalTimeCrcSupportEnum(AREnum):
@@ -2856,23 +2853,7 @@ class IEEE1722TpAafAes3DataTypeEnum(AREnum):
     pass
 
 
-class IEEE1722TpAafFormatEnum(AREnum):
-    pass
-
-
-class IEEE1722TpAafNominalRateEnum(AREnum):
-    pass
-
-
 class IEEE1722TpAcfCanMessageTypeEnum(AREnum):
-    pass
-
-
-class IEEE1722TpCrfPullEnum(AREnum):
-    pass
-
-
-class IEEE1722TpCrfTypeEnum(AREnum):
     pass
 
 
@@ -2897,7 +2878,31 @@ class LinChecksumType(AREnum):
 
 
 class MaximumMessageLengthType(AREnum):
-    pass
+    """Type of Acknowledgement."""
+
+    # MaximumMessageLengthType method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.250, p.604
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — serialized as value form on FlexrayArTpChannel.maximumMessageLength
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # SF-E allowed (SF of arbitrary length depending on FrTpPduLength), up to (2**32)-1 byte message length (all FF-x allowed). Tags: atp.EnumerationLiteralIndex=0
+    ENUM_I4G = "I-4-G"
+
+    # Up to (2**12)-1 Byte message length (No FF-Ex or SF-E or AF shall be used and recognized). Tags: atp.EnumerationLiteralIndex=1
+    ENUM_ISO = "ISO"
+
+    # As ISO, but the maximum payload length is limited to 6 byte (SF-I, FF-I, CF). This is necessary to route TP on CAN when using Extended Addressing or Mixed Addressing on CAN. Tags: atp.EnumerationLiteralIndex=2
+    ENUM_ISO6 = "ISO-6"
+
+    def __init__(self):
+        super().__init__(
+            [
+                MaximumMessageLengthType.ENUM_I4G,
+                MaximumMessageLengthType.ENUM_ISO,
+                MaximumMessageLengthType.ENUM_ISO6,
+            ]
+        )
 
 
 class MirroringProtocolEnum(AREnum):

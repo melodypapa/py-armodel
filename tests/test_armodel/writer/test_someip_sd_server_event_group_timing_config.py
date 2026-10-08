@@ -1,12 +1,23 @@
-"""Writer/reader round-trip tests for SomeipSdServerEventGroupTimingConfig (Table 6.172, p.517)."""
+"""Writer/reader round-trip tests for SomeipSdServerEventGroupTimingConfig (Table 6.172, p.517).
+
+Element tag SOMEIP-SD-SERVER-EVENT-GROUP-TIMING-CONFIG per the XSD (AUTOSAR_00052.xsd
+l.5467 ARPackage element + l.110681 complexType; the XSD carries no "SOME-IP-SD" tokens).
+Identity-debt upgrade (Rule 0001.7): the round-trip also serializes the EventHandler
+sdServerEgTimingConfigRef together with the referenced config element and asserts the
+config's field values after reload.
+"""
 
 import xml.etree.ElementTree as ET
 
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TimeValue
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import RequestResponseDelay, SomeipSdServerEventGroupTimingConfig
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, TimeValue
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import (
+    EventHandler,
+    RequestResponseDelay,
+    SomeipSdServerEventGroupTimingConfig,
+)
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 
@@ -48,7 +59,7 @@ class TestWriteSomeipSdServerEventGroupTimingConfig:
         parent = _parent()
         writer.writeSomeipSdServerEventGroupTimingConfig(parent, _full_config())
 
-        el = parent.find("SOME-IP-SD-SERVER-EVENT-GROUP-TIMING-CONFIG")
+        el = parent.find("SOMEIP-SD-SERVER-EVENT-GROUP-TIMING-CONFIG")
         assert el is not None
         assert el.find("SHORT-NAME").text == "MySdTiming"
         req = el.find("REQUEST-RESPONSE-DELAY")
@@ -82,6 +93,47 @@ class TestSomeipSdServerEventGroupTimingConfigRoundTrip:
         assert re_delay.getMaxValue().getValue() == 8000
         assert re_delay.getMinValue().getValue() == 2000
 
+    def test_round_trip_with_event_handler_ref_preserves_referenced_config_values(self, writer, tmp_path):
+        """Identity-debt upgrade (Rule 0001.7): the EventHandler sdServerEgTimingConfigRef
+        round-trips together with the referenced config element and its field values."""
+        config = SomeipSdServerEventGroupTimingConfig(AUTOSAR.getInstance(), "ServerTiming1")
+        delay = RequestResponseDelay()
+        delay.setMinValue(TimeValue().setValue(2000))
+        delay.setMaxValue(TimeValue().setValue(8000))
+        config.setRequestResponseDelay(delay)
+
+        handler = EventHandler(AUTOSAR.getInstance(), "EH1")
+        handler.setSdServerEgTimingConfigRef(RefType().setDest("SOMEIP-SD-SERVER-EVENT-GROUP-TIMING-CONFIG").setValue("/SomeipSdTimingConfigs/ServerTiming1"))
+
+        parent = ET.Element("ROOT")
+        writer.writeSomeipSdServerEventGroupTimingConfig(parent, config)
+        writer.writeEventHandler(parent, handler)
+
+        out_file = str(tmp_path / "eh_timing.arxml")
+        with open(out_file, "w", encoding="utf-8") as f:
+            f.write(ET.tostring(_namespaced_wrap(parent), encoding="unicode"))
+
+        AUTOSAR.getInstance().new()
+        re_document = AUTOSAR.getInstance()
+        re_document.setARRelease("R23-11")
+        parser = ARXMLParser(options={"warning": True})
+        root = ET.parse(out_file).getroot()
+
+        re_config = SomeipSdServerEventGroupTimingConfig(re_document, "ServerTiming1")
+        parser.readSomeipSdServerEventGroupTimingConfig(root[0][0], re_config)
+        re_handler = EventHandler(re_document, "EH1")
+        parser.readEventHandler(root[0][1], re_handler)
+
+        re_ref = re_handler.getSdServerEgTimingConfigRef()
+        assert re_ref is not None
+        assert re_ref.getValue() == "/SomeipSdTimingConfigs/ServerTiming1"
+        assert re_ref.getDest() == "SOMEIP-SD-SERVER-EVENT-GROUP-TIMING-CONFIG"
+
+        re_delay = re_config.getRequestResponseDelay()
+        assert re_delay is not None
+        assert re_delay.getMinValue().getValue() == 2000
+        assert re_delay.getMaxValue().getValue() == 8000
+
     def test_reader_empty_fields(self, parser):
         from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
@@ -98,4 +150,9 @@ _NS = "http://autosar.org/schema/r4.0"
 
 
 def _namespaced_snip(inner):
-    return ET.fromstring(f"<SOME-IP-SD-SERVER-EVENT-GROUP-TIMING-CONFIG xmlns='{_NS}'>{inner}</SOME-IP-SD-SERVER-EVENT-GROUP-TIMING-CONFIG>")
+    return ET.fromstring(f"<SOMEIP-SD-SERVER-EVENT-GROUP-TIMING-CONFIG xmlns='{_NS}'>{inner}</SOMEIP-SD-SERVER-EVENT-GROUP-TIMING-CONFIG>")
+
+
+def _namespaced_wrap(element: ET.Element) -> ET.Element:
+    inner = ET.tostring(element).decode("utf-8")
+    return ET.fromstring(f"<AUTOSAR xmlns='{_NS}'>{inner}</AUTOSAR>")

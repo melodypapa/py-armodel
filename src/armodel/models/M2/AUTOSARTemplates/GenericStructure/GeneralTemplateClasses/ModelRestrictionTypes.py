@@ -101,7 +101,8 @@ class AbstractValueRestriction(ARObject, ABC):
         Returns:
             self for method chaining
         """
-        self.max = value
+        if value is not None:
+            self.max = value
         return self
 
     def getMaxLength(self) -> Optional[PositiveInteger]:
@@ -123,7 +124,8 @@ class AbstractValueRestriction(ARObject, ABC):
         Returns:
             self for method chaining
         """
-        self.maxLength = value
+        if value is not None:
+            self.maxLength = value
         return self
 
     def getMin(self) -> Optional[Limit]:
@@ -145,7 +147,8 @@ class AbstractValueRestriction(ARObject, ABC):
         Returns:
             self for method chaining
         """
-        self.min = value
+        if value is not None:
+            self.min = value
         return self
 
     def getMinLength(self) -> Optional[PositiveInteger]:
@@ -167,7 +170,8 @@ class AbstractValueRestriction(ARObject, ABC):
         Returns:
             self for method chaining
         """
-        self.minLength = value
+        if value is not None:
+            self.minLength = value
         return self
 
     def getPattern(self) -> Optional[RegularExpression]:
@@ -189,7 +193,8 @@ class AbstractValueRestriction(ARObject, ABC):
         Returns:
             self for method chaining
         """
-        self.pattern = value
+        if value is not None:
+            self.pattern = value
         return self
 
 
@@ -205,44 +210,35 @@ class AbstractVariationRestriction(ARObject, ABC):
     # AbstractVariationRestriction method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.38, p.104
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] getVariation          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setVariation          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addValidBindingTime   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getValidBindingTimes  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setValidBindingTimes  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] addValidBindingTime   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVariation          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setVariation          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
-    # Class-level default — the ONLY initialization (VariationPointCapable mixin
+    # Class-level defaults — the ONLY initialization (VariationPointCapable mixin
     # pattern; see AbstractValueRestriction above for the combined-inheritance reason).
-    # The validBindingTimes LIST is mutable: it is initialized per-instance by every
-    # concrete subclass __init__ (a class-level list default would be shared).
+    # Concrete subclasses re-initialize validBindingTimes per instance so the default
+    # list is never mutated.
+    # List of valid binding times. Tags: xml.sequenceOffset=20
+    validBindingTimes: List[FullBindingTimeEnum] = []
+
     # Defines if the AUTOSAR model may define a Variation Point at this location. Tags: xml.sequenceOffset=10
     variation: Optional[Boolean] = None
 
-    def getVariation(self) -> Optional[Boolean]:
+    def addValidBindingTime(self, value: FullBindingTimeEnum):
         """
-        Defines if the AUTOSAR model may define a Variation Point at this location.
+        List of valid binding times. Tags: xml.sequenceOffset=20
 
-        Returns:
-            The variation flag, or None if not set
+        A None value is a no-op and does not append anything.
         """
-        return self.variation
-
-    def setVariation(self, value: Optional[Boolean]):
-        """
-        Defines if the AUTOSAR model may define a Variation Point at this location.
-
-        Args:
-            value: The variation flag to set
-
-        Returns:
-            self for method chaining
-        """
-        self.variation = value
+        if value is not None:
+            self.validBindingTimes.append(value)
         return self
 
     def getValidBindingTimes(self) -> List[FullBindingTimeEnum]:
         """
-        List of valid binding times.
+        List of valid binding times. Tags: xml.sequenceOffset=20
 
         Returns:
             The list of valid binding times
@@ -251,28 +247,31 @@ class AbstractVariationRestriction(ARObject, ABC):
 
     def setValidBindingTimes(self, values: List[FullBindingTimeEnum]):
         """
-        List of valid binding times.
+        List of valid binding times. Tags: xml.sequenceOffset=20
 
-        Args:
-            values: The list of valid binding times to set
-
-        Returns:
-            self for method chaining
+        A None value is a no-op and does not overwrite an existing validBindingTimes.
         """
-        self.validBindingTimes = values
+        if values is not None:
+            self.validBindingTimes = values
         return self
 
-    def addValidBindingTime(self, value: FullBindingTimeEnum):
+    def getVariation(self) -> Optional[Boolean]:
         """
-        List of valid binding times.
-
-        Args:
-            value: The valid binding time to append
+        Defines if the AUTOSAR model may define a Variation Point at this location. Tags: xml.sequenceOffset=10
 
         Returns:
-            self for method chaining
+            The variation flag, or None if not set
         """
-        self.validBindingTimes.append(value)
+        return self.variation
+
+    def setVariation(self, value: Optional[Boolean]):
+        """
+        Defines if the AUTOSAR model may define a Variation Point at this location. Tags: xml.sequenceOffset=10
+
+        A None value is a no-op and does not overwrite an existing variation.
+        """
+        if value is not None:
+            self.variation = value
         return self
 
 

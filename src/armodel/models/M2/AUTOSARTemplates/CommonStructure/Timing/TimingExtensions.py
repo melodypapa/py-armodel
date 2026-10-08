@@ -162,32 +162,209 @@ class TimingExtension(ARElement, ABC):
         return cast(ExecutionOrderConstraint, self.getReferrableElement(short_name, ExecutionOrderConstraint))
 
 
-class SwcTiming(TimingExtension):
+class VfbTiming(TimingExtension):
     """
-    The SwcTiming is used to describe the timing of an atomic software component. TimingDescriptions aggregated by SwcTiming are restricted to event chains referring to events which are derived from the classes TDEventVfb and TDEventSwcInternalBehavior.
+    A model element used to define timing descriptions and constraints at VFB level. TimingDescriptions aggregated by VfbTiming are restricted to event chains referring to events which are derived from the class TDEventVfb. Tags: atp.recommendedPackage=TimingExtensions
     """
 
-    # SwcTiming method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.2, p.25
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getBehaviorRef        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setBehaviorRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # VfbTiming method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.1, p.24
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getComponentRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setComponentRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        # This defines the scope of a SwcTiming. All corresponding timing descriptions and constraints shall be defined within this scope.
-        # Note! The reason for the cardinality of 0..1 is to ensure backward compatibility.
+        # This defines the scope of a VfbTiming. All corresponding timing descriptions and constraints shall be defined within this scope.
+        self.componentRef: Optional[RefType] = None
+
+    def getComponentRef(self) -> Optional[RefType]:
+        """
+        This defines the scope of a VfbTiming. All corresponding timing descriptions and constraints shall be defined within this scope.
+        """
+        return self.componentRef
+
+    def setComponentRef(self, value: Optional[RefType]) -> "VfbTiming":
+        """
+        This defines the scope of a VfbTiming. All corresponding timing descriptions and constraints shall be defined within this scope.
+
+        A None value is a no-op and does not overwrite an existing componentRef.
+        """
+        if value is not None:
+            self.componentRef = value
+        return self
+
+
+class SwcTiming(TimingExtension):
+    """
+    The SwcTiming is used to describe the timing of an atomic software component. TimingDescriptions aggregated by SwcTiming are restricted to event chains referring to events which are derived from the classes TDEventVfb and TDEventSwcInternalBehavior. Tags: atp.recommendedPackage=TimingExtensions
+    """
+
+    # SwcTiming method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.2, p.25
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBehaviorRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBehaviorRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This defines the scope of a SwcTiming. All corresponding timing descriptions and constraints shall be defined within this scope. Note! The reason for the cardinality of 0..1 is to ensure backward compatibility.
         self.behaviorRef: Optional[RefType] = None
 
     def getBehaviorRef(self) -> Optional[RefType]:
-        """This defines the scope of a SwcTiming. All corresponding timing descriptions and constraints shall be defined within this scope. Note! The reason for the cardinality of 0..1 is to ensure backward compatibility."""
+        """
+        This defines the scope of a SwcTiming. All corresponding timing descriptions and constraints shall be defined within this scope. Note! The reason for the cardinality of 0..1 is to ensure backward compatibility.
+        """
         return self.behaviorRef
 
     def setBehaviorRef(self, value: Optional[RefType]) -> "SwcTiming":
-        """This defines the scope of a SwcTiming. All corresponding timing descriptions and constraints shall be defined within this scope. Note! The reason for the cardinality of 0..1 is to ensure backward compatibility. A None value is a no-op and does not overwrite an existing behaviorRef."""
+        """
+        This defines the scope of a SwcTiming. All corresponding timing descriptions and constraints shall be defined within this scope. Note! The reason for the cardinality of 0..1 is to ensure backward compatibility.
+
+        A None value is a no-op and does not overwrite an existing behaviorRef.
+        """
         if value is not None:
             self.behaviorRef = value
+        return self
+
+
+class SystemTiming(TimingExtension):
+    """
+    A model element used to refine timing descriptions and constraints (from a VfbTiming) at System level, utilizing information about topology, software deployment, and signal mapping described in the System Template. TimingDescriptions aggregated by SystemTiming are restricted to events which are derived from the class TDEventVfb, TDEventSwcInternalBehavior and TDEventCom. Tags: atp.recommendedPackage=TimingExtensions
+    """
+
+    # SystemTiming method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.3, p.27
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getSystemRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSystemRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This defines the scope of a SystemTiming. All corresponding timing descriptions and constraints shall be defined within this scope.
+        self.systemRef: Optional[RefType] = None
+
+    def getSystemRef(self) -> Optional[RefType]:
+        """
+        This defines the scope of a SystemTiming. All corresponding timing descriptions and constraints shall be defined within this scope.
+        """
+        return self.systemRef
+
+    def setSystemRef(self, value: Optional[RefType]) -> "SystemTiming":
+        """
+        This defines the scope of a SystemTiming. All corresponding timing descriptions and constraints shall be defined within this scope.
+
+        A None value is a no-op and does not overwrite an existing systemRef.
+        """
+        if value is not None:
+            self.systemRef = value
+        return self
+
+
+class BswModuleTiming(TimingExtension):
+    """
+    A model element used to define timing descriptions and constraints for the BswInternalBehavior of one BSW Module. Thereby, for each BswInternalBehavior a separate timing can be specified. A constraint defined at this level holds true for all Implementations of that BswInternalBehavior. TimingDescriptions aggregated by BswModuleTiming are restricted to event chains referring to events which are derived from the class TDEventBswInternalBehavior. Tags: atp.recommendedPackage=TimingExtensions
+    """
+
+    # BswModuleTiming method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.4, p.28
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBehaviorRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBehaviorRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This defines the scope of a BswModuleTiming. All corresponding timing descriptions and constraints shall be defined within this scope.
+        self.behaviorRef: Optional[RefType] = None
+
+    def getBehaviorRef(self) -> Optional[RefType]:
+        """
+        This defines the scope of a BswModuleTiming. All corresponding timing descriptions and constraints shall be defined within this scope.
+        """
+        return self.behaviorRef
+
+    def setBehaviorRef(self, value: Optional[RefType]) -> "BswModuleTiming":
+        """
+        This defines the scope of a BswModuleTiming. All corresponding timing descriptions and constraints shall be defined within this scope.
+
+        A None value is a no-op and does not overwrite an existing behaviorRef.
+        """
+        if value is not None:
+            self.behaviorRef = value
+        return self
+
+
+class BswCompositionTiming(TimingExtension):
+    """
+    A model element used to define timing descriptions and constraints for a set of BswImplementations representing a BSW composition. A constraint defined at this level holds true for all referenced BswImplementations. Note, that multiple implementations of the same basic software module could be involved. TimingDescriptions aggregated by BswCompositionTiming are restricted to event chains referring to events which are derived from the class TDEventBswInternalBehavior and TDEventBsw. Tags: atp.recommendedPackage=TimingExtensions
+    """
+
+    # BswCompositionTiming method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.5, p.29
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addImplementationRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getImplementationRefs  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This defines the scope of a BswCompositionTiming. All corresponding timing descriptions and constraints shall be defined within this scope.
+        self.implementationRefs: List[RefType] = []
+
+    def addImplementationRef(self, value: Optional[RefType]) -> "BswCompositionTiming":
+        """
+        This defines the scope of a BswCompositionTiming. All corresponding timing descriptions and constraints shall be defined within this scope.
+        """
+        if value is not None:
+            self.implementationRefs.append(value)
+        return self
+
+    def getImplementationRefs(self) -> List[RefType]:
+        """
+        This defines the scope of a BswCompositionTiming. All corresponding timing descriptions and constraints shall be defined within this scope.
+        """
+        return self.implementationRefs
+
+
+class EcuTiming(TimingExtension):
+    """
+    A model element used to define timing descriptions and constraints within the scope of one ECU configuration. TimingDescriptions aggregated by EcuTiming are allowed to use all events derived from the class TimingDescriptionEvent. Tags: atp.recommendedPackage=TimingExtensions
+    """
+
+    # EcuTiming method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.6, p.30
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getEcuConfigurationRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEcuConfigurationRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This defines the scope of an EcuTiming. All corresponding timing descriptions and constraints shall be defined within this scope.
+        self.ecuConfigurationRef: Optional[RefType] = None
+
+    def getEcuConfigurationRef(self) -> Optional[RefType]:
+        """
+        This defines the scope of an EcuTiming. All corresponding timing descriptions and constraints shall be defined within this scope.
+        """
+        return self.ecuConfigurationRef
+
+    def setEcuConfigurationRef(self, value: Optional[RefType]) -> "EcuTiming":
+        """
+        This defines the scope of an EcuTiming. All corresponding timing descriptions and constraints shall be defined within this scope.
+
+        A None value is a no-op and does not overwrite an existing ecuConfigurationRef.
+        """
+        if value is not None:
+            self.ecuConfigurationRef = value
         return self
