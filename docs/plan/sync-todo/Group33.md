@@ -1026,15 +1026,21 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `IEEE1722TpRvfPixelDepthEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 6.286, p.650
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note: module hint PrimitiveTypes.py overridden — spec Package row ...IEEE1722Tp::IEEE1722TpAv ->
+    `TransportProtocols/IEEE1722Tp/IEEE1722TpAv.py` (Rule 0007); PrimitiveTypes.py stub + stub-registry
+    tuple removed. 5 literals; member values = exact XSD IEEE-1722-TP-RVF-PIXEL-DEPTH-ENUM--SIMPLE
+    facets ("10", "12", "16", "8", "USER"); XSD facet order = displayed markdown order =
+    EnumerationLiteralIndex order; member names ENUM_-prefixed from the markdown literals
+    (user -> ENUM_USER).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A standalone enum (value form on IEEE1722TpRvfConnection.rvfPixelDepth)
+  - [x] Step 6 — Update parser & writer (Green) — N/A standalone enum (value form on IEEE1722TpRvfConnection.rvfPixelDepth)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; Steps 5/6 N/A (standalone enum, round-trips as value form on IEEE1722TpRvfConnection.rvfPixelDepth); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `IEEE1722TpRvfPixelFormatEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 6.287, p.651
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py

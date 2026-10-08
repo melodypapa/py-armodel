@@ -3035,10 +3035,6 @@ class IEEE1722TpRvfFrameRateEnum(AREnum):
     pass
 
 
-class IEEE1722TpRvfPixelDepthEnum(AREnum):
-    pass
-
-
 class IEEE1722TpRvfPixelFormatEnum(AREnum):
     pass
 

@@ -236,6 +236,44 @@ class IEEE1722TpAafAes3DataTypeEnum(AREnum):
         )
 
 
+class IEEE1722TpRvfPixelDepthEnum(AREnum):
+    """
+    Definition of the RVF Pixel Depth. Tags: atp.Status=candidate
+    """
+
+    # IEEE1722TpRvfPixelDepthEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.286, p.650
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — serialized as value form on IEEE1722TpRvfConnection.rvfPixelDepth
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # pixel depth 10 Tags: atp.EnumerationLiteralIndex=0 xml.name=10
+    ENUM_10 = "10"
+
+    # pixel depth 12 Tags: atp.EnumerationLiteralIndex=1 xml.name=12
+    ENUM_12 = "12"
+
+    # pixel depth 16 Tags: atp.EnumerationLiteralIndex=2 xml.name=16
+    ENUM_16 = "16"
+
+    # pixel depth 8 Tags: atp.EnumerationLiteralIndex=3 xml.name=8
+    ENUM_8 = "8"
+
+    # pixel depth user defined Tags: atp.EnumerationLiteralIndex=4
+    ENUM_USER = "USER"
+
+    def __init__(self):
+        super().__init__(
+            [
+                IEEE1722TpRvfPixelDepthEnum.ENUM_10,
+                IEEE1722TpRvfPixelDepthEnum.ENUM_12,
+                IEEE1722TpRvfPixelDepthEnum.ENUM_16,
+                IEEE1722TpRvfPixelDepthEnum.ENUM_8,
+                IEEE1722TpRvfPixelDepthEnum.ENUM_USER,
+            ]
+        )
+
+
 class IEEE1722TpCrfConnection(IEEE1722TpAvConnection):
     """
     AV IEEE1722Tp CRF connection. Tags: atp.Status=candidate atp.recommendedPackage=IEEE1722TpConnections

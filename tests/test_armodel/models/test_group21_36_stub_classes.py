@@ -2389,18 +2389,6 @@ STUBS = [
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes",
         "AREnum",
     ),
-    (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes",
-        "IEEE1722TpRvfPixelDepthEnum",
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes",
-        "AREnum",
-    ),
-    (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes",
-        "IEEE1722TpRvfPixelFormatEnum",
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes",
-        "AREnum",
-    ),
     ("armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication", "IPSecConfigProps", "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage", "ARElement"),
     ("armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication", "IPSecRule", "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable", "Identifiable"),
     (
