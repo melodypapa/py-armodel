@@ -548,6 +548,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     EthGlobalTimeManagedCouplingPort,
     EthTSynCrcFlags,
     EthTSynSubTlvConfig,
+    FrGlobalTimeDomainProps,
     RoleBasedResourceDependency,
     DiagnosticAbstractParameter,
     DiagnosticCommonProps,
@@ -13862,6 +13863,21 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.writeEthGlobalTimeManagedCouplingPort(wrapper, port)
         self.setChildElementOptionalLiteral(element, "MESSAGE-COMPLIANCE", props.getMessageCompliance())
         self.setChildElementOptionalPositiveInteger(element, "VLAN-PRIORITY", cast(Integer, props.getVlanPriority()))
+
+    def writeFrGlobalTimeDomainProps(self, element: ET.Element, props: FrGlobalTimeDomainProps):
+        # Populates the FR-GLOBAL-TIME-DOMAIN-PROPS element created by the caller; the XSD
+        # FR-GLOBAL-TIME-DOMAIN-PROPS group (AUTOSAR_00052.xsd l.62914) follows the
+        # ABSTRACT-GLOBAL-TIME-DOMAIN-PROPS group and wraps each ordered DataIDList attribute in a
+        # <...-DATA-ID-LISTS> element emitted only when non-empty.
+        self.writeAbstractGlobalTimeDomainProps(element, props)
+        for wrapper_key, item_key, data_id_lists in [
+            ("OFS-DATA-ID-LISTS", "OFS-DATA-ID-LIST", props.getOfsDataIDLists()),
+            ("SYNC-DATA-ID-LISTS", "SYNC-DATA-ID-LIST", props.getSyncDataIDLists()),
+        ]:
+            if len(data_id_lists) > 0:
+                wrapper = ET.SubElement(element, wrapper_key)
+                for value in data_id_lists:
+                    self.setChildElementOptionalPositiveInteger(wrapper, item_key, cast(Integer, value))
 
     def setGlobalTimeProps(self, element: ET.Element, key: str, props: Optional[GlobalTimeCouplingPortProps]):
         if props is not None:

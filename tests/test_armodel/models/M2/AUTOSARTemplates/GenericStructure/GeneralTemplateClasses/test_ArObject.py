@@ -58,6 +58,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     EthTSynCrcFlags,
     EthTSynSubTlvConfig,
     EventObdReadinessGroup,
+    FrGlobalTimeDomainProps,
     GlobalTimeCorrectionProps,
     NetworkSegmentIdentification,
     PhysicalDimensionMapping,
@@ -5911,3 +5912,124 @@ class TestEthGlobalTimeDomainProps:
         )
         assert inspect.cleandoc(EthGlobalTimeDomainProps.getVlanPriority.__doc__) == self.VLAN_PRIORITY_NOTE
         assert inspect.cleandoc(EthGlobalTimeDomainProps.setVlanPriority.__doc__) == (self.VLAN_PRIORITY_NOTE + "\n\nA None value is a no-op and does not overwrite an existing vlanPriority.")
+
+
+class TestFrGlobalTimeDomainProps:
+    """
+    Test class for FrGlobalTimeDomainProps functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.22, p.878
+    """
+
+    CLASS_NOTE = "Enables the definition of Flexray GlobalTime specific properties."
+    OFS_DATA_ID_LIST_NOTE = "The DataIDList for OFS messages to calculate CRC."
+    SYNC_DATA_ID_LIST_NOTE = "The DataIDList for SYNC messages to calculate CRC."
+
+    def _create_object(self) -> FrGlobalTimeDomainProps:
+        return FrGlobalTimeDomainProps()
+
+    def test_initialization(self):
+        """
+        Test that a new FrGlobalTimeDomainProps initializes all attributes to their defaults.
+        """
+        obj = self._create_object()
+
+        assert obj.getChecksum() is None
+        assert obj.getTimestamp() is None
+        assert obj.getVariationPoint() is None
+        assert obj.getOfsDataIDLists() == []
+        assert obj.getSyncDataIDLists() == []
+
+    def test_is_abstract_global_time_domain_props_subclass(self):
+        """
+        Test that FrGlobalTimeDomainProps derives from AbstractGlobalTimeDomainProps per the
+        Table 9.22 Base row (ARObject, AbstractGlobalTimeDomainProps — most-derived
+        AbstractGlobalTimeDomainProps).
+        """
+        assert issubclass(FrGlobalTimeDomainProps, AbstractGlobalTimeDomainProps)
+        assert issubclass(FrGlobalTimeDomainProps, VariationPointCapable)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(FrGlobalTimeDomainProps.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert FrGlobalTimeDomainProps.__init__.__doc__ is None
+
+    def test_member_order_follows_spec_rows(self):
+        """
+        Test that the accessors follow the Table 9.22 displayed row order (mutator first per attribute).
+        """
+        methods = [name for name, value in FrGlobalTimeDomainProps.__dict__.items() if callable(value) and not name.startswith("_")]
+        assert methods == [
+            "addOfsDataIDList",
+            "getOfsDataIDLists",
+            "addSyncDataIDList",
+            "getSyncDataIDLists",
+        ]
+
+    def test_annotations_are_list_typed(self):
+        """
+        Test that the accessors carry the spec PositiveInteger list type (0..16 rows).
+        """
+        hints = typing.get_type_hints(FrGlobalTimeDomainProps.addOfsDataIDList)
+        assert hints.get("value") == typing.Optional[PositiveInteger]
+        assert hints.get("return") is FrGlobalTimeDomainProps
+        for getter in [FrGlobalTimeDomainProps.getOfsDataIDLists, FrGlobalTimeDomainProps.getSyncDataIDLists]:
+            hints = typing.get_type_hints(getter)
+            assert hints.get("return") == typing.List[PositiveInteger]
+
+    def test_add_get_ofs_sync_data_id_lists(self):
+        """
+        Test addOfsDataIDList and addSyncDataIDList append, round-trip and None no-op.
+        """
+        obj = self._create_object()
+
+        ofs = PositiveInteger().setValue("3")
+        result = obj.addOfsDataIDList(ofs)
+        assert result is obj
+        assert obj.getOfsDataIDLists() == [ofs]
+        assert obj.getOfsDataIDLists()[0].getValue() == 3
+
+        sync = PositiveInteger().setValue("5")
+        result = obj.addSyncDataIDList(sync)
+        assert result is obj
+        assert obj.getSyncDataIDLists() == [sync]
+        assert obj.getSyncDataIDLists()[0].getValue() == 5
+
+        result = obj.addOfsDataIDList(None)
+        assert result is obj
+        assert len(obj.getOfsDataIDLists()) == 1
+
+        result = obj.addSyncDataIDList(None)
+        assert result is obj
+        assert len(obj.getSyncDataIDLists()) == 1
+
+    def test_variation_point_base_accessors(self):
+        """
+        Exercise the inherited VariationPointCapable accessors: chaining, round-trip, None no-op.
+        """
+        obj = self._create_object()
+
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
+
+        variation_point = VariationPoint()
+        assert obj.setVariationPoint(variation_point) is obj
+        assert obj.getVariationPoint() is variation_point
+
+        obj.setVariationPoint(None)
+        assert obj.getVariationPoint() is variation_point
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and adder docstrings carry the spec Note verbatim (adder + None-no-op sentence).
+        """
+        assert inspect.cleandoc(FrGlobalTimeDomainProps.addOfsDataIDList.__doc__) == (self.OFS_DATA_ID_LIST_NOTE + "\n\nA None value is a no-op and does not append to ofsDataIDLists.")
+        assert inspect.cleandoc(FrGlobalTimeDomainProps.getOfsDataIDLists.__doc__) == self.OFS_DATA_ID_LIST_NOTE
+        assert inspect.cleandoc(FrGlobalTimeDomainProps.addSyncDataIDList.__doc__) == (self.SYNC_DATA_ID_LIST_NOTE + "\n\nA None value is a no-op and does not append to syncDataIDLists.")
+        assert inspect.cleandoc(FrGlobalTimeDomainProps.getSyncDataIDLists.__doc__) == self.SYNC_DATA_ID_LIST_NOTE

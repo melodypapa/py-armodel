@@ -569,6 +569,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     EthGlobalTimeManagedCouplingPort,
     EthTSynCrcFlags,
     EthTSynSubTlvConfig,
+    FrGlobalTimeDomainProps,
     RoleBasedResourceDependency,
     DiagnosticAbstractParameter,
     DiagnosticCommonProps,
@@ -16354,6 +16355,24 @@ class ARXMLParser(AbstractARXMLParser):
             message_compliance.setValue(literal.getValue())
             props.setMessageCompliance(message_compliance)
         props.setVlanPriority(self.getChildElementOptionalPositiveInteger(element, "VLAN-PRIORITY"))
+        return props
+
+    def readFrGlobalTimeDomainProps(self, element: ET.Element, props: FrGlobalTimeDomainProps) -> FrGlobalTimeDomainProps:
+        # The XSD FR-GLOBAL-TIME-DOMAIN-PROPS group (AUTOSAR_00052.xsd l.62914) follows the
+        # ABSTRACT-GLOBAL-TIME-DOMAIN-PROPS group: each ordered DataIDList attribute is wrapped
+        # in a <...-DATA-ID-LISTS> element holding 0..16 <...-DATA-ID-LIST> items.
+        self.readAbstractGlobalTimeDomainProps(element, props)
+        for wrapper_key, item_key, add_data_id_list in [
+            ("OFS-DATA-ID-LISTS", "OFS-DATA-ID-LIST", props.addOfsDataIDList),
+            ("SYNC-DATA-ID-LISTS", "SYNC-DATA-ID-LIST", props.addSyncDataIDList),
+        ]:
+            wrapper = self.find(element, wrapper_key)
+            if wrapper is not None:
+                for child_element in self.findall(wrapper, item_key):
+                    if child_element.text is not None:
+                        value = PositiveInteger()
+                        value.setValue(child_element.text)
+                        add_data_id_list(value)
         return props
 
     def getGlobalTimeProps(self, element: ET.Element, key: str) -> Optional[GlobalTimeCouplingPortProps]:

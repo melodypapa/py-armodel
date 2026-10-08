@@ -4358,7 +4358,67 @@ class EthGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
 
 
 class FrGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
-    pass
+    """
+    Enables the definition of Flexray GlobalTime specific properties.
+    """
+
+    # FrGlobalTimeDomainProps method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.22, p.878
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addOfsDataIDList    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOfsDataIDLists   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addSyncDataIDList   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSyncDataIDLists  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    #
+    # getVariationPoint / setVariationPoint provided by the VariationPointCapable base (mixin) — no spec row (stereotype-inherent)
+    # The two DataIDList attributes are ordered 0..16 wrapper lists: the XSD FR-GLOBAL-TIME-DOMAIN-PROPS
+    # group (AUTOSAR_00052.xsd l.62914) wraps <OFS/SYNC-DATA-ID-LIST> items in a <...-DATA-ID-LISTS>
+    # wrapper emitted only when non-empty. Aggregator dispatch (GlobalTimeDomain.globalTimeDomainProperty)
+    # is pending — GlobalTimeDomain is a later-wave class; the reader/writer call the base
+    # readAbstractGlobalTimeDomainProps / writeAbstractGlobalTimeDomainProps helpers (VARIATION-POINT
+    # precedes the wrapper elements).
+
+    def __init__(self):
+        super().__init__()
+
+        # The DataIDList for OFS messages to calculate CRC.
+        self.ofsDataIDLists: List[PositiveInteger] = []
+
+        # The DataIDList for SYNC messages to calculate CRC.
+        self.syncDataIDLists: List[PositiveInteger] = []
+
+    def addOfsDataIDList(self, value: Optional[PositiveInteger]) -> FrGlobalTimeDomainProps:
+        """
+        The DataIDList for OFS messages to calculate CRC.
+
+        A None value is a no-op and does not append to ofsDataIDLists.
+        """
+        if value is not None:
+            self.ofsDataIDLists.append(value)
+        return self
+
+    def getOfsDataIDLists(self) -> List[PositiveInteger]:
+        """
+        The DataIDList for OFS messages to calculate CRC.
+        """
+        return self.ofsDataIDLists
+
+    def addSyncDataIDList(self, value: Optional[PositiveInteger]) -> FrGlobalTimeDomainProps:
+        """
+        The DataIDList for SYNC messages to calculate CRC.
+
+        A None value is a no-op and does not append to syncDataIDLists.
+        """
+        if value is not None:
+            self.syncDataIDLists.append(value)
+        return self
+
+    def getSyncDataIDLists(self) -> List[PositiveInteger]:
+        """
+        The DataIDList for SYNC messages to calculate CRC.
+        """
+        return self.syncDataIDLists
 
 
 # Cycle-breaker (Rule 0005): PrimitiveTypes imports ARObject from this module, so the
