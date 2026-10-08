@@ -15,7 +15,7 @@ from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import TextValueSpecification
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, CryptoServiceKey
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    ARLiteral,
+    CryptoServiceKeyGenerationEnum,
     DateTime,
     PositiveInteger,
     String,
@@ -53,7 +53,7 @@ def _string(value):
 def _populate(key: CryptoServiceKey):
     key.setAlgorithmFamily(_string("AES"))
     key.setDevelopmentValue(TextValueSpecification().setValue(VerbatimString().setValue("0xAFFE")))
-    key.setKeyGeneration(ARLiteral().setValue("KEY-DERIVATION"))
+    key.setKeyGeneration(CryptoServiceKeyGenerationEnum().setValue(CryptoServiceKeyGenerationEnum.KEY_DERIVATION))
     key.setKeyStorageType(_string("LOCAL"))
     length = PositiveInteger()
     length.setValue("256")
@@ -128,7 +128,7 @@ class TestCryptoServiceKeyWriter:
         assert isinstance(re_key, CryptoServiceKey)
         assert re_key.getAlgorithmFamily().getValue() == "AES"
         assert re_key.getDevelopmentValue().getValue().getValue() == "0xAFFE"
-        assert re_key.getKeyGeneration().getValue() == "KEY-DERIVATION"
+        assert re_key.getKeyGeneration().getValue() == CryptoServiceKeyGenerationEnum.KEY_DERIVATION
         assert re_key.getKeyStorageType().getValue() == "LOCAL"
         assert re_key.getLength().getValue() == 256
 

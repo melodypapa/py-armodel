@@ -4,7 +4,6 @@ import typing
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import TextValueSpecification, ValueSpecification
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement, CryptoServiceKey
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    ARLiteral,
     CryptoServiceKeyGenerationEnum,
     PositiveInteger,
     String,
@@ -67,10 +66,10 @@ class TestCryptoServiceKey:
     def test_get_set_key_generation(self):
         key = CryptoServiceKey(None, "CryptoServiceKey1")
 
-        value = ARLiteral().setValue("KEY-DERIVATION")
+        value = CryptoServiceKeyGenerationEnum().setValue(CryptoServiceKeyGenerationEnum.KEY_DERIVATION)
         assert key.setKeyGeneration(value) is key
         assert key.getKeyGeneration() is value
-        assert key.getKeyGeneration().getValue() == "KEY-DERIVATION"
+        assert key.getKeyGeneration().getValue() == CryptoServiceKeyGenerationEnum.KEY_DERIVATION
         key.setKeyGeneration(None)
         assert key.getKeyGeneration() is value
 
