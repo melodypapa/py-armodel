@@ -13,7 +13,8 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     BusMirrorChannel,
     BusMirrorLinPidToCanIdMapping,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import MirroringProtocolEnum, PositiveInteger, RefType, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, RefType, TimeValue
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.BusMirror import MirroringProtocolEnum
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import (
     BusMirrorChannelMapping,
     BusMirrorChannelMappingCan,
@@ -43,7 +44,7 @@ class TestBusMirrorChannelMapping:
 
     def test_get_set_mirroring_protocol(self):
         mapping = _ConcreteMapping(None, "Mapping")
-        protocol = MirroringProtocolEnum(["NONE", "VERSION-1"]).setValue("VERSION-1")
+        protocol = MirroringProtocolEnum().setValue(MirroringProtocolEnum.VERSION1)
 
         assert mapping.setMirroringProtocol(protocol) is mapping
         assert mapping.getMirroringProtocol() is protocol

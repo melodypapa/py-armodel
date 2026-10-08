@@ -1614,15 +1614,25 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `MirroringProtocolEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 6.326, p.697
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note: ORDER ADJUSTMENT vs the queue — synced FIRST, before its consumer BusMirrorChannelMapping,
+    which owns the mirroringProtocol attribute typed by this enum (Rule 0001.10 dependency-first per
+    the batch instruction; recorded per the batch instruction). Step 1 finding — spec Package row =
+    SystemTemplate::BusMirror, so the PrimitiveTypes.py hint is stale; the enum rehouses to the new
+    SystemTemplate/BusMirror.py (Rule 0007). Literals none/version1 in displayed order == XSD
+    `MIRRORING-PROTOCOL-ENUM--SIMPLE` facet order (NONE first, VERSION-1 second); values = exact XSD
+    facets "NONE"/"VERSION-1" (hyphenated token — the writer serializes the value verbatim);
+    EnumerationLiteralIndex 1/0 ≠ displayed order (XSD facet order wins, Rule 0011, FrArTpAckType
+    precedent). Note verbatim incl. the spec's own "Eunumeration ... options)" typos. Standalone enum
+    — Steps 5/6 N/A (value form on BusMirrorChannelMapping.mirroringProtocol).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A: standalone enum
+  - [x] Step 6 — Update parser & writer (Green) — N/A: standalone enum
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; Steps 5/6 N/A (standalone enum, round-trips as value form on <consumer>.<attr>); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `BusMirrorChannel` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.327, p.698
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py

@@ -18,7 +18,8 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     BusMirrorChannel,
     BusMirrorLinPidToCanIdMapping,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DateTime, MirroringProtocolEnum, PositiveInteger, RefType, String
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DateTime, PositiveInteger, RefType, String
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.BusMirror import MirroringProtocolEnum
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import BusMirrorChannelMappingCan
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
@@ -32,7 +33,7 @@ def reset_autosar():
 
 
 def _populate(mapping):
-    mapping.setMirroringProtocol(MirroringProtocolEnum(["NONE", "VERSION-1"]).setValue("VERSION-1"))
+    mapping.setMirroringProtocol(MirroringProtocolEnum().setValue(MirroringProtocolEnum.VERSION1))
     mapping.setSourceChannel(BusMirrorChannel())
     mapping.setTargetChannel(BusMirrorChannel())
     ref = RefType().setValue("/Fibex/PduTriggering")

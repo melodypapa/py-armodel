@@ -77,6 +77,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.Trigger import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate import *  # noqa: F403
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.BusMirror import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import *  # noqa: F403

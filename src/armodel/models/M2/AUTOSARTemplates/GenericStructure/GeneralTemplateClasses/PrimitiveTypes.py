@@ -3055,10 +3055,6 @@ class MaximumMessageLengthType(AREnum):
         )
 
 
-class MirroringProtocolEnum(AREnum):
-    pass
-
-
 class SecurityEventContextDataSourceEnum(AREnum):
     pass
 
