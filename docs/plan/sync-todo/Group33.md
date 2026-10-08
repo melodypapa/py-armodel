@@ -115,15 +115,38 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `StateDependentFirewall` — ARElement — R23-11 CP_TPS_SystemTemplate Table 6.234, p.584
   - module: M2/AUTOSARTemplates/AdaptivePlatform/PlatformModuleDeployment/Firewall/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note: Step 1 finding — module hint confirmed (Package row =
+    ...PlatformModuleDeployment::Firewall, no rehousing); Base row most-derived =
+    ARElement (hint confirmed); 3 attrs in displayed order (defaultAction 0..1 attr
+    FirewallActionEnum; firewallRuleProps `*` aggr FirewallRuleProps;
+    firewallStateModeDeclaration `*` ref ModeDeclaration → firewallStateModeDeclarationRefs,
+    DEST MODE-DECLARATION--SUBTYPES-ENUM plain REF). XSD-only AP variant firewallState
+    (FIREWALL-STATE-IREFS, mmt.RestrictToStandards="AP", element type
+    FIREWALL-STATE-IN-FIRWALL-STATE-SWITCH-INTERFACE-INSTANCE-REF) is absent from the CP
+    table — NOT modeled (Rule 0015). XSD element order DEFAULT-ACTION /
+    FIREWALL-RULE-PROPSS / FIREWALL-STATE-MODE-DECLARATION-REFS matches the existing
+    reader/writer. Drift re-sync of a pre-existing implementation: stale `(R23-11)`
+    suffix on the `# Spec:` line, non-verbatim docstrings (Tags tails dropped, old
+    "Returns: self" boilerplate), missing setter/adder return annotations, adders
+    without the None no-op guard.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
+    - Note: no code-shape deviations — field↔spec verified both directions (3 attrs,
+      Optional/List quota shapes match the Mult. column, dedicated typed list fields for
+      the two `*` attrs). Accepted deviation: XSD-only AP variant firewallState
+      (FIREWALL-STATE-IREFS, mmt.RestrictToStandards="AP") absent from the CP Table 6.234
+      — not modeled per Rule 0015 (no field, no deviation row). Reader/writer + tests
+      pre-existed and stayed green; added an explicit empty-list write→reparse round-trip
+      case (Rule 0006). Legacy checklist Note comment about the Rule 0015 arbitration
+      moved from the block into this row's notes; `# Spec:` line normalized to the
+      canonical single-corpus form.
 
 - [ ] `TpConfig` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.237, p.588
   - module: M2/AUTOSARTemplates/SystemTemplate/TransportProtocols.py
