@@ -189,7 +189,6 @@ PModeInSystemInstanceRef
 PTriggerInAtomicSwcTypeInstanceRef
 ParameterDataPrototype
 ParameterValue
-PduToFrameMapping
 PduTriggering
 PortDefinedArgumentValue
 PortPrototype
