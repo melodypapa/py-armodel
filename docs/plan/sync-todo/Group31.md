@@ -1071,7 +1071,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-08 (23565 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit ac0933384
 
-- [x] `SecureCommunicationFreshnessProps` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.46, p.371
+- [ ] `SecureCommunicationFreshnessProps` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.46, p.371
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
   - Step 1 finding: Table 6.46 is page-split — body (Package/Note/Base/Aggregated by +
     `freshnessCounterSyncAttempts`, `freshnessTimestampTimePeriodFactor`, `freshnessValueLength`,
@@ -1102,7 +1102,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-08 (23584 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 748ee0ad2
 
-- [x] `SecureCommunicationAuthenticationProps` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 6.47, p.371
+- [ ] `SecureCommunicationAuthenticationProps` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 6.47, p.371
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
   - Step 1 finding: Table 6.47 is single-page (no split); concrete Class; Package row
     `...Fibex::FibexCore::CoreCommunication` matches src home (Rule 0007 — non-leaf
