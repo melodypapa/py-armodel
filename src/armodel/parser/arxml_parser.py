@@ -1213,7 +1213,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Obso
     SoAdRoutingGroup,
     SocketConnection,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import EthernetFrameTriggering, GenericEthernetFrame, UserDefinedEthernetFrame
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import EthernetFrameTriggering, GenericEthernetFrame, Ieee1722TpEthernetFrame, UserDefinedEthernetFrame
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
     CouplingElement,
     CouplingElementAbstractDetails,
@@ -18840,6 +18840,14 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read UserDefinedEthernetFrame <%s>" % frame.getShortName())
         self.readFrame(element, frame)
 
+    def readIeee1722TpEthernetFrame(self, element: ET.Element, frame: Ieee1722TpEthernetFrame):
+        self.logger.debug("Read Ieee1722TpEthernetFrame <%s>" % frame.getShortName())
+        self.readFrame(element, frame)
+        frame.setRelativeRepresentationTime(self.getChildElementOptionalTimeValue(element, "RELATIVE-REPRESENTATION-TIME"))
+        frame.setStreamIdentifier(self.getChildElementOptionalPositiveInteger(element, "STREAM-IDENTIFIER"))
+        frame.setSubType(self.getChildElementOptionalPositiveInteger(element, "SUB-TYPE"))
+        frame.setVersion(self.getChildElementOptionalPositiveInteger(element, "VERSION"))
+
     def getLifeCyclePeriod(self, element: ET.Element, key: str) -> Optional[LifeCyclePeriod]:
         child_element = self.find(element, key)
         period = None
@@ -19382,6 +19390,8 @@ class ARXMLParser(AbstractARXMLParser):
                 self.readGenericEthernetFrame(child_element, parent.createGenericEthernetFrame(self.getShortName(child_element)))
             elif tag_name == "USER-DEFINED-ETHERNET-FRAME":
                 self.readUserDefinedEthernetFrame(child_element, parent.createUserDefinedEthernetFrame(self.getShortName(child_element)))
+            elif tag_name == "IEEE-1722-TP-ETHERNET-FRAME":
+                self.readIeee1722TpEthernetFrame(child_element, parent.createIeee1722TpEthernetFrame(self.getShortName(child_element)))
             elif tag_name == "LIFE-CYCLE-INFO-SET":
                 info_set = parent.createLifeCycleInfoSet(self.getShortName(child_element))
                 self.readLifeCycleInfoSet(child_element, info_set)

@@ -2476,12 +2476,6 @@ STUBS = [
         "ARObject",
     ),
     (
-        "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame",
-        "Ieee1722TpEthernetFrame",
-        "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame",
-        "AbstractEthernetFrame",
-    ),
-    (
         "armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface.__init__",
         "ImplementationDataTypeSubElementRef",
         "armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface.__init__",

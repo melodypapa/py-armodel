@@ -91,15 +91,27 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `Ieee1722TpEthernetFrame` — AbstractEthernetFrame — R23-11 CP_TPS_SystemTemplate Table 6.233, p.579
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetFrame.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note: Step 1 finding — spec Package row = ...Fibex4Ethernet::EthernetFrame confirms the module
+    hint (no rehousing). Table 6.233 has 4 attr rows (all 0..1) in displayed order:
+    relative Representation Time (TimeValue → relativeRepresentationTime per the XSD
+    mmt.qualifiedName), streamIdentifier, subType, version (PositiveInteger x3); XSD group
+    IEEE-1722-TP-ETHERNET-FRAME element order = displayed order; atp.Status="obsolete" on class
+    and attrs — NOT "removed", so all modeled. Concrete class (XSD abstract="false"), no TypeError
+    guard. Base row most-derived = AbstractEthernetFrame (hint confirmed). Aggregated by
+    ARPackage.element → ARPackage.createIeee1722TpEthernetFrame + IEEE-1722-TP-ETHERNET-FRAME
+    dispatch. Stub-registry tuple removed.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
+    - Note: no deviations — all 4 obsolete-tagged attrs modeled (atp.Status="obsolete" is not
+      "removed"); XSD-only extras none; EthernetFrame.py gained `from __future__ import
+      annotations` for the class-typed setter returns (PEP 563, repo standard).
 
 - [ ] `StateDependentFirewall` — ARElement — R23-11 CP_TPS_SystemTemplate Table 6.234, p.584
   - module: M2/AUTOSARTemplates/AdaptivePlatform/PlatformModuleDeployment/Firewall/__init__.py

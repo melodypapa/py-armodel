@@ -1015,7 +1015,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Obso
     SoAdRoutingGroup,
     SocketConnection,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import EthernetFrameTriggering, GenericEthernetFrame, UserDefinedEthernetFrame
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import EthernetFrameTriggering, GenericEthernetFrame, Ieee1722TpEthernetFrame, UserDefinedEthernetFrame
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
     CouplingElement,
     CouplingElementAbstractDetails,
@@ -16726,6 +16726,15 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "USER-DEFINED-ETHERNET-FRAME")
         self.writeFrame(child_element, frame)
 
+    def writeIeee1722TpEthernetFrame(self, element: ET.Element, frame: Ieee1722TpEthernetFrame):
+        self.logger.debug("Write Ieee1722TpEthernetFrame %s" % frame.getShortName())
+        child_element = ET.SubElement(element, "IEEE-1722-TP-ETHERNET-FRAME")
+        self.writeFrame(child_element, frame)
+        self.setChildElementOptionalTimeValue(child_element, "RELATIVE-REPRESENTATION-TIME", frame.getRelativeRepresentationTime())
+        self.setChildElementOptionalPositiveInteger(child_element, "STREAM-IDENTIFIER", frame.getStreamIdentifier())
+        self.setChildElementOptionalPositiveInteger(child_element, "SUB-TYPE", frame.getSubType())
+        self.setChildElementOptionalPositiveInteger(child_element, "VERSION", frame.getVersion())
+
     def setLifeCyclePeriod(self, element: ET.Element, key: str, period: Optional[LifeCyclePeriod]):
         if period is not None:
             child_element = ET.SubElement(element, key)
@@ -19768,6 +19777,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeGenericEthernetFrame(element, ar_element)
         elif isinstance(ar_element, UserDefinedEthernetFrame):
             self.writeUserDefinedEthernetFrame(element, ar_element)
+        elif isinstance(ar_element, Ieee1722TpEthernetFrame):
+            self.writeIeee1722TpEthernetFrame(element, ar_element)
         elif isinstance(ar_element, LifeCycleInfoSet):
             self.writeLifeCycleInfoSet(element, ar_element)
         elif isinstance(ar_element, PhysicalDimension):
