@@ -7,7 +7,7 @@ from abc import ABC
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from typing import List, Optional, cast
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, Integer, NameToken, PositiveInteger
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, ByteOrderEnum, Integer, NameToken, PositiveInteger
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, String
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable, Identifiable
@@ -204,8 +204,8 @@ class DataIdModeEnum(AREnum):
 
     # DataIdModeEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.24, p.807
-    # Spec verified: R23-11
-    # (no methods)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # Two bytes are included in the CRC (double ID configuration). Tags: atp.EnumerationLiteralIndex=0
     ALL_16_BIT = "ALL-16-BIT"
@@ -237,8 +237,8 @@ class EndToEndProfileBehaviorEnum(AREnum):
 
     # EndToEndProfileBehaviorEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.26, p.808
-    # Spec verified: R23-11
-    # (no methods)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # Check has the legacy behavior, before AUTOSAR Release 4.2. Tags: atp.EnumerationLiteralIndex=0 xml.name=PRE-R-4-2
     PRE_R4_2 = "PRE--R-4--2"
@@ -297,53 +297,52 @@ class EndToEndTransformationDescription(TransformationDescription):
 
     # EndToEndTransformationDescription method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.23, p.807
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getClearFromValidToInvalid      [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setClearFromValidToInvalid      [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getCounterOffset                [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setCounterOffset                [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getCrcOffset                    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setCrcOffset                    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getDataIdMode                   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setDataIdMode                   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getDataIdNibbleOffset           [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setDataIdNibbleOffset           [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getE2eProfileCompatibilityPropsRef [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setE2eProfileCompatibilityPropsRef [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getMaxDeltaCounter              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setMaxDeltaCounter              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getMaxErrorStateInit            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setMaxErrorStateInit            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getMaxErrorStateInvalid         [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setMaxErrorStateInvalid         [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getMaxErrorStateValid           [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setMaxErrorStateValid           [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getMaxNoNewOrRepeatedData       [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setMaxNoNewOrRepeatedData       [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getMinOkStateInit               [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setMinOkStateInit               [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getMinOkStateInvalid            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setMinOkStateInvalid            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getMinOkStateValid              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setMinOkStateValid              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getOffset                       [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setOffset                       [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getProfileBehavior              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setProfileBehavior              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getProfileName                  [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setProfileName                  [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getSyncCounterInit              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setSyncCounterInit              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getUpperHeaderBitsToShift       [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setUpperHeaderBitsToShift       [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getWindowSizeInit               [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setWindowSizeInit               [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getWindowSizeInvalid            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setWindowSizeInvalid            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getWindowSizeValid              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setWindowSizeValid              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getClearFromValidToInvalid           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setClearFromValidToInvalid           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCounterOffset                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCounterOffset                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCrcOffset                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCrcOffset                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDataIdMode                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataIdMode                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDataIdNibbleOffset                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataIdNibbleOffset                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getE2eProfileCompatibilityPropsRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setE2eProfileCompatibilityPropsRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxDeltaCounter                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxDeltaCounter                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxErrorStateInit                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxErrorStateInit                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxErrorStateInvalid              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxErrorStateInvalid              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxErrorStateValid                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxErrorStateValid                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxNoNewOrRepeatedData            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxNoNewOrRepeatedData            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMinOkStateInit                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMinOkStateInit                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMinOkStateInvalid                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMinOkStateInvalid                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMinOkStateValid                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMinOkStateValid                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOffset                            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOffset                            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getProfileBehavior                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setProfileBehavior                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getProfileName                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setProfileName                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSyncCounterInit                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSyncCounterInit                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getUpperHeaderBitsToShift            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUpperHeaderBitsToShift            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getWindowSizeInit                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setWindowSizeInit                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getWindowSizeInvalid                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setWindowSizeInvalid                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getWindowSizeValid                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setWindowSizeValid                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -1003,8 +1002,8 @@ class CSTransformerErrorReactionEnum(AREnum):
 
     # CSTransformerErrorReactionEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.9, p.773
-    # Spec verified: R23-11
-    # (no methods)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # The application is responsible for any error reaction. No autonomous error reaction of RTE and transformer. Tags: atp.EnumerationLiteralIndex=0
     APPLICATION_ONLY = "APPLICATION-ONLY"
@@ -1263,11 +1262,10 @@ class DataPrototypeReference(ARObject, ABC):
 
     # DataPrototypeReference method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.18, p.787
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getTagId            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTagId            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTagId  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTagId  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         if type(self) is DataPrototypeReference:
@@ -1300,17 +1298,21 @@ class DataPrototypeInPortInterfaceRef(DataPrototypeReference):
 
     # DataPrototypeInPortInterfaceRef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.19, p.788
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getDataPrototypeInClientServerInterface [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setDataPrototypeInClientServerInterface [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDataPrototypeInClientServerInterface   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataPrototypeInClientServerInterface   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDataPrototypeInSenderReceiverInterface [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataPrototypeInSenderReceiverInterface [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
         # This element defines a reference to a DataPrototype in the context of a ClientServerInterface. InstanceRef implemented by: DataPrototypeInClientServerInterfaceInstanceRef
         self.dataPrototypeInClientServerInterface: Optional[DataPrototypeInClientServerInterfaceInstanceRef] = None
+
+        # This element defines a reference to a DataPrototype in the context of a SenderReceiverInterface. InstanceRef implemented by: DataPrototypeInSenderReceiverInterfaceInstanceRef
+        self.dataPrototypeInSenderReceiverInterface: Optional[DataPrototypeInSenderReceiverInterfaceInstanceRef] = None
 
     def getDataPrototypeInClientServerInterface(self) -> Optional[DataPrototypeInClientServerInterfaceInstanceRef]:
         """
@@ -1325,6 +1327,21 @@ class DataPrototypeInPortInterfaceRef(DataPrototypeReference):
         """
         if value is not None:
             self.dataPrototypeInClientServerInterface = value
+        return self
+
+    def getDataPrototypeInSenderReceiverInterface(self) -> Optional[DataPrototypeInSenderReceiverInterfaceInstanceRef]:
+        """
+        This element defines a reference to a DataPrototype in the context of a SenderReceiverInterface. InstanceRef implemented by: DataPrototypeInSenderReceiverInterfaceInstanceRef
+        """
+        return self.dataPrototypeInSenderReceiverInterface
+
+    def setDataPrototypeInSenderReceiverInterface(self, value: Optional[DataPrototypeInSenderReceiverInterfaceInstanceRef]) -> DataPrototypeInPortInterfaceRef:
+        """
+        This element defines a reference to a DataPrototype in the context of a SenderReceiverInterface. InstanceRef implemented by: DataPrototypeInSenderReceiverInterfaceInstanceRef
+        A None value is a no-op and does not overwrite an existing dataPrototypeInSenderReceiverInterface.
+        """
+        if value is not None:
+            self.dataPrototypeInSenderReceiverInterface = value
         return self
 
 
@@ -1349,7 +1366,7 @@ class DataPrototypeTransformationProps(ARObject):
         super().__init__()
 
         # Reference to a DataPrototype that is transported in the serialized ISignal.
-        self.dataPrototypeInPortInterfaceRef: Optional[DataPrototypeInPortInterfaceRef] = None
+        self.dataPrototypeInPortInterfaceRef: Optional[DataPrototypeReference] = None
 
         # Specification of the actual network representation for the referenced primitive DataPrototype. If a network representation is provided then the baseType shall be used by the Transformer as input for the serialization/deserilaization. Stereotypes: atpSplitable Tags: atp.Splitkey=networkRepresentationProps
         self.networkRepresentationProps: Optional[SwDataDefProps] = None
@@ -1357,13 +1374,13 @@ class DataPrototypeTransformationProps(ARObject):
         # Collection of AutosarDataPrototype related configuration settings for a transformer.
         self.transformationPropsRef: Optional[RefType] = None
 
-    def getDataPrototypeInPortInterfaceRef(self) -> Optional[DataPrototypeInPortInterfaceRef]:
+    def getDataPrototypeInPortInterfaceRef(self) -> Optional[DataPrototypeReference]:
         """
         Reference to a DataPrototype that is transported in the serialized ISignal.
         """
         return self.dataPrototypeInPortInterfaceRef
 
-    def setDataPrototypeInPortInterfaceRef(self, value: Optional[DataPrototypeInPortInterfaceRef]) -> DataPrototypeTransformationProps:
+    def setDataPrototypeInPortInterfaceRef(self, value: Optional[DataPrototypeReference]) -> DataPrototypeTransformationProps:
         """
         Reference to a DataPrototype that is transported in the serialized ISignal.
         A None value is a no-op and does not overwrite an existing dataPrototypeInPortInterfaceRef.
@@ -2064,8 +2081,93 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer.InstanceRef i
 
 
 class SOMEIPTransformationDescription(TransformationDescription):
-    pass
+    """
+    The SOMEIPTransformationDescription is used to specify SOME/IP transformer specific attributes.
+
+    [constr_9282] Existence of SOMEIPTransformationDescription . alignment: For each SOMEIPTransformationDescription , the attribute alignment shall exist at the time when the System Description is complete . ()
+    [constr_9283] Existence of SOMEIPTransformationDescription . byteOrder: For each SOMEIPTransformationDescription , the attribute byteOrder shall exist at the time when the System Description is complete . ()
+    [constr_9284] Existence of SOMEIPTransformationDescription . interfaceVersion: For each SOMEIPTransformationDescription , the attribute interfaceVersion shall exist at the time when the System Description is complete . ()
+    """
+
+    # SOMEIPTransformationDescription method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.10, p.777
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAlignment              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAlignment              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getByteOrder              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setByteOrder              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getInterfaceVersion       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setInterfaceVersion       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # Defines the padding for alignment purposes that will be added by the SOME/IP transformer after the serialized data of the variable data length data element. The alignment shall be specified in Bits.
+        self.alignment: Optional[PositiveInteger] = None
+
+        # Defines which byte order shall be serialized by the SOME/IP transformer
+        self.byteOrder: Optional[ByteOrderEnum] = None
+
+        # The interface version the SOME/IP transformer shall use.
+        self.interfaceVersion: Optional[PositiveInteger] = None
+
+    def getAlignment(self) -> Optional[PositiveInteger]:
+        """
+        Defines the padding for alignment purposes that will be added by the SOME/IP transformer after the serialized data of the variable data length data element. The alignment shall be specified in Bits.
+        """
+        return self.alignment
+
+    def setAlignment(self, value: Optional[PositiveInteger]) -> SOMEIPTransformationDescription:
+        """
+        Defines the padding for alignment purposes that will be added by the SOME/IP transformer after the serialized data of the variable data length data element. The alignment shall be specified in Bits.
+        A None value is a no-op and does not overwrite an existing alignment.
+        """
+        if value is not None:
+            self.alignment = value
+        return self
+
+    def getByteOrder(self) -> Optional[ByteOrderEnum]:
+        """
+        Defines which byte order shall be serialized by the SOME/IP transformer
+        """
+        return self.byteOrder
+
+    def setByteOrder(self, value: Optional[ByteOrderEnum]) -> SOMEIPTransformationDescription:
+        """
+        Defines which byte order shall be serialized by the SOME/IP transformer
+        A None value is a no-op and does not overwrite an existing byteOrder.
+        """
+        if value is not None:
+            self.byteOrder = value
+        return self
+
+    def getInterfaceVersion(self) -> Optional[PositiveInteger]:
+        """
+        The interface version the SOME/IP transformer shall use.
+        """
+        return self.interfaceVersion
+
+    def setInterfaceVersion(self, value: Optional[PositiveInteger]) -> SOMEIPTransformationDescription:
+        """
+        The interface version the SOME/IP transformer shall use.
+        A None value is a no-op and does not overwrite an existing interfaceVersion.
+        """
+        if value is not None:
+            self.interfaceVersion = value
+        return self
 
 
 class UserDefinedTransformationDescription(TransformationDescription):
-    pass
+    """
+    The UserDefinedTransformationDescription is used to specify details and documentation for custom transformers.
+    """
+
+    # UserDefinedTransformationDescription method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.7, p.771
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # (no own attributes; reader/writer coverage via the USER-DEFINED-TRANSFORMATION-DESCRIPTION dispatch)
+
+    def __init__(self):
+        super().__init__()

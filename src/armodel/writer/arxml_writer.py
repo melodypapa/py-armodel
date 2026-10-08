@@ -541,6 +541,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticWriteDataByIdentifier,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    AbstractGlobalTimeDomainProps,
     CalibrationParameterValue,
     RoleBasedResourceDependency,
     DiagnosticAbstractParameter,
@@ -574,6 +575,8 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DdsResourceLimits,
     DdsTopicData,
     DdsTransportPriority,
+    GlobalTimeCorrectionProps,
+    NetworkSegmentIdentification,
     PhysicalDimensionMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import LifeCycleStateDefinitionGroup
@@ -1221,6 +1224,15 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopolo
     TtcanPhysicalChannel,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanClusterBusOffRecovery, J1939Cluster
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import (
+    BusMirrorChannel,
+    BusMirrorChannelMapping,
+    BusMirrorChannelMappingCan,
+    BusMirrorChannelMappingFlexray,
+    BusMirrorChannelMappingIp,
+    BusMirrorChannelMappingUserDefined,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import BusMirrorCanIdRangeMapping, BusMirrorCanIdToCanIdMapping, BusMirrorLinPidToCanIdMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import (
     AbstractCanCluster,
     CanCluster,
@@ -1292,19 +1304,23 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     DataPrototypeInPortInterfaceRef,
     DataPrototypeInClientServerInterfaceInstanceRef,
     DataPrototypeInSenderReceiverInterfaceInstanceRef,
+    DataPrototypeReference,
     DataPrototypeTransformationProps,
     DataTransformation,
     DataTransformationSet,
+    ImplementationDataTypeElementInPortInterfaceRef,
     E2EProfileCompatibilityProps,
     EndToEndTransformationComSpecProps,
     EndToEndTransformationDescription,
     EndToEndTransformationISignalProps,
+    SOMEIPTransformationDescription,
     SOMEIPTransformationISignalProps,
     TlvDataIdDefinition,
     TlvDataIdDefinitionSet,
     TransformationDescription,
     TransformationISignalProps,
     TransformationTechnology,
+    UserDefinedTransformationDescription,
     UserDefinedTransformationISignalProps,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import (
@@ -9837,6 +9853,82 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeTimingExtension(child_element, timing)
         self.setChildElementOptionalRefType(child_element, "BEHAVIOR-REF", timing.getBehaviorRef())
 
+    def setBusMirrorChannel(self, parent: ET.Element, key: str, channel: Optional[BusMirrorChannel]):
+        if channel is not None:
+            child_element = ET.SubElement(parent, key)
+            self.writeARObject(child_element, channel)
+
+    def writeBusMirrorCanIdRangeMapping(self, element: ET.Element, mapping: BusMirrorCanIdRangeMapping):
+        child_element = ET.SubElement(element, "BUS-MIRROR-CAN-ID-RANGE-MAPPING")
+        self.writeARObject(child_element, mapping)
+        self.setChildElementOptionalPositiveInteger(child_element, "DESTINATION-BASE-ID", mapping.getDestinationBaseId())
+        self.setChildElementOptionalPositiveInteger(child_element, "SOURCE-CAN-ID-CODE", mapping.getSourceCanIdCode())
+        self.setChildElementOptionalPositiveInteger(child_element, "SOURCE-CAN-ID-MASK", mapping.getSourceCanIdMask())
+
+    def writeBusMirrorCanIdToCanIdMapping(self, element: ET.Element, mapping: BusMirrorCanIdToCanIdMapping):
+        child_element = ET.SubElement(element, "BUS-MIRROR-CAN-ID-TO-CAN-ID-MAPPING")
+        self.writeARObject(child_element, mapping)
+        self.setChildElementOptionalPositiveInteger(child_element, "REMAPPED-CAN-ID", mapping.getRemappedCanId())
+        self.setChildElementOptionalRefType(child_element, "SOUCE-CAN-ID-REF", mapping.getSouceCanIdRef())
+
+    def writeBusMirrorLinPidToCanIdMapping(self, element: ET.Element, mapping: BusMirrorLinPidToCanIdMapping):
+        child_element = ET.SubElement(element, "BUS-MIRROR-LIN-PID-TO-CAN-ID-MAPPING")
+        self.writeARObject(child_element, mapping)
+        self.setChildElementOptionalPositiveInteger(child_element, "REMAPPED-CAN-ID", mapping.getRemappedCanId())
+        self.setChildElementOptionalRefType(child_element, "SOURCE-LIN-PID-REF", mapping.getSourceLinPidRef())
+
+    def writeBusMirrorChannelMapping(self, element: ET.Element, mapping: BusMirrorChannelMapping):
+        self.logger.debug("Write BusMirrorChannelMapping %s" % mapping.getShortName())
+        self.writeIdentifiable(element, mapping)
+        self.setChildElementOptionalLiteral(element, "MIRRORING-PROTOCOL", mapping.getMirroringProtocol())
+        self.setBusMirrorChannel(element, "SOURCE-CHANNEL", mapping.getSourceChannel())
+        self.setBusMirrorChannel(element, "TARGET-CHANNEL", mapping.getTargetChannel())
+        refs = mapping.getTargetPduTriggeringRefs()
+        if len(refs) > 0:
+            triggerings_tag = ET.SubElement(element, "TARGET-PDU-TRIGGERINGS")
+            for ref in refs:
+                child_element = ET.SubElement(triggerings_tag, "PDU-TRIGGERING-REF-CONDITIONAL")
+                self.setChildElementOptionalRefType(child_element, "PDU-TRIGGERING-REF", ref)
+
+    def writeBusMirrorChannelMappingCan(self, element: ET.Element, mapping: BusMirrorChannelMappingCan):
+        self.logger.debug("Write BusMirrorChannelMappingCan %s" % mapping.getShortName())
+        child_element = ET.SubElement(element, "BUS-MIRROR-CHANNEL-MAPPING-CAN")
+        self.writeBusMirrorChannelMapping(child_element, mapping)
+        range_mappings = mapping.getCanIdRangeMappings()
+        if len(range_mappings) > 0:
+            ranges_tag = ET.SubElement(child_element, "CAN-ID-RANGE-MAPPINGS")
+            for range_mapping in range_mappings:
+                self.writeBusMirrorCanIdRangeMapping(ranges_tag, range_mapping)
+        id_mappings = mapping.getCanIdToCanIdMappings()
+        if len(id_mappings) > 0:
+            ids_tag = ET.SubElement(child_element, "CAN-ID-TO-CAN-ID-MAPPINGS")
+            for id_mapping in id_mappings:
+                self.writeBusMirrorCanIdToCanIdMapping(ids_tag, id_mapping)
+        lin_mappings = mapping.getLinPidToCanIdMappings()
+        if len(lin_mappings) > 0:
+            lins_tag = ET.SubElement(child_element, "LIN-PID-TO-CAN-ID-MAPPINGS")
+            for lin_mapping in lin_mappings:
+                self.writeBusMirrorLinPidToCanIdMapping(lins_tag, lin_mapping)
+        self.setChildElementOptionalPositiveInteger(child_element, "MIRROR-SOURCE-LIN-TO-CAN-RANGE-BASE-ID", mapping.getMirrorSourceLinToCanRangeBaseId())
+        self.setChildElementOptionalPositiveInteger(child_element, "MIRROR-STATUS-CAN-ID", mapping.getMirrorStatusCanId())
+
+    def writeBusMirrorChannelMappingFlexray(self, element: ET.Element, mapping: BusMirrorChannelMappingFlexray):
+        self.logger.debug("Write BusMirrorChannelMappingFlexray %s" % mapping.getShortName())
+        child_element = ET.SubElement(element, "BUS-MIRROR-CHANNEL-MAPPING-FLEXRAY")
+        self.writeBusMirrorChannelMapping(child_element, mapping)
+        self.setChildElementOptionalTimeValue(child_element, "TRANSMISSION-DEADLINE", mapping.getTransmissionDeadline())
+
+    def writeBusMirrorChannelMappingIp(self, element: ET.Element, mapping: BusMirrorChannelMappingIp):
+        self.logger.debug("Write BusMirrorChannelMappingIp %s" % mapping.getShortName())
+        child_element = ET.SubElement(element, "BUS-MIRROR-CHANNEL-MAPPING-IP")
+        self.writeBusMirrorChannelMapping(child_element, mapping)
+        self.setChildElementOptionalTimeValue(child_element, "TRANSMISSION-DEADLINE", mapping.getTransmissionDeadline())
+
+    def writeBusMirrorChannelMappingUserDefined(self, element: ET.Element, mapping: BusMirrorChannelMappingUserDefined):
+        self.logger.debug("Write BusMirrorChannelMappingUserDefined %s" % mapping.getShortName())
+        child_element = ET.SubElement(element, "BUS-MIRROR-CHANNEL-MAPPING-USER-DEFINED")
+        self.writeBusMirrorChannelMapping(child_element, mapping)
+        self.setChildElementOptionalTimeValue(child_element, "TRANSMISSION-DEADLINE", mapping.getTransmissionDeadline())
     def writeTDCpSoftwareClusterMapping(self, element: ET.Element, mapping: TDCpSoftwareClusterMapping):
         child_element = ET.SubElement(element, "TD-CP-SOFTWARE-CLUSTER-MAPPING")
         self.writeIdentifiable(child_element, mapping)
@@ -13574,6 +13666,26 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalPositiveInteger(child_element, "PLCA-MAX-BURST-COUNT", cast(Integer, props.getPlcaMaxBurstCount()))
             self.setChildElementOptionalPositiveInteger(child_element, "PLCA-MAX-BURST-TIMER", cast(Integer, props.getPlcaMaxBurstTimer()))
 
+    def writeAbstractGlobalTimeDomainProps(self, element: ET.Element, props: AbstractGlobalTimeDomainProps):
+        # Populates the concrete subclass element (CAN/ETH/FR-GLOBAL-TIME-DOMAIN-PROPS) created by
+        # the caller; VARIATION-POINT is the only element of the XSD ABSTRACT-GLOBAL-TIME-DOMAIN-PROPS
+        # group (AUTOSAR_00052.xsd l.379) and precedes the concrete subclass' own elements.
+        self.writeARObject(element, props)
+        self.writeVariationPointCapable(element, props)
+
+    def writeNetworkSegmentIdentification(self, element: ET.Element, props: NetworkSegmentIdentification):
+        child_element = ET.SubElement(element, "NETWORK-SEGMENT-ID")
+        self.writeARObject(child_element, props)
+        self.setChildElementOptionalPositiveInteger(child_element, "NETWORK-SEGMENT-ID", cast(Integer, props.getNetworkSegmentId()))
+
+    def writeGlobalTimeCorrectionProps(self, element: ET.Element, props: GlobalTimeCorrectionProps):
+        child_element = ET.SubElement(element, "GLOBAL-TIME-CORRECTION-PROPS")
+        self.writeARObject(child_element, props)
+        self.setChildElementOptionalTimeValue(child_element, "OFFSET-CORRECTION-ADAPTION-INTERVAL", props.getOffsetCorrectionAdaptionInterval())
+        self.setChildElementOptionalTimeValue(child_element, "OFFSET-CORRECTION-JUMP-THRESHOLD", props.getOffsetCorrectionJumpThreshold())
+        self.setChildElementOptionalTimeValue(child_element, "RATE-CORRECTION-MEASUREMENT-DURATION", props.getRateCorrectionMeasurementDuration())
+        self.setChildElementOptionalPositiveInteger(child_element, "RATE-CORRECTIONS-PER-MEASUREMENT-DURATION", cast(Integer, props.getRateCorrectionsPerMeasurementDuration()))
+
     def setGlobalTimeProps(self, element: ET.Element, key: str, props: Optional[GlobalTimeCouplingPortProps]):
         if props is not None:
             child_element = ET.SubElement(element, key)
@@ -16154,42 +16266,59 @@ class ARXMLWriter(AbstractARXMLWriter):
             for dp_props in dp_props_list:
                 self.writeDataPrototypeTransformationProps(child_element, dp_props)
 
+    def writeDataPrototypeReference(self, element: ET.Element, ref: DataPrototypeReference):
+        self.writeARObject(element, ref)
+        self.setChildElementOptionalPositiveInteger(element, "TAG-ID", cast(Integer, ref.getTagId()))
+
     def writeDataPrototypeInPortInterfaceRef(self, element: ET.Element, ref: DataPrototypeInPortInterfaceRef):
         child_element = ET.SubElement(element, "DATA-PROTOTYPE-IN-PORT-INTERFACE-REF")
-        self.writeARObject(child_element, ref)
-        self.setChildElementOptionalPositiveInteger(child_element, "TAG-ID", cast(Integer, ref.getTagId()))
+        self.writeDataPrototypeReference(child_element, ref)
         cs_ref = ref.getDataPrototypeInClientServerInterface()
         if cs_ref is not None:
             self.writeDataPrototypeInClientServerInterfaceInstanceRef(child_element, cs_ref)
+        sr_ref = ref.getDataPrototypeInSenderReceiverInterface()
+        if sr_ref is not None:
+            self.writeDataPrototypeInSenderReceiverInterfaceInstanceRef(child_element, sr_ref)
 
-    def writeDataPrototypeInSenderReceiverInterfaceInstanceRef(self, element: ET.Element, iref: DataPrototypeInSenderReceiverInterfaceInstanceRef):
-        child_element = ET.SubElement(element, "DATA-PROTOTYPE-IN-SENDER-RECEIVER-INTERFACE-REF")
-        self.writeARObject(child_element, iref)
-        self.setChildElementOptionalRefType(child_element, "BASE", iref.getBaseRef())
-        for ctx in iref.getContextDataPrototypeInSrRefs():
-            ctx_element = ET.SubElement(child_element, "CONTEXT-DATA-PROTOTYPE-IN-SR")
-            self.setChildElementOptionalRefType(ctx_element, "CONTEXT-DATA-PROTOTYPE-IN-SR", ctx)
-        self.setChildElementOptionalRefType(child_element, "ROOT-DATA-PROTOTYPE-IN-SR", iref.getRootDataPrototypeInSrRef())
-        self.setChildElementOptionalRefType(child_element, "TARGET-DATA-PROTOTYPE-IN-SR", iref.getTargetDataPrototypeInSrRef())
-
-    def writeDataPrototypeInClientServerInterfaceInstanceRef(self, element: ET.Element, iref: DataPrototypeInClientServerInterfaceInstanceRef):
-        child_element = ET.SubElement(element, "DATA-PROTOTYPE-IN-CLIENT-SERVER-INTERFACE-REF")
-        self.writeARObject(child_element, iref)
-        self.setChildElementOptionalRefType(child_element, "BASE", iref.getBaseRef())
-        for ctx in iref.getContextDataPrototypeInCsRefs():
-            ctx_element = ET.SubElement(child_element, "CONTEXT-DATA-PROTOTYPE-IN-CS")
-            self.setChildElementOptionalRefType(ctx_element, "CONTEXT-DATA-PROTOTYPE-IN-CS", ctx)
-        self.setChildElementOptionalRefType(child_element, "ROOT-DATA-PROTOTYPE-IN-CS", iref.getRootDataPrototypeInCsRef())
-        self.setChildElementOptionalRefType(child_element, "TARGET-DATA-PROTOTYPE-IN-CS", iref.getTargetDataPrototypeInCsRef())
+    def writeImplementationDataTypeElementInPortInterfaceRef(self, element: ET.Element, ref: ImplementationDataTypeElementInPortInterfaceRef):
+        child_element = ET.SubElement(element, "IMPLEMENTATION-DATA-TYPE-ELEMENT-IN-PORT-INTERFACE-REF")
+        self.writeDataPrototypeReference(child_element, ref)
+        self.setChildElementOptionalRefType(child_element, "ROOT-DATA-PROTOTYPE-REF", ref.getRootDataPrototypeRef())
+        ctx_refs = ref.getContextImplementationDataElementRefs()
+        if len(ctx_refs) > 0:
+            ctxs_element = ET.SubElement(child_element, "CONTEXT-IMPLEMENTATION-DATA-ELEMENT-REFS")
+            for ctx in ctx_refs:
+                self.setChildElementOptionalRefType(ctxs_element, "CONTEXT-IMPLEMENTATION-DATA-ELEMENT-REF", ctx)
+        self.setChildElementOptionalRefType(child_element, "TARGET-IMPLEMENTATION-DATA-TYPE-ELEMENT-REF", ref.getTargetImplementationDataTypeElementRef())
 
     def writeDataPrototypeTransformationProps(self, element: ET.Element, props: DataPrototypeTransformationProps):
         child_element = ET.SubElement(element, "DATA-PROTOTYPE-TRANSFORMATION-PROPS")
         self.writeARObject(child_element, props)
         dp_ref = props.getDataPrototypeInPortInterfaceRef()
         if dp_ref is not None:
-            self.writeDataPrototypeInPortInterfaceRef(child_element, dp_ref)
+            outer_element = ET.SubElement(child_element, "DATA-PROTOTYPE-IN-PORT-INTERFACE-REF")
+            if isinstance(dp_ref, ImplementationDataTypeElementInPortInterfaceRef):
+                self.writeImplementationDataTypeElementInPortInterfaceRef(outer_element, dp_ref)
+            else:
+                self.writeDataPrototypeInPortInterfaceRef(outer_element, cast(DataPrototypeInPortInterfaceRef, dp_ref))
         self.setSwDataDefProps(child_element, "NETWORK-REPRESENTATION-PROPS", props.getNetworkRepresentationProps())
         self.setChildElementOptionalRefType(child_element, "TRANSFORMATION-PROPS-REF", props.getTransformationPropsRef())
+
+    def writeDataPrototypeInSenderReceiverInterfaceInstanceRef(self, element: ET.Element, iref: DataPrototypeInSenderReceiverInterfaceInstanceRef):
+        child_element = ET.SubElement(element, "DATA-PROTOTYPE-IN-SENDER-RECEIVER-INTERFACE-IREF")
+        self.writeARObject(child_element, iref)
+        self.setChildElementOptionalRefType(child_element, "ROOT-DATA-PROTOTYPE-IN-SR-REF", iref.getRootDataPrototypeInSrRef())
+        for ctx in iref.getContextDataPrototypeInSrRefs():
+            self.setChildElementOptionalRefType(child_element, "CONTEXT-DATA-PROTOTYPE-IN-SR-REF", ctx)
+        self.setChildElementOptionalRefType(child_element, "TARGET-DATA-PROTOTYPE-IN-SR-REF", iref.getTargetDataPrototypeInSrRef())
+
+    def writeDataPrototypeInClientServerInterfaceInstanceRef(self, element: ET.Element, iref: DataPrototypeInClientServerInterfaceInstanceRef):
+        child_element = ET.SubElement(element, "DATA-PROTOTYPE-IN-CLIENT-SERVER-INTERFACE-IREF")
+        self.writeARObject(child_element, iref)
+        self.setChildElementOptionalRefType(child_element, "ROOT-DATA-PROTOTYPE-IN-CS-REF", iref.getRootDataPrototypeInCsRef())
+        for ctx in iref.getContextDataPrototypeInCsRefs():
+            self.setChildElementOptionalRefType(child_element, "CONTEXT-DATA-PROTOTYPE-IN-CS-REF", ctx)
+        self.setChildElementOptionalRefType(child_element, "TARGET-DATA-PROTOTYPE-IN-CS-REF", iref.getTargetDataPrototypeInCsRef())
 
     def writeDoIpConfig(self, element: ET.Element, config: Optional[DoIpConfig]):
         if config is not None:
@@ -19167,12 +19296,29 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalPositiveInteger(child_element, "WINDOW-SIZE-INVALID", cast(Integer, desc.getWindowSizeInvalid()))
             self.setChildElementOptionalPositiveInteger(child_element, "WINDOW-SIZE-VALID", cast(Integer, desc.getWindowSizeValid()))
 
+    def writeSOMEIPTransformationDescription(self, element: ET.Element, desc: SOMEIPTransformationDescription):
+        if desc is not None:
+            child_element = ET.SubElement(element, "SOMEIP-TRANSFORMATION-DESCRIPTION")
+            self.writeTransformationDescription(child_element, desc)
+            self.setChildElementOptionalPositiveInteger(child_element, "ALIGNMENT", cast(Integer, desc.getAlignment()))
+            self._writeEnumToken(child_element, "BYTE-ORDER", desc.getByteOrder(), BYTE_ORDER_XML_MAP)
+            self.setChildElementOptionalPositiveInteger(child_element, "INTERFACE-VERSION", cast(Integer, desc.getInterfaceVersion()))
+
+    def writeUserDefinedTransformationDescription(self, element: ET.Element, desc: UserDefinedTransformationDescription):
+        if desc is not None:
+            child_element = ET.SubElement(element, "USER-DEFINED-TRANSFORMATION-DESCRIPTION")
+            self.writeTransformationDescription(child_element, desc)
+
     def writeTransformationTechnologyTransformationDescriptions(self, element: ET.Element, tech: TransformationTechnology):
         desc = tech.getTransformationDescription()
         if desc is not None:
             child_element = ET.SubElement(element, "TRANSFORMATION-DESCRIPTIONS")
             if isinstance(desc, EndToEndTransformationDescription):
                 self.writeEndToEndTransformationDescription(child_element, desc)
+            elif isinstance(desc, SOMEIPTransformationDescription):
+                self.writeSOMEIPTransformationDescription(child_element, desc)
+            elif isinstance(desc, UserDefinedTransformationDescription):
+                self.writeUserDefinedTransformationDescription(child_element, desc)
             else:
                 self.notImplemented("Unsupported TransformationDescription <%s>" % type(desc))
 
@@ -19761,6 +19907,14 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDataPrototypeGroup(element, ar_element)
         elif isinstance(ar_element, RunnableEntityGroup):
             self.writeRunnableEntityGroup(element, ar_element)
+        elif isinstance(ar_element, BusMirrorChannelMappingCan):
+            self.writeBusMirrorChannelMappingCan(element, ar_element)
+        elif isinstance(ar_element, BusMirrorChannelMappingFlexray):
+            self.writeBusMirrorChannelMappingFlexray(element, ar_element)
+        elif isinstance(ar_element, BusMirrorChannelMappingIp):
+            self.writeBusMirrorChannelMappingIp(element, ar_element)
+        elif isinstance(ar_element, BusMirrorChannelMappingUserDefined):
+            self.writeBusMirrorChannelMappingUserDefined(element, ar_element)
         elif isinstance(ar_element, FirewallRule):
             self.writeFirewallRule(element, ar_element)
         elif isinstance(ar_element, BlueprintMappingSet):

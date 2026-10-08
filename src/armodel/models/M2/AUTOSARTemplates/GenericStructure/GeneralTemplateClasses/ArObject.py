@@ -2266,8 +2266,28 @@ class TextualCondition(AbstractCondition):
     pass
 
 
-class AbstractGlobalTimeDomainProps(ARObject, ABC):
-    pass
+class AbstractGlobalTimeDomainProps(ARObject, VariationPointCapable):
+    """
+    This abstract class enables a GlobalTimeDomain to specify additional properties.
+    """
+
+    # AbstractGlobalTimeDomainProps method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.2, p.859
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    #
+    # getVariationPoint / setVariationPoint provided by the VariationPointCapable base (mixin) — no spec row (stereotype-inherent)
+    # Table 9.2 has no Attribute rows; the abstract VARIATION-POINT slot is read/written by the
+    # reusable readAbstractGlobalTimeDomainProps / writeAbstractGlobalTimeDomainProps helpers
+    # that the concrete Can/Eth/Fr GlobalTimeDomainProps readers/writers call.
+    # Aggregator dispatch (GlobalTimeDomain.globalTimeDomainProperty) is pending — GlobalTimeDomain
+    # is a later-wave class.
+
+    def __init__(self):
+        if type(self) is AbstractGlobalTimeDomainProps:
+            raise TypeError("AbstractGlobalTimeDomainProps is an abstract class.")
+
+        super().__init__()
 
 
 class BinaryManifestItemValue(ARObject, ABC):
@@ -2279,27 +2299,196 @@ class BinaryManifestResource(ARObject, ABC):
 
 
 class BusMirrorCanIdRangeMapping(ARObject):
-    pass
+    """
+    This element defines a rule for remapping a set of CAN IDs.
+    """
+
+    # BusMirrorCanIdRangeMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.329, p.702
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDestinationBaseId     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDestinationBaseId     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSourceCanIdCode       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSourceCanIdCode       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSourceCanIdMask       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSourceCanIdMask       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # Base ID merged with the masked parts of the original CAN ID to form the mapped CAN ID.
+        self.destinationBaseId: Optional[PositiveInteger] = None
+
+        # Value to match masked original CAN IDs.
+        self.sourceCanIdCode: Optional[PositiveInteger] = None
+
+        # Mask applied to original CAN IDs before comparison.
+        self.sourceCanIdMask: Optional[PositiveInteger] = None
+
+    def getDestinationBaseId(self) -> Optional[PositiveInteger]:
+        """
+        Base ID merged with the masked parts of the original CAN ID to form the mapped CAN ID.
+        """
+        return self.destinationBaseId
+
+    def setDestinationBaseId(self, value: Optional[PositiveInteger]) -> BusMirrorCanIdRangeMapping:
+        """
+        Base ID merged with the masked parts of the original CAN ID to form the mapped CAN ID.
+
+        A None value is a no-op and does not overwrite an existing destinationBaseId.
+        """
+        if value is not None:
+            self.destinationBaseId = value
+        return self
+
+    def getSourceCanIdCode(self) -> Optional[PositiveInteger]:
+        """
+        Value to match masked original CAN IDs.
+        """
+        return self.sourceCanIdCode
+
+    def setSourceCanIdCode(self, value: Optional[PositiveInteger]) -> BusMirrorCanIdRangeMapping:
+        """
+        Value to match masked original CAN IDs.
+
+        A None value is a no-op and does not overwrite an existing sourceCanIdCode.
+        """
+        if value is not None:
+            self.sourceCanIdCode = value
+        return self
+
+    def getSourceCanIdMask(self) -> Optional[PositiveInteger]:
+        """
+        Mask applied to original CAN IDs before comparison.
+        """
+        return self.sourceCanIdMask
+
+    def setSourceCanIdMask(self, value: Optional[PositiveInteger]) -> BusMirrorCanIdRangeMapping:
+        """
+        Mask applied to original CAN IDs before comparison.
+
+        A None value is a no-op and does not overwrite an existing sourceCanIdMask.
+        """
+        if value is not None:
+            self.sourceCanIdMask = value
+        return self
 
 
 class BusMirrorCanIdToCanIdMapping(ARObject):
-    pass
+    """
+    This element defines a rule for remapping a single CAN ID.
+    """
+
+    # BusMirrorCanIdToCanIdMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.330, p.702
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getRemappedCanId         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRemappedCanId         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSouceCanIdRef         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSouceCanIdRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # This attribute defines the CanId on the targetChannel.
+        self.remappedCanId: Optional[PositiveInteger] = None
+
+        # This reference points to the sourceFrame with sourceCan Id on the sourceChannel.
+        self.souceCanIdRef: Optional[RefType] = None
+
+    def getRemappedCanId(self) -> Optional[PositiveInteger]:
+        """
+        This attribute defines the CanId on the targetChannel.
+        """
+        return self.remappedCanId
+
+    def setRemappedCanId(self, value: Optional[PositiveInteger]) -> BusMirrorCanIdToCanIdMapping:
+        """
+        This attribute defines the CanId on the targetChannel.
+
+        A None value is a no-op and does not overwrite an existing remappedCanId.
+        """
+        if value is not None:
+            self.remappedCanId = value
+        return self
+
+    def getSouceCanIdRef(self) -> Optional[RefType]:
+        """
+        This reference points to the sourceFrame with sourceCan Id on the sourceChannel.
+        """
+        return self.souceCanIdRef
+
+    def setSouceCanIdRef(self, value: Optional[RefType]) -> BusMirrorCanIdToCanIdMapping:
+        """
+        This reference points to the sourceFrame with sourceCan Id on the sourceChannel.
+
+        A None value is a no-op and does not overwrite an existing souceCanIdRef.
+        """
+        if value is not None:
+            self.souceCanIdRef = value
+        return self
 
 
 class BusMirrorChannel(ARObject):
     pass
 
 
-class BusMirrorChannelMappingCan(ARObject):
-    pass
-
-
-class BusMirrorChannelMappingIp(ARObject):
-    pass
-
-
 class BusMirrorLinPidToCanIdMapping(ARObject):
-    pass
+    """
+    This element defines a rule for remapping a single LIN Frame.
+    """
+
+    # BusMirrorLinPidToCanIdMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.331, p.702
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getRemappedCanId         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRemappedCanId         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSourceLinPidRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSourceLinPidRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # This attribute defines the CanId on the targetChannel.
+        self.remappedCanId: Optional[PositiveInteger] = None
+
+        # This reference points to the sourceFrame with sourceCan Id on the sourceChannel.
+        self.sourceLinPidRef: Optional[RefType] = None
+
+    def getRemappedCanId(self) -> Optional[PositiveInteger]:
+        """
+        This attribute defines the CanId on the targetChannel.
+        """
+        return self.remappedCanId
+
+    def setRemappedCanId(self, value: Optional[PositiveInteger]) -> BusMirrorLinPidToCanIdMapping:
+        """
+        This attribute defines the CanId on the targetChannel.
+
+        A None value is a no-op and does not overwrite an existing remappedCanId.
+        """
+        if value is not None:
+            self.remappedCanId = value
+        return self
+
+    def getSourceLinPidRef(self) -> Optional[RefType]:
+        """
+        This reference points to the sourceFrame with sourceCan Id on the sourceChannel.
+        """
+        return self.sourceLinPidRef
+
+    def setSourceLinPidRef(self, value: Optional[RefType]) -> BusMirrorLinPidToCanIdMapping:
+        """
+        This reference points to the sourceFrame with sourceCan Id on the sourceChannel.
+
+        A None value is a no-op and does not overwrite an existing sourceLinPidRef.
+        """
+        if value is not None:
+            self.sourceLinPidRef = value
+        return self
 
 
 class CpSoftwareClusterCommunicationResourceProps(ARObject, ABC):
@@ -3298,7 +3487,105 @@ class EthTSynSubTlvConfig(ARObject):
 
 
 class GlobalTimeCorrectionProps(ARObject):
-    pass
+    """
+    This meta-class defines the attributes for rate and offset correction.
+    """
+
+    # GlobalTimeCorrectionProps method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.7, p.862
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getOffsetCorrectionAdaptionInterval       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOffsetCorrectionAdaptionInterval       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOffsetCorrectionJumpThreshold          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOffsetCorrectionJumpThreshold          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRateCorrectionMeasurementDuration      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRateCorrectionMeasurementDuration      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRateCorrectionsPerMeasurementDuration  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRateCorrectionsPerMeasurementDuration  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # Aggregator dispatch (GlobalTimeDomain.globalTimeCorrectionProps) is pending — GlobalTimeDomain
+    # is a later-wave class; the reusable readGlobalTimeCorrectionProps /
+    # writeGlobalTimeCorrectionProps helpers own the GLOBAL-TIME-CORRECTION-PROPS element.
+
+    def __init__(self):
+        super().__init__()
+
+        # Defines the interval during which the adaptive rate correction cancels out the rate- and time deviation.
+        self.offsetCorrectionAdaptionInterval: Optional[TimeValue] = None
+
+        # Threshold for the correction method. Deviations below this value will be corrected by a linear reduction over a defined timespan. Values equal- and greater than this value will be corrected by immediately setting the correct time- and rate in form of a jump.
+        self.offsetCorrectionJumpThreshold: Optional[TimeValue] = None
+
+        # Definition of the time span which is used to calculate the rate deviation.
+        self.rateCorrectionMeasurementDuration: Optional[TimeValue] = None
+
+        # Defines the number of simultaneous rate measurements to determine the current rate deviation.
+        self.rateCorrectionsPerMeasurementDuration: Optional[PositiveInteger] = None
+
+    def getOffsetCorrectionAdaptionInterval(self) -> Optional[TimeValue]:
+        """
+        Defines the interval during which the adaptive rate correction cancels out the rate- and time deviation.
+        """
+        return self.offsetCorrectionAdaptionInterval
+
+    def setOffsetCorrectionAdaptionInterval(self, value: Optional[TimeValue]) -> GlobalTimeCorrectionProps:
+        """
+        Defines the interval during which the adaptive rate correction cancels out the rate- and time deviation.
+
+        A None value is a no-op and does not overwrite an existing offsetCorrectionAdaptionInterval.
+        """
+        if value is not None:
+            self.offsetCorrectionAdaptionInterval = value
+        return self
+
+    def getOffsetCorrectionJumpThreshold(self) -> Optional[TimeValue]:
+        """
+        Threshold for the correction method. Deviations below this value will be corrected by a linear reduction over a defined timespan. Values equal- and greater than this value will be corrected by immediately setting the correct time- and rate in form of a jump.
+        """
+        return self.offsetCorrectionJumpThreshold
+
+    def setOffsetCorrectionJumpThreshold(self, value: Optional[TimeValue]) -> GlobalTimeCorrectionProps:
+        """
+        Threshold for the correction method. Deviations below this value will be corrected by a linear reduction over a defined timespan. Values equal- and greater than this value will be corrected by immediately setting the correct time- and rate in form of a jump.
+
+        A None value is a no-op and does not overwrite an existing offsetCorrectionJumpThreshold.
+        """
+        if value is not None:
+            self.offsetCorrectionJumpThreshold = value
+        return self
+
+    def getRateCorrectionMeasurementDuration(self) -> Optional[TimeValue]:
+        """
+        Definition of the time span which is used to calculate the rate deviation.
+        """
+        return self.rateCorrectionMeasurementDuration
+
+    def setRateCorrectionMeasurementDuration(self, value: Optional[TimeValue]) -> GlobalTimeCorrectionProps:
+        """
+        Definition of the time span which is used to calculate the rate deviation.
+
+        A None value is a no-op and does not overwrite an existing rateCorrectionMeasurementDuration.
+        """
+        if value is not None:
+            self.rateCorrectionMeasurementDuration = value
+        return self
+
+    def getRateCorrectionsPerMeasurementDuration(self) -> Optional[PositiveInteger]:
+        """
+        Defines the number of simultaneous rate measurements to determine the current rate deviation.
+        """
+        return self.rateCorrectionsPerMeasurementDuration
+
+    def setRateCorrectionsPerMeasurementDuration(self, value: Optional[PositiveInteger]) -> GlobalTimeCorrectionProps:
+        """
+        Defines the number of simultaneous rate measurements to determine the current rate deviation.
+
+        A None value is a no-op and does not overwrite an existing rateCorrectionsPerMeasurementDuration.
+        """
+        if value is not None:
+            self.rateCorrectionsPerMeasurementDuration = value
+        return self
 
 
 class GlobalTimeSlave(ARObject, ABC):
@@ -3342,7 +3629,42 @@ class MappingConstraint(ARObject, ABC):
 
 
 class NetworkSegmentIdentification(ARObject):
-    pass
+    """
+    This meta-class represents the ability to identify the PhysicalChannel on a system scope in a numerical way. One possible application of this approach is the Time Validation.
+    """
+
+    # NetworkSegmentIdentification method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.3, p.859
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getNetworkSegmentId       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNetworkSegmentId       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # Aggregator dispatch (GlobalTimeDomain.networkSegmentId) is pending — GlobalTimeDomain
+    # is a later-wave class; the reusable readNetworkSegmentIdentification /
+    # writeNetworkSegmentIdentification helpers own the NETWORK-SEGMENT-ID element.
+
+    def __init__(self):
+        super().__init__()
+
+        # This attribute represents the numerical identifier of a PhysicalChannel on system level scope.
+        self.networkSegmentId: Optional[PositiveInteger] = None
+
+    def getNetworkSegmentId(self) -> Optional[PositiveInteger]:
+        """
+        This attribute represents the numerical identifier of a PhysicalChannel on system level scope.
+        """
+        return self.networkSegmentId
+
+    def setNetworkSegmentId(self, value: Optional[PositiveInteger]) -> NetworkSegmentIdentification:
+        """
+        This attribute represents the numerical identifier of a PhysicalChannel on system level scope.
+
+        A None value is a no-op and does not overwrite an existing networkSegmentId.
+        """
+        if value is not None:
+            self.networkSegmentId = value
+        return self
 
 
 class SecurityEventAggregationFilter(ARObject):
@@ -3454,3 +3776,25 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     String,
     TimeValue,
 )
+
+
+# BusMirrorChannelMappingCan is defined in SystemTemplate::Fibex::FibexCore (its spec
+# Base chain reaches FibexElement there); an eager import from this module would close
+# an import-time cycle (FibexCore imports this module for ARObject/PackageableElement),
+# so the name is re-exported lazily via PEP 562; `from ArObject import X` and wildcard
+# imports keep working because __getattr__ only fires for names missing from module globals.
+from importlib import import_module as _import_module  # noqa: E402
+
+_LAZY_IMPORTS = {
+    "BusMirrorChannelMappingCan": "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore",
+    "BusMirrorChannelMappingIp": "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore",
+}
+
+
+def __getattr__(name):
+    module_path = _LAZY_IMPORTS.get(name)
+    if module_path is None:
+        raise AttributeError("module %r has no attribute %r" % (__name__, name))
+    value = getattr(_import_module(module_path), name)
+    globals()[name] = value
+    return value

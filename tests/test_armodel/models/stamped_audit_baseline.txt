@@ -56,7 +56,6 @@ BswServiceDependencyIdent
 BswTimingEvent
 BuildEngineeringObject
 BusspecificNmEcu
-CSTransformerErrorReactionEnum
 CanNmEcu
 CanXlFrameTriggeringProps
 CanXlProps
@@ -84,12 +83,7 @@ CryptoCertificateAlgorithmFamilyEnum
 CryptoCertificateFormatEnum
 CycleRepetitionType
 DataFilter
-DataIdModeEnum
 DataPrototype
-DataPrototypeInClientServerInterfaceInstanceRef
-DataPrototypeInPortInterfaceRef
-DataPrototypeInSenderReceiverInterfaceInstanceRef
-DataPrototypeReference
 DataPrototypeTransformationProps
 DataTypePolicyEnum
 Describable
@@ -109,8 +103,6 @@ DoIpTpConfig
 DocRevision
 Documentation
 DynamicPartAlternative
-EndToEndProfileBehaviorEnum
-EndToEndTransformationDescription
 EngineeringObject
 ErrorTracerNeeds
 ExclusiveArea
@@ -128,7 +120,6 @@ Frame
 FramePid
 FreeFormatEntry
 FunctionNameValue
-GlobalTimeCouplingPortProps
 Graphic
 HeapUsage
 HwAttributeDef
@@ -148,7 +139,6 @@ ISignalToIPduMapping
 ISignalTriggering
 ISignalTypeEnum
 Identifiable
-ImplementationDataTypeElementInPortInterfaceRef
 ImplementationElementInParameterInstanceRef
 InnerDataPrototypeGroupInCompositionInstanceRef
 InnerRunnableEntityGroupInCompositionInstanceRef
@@ -267,10 +257,6 @@ SecureCommunicationProps
 SecureCommunicationPropsSet
 ServiceDependency
 ServiceVersionAcceptanceKindEnum
-SignalServiceTranslationControlEnum
-SignalServiceTranslationEventProps
-SignalServiceTranslationProps
-SignalServiceTranslationPropsSet
 SingleLanguageUnitNames
 SocketConnection
 SocketConnectionIpduIdentifier

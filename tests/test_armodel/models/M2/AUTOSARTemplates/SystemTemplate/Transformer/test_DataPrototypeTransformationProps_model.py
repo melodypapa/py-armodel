@@ -40,6 +40,17 @@ class TestDataPrototypeTransformationProps:
         assert props == props.setDataPrototypeInPortInterfaceRef(None)  # None no-op
         assert props.getDataPrototypeInPortInterfaceRef() == ref
 
+    def test_get_set_data_prototype_in_port_interface_ref_impl_dt_element(self):
+        props = DataPrototypeTransformationProps()
+        ref = ImplementationDataTypeElementInPortInterfaceRef()
+
+        assert props == props.setDataPrototypeInPortInterfaceRef(ref)
+        assert props.getDataPrototypeInPortInterfaceRef() == ref
+        assert isinstance(props.getDataPrototypeInPortInterfaceRef(), ImplementationDataTypeElementInPortInterfaceRef)
+
+        assert props == props.setDataPrototypeInPortInterfaceRef(None)  # None no-op
+        assert props.getDataPrototypeInPortInterfaceRef() == ref
+
     def test_get_set_network_representation_props(self):
 
         props = DataPrototypeTransformationProps()
@@ -118,6 +129,7 @@ class TestDataPrototypeInPortInterfaceRef:
 
         assert isinstance(ref, DataPrototypeReference)
         assert ref.getDataPrototypeInClientServerInterface() is None
+        assert ref.getDataPrototypeInSenderReceiverInterface() is None
 
     def test_get_set_data_prototype_in_client_server_interface(self):
         ref = DataPrototypeInPortInterfaceRef()
@@ -132,6 +144,20 @@ class TestDataPrototypeInPortInterfaceRef:
 
         assert ref == ref.setDataPrototypeInClientServerInterface(None)  # None no-op
         assert ref.getDataPrototypeInClientServerInterface() == cs
+
+    def test_get_set_data_prototype_in_sender_receiver_interface(self):
+        ref = DataPrototypeInPortInterfaceRef()
+        sr = DataPrototypeInSenderReceiverInterfaceInstanceRef()
+        sr.setTargetDataPrototypeInSrRef(RefType().setValue("/Sr/MyVar"))
+
+        assert ref == ref.setDataPrototypeInSenderReceiverInterface(None)
+        assert ref.getDataPrototypeInSenderReceiverInterface() is None
+
+        assert ref == ref.setDataPrototypeInSenderReceiverInterface(sr)
+        assert ref.getDataPrototypeInSenderReceiverInterface() == sr
+
+        assert ref == ref.setDataPrototypeInSenderReceiverInterface(None)  # None no-op
+        assert ref.getDataPrototypeInSenderReceiverInterface() == sr
 
 
 class TestDataPrototypeInSenderReceiverInterfaceInstanceRef:

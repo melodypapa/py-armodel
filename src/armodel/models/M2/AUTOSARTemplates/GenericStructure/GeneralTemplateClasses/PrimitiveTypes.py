@@ -1676,7 +1676,29 @@ class CryptoServiceKeyGenerationEnum(AREnum):
 
 
 class DataConsistencyPolicyEnum(AREnum):
-    pass
+    """
+    Defines how data consistency is ensured in the cross cluster communication.
+
+    # DataConsistencyPolicyEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 11.11, p.903
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods; serialized as an enumeration literal on the consuming attribute dataConsistencyPolicy)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    """
+
+    # In this case the data consistency is ensured by the implementation of the SwClucC module. Tags: atp.EnumerationLiteralIndex=0
+    CONSISTENCY_MECHANISM_REQUIRED = "CONSISTENCY-MECHANISM-REQUIRED"
+
+    # In this case the data consistency is not ensured by the SwClucC module. In this case it has to be ensured by scheduling. Tags: atp.EnumerationLiteralIndex=1
+    NO_CONSISTENCY_MECHANISM = "NO-CONSISTENCY-MECHANISM"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DataConsistencyPolicyEnum.CONSISTENCY_MECHANISM_REQUIRED,
+                DataConsistencyPolicyEnum.NO_CONSISTENCY_MECHANISM,
+            ]
+        )
 
 
 class DataExchangePointKind(AREnum):
@@ -2794,7 +2816,29 @@ class DiagnosticWwhObdDtcClassEnum(AREnum):
 
 
 class EthGlobalTimeMessageFormatEnum(AREnum):
-    pass
+    """
+    Specifies which message formats are available to for the Ethernet time sync protocol.
+
+    # EthGlobalTimeMessageFormatEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.16, p.868
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods; serialized as an enumeration literal on the consuming attribute messageCompliance)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    """
+
+    # Message format according to IEEE 802.1AS standard. Tags: atp.EnumerationLiteralIndex=0 xml.name=IEEE802-1AS
+    IEEE802_1AS = "IEEE802-1AS"
+
+    # Message format according to IEEE 802.1AS standard with AUTOSAR extensions. Tags: atp.EnumerationLiteralIndex=1 xml.name=IEEE802-1AS-AUTOSAR
+    IEEE802_1AS_AUTOSAR = "IEEE802-1AS-AUTOSAR"
+
+    def __init__(self):
+        super().__init__(
+            [
+                EthGlobalTimeMessageFormatEnum.IEEE802_1AS,
+                EthGlobalTimeMessageFormatEnum.IEEE802_1AS_AUTOSAR,
+            ]
+        )
 
 
 class FMFeatureSelectionState(AREnum):
@@ -2830,23 +2874,153 @@ class FrArTpAckType(AREnum):
 
 
 class GlobalTimeCrcSupportEnum(AREnum):
-    pass
+    """
+    This enumeration is used to define whether and how CRC on the TX side shall be utilized.
+
+    # GlobalTimeCrcSupportEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.25, p.880
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods; serialized as an enumeration literal on the consuming attribute crcSecured)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    """
+
+    # This indicates that CRC is not supported Tags: atp.EnumerationLiteralIndex=0
+    CRC_NOT_SUPPORTED = "CRC-NOT-SUPPORTED"
+
+    # This indicates that CRC is supported Tags: atp.EnumerationLiteralIndex=1
+    CRC_SUPPORTED = "CRC-SUPPORTED"
+
+    def __init__(self):
+        super().__init__(
+            [
+                GlobalTimeCrcSupportEnum.CRC_NOT_SUPPORTED,
+                GlobalTimeCrcSupportEnum.CRC_SUPPORTED,
+            ]
+        )
 
 
 class GlobalTimeCrcValidationEnum(AREnum):
-    pass
+    """
+    This enumeration provides values for the evaluation of the CRC
+
+    # GlobalTimeCrcValidationEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.26, p.880
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods; serialized as an enumeration literal on the consuming attribute crcValidated)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    """
+
+    # The CRC is supposed to be ignored Tags: atp.EnumerationLiteralIndex=0
+    CRC_IGNORED = "CRC-IGNORED"
+
+    # The CRC is not supposed to be present. If CRC is present the message is ignored. Tags: atp.EnumerationLiteralIndex=1
+    CRC_NOT_VALIDATED = "CRC-NOT-VALIDATED"
+
+    # Either the CRC is present and then shall be validated or the CRC is not present and no CRC check is done. Tags: atp.EnumerationLiteralIndex=3
+    CRC_OPTIONAL = "CRC-OPTIONAL"
+
+    # This CRC is supposed to be validated. Tags: atp.EnumerationLiteralIndex=2
+    CRC_VALIDATED = "CRC-VALIDATED"
+
+    def __init__(self):
+        super().__init__(
+            [
+                GlobalTimeCrcValidationEnum.CRC_IGNORED,
+                GlobalTimeCrcValidationEnum.CRC_NOT_VALIDATED,
+                GlobalTimeCrcValidationEnum.CRC_OPTIONAL,
+                GlobalTimeCrcValidationEnum.CRC_VALIDATED,
+            ]
+        )
 
 
 class GlobalTimeIcvSupportEnum(AREnum):
-    pass
+    """
+    Defines whether an Integrity Check Value (ICV) shall be added to the sent time sync messages. Tags: atp.Status=candidate
+
+    # GlobalTimeIcvSupportEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.27, p.880
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods; serialized as an enumeration literal on the consuming attribute icvSecured)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    """
+
+    # The ICV is not supported Tags: atp.EnumerationLiteralIndex=1
+    ICV_NOT_SUPPORTED = "ICV-NOT-SUPPORTED"
+
+    # The ICV is supported Tags: atp.EnumerationLiteralIndex=0
+    ICV_SUPPORTED = "ICV-SUPPORTED"
+
+    def __init__(self):
+        super().__init__(
+            [
+                GlobalTimeIcvSupportEnum.ICV_NOT_SUPPORTED,
+                GlobalTimeIcvSupportEnum.ICV_SUPPORTED,
+            ]
+        )
 
 
 class GlobalTimeIcvVerificationEnum(AREnum):
-    pass
+    """
+    This enumeration is used to define how an Integrity Check Value (ICV) shall be handled at the receiver. Tags: atp.Status=candidate
+
+    # GlobalTimeIcvVerificationEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.28, p.881
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods; serialized as an enumeration literal on the consuming attribute icvVerification)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    """
+
+    # If the ICV is present, then it is ignored Tags: atp.EnumerationLiteralIndex=2
+    ICV_IGNORED = "ICV-IGNORED"
+
+    # The ICV is not supposed to be present. If the ICV is present, then the message is ignored. Tags: atp.EnumerationLiteralIndex=1
+    ICV_NOT_VERIFIED = "ICV-NOT-VERIFIED"
+
+    # If the ICV is present, then it will be verified. If the ICV is not present, then this is also a valid reception (no verification required). Tags: atp.EnumerationLiteralIndex=3
+    ICV_OPTIONAL = "ICV-OPTIONAL"
+
+    # The ICV is required and will be verified. Tags: atp.EnumerationLiteralIndex=0
+    ICV_VERIFIED = "ICV-VERIFIED"
+
+    def __init__(self):
+        super().__init__(
+            [
+                GlobalTimeIcvVerificationEnum.ICV_IGNORED,
+                GlobalTimeIcvVerificationEnum.ICV_NOT_VERIFIED,
+                GlobalTimeIcvVerificationEnum.ICV_OPTIONAL,
+                GlobalTimeIcvVerificationEnum.ICV_VERIFIED,
+            ]
+        )
 
 
 class GlobalTimePortRoleEnum(AREnum):
-    pass
+    """
+    Selection of port behavior to Time Slave, Time Master or Dynamic (Time Slave or Time Master at runtime).
+
+    # GlobalTimePortRoleEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.19, p.876
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods; serialized as an enumeration literal on the consuming attribute globalTimePortRole)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    """
+
+    # Time Slave or Time Master port behavior at runtime. Tags: atp.EnumerationLiteralIndex=2
+    DYNAMIC = "DYNAMIC"
+
+    # timeMaster port behavior Tags: atp.EnumerationLiteralIndex=1
+    TIME_MASTER = "TIME-MASTER"
+
+    # TimeSlave port behavior Tags: atp.EnumerationLiteralIndex=0
+    TIME_SLAVE = "TIME-SLAVE"
+
+    def __init__(self):
+        super().__init__(
+            [
+                GlobalTimePortRoleEnum.DYNAMIC,
+                GlobalTimePortRoleEnum.TIME_MASTER,
+                GlobalTimePortRoleEnum.TIME_SLAVE,
+            ]
+        )
 
 
 class IEEE1722TpAafAes3DataTypeEnum(AREnum):
@@ -2922,7 +3096,29 @@ class SecurityEventReportingModeEnum(AREnum):
 
 
 class SendIndicationEnum(AREnum):
-    pass
+    """
+    This meta-class provides a way to specify in which way redundancy shall be applied on collection level.
+
+    # SendIndicationEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 11.13, p.904
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods; serialized as an enumeration literal on the consuming attribute sendIndication)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    """
+
+    # This value represents the requirement that any send operation of the Software Cluster is indicated. Tags: atp.EnumerationLiteralIndex=2
+    ANY_SEND_OPERATION = "ANY-SEND-OPERATION"
+
+    # This value represents the requirement that send operations of the Software Cluster are not indicated. Tags: atp.EnumerationLiteralIndex=1
+    NONE = "NONE"
+
+    def __init__(self):
+        super().__init__(
+            [
+                SendIndicationEnum.ANY_SEND_OPERATION,
+                SendIndicationEnum.NONE,
+            ]
+        )
 
 
 class SeverityEnum(AREnum):

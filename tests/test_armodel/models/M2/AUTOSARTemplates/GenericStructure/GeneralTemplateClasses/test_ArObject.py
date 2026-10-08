@@ -10,7 +10,11 @@ import pytest
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import TextValueSpecification
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    AbstractGlobalTimeDomainProps,
     ARObject,
+    BusMirrorCanIdRangeMapping,
+    BusMirrorCanIdToCanIdMapping,
+    BusMirrorLinPidToCanIdMapping,
     CalibrationParameterValue,
     DdsCpProvidedServiceInstance,
     DdsCpServiceInstanceEvent,
@@ -49,6 +53,8 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticTroubleCodeProps,
     DiagnosticTroubleCodeUds,
     EventObdReadinessGroup,
+    GlobalTimeCorrectionProps,
+    NetworkSegmentIdentification,
     PhysicalDimensionMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import DiagnosticDebounceAlgorithmProps, DiagnosticFunctionInhibitSource, DiagnosticParameterElement
@@ -4302,6 +4308,547 @@ class TestDdsHistory:
         assert inspect.cleandoc(DdsHistory.setHistoryKind.__doc__) == (self.HISTORY_KIND_NOTE + none_no_op % "historyKind")
         assert inspect.cleandoc(DdsHistory.getHistoryOrderDepth.__doc__) == self.HISTORY_ORDER_DEPTH_NOTE
         assert inspect.cleandoc(DdsHistory.setHistoryOrderDepth.__doc__) == (self.HISTORY_ORDER_DEPTH_NOTE + none_no_op % "historyOrderDepth")
+
+
+class TestBusMirrorCanIdRangeMapping:
+    """
+    Test class for BusMirrorCanIdRangeMapping functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.329, p.702
+    """
+
+    CLASS_NOTE = "This element defines a rule for remapping a set of CAN IDs."
+    DESTINATION_BASE_ID_NOTE = "Base ID merged with the masked parts of the original CAN ID to form the mapped CAN ID."
+    SOURCE_CAN_ID_CODE_NOTE = "Value to match masked original CAN IDs."
+    SOURCE_CAN_ID_MASK_NOTE = "Mask applied to original CAN IDs before comparison."
+
+    def _create_mapping(self) -> BusMirrorCanIdRangeMapping:
+        return BusMirrorCanIdRangeMapping()
+
+    def test_initialization(self):
+        obj = self._create_mapping()
+
+        assert obj.getDestinationBaseId() is None
+        assert obj.getSourceCanIdCode() is None
+        assert obj.getSourceCanIdMask() is None
+
+    def test_is_ar_object_subclass(self):
+        assert issubclass(BusMirrorCanIdRangeMapping, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert inspect.cleandoc(BusMirrorCanIdRangeMapping.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert BusMirrorCanIdRangeMapping.__init__.__doc__ is None
+
+    def test_get_set_destination_base_id(self):
+        obj = self._create_mapping()
+
+        value = PositiveInteger().setValue("16")
+        assert obj.setDestinationBaseId(value) is obj
+        assert obj.getDestinationBaseId() is value
+        assert obj.getDestinationBaseId().getValue() == 16
+
+        obj.setDestinationBaseId(None)
+        assert obj.getDestinationBaseId() is value
+
+    def test_get_set_source_can_id_code(self):
+        obj = self._create_mapping()
+
+        value = PositiveInteger().setValue("40")
+        assert obj.setSourceCanIdCode(value) is obj
+        assert obj.getSourceCanIdCode() is value
+        assert obj.getSourceCanIdCode().getValue() == 40
+
+        obj.setSourceCanIdCode(None)
+        assert obj.getSourceCanIdCode() is value
+
+    def test_get_set_source_can_id_mask(self):
+        obj = self._create_mapping()
+
+        value = PositiveInteger().setValue("7")
+        assert obj.setSourceCanIdMask(value) is obj
+        assert obj.getSourceCanIdMask() is value
+        assert obj.getSourceCanIdMask().getValue() == 7
+
+        obj.setSourceCanIdMask(None)
+        assert obj.getSourceCanIdMask() is value
+
+    def test_accessor_docstrings_are_spec_note_verbatim(self):
+        none_no_op = "\n\nA None value is a no-op and does not overwrite an existing %s."
+        assert inspect.cleandoc(BusMirrorCanIdRangeMapping.getDestinationBaseId.__doc__) == self.DESTINATION_BASE_ID_NOTE
+        assert inspect.cleandoc(BusMirrorCanIdRangeMapping.setDestinationBaseId.__doc__) == (self.DESTINATION_BASE_ID_NOTE + none_no_op % "destinationBaseId")
+        assert inspect.cleandoc(BusMirrorCanIdRangeMapping.getSourceCanIdCode.__doc__) == self.SOURCE_CAN_ID_CODE_NOTE
+        assert inspect.cleandoc(BusMirrorCanIdRangeMapping.setSourceCanIdCode.__doc__) == (self.SOURCE_CAN_ID_CODE_NOTE + none_no_op % "sourceCanIdCode")
+        assert inspect.cleandoc(BusMirrorCanIdRangeMapping.getSourceCanIdMask.__doc__) == self.SOURCE_CAN_ID_MASK_NOTE
+        assert inspect.cleandoc(BusMirrorCanIdRangeMapping.setSourceCanIdMask.__doc__) == (self.SOURCE_CAN_ID_MASK_NOTE + none_no_op % "sourceCanIdMask")
+
+    def test_type_hints_are_optional_positive_integer(self):
+        getter_hints = typing.get_type_hints(BusMirrorCanIdRangeMapping.getDestinationBaseId)
+        setter_hints = typing.get_type_hints(BusMirrorCanIdRangeMapping.setDestinationBaseId)
+        assert getter_hints.get("return") == typing.Optional[PositiveInteger]
+        assert setter_hints.get("value") == typing.Optional[PositiveInteger]
+
+
+class TestBusMirrorCanIdToCanIdMapping:
+    """
+    Test class for BusMirrorCanIdToCanIdMapping functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.330, p.702
+    """
+
+    CLASS_NOTE = "This element defines a rule for remapping a single CAN ID."
+    REMAPPED_CAN_ID_NOTE = "This attribute defines the CanId on the targetChannel."
+    SOUCE_CAN_ID_NOTE = "This reference points to the sourceFrame with sourceCan Id on the sourceChannel."
+
+    def _create_mapping(self) -> BusMirrorCanIdToCanIdMapping:
+        return BusMirrorCanIdToCanIdMapping()
+
+    def test_initialization(self):
+        obj = self._create_mapping()
+
+        assert obj.getRemappedCanId() is None
+        assert obj.getSouceCanIdRef() is None
+
+    def test_is_ar_object_subclass(self):
+        assert issubclass(BusMirrorCanIdToCanIdMapping, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert inspect.cleandoc(BusMirrorCanIdToCanIdMapping.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert BusMirrorCanIdToCanIdMapping.__init__.__doc__ is None
+
+    def test_get_set_remapped_can_id(self):
+        obj = self._create_mapping()
+
+        value = PositiveInteger().setValue("512")
+        assert obj.setRemappedCanId(value) is obj
+        assert obj.getRemappedCanId() is value
+        assert obj.getRemappedCanId().getValue() == 512
+
+        obj.setRemappedCanId(None)
+        assert obj.getRemappedCanId() is value
+
+    def test_get_set_souce_can_id_ref(self):
+        obj = self._create_mapping()
+
+        value = RefType().setValue("/Can/FrameTriggering")
+        value.setDest("CAN-FRAME-TRIGGERING")
+        assert obj.setSouceCanIdRef(value) is obj
+        assert obj.getSouceCanIdRef() is value
+        assert obj.getSouceCanIdRef().getValue() == "/Can/FrameTriggering"
+
+        obj.setSouceCanIdRef(None)
+        assert obj.getSouceCanIdRef() is value
+
+    def test_accessor_docstrings_are_spec_note_verbatim(self):
+        none_no_op = "\n\nA None value is a no-op and does not overwrite an existing %s."
+        assert inspect.cleandoc(BusMirrorCanIdToCanIdMapping.getRemappedCanId.__doc__) == self.REMAPPED_CAN_ID_NOTE
+        assert inspect.cleandoc(BusMirrorCanIdToCanIdMapping.setRemappedCanId.__doc__) == (self.REMAPPED_CAN_ID_NOTE + none_no_op % "remappedCanId")
+        assert inspect.cleandoc(BusMirrorCanIdToCanIdMapping.getSouceCanIdRef.__doc__) == self.SOUCE_CAN_ID_NOTE
+        assert inspect.cleandoc(BusMirrorCanIdToCanIdMapping.setSouceCanIdRef.__doc__) == (self.SOUCE_CAN_ID_NOTE + none_no_op % "souceCanIdRef")
+
+    def test_type_hints_are_spec_typed(self):
+        getter_hints = typing.get_type_hints(BusMirrorCanIdToCanIdMapping.getSouceCanIdRef)
+        setter_hints = typing.get_type_hints(BusMirrorCanIdToCanIdMapping.setSouceCanIdRef)
+        assert getter_hints.get("return") == typing.Optional[RefType]
+        assert setter_hints.get("value") == typing.Optional[RefType]
+
+
+class TestBusMirrorLinPidToCanIdMapping:
+    """
+    Test class for BusMirrorLinPidToCanIdMapping functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.331, p.702
+    """
+
+    CLASS_NOTE = "This element defines a rule for remapping a single LIN Frame."
+    REMAPPED_CAN_ID_NOTE = "This attribute defines the CanId on the targetChannel."
+    SOURCE_LIN_PID_NOTE = "This reference points to the sourceFrame with sourceCan Id on the sourceChannel."
+
+    def _create_mapping(self) -> BusMirrorLinPidToCanIdMapping:
+        return BusMirrorLinPidToCanIdMapping()
+
+    def test_initialization(self):
+        obj = self._create_mapping()
+
+        assert obj.getRemappedCanId() is None
+        assert obj.getSourceLinPidRef() is None
+
+    def test_is_ar_object_subclass(self):
+        assert issubclass(BusMirrorLinPidToCanIdMapping, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert inspect.cleandoc(BusMirrorLinPidToCanIdMapping.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert BusMirrorLinPidToCanIdMapping.__init__.__doc__ is None
+
+    def test_get_set_remapped_can_id(self):
+        obj = self._create_mapping()
+
+        value = PositiveInteger().setValue("768")
+        assert obj.setRemappedCanId(value) is obj
+        assert obj.getRemappedCanId() is value
+        assert obj.getRemappedCanId().getValue() == 768
+
+        obj.setRemappedCanId(None)
+        assert obj.getRemappedCanId() is value
+
+    def test_get_set_source_lin_pid_ref(self):
+        obj = self._create_mapping()
+
+        value = RefType().setValue("/Lin/FrameTriggering")
+        value.setDest("LIN-FRAME-TRIGGERING")
+        assert obj.setSourceLinPidRef(value) is obj
+        assert obj.getSourceLinPidRef() is value
+        assert obj.getSourceLinPidRef().getValue() == "/Lin/FrameTriggering"
+
+        obj.setSourceLinPidRef(None)
+        assert obj.getSourceLinPidRef() is value
+
+    def test_accessor_docstrings_are_spec_note_verbatim(self):
+        none_no_op = "\n\nA None value is a no-op and does not overwrite an existing %s."
+        assert inspect.cleandoc(BusMirrorLinPidToCanIdMapping.getRemappedCanId.__doc__) == self.REMAPPED_CAN_ID_NOTE
+        assert inspect.cleandoc(BusMirrorLinPidToCanIdMapping.setRemappedCanId.__doc__) == (self.REMAPPED_CAN_ID_NOTE + none_no_op % "remappedCanId")
+        assert inspect.cleandoc(BusMirrorLinPidToCanIdMapping.getSourceLinPidRef.__doc__) == self.SOURCE_LIN_PID_NOTE
+        assert inspect.cleandoc(BusMirrorLinPidToCanIdMapping.setSourceLinPidRef.__doc__) == (self.SOURCE_LIN_PID_NOTE + none_no_op % "sourceLinPidRef")
+
+    def test_type_hints_are_spec_typed(self):
+        getter_hints = typing.get_type_hints(BusMirrorLinPidToCanIdMapping.getSourceLinPidRef)
+        setter_hints = typing.get_type_hints(BusMirrorLinPidToCanIdMapping.setSourceLinPidRef)
+        assert getter_hints.get("return") == typing.Optional[RefType]
+        assert setter_hints.get("value") == typing.Optional[RefType]
+
+
+class ConcreteAbstractGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
+    pass
+
+
+class TestAbstractGlobalTimeDomainProps:
+    """
+    Test class for AbstractGlobalTimeDomainProps functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.2, p.859
+    (abstract; subclasses CanGlobalTimeDomainProps, EthGlobalTimeDomainProps and
+    FrGlobalTimeDomainProps — accessors exercised through a local concrete subclass
+    per the abstract-class test convention. The table's Attribute column is a single
+    "-" row, so the class owns no attributes of its own; the VARIATION-POINT slot of
+    the XSD ABSTRACT-GLOBAL-TIME-DOMAIN-PROPS group is mixin-provided.)
+    """
+
+    CLASS_NOTE = "This abstract class enables a GlobalTimeDomain to specify additional properties."
+
+    def test_abstract_initialization(self):
+        """
+        AbstractGlobalTimeDomainProps is abstract and cannot be instantiated directly.
+        """
+        with pytest.raises(TypeError):
+            AbstractGlobalTimeDomainProps()
+
+    def test_is_ar_object_subclass_with_variation_point_capable(self):
+        """
+        Test that AbstractGlobalTimeDomainProps derives from ARObject per the Table 9.2 Base row
+        and from VariationPointCapable (the atpVariation on the owning GlobalTimeDomain.globalTimeDomainProperty
+        row makes the member class VP-capable; the XSD ABSTRACT-GLOBAL-TIME-DOMAIN-PROPS group carries
+        VARIATION-POINT).
+        """
+        assert issubclass(AbstractGlobalTimeDomainProps, ARObject)
+        assert issubclass(AbstractGlobalTimeDomainProps, VariationPointCapable)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(AbstractGlobalTimeDomainProps.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert AbstractGlobalTimeDomainProps.__init__.__doc__ is None
+
+    def test_no_own_methods(self):
+        """
+        Test that the class declares no accessors — Table 9.2 has no Attribute rows.
+        """
+        methods = [name for name, value in AbstractGlobalTimeDomainProps.__dict__.items() if callable(value) and not name.startswith("_")]
+        assert methods == []
+
+    def test_concrete_subclass_initialization(self):
+        """
+        Test that a concrete subclass instantiates with all inherited state at defaults.
+        """
+        obj = ConcreteAbstractGlobalTimeDomainProps()
+
+        assert obj.getChecksum() is None
+        assert obj.getTimestamp() is None
+        assert obj.getVariationPoint() is None
+
+    def test_variation_point_base_accessors(self):
+        """
+        Exercise the inherited VariationPointCapable accessors: chaining, round-trip, None no-op.
+        """
+        obj = ConcreteAbstractGlobalTimeDomainProps()
+
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
+
+        variation_point = VariationPoint()
+        assert obj.setVariationPoint(variation_point) is obj
+        assert obj.getVariationPoint() is variation_point
+
+        obj.setVariationPoint(None)
+        assert obj.getVariationPoint() is variation_point  # None is a no-op
+
+
+class TestNetworkSegmentIdentification:
+    """
+    Test class for NetworkSegmentIdentification functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.3, p.859
+    """
+
+    CLASS_NOTE = "This meta-class represents the ability to identify the PhysicalChannel on a system scope in a numerical way. " "One possible application of this approach is the Time Validation."
+    NETWORK_SEGMENT_ID_NOTE = "This attribute represents the numerical identifier of a PhysicalChannel on system level scope."
+
+    def _create_object(self) -> NetworkSegmentIdentification:
+        return NetworkSegmentIdentification()
+
+    def test_initialization(self):
+        """
+        Test that a new NetworkSegmentIdentification initializes all attributes to their defaults.
+        """
+        obj = self._create_object()
+
+        assert obj.getChecksum() is None
+        assert obj.getTimestamp() is None
+        assert obj.getNetworkSegmentId() is None
+
+    def test_is_ar_object_subclass(self):
+        """
+        Test that NetworkSegmentIdentification derives from ARObject per the Table 9.3 Base row.
+        """
+        assert issubclass(NetworkSegmentIdentification, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(NetworkSegmentIdentification.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert NetworkSegmentIdentification.__init__.__doc__ is None
+
+    def test_member_order_follows_spec_rows(self):
+        """
+        Test that the accessors follow the Table 9.3 displayed row order (getter first per attribute).
+        """
+        methods = [name for name, value in NetworkSegmentIdentification.__dict__.items() if callable(value) and not name.startswith("_")]
+        assert methods == [
+            "getNetworkSegmentId",
+            "setNetworkSegmentId",
+        ]
+
+    def test_annotations_are_optional_typed(self):
+        """
+        Test that the accessors carry the spec PositiveInteger hint (0..1 row).
+        """
+        getter_hints = typing.get_type_hints(NetworkSegmentIdentification.getNetworkSegmentId)
+        assert getter_hints.get("return") == typing.Optional[PositiveInteger]
+
+        setter_hints = typing.get_type_hints(NetworkSegmentIdentification.setNetworkSegmentId)
+        assert setter_hints.get("value") == typing.Optional[PositiveInteger]
+        assert setter_hints.get("return") is NetworkSegmentIdentification
+
+    def test_get_set_network_segment_id(self):
+        """
+        Test getNetworkSegmentId and setNetworkSegmentId round-trip and None no-op.
+        """
+        obj = self._create_object()
+
+        value = PositiveInteger()
+        value.setValue("7")
+        result = obj.setNetworkSegmentId(value)
+        assert result is obj  # method chaining
+        assert obj.getNetworkSegmentId() is value
+        assert obj.getNetworkSegmentId().getValue() == 7
+
+        result = obj.setNetworkSegmentId(None)
+        assert result is obj  # method chaining with None
+        assert obj.getNetworkSegmentId() is value  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        assert inspect.cleandoc(NetworkSegmentIdentification.getNetworkSegmentId.__doc__) == self.NETWORK_SEGMENT_ID_NOTE
+        assert inspect.cleandoc(NetworkSegmentIdentification.setNetworkSegmentId.__doc__) == (
+            self.NETWORK_SEGMENT_ID_NOTE + "\n\nA None value is a no-op and does not overwrite an existing networkSegmentId."
+        )
+
+
+class TestGlobalTimeCorrectionProps:
+    """
+    Test class for GlobalTimeCorrectionProps functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.7, p.862
+    """
+
+    CLASS_NOTE = "This meta-class defines the attributes for rate and offset correction."
+    OFFSET_CORRECTION_ADAPTION_INTERVAL_NOTE = "Defines the interval during which the adaptive rate correction cancels out the rate- and time deviation."
+    OFFSET_CORRECTION_JUMP_THRESHOLD_NOTE = (
+        "Threshold for the correction method. Deviations below this value will be corrected by a linear reduction over a defined timespan. "
+        "Values equal- and greater than this value will be corrected by immediately setting the correct time- and rate in form of a jump."
+    )
+    RATE_CORRECTION_MEASUREMENT_DURATION_NOTE = "Definition of the time span which is used to calculate the rate deviation."
+    RATE_CORRECTIONS_PER_MEASUREMENT_DURATION_NOTE = "Defines the number of simultaneous rate measurements to determine the current rate deviation."
+
+    def _create_object(self) -> GlobalTimeCorrectionProps:
+        return GlobalTimeCorrectionProps()
+
+    def test_initialization(self):
+        """
+        Test that a new GlobalTimeCorrectionProps initializes all attributes to their defaults.
+        """
+        obj = self._create_object()
+
+        assert obj.getOffsetCorrectionAdaptionInterval() is None
+        assert obj.getOffsetCorrectionJumpThreshold() is None
+        assert obj.getRateCorrectionMeasurementDuration() is None
+        assert obj.getRateCorrectionsPerMeasurementDuration() is None
+
+    def test_is_ar_object_subclass(self):
+        """
+        Test that GlobalTimeCorrectionProps derives from ARObject per the Table 9.7 Base row.
+        """
+        assert issubclass(GlobalTimeCorrectionProps, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(GlobalTimeCorrectionProps.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert GlobalTimeCorrectionProps.__init__.__doc__ is None
+
+    def test_member_order_follows_spec_rows(self):
+        """
+        Test that the accessors follow the Table 9.7 displayed row order (getter first per attribute).
+        """
+        methods = [name for name, value in GlobalTimeCorrectionProps.__dict__.items() if callable(value) and not name.startswith("_")]
+        assert methods == [
+            "getOffsetCorrectionAdaptionInterval",
+            "setOffsetCorrectionAdaptionInterval",
+            "getOffsetCorrectionJumpThreshold",
+            "setOffsetCorrectionJumpThreshold",
+            "getRateCorrectionMeasurementDuration",
+            "setRateCorrectionMeasurementDuration",
+            "getRateCorrectionsPerMeasurementDuration",
+            "setRateCorrectionsPerMeasurementDuration",
+        ]
+
+    def test_annotations_are_optional_typed(self):
+        """
+        Test that the accessors carry the spec types (0..1 rows: TimeValue / PositiveInteger).
+        """
+        hints = typing.get_type_hints(GlobalTimeCorrectionProps.getOffsetCorrectionAdaptionInterval)
+        assert hints.get("return") == typing.Optional[TimeValue]
+        hints = typing.get_type_hints(GlobalTimeCorrectionProps.setOffsetCorrectionAdaptionInterval)
+        assert hints.get("value") == typing.Optional[TimeValue]
+        assert hints.get("return") is GlobalTimeCorrectionProps
+
+        hints = typing.get_type_hints(GlobalTimeCorrectionProps.getOffsetCorrectionJumpThreshold)
+        assert hints.get("return") == typing.Optional[TimeValue]
+        hints = typing.get_type_hints(GlobalTimeCorrectionProps.getRateCorrectionMeasurementDuration)
+        assert hints.get("return") == typing.Optional[TimeValue]
+        hints = typing.get_type_hints(GlobalTimeCorrectionProps.getRateCorrectionsPerMeasurementDuration)
+        assert hints.get("return") == typing.Optional[PositiveInteger]
+
+    def test_get_set_offset_correction_adaption_interval(self):
+        """
+        Test getOffsetCorrectionAdaptionInterval and setOffsetCorrectionAdaptionInterval round-trip and None no-op.
+        """
+        obj = self._create_object()
+
+        value = TimeValue()
+        value.setValue("0.005")
+        assert obj.setOffsetCorrectionAdaptionInterval(value) is obj
+        assert obj.getOffsetCorrectionAdaptionInterval() is value
+        assert obj.getOffsetCorrectionAdaptionInterval().getValue() == 0.005
+
+        obj.setOffsetCorrectionAdaptionInterval(None)
+        assert obj.getOffsetCorrectionAdaptionInterval() is value  # None is a no-op
+
+    def test_get_set_offset_correction_jump_threshold(self):
+        """
+        Test getOffsetCorrectionJumpThreshold and setOffsetCorrectionJumpThreshold round-trip and None no-op.
+        """
+        obj = self._create_object()
+
+        value = TimeValue()
+        value.setValue("0.5")
+        assert obj.setOffsetCorrectionJumpThreshold(value) is obj
+        assert obj.getOffsetCorrectionJumpThreshold() is value
+
+        obj.setOffsetCorrectionJumpThreshold(None)
+        assert obj.getOffsetCorrectionJumpThreshold() is value  # None is a no-op
+
+    def test_get_set_rate_correction_measurement_duration(self):
+        """
+        Test getRateCorrectionMeasurementDuration and setRateCorrectionMeasurementDuration round-trip and None no-op.
+        """
+        obj = self._create_object()
+
+        value = TimeValue()
+        value.setValue("2.0")
+        assert obj.setRateCorrectionMeasurementDuration(value) is obj
+        assert obj.getRateCorrectionMeasurementDuration() is value
+
+        obj.setRateCorrectionMeasurementDuration(None)
+        assert obj.getRateCorrectionMeasurementDuration() is value  # None is a no-op
+
+    def test_get_set_rate_corrections_per_measurement_duration(self):
+        """
+        Test getRateCorrectionsPerMeasurementDuration and setRateCorrectionsPerMeasurementDuration round-trip and None no-op.
+        """
+        obj = self._create_object()
+
+        value = PositiveInteger()
+        value.setValue("3")
+        assert obj.setRateCorrectionsPerMeasurementDuration(value) is obj
+        assert obj.getRateCorrectionsPerMeasurementDuration() is value
+        assert obj.getRateCorrectionsPerMeasurementDuration().getValue() == 3
+
+        obj.setRateCorrectionsPerMeasurementDuration(None)
+        assert obj.getRateCorrectionsPerMeasurementDuration() is value  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        none_no_op = "\n\nA None value is a no-op and does not overwrite an existing %s."
+        assert inspect.cleandoc(GlobalTimeCorrectionProps.getOffsetCorrectionAdaptionInterval.__doc__) == self.OFFSET_CORRECTION_ADAPTION_INTERVAL_NOTE
+        assert inspect.cleandoc(GlobalTimeCorrectionProps.setOffsetCorrectionAdaptionInterval.__doc__) == (
+            self.OFFSET_CORRECTION_ADAPTION_INTERVAL_NOTE + none_no_op % "offsetCorrectionAdaptionInterval"
+        )
+        assert inspect.cleandoc(GlobalTimeCorrectionProps.getOffsetCorrectionJumpThreshold.__doc__) == self.OFFSET_CORRECTION_JUMP_THRESHOLD_NOTE
+        assert inspect.cleandoc(GlobalTimeCorrectionProps.setOffsetCorrectionJumpThreshold.__doc__) == (self.OFFSET_CORRECTION_JUMP_THRESHOLD_NOTE + none_no_op % "offsetCorrectionJumpThreshold")
+        assert inspect.cleandoc(GlobalTimeCorrectionProps.getRateCorrectionMeasurementDuration.__doc__) == self.RATE_CORRECTION_MEASUREMENT_DURATION_NOTE
+        assert inspect.cleandoc(GlobalTimeCorrectionProps.setRateCorrectionMeasurementDuration.__doc__) == (
+            self.RATE_CORRECTION_MEASUREMENT_DURATION_NOTE + none_no_op % "rateCorrectionMeasurementDuration"
+        )
+        assert inspect.cleandoc(GlobalTimeCorrectionProps.getRateCorrectionsPerMeasurementDuration.__doc__) == self.RATE_CORRECTIONS_PER_MEASUREMENT_DURATION_NOTE
+        assert inspect.cleandoc(GlobalTimeCorrectionProps.setRateCorrectionsPerMeasurementDuration.__doc__) == (
+            self.RATE_CORRECTIONS_PER_MEASUREMENT_DURATION_NOTE + none_no_op % "rateCorrectionsPerMeasurementDuration"
+        )
 
 
 class TestDdsResourceLimits:
