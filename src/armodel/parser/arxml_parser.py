@@ -623,7 +623,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (
     EvaluatedVariantSet,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, CalibrationParameterValueSet, FMFeature, PhysicalDimensionMappingSet, ReferenceBase
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, CalibrationParameterValueSet, FMFeature, FMFeatureModel, PhysicalDimensionMappingSet, ReferenceBase
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import AclObjectSet, AclOperation, AclPermission, AclRole
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import DiagnosticCustomServiceInstance, DiagnosticMapping
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
@@ -2491,6 +2491,13 @@ class ARXMLParser(AbstractARXMLParser):
             self.readFMFeatureRestriction(child_element, restriction)
             feature.addRestriction(restriction)
         return feature
+
+    def readFMFeatureModel(self, element: ET.Element, feature_model: FMFeatureModel) -> FMFeatureModel:
+        self.readIdentifiable(element, feature_model)
+        for ref in self.getChildElementRefTypeList(element, "FEATURE-REFS/FEATURE-REF"):
+            feature_model.addFeatureRef(ref)
+        feature_model.setRootRef(self.getChildElementOptionalRefType(element, "ROOT-REF"))
+        return feature_model
 
     def getBindingTimeEnumElement(self, element: ET.Element, key: str) -> Optional[BindingTimeEnum]:
         literal = self.getChildElementOptionalLiteral(element, key)
@@ -19632,6 +19639,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "FM-FEATURE":
                 feature = parent.createFMFeature(self.getShortName(child_element))
                 self.readFMFeature(child_element, feature)
+            elif tag_name == "FM-FEATURE-MODEL":
+                feature_model = parent.createFMFeatureModel(self.getShortName(child_element))
+                self.readFMFeatureModel(child_element, feature_model)
             elif tag_name == "SYSTEM-TIMING":
                 system_timing = parent.createSystemTiming(self.getShortName(child_element))
                 self.readSystemTiming(child_element, system_timing)

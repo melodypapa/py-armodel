@@ -424,7 +424,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (
     EvaluatedVariantSet,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, FMFeature, ReferenceBase
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, FMFeature, FMFeatureModel, ReferenceBase
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import AclObjectSet, AclOperation, AclPermission, AclRole
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import DiagnosticCustomServiceInstance, DiagnosticMapping
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
@@ -2233,6 +2233,18 @@ class ARXMLWriter(AbstractARXMLWriter):
                 restrictions_tag = ET.SubElement(child_element, "RESTRICTIONS")
                 for restriction in restrictions:
                     self.writeFMFeatureRestriction(restrictions_tag, restriction)
+
+
+    def writeFMFeatureModel(self, element: ET.Element, feature_model: FMFeatureModel):
+        if feature_model is not None:
+            child_element = ET.SubElement(element, "FM-FEATURE-MODEL")
+            self.writeIdentifiable(child_element, feature_model)
+            refs = feature_model.getFeatureRefs()
+            if len(refs) > 0:
+                refs_tag = ET.SubElement(child_element, "FEATURE-REFS")
+                for ref in refs:
+                    self.setChildElementOptionalRefType(refs_tag, "FEATURE-REF", ref)
+            self.setChildElementOptionalRefType(child_element, "ROOT-REF", feature_model.getRootRef())
 
     def writePostBuildVariantCondition(self, element: ET.Element, condition: PostBuildVariantCondition):
         child_element = ET.SubElement(element, "POST-BUILD-VARIANT-CONDITION")
@@ -20096,6 +20108,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeVfbTiming(element, ar_element)
         elif isinstance(ar_element, FMFeature):
             self.writeFMFeature(element, ar_element)
+        elif isinstance(ar_element, FMFeatureModel):
+            self.writeFMFeatureModel(element, ar_element)
         elif isinstance(ar_element, SystemTiming):
             self.writeSystemTiming(element, ar_element)
         elif isinstance(ar_element, BswModuleTiming):

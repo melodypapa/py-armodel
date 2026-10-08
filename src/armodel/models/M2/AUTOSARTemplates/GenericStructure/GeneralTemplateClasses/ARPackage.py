@@ -2370,6 +2370,14 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(feature)
         return cast(FMFeature, self.getReferrableElement(short_name, FMFeature))
 
+
+    def createFMFeatureModel(self, short_name: str) -> FMFeatureModel:
+
+        if not self.IsReferrableElementExists(short_name, FMFeatureModel):
+            feature_model = FMFeatureModel(self, short_name)
+            self.addReferrableElement(feature_model)
+        return cast(FMFeatureModel, self.getReferrableElement(short_name, FMFeatureModel))
+
     def createSystemTiming(self, short_name: str) -> SystemTiming:
 
         if not self.IsReferrableElementExists(short_name, SystemTiming):
@@ -11709,7 +11717,56 @@ class FMFeatureMap(ARElement):
 
 
 class FMFeatureModel(ARElement):
-    pass
+    """
+    A Feature model describes the features of a product line and their dependencies. Feature models are an optional part of an AUTOSAR model.
+    """
+
+    # FMFeatureModel method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf, Table 4.1, p.22
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addFeatureRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFeatureRefs   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getRootRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRootRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # "feature" holds the list of features of the feature model. No FMFeature may be contained twice in this list. Also, each FMFeature may be contained on only one feature model.
+        self.featureRefs: List[RefType] = []
+
+        # The features of a feature model define a tree. The attribute root points to the root of this tree.
+        self.rootRef: Optional[RefType] = None
+
+    def addFeatureRef(self, ref: RefType) -> FMFeatureModel:
+        """
+        "feature" holds the list of features of the feature model. No FMFeature may be contained twice in this list. Also, each FMFeature may be contained on only one feature model.
+        """
+        self.featureRefs.append(ref)
+        return self
+
+    def getFeatureRefs(self) -> List[RefType]:
+        """
+        "feature" holds the list of features of the feature model. No FMFeature may be contained twice in this list. Also, each FMFeature may be contained on only one feature model.
+        """
+        return self.featureRefs
+
+    def getRootRef(self) -> Optional[RefType]:
+        """
+        The features of a feature model define a tree. The attribute root points to the root of this tree.
+        """
+        return self.rootRef
+
+    def setRootRef(self, value: Optional[RefType]) -> FMFeatureModel:
+        """
+        The features of a feature model define a tree. The attribute root points to the root of this tree.
+
+        A None value is a no-op and does not overwrite an existing rootRef.
+        """
+        if value is not None:
+            self.rootRef = value
+        return self
 
 
 class FMFeatureSelectionSet(ARElement):
