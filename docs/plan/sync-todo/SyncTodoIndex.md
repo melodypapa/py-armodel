@@ -874,7 +874,7 @@ Status: **29/29** completed
 
 ## Group21
 
-Status: **24/55** completed
+Status: **25/55** completed
 
 | Class Name                           | Status       | Commit ID  |
 | ------------------------------------ | ------------ | ---------- |
@@ -883,7 +883,7 @@ Status: **24/55** completed
 | `MixedContentForLongName`            | [x] Done*    | N/A        |
 | `Referrable`                         | [x] Done*    | N/A        |
 | `ReferrableSubtypesEnum`             | [x] Done     | a097cb3d4f |
-| `SdgDef`                             | [ ] Pending* | N/A        |
+| `SdgDef`                             | [x] Done     | c7d3958065 |
 | `SdgElementWithGid`                  | [ ] Pending* | N/A        |
 | `SdgClass`                           | [ ] Pending* | N/A        |
 | `SdgAttribute`                       | [ ] Pending* | N/A        |
