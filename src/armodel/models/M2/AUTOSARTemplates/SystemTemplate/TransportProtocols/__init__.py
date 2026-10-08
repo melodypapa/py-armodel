@@ -3690,6 +3690,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols.IEEE17
     IEEE1722TpAcfBus as IEEE1722TpAcfBus,
     IEEE1722TpAcfBusPart as IEEE1722TpAcfBusPart,
     IEEE1722TpAcfCan as IEEE1722TpAcfCan,
+    IEEE1722TpAcfCanMessageTypeEnum as IEEE1722TpAcfCanMessageTypeEnum,
     IEEE1722TpAcfCanPart as IEEE1722TpAcfCanPart,
     IEEE1722TpAcfLin as IEEE1722TpAcfLin,
     IEEE1722TpAcfLinPart as IEEE1722TpAcfLinPart,

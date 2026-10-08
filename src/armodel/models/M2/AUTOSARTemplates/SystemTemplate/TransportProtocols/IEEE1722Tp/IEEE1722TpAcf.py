@@ -7,8 +7,34 @@ from typing import List, Optional, cast
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, PositiveInteger
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
+
+
+class IEEE1722TpAcfCanMessageTypeEnum(AREnum):
+    """
+    Definition of the ACF CAN stream message type. Tags: atp.Status=candidate
+    """
+
+    # IEEE1722TpAcfCanMessageTypeEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.295, p.662
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — serialized as value form on IEEE1722TpAcfCan.messageType
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # Defines the ACF CAN stream to use the ACF_CAN message type. Tags: atp.EnumerationLiteralIndex=0
+    ENUM_CAN = "CAN"
+
+    # Defines the ACF CAN stream to use the ACF_CAN_BRIEF message type. Tags: atp.EnumerationLiteralIndex=1
+    ENUM_CAN_BRIEF = "CAN-BRIEF"
+
+    def __init__(self):
+        super().__init__(
+            [
+                IEEE1722TpAcfCanMessageTypeEnum.ENUM_CAN,
+                IEEE1722TpAcfCanMessageTypeEnum.ENUM_CAN_BRIEF,
+            ]
+        )
 
 
 class IEEE1722TpAcfBus(Identifiable, VariationPointCapable):
