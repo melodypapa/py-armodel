@@ -1457,6 +1457,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommu
     ISignalToIPduMapping,
     ISignalTriggering,
     ISignalTypeEnum,
+    J1939DcmIPdu,
     MultiplexedIPdu,
     MultiplexedPart,
     NPdu,
@@ -14146,6 +14147,11 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIPdu(element, i_pdu)
         i_pdu.setDiagPduType(cast(Optional[DiagPduType], self.getChildElementOptionalLiteral(element, "DIAG-PDU-TYPE")))
 
+    def readJ1939DcmIPdu(self, element: ET.Element, i_pdu: J1939DcmIPdu):
+        self.logger.debug("Read J1939DcmIPdu <%s>" % i_pdu.getShortName())
+        self.readIPdu(element, i_pdu)
+        i_pdu.setDiagnosticMessageType(self.getChildElementOptionalPositiveInteger(element, "DIAGNOSTIC-MESSAGE-TYPE"))
+
     def getSecureCommunicationProps(self, element: ET.Element, key: str) -> Optional[SecureCommunicationProps]:
         props = None
         child_element = self.find(element, key)
@@ -19271,6 +19277,8 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DCM-I-PDU":
                 i_pdu = parent.createDcmIPdu(self.getShortName(child_element))
                 self.readDcmIPdu(child_element, i_pdu)
+            elif tag_name == "J-1939-DCM-I-PDU":
+                self.readJ1939DcmIPdu(child_element, parent.createJ1939DcmIPdu(self.getShortName(child_element)))
             elif tag_name == "SECURED-I-PDU":
                 self.readSecuredIPdu(child_element, parent.createSecuredIPdu(self.getShortName(child_element)))
             elif tag_name == "CONTAINER-I-PDU":

@@ -1200,6 +1200,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommu
     ISignalPort,
     ISignalToIPduMapping,
     ISignalTriggering,
+    J1939DcmIPdu,
     MultiplexedIPdu,
     MultiplexedPart,
     NmPdu,
@@ -10370,6 +10371,12 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "DCM-I-PDU")
         self.writeIPdu(child_element, pdu)
         self.setChildElementOptionalLiteral(child_element, "DIAG-PDU-TYPE", pdu.getDiagPduType())
+
+    def writeJ1939DcmIPdu(self, element: ET.Element, pdu: J1939DcmIPdu):
+        self.logger.debug("Write J1939DcmIPdu <%s>" % pdu.getShortName())
+        child_element = ET.SubElement(element, "J-1939-DCM-I-PDU")
+        self.writeIPdu(child_element, pdu)
+        self.setChildElementOptionalPositiveInteger(child_element, "DIAGNOSTIC-MESSAGE-TYPE", cast(Integer, pdu.getDiagnosticMessageType()))
 
     def setSecureCommunicationProps(self, element: ET.Element, key: str, props: Optional[SecureCommunicationProps]):
         if props is not None:
@@ -19693,6 +19700,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeNPdu(element, ar_element)
         elif isinstance(ar_element, DcmIPdu):
             self.writeDcmIPdu(element, ar_element)
+        elif isinstance(ar_element, J1939DcmIPdu):
+            self.writeJ1939DcmIPdu(element, ar_element)
         elif isinstance(ar_element, SecuredIPdu):
             self.writeSecuredIPdu(element, ar_element)
         elif isinstance(ar_element, ContainerIPdu):

@@ -326,6 +326,7 @@ __all__ = [
     "ISignalIPduGroup",
     "Implementation",
     "ImplementationDataType",
+    "J1939DcmIPdu",
     "KeywordSet",
     "LifeCycleInfoSet",
     "LinCluster",
@@ -2445,6 +2446,13 @@ class ARPackage(CollectableElement, VariationPointCapable):
             element = DcmIPdu(self, short_name)
             self.addReferrableElement(element)
         return cast(DcmIPdu, self.getReferrableElement(short_name, DcmIPdu))
+
+    def createJ1939DcmIPdu(self, short_name: str) -> J1939DcmIPdu:
+
+        if not self.IsReferrableElementExists(short_name, J1939DcmIPdu):
+            element = J1939DcmIPdu(self, short_name)
+            self.addReferrableElement(element)
+        return cast(J1939DcmIPdu, self.getReferrableElement(short_name, J1939DcmIPdu))
 
     def createSecuredIPdu(self, short_name: str) -> SecuredIPdu:
 
@@ -5211,6 +5219,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommu
     ISignalGroup,
     ISignalIPdu,
     ISignalIPduGroup,
+    J1939DcmIPdu,
     MultiplexedIPdu,
     NPdu,
     NmPdu,

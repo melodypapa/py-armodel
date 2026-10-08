@@ -3631,4 +3631,36 @@ class EthernetFrameTriggering(FrameTriggering):
 
 
 class J1939DcmIPdu(IPdu):
-    pass
+    """
+    Represents the IPdus handled by J1939Dcm. Tags: atp.recommendedPackage=Pdus
+
+    [constr_3096] Allowed values for diagnosticMessageType: The allowed values of diagnosticMessageType range from 1..57.
+    """
+
+    # J1939DcmIPdu method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.24, p.344
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDiagnosticMessageType   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDiagnosticMessageType   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This attribute is used to identify the actual DMx message, e.g 1 means DM01, etc.
+        self.diagnosticMessageType: Optional[PositiveInteger] = None
+
+    def getDiagnosticMessageType(self) -> Optional[PositiveInteger]:
+        """
+        This attribute is used to identify the actual DMx message, e.g 1 means DM01, etc.
+        """
+        return self.diagnosticMessageType
+
+    def setDiagnosticMessageType(self, value: Optional[PositiveInteger]) -> J1939DcmIPdu:
+        """
+        This attribute is used to identify the actual DMx message, e.g 1 means DM01, etc.
+        A None value is a no-op and does not overwrite an existing diagnosticMessageType.
+        """
+        if value is not None:
+            self.diagnosticMessageType = value
+        return self
