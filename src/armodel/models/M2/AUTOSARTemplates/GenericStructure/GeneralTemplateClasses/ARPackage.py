@@ -12003,6 +12003,43 @@ class GlobalTimeDomain(ARElement):
     pass
 
 
+class IdsCommonElement(ARElement, ABC):
+    """
+    This meta-class represents a common base class for IDS related elements of the Security Extract. It does not contribute any specific functionality other than the ability to become the target of a reference. Tags: atp.Status=candidate
+    """
+
+    # IdsCommonElement method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf, Table B.11, p.52 (annex; pull-in for the
+    # SecurityEventDefinition/SecurityEventFilterChain/Idsm* Base chains — not an indexed
+    # all_classes.md row)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is IdsCommonElement:
+            raise TypeError("IdsCommonElement is an abstract class.")
+
+        super().__init__(parent, short_name)
+
+
+class IdsMapping(IdsCommonElement, ABC):
+    """
+    This meta-class serves as abstract base class for mappings related to an IDS design. Tags: atp.Status=candidate
+    """
+
+    # IdsMapping method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf, Table B.12, p.52 (annex; pull-in for the
+    # SecurityEventContextMapping Base chain — not an indexed all_classes.md row)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is IdsMapping:
+            raise TypeError("IdsMapping is an abstract class.")
+
+        super().__init__(parent, short_name)
+
+
 class LogAndTraceMessageCollectionSet(ARElement):
     pass
 
