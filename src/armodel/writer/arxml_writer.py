@@ -617,6 +617,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticRoutineSubfunction,
     DiagnosticStartRoutine,
     DiagnosticStopRoutine,
+    GlobalTimeGateway,
     GlobalTimeMaster,
     GlobalTimeSlave,
     Identifiable,
@@ -13843,6 +13844,16 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalBooleanValue(element, "IS-SYSTEM-WIDE-GLOBAL-TIME-MASTER", master.getIsSystemWideGlobalTimeMaster())
         self.setChildElementOptionalTimeValue(element, "SYNC-PERIOD", master.getSyncPeriod())
         self.writeVariationPoint(element, master.getVariationPoint())
+
+    def writeGlobalTimeGateway(self, element: ET.Element, gateway: GlobalTimeGateway):
+        # VARIATION-POINT is the last element of the XSD GLOBAL-TIME-GATEWAY group
+        # (AUTOSAR_00052.xsd l.64849, xml.sequenceOffset=10000), so the generic emission inside
+        # writeIdentifiable is suppressed here and re-emitted after the class's own elements.
+        self.writeIdentifiable(element, gateway, write_variation_point=False)
+        self.setChildElementOptionalRefType(element, "HOST-REF", gateway.getHostRef())
+        self.setChildElementOptionalRefType(element, "MASTER-REF", gateway.getMasterRef())
+        self.setChildElementOptionalRefType(element, "SLAVE-REF", gateway.getSlaveRef())
+        self.writeVariationPoint(element, gateway.getVariationPoint())
 
     def writeEthGlobalTimeManagedCouplingPort(self, element: ET.Element, port: EthGlobalTimeManagedCouplingPort):
         child_element = ET.SubElement(element, "ETH-GLOBAL-TIME-MANAGED-COUPLING-PORT")

@@ -774,6 +774,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticRoutineSubfunction,
     DiagnosticStartRoutine,
     DiagnosticStopRoutine,
+    GlobalTimeGateway,
     GlobalTimeMaster,
     GlobalTimeSlave,
     Identifiable,
@@ -16337,6 +16338,16 @@ class ARXMLParser(AbstractARXMLParser):
         master.setIsSystemWideGlobalTimeMaster(self.getChildElementOptionalBooleanValue(element, "IS-SYSTEM-WIDE-GLOBAL-TIME-MASTER"))
         master.setSyncPeriod(self.getChildElementOptionalTimeValue(element, "SYNC-PERIOD"))
         return master
+
+    def readGlobalTimeGateway(self, element: ET.Element, gateway: GlobalTimeGateway) -> GlobalTimeGateway:
+        # VARIATION-POINT is the last element of the XSD GLOBAL-TIME-GATEWAY group
+        # (AUTOSAR_00052.xsd l.64849, xml.sequenceOffset=10000); readIdentifiable picks it up
+        # because GlobalTimeGateway is VariationPointCapable.
+        self.readIdentifiable(element, gateway)
+        gateway.setHostRef(self.getChildElementOptionalRefType(element, "HOST-REF"))
+        gateway.setMasterRef(self.getChildElementOptionalRefType(element, "MASTER-REF"))
+        gateway.setSlaveRef(self.getChildElementOptionalRefType(element, "SLAVE-REF"))
+        return gateway
 
     def readEthGlobalTimeManagedCouplingPort(self, element: ET.Element, port: EthGlobalTimeManagedCouplingPort) -> EthGlobalTimeManagedCouplingPort:
         self.readARObject(element, port)

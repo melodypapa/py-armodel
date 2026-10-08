@@ -54,6 +54,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticRoutineSubfunction,
     DiagnosticStartRoutine,
     DiagnosticStopRoutine,
+    GlobalTimeGateway,
     GlobalTimeMaster,
     GlobalTimeSlave,
     Identifiable,
@@ -3197,6 +3198,141 @@ class TestGlobalTimeMaster:
         )
         assert inspect.cleandoc(GlobalTimeMaster.getSyncPeriod.__doc__) == self.SYNC_PERIOD_NOTE
         assert inspect.cleandoc(GlobalTimeMaster.setSyncPeriod.__doc__) == (self.SYNC_PERIOD_NOTE + "\n\nA None value is a no-op and does not overwrite an existing syncPeriod.")
+
+
+class TestGlobalTimeGateway:
+    """
+    Test class for GlobalTimeGateway functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.6, p.861
+    (concrete; the Table 9.6 Base row's most-derived class is Identifiable.)
+    """
+
+    CLASS_NOTE = "This represents the ability to define a time gateway for establishing a global time domain over several communication clusters."
+    HOST_REF_NOTE = "The GlobalTimeGateway is hosted by the referenced Ecu Instance."
+    MASTER_REF_NOTE = "This represents the master of the global time gateway."
+    SLAVE_REF_NOTE = "This represents the slave of the GlobalTimeGateway."
+
+    def _create_gateway(self) -> GlobalTimeGateway:
+        return GlobalTimeGateway(AUTOSAR.getInstance(), "gateway")
+
+    def test_is_identifiable_subclass_with_variation_point_capable(self):
+        """
+        Test that GlobalTimeGateway derives from Identifiable per the Table 9.6 Base row
+        (ARObject, Identifiable, MultilanguageReferrable, Referrable — most-derived
+        Identifiable) and from VariationPointCapable (the atpVariation on the owning
+        GlobalTimeDomain.gateway row makes the class VP-capable; the XSD GLOBAL-TIME-GATEWAY
+        group carries VARIATION-POINT last, xml.sequenceOffset=10000).
+        """
+        assert issubclass(GlobalTimeGateway, Identifiable)
+        assert issubclass(GlobalTimeGateway, VariationPointCapable)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(GlobalTimeGateway.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert GlobalTimeGateway.__init__.__doc__ is None
+
+    def test_member_order_follows_spec_rows(self):
+        """
+        Test that the accessors follow the Table 9.6 displayed row order (getter first per attribute).
+        """
+        methods = [name for name, value in GlobalTimeGateway.__dict__.items() if callable(value) and not name.startswith("_")]
+        assert methods == [
+            "getHostRef",
+            "setHostRef",
+            "getMasterRef",
+            "setMasterRef",
+            "getSlaveRef",
+            "setSlaveRef",
+        ]
+
+    def test_initialization_defaults(self):
+        """
+        Test that the instance initializes all attributes to their defaults.
+        """
+        obj = self._create_gateway()
+
+        assert obj.getShortName() == "gateway"
+        assert obj.getChecksum() is None
+        assert obj.getHostRef() is None
+        assert obj.getMasterRef() is None
+        assert obj.getSlaveRef() is None
+        assert obj.getVariationPoint() is None
+
+    def test_annotations_are_optional_typed(self):
+        """
+        Test that the accessors carry the spec types (0..1 ref rows).
+        """
+        hints = typing.get_type_hints(GlobalTimeGateway.getHostRef)
+        assert hints.get("return") == typing.Optional[RefType]
+        hints = typing.get_type_hints(GlobalTimeGateway.setHostRef)
+        assert hints.get("value") == typing.Optional[RefType]
+        assert hints.get("return") is GlobalTimeGateway
+
+        hints = typing.get_type_hints(GlobalTimeGateway.getMasterRef)
+        assert hints.get("return") == typing.Optional[RefType]
+        hints = typing.get_type_hints(GlobalTimeGateway.getSlaveRef)
+        assert hints.get("return") == typing.Optional[RefType]
+
+    def test_get_set_refs(self):
+        """
+        Test the host/master/slave ref getter/setter pairs round-trip and None no-op.
+        """
+        obj = self._create_gateway()
+
+        host = RefType()
+        host.setValue("/ECU/EcuInstance1")
+        result = obj.setHostRef(host)
+        assert result is obj
+        assert obj.getHostRef() is host
+        assert obj.getHostRef().getValue() == "/ECU/EcuInstance1"
+
+        master = RefType()
+        master.setValue("/TimeDomains/Domain1/Master")
+        result = obj.setMasterRef(master)
+        assert result is obj
+        assert obj.getMasterRef() is master
+
+        slave = RefType()
+        slave.setValue("/TimeDomains/Domain1/Slave")
+        result = obj.setSlaveRef(slave)
+        assert result is obj
+        assert obj.getSlaveRef() is slave
+
+        result = obj.setHostRef(None)
+        assert result is obj
+        assert obj.getHostRef() is host
+
+    def test_variation_point_base_accessors(self):
+        """
+        Exercise the inherited VariationPointCapable accessors: chaining, round-trip, None no-op.
+        """
+        obj = self._create_gateway()
+
+        variation_point = VariationPoint()
+        assert obj.setVariationPoint(variation_point) is obj
+        assert obj.getVariationPoint() is variation_point
+
+        obj.setVariationPoint(None)
+        assert obj.getVariationPoint() is variation_point
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        assert inspect.cleandoc(GlobalTimeGateway.getHostRef.__doc__) == self.HOST_REF_NOTE
+        assert inspect.cleandoc(GlobalTimeGateway.setHostRef.__doc__) == (self.HOST_REF_NOTE + "\n\nA None value is a no-op and does not overwrite an existing hostRef.")
+        assert inspect.cleandoc(GlobalTimeGateway.getMasterRef.__doc__) == self.MASTER_REF_NOTE
+        assert inspect.cleandoc(GlobalTimeGateway.setMasterRef.__doc__) == (self.MASTER_REF_NOTE + "\n\nA None value is a no-op and does not overwrite an existing masterRef.")
+        assert inspect.cleandoc(GlobalTimeGateway.getSlaveRef.__doc__) == self.SLAVE_REF_NOTE
+        assert inspect.cleandoc(GlobalTimeGateway.setSlaveRef.__doc__) == (self.SLAVE_REF_NOTE + "\n\nA None value is a no-op and does not overwrite an existing slaveRef.")
 
 
 class TestBinaryManifestResource:

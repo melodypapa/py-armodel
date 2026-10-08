@@ -2353,8 +2353,88 @@ class GlobalTimeFrSlave(Identifiable):
     pass
 
 
-class GlobalTimeGateway(Identifiable):
-    pass
+class GlobalTimeGateway(Identifiable, VariationPointCapable):
+    """
+    This represents the ability to define a time gateway for establishing a global time domain over several communication clusters.
+    """
+
+    # GlobalTimeGateway method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.6, p.861
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getHostRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setHostRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMasterRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMasterRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSlaveRef      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSlaveRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # getVariationPoint / setVariationPoint provided by the VariationPointCapable base (mixin) — no spec row
+    # (stereotype-inherent). VARIATION-POINT is the last element of the XSD GLOBAL-TIME-GATEWAY group
+    # (AUTOSAR_00052.xsd l.64849, xml.sequenceOffset=10000, "Applicable for: GlobalTimeDomain.gateway"):
+    # the reader reads it inside readIdentifiable, the writer emits it as the tail after the class's
+    # own elements (writeIdentifiable is called with write_variation_point=False). Aggregator dispatch
+    # (GlobalTimeDomain.gateway) is pending — GlobalTimeDomain is a later-wave class.
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # The GlobalTimeGateway is hosted by the referenced Ecu Instance.
+        self.hostRef: Optional[RefType] = None
+
+        # This represents the master of the global time gateway.
+        self.masterRef: Optional[RefType] = None
+
+        # This represents the slave of the GlobalTimeGateway.
+        self.slaveRef: Optional[RefType] = None
+
+    def getHostRef(self) -> Optional[RefType]:
+        """
+        The GlobalTimeGateway is hosted by the referenced Ecu Instance.
+        """
+        return self.hostRef
+
+    def setHostRef(self, value: Optional[RefType]) -> GlobalTimeGateway:
+        """
+        The GlobalTimeGateway is hosted by the referenced Ecu Instance.
+
+        A None value is a no-op and does not overwrite an existing hostRef.
+        """
+        if value is not None:
+            self.hostRef = value
+        return self
+
+    def getMasterRef(self) -> Optional[RefType]:
+        """
+        This represents the master of the global time gateway.
+        """
+        return self.masterRef
+
+    def setMasterRef(self, value: Optional[RefType]) -> GlobalTimeGateway:
+        """
+        This represents the master of the global time gateway.
+
+        A None value is a no-op and does not overwrite an existing masterRef.
+        """
+        if value is not None:
+            self.masterRef = value
+        return self
+
+    def getSlaveRef(self) -> Optional[RefType]:
+        """
+        This represents the slave of the GlobalTimeGateway.
+        """
+        return self.slaveRef
+
+    def setSlaveRef(self, value: Optional[RefType]) -> GlobalTimeGateway:
+        """
+        This represents the slave of the GlobalTimeGateway.
+
+        A None value is a no-op and does not overwrite an existing slaveRef.
+        """
+        if value is not None:
+            self.slaveRef = value
+        return self
 
 
 class GlobalTimeMaster(Identifiable, VariationPointCapable, ABC):
