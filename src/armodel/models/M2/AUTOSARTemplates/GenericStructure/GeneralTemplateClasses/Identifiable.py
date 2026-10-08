@@ -1544,7 +1544,89 @@ class FMFeatureMapCondition(Identifiable):
 
 
 class FMFeatureMapElement(Identifiable):
-    pass
+    """
+    Defines value sets for system constants and postbuild variant criterions that shall be chosen whenever a certain combination of features (and system constants) is encountered.
+    """
+
+    # FMFeatureMapElement method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf, Table 6.2, p.53
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addAssertion                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAssertions                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addCondition                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getConditions                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addPostBuildVariantCriterionValueSetRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPostBuildVariantCriterionValueSetRefs [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addSwSystemconstantValueSetRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwSystemconstantValueSetRefs       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Defines a boolean expression based on features and system constants which needs to evaluate to true for this mapping to become active.
+        self.assertions: List[FMFeatureMapAssertion] = []
+
+        # Defines a condition which needs to be fulfilled for this mapping to become active.
+        self.conditions: List[FMFeatureMapCondition] = []
+
+        # Selects a set of values for postbuild variant criterions.
+        self.postBuildVariantCriterionValueSetRefs: List[RefType] = []
+
+        # Selects a set of values for system constants.
+        self.swSystemconstantValueSetRefs: List[RefType] = []
+
+    def addAssertion(self, value: FMFeatureMapAssertion) -> FMFeatureMapElement:
+        """
+        Defines a boolean expression based on features and system constants which needs to evaluate to true for this mapping to become active.
+        """
+        self.assertions.append(value)
+        return self
+
+    def getAssertions(self) -> List[FMFeatureMapAssertion]:
+        """
+        Defines a boolean expression based on features and system constants which needs to evaluate to true for this mapping to become active.
+        """
+        return self.assertions
+
+    def addCondition(self, value: FMFeatureMapCondition) -> FMFeatureMapElement:
+        """
+        Defines a condition which needs to be fulfilled for this mapping to become active.
+        """
+        self.conditions.append(value)
+        return self
+
+    def getConditions(self) -> List[FMFeatureMapCondition]:
+        """
+        Defines a condition which needs to be fulfilled for this mapping to become active.
+        """
+        return self.conditions
+
+    def addPostBuildVariantCriterionValueSetRef(self, ref: RefType) -> FMFeatureMapElement:
+        """
+        Selects a set of values for postbuild variant criterions.
+        """
+        self.postBuildVariantCriterionValueSetRefs.append(ref)
+        return self
+
+    def getPostBuildVariantCriterionValueSetRefs(self) -> List[RefType]:
+        """
+        Selects a set of values for postbuild variant criterions.
+        """
+        return self.postBuildVariantCriterionValueSetRefs
+
+    def addSwSystemconstantValueSetRef(self, ref: RefType) -> FMFeatureMapElement:
+        """
+        Selects a set of values for system constants.
+        """
+        self.swSystemconstantValueSetRefs.append(ref)
+        return self
+
+    def getSwSystemconstantValueSetRefs(self) -> List[RefType]:
+        """
+        Selects a set of values for system constants.
+        """
+        return self.swSystemconstantValueSetRefs
 
 
 class FMFeatureRelation(Identifiable):

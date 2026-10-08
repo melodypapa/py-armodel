@@ -748,6 +748,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     FMAttributeDef,
     FMFeatureMapAssertion,
     FMFeatureMapCondition,
+    FMFeatureMapElement,
     FMFeatureRelation,
     FMFeatureRestriction,
     FMFeatureSelection,
@@ -2452,6 +2453,22 @@ class ARXMLParser(AbstractARXMLParser):
         if cond_element is not None:
             assertion.setFmSyscond(self.readFMConditionByFeaturesAndSwSystemconsts(cond_element, FMConditionByFeaturesAndSwSystemconsts()))
         return assertion
+
+    def readFMFeatureMapElement(self, element: ET.Element, map_element: FMFeatureMapElement) -> FMFeatureMapElement:
+        self.readIdentifiable(element, map_element)
+        for child_element in self.findall(element, "ASSERTIONS/FM-FEATURE-MAP-ASSERTION"):
+            assertion = FMFeatureMapAssertion(map_element, self.getShortName(child_element))
+            self.readFMFeatureMapAssertion(child_element, assertion)
+            map_element.addAssertion(assertion)
+        for child_element in self.findall(element, "CONDITIONS/FM-FEATURE-MAP-CONDITION"):
+            condition = FMFeatureMapCondition(map_element, self.getShortName(child_element))
+            self.readFMFeatureMapCondition(child_element, condition)
+            map_element.addCondition(condition)
+        for ref in self.getChildElementRefTypeList(element, "POST-BUILD-VARIANT-CRITERION-VALUE-SET-REFS/POST-BUILD-VARIANT-CRITERION-VALUE-SET-REF"):
+            map_element.addPostBuildVariantCriterionValueSetRef(ref)
+        for ref in self.getChildElementRefTypeList(element, "SW-SYSTEMCONSTANT-VALUE-SET-REFS/SW-SYSTEMCONSTANT-VALUE-SET-REF"):
+            map_element.addSwSystemconstantValueSetRef(ref)
+        return map_element
 
     def getBindingTimeEnumElement(self, element: ET.Element, key: str) -> Optional[BindingTimeEnum]:
         literal = self.getChildElementOptionalLiteral(element, key)

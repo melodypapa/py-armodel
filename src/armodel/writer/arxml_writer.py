@@ -589,6 +589,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     FMAttributeDef,
     FMFeatureMapAssertion,
     FMFeatureMapCondition,
+    FMFeatureMapElement,
     FMFeatureRelation,
     FMFeatureRestriction,
     FMFeatureSelection,
@@ -2178,6 +2179,32 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "FM-FEATURE-MAP-ASSERTION")
             self.writeIdentifiable(child_element, assertion)
             self.writeFMConditionByFeaturesAndSwSystemconsts(child_element, assertion.getFmSyscond(), key="FM-SYSCOND")
+
+
+    def writeFMFeatureMapElement(self, element: ET.Element, map_element: FMFeatureMapElement):
+        if map_element is not None:
+            child_element = ET.SubElement(element, "FM-FEATURE-MAP-ELEMENT")
+            self.writeIdentifiable(child_element, map_element)
+            assertions = map_element.getAssertions()
+            if len(assertions) > 0:
+                assertions_tag = ET.SubElement(child_element, "ASSERTIONS")
+                for assertion in assertions:
+                    self.writeFMFeatureMapAssertion(assertions_tag, assertion)
+            conditions = map_element.getConditions()
+            if len(conditions) > 0:
+                conditions_tag = ET.SubElement(child_element, "CONDITIONS")
+                for condition in conditions:
+                    self.writeFMFeatureMapCondition(conditions_tag, condition)
+            refs = map_element.getPostBuildVariantCriterionValueSetRefs()
+            if len(refs) > 0:
+                refs_tag = ET.SubElement(child_element, "POST-BUILD-VARIANT-CRITERION-VALUE-SET-REFS")
+                for ref in refs:
+                    self.setChildElementOptionalRefType(refs_tag, "POST-BUILD-VARIANT-CRITERION-VALUE-SET-REF", ref)
+            refs = map_element.getSwSystemconstantValueSetRefs()
+            if len(refs) > 0:
+                refs_tag = ET.SubElement(child_element, "SW-SYSTEMCONSTANT-VALUE-SET-REFS")
+                for ref in refs:
+                    self.setChildElementOptionalRefType(refs_tag, "SW-SYSTEMCONSTANT-VALUE-SET-REF", ref)
 
     def writePostBuildVariantCondition(self, element: ET.Element, condition: PostBuildVariantCondition):
         child_element = ET.SubElement(element, "POST-BUILD-VARIANT-CONDITION")
