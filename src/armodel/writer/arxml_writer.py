@@ -594,6 +594,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     BinaryManifestMetaDataField,
+    BinaryManifestResource,
     CpSoftwareClusterResource,
     CpSoftwareClusterToResourceMapping,
     DdsCpConsumedServiceInstance,
@@ -13903,6 +13904,22 @@ class ARXMLWriter(AbstractARXMLWriter):
         # CP-SOFTWARE-CLUSTER-COMMUNICATION-RESOURCE-PROPS group: QUEUE-LENGTH.
         self.writeCpSoftwareClusterCommunicationResourceProps(element, props)
         self.setChildElementOptionalPositiveInteger(element, "QUEUE-LENGTH", cast(Integer, props.getQueueLength()))
+
+    def writeBinaryManifestResource(self, element: ET.Element, resource: BinaryManifestResource):
+        # Populates the concrete subclass element (BINARY-MANIFEST-PROVIDE-RESOURCE /
+        # BINARY-MANIFEST-REQUIRE-RESOURCE) created by the caller; the XSD BINARY-MANIFEST-RESOURCE
+        # group (AUTOSAR_00052.xsd l.8886) orders GLOBAL-RESOURCE-ID, ITEMS, RESOURCE-REF. ITEMS
+        # children are emitted identity-only: BinaryManifestItem (Table 11.22) is an unsynced stub
+        # (Rule 0001.7 debt); the wrapper is written only when non-empty.
+        self.writeIdentifiable(element, resource)
+        self.setChildElementOptionalPositiveInteger(element, "GLOBAL-RESOURCE-ID", cast(Integer, resource.getGlobalResourceId()))
+        items = resource.getItems()
+        if len(items) > 0:
+            items_tag = ET.SubElement(element, "ITEMS")
+            for item in items:
+                item_element = ET.SubElement(items_tag, "BINARY-MANIFEST-ITEM")
+                self.writeIdentifiable(item_element, item)
+        self.setChildElementOptionalRefType(element, "RESOURCE-REF", resource.getResourceRef())
 
     def setGlobalTimeProps(self, element: ET.Element, key: str, props: Optional[GlobalTimeCouplingPortProps]):
         if props is not None:

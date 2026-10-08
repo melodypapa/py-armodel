@@ -753,6 +753,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Enumerations import BindingTimeEnum, XmlSpaceEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     BinaryManifestMetaDataField,
+    BinaryManifestResource,
     CpSoftwareClusterResource,
     DdsCpConsumedServiceInstance,
     DdsCpDomain,
@@ -16411,6 +16412,19 @@ class ARXMLParser(AbstractARXMLParser):
         self.readCpSoftwareClusterCommunicationResourceProps(element, props)
         props.setQueueLength(self.getChildElementOptionalPositiveInteger(element, "QUEUE-LENGTH"))
         return props
+
+    def readBinaryManifestResource(self, element: ET.Element, resource: BinaryManifestResource) -> BinaryManifestResource:
+        # The XSD BINARY-MANIFEST-RESOURCE group (AUTOSAR_00052.xsd l.8886) orders GLOBAL-RESOURCE-ID,
+        # ITEMS, RESOURCE-REF; its RESOURCE-DEFINITION-REF / RESOURCE-GUARD-VALUE elements have no
+        # Table 11.19 Attribute row (Rule 0015). ITEMS children are created identity-only:
+        # BinaryManifestItem (Table 11.22) is an unsynced stub (Rule 0001.7 debt).
+        self.readIdentifiable(element, resource)
+        resource.setGlobalResourceId(self.getChildElementOptionalPositiveInteger(element, "GLOBAL-RESOURCE-ID"))
+        for child_element in self.findall(element, "ITEMS/BINARY-MANIFEST-ITEM"):
+            item = resource.createItem(self.getShortName(child_element))
+            self.readIdentifiable(child_element, item)
+        resource.setResourceRef(self.getChildElementOptionalRefType(element, "RESOURCE-REF"))
+        return resource
 
     def getGlobalTimeProps(self, element: ET.Element, key: str) -> Optional[GlobalTimeCouplingPortProps]:
         props = None

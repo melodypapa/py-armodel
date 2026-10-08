@@ -34,6 +34,8 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     RoleBasedResourceDependency,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    BinaryManifestItem,
+    BinaryManifestResource,
     CpSoftwareClusterResource,
     DdsCpConsumedServiceInstance,
     DdsCpDomain,
@@ -2967,3 +2969,162 @@ class TestGlobalTimeSlave:
         assert inspect.cleandoc(GlobalTimeSlave.setTimeLeapPastThreshold.__doc__) == (
             self.TIME_LEAP_PAST_THRESHOLD_NOTE + "\n\nA None value is a no-op and does not overwrite an existing timeLeapPastThreshold."
         )
+
+
+class TestBinaryManifestResource:
+    """
+    Test class for BinaryManifestResource functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 11.19, p.916
+    (abstract; subclasses BinaryManifestProvideResource and BinaryManifestRequireResource are
+    unsynced later-wave stubs — exercised through a local concrete subclass per the
+    abstract-class test convention.)
+    """
+
+    CLASS_NOTE = "This meta-class acts as an abstract base class for specializations."
+    GLOBAL_RESOURCE_ID_NOTE = "A unique identifiers per resource used for the connection process. The identifier is required to be unique in the scope of a single machine. If software clusters are designed to be reused on multiple machines the uniqueness requirements applies for all the intended machines."
+    ITEM_NOTE = "This aggregation represents the collection of binary manifest handles owned by the enclosing binary manifest resource."
+    RESOURCE_NOTE = "This reference identifies the CpSoftwareClusterResource (on design level) that corresponds to the BinaryManifest Resource (on integration level)."
+
+    def _create_resource(self) -> BinaryManifestResource:
+        class ConcreteBinaryManifestResource(BinaryManifestResource):
+            pass
+
+        return ConcreteBinaryManifestResource(AUTOSAR.getInstance(), "resource")
+
+    def test_cannot_instantiate_abstract(self):
+        """
+        BinaryManifestResource is abstract per Table 11.19 and cannot be instantiated directly.
+        """
+        with pytest.raises(TypeError):
+            BinaryManifestResource(AUTOSAR.getInstance(), "resource")
+
+    def test_is_identifiable_subclass(self):
+        """
+        Test that BinaryManifestResource derives from Identifiable per the Table 11.19 Base row
+        (ARObject, Identifiable, MultilanguageReferrable, Referrable — most-derived Identifiable).
+        """
+        import abc
+
+        assert issubclass(BinaryManifestResource, Identifiable)
+        assert issubclass(BinaryManifestResource, ARObject)
+        assert issubclass(BinaryManifestResource, abc.ABC)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(BinaryManifestResource.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert BinaryManifestResource.__init__.__doc__ is None
+
+    def test_member_order_follows_spec_rows(self):
+        """
+        Test that the accessors follow the Table 11.19 displayed row order
+        (getter first per scalar attribute, mutator first per aggregated attribute).
+        """
+        methods = [name for name, value in BinaryManifestResource.__dict__.items() if callable(value) and not name.startswith("_")]
+        assert methods == [
+            "getGlobalResourceId",
+            "setGlobalResourceId",
+            "createItem",
+            "getItems",
+            "getResourceRef",
+            "setResourceRef",
+        ]
+
+    def test_initialization_defaults(self):
+        """
+        Test that a concrete subclass initializes all Table 11.19 attributes to their defaults.
+        """
+        obj = self._create_resource()
+
+        assert obj.getShortName() == "resource"
+        assert obj.getChecksum() is None
+        assert obj.getGlobalResourceId() is None
+        assert obj.getItems() == []
+        assert obj.getResourceRef() is None
+
+    def test_annotations_are_spec_typed(self):
+        """
+        Test that the accessors carry the Table 11.19 Type column types
+        (PositiveInteger 0..1, BinaryManifestItem *, CpSoftwareClusterResource ref 0..1).
+        """
+        hints = typing.get_type_hints(BinaryManifestResource.getGlobalResourceId)
+        assert hints.get("return") == typing.Optional[PositiveInteger]
+        hints = typing.get_type_hints(BinaryManifestResource.setGlobalResourceId)
+        assert hints.get("value") == typing.Optional[PositiveInteger]
+        assert hints.get("return") is BinaryManifestResource
+
+        hints = typing.get_type_hints(BinaryManifestResource.createItem)
+        assert hints.get("short_name") is str
+        assert hints.get("return") is BinaryManifestItem
+        hints = typing.get_type_hints(BinaryManifestResource.getItems)
+        assert hints.get("return") == typing.List[BinaryManifestItem]
+
+        hints = typing.get_type_hints(BinaryManifestResource.getResourceRef)
+        assert hints.get("return") == typing.Optional[RefType]
+        hints = typing.get_type_hints(BinaryManifestResource.setResourceRef)
+        assert hints.get("value") == typing.Optional[RefType]
+        assert hints.get("return") is BinaryManifestResource
+
+    def test_get_set_global_resource_id(self):
+        """
+        Test setGlobalResourceId and getGlobalResourceId round-trip and None no-op.
+        """
+        obj = self._create_resource()
+
+        result = obj.setGlobalResourceId(PositiveInteger().setValue("4"))
+        assert result is obj
+        assert obj.getGlobalResourceId().getValue() == 4
+
+        obj.setGlobalResourceId(None)
+        assert obj.getGlobalResourceId().getValue() == 4
+
+    def test_create_item(self):
+        """
+        Test that createItem appends a BinaryManifestItem and returns the existing one on a
+        duplicate short name.
+        """
+        obj = self._create_resource()
+
+        item = obj.createItem("Handle1")
+        assert isinstance(item, BinaryManifestItem)
+        assert item.getShortName() == "Handle1"
+        assert obj.getItems() == [item]
+
+        duplicate = obj.createItem("Handle1")
+        assert duplicate is item
+        assert obj.getItems() == [item]
+
+    def test_get_set_resource_ref(self):
+        """
+        Test setResourceRef and getResourceRef round-trip and None no-op.
+        """
+        obj = self._create_resource()
+
+        ref = RefType().setValue("/AUTOSAR/CpSoftwareClusterResources/Res1").setDest("CP-SOFTWARE-CLUSTER-RESOURCE")
+        result = obj.setResourceRef(ref)
+        assert result is obj
+        assert obj.getResourceRef() is ref
+        assert obj.getResourceRef().getValue() == "/AUTOSAR/CpSoftwareClusterResources/Res1"
+
+        obj.setResourceRef(None)
+        assert obj.getResourceRef() is ref
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter/setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        assert inspect.cleandoc(BinaryManifestResource.getGlobalResourceId.__doc__) == self.GLOBAL_RESOURCE_ID_NOTE
+        assert inspect.cleandoc(BinaryManifestResource.setGlobalResourceId.__doc__) == (
+            self.GLOBAL_RESOURCE_ID_NOTE + "\n\nA None value is a no-op and does not overwrite an existing globalResourceId."
+        )
+        assert inspect.cleandoc(BinaryManifestResource.createItem.__doc__) == self.ITEM_NOTE
+        assert inspect.cleandoc(BinaryManifestResource.getItems.__doc__) == self.ITEM_NOTE
+        assert inspect.cleandoc(BinaryManifestResource.getResourceRef.__doc__) == self.RESOURCE_NOTE
+        assert inspect.cleandoc(BinaryManifestResource.setResourceRef.__doc__) == (self.RESOURCE_NOTE + "\n\nA None value is a no-op and does not overwrite an existing resourceRef.")

@@ -1524,6 +1524,96 @@ class BinaryManifestRequireResource(Identifiable):
     pass
 
 
+class BinaryManifestResource(Identifiable, ABC):
+    """
+    This meta-class acts as an abstract base class for specializations.
+    """
+
+    # BinaryManifestResource method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 11.19, p.916
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getGlobalResourceId  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setGlobalResourceId  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createItem           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getItems             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getResourceRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setResourceRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # The XSD BINARY-MANIFEST-RESOURCE group (AUTOSAR_00052.xsd l.8886) orders GLOBAL-RESOURCE-ID,
+    # ITEMS, RESOURCE-REF (its RESOURCE-DEFINITION-REF / RESOURCE-GUARD-VALUE elements have no
+    # Table 11.19 Attribute row and are not modeled, Rule 0015). The reusable
+    # readBinaryManifestResource / writeBinaryManifestResource helpers own that group for the
+    # concrete subclass element (BINARY-MANIFEST-PROVIDE-RESOURCE / BINARY-MANIFEST-REQUIRE-RESOURCE);
+    # the subclass dispatch is pending — BinaryManifestProvideResource / BinaryManifestRequireResource
+    # are unsynced later-wave stubs. ITEMS children are serialized identity-only (Rule 0001.7 debt):
+    # BinaryManifestItem (Table 11.22) is an unsynced stub — its own sync replaces the placeholder
+    # (cf. DdsCpDomain / DdsCpPartition).
+
+    def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is BinaryManifestResource:
+            raise TypeError("BinaryManifestResource is an abstract class.")
+
+        super().__init__(parent, short_name)
+
+        # A unique identifiers per resource used for the connection process. The identifier is required to be unique in the scope of a single machine. If software clusters are designed to be reused on multiple machines the uniqueness requirements applies for all the intended machines.
+        self.globalResourceId: Optional[PositiveInteger] = None
+
+        # This aggregation represents the collection of binary manifest handles owned by the enclosing binary manifest resource.
+        self.items: List[BinaryManifestItem] = []
+
+        # This reference identifies the CpSoftwareClusterResource (on design level) that corresponds to the BinaryManifest Resource (on integration level).
+        self.resourceRef: Optional[RefType] = None
+
+    def getGlobalResourceId(self) -> Optional[PositiveInteger]:
+        """
+        A unique identifiers per resource used for the connection process. The identifier is required to be unique in the scope of a single machine. If software clusters are designed to be reused on multiple machines the uniqueness requirements applies for all the intended machines.
+        """
+        return self.globalResourceId
+
+    def setGlobalResourceId(self, value: Optional[PositiveInteger]) -> BinaryManifestResource:
+        """
+        A unique identifiers per resource used for the connection process. The identifier is required to be unique in the scope of a single machine. If software clusters are designed to be reused on multiple machines the uniqueness requirements applies for all the intended machines.
+
+        A None value is a no-op and does not overwrite an existing globalResourceId.
+        """
+        if value is not None:
+            self.globalResourceId = value
+        return self
+
+    def createItem(self, short_name: str) -> BinaryManifestItem:
+        """
+        This aggregation represents the collection of binary manifest handles owned by the enclosing binary manifest resource.
+        """
+        if not self.IsReferrableElementExists(short_name, BinaryManifestItem):
+            item = BinaryManifestItem(self, short_name)
+            self.addReferrableElement(item)
+            self.items.append(item)
+        return cast(BinaryManifestItem, self.getReferrableElement(short_name, BinaryManifestItem))
+
+    def getItems(self) -> List[BinaryManifestItem]:
+        """
+        This aggregation represents the collection of binary manifest handles owned by the enclosing binary manifest resource.
+        """
+        return self.items
+
+    def getResourceRef(self) -> Optional[RefType]:
+        """
+        This reference identifies the CpSoftwareClusterResource (on design level) that corresponds to the BinaryManifest Resource (on integration level).
+        """
+        return self.resourceRef
+
+    def setResourceRef(self, value: Optional[RefType]) -> BinaryManifestResource:
+        """
+        This reference identifies the CpSoftwareClusterResource (on design level) that corresponds to the BinaryManifest Resource (on integration level).
+
+        A None value is a no-op and does not overwrite an existing resourceRef.
+        """
+        if value is not None:
+            self.resourceRef = value
+        return self
+
+
 class BinaryManifestResourceDefinition(Identifiable):
     pass
 

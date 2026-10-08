@@ -2294,10 +2294,6 @@ class BinaryManifestItemValue(ARObject, ABC):
     pass
 
 
-class BinaryManifestResource(ARObject, ABC):
-    pass
-
-
 class BusMirrorCanIdRangeMapping(ARObject):
     """
     This element defines a rule for remapping a set of CAN IDs.
