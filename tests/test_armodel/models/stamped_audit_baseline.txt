@@ -13,7 +13,6 @@ AnyInstanceRef
 AnyServiceInstanceId
 AnyVersionString
 ApplicationCompositeElementInPortInterfaceInstanceRef
-ApplicationInterface
 ArgumentDirectionEnum
 ArrayValueSpecification
 AsamRecordLayoutSemantics
