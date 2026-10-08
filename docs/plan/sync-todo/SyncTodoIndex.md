@@ -1732,7 +1732,7 @@ Status: **17/75** completed
 | `SecureCommunicationFreshnessProps`                      | [ ] Pending*    | 748ee0ad2c |
 | `SecureCommunicationAuthenticationProps`                 | [ ] Pending*    | 56bcc7567c |
 | `CryptoServiceKey`                                       | [ ] Pending*    | 7f0ee10676 |
-| `CryptoServiceKeyGenerationEnum`                         | [ ] Created     | N/A        |
+| `CryptoServiceKeyGenerationEnum`                         | [ ] Pending*    | 0ad977989f |
 | `CryptoServiceQueue`                                     | [ ] Created     | N/A        |
 | `GeneralPurposeConnection`                               | [ ] Created     | N/A        |
 | `RelativeTolerance`                                      | [ ] Implemented | N/A        |

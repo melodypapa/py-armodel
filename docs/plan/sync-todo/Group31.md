@@ -1206,15 +1206,37 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `CryptoServiceKeyGenerationEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 6.52, p.378
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: own table = SystemTemplate Table 6.52, p.378; `Enumeration` header confirmed;
+    2 literals in XSD facet order = markdown displayed order (`keyDerivation` idx 0 →
+    `KEY-DERIVATION`, `keyStorage` idx 1 → `KEY-STORAGE`); no `atp.Status="removed"`
+    facets, nothing excluded. Aggregated by `CryptoServiceKey.keyGeneration`.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) (N/A: standalone enum — no own
+    XML element; round-tripped as the attribute value of `CryptoServiceKey.keyGeneration`,
+    covered by its parser/writer tests)
+  - [x] Step 6 — Update parser & writer (Green) (N/A: standalone enum — consumer already
+    reads/writes `KEY-GENERATION` via the literal helpers; 23 consumer tests pass)
+  - [x] Step 7 — Update checklist comment
+  - Deviation: none in scope — both spec literals (keyDerivation idx 0, keyStorage
+    idx 1) fully modeled as UPPER_SNAKE constants with XSD facet values
+    (KEY-DERIVATION / KEY-STORAGE, exact `CRYPTO-SERVICE-KEY-GENERATION-ENUM--SIMPLE`
+    spelling, AUTOSAR_00052.xsd l.132780) in facet order; Note verbatim in the class
+    docstring; no `atp.Status="removed"` facets; no Rule 0001.10 placeholder classes.
+    Consumer upgrade (planned by the CryptoServiceKey session): its construction
+    sites now use enum constants instead of the typed-`ARLiteral` test double —
+    test_CryptoServiceKey.py (models: construction + assert), test_crypto_service_key.py
+    (writer: `_populate` construction + round-trip assert); round-trip assertions
+    compare against `CryptoServiceKeyGenerationEnum.KEY_DERIVATION` (DiagPduType/
+    DcmIPdu precedent). Raw strings remain only in XML wire-format fixtures and
+    lenient parse-value assertions (Rule 0011 allows; parser test unchanged, same
+    shape as parser test_dcm_ipdu.py). No other consumer uses raw strings (grep:
+    parser/writer call sites unchanged — value form via
+    getChildElementOptionalLiteral/setChildElementOptionalLiteral).
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-08 (23625 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 0ad977989
 
 - [ ] `CryptoServiceQueue` — ARElement — R23-11 CP_TPS_SystemTemplate Table 6.53, p.381
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
