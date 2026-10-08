@@ -12,6 +12,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import TextVal
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     AbstractGlobalTimeDomainProps,
     ARObject,
+    BinaryManifestItemNumericalValue,
     BinaryManifestItemValue,
     BusMirrorCanIdRangeMapping,
     BusMirrorCanIdToCanIdMapping,
@@ -101,6 +102,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     GlobalTimePortRoleEnum,
     MacAddressString,
     NameToken,
+    Numerical,
     PositiveInteger,
     RefType,
     SendIndicationEnum,
@@ -6379,3 +6381,99 @@ class TestBinaryManifestItemValue:
 
         assert obj.getChecksum() is None
         assert obj.getTimestamp() is None
+
+
+class TestBinaryManifestItemNumericalValue:
+    """
+    Test class for BinaryManifestItemNumericalValue functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 11.26, p.922
+    """
+
+    CLASS_NOTE_WITH_CONSTRAINTS = (
+        "This meta-class has the ability to provide a numerical value for a binary manifest item.\n"
+        "\n"
+        "[constr_5202] Existence of attribute BinaryManifestItemNumericalValue.value: For each BinaryManifestItemNumericalValue, attribute value shall exist at the time when the definition of binary object metadata is finished."
+    )
+    VALUE_NOTE = "This attribute specifies the actual numerical value to be used in the binary manifest handle."
+
+    def _create_object(self) -> BinaryManifestItemNumericalValue:
+        return BinaryManifestItemNumericalValue()
+
+    def test_initialization(self):
+        """
+        Test that a new BinaryManifestItemNumericalValue initializes all attributes to their defaults.
+        """
+        obj = self._create_object()
+
+        assert obj.getChecksum() is None
+        assert obj.getTimestamp() is None
+        assert obj.getValue() is None
+
+    def test_is_binary_manifest_item_value_subclass(self):
+        """
+        Test that BinaryManifestItemNumericalValue derives from BinaryManifestItemValue per the
+        Table 11.26 Base row (ARObject, BinaryManifestItemValue — most-derived
+        BinaryManifestItemValue).
+        """
+        assert issubclass(BinaryManifestItemNumericalValue, BinaryManifestItemValue)
+        assert issubclass(BinaryManifestItemNumericalValue, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim plus the class-level constr row.
+        """
+        assert inspect.cleandoc(BinaryManifestItemNumericalValue.__doc__) == self.CLASS_NOTE_WITH_CONSTRAINTS
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert BinaryManifestItemNumericalValue.__init__.__doc__ is None
+
+    def test_member_order_follows_spec_rows(self):
+        """
+        Test that the accessors follow the Table 11.26 displayed row order (getter first per attribute).
+        """
+        methods = [name for name, value in BinaryManifestItemNumericalValue.__dict__.items() if callable(value) and not name.startswith("_")]
+        assert methods == [
+            "getValue",
+            "setValue",
+        ]
+
+    def test_annotations_are_spec_typed(self):
+        """
+        Test that the accessors carry the spec Numerical type (Table 11.26 Type column).
+        """
+        hints = typing.get_type_hints(BinaryManifestItemNumericalValue.getValue)
+        assert hints.get("return") == typing.Optional[Numerical]
+        hints = typing.get_type_hints(BinaryManifestItemNumericalValue.setValue)
+        assert hints.get("value") == typing.Optional[Numerical]
+        assert hints.get("return") is BinaryManifestItemNumericalValue
+
+    def test_get_set_value(self):
+        """
+        Test setValue and getValue round-trip and None no-op.
+        """
+        obj = self._create_object()
+
+        value = Numerical().setValue("4096")
+
+        result = obj.setValue(None)
+        assert result is obj
+        assert obj.getValue() is None
+
+        result = obj.setValue(value)
+        assert result is obj
+        assert obj.getValue() is value
+        assert obj.getValue().getValue() == 4096
+
+        obj.setValue(None)
+        assert obj.getValue() is value
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter/setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        assert inspect.cleandoc(BinaryManifestItemNumericalValue.getValue.__doc__) == self.VALUE_NOTE
+        assert inspect.cleandoc(BinaryManifestItemNumericalValue.setValue.__doc__) == (self.VALUE_NOTE + "\n\nA None value is a no-op and does not overwrite an existing value.")

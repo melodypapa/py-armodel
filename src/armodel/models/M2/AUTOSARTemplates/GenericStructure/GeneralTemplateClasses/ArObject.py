@@ -4122,7 +4122,46 @@ class SomeipTpConnection(ARObject):
 
 
 class BinaryManifestItemNumericalValue(BinaryManifestItemValue):
-    pass
+    """
+    This meta-class has the ability to provide a numerical value for a binary manifest item.
+
+    [constr_5202] Existence of attribute BinaryManifestItemNumericalValue.value: For each BinaryManifestItemNumericalValue, attribute value shall exist at the time when the definition of binary object metadata is finished.
+    """
+
+    # BinaryManifestItemNumericalValue method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 11.26, p.922
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getValue  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setValue  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # The XSD BINARY-MANIFEST-ITEM-NUMERICAL-VALUE group (AUTOSAR_00052.xsd l.8697) orders VALUE;
+    # the reader/writer call the base readBinaryManifestItemValue / writeBinaryManifestItemValue
+    # helpers exactly once (ARObject level). Aggregator dispatch (BinaryManifestItem.value /
+    # BinaryManifestItem.defaultValue) is pending — BinaryManifestItem is an unsynced later-wave
+    # stub.
+
+    def __init__(self):
+        super().__init__()
+
+        # This attribute specifies the actual numerical value to be used in the binary manifest handle.
+        self.value: Optional[Numerical] = None
+
+    def getValue(self) -> Optional[Numerical]:
+        """
+        This attribute specifies the actual numerical value to be used in the binary manifest handle.
+        """
+        return self.value
+
+    def setValue(self, value: Optional[Numerical]) -> BinaryManifestItemNumericalValue:
+        """
+        This attribute specifies the actual numerical value to be used in the binary manifest handle.
+
+        A None value is a no-op and does not overwrite an existing value.
+        """
+        if value is not None:
+            self.value = value
+        return self
 
 
 class BinaryManifestItemPointerValue(BinaryManifestItemValue):
@@ -4592,6 +4631,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Identifier,
     MacAddressString,
     NameToken,
+    Numerical,
     PositiveInteger,
     RefType,
     SendIndicationEnum,
