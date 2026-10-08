@@ -53,6 +53,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticTroubleCodeProps,
     DiagnosticTroubleCodeUds,
     EthGlobalTimeManagedCouplingPort,
+    EthTSynSubTlvConfig,
     EventObdReadinessGroup,
     GlobalTimeCorrectionProps,
     NetworkSegmentIdentification,
@@ -5176,3 +5177,126 @@ class TestEthGlobalTimeManagedCouplingPort:
         assert inspect.cleandoc(EthGlobalTimeManagedCouplingPort.setPdelayResponseEnabled.__doc__) == (
             self.PDELAY_RESPONSE_ENABLED_NOTE + "\n\nA None value is a no-op and does not overwrite an existing pdelayResponseEnabled."
         )
+
+
+class TestEthTSynSubTlvConfig:
+    """
+    Test class for EthTSynSubTlvConfig functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.12, p.867
+    """
+
+    CLASS_NOTE = "Defines the subTLV fields which shall be included in the time sync message."
+    OFS_SUB_TLV_NOTE = "Defines whether an AUTOSAR Follow_Up TLV OFS Sub-TLV is used."
+    STATUS_SUB_TLV_NOTE = "Defines whether an AUTOSAR Follow_Up TLV Status Sub-TLV is used."
+    TIME_SUB_TLV_NOTE = "Defines whether an AUTOSAR Follow_Up TLV Time Sub-TLV is used."
+    USER_DATA_SUB_TLV_NOTE = "Defines whether an AUTOSAR Follow_Up TLV UserData Sub-TLV is used."
+
+    def _create_object(self) -> EthTSynSubTlvConfig:
+        return EthTSynSubTlvConfig()
+
+    def test_initialization(self):
+        """
+        Test that a new EthTSynSubTlvConfig initializes all attributes to their defaults.
+        """
+        obj = self._create_object()
+
+        assert obj.getChecksum() is None
+        assert obj.getTimestamp() is None
+        assert obj.getOfsSubTlv() is None
+        assert obj.getStatusSubTlv() is None
+        assert obj.getTimeSubTlv() is None
+        assert obj.getUserDataSubTlv() is None
+
+    def test_is_ar_object_subclass(self):
+        """
+        Test that EthTSynSubTlvConfig derives from ARObject per the Table 9.12 Base row.
+        """
+        assert issubclass(EthTSynSubTlvConfig, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(EthTSynSubTlvConfig.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert EthTSynSubTlvConfig.__init__.__doc__ is None
+
+    def test_member_order_follows_spec_rows(self):
+        """
+        Test that the accessors follow the Table 9.12 displayed row order (getter first per attribute).
+        """
+        methods = [name for name, value in EthTSynSubTlvConfig.__dict__.items() if callable(value) and not name.startswith("_")]
+        assert methods == [
+            "getOfsSubTlv",
+            "setOfsSubTlv",
+            "getStatusSubTlv",
+            "setStatusSubTlv",
+            "getTimeSubTlv",
+            "setTimeSubTlv",
+            "getUserDataSubTlv",
+            "setUserDataSubTlv",
+        ]
+
+    def test_annotations_are_optional_typed(self):
+        """
+        Test that the accessors carry the spec Boolean type (0..1 rows).
+        """
+        for getter, setter in [
+            (EthTSynSubTlvConfig.getOfsSubTlv, EthTSynSubTlvConfig.setOfsSubTlv),
+            (EthTSynSubTlvConfig.getStatusSubTlv, EthTSynSubTlvConfig.setStatusSubTlv),
+            (EthTSynSubTlvConfig.getTimeSubTlv, EthTSynSubTlvConfig.setTimeSubTlv),
+            (EthTSynSubTlvConfig.getUserDataSubTlv, EthTSynSubTlvConfig.setUserDataSubTlv),
+        ]:
+            hints = typing.get_type_hints(getter)
+            assert hints.get("return") == typing.Optional[Boolean]
+            hints = typing.get_type_hints(setter)
+            assert hints.get("value") == typing.Optional[Boolean]
+            assert hints.get("return") is EthTSynSubTlvConfig
+
+    def test_get_set_sub_tlv_flags(self):
+        """
+        Test the four getter/setter pairs round-trip and None no-op.
+        """
+        obj = self._create_object()
+
+        ofs = Boolean().setValue(True)
+        result = obj.setOfsSubTlv(ofs)
+        assert result is obj
+        assert obj.getOfsSubTlv() is ofs
+
+        status = Boolean().setValue(False)
+        result = obj.setStatusSubTlv(status)
+        assert result is obj
+        assert obj.getStatusSubTlv() is status
+
+        time = Boolean().setValue(True)
+        result = obj.setTimeSubTlv(time)
+        assert result is obj
+        assert obj.getTimeSubTlv() is time
+
+        user_data = Boolean().setValue(True)
+        result = obj.setUserDataSubTlv(user_data)
+        assert result is obj
+        assert obj.getUserDataSubTlv() is user_data
+
+        result = obj.setOfsSubTlv(None)
+        assert result is obj
+        assert obj.getOfsSubTlv() is ofs
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        assert inspect.cleandoc(EthTSynSubTlvConfig.getOfsSubTlv.__doc__) == self.OFS_SUB_TLV_NOTE
+        assert inspect.cleandoc(EthTSynSubTlvConfig.setOfsSubTlv.__doc__) == (self.OFS_SUB_TLV_NOTE + "\n\nA None value is a no-op and does not overwrite an existing ofsSubTlv.")
+        assert inspect.cleandoc(EthTSynSubTlvConfig.getStatusSubTlv.__doc__) == self.STATUS_SUB_TLV_NOTE
+        assert inspect.cleandoc(EthTSynSubTlvConfig.setStatusSubTlv.__doc__) == (self.STATUS_SUB_TLV_NOTE + "\n\nA None value is a no-op and does not overwrite an existing statusSubTlv.")
+        assert inspect.cleandoc(EthTSynSubTlvConfig.getTimeSubTlv.__doc__) == self.TIME_SUB_TLV_NOTE
+        assert inspect.cleandoc(EthTSynSubTlvConfig.setTimeSubTlv.__doc__) == (self.TIME_SUB_TLV_NOTE + "\n\nA None value is a no-op and does not overwrite an existing timeSubTlv.")
+        assert inspect.cleandoc(EthTSynSubTlvConfig.getUserDataSubTlv.__doc__) == self.USER_DATA_SUB_TLV_NOTE
+        assert inspect.cleandoc(EthTSynSubTlvConfig.setUserDataSubTlv.__doc__) == (self.USER_DATA_SUB_TLV_NOTE + "\n\nA None value is a no-op and does not overwrite an existing userDataSubTlv.")

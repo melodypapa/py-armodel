@@ -565,6 +565,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     AbstractGlobalTimeDomainProps,
     CalibrationParameterValue,
     EthGlobalTimeManagedCouplingPort,
+    EthTSynSubTlvConfig,
     RoleBasedResourceDependency,
     DiagnosticAbstractParameter,
     DiagnosticCommonProps,
@@ -16278,6 +16279,14 @@ class ARXMLParser(AbstractARXMLParser):
         port.setPdelayRespAndRespFollowUpTimeout(self.getChildElementOptionalTimeValue(element, "PDELAY-RESP-AND-RESP-FOLLOW-UP-TIMEOUT"))
         port.setPdelayResponseEnabled(self.getChildElementOptionalBooleanValue(element, "PDELAY-RESPONSE-ENABLED"))
         return port
+
+    def readEthTSynSubTlvConfig(self, element: ET.Element, config: EthTSynSubTlvConfig) -> EthTSynSubTlvConfig:
+        self.readARObject(element, config)
+        config.setOfsSubTlv(self.getChildElementOptionalBooleanValue(element, "OFS-SUB-TLV"))
+        config.setStatusSubTlv(self.getChildElementOptionalBooleanValue(element, "STATUS-SUB-TLV"))
+        config.setTimeSubTlv(self.getChildElementOptionalBooleanValue(element, "TIME-SUB-TLV"))
+        config.setUserDataSubTlv(self.getChildElementOptionalBooleanValue(element, "USER-DATA-SUB-TLV"))
+        return config
 
     def getGlobalTimeProps(self, element: ET.Element, key: str) -> Optional[GlobalTimeCouplingPortProps]:
         props = None

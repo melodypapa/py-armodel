@@ -544,6 +544,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     AbstractGlobalTimeDomainProps,
     CalibrationParameterValue,
     EthGlobalTimeManagedCouplingPort,
+    EthTSynSubTlvConfig,
     RoleBasedResourceDependency,
     DiagnosticAbstractParameter,
     DiagnosticCommonProps,
@@ -13789,6 +13790,14 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalTimeValue(child_element, "PDELAY-REQUEST-PERIOD", port.getPdelayRequestPeriod())
         self.setChildElementOptionalTimeValue(child_element, "PDELAY-RESP-AND-RESP-FOLLOW-UP-TIMEOUT", port.getPdelayRespAndRespFollowUpTimeout())
         self.setChildElementOptionalBooleanValue(child_element, "PDELAY-RESPONSE-ENABLED", port.getPdelayResponseEnabled())
+
+    def writeEthTSynSubTlvConfig(self, element: ET.Element, config: EthTSynSubTlvConfig):
+        child_element = ET.SubElement(element, "ETH-T-SYN-SUB-TLV-CONFIG")
+        self.writeARObject(child_element, config)
+        self.setChildElementOptionalBooleanValue(child_element, "OFS-SUB-TLV", config.getOfsSubTlv())
+        self.setChildElementOptionalBooleanValue(child_element, "STATUS-SUB-TLV", config.getStatusSubTlv())
+        self.setChildElementOptionalBooleanValue(child_element, "TIME-SUB-TLV", config.getTimeSubTlv())
+        self.setChildElementOptionalBooleanValue(child_element, "USER-DATA-SUB-TLV", config.getUserDataSubTlv())
 
     def setGlobalTimeProps(self, element: ET.Element, key: str, props: Optional[GlobalTimeCouplingPortProps]):
         if props is not None:

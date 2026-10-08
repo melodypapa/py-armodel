@@ -3645,7 +3645,105 @@ class EthTSynCrcFlags(ARObject):
 
 
 class EthTSynSubTlvConfig(ARObject):
-    pass
+    """
+    Defines the subTLV fields which shall be included in the time sync message.
+    """
+
+    # EthTSynSubTlvConfig method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.12, p.867
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getOfsSubTlv         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOfsSubTlv         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getStatusSubTlv      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setStatusSubTlv      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeSubTlv        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeSubTlv        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getUserDataSubTlv    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUserDataSubTlv    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # Aggregator dispatch (GlobalTimeEthMaster.subTlvConfig) is pending — GlobalTimeEthMaster
+    # is a later-wave class; the reusable readEthTSynSubTlvConfig / writeEthTSynSubTlvConfig
+    # helpers own the ETH-T-SYN-SUB-TLV-CONFIG element (AUTOSAR_00052.xsd l.55824).
+
+    def __init__(self):
+        super().__init__()
+
+        # Defines whether an AUTOSAR Follow_Up TLV OFS Sub-TLV is used.
+        self.ofsSubTlv: Optional[Boolean] = None
+
+        # Defines whether an AUTOSAR Follow_Up TLV Status Sub-TLV is used.
+        self.statusSubTlv: Optional[Boolean] = None
+
+        # Defines whether an AUTOSAR Follow_Up TLV Time Sub-TLV is used.
+        self.timeSubTlv: Optional[Boolean] = None
+
+        # Defines whether an AUTOSAR Follow_Up TLV UserData Sub-TLV is used.
+        self.userDataSubTlv: Optional[Boolean] = None
+
+    def getOfsSubTlv(self) -> Optional[Boolean]:
+        """
+        Defines whether an AUTOSAR Follow_Up TLV OFS Sub-TLV is used.
+        """
+        return self.ofsSubTlv
+
+    def setOfsSubTlv(self, value: Optional[Boolean]) -> EthTSynSubTlvConfig:
+        """
+        Defines whether an AUTOSAR Follow_Up TLV OFS Sub-TLV is used.
+
+        A None value is a no-op and does not overwrite an existing ofsSubTlv.
+        """
+        if value is not None:
+            self.ofsSubTlv = value
+        return self
+
+    def getStatusSubTlv(self) -> Optional[Boolean]:
+        """
+        Defines whether an AUTOSAR Follow_Up TLV Status Sub-TLV is used.
+        """
+        return self.statusSubTlv
+
+    def setStatusSubTlv(self, value: Optional[Boolean]) -> EthTSynSubTlvConfig:
+        """
+        Defines whether an AUTOSAR Follow_Up TLV Status Sub-TLV is used.
+
+        A None value is a no-op and does not overwrite an existing statusSubTlv.
+        """
+        if value is not None:
+            self.statusSubTlv = value
+        return self
+
+    def getTimeSubTlv(self) -> Optional[Boolean]:
+        """
+        Defines whether an AUTOSAR Follow_Up TLV Time Sub-TLV is used.
+        """
+        return self.timeSubTlv
+
+    def setTimeSubTlv(self, value: Optional[Boolean]) -> EthTSynSubTlvConfig:
+        """
+        Defines whether an AUTOSAR Follow_Up TLV Time Sub-TLV is used.
+
+        A None value is a no-op and does not overwrite an existing timeSubTlv.
+        """
+        if value is not None:
+            self.timeSubTlv = value
+        return self
+
+    def getUserDataSubTlv(self) -> Optional[Boolean]:
+        """
+        Defines whether an AUTOSAR Follow_Up TLV UserData Sub-TLV is used.
+        """
+        return self.userDataSubTlv
+
+    def setUserDataSubTlv(self, value: Optional[Boolean]) -> EthTSynSubTlvConfig:
+        """
+        Defines whether an AUTOSAR Follow_Up TLV UserData Sub-TLV is used.
+
+        A None value is a no-op and does not overwrite an existing userDataSubTlv.
+        """
+        if value is not None:
+            self.userDataSubTlv = value
+        return self
 
 
 class GlobalTimeCorrectionProps(ARObject):
