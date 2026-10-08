@@ -26,6 +26,7 @@ if TYPE_CHECKING:
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
     CalibrationParameterValue,
+    FMFeatureDecomposition,
     DiagnosticCommonProps,
     DiagnosticConnectedIndicator,
     DiagnosticControlEnableMaskBit,
@@ -39,6 +40,11 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     DiagnosticAuthTransmitCertificateEvaluation,
+    FMAttributeDef,
+    FMFeatureMapElement,
+    FMFeatureRelation,
+    FMFeatureRestriction,
+    FMFeatureSelection,
     DiagnosticRequestRoutineResults,
     DiagnosticStartRoutine,
     DiagnosticStopRoutine,
@@ -46,6 +52,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Referrable,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import CollectableElement
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Enumerations import BindingTimeEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 
 
@@ -2354,6 +2361,14 @@ class ARPackage(CollectableElement, VariationPointCapable):
             timing = VfbTiming(self, short_name)
             self.addReferrableElement(timing)
         return cast(VfbTiming, self.getReferrableElement(short_name, VfbTiming))
+
+
+    def createFMFeature(self, short_name: str) -> FMFeature:
+
+        if not self.IsReferrableElementExists(short_name, FMFeature):
+            feature = FMFeature(self, short_name)
+            self.addReferrableElement(feature)
+        return cast(FMFeature, self.getReferrableElement(short_name, FMFeature))
 
     def createSystemTiming(self, short_name: str) -> SystemTiming:
 
@@ -11562,7 +11577,131 @@ class DiagnosticWriteMemoryByAddress(DiagnosticMemoryAddressableRangeAccess):
 
 
 class FMFeature(ARElement):
-    pass
+    """
+    A FMFeature describes an essential characteristic of a product. Each FMFeature is contained in exactly one FMFeatureModel. Tags: atp.recommendedPackage=FMFeatureModels
+    """
+
+    # FMFeature method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf, Table 4.2, p.24
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addAttributeDef                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAttributeDefs                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addDecomposition                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDecompositions                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getMaximumIntendedBindingTime     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaximumIntendedBindingTime     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMinimumIntendedBindingTime     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMinimumIntendedBindingTime     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addRelation                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRelations                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addRestriction                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRestrictions                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This defines the attributes of the given feature.
+        self.attributeDefs: List[FMAttributeDef] = []
+
+        # Lists the sub-features of a feature.
+        self.decompositions: List[FMFeatureDecomposition] = []
+
+        # Defines an upper bound for the binding time of the variation points that are associated with the FMFeature. This attribute is meant as a hint for the development process.
+        self.maximumIntendedBindingTime: Optional[BindingTimeEnum] = None
+
+        # Defines a lower bound for the binding time of the variation points that are associated with the FMFeature. This attribute is meant as a hint for the development process.
+        self.minimumIntendedBindingTime: Optional[BindingTimeEnum] = None
+
+        # Defines relations for FMFeatures, for example dependencies on other FMFeatures, or conflicts with other FMFeatures. A FMFeature can only be part of a FMFeatureSelectionSet if all its relations are fulfilled.
+        self.relations: List[FMFeatureRelation] = []
+
+        # Defines restrictions for FMFeatures. A FMFeature can only be part of a FMFeatureSelectionSet if at least one of its restrictions evaluates to true.
+        self.restrictions: List[FMFeatureRestriction] = []
+
+    def addAttributeDef(self, value: FMAttributeDef) -> FMFeature:
+        """
+        This defines the attributes of the given feature.
+        """
+        self.attributeDefs.append(value)
+        return self
+
+    def getAttributeDefs(self) -> List[FMAttributeDef]:
+        """
+        This defines the attributes of the given feature.
+        """
+        return self.attributeDefs
+
+    def addDecomposition(self, value: FMFeatureDecomposition) -> FMFeature:
+        """
+        Lists the sub-features of a feature.
+        """
+        self.decompositions.append(value)
+        return self
+
+    def getDecompositions(self) -> List[FMFeatureDecomposition]:
+        """
+        Lists the sub-features of a feature.
+        """
+        return self.decompositions
+
+    def getMaximumIntendedBindingTime(self) -> Optional[BindingTimeEnum]:
+        """
+        Defines an upper bound for the binding time of the variation points that are associated with the FMFeature. This attribute is meant as a hint for the development process.
+        """
+        return self.maximumIntendedBindingTime
+
+    def setMaximumIntendedBindingTime(self, value: Optional[BindingTimeEnum]) -> FMFeature:
+        """
+        Defines an upper bound for the binding time of the variation points that are associated with the FMFeature. This attribute is meant as a hint for the development process.
+
+        A None value is a no-op and does not overwrite an existing maximumIntendedBindingTime.
+        """
+        if value is not None:
+            self.maximumIntendedBindingTime = value
+        return self
+
+    def getMinimumIntendedBindingTime(self) -> Optional[BindingTimeEnum]:
+        """
+        Defines a lower bound for the binding time of the variation points that are associated with the FMFeature. This attribute is meant as a hint for the development process.
+        """
+        return self.minimumIntendedBindingTime
+
+    def setMinimumIntendedBindingTime(self, value: Optional[BindingTimeEnum]) -> FMFeature:
+        """
+        Defines a lower bound for the binding time of the variation points that are associated with the FMFeature. This attribute is meant as a hint for the development process.
+
+        A None value is a no-op and does not overwrite an existing minimumIntendedBindingTime.
+        """
+        if value is not None:
+            self.minimumIntendedBindingTime = value
+        return self
+
+    def addRelation(self, value: FMFeatureRelation) -> FMFeature:
+        """
+        Defines relations for FMFeatures, for example dependencies on other FMFeatures, or conflicts with other FMFeatures. A FMFeature can only be part of a FMFeatureSelectionSet if all its relations are fulfilled.
+        """
+        self.relations.append(value)
+        return self
+
+    def getRelations(self) -> List[FMFeatureRelation]:
+        """
+        Defines relations for FMFeatures, for example dependencies on other FMFeatures, or conflicts with other FMFeatures. A FMFeature can only be part of a FMFeatureSelectionSet if all its relations are fulfilled.
+        """
+        return self.relations
+
+    def addRestriction(self, value: FMFeatureRestriction) -> FMFeature:
+        """
+        Defines restrictions for FMFeatures. A FMFeature can only be part of a FMFeatureSelectionSet if at least one of its restrictions evaluates to true.
+        """
+        self.restrictions.append(value)
+        return self
+
+    def getRestrictions(self) -> List[FMFeatureRestriction]:
+        """
+        Defines restrictions for FMFeatures. A FMFeature can only be part of a FMFeatureSelectionSet if at least one of its restrictions evaluates to true.
+        """
+        return self.restrictions
 
 
 class FMFeatureMap(ARElement):

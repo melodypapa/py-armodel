@@ -424,7 +424,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (
     EvaluatedVariantSet,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, FMFeature, ReferenceBase
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import AclObjectSet, AclOperation, AclPermission, AclRole
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import DiagnosticCustomServiceInstance, DiagnosticMapping
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
@@ -2205,6 +2205,34 @@ class ARXMLWriter(AbstractARXMLWriter):
                 refs_tag = ET.SubElement(child_element, "SW-SYSTEMCONSTANT-VALUE-SET-REFS")
                 for ref in refs:
                     self.setChildElementOptionalRefType(refs_tag, "SW-SYSTEMCONSTANT-VALUE-SET-REF", ref)
+
+
+    def writeFMFeature(self, element: ET.Element, feature: FMFeature):
+        if feature is not None:
+            child_element = ET.SubElement(element, "FM-FEATURE")
+            self.writeIdentifiable(child_element, feature)
+            attribute_defs = feature.getAttributeDefs()
+            if len(attribute_defs) > 0:
+                defs_tag = ET.SubElement(child_element, "ATTRIBUTE-DEFS")
+                for attribute_def in attribute_defs:
+                    self.writeFMAttributeDef(defs_tag, attribute_def)
+            decompositions = feature.getDecompositions()
+            if len(decompositions) > 0:
+                decompositions_tag = ET.SubElement(child_element, "DECOMPOSITIONS")
+                for decomposition in decompositions:
+                    self.writeFMFeatureDecomposition(decompositions_tag, decomposition)
+            self.setChildElementOptionalLiteral(child_element, "MAXIMUM-INTENDED-BINDING-TIME", feature.getMaximumIntendedBindingTime())
+            self.setChildElementOptionalLiteral(child_element, "MINIMUM-INTENDED-BINDING-TIME", feature.getMinimumIntendedBindingTime())
+            relations = feature.getRelations()
+            if len(relations) > 0:
+                relations_tag = ET.SubElement(child_element, "RELATIONS")
+                for relation in relations:
+                    self.writeFMFeatureRelation(relations_tag, relation)
+            restrictions = feature.getRestrictions()
+            if len(restrictions) > 0:
+                restrictions_tag = ET.SubElement(child_element, "RESTRICTIONS")
+                for restriction in restrictions:
+                    self.writeFMFeatureRestriction(restrictions_tag, restriction)
 
     def writePostBuildVariantCondition(self, element: ET.Element, condition: PostBuildVariantCondition):
         child_element = ET.SubElement(element, "POST-BUILD-VARIANT-CONDITION")
@@ -20066,6 +20094,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeSwcTiming(element, ar_element)
         elif isinstance(ar_element, VfbTiming):
             self.writeVfbTiming(element, ar_element)
+        elif isinstance(ar_element, FMFeature):
+            self.writeFMFeature(element, ar_element)
         elif isinstance(ar_element, SystemTiming):
             self.writeSystemTiming(element, ar_element)
         elif isinstance(ar_element, BswModuleTiming):

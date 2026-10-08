@@ -623,7 +623,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (
     EvaluatedVariantSet,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, CalibrationParameterValueSet, PhysicalDimensionMappingSet, ReferenceBase
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, CalibrationParameterValueSet, FMFeature, PhysicalDimensionMappingSet, ReferenceBase
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import AclObjectSet, AclOperation, AclPermission, AclRole
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import DiagnosticCustomServiceInstance, DiagnosticMapping
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
@@ -2469,6 +2469,28 @@ class ARXMLParser(AbstractARXMLParser):
         for ref in self.getChildElementRefTypeList(element, "SW-SYSTEMCONSTANT-VALUE-SET-REFS/SW-SYSTEMCONSTANT-VALUE-SET-REF"):
             map_element.addSwSystemconstantValueSetRef(ref)
         return map_element
+
+    def readFMFeature(self, element: ET.Element, feature: FMFeature) -> FMFeature:
+        self.readIdentifiable(element, feature)
+        for child_element in self.findall(element, "ATTRIBUTE-DEFS/FM-ATTRIBUTE-DEF"):
+            attribute_def = FMAttributeDef(feature, self.getShortName(child_element))
+            self.readFMAttributeDef(child_element, attribute_def)
+            feature.addAttributeDef(attribute_def)
+        for child_element in self.findall(element, "DECOMPOSITIONS/FM-FEATURE-DECOMPOSITION"):
+            decomposition = FMFeatureDecomposition()
+            self.readFMFeatureDecomposition(child_element, decomposition)
+            feature.addDecomposition(decomposition)
+        feature.setMaximumIntendedBindingTime(self.getBindingTimeEnumElement(element, "MAXIMUM-INTENDED-BINDING-TIME"))
+        feature.setMinimumIntendedBindingTime(self.getBindingTimeEnumElement(element, "MINIMUM-INTENDED-BINDING-TIME"))
+        for child_element in self.findall(element, "RELATIONS/FM-FEATURE-RELATION"):
+            relation = FMFeatureRelation(feature, self.getShortName(child_element))
+            self.readFMFeatureRelation(child_element, relation)
+            feature.addRelation(relation)
+        for child_element in self.findall(element, "RESTRICTIONS/FM-FEATURE-RESTRICTION"):
+            restriction = FMFeatureRestriction(feature, self.getShortName(child_element))
+            self.readFMFeatureRestriction(child_element, restriction)
+            feature.addRestriction(restriction)
+        return feature
 
     def getBindingTimeEnumElement(self, element: ET.Element, key: str) -> Optional[BindingTimeEnum]:
         literal = self.getChildElementOptionalLiteral(element, key)
@@ -19607,6 +19629,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "VFB-TIMING":
                 vfb_timing = parent.createVfbTiming(self.getShortName(child_element))
                 self.readVfbTiming(child_element, vfb_timing)
+            elif tag_name == "FM-FEATURE":
+                feature = parent.createFMFeature(self.getShortName(child_element))
+                self.readFMFeature(child_element, feature)
             elif tag_name == "SYSTEM-TIMING":
                 system_timing = parent.createSystemTiming(self.getShortName(child_element))
                 self.readSystemTiming(child_element, system_timing)
