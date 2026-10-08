@@ -13,9 +13,9 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | [x] Done | 852 | 44.8% |
 | [x] Deferred | 42 | 2.2% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 835 | 43.9% |
+| [ ] Deferred | 836 | 44.0% |
 | [ ] Implemented | 29 | 1.5% |
-| [ ] Created | 144 | 7.6% |
+| [ ] Created | 143 | 7.5% |
 | [ ] Pending | 0 | 0.0% |
 
 | Class Name                                              | Status      | Commit ID                                | Groups           |
@@ -398,7 +398,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `CryptoServiceMapping`                                  | [x] Done    | 757aea1d17                               | Group6           |
 | `CryptoServiceNeeds`                                    | [x] Done    | bea3457ed5                               | Group14          |
 | `CryptoServicePrimitive`                                | [x] Done    | b609d72d59                               | Group6           |
-| `CryptoServiceQueue`                                    | [ ] Created | N/A                                      | Group31          |
+| `CryptoServiceQueue`                                    | [ ] Deferred| eeb832d638                               | Group31          |
 | `CryptoSignatureScheme`                                 | [x] Done    | 1eaeb5800b                               | Group6           |
 | `CseCodeType`                                           | [ ] Deferred| N/A                                      | Group21          |
 | `CycleCounter`                                          | [x] Done    | 75683a2ede                               | Group5           |

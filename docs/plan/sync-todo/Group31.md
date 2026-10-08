@@ -1240,15 +1240,47 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `CryptoServiceQueue` — ARElement — R23-11 CP_TPS_SystemTemplate Table 6.53, p.381
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: own table = SystemTemplate Table 6.53, p.381 (pdf_page.py); concrete
+    `Class` header → ARElement confirmed (Rule 0001.1); Base row = ARElement,
+    ARObject, CollectableElement, Identifiable, MultilanguageReferrable,
+    PackageableElement, Referrable — most-derived ARElement (spec-verified;
+    matches current home, no flattening). Note "This meta-class has the ability
+    to represent a crypto queue. Tags: atp.recommendedPackage=CryptoServiceQueues"
+    (tail kept per 0012.2.5.3); class-level constraint constr_5058 (queueSize >= 1
+    when defined) appended to the class docstring (Rule 0012.2.4). 1 attribute row
+    in displayed order = XSD group CRYPTO-SERVICE-QUEUE order
+    (AUTOSAR_00052.xsd l.26525): queueSize (PositiveInteger, 0..1, attr, Note
+    "Defines the queue size of the CryptoServiceQueue."). No
+    atp.Status="removed" elements in the group; not VP-capable (no
+    VARIATION-POINT anchor); Aggregated by ARPackage.element — ARPackage
+    createCryptoServiceQueue factory + parser tag branch + writer isinstance
+    branch currently MISSING (class was a whole-class stub; entry audit FAIL
+    BLOCK). Spec Package row = SystemTemplate::SecureCommunication, but placement
+    stays ARPackage.py per the confirmed Phase-0 queue row + CryptoServiceKey
+    sibling precedent (same spec package, synced in-file at 7f0ee1067).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — wipe is a no-op: the class was a whole-class stub (`pass`, no docstrings/comments); all docstrings written fresh verbatim from the markdown
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - Deviation: none in scope — the single spec attribute queueSize (PositiveInteger,
+    0..1) fully modeled (field + typed accessors + reader/writer each; XSD group
+    order on both sides, one child element). No `atp.Status="removed"` elements in
+    the group; nothing XSD-only excluded (Rule 0015 not triggered). No
+    referenced-but-missing classes (member type `PositiveInteger` fully implemented
+    in PrimitiveTypes.py). Consumer dispatch: ARPackage createCryptoServiceQueue
+    factory (new) + parser CRYPTO-SERVICE-QUEUE tag branch (new) + writer
+    isinstance branch (new) — the class previously had no dispatch at all
+    (whole-class stub: write raised NotImplementedError, read hit the unknown-tag
+    fallback); no identity-only dispatches existed to upgrade (the
+    CRYPTO-SERVICE-QUEUE-REF rows on SecOcCryptoServiceMapping/TlsCryptoServiceMapping
+    are RefType references, not aggregations). VP capability inherited via
+    PackageableElement(CollectableElement, VariationPointCapable) — no per-class
+    field (Rule 0020).
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-08 (23643 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit eeb832d63
 
 - [ ] `GeneralPurposeConnection` — ARElement — R23-11 CP_TPS_SystemTemplate Table 6.58, p.388
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py

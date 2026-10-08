@@ -1733,7 +1733,7 @@ Status: **17/75** completed
 | `SecureCommunicationAuthenticationProps`                 | [ ] Pending*    | 56bcc7567c |
 | `CryptoServiceKey`                                       | [ ] Pending*    | 7f0ee10676 |
 | `CryptoServiceKeyGenerationEnum`                         | [ ] Pending*    | 0ad977989f |
-| `CryptoServiceQueue`                                     | [ ] Created     | N/A        |
+| `CryptoServiceQueue`                                     | [ ] Pending*    | eeb832d638 |
 | `GeneralPurposeConnection`                               | [ ] Created     | N/A        |
 | `RelativeTolerance`                                      | [ ] Implemented | N/A        |
 | `AbsoluteTolerance`                                      | [ ] Implemented | N/A        |
