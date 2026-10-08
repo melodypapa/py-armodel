@@ -1,4 +1,5 @@
 import inspect
+import typing
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, RefType
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication.Timing import (
@@ -70,8 +71,18 @@ class TestAbsoluteTolerance:
         assert obj.getAbsolute() is value
 
 
+RELATIVE_TOLERANCE_CLASS_NOTE = "Maximum allowable deviation"
+RELATIVE_TOLERANCE_CLASS_CONSTRAINTS = (
+    "[constr_9191] Existence of RelativeTolerance.relative: For each RelativeTolerance, the attribute relative shall exist at the time when the System Description is complete.",
+)
+RELATIVE_NOTE = "Maximum allowable deviation in percent (percent of the corresponding TimeValue)."
+
+
 class TestRelativeTolerance:
-    """RelativeTolerance (XSD-only; AUTOSAR_00052.xsd group RELATIVE-TOLERANCE l.98240)."""
+    """RelativeTolerance (Table 6.68, p.398)."""
+
+    def test_inheritance(self):
+        assert issubclass(RelativeTolerance, TimeRangeTypeTolerance)
 
     def test_initialization(self):
         obj = RelativeTolerance()
@@ -84,6 +95,24 @@ class TestRelativeTolerance:
         assert obj.getRelative() is value
         obj.setRelative(None)
         assert obj.getRelative() is value
+
+    def test_annotation_pins(self):
+        getter_hints = typing.get_type_hints(RelativeTolerance.getRelative)
+        assert getter_hints.get("return") == typing.Optional[Integer]
+        setter_hints = typing.get_type_hints(RelativeTolerance.setRelative)
+        assert setter_hints.get("value") == typing.Optional[Integer]
+        assert setter_hints.get("return") is RelativeTolerance
+
+    def test_class_docstring_note(self):
+        assert inspect.cleandoc(RelativeTolerance.__doc__) == RELATIVE_TOLERANCE_CLASS_NOTE + "\n\n" + "\n".join(RELATIVE_TOLERANCE_CLASS_CONSTRAINTS)
+
+    def test_accessor_docstrings_verbatim(self):
+        obj = RelativeTolerance()
+        assert inspect.cleandoc(obj.getRelative.__doc__) == RELATIVE_NOTE
+        assert inspect.cleandoc(obj.setRelative.__doc__).split("\n")[0] == RELATIVE_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert RelativeTolerance.__init__.__doc__ is None
 
 
 class TestTimeRangeTypeToleranceChoice:

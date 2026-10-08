@@ -513,15 +513,16 @@ class AbsoluteTolerance(TimeRangeTypeTolerance):
 class RelativeTolerance(TimeRangeTypeTolerance):
     """
     Maximum allowable deviation
+
+    [constr_9191] Existence of RelativeTolerance.relative: For each RelativeTolerance, the attribute relative shall exist at the time when the System Description is complete.
     """
 
     # RelativeTolerance method parity checklist:
-    # Spec: XSD group RELATIVE-TOLERANCE, AUTOSAR_00052.xsd line 98240 (XSD-only; no own table in repo corpus)
-    # XSD verified: AUTOSAR_00052.xsd
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.68, p.398 (R23-11)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__     [x] impl  [—] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getRelative  [x] impl  [—] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setRelative  [x] impl  [—] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getRelative  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRelative  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -530,9 +531,16 @@ class RelativeTolerance(TimeRangeTypeTolerance):
         self.relative: Optional[Integer] = None
 
     def getRelative(self) -> Optional[Integer]:
+        """
+        Maximum allowable deviation in percent (percent of the corresponding TimeValue).
+        """
         return self.relative
 
     def setRelative(self, value: Optional[Integer]) -> "RelativeTolerance":
+        """
+        Maximum allowable deviation in percent (percent of the corresponding TimeValue).
+        A None value is a no-op and does not overwrite an existing relative.
+        """
         if value is not None:
             self.relative = value
         return self
