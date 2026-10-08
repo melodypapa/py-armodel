@@ -1352,6 +1352,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     TransformationTechnology,
     UserDefinedTransformationDescription,
     UserDefinedTransformationISignalProps,
+    UserDefinedTransformationProps,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import (
     CanTpAddress,
@@ -13805,6 +13806,13 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalPositiveInteger(element, "SIZE-OF-STRING-LENGTH-FIELD", cast(Integer, props.getSizeOfStringLengthField()))
         self.setChildElementOptionalPositiveInteger(element, "SIZE-OF-STRUCT-LENGTH-FIELD", cast(Integer, props.getSizeOfStructLengthField()))
         self.setChildElementOptionalPositiveInteger(element, "SIZE-OF-UNION-LENGTH-FIELD", cast(Integer, props.getSizeOfUnionLengthField()))
+
+    def writeUserDefinedTransformationProps(self, element: ET.Element, props: UserDefinedTransformationProps):
+        # Populates the USER-DEFINED-TRANSFORMATION-PROPS element created by the caller; the
+        # XSD USER-DEFINED-TRANSFORMATION-PROPS group (AUTOSAR_00052.xsd l.129197) has an empty
+        # sequence, so the helper owns only the Identifiable level reached through
+        # writeTransformationProps.
+        self.writeTransformationProps(element, props)
 
     def writeGlobalTimeSlave(self, element: ET.Element, slave: GlobalTimeSlave):
         # Populates the concrete subclass element (GLOBAL-TIME-CAN-/ETH-/FR-/USER-DEFINED-

@@ -2323,3 +2323,26 @@ class SOMEIPTransformationProps(TransformationProps):
         if value is not None:
             self.sizeOfUnionLengthField = value
         return self
+
+
+class UserDefinedTransformationProps(TransformationProps):
+    """
+    The class UserDefinedTransformationProps specifies specific configuration properties of a user defined serializer.
+    """
+
+    # UserDefinedTransformationProps method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.29, p.829
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    #
+    # Table 7.29 has no Attribute rows (the column renders a single "-") and the XSD
+    # USER-DEFINED-TRANSFORMATION-PROPS group (AUTOSAR_00052.xsd l.129197) has an empty
+    # sequence, so the class owns no attributes of its own. Rehoused from
+    # GeneralTemplateClasses.Identifiable per the Table 7.29 Base row (most-derived base
+    # TransformationProps) and the Package row …::SystemTemplate::Transformer (Rule 0007).
+    # The reader/writer call readTransformationProps/writeTransformationProps exactly once.
+    # Aggregator dispatch (TransformationPropsSet.transformationProps) is pending —
+    # TransformationPropsSet is a later-wave stub.
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)

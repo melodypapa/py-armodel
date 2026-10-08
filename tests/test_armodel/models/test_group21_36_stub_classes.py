@@ -3259,10 +3259,10 @@ STUBS = [
         "TransformationDescription",
     ),
     (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable",
+        "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer.__init__",
         "UserDefinedTransformationProps",
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable",
-        "Identifiable",
+        "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer.__init__",
+        "TransformationProps",
     ),
     (
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ModelRestrictionTypes",

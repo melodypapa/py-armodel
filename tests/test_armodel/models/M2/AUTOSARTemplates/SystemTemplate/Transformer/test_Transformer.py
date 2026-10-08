@@ -30,6 +30,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     TransformationTechnology,
     TransformerClassEnum,
     UserDefinedTransformationISignalProps,
+    UserDefinedTransformationProps,
 )
 
 
@@ -1487,3 +1488,57 @@ class TestSOMEIPTransformationProps:
         assert inspect.cleandoc(SOMEIPTransformationProps.setSizeOfUnionLengthField.__doc__) == (
             self.SIZE_OF_UNION_LENGTH_FIELD_NOTE + "\n\nA None value is a no-op and does not overwrite an existing sizeOfUnionLengthField."
         )
+
+
+class TestUserDefinedTransformationProps:
+    """
+    Test class for UserDefinedTransformationProps functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.29, p.829
+    (concrete; the Table 7.29 Base row's most-derived class is TransformationProps —
+    the class is rehoused from GeneralTemplateClasses.Identifiable into the spec
+    package Transformer per Rule 0007. The table's Attribute column is a single "-"
+    row, so the class owns no attributes of its own.)
+    """
+
+    CLASS_NOTE = "The class UserDefinedTransformationProps specifies specific configuration properties of a user defined serializer."
+
+    def test_is_transformation_props_subclass(self):
+        """
+        Test that UserDefinedTransformationProps derives from TransformationProps per the
+        Table 7.29 Base row (ARObject, Identifiable, MultilanguageReferrable, Referrable,
+        TransformationProps — most-derived TransformationProps).
+        """
+        assert issubclass(UserDefinedTransformationProps, TransformationProps)
+        assert issubclass(UserDefinedTransformationProps, Identifiable)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(UserDefinedTransformationProps.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert UserDefinedTransformationProps.__init__.__doc__ is None
+
+    def test_no_own_methods(self):
+        """
+        Test that the class declares no accessors — Table 7.29 has no Attribute rows.
+        """
+        methods = [name for name, value in UserDefinedTransformationProps.__dict__.items() if callable(value) and not name.startswith("_")]
+        assert methods == []
+
+    def test_initialization_defaults(self):
+        """
+        Test that the instance instantiates with the Identifiable state at defaults.
+        """
+        obj = UserDefinedTransformationProps(MockParent(), "userDefinedProps")
+
+        assert obj.getShortName() == "userDefinedProps"
+        assert obj.getChecksum() is None
+        assert obj.getTimestamp() is None
+        assert obj.getUuid() is None
+        assert obj.getCategory() is None

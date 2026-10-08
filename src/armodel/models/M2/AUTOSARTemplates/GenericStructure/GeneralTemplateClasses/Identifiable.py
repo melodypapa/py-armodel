@@ -2538,10 +2538,6 @@ class UserDefinedGlobalTimeSlave(Identifiable):
     pass
 
 
-class UserDefinedTransformationProps(Identifiable):
-    pass
-
-
 class DdsCpConsumedServiceInstance(DdsCpServiceInstance):
     """
     This meta-class represents the ability to describe the existence and configuration of a consumed (required) service instance in a concrete implementation on top of DDS. Tags: atp.Status=candidate
