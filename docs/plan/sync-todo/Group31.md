@@ -759,17 +759,52 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-08 (23424 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 5cff010b1
 
-- [ ] `DcmIPdu` — IPdu — R23-11 CP_TPS_SystemTemplate Table 6.22, p.343
+- [x] `DcmIPdu` — IPdu — R23-11 CP_TPS_SystemTemplate Table 6.22, p.343 (sync commit edf35e5e2)
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: own table = CP_TPS_SystemTemplate Table 6.22, p.343 (pdf_page.py);
+    concrete Class; Package row `...Fibex::FibexCore::CoreCommunication` matches src
+    home (Rule 0007 — non-leaf `__init__.py`, no move); Base most-derived = `IPdu`
+    (synced 6d2c23610) — src base already correct; Class Note "Represents the IPdus
+    handled by Dcm. Tags: atp.recommendedPackage=Pdus" (tail kept verbatim) +
+    class-level constr_9194 (diagPduType shall exist when the System Description is
+    complete). Exactly ONE own attribute row `diagPduType` (DiagPduType 0..1 attr);
+    no page-split continuation. XSD group DCM-I-PDU (AUTOSAR_00052.xsd l.28516) =
+    single child DIAG-PDU-TYPE (minOccurs=0 maxOccurs=1); complexType (l.28532)
+    sequences PDU → I-PDU → DCM-I-PDU — reader/writer already conform; no
+    atp.Status="removed" elements; not VP-capable (no VARIATION-POINT in the
+    DCM-I-PDU group/complexType, absent from vp_anchors.txt). PDF type of
+    diagPduType = DiagPduType enum — legacy field `Optional[ARLiteral]` is looser
+    → retype to `Optional[DiagPduType]` (Rule 0001.3). Member type DiagPduType
+    exists as a STUB (`class DiagPduType(AREnum): pass` — no literals/marker; XSD
+    facets DIAG-REQUEST idx 0 / DIAG-RESPONSE idx 1, none removed) queued as its
+    own row (Table 6.23) — referenced by real class name per Rule 0001.10
+    relaxation, stub noted in Step 8. Legacy drift: 4-column checklist (Rule 0023),
+    paraphrased class docstring, untyped accessors, no None no-op, bare-string
+    legacy test value; entry audit FAIL (ROWS/SPECLINE), NO stale marker (STAMP
+    INFO clean — no Rule 0023 removal/baseline refresh needed). ARPackage dispatch
+    already full-level both sides (createDcmIPdu ARPackage.py:2442; parser:19271;
+    writer:19694).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - Deviation: none in scope — the single spec attribute diagPduType is fully
+    modeled (field + typed accessors + reader/writer). Referenced-but-stub member
+    type (Rule 0001.10 relaxation, one-class-per-session): `DiagPduType` exists as
+    `class DiagPduType(AREnum): pass` (no literals/marker) and is queued as its own
+    row (Table 6.23, next) — DcmIPdu references the real class name (`Optional[DiagPduType]`,
+    no RefType placeholder); its mirrored/round-trip tests construct the XSD facet
+    value as typed `ARLiteral().setValue("DIAG-REQUEST")` (exactly what the family
+    reader materializes at runtime) until the enum's own sync lands, then switch to
+    enum constants. No atp.Status="removed" elements in the DCM-I-PDU group; no
+    XSD-only attributes (Rule 0015 clean); no Rule 0001.10 placeholder classes.
+    Consumer dispatch: ARPackage createDcmIPdu factory + parser/writer dispatch
+    already full-level both sides — no identity-only placeholders to upgrade.
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-08 (23441 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit edf35e5e2
 
 - [ ] `DiagPduType` — AREnum — R23-11 CP_TPS_SystemTemplate Table 6.23, p.344
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py

@@ -11,10 +11,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | Status | Classes | Percent |
 | --- | --- | --- |
 | [x] Done | 852 | 44.8% |
-| [x] Deferred | 36 | 1.9% |
+| [x] Deferred | 37 | 1.9% |
 | [x] Retired | 0 | 0.0% |
 | [ ] Deferred | 829 | 43.6% |
-| [ ] Implemented | 37 | 1.9% |
+| [ ] Implemented | 36 | 1.9% |
 | [ ] Created | 148 | 7.8% |
 | [ ] Pending | 0 | 0.0% |
 
@@ -442,7 +442,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `DataTypePolicyEnum`                                    | [ ] Implemented| N/A                                      | Group31          |
 | `DataWriteCompletedEvent`                               | [x] Done    | df2a6b3a70                               | Group12          |
 | `DateTime`                                              | [ ] Deferred| N/A                                      | Group21          |
-| `DcmIPdu`                                               | [ ] Implemented| N/A                                      | Group31          |
+| `DcmIPdu`                                               | [x] Deferred| edf35e5e2a                               | Group31          |
 | `DdsCpConfig`                                           | [ ] Deferred| N/A                                      | Group32          |
 | `DdsCpConsumedServiceInstance`                          | [ ] Deferred| N/A                                      | Group32          |
 | `DdsCpISignalToDdsTopicMapping`                         | [ ] Deferred| N/A                                      | Group31          |
