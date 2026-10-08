@@ -587,6 +587,8 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     FMAttributeDef,
+    FMFeatureMapAssertion,
+    FMFeatureMapCondition,
     FMFeatureRelation,
     FMFeatureRestriction,
     FMFeatureSelection,
@@ -2163,6 +2165,19 @@ class ARXMLWriter(AbstractARXMLWriter):
                 values_tag = ET.SubElement(child_element, "ATTRIBUTE-VALUES")
                 for value in attribute_values:
                     self.writeFMAttributeValue(values_tag, value)
+
+
+    def writeFMFeatureMapCondition(self, element: ET.Element, condition: FMFeatureMapCondition):
+        if condition is not None:
+            child_element = ET.SubElement(element, "FM-FEATURE-MAP-CONDITION")
+            self.writeIdentifiable(child_element, condition)
+            self.writeFMConditionByFeaturesAndAttributes(child_element, condition.getFmCond(), key="FM-COND")
+
+    def writeFMFeatureMapAssertion(self, element: ET.Element, assertion: FMFeatureMapAssertion):
+        if assertion is not None:
+            child_element = ET.SubElement(element, "FM-FEATURE-MAP-ASSERTION")
+            self.writeIdentifiable(child_element, assertion)
+            self.writeFMConditionByFeaturesAndSwSystemconsts(child_element, assertion.getFmSyscond(), key="FM-SYSCOND")
 
     def writePostBuildVariantCondition(self, element: ET.Element, condition: PostBuildVariantCondition):
         child_element = ET.SubElement(element, "POST-BUILD-VARIANT-CONDITION")

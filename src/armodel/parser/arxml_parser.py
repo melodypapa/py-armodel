@@ -746,6 +746,8 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Enumerations import BindingTimeEnum, XmlSpaceEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     FMAttributeDef,
+    FMFeatureMapAssertion,
+    FMFeatureMapCondition,
     FMFeatureRelation,
     FMFeatureRestriction,
     FMFeatureSelection,
@@ -2436,6 +2438,20 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "ATTRIBUTE-VALUES/FM-ATTRIBUTE-VALUE"):
             selection.addAttributeValue(self.readFMAttributeValue(child_element, FMAttributeValue()))
         return selection
+
+    def readFMFeatureMapCondition(self, element: ET.Element, condition: FMFeatureMapCondition) -> FMFeatureMapCondition:
+        self.readIdentifiable(element, condition)
+        cond_element = self.find(element, "FM-COND")
+        if cond_element is not None:
+            condition.setFmCond(self.readFMConditionByFeaturesAndAttributes(cond_element, FMConditionByFeaturesAndAttributes()))
+        return condition
+
+    def readFMFeatureMapAssertion(self, element: ET.Element, assertion: FMFeatureMapAssertion) -> FMFeatureMapAssertion:
+        self.readIdentifiable(element, assertion)
+        cond_element = self.find(element, "FM-SYSCOND")
+        if cond_element is not None:
+            assertion.setFmSyscond(self.readFMConditionByFeaturesAndSwSystemconsts(cond_element, FMConditionByFeaturesAndSwSystemconsts()))
+        return assertion
 
     def getBindingTimeEnumElement(self, element: ET.Element, key: str) -> Optional[BindingTimeEnum]:
         literal = self.getChildElementOptionalLiteral(element, key)

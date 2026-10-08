@@ -48,7 +48,7 @@ from abc import ABC
 from typing import Dict, List, Optional, TYPE_CHECKING, Union, cast
 
 if TYPE_CHECKING:
-    from armodel.models.M2.AUTOSARTemplates.FeatureModelTemplate import FMConditionByFeaturesAndAttributes
+    from armodel.models.M2.AUTOSARTemplates.FeatureModelTemplate import FMConditionByFeaturesAndAttributes, FMConditionByFeaturesAndSwSystemconsts
     from armodel.models.M2.MSR.AsamHdo.AdminData import AdminData
     from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName, MultiLanguageOverviewParagraph
     from armodel.models.M2.MSR.Documentation.TextModel.SingleLanguageData import SingleLanguageLongName
@@ -1474,11 +1474,73 @@ class FMAttributeDef(Identifiable):
 
 
 class FMFeatureMapAssertion(Identifiable):
-    pass
+    """
+    Defines a boolean expression which shall evaluate to true for this mapping to become active. The expression is a formula that is based on features and system constants, and is defined by fmSyscond.
+    """
+
+    # FMFeatureMapAssertion method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf, Table 6.4, p.56
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getFmSyscond   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFmSyscond   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # The formula that implements the assertion.
+        self.fmSyscond: Optional[FMConditionByFeaturesAndSwSystemconsts] = None
+
+    def getFmSyscond(self) -> Optional[FMConditionByFeaturesAndSwSystemconsts]:
+        """
+        The formula that implements the assertion.
+        """
+        return self.fmSyscond
+
+    def setFmSyscond(self, value: Optional[FMConditionByFeaturesAndSwSystemconsts]) -> FMFeatureMapAssertion:
+        """
+        The formula that implements the assertion.
+
+        A None value is a no-op and does not overwrite an existing fmSyscond.
+        """
+        if value is not None:
+            self.fmSyscond = value
+        return self
 
 
 class FMFeatureMapCondition(Identifiable):
-    pass
+    """
+    Defines a condition which needs to be fulfilled for this mapping to become active. The condition is implemented as formula that is based on features and attributes and is defined by fmCond.
+    """
+
+    # FMFeatureMapCondition method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf, Table 6.3, p.55
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getFmCond     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFmCond     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # The formula that implements the condition.
+        self.fmCond: Optional[FMConditionByFeaturesAndAttributes] = None
+
+    def getFmCond(self) -> Optional[FMConditionByFeaturesAndAttributes]:
+        """
+        The formula that implements the condition.
+        """
+        return self.fmCond
+
+    def setFmCond(self, value: Optional[FMConditionByFeaturesAndAttributes]) -> FMFeatureMapCondition:
+        """
+        The formula that implements the condition.
+
+        A None value is a no-op and does not overwrite an existing fmCond.
+        """
+        if value is not None:
+            self.fmCond = value
+        return self
 
 
 class FMFeatureMapElement(Identifiable):
