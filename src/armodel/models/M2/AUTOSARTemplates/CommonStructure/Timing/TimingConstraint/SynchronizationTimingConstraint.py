@@ -29,10 +29,9 @@ class SynchronizationTypeEnum(AREnum):
 
     # SynchronizationTypeEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.55, p.93
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on SynchronizationTimingConstraint.synchronizationConstraintType
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # In case that the Synchronization Timing Constraint is specified for event chains, the response events of the associated event chains shall occur synchronously with respect to the specified tolerance.
     # All associated event chains shall have the same stimulus event. In case that the Synchronization Timing Constraint is specified for events, the associated events shall occur synchronously with respect to the specified tolerance.
@@ -47,9 +46,6 @@ class SynchronizationTypeEnum(AREnum):
     STIMULUS_SYNCHRONIZATION = "STIMULUS-SYNCHRONIZATION"
 
     def __init__(self):
-        """
-        Initializes the SynchronizationTypeEnum with valid values.
-        """
         super().__init__(
             (
                 SynchronizationTypeEnum.RESPONSE_SYNCHRONIZATION,
@@ -65,10 +61,9 @@ class EventOccurrenceKindEnum(AREnum):
 
     # EventOccurrenceKindEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.56, p.93
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on SynchronizationTimingConstraint.eventOccurrenceKind
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # Specifies that an event may occur more than once in a given time interval.
     # Tags: atp.EnumerationLiteralIndex=0
@@ -79,9 +74,6 @@ class EventOccurrenceKindEnum(AREnum):
     SINGLE_OCCURRENCE = "SINGLE-OCCURRENCE"
 
     def __init__(self):
-        """
-        Initializes the EventOccurrenceKindEnum with valid values.
-        """
         super().__init__(
             (
                 EventOccurrenceKindEnum.MULTIPLE_OCCURRENCES,

@@ -51,3 +51,24 @@ class TestReadTimingConditionFormula:
         assert tcf.getTimingEventRef() is None
         assert tcf.getTimingModeRef() is None
         assert tcf.getTimingVariableRef() is None
+
+
+class TestTimingConditionFormulaSTAttributes:
+    def test_round_trip_preserves_s_t_attributes(self):
+        """The reader/writer must call readARObject/writeARObject (Rule 0025) so the AR-OBJECT
+        attributeGroup S/T checksum/timestamp attributes survive a write→parse round-trip."""
+        element = ET.Element("TIMING-CONDITION-FORMULA")
+        element.attrib["S"] = "CHECKSUM-1"
+        element.attrib["T"] = "2026-10-08T12:00:00+01:00"
+
+        from armodel.writer.arxml_writer import ARXMLWriter
+
+        parsed = ARXMLParser().readTimingConditionFormula(_round_trip(element))
+        assert parsed.getChecksum() is not None
+        assert parsed.getChecksum().getValue() == "CHECKSUM-1"
+        assert parsed.getTimestamp() is not None
+
+        out = ET.Element("TIMING-CONDITION-FORMULA")
+        ARXMLWriter().writeTimingConditionFormula(out, parsed)
+        assert out.attrib["S"] == "CHECKSUM-1"
+        assert out.attrib["T"] == "2026-10-08T12:00:00+01:00"

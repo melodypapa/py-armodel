@@ -61,3 +61,27 @@ class TestModeInBswInstanceRef:
         obj.setTargetModeDeclarationRef(ref)
         assert obj.setTargetModeDeclarationRef(None) is obj
         assert obj.getTargetModeDeclarationRef() is ref
+
+    def test_class_docstring_note(self):
+        import inspect
+
+        assert inspect.cleandoc(ModeInBswInstanceRef.__doc__) == (
+            "Instance reference to be capable of referencing a specific ModeDeclaration of a " "ModeDeclarationGroup Prototype utilized in a BSW module."
+        )
+
+    def test_member_docstrings_are_verbatim_spec_notes(self):
+        import inspect
+
+        bsw_note = "Specifies the BSW implementation that manifests the context. Tags: xml.sequenceOffset=10"
+        ctx_note = "Specifies the mode declaration group prototype that manifests the context. Tags: xml.sequenceOffset=20"
+        tgt_note = "Specifies the specific mode declaration in the given context. Tags: xml.sequenceOffset=30"
+
+        assert inspect.cleandoc(ModeInBswInstanceRef.getContextBswImplementationRef.__doc__) == bsw_note
+        assert inspect.cleandoc(ModeInBswInstanceRef.setContextBswImplementationRef.__doc__) == bsw_note + "\n\nA None value is a no-op and does not overwrite an existing contextBswImplementationRef."
+        assert inspect.cleandoc(ModeInBswInstanceRef.getContextModeDeclarationGroupPrototypeRef.__doc__) == ctx_note
+        assert (
+            inspect.cleandoc(ModeInBswInstanceRef.setContextModeDeclarationGroupPrototypeRef.__doc__)
+            == ctx_note + "\n\nA None value is a no-op and does not overwrite an existing contextModeDeclarationGroupPrototypeRef."
+        )
+        assert inspect.cleandoc(ModeInBswInstanceRef.getTargetModeDeclarationRef.__doc__) == tgt_note
+        assert inspect.cleandoc(ModeInBswInstanceRef.setTargetModeDeclarationRef.__doc__) == tgt_note + "\n\nA None value is a no-op and does not overwrite an existing targetModeDeclarationRef."

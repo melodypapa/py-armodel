@@ -2270,10 +2270,6 @@ class AbstractGlobalTimeDomainProps(ARObject, ABC):
     pass
 
 
-class BinaryManifestAddressableObject(ARObject, ABC):
-    pass
-
-
 class BinaryManifestItemValue(ARObject, ABC):
     pass
 
@@ -3386,14 +3382,6 @@ class SecurityEventStateFilter(ARObject):
 
 
 class SomeipTpConnection(ARObject):
-    pass
-
-
-class SystemTiming(ARObject):
-    pass
-
-
-class TDCpSoftwareClusterMappingSet(ARObject):
     pass
 
 

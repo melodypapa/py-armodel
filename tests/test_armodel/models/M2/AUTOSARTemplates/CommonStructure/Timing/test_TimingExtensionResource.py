@@ -83,3 +83,24 @@ class TestTimingExtensionResource:
         variable2 = obj.createTimingVariable("Var1")
         assert variable2 is variable1
         assert len(obj.getTimingVariables()) == 1
+
+    def test_class_docstring_note(self):
+        import inspect
+
+        assert inspect.cleandoc(TimingExtensionResource.__doc__) == (
+            "A TimingExtensionResource provides the capability to contain instance references " "referred from within a timing condition formula."
+        )
+
+    def test_member_docstrings_are_verbatim_spec_notes(self):
+        import inspect
+
+        arg_note = "This refers to an instance reference of an argument of an operation call. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=timingArgument.shortName, timing Argument.variationPoint.shortLabel vh.latestBindingTime=postBuild"
+        mode_note = "This refers to an instance reference of a mode declaration. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=timingMode.shortName, timing Mode.variationPoint.shortLabel vh.latestBindingTime=postBuild"
+        var_note = "This refers to an instance reference of a variable. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=timingVariable.shortName, timing Variable.variationPoint.shortLabel vh.latestBindingTime=postBuild"
+
+        assert inspect.cleandoc(TimingExtensionResource.createTimingArgument.__doc__) == arg_note
+        assert inspect.cleandoc(TimingExtensionResource.getTimingArguments.__doc__) == arg_note
+        assert inspect.cleandoc(TimingExtensionResource.createTimingMode.__doc__) == mode_note
+        assert inspect.cleandoc(TimingExtensionResource.getTimingModes.__doc__) == mode_note
+        assert inspect.cleandoc(TimingExtensionResource.createTimingVariable.__doc__) == var_note
+        assert inspect.cleandoc(TimingExtensionResource.getTimingVariables.__doc__) == var_note

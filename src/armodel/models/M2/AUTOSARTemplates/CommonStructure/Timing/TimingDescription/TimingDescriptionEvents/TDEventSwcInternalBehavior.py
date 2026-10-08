@@ -6,6 +6,7 @@ This module contains the SW-C internal behavior timing description event classes
 from abc import ABC
 from typing import Optional
 
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription import TimingDescriptionEvent
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
@@ -23,10 +24,9 @@ class TDEventSwcInternalBehaviorTypeEnum(AREnum):
 
     # TDEventSwcInternalBehaviorTypeEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.27, p.62
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on TDEventSwcInternalBehavior.tdEventSwcInternalBehaviorType
-    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # A point in time where the associated RunnableEntity has been activated, which means that it has entered the state "to be started". Tags: atp.EnumerationLiteralIndex=0
     RUNNABLE_ENTITY_ACTIVATED = "RUNNABLE-ENTITY-ACTIVATED"
@@ -66,13 +66,12 @@ class TDEventSwc(TimingDescriptionEvent, ABC):
 
     # TDEventSwc method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.25, p.60
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getComponentIRef   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setComponentIRef   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getComponentIRef              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setComponentIRef              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
-    def __init__(self, parent, short_name):
+    def __init__(self, parent: ARObject, short_name: str):
         if type(self) is TDEventSwc:
             raise TypeError("TDEventSwc is an abstract class.")
 
@@ -82,11 +81,17 @@ class TDEventSwc(TimingDescriptionEvent, ABC):
         self.componentIRef: Optional[ComponentInCompositionInstanceRef] = None
 
     def getComponentIRef(self) -> Optional[ComponentInCompositionInstanceRef]:
-        """The context for the scope of this timing event. InstanceRef implemented by: ComponentInCompositionInstanceRef."""
+        """
+        The context for the scope of this timing event. InstanceRef implemented by: ComponentInCompositionInstanceRef.
+        """
         return self.componentIRef
 
     def setComponentIRef(self, value: Optional[ComponentInCompositionInstanceRef]) -> "TDEventSwc":
-        """The context for the scope of this timing event. InstanceRef implemented by: ComponentInCompositionInstanceRef. A None value is a no-op and does not overwrite an existing componentIRef."""
+        """
+        The context for the scope of this timing event. InstanceRef implemented by: ComponentInCompositionInstanceRef.
+
+        A None value is a no-op and does not overwrite an existing componentIRef.
+        """
         if value is not None:
             self.componentIRef = value
         return self
@@ -99,17 +104,16 @@ class TDEventSwcInternalBehavior(TDEventSwc):
 
     # TDEventSwcInternalBehavior method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.26, p.62
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getRunnableRef                      [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setRunnableRef                      [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getTdEventSwcInternalBehaviorType   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setTdEventSwcInternalBehaviorType   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getVariableAccessRef                [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setVariableAccessRef                [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getRunnableRef                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRunnableRef                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTdEventSwcInternalBehaviorType  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTdEventSwcInternalBehaviorType  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVariableAccessRef          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setVariableAccessRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
-    def __init__(self, parent, short_name):
+    def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
         # The scope of this timing event.
@@ -122,31 +126,49 @@ class TDEventSwcInternalBehavior(TDEventSwc):
         self.variableAccessRef: Optional[RefType] = None
 
     def getRunnableRef(self) -> Optional[RefType]:
-        """The scope of this timing event."""
+        """
+        The scope of this timing event.
+        """
         return self.runnableRef
 
     def setRunnableRef(self, value: Optional[RefType]) -> "TDEventSwcInternalBehavior":
-        """The scope of this timing event. A None value is a no-op and does not overwrite an existing runnableRef."""
+        """
+        The scope of this timing event.
+
+        A None value is a no-op and does not overwrite an existing runnableRef.
+        """
         if value is not None:
             self.runnableRef = value
         return self
 
     def getTdEventSwcInternalBehaviorType(self) -> Optional[TDEventSwcInternalBehaviorTypeEnum]:
-        """The specific type of this timing event."""
+        """
+        The specific type of this timing event.
+        """
         return self.tdEventSwcInternalBehaviorType
 
     def setTdEventSwcInternalBehaviorType(self, value: Optional[TDEventSwcInternalBehaviorTypeEnum]) -> "TDEventSwcInternalBehavior":
-        """The specific type of this timing event. A None value is a no-op and does not overwrite an existing tdEventSwcInternalBehaviorType."""
+        """
+        The specific type of this timing event.
+
+        A None value is a no-op and does not overwrite an existing tdEventSwcInternalBehaviorType.
+        """
         if value is not None:
             self.tdEventSwcInternalBehaviorType = value
         return self
 
     def getVariableAccessRef(self) -> Optional[RefType]:
-        """The scope of this timing event."""
+        """
+        The scope of this timing event.
+        """
         return self.variableAccessRef
 
     def setVariableAccessRef(self, value: Optional[RefType]) -> "TDEventSwcInternalBehavior":
-        """The scope of this timing event. A None value is a no-op and does not overwrite an existing variableAccessRef."""
+        """
+        The scope of this timing event.
+
+        A None value is a no-op and does not overwrite an existing variableAccessRef.
+        """
         if value is not None:
             self.variableAccessRef = value
         return self
@@ -159,24 +181,29 @@ class TDEventSwcInternalBehaviorReference(TDEventSwc):
 
     # TDEventSwcInternalBehaviorReference method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.28, p.63
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getReferencedTDEventSwcRef     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setReferencedTDEventSwcRef     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getReferencedTDEventSwcRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setReferencedTDEventSwcRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
-    def __init__(self, parent, short_name):
+    def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
         # The referenced timing description event.
         self.referencedTDEventSwcRef: Optional[RefType] = None
 
     def getReferencedTDEventSwcRef(self) -> Optional[RefType]:
-        """The referenced timing description event."""
+        """
+        The referenced timing description event.
+        """
         return self.referencedTDEventSwcRef
 
     def setReferencedTDEventSwcRef(self, value: Optional[RefType]) -> "TDEventSwcInternalBehaviorReference":
-        """The referenced timing description event. A None value is a no-op and does not overwrite an existing referencedTDEventSwcRef."""
+        """
+        The referenced timing description event.
+
+        A None value is a no-op and does not overwrite an existing referencedTDEventSwcRef.
+        """
         if value is not None:
             self.referencedTDEventSwcRef = value
         return self

@@ -2334,6 +2334,48 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(timing)
         return cast(SwcTiming, self.getReferrableElement(short_name, SwcTiming))
 
+    def createVfbTiming(self, short_name: str) -> VfbTiming:
+
+        if not self.IsReferrableElementExists(short_name, VfbTiming):
+            timing = VfbTiming(self, short_name)
+            self.addReferrableElement(timing)
+        return cast(VfbTiming, self.getReferrableElement(short_name, VfbTiming))
+
+    def createSystemTiming(self, short_name: str) -> SystemTiming:
+
+        if not self.IsReferrableElementExists(short_name, SystemTiming):
+            timing = SystemTiming(self, short_name)
+            self.addReferrableElement(timing)
+        return cast(SystemTiming, self.getReferrableElement(short_name, SystemTiming))
+
+    def createBswModuleTiming(self, short_name: str) -> BswModuleTiming:
+
+        if not self.IsReferrableElementExists(short_name, BswModuleTiming):
+            timing = BswModuleTiming(self, short_name)
+            self.addReferrableElement(timing)
+        return cast(BswModuleTiming, self.getReferrableElement(short_name, BswModuleTiming))
+
+    def createBswCompositionTiming(self, short_name: str) -> BswCompositionTiming:
+
+        if not self.IsReferrableElementExists(short_name, BswCompositionTiming):
+            timing = BswCompositionTiming(self, short_name)
+            self.addReferrableElement(timing)
+        return cast(BswCompositionTiming, self.getReferrableElement(short_name, BswCompositionTiming))
+
+    def createEcuTiming(self, short_name: str) -> EcuTiming:
+
+        if not self.IsReferrableElementExists(short_name, EcuTiming):
+            timing = EcuTiming(self, short_name)
+            self.addReferrableElement(timing)
+        return cast(EcuTiming, self.getReferrableElement(short_name, EcuTiming))
+
+    def createTDCpSoftwareClusterMappingSet(self, short_name: str) -> TDCpSoftwareClusterMappingSet:
+
+        if not self.IsReferrableElementExists(short_name, TDCpSoftwareClusterMappingSet):
+            mapping_set = TDCpSoftwareClusterMappingSet(self, short_name)
+            self.addReferrableElement(mapping_set)
+        return cast(TDCpSoftwareClusterMappingSet, self.getReferrableElement(short_name, TDCpSoftwareClusterMappingSet))
+
     def createLinCluster(self, short_name: str) -> LinCluster:
 
         if not self.IsReferrableElementExists(short_name, LinCluster):
@@ -4975,7 +5017,8 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.SignalServiceTranslation
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortPrototypeBlueprint import PortPrototypeBlueprint  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.Keyword import KeywordSet  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping  # noqa: E402
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import SwcTiming  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import BswCompositionTiming, BswModuleTiming, EcuTiming, SwcTiming, SystemTiming, VfbTiming  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCpSoftwareCluster import TDCpSoftwareClusterMappingSet  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticAuthenticationClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticCustomServiceClass, DiagnosticServiceInstance, DiagnosticSessionControlClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticEcuResetClass  # noqa: E402
@@ -11485,14 +11528,6 @@ class ApplicationPartition(ARElement):
     pass
 
 
-class BswCompositionTiming(ARElement):
-    pass
-
-
-class BswModuleTiming(ARElement):
-    pass
-
-
 class CpSoftwareClusterBinaryManifestDescriptor(ARElement):
     pass
 
@@ -11506,10 +11541,6 @@ class CryptoServiceKey(ARElement):
 
 
 class CryptoServiceQueue(ARElement):
-    pass
-
-
-class EcuTiming(ARElement):
     pass
 
 
@@ -11538,10 +11569,6 @@ class MacSecParticipantSet(ARElement):
 
 
 class TransformationPropsSet(ARElement):
-    pass
-
-
-class VfbTiming(ARElement):
     pass
 
 
