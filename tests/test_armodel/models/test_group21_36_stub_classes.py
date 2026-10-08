@@ -3223,12 +3223,6 @@ STUBS = [
         "CommunicationController",
     ),
     (
-        "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame",
-        "UserDefinedEthernetFrame",
-        "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame",
-        "AbstractEthernetFrame",
-    ),
-    (
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable",
         "UserDefinedGlobalTimeMaster",
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable",

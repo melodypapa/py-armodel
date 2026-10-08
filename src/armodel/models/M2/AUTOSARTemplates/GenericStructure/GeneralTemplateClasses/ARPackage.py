@@ -1910,6 +1910,13 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(frame)
         return cast(GenericEthernetFrame, self.getReferrableElement(short_name, GenericEthernetFrame))
 
+    def createUserDefinedEthernetFrame(self, short_name: str) -> UserDefinedEthernetFrame:
+
+        if not self.IsReferrableElementExists(short_name, UserDefinedEthernetFrame):
+            frame = UserDefinedEthernetFrame(self, short_name)
+            self.addReferrableElement(frame)
+        return cast(UserDefinedEthernetFrame, self.getReferrableElement(short_name, UserDefinedEthernetFrame))
+
     def createLifeCycleInfoSet(self, short_name: str) -> LifeCycleInfoSet:
 
         if not self.IsReferrableElementExists(short_name, LifeCycleInfoSet):
@@ -5182,7 +5189,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping i
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import ApplicationPartition, J1939ControllerApplication  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrame  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanXlProps, J1939Cluster  # noqa: E402
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import GenericEthernetFrame  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import GenericEthernetFrame, UserDefinedEthernetFrame  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import CouplingElement, EthIpProps, EthTcpIpIcmpProps, EthernetCluster, EthTcpIpProps  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetWakeupSleepOnDatalineConfigSet  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ObsoleteModel import SoAdRoutingGroup  # noqa: E402

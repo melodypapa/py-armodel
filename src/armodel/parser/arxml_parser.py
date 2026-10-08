@@ -1213,7 +1213,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Obso
     SoAdRoutingGroup,
     SocketConnection,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import EthernetFrameTriggering, GenericEthernetFrame
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import EthernetFrameTriggering, GenericEthernetFrame, UserDefinedEthernetFrame
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
     CouplingElement,
     CouplingElementAbstractDetails,
@@ -18836,6 +18836,10 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read GenericEthernetFrame <%s>" % frame.getShortName())
         self.readFrame(element, frame)
 
+    def readUserDefinedEthernetFrame(self, element: ET.Element, frame: UserDefinedEthernetFrame):
+        self.logger.debug("Read UserDefinedEthernetFrame <%s>" % frame.getShortName())
+        self.readFrame(element, frame)
+
     def getLifeCyclePeriod(self, element: ET.Element, key: str) -> Optional[LifeCyclePeriod]:
         child_element = self.find(element, key)
         period = None
@@ -19376,6 +19380,8 @@ class ARXMLParser(AbstractARXMLParser):
                 self.readParameterInterface(child_element, param_interface)
             elif tag_name == "GENERIC-ETHERNET-FRAME":
                 self.readGenericEthernetFrame(child_element, parent.createGenericEthernetFrame(self.getShortName(child_element)))
+            elif tag_name == "USER-DEFINED-ETHERNET-FRAME":
+                self.readUserDefinedEthernetFrame(child_element, parent.createUserDefinedEthernetFrame(self.getShortName(child_element)))
             elif tag_name == "LIFE-CYCLE-INFO-SET":
                 info_set = parent.createLifeCycleInfoSet(self.getShortName(child_element))
                 self.readLifeCycleInfoSet(child_element, info_set)

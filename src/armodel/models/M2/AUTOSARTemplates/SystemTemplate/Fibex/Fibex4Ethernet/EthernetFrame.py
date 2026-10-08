@@ -44,7 +44,17 @@ class Ieee1722TpEthernetFrame(AbstractEthernetFrame):
 
 
 class UserDefinedEthernetFrame(AbstractEthernetFrame):
-    pass
+    """
+    UserDefinedEthernetFrame allows the description of a frame-based communication to Complex Drivers that are located above the EthDrv. Tags: atp.recommendedPackage=Frames
+    """
+
+    # UserDefinedEthernetFrame method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.232, p.579
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
 
 
 class EthernetFrameTriggering(FrameTriggering):

@@ -1015,7 +1015,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Obso
     SoAdRoutingGroup,
     SocketConnection,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import EthernetFrameTriggering, GenericEthernetFrame
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import EthernetFrameTriggering, GenericEthernetFrame, UserDefinedEthernetFrame
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
     CouplingElement,
     CouplingElementAbstractDetails,
@@ -16721,6 +16721,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "GENERIC-ETHERNET-FRAME")
         self.writeFrame(child_element, frame)
 
+    def writeUserDefinedEthernetFrame(self, element: ET.Element, frame: UserDefinedEthernetFrame):
+        self.logger.debug("Write UserDefinedEthernetFrame %s" % frame.getShortName())
+        child_element = ET.SubElement(element, "USER-DEFINED-ETHERNET-FRAME")
+        self.writeFrame(child_element, frame)
+
     def setLifeCyclePeriod(self, element: ET.Element, key: str, period: Optional[LifeCyclePeriod]):
         if period is not None:
             child_element = ET.SubElement(element, key)
@@ -19761,6 +19766,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeNvDataInterface(element, ar_element)
         elif isinstance(ar_element, GenericEthernetFrame):
             self.writeGenericEthernetFrame(element, ar_element)
+        elif isinstance(ar_element, UserDefinedEthernetFrame):
+            self.writeUserDefinedEthernetFrame(element, ar_element)
         elif isinstance(ar_element, LifeCycleInfoSet):
             self.writeLifeCycleInfoSet(element, ar_element)
         elif isinstance(ar_element, PhysicalDimension):
