@@ -10,11 +10,10 @@ import pytest
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     BusMirrorCanIdRangeMapping,
     BusMirrorCanIdToCanIdMapping,
-    BusMirrorChannel,
     BusMirrorLinPidToCanIdMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, RefType, TimeValue
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.BusMirror import MirroringProtocolEnum
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.BusMirror import BusMirrorChannel, MirroringProtocolEnum
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import (
     BusMirrorChannelMapping,
     BusMirrorChannelMappingCan,

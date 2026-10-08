@@ -1636,13 +1636,36 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `BusMirrorChannel` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.327, p.698
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note: ORDER ADJUSTMENT vs the queue — synced BEFORE its aggregators' row BusMirrorChannelMapping,
+    which owns the sourceChannel/targetChannel attributes typed by this class (Rule 0001.10 /
+    Rule 0016.5 dependency-first; recorded per the batch instruction — keeps every commit green and
+    ends the trio with no interim cross-module stub imports). Step 1 finding — spec Package row =
+    SystemTemplate::BusMirror, so the ArObject.py hint is stale; the class rehouses to
+    SystemTemplate/BusMirror.py next to the enum (Rule 0007; `pass` stub + stub-registry tuple
+    removed). Base row ARObject confirmed by the XSD complexType (groups AR-OBJECT +
+    BUS-MIRROR-CHANNEL only; abstract="false" — concrete, no TypeError guard). 2 attrs in displayed
+    order == XSD element order (BUS-MIRROR-NETWORK-ID positive-integer value form; CHANNELS wrapper
+    with PHYSICAL-CHANNEL-REF-CONDITIONAL items). channel Mult. 0..1 (PDF) → Optional[RefType]
+    channelRef read/written through the CHANNELS/PHYSICAL-CHANNEL-REF-CONDITIONAL/
+    PHYSICAL-CHANNEL-REF nested path (Rule 0015 — the XSD's unbounded choice is the generic
+    atpVariation rendering; BUILD-ACTION-MANIFEST-REF-CONDITIONAL precedent); the conditional's
+    inner VARIATION-POINT is not modeled — same as every other REF-CONDITIONAL wrapper in the repo
+    (attribute-level atpVariation flattens, Rule 0001.7). Section-text constraints constr_5494/3465/
+    3466 render outside the Table 6.327 row group — not appended (AcfCanPart precedent). Reader/
+    writer coverage lives in the aggregator-level getBusMirrorChannel/setBusMirrorChannel helpers
+    (Rule 0025 naming) called by readBusMirrorChannelMapping/writeBusMirrorChannelMapping.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
+    - Note: no deviations — field↔spec verified both directions (2 attrs, Optional quota shapes match
+      Mult. 0..1, verbatim Notes incl. the markdown's "channel.variation Point" wrap-space rendering);
+      no XSD-only extras; concrete class (XSD abstract="false"), no TypeError guard; Section-text
+      constraints constr_5494/3465/3466 render outside the Table 6.327 row group — not appended
+      (AcfCanPart precedent).
 

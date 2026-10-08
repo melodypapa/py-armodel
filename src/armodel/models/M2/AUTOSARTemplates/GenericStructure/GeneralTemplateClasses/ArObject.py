@@ -2431,10 +2431,6 @@ class BusMirrorCanIdToCanIdMapping(ARObject):
         return self
 
 
-class BusMirrorChannel(ARObject):
-    pass
-
-
 class BusMirrorLinPidToCanIdMapping(ARObject):
     """
     This element defines a rule for remapping a single LIN Frame.

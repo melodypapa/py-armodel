@@ -1224,8 +1224,8 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopolo
     TtcanPhysicalChannel,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanClusterBusOffRecovery, J1939Cluster
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.BusMirror import BusMirrorChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import (
-    BusMirrorChannel,
     BusMirrorChannelMapping,
     BusMirrorChannelMappingCan,
     BusMirrorChannelMappingFlexray,
@@ -9887,6 +9887,12 @@ class ARXMLWriter(AbstractARXMLWriter):
         if channel is not None:
             child_element = ET.SubElement(parent, key)
             self.writeARObject(child_element, channel)
+            self.setChildElementOptionalPositiveInteger(child_element, "BUS-MIRROR-NETWORK-ID", channel.getBusMirrorNetworkId())
+            ref = channel.getChannelRef()
+            if ref is not None:
+                channels_tag = ET.SubElement(child_element, "CHANNELS")
+                conditional_tag = ET.SubElement(channels_tag, "PHYSICAL-CHANNEL-REF-CONDITIONAL")
+                self.setChildElementOptionalRefType(conditional_tag, "PHYSICAL-CHANNEL-REF", ref)
 
     def writeBusMirrorCanIdRangeMapping(self, element: ET.Element, mapping: BusMirrorCanIdRangeMapping):
         child_element = ET.SubElement(element, "BUS-MIRROR-CAN-ID-RANGE-MAPPING")

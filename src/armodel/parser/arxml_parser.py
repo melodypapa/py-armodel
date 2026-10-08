@@ -1325,8 +1325,8 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication impor
     TlsVersionEnum,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanControllerConfiguration, CanXlProps
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.BusMirror import BusMirrorChannel, MirroringProtocolEnum
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import (
-    BusMirrorChannel,
     BusMirrorChannelMapping,
     BusMirrorChannelMappingCan,
     BusMirrorChannelMappingFlexray,
@@ -1334,7 +1334,6 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import (
     BusMirrorChannelMappingUserDefined,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import BusMirrorCanIdRangeMapping, BusMirrorCanIdToCanIdMapping, BusMirrorLinPidToCanIdMapping
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.BusMirror import MirroringProtocolEnum
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import CommunicationDirectionType
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Dds import DdsCpISignalToDdsTopicMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
@@ -10266,6 +10265,8 @@ class ARXMLParser(AbstractARXMLParser):
         if child_element is not None:
             channel = BusMirrorChannel()
             self.readARObject(child_element, channel)
+            channel.setBusMirrorNetworkId(self.getChildElementOptionalPositiveInteger(child_element, "BUS-MIRROR-NETWORK-ID"))
+            channel.setChannelRef(self.getChildElementOptionalRefType(child_element, "CHANNELS/PHYSICAL-CHANNEL-REF-CONDITIONAL/PHYSICAL-CHANNEL-REF"))
         return channel
 
     def readBusMirrorCanIdRangeMapping(self, element: ET.Element, mapping: BusMirrorCanIdRangeMapping):

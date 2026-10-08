@@ -273,12 +273,6 @@ STUBS = [
         "ARObject",
     ),
     (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
-        "BusMirrorChannel",
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
-        "ARObject",
-    ),
-    (
         "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.__init__",
         "BusMirrorChannelMapping",
         "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.__init__",

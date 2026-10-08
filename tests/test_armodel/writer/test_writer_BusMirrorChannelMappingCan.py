@@ -15,11 +15,10 @@ from armodel.models import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     BusMirrorCanIdRangeMapping,
     BusMirrorCanIdToCanIdMapping,
-    BusMirrorChannel,
     BusMirrorLinPidToCanIdMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DateTime, PositiveInteger, RefType, String
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.BusMirror import MirroringProtocolEnum
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.BusMirror import BusMirrorChannel, MirroringProtocolEnum
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import BusMirrorChannelMappingCan
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter

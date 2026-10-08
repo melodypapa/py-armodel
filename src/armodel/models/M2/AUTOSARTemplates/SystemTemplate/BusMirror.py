@@ -4,7 +4,10 @@ This module contains AUTOSAR System Template classes of the BusMirror package.
 
 from __future__ import annotations
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum
+from typing import Optional
+
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, PositiveInteger, RefType
 
 
 class MirroringProtocolEnum(AREnum):
@@ -31,3 +34,59 @@ class MirroringProtocolEnum(AREnum):
                 MirroringProtocolEnum.VERSION1,
             ]
         )
+
+
+class BusMirrorChannel(ARObject):
+    """
+    This element assigns a busMirrorNetworkId to the referenced channel.
+    """
+
+    # BusMirrorChannel method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.327, p.698
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBusMirrorNetworkId [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBusMirrorNetworkId [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getChannelRef         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setChannelRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # This attribute defines the networkId of the communication channel.
+        self.busMirrorNetworkId: Optional[PositiveInteger] = None
+
+        # Reference to PhysicalChannel that is used in the bus mirroring as sourceChannel or targetChannel. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=channel.physicalChannel, channel.variation Point.shortLabel vh.latestBindingTime=systemDesignTime
+        self.channelRef: Optional[RefType] = None
+
+    def getBusMirrorNetworkId(self) -> Optional[PositiveInteger]:
+        """
+        This attribute defines the networkId of the communication channel.
+        """
+        return self.busMirrorNetworkId
+
+    def setBusMirrorNetworkId(self, value: Optional[PositiveInteger]) -> BusMirrorChannel:
+        """
+        This attribute defines the networkId of the communication channel.
+
+        A None value is a no-op and does not overwrite an existing busMirrorNetworkId.
+        """
+        if value is not None:
+            self.busMirrorNetworkId = value
+        return self
+
+    def getChannelRef(self) -> Optional[RefType]:
+        """
+        Reference to PhysicalChannel that is used in the bus mirroring as sourceChannel or targetChannel. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=channel.physicalChannel, channel.variation Point.shortLabel vh.latestBindingTime=systemDesignTime
+        """
+        return self.channelRef
+
+    def setChannelRef(self, value: Optional[RefType]) -> BusMirrorChannel:
+        """
+        Reference to PhysicalChannel that is used in the bus mirroring as sourceChannel or targetChannel. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=channel.physicalChannel, channel.variation Point.shortLabel vh.latestBindingTime=systemDesignTime
+
+        A None value is a no-op and does not overwrite an existing channelRef.
+        """
+        if value is not None:
+            self.channelRef = value
+        return self
