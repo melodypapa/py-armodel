@@ -163,7 +163,7 @@ pending that confirmation.
       rejections, member round-trips, adder chaining) — seen Red (classes did not exist
       in this module) before implementation.
   - [x] Step 3 — Implement model class (Green)
-    - note (Step 3): MIXIN-STYLE base: class-level gid default + accessors, NO __init__ — SdgElementWithGid sits in front of Identifiable in every concrete subclass MRO and an __init__ here would never run (VariationPointCapable/StereotypeMixins precedent, recorded in-code); no instantiation guard as a consequence.
+    - note (Step 3): MIXIN-STYLE base: class-level gid default + accessors, NO __init__ — Referrable.__init__ calls ARObject.__init__ directly (bypassing super()), so a mixin __init__ may never run under combined inheritance and the class-level default is the only robust initialization (VariationPointCapable/StereotypeMixins precedent, recorded in-code); no instantiation guard as a consequence.
   - [x] Step 4 — Sync docstrings (wipe + rewrite)
     - note (Step 4): class docstring = Table 4.25 Note verbatim; gid Note verbatim on accessor docstrings.
   - [x] Step 5 — Write reader/writer round-trip test (Red)

@@ -31,8 +31,9 @@ class SdgElementWithGid(ARObject, ABC):
     # [x] setGid    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     # Class-level default — the ONLY initialization (VariationPointCapable mixin
-    # pattern): SdgElementWithGid sits in front of Identifiable in every concrete
-    # subclass MRO, so its __init__ would never run.
+    # pattern): the repo's Referrable.__init__ calls ARObject.__init__ directly
+    # (bypassing super()), so a mixin __init__ may never run under combined
+    # inheritance — this mixin has no __init__ at all.
     # Specifies the name that identifies the element.
     gid: Optional[NameToken] = None
 
