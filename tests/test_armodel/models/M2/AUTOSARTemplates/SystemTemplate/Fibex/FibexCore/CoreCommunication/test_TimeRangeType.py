@@ -55,8 +55,18 @@ class TestTimeRangeType:
         assert inspect.cleandoc(obj.setValue.__doc__).split("\n")[0] == "Average value of a date (in seconds)"
 
 
+ABSOLUTE_TOLERANCE_CLASS_NOTE = "Maximum allowable deviation"
+ABSOLUTE_TOLERANCE_CLASS_CONSTRAINTS = (
+    "[constr_9192] Existence of AbsoluteTolerance.absolute: For each AbsoluteTolerance, the attribute absolute shall exist at the time when the System Description is complete.",
+)
+ABSOLUTE_NOTE = "Maximum allowable deviation in duration (in seconds)"
+
+
 class TestAbsoluteTolerance:
-    """AbsoluteTolerance (XSD-only; AUTOSAR_00052.xsd group ABSOLUTE-TOLERANCE l.37)."""
+    """AbsoluteTolerance (Table 6.69, p.398)."""
+
+    def test_inheritance(self):
+        assert issubclass(AbsoluteTolerance, TimeRangeTypeTolerance)
 
     def test_initialization(self):
         obj = AbsoluteTolerance()
@@ -69,6 +79,24 @@ class TestAbsoluteTolerance:
         assert obj.getAbsolute() is value
         obj.setAbsolute(None)
         assert obj.getAbsolute() is value
+
+    def test_annotation_pins(self):
+        getter_hints = typing.get_type_hints(AbsoluteTolerance.getAbsolute)
+        assert getter_hints.get("return") == typing.Optional[TimeValue]
+        setter_hints = typing.get_type_hints(AbsoluteTolerance.setAbsolute)
+        assert setter_hints.get("value") == typing.Optional[TimeValue]
+        assert setter_hints.get("return") is AbsoluteTolerance
+
+    def test_class_docstring_note(self):
+        assert inspect.cleandoc(AbsoluteTolerance.__doc__) == ABSOLUTE_TOLERANCE_CLASS_NOTE + "\n\n" + "\n".join(ABSOLUTE_TOLERANCE_CLASS_CONSTRAINTS)
+
+    def test_accessor_docstrings_verbatim(self):
+        obj = AbsoluteTolerance()
+        assert inspect.cleandoc(obj.getAbsolute.__doc__) == ABSOLUTE_NOTE
+        assert inspect.cleandoc(obj.setAbsolute.__doc__).split("\n")[0] == ABSOLUTE_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert AbsoluteTolerance.__init__.__doc__ is None
 
 
 RELATIVE_TOLERANCE_CLASS_NOTE = "Maximum allowable deviation"
