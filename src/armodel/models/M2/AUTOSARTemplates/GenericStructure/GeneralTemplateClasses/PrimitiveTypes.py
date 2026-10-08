@@ -3027,10 +3027,6 @@ class IEEE1722TpAcfCanMessageTypeEnum(AREnum):
     pass
 
 
-class IEEE1722TpRvfFrameRateEnum(AREnum):
-    pass
-
-
 class LinChecksumType(AREnum):
     pass
 

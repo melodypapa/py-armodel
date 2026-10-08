@@ -1085,15 +1085,24 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `IEEE1722TpRvfFrameRateEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 6.289, p.654
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note: module hint PrimitiveTypes.py overridden — spec Package row ...IEEE1722Tp::IEEE1722TpAv ->
+    `TransportProtocols/IEEE1722Tp/IEEE1722TpAv.py` (Rule 0007); PrimitiveTypes.py stub + stub-registry
+    tuple removed. 21 literals; member values = exact XSD IEEE-1722-TP-RVF-FRAME-RATE-ENUM--SIMPLE
+    facets ("1", "10", "100", "120", "15", "150", "2", "20", "200", "24", "240", "25", "30", "300",
+    "48", "5", "50", "60", "72", "85", "USER"); __init__ tuple order = XSD facet order = displayed
+    markdown order (page-split table, lexicographic render), which DIFFERS from the
+    atp.EnumerationLiteralIndex order (1/2/5/10... lexicographic vs 1=0, 2=1, 5=2, 10=3... index
+    order) — member comments carry the literal indices verbatim (Rule 0011); member names
+    ENUM_-prefixed from the markdown literals (_100 -> ENUM_100, user -> ENUM_USER).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A standalone enum (value form on IEEE1722TpRvfConnection.rvfFrameRate)
+  - [x] Step 6 — Update parser & writer (Green) — N/A standalone enum (value form on IEEE1722TpRvfConnection.rvfFrameRate)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; Steps 5/6 N/A (standalone enum, round-trips as value form on IEEE1722TpRvfConnection.rvfFrameRate); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `IEEE1722TpAcfConnection` — IEEE1722TpConnection — R23-11 CP_TPS_SystemTemplate Table 6.290, p.657
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py

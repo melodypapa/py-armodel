@@ -398,6 +398,108 @@ class IEEE1722TpRvfColorSpaceEnum(AREnum):
         )
 
 
+class IEEE1722TpRvfFrameRateEnum(AREnum):
+    """
+    Definition of the RVF stream frame_rate. Tags: atp.Status=candidate
+    """
+
+    # IEEE1722TpRvfFrameRateEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.289, p.654
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — serialized as value form on IEEE1722TpRvfConnection.rvfFrameRate
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # frame rate 1 Tags: atp.EnumerationLiteralIndex=0 xml.name=1
+    ENUM_1 = "1"
+
+    # frame rate 10 Tags: atp.EnumerationLiteralIndex=3 xml.name=10
+    ENUM_10 = "10"
+
+    # frame rate 100 Tags: atp.EnumerationLiteralIndex=14 xml.name=100
+    ENUM_100 = "100"
+
+    # frame rate 120 Tags: atp.EnumerationLiteralIndex=15 xml.name=120
+    ENUM_120 = "120"
+
+    # frame rate 15 Tags: atp.EnumerationLiteralIndex=4 xml.name=15
+    ENUM_15 = "15"
+
+    # frame rate 150 Tags: atp.EnumerationLiteralIndex=16 xml.name=150
+    ENUM_150 = "150"
+
+    # frame rate 2 Tags: atp.EnumerationLiteralIndex=1 xml.name=2
+    ENUM_2 = "2"
+
+    # frame rate 20 Tags: atp.EnumerationLiteralIndex=5 xml.name=20
+    ENUM_20 = "20"
+
+    # frame rate 200 Tags: atp.EnumerationLiteralIndex=17 xml.name=200
+    ENUM_200 = "200"
+
+    # frame rate 24 Tags: atp.EnumerationLiteralIndex=6 xml.name=24
+    ENUM_24 = "24"
+
+    # frame rate 240 Tags: atp.EnumerationLiteralIndex=18 xml.name=240
+    ENUM_240 = "240"
+
+    # frame rate 25 Tags: atp.EnumerationLiteralIndex=7 xml.name=25
+    ENUM_25 = "25"
+
+    # frame rate 30 Tags: atp.EnumerationLiteralIndex=8 xml.name=30
+    ENUM_30 = "30"
+
+    # frame rate 300 Tags: atp.EnumerationLiteralIndex=19 xml.name=300
+    ENUM_300 = "300"
+
+    # frame rate 48 Tags: atp.EnumerationLiteralIndex=9 xml.name=48
+    ENUM_48 = "48"
+
+    # frame rate 5 Tags: atp.EnumerationLiteralIndex=2 xml.name=5
+    ENUM_5 = "5"
+
+    # frame rate 50 Tags: atp.EnumerationLiteralIndex=10 xml.name=50
+    ENUM_50 = "50"
+
+    # frame rate 60 Tags: atp.EnumerationLiteralIndex=11 xml.name=60
+    ENUM_60 = "60"
+
+    # frame rate 72 Tags: atp.EnumerationLiteralIndex=12 xml.name=72
+    ENUM_72 = "72"
+
+    # frame rate 85 Tags: atp.EnumerationLiteralIndex=13 xml.name=85
+    ENUM_85 = "85"
+
+    # frame rate User defined Tags: atp.EnumerationLiteralIndex=20
+    ENUM_USER = "USER"
+
+    def __init__(self):
+        super().__init__(
+            [
+                IEEE1722TpRvfFrameRateEnum.ENUM_1,
+                IEEE1722TpRvfFrameRateEnum.ENUM_10,
+                IEEE1722TpRvfFrameRateEnum.ENUM_100,
+                IEEE1722TpRvfFrameRateEnum.ENUM_120,
+                IEEE1722TpRvfFrameRateEnum.ENUM_15,
+                IEEE1722TpRvfFrameRateEnum.ENUM_150,
+                IEEE1722TpRvfFrameRateEnum.ENUM_2,
+                IEEE1722TpRvfFrameRateEnum.ENUM_20,
+                IEEE1722TpRvfFrameRateEnum.ENUM_200,
+                IEEE1722TpRvfFrameRateEnum.ENUM_24,
+                IEEE1722TpRvfFrameRateEnum.ENUM_240,
+                IEEE1722TpRvfFrameRateEnum.ENUM_25,
+                IEEE1722TpRvfFrameRateEnum.ENUM_30,
+                IEEE1722TpRvfFrameRateEnum.ENUM_300,
+                IEEE1722TpRvfFrameRateEnum.ENUM_48,
+                IEEE1722TpRvfFrameRateEnum.ENUM_5,
+                IEEE1722TpRvfFrameRateEnum.ENUM_50,
+                IEEE1722TpRvfFrameRateEnum.ENUM_60,
+                IEEE1722TpRvfFrameRateEnum.ENUM_72,
+                IEEE1722TpRvfFrameRateEnum.ENUM_85,
+                IEEE1722TpRvfFrameRateEnum.ENUM_USER,
+            ]
+        )
+
+
 class IEEE1722TpCrfConnection(IEEE1722TpAvConnection):
     """
     AV IEEE1722Tp CRF connection. Tags: atp.Status=candidate atp.recommendedPackage=IEEE1722TpConnections
