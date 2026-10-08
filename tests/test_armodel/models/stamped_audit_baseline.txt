@@ -134,7 +134,6 @@ ISignalIPdu
 ISignalProps
 ISignalToIPduMapping
 ISignalTriggering
-ISignalTypeEnum
 Identifiable
 ImplementationElementInParameterInstanceRef
 InnerDataPrototypeGroupInCompositionInstanceRef

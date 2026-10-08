@@ -1635,8 +1635,9 @@ class ISignalTypeEnum(AREnum):
 
     # ISignalTypeEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.9, p.322
-    # Spec verified: R23-11
-    # (no methods)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on ISignal.iSignalType
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # ISignal shall be interpreted as an array (UINT8_N, UINT8_DYN) Tags: atp.EnumerationLiteralIndex=0
     ARRAY = "ARRAY"
@@ -1645,12 +1646,7 @@ class ISignalTypeEnum(AREnum):
     PRIMITIVE = "PRIMITIVE"
 
     def __init__(self):
-        super().__init__(
-            (
-                ISignalTypeEnum.ARRAY,
-                ISignalTypeEnum.PRIMITIVE,
-            )
-        )
+        super().__init__([ISignalTypeEnum.ARRAY, ISignalTypeEnum.PRIMITIVE])
 
 
 class ISignalProps(ARObject):
