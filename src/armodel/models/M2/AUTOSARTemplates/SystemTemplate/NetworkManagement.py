@@ -541,10 +541,11 @@ class J1939NmAddressConfigurationCapabilityEnum(AREnum):
     Defines the Address Configuration Capability options for the J1939NmNode.
     """
 
-    # Spec verified: R23-11
     # J1939NmAddressConfigurationCapabilityEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.322, p.692
-    # (no methods)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — serialized as value form on J1939NmNode.addressConfigurationCapability
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # Arbitrary Address Capable CA Tags: atp.EnumerationLiteralIndex=4 xml.name=J-1939-NM-AAC
     J1939NM_AAC = "J-1939-NM--AAC"
@@ -563,13 +564,13 @@ class J1939NmAddressConfigurationCapabilityEnum(AREnum):
 
     def __init__(self):
         super().__init__(
-            (
+            [
                 J1939NmAddressConfigurationCapabilityEnum.J1939NM_AAC,
                 J1939NmAddressConfigurationCapabilityEnum.J1939NM_CCA,
                 J1939NmAddressConfigurationCapabilityEnum.J1939NM_NCA,
                 J1939NmAddressConfigurationCapabilityEnum.J1939NM_SCA,
                 J1939NmAddressConfigurationCapabilityEnum.J1939NM_SVCA,
-            )
+            ]
         )
 
 

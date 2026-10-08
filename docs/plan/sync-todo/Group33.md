@@ -1540,15 +1540,24 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `J1939NmAddressConfigurationCapabilityEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 6.322, p.692
   - module: M2/AUTOSARTemplates/SystemTemplate/NetworkManagement.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note: Step 1 finding — spec Package row = SystemTemplate::NetworkManagement (hint confirmed);
+    Aggregated by J1939NmNode.addressConfigurationCapability confirms this is J1939NmNode's member
+    type (queue order kept). 5 literals J1939NM_AAC/CCA/NCA/SCA/SVCA in displayed markdown order ==
+    XSD `J-1939-NM-ADDRESS-CONFIGURATION-CAPABILITY-ENUM--SIMPLE` facet order (≠ EnumerationLiteralIndex
+    4/3/0/2/1 — XSD facet order wins per Rule 0011, NmCoordinatorRoleEnum precedent); values = exact
+    XSD facets incl. the double-hyphen tokens J-1939-NM--AAC/CCA/NCA/SCA/SVCA (the markdown xml.name
+    tails render single-hyphen — XSD wins for values). Drift re-sync of a pre-existing stub: stale
+    `# Spec verified: R23-11` marker removed (Rule 0023); __init__ tuple normalized to the sibling
+    list form (getEnumValues shape).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A: standalone enum
+  - [x] Step 6 — Update parser & writer (Green) — N/A: standalone enum
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; Steps 5/6 N/A (standalone enum, round-trips as value form on <consumer>.<attr>); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `BusMirrorChannelMapping` — FibexElement — R23-11 CP_TPS_SystemTemplate Table 6.325, p.697
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/__init__.py
