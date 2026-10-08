@@ -426,6 +426,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa: E402
     Boolean,
+    CryptoServiceKeyGenerationEnum,
     DiagnosticClearEventAllowedBehaviorEnum,
     DiagnosticEventClearAllowedEnum,
     DiagnosticEventKindEnum,
@@ -2222,6 +2223,13 @@ class ARPackage(CollectableElement, VariationPointCapable):
             certificate = CryptoServiceCertificate(self, short_name)
             self.addReferrableElement(certificate)
         return cast(CryptoServiceCertificate, self.getReferrableElement(short_name, CryptoServiceCertificate))
+
+    def createCryptoServiceKey(self, short_name: str) -> CryptoServiceKey:
+
+        if not self.IsReferrableElementExists(short_name, CryptoServiceKey):
+            key = CryptoServiceKey(self, short_name)
+            self.addReferrableElement(key)
+        return cast(CryptoServiceKey, self.getReferrableElement(short_name, CryptoServiceKey))
 
     def createIPSecConfigProps(self, short_name: str) -> IPSecConfigProps:
 
@@ -5094,7 +5102,7 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import B
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswModuleEntry  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import BswModuleDescription  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import ConstantSpecification  # noqa: E402
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import ConstantSpecificationMappingSet  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import ConstantSpecificationMappingSet, ValueSpecification  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.FlatMap import FlatMap  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintMapping import (  # noqa: E402
     BlueprintMappingSet,
@@ -11639,7 +11647,120 @@ class CpSoftwareClusterResourcePool(ARElement):
 
 
 class CryptoServiceKey(ARElement):
-    pass
+    """
+    This meta-class has the ability to represent a crypto key. Tags: atp.recommendedPackage=CryptoDevelopmentKeys
+
+    [constr_5334] Supported values for CryptoServiceKey.length: The values defined for CryptoServiceKey.length shall be multiple of 8.
+    [constr_9206] Existence of CryptoServiceKey.length: For each CryptoServiceKey, the attribute length shall exist at the time when the System Description is complete.
+    """
+
+    # CryptoServiceKey method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.51, p.377
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAlgorithmFamily   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAlgorithmFamily   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDevelopmentValue  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDevelopmentValue  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getKeyGeneration     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setKeyGeneration     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getKeyStorageType    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setKeyStorageType    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getLength            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setLength            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This attribute represent the description of the family of the applicable crypto algorithm.
+        self.algorithmFamily: Optional[String] = None
+
+        # This aggregation represents the ability to assign a specific value to the crypto key as part of the system description. This value can then be taken for the development of the respective ECU.
+        self.developmentValue: Optional[ValueSpecification] = None
+
+        # This attribute describes how a the specific cryptographic key is created.
+        self.keyGeneration: Optional[CryptoServiceKeyGenerationEnum] = None
+
+        # This attribute describes where the enclosing cryptographic key shall be stored. AUTOSAR reserves specific values for this attributes but it is possible to insert custom values as well.
+        self.keyStorageType: Optional[String] = None
+
+        # This attribute describes the length of the cryptographic key in bits.
+        self.length: Optional[PositiveInteger] = None
+
+    def getAlgorithmFamily(self) -> Optional[String]:
+        """
+        This attribute represent the description of the family of the applicable crypto algorithm.
+        """
+        return self.algorithmFamily
+
+    def setAlgorithmFamily(self, value: Optional[String]) -> CryptoServiceKey:
+        """
+        This attribute represent the description of the family of the applicable crypto algorithm.
+        A None value is a no-op and does not overwrite an existing algorithmFamily.
+        """
+        if value is not None:
+            self.algorithmFamily = value
+        return self
+
+    def getDevelopmentValue(self) -> Optional[ValueSpecification]:
+        """
+        This aggregation represents the ability to assign a specific value to the crypto key as part of the system description. This value can then be taken for the development of the respective ECU.
+        """
+        return self.developmentValue
+
+    def setDevelopmentValue(self, value: Optional[ValueSpecification]) -> CryptoServiceKey:
+        """
+        This aggregation represents the ability to assign a specific value to the crypto key as part of the system description. This value can then be taken for the development of the respective ECU.
+        A None value is a no-op and does not overwrite an existing developmentValue.
+        """
+        if value is not None:
+            self.developmentValue = value
+        return self
+
+    def getKeyGeneration(self) -> Optional[CryptoServiceKeyGenerationEnum]:
+        """
+        This attribute describes how a the specific cryptographic key is created.
+        """
+        return self.keyGeneration
+
+    def setKeyGeneration(self, value: Optional[CryptoServiceKeyGenerationEnum]) -> CryptoServiceKey:
+        """
+        This attribute describes how a the specific cryptographic key is created.
+        A None value is a no-op and does not overwrite an existing keyGeneration.
+        """
+        if value is not None:
+            self.keyGeneration = value
+        return self
+
+    def getKeyStorageType(self) -> Optional[String]:
+        """
+        This attribute describes where the enclosing cryptographic key shall be stored. AUTOSAR reserves specific values for this attributes but it is possible to insert custom values as well.
+        """
+        return self.keyStorageType
+
+    def setKeyStorageType(self, value: Optional[String]) -> CryptoServiceKey:
+        """
+        This attribute describes where the enclosing cryptographic key shall be stored. AUTOSAR reserves specific values for this attributes but it is possible to insert custom values as well.
+        A None value is a no-op and does not overwrite an existing keyStorageType.
+        """
+        if value is not None:
+            self.keyStorageType = value
+        return self
+
+    def getLength(self) -> Optional[PositiveInteger]:
+        """
+        This attribute describes the length of the cryptographic key in bits.
+        """
+        return self.length
+
+    def setLength(self, value: Optional[PositiveInteger]) -> CryptoServiceKey:
+        """
+        This attribute describes the length of the cryptographic key in bits.
+        A None value is a no-op and does not overwrite an existing length.
+        """
+        if value is not None:
+            self.length = value
+        return self
 
 
 class CryptoServiceQueue(ARElement):

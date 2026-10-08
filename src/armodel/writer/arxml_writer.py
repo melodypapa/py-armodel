@@ -609,7 +609,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ShortNameFragment,
     SingleLanguageReferrable,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement, CalibrationParameterValueSet, PhysicalDimensionMappingSet
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement, CalibrationParameterValueSet, CryptoServiceKey, PhysicalDimensionMappingSet
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultidimensionalTime import MultidimensionalTime
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
@@ -15169,6 +15169,16 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalString(child_element, "ALGORITHM-MODE", primitive.getAlgorithmMode())
         self.setChildElementOptionalString(child_element, "ALGORITHM-SECONDARY-FAMILY", primitive.getAlgorithmSecondaryFamily())
 
+    def writeCryptoServiceKey(self, element: ET.Element, key: CryptoServiceKey):
+        self.logger.debug("writeCryptoServiceKey %s" % key.getShortName())
+        child_element = ET.SubElement(element, "CRYPTO-SERVICE-KEY")
+        self.writeIdentifiable(child_element, key)
+        self.setChildElementOptionalString(child_element, "ALGORITHM-FAMILY", key.getAlgorithmFamily())
+        self.setChildValueSpecification(child_element, "DEVELOPMENT-VALUE", key.getDevelopmentValue())
+        self.setChildElementOptionalLiteral(child_element, "KEY-GENERATION", key.getKeyGeneration())
+        self.setChildElementOptionalString(child_element, "KEY-STORAGE-TYPE", key.getKeyStorageType())
+        self.setChildElementOptionalPositiveInteger(child_element, "LENGTH", cast(Integer, key.getLength()))
+
     def writeSecOcCryptoServiceMapping(self, element: ET.Element, mapping: SecOcCryptoServiceMapping):
         self.writeIdentifiable(element, mapping)
         self.setChildElementOptionalRefType(element, "AUTHENTICATION-REF", mapping.getAuthenticationRef())
@@ -20014,6 +20024,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeIPSecConfigProps(element, ar_element)
         elif isinstance(ar_element, CryptoServicePrimitive):
             self.writeCryptoServicePrimitive(element, ar_element)
+        elif isinstance(ar_element, CryptoServiceKey):
+            self.writeCryptoServiceKey(element, ar_element)
         elif isinstance(ar_element, SoAdRoutingGroup):
             self.writeSoAdRoutingGroup(element, ar_element)
         elif isinstance(ar_element, CanXlProps):

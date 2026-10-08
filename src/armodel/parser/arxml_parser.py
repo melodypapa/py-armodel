@@ -621,7 +621,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (
     EvaluatedVariantSet,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, CalibrationParameterValueSet, PhysicalDimensionMappingSet, ReferenceBase
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, CalibrationParameterValueSet, CryptoServiceKey, PhysicalDimensionMappingSet, ReferenceBase
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import AclObjectSet, AclOperation, AclPermission, AclRole
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import DiagnosticCustomServiceInstance, DiagnosticMapping
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
@@ -779,6 +779,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Boolean,
     ByteOrderEnum,
     CIdentifier,
+    CryptoServiceKeyGenerationEnum,
     DateTime,
     DdsDurabilityKindEnum,
     DiagPduType,
@@ -18516,6 +18517,15 @@ class ARXMLParser(AbstractARXMLParser):
         primitive.setAlgorithmMode(self.getChildElementOptionalString(element, "ALGORITHM-MODE"))
         primitive.setAlgorithmSecondaryFamily(self.getChildElementOptionalString(element, "ALGORITHM-SECONDARY-FAMILY"))
 
+    def readCryptoServiceKey(self, element: ET.Element, key: CryptoServiceKey):
+        self.logger.debug("Read CryptoServiceKey <%s>" % key.getShortName())
+        self.readIdentifiable(element, key)
+        key.setAlgorithmFamily(self.getChildElementOptionalString(element, "ALGORITHM-FAMILY"))
+        key.setDevelopmentValue(self.getChildValueSpecification(element, "DEVELOPMENT-VALUE"))
+        key.setKeyGeneration(cast(Optional[CryptoServiceKeyGenerationEnum], self.getChildElementOptionalLiteral(element, "KEY-GENERATION")))
+        key.setKeyStorageType(self.getChildElementOptionalString(element, "KEY-STORAGE-TYPE"))
+        key.setLength(self.getChildElementOptionalPositiveInteger(element, "LENGTH"))
+
     def readSecOcCryptoServiceMapping(self, element: ET.Element, mapping: SecOcCryptoServiceMapping):
         self.readIdentifiable(element, mapping)
         ref = self.getChildElementOptionalRefType(element, "AUTHENTICATION-REF")
@@ -19726,6 +19736,9 @@ class ARXMLParser(AbstractARXMLParser):
         elif tag_name == "CRYPTO-SERVICE-PRIMITIVE":
             primitive = parent.createCryptoServicePrimitive(self.getShortName(child_element))
             self.readCryptoServicePrimitive(child_element, primitive)
+        elif tag_name == "CRYPTO-SERVICE-KEY":
+            crypto_service_key = parent.createCryptoServiceKey(self.getShortName(child_element))
+            self.readCryptoServiceKey(child_element, crypto_service_key)
         elif tag_name == "DDS-CP-CONFIG":
             dds_config = parent.createDdsConfig(self.getShortName(child_element))
             self.readDdsCpConfig(child_element, dds_config)
