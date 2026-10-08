@@ -15915,6 +15915,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         props = signal.getISignalProps()
         if props is not None:
             child_element = ET.SubElement(element, "I-SIGNAL-PROPS")
+            self.writeARObject(child_element, props)
             self._writeEnumToken(child_element, "HANDLE-OUT-OF-RANGE", props.getHandleOutOfRange(), HANDLE_OUT_OF_RANGE_XML_MAP)
 
     def writeISignalDataTransformation(self, element: ET.Element, signal: ISignal):

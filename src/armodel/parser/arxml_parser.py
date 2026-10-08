@@ -17083,6 +17083,7 @@ class ARXMLParser(AbstractARXMLParser):
         props_element = self.find(element, "I-SIGNAL-PROPS")
         if props_element is not None:
             props = ISignalProps()
+            self.readARObject(props_element, props)
             props.setHandleOutOfRange(self._readEnumToken(props_element, "HANDLE-OUT-OF-RANGE", HandleOutOfRangeEnum, HANDLE_OUT_OF_RANGE_XML_MAP))
             signal.setISignalProps(props)
 

@@ -131,7 +131,6 @@ IPdu
 IPduTiming
 ISignalGroup
 ISignalIPdu
-ISignalProps
 ISignalToIPduMapping
 ISignalTriggering
 Identifiable
