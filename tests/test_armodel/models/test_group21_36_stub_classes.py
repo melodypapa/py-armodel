@@ -2078,12 +2078,6 @@ STUBS = [
         "ARObject",
     ),
     (
-        "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication.__init__",
-        "EthernetFrameTriggering",
-        "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication.__init__",
-        "FrameTriggering",
-    ),
-    (
         "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology",
         "EthernetWakeupSleepOnDatalineConfig",
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable",

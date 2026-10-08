@@ -3614,9 +3614,5 @@ class ISignalPort(CommConnectorPort):
         return self
 
 
-class EthernetFrameTriggering(FrameTriggering):
-    pass
-
-
 class J1939DcmIPdu(IPdu):
     pass

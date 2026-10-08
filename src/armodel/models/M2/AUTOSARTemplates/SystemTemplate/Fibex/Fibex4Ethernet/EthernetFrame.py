@@ -3,7 +3,7 @@
 
 from abc import ABC
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import Frame
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import Frame, FrameTriggering
 
 
 class AbstractEthernetFrame(Frame, ABC):
@@ -45,3 +45,17 @@ class Ieee1722TpEthernetFrame(AbstractEthernetFrame):
 
 class UserDefinedEthernetFrame(AbstractEthernetFrame):
     pass
+
+
+class EthernetFrameTriggering(FrameTriggering):
+    """
+    Ethernet specific Frame element.
+    """
+
+    # EthernetFrameTriggering method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.230, p.578
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
