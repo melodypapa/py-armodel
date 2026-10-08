@@ -2841,6 +2841,70 @@ class EthGlobalTimeMessageFormatEnum(AREnum):
         )
 
 
+class SecurityEventContextDataSourceEnum(AREnum):
+    """
+    This enumeration controls the elements used to creating the resulting qualified security event Tags: atp.Status=candidate
+    """
+
+    # SecurityEventContextDataSourceEnum method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf, Table 4.8, p.25
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — serialized as value form on SecurityEventAggregationFilter.contextDataSource
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # Context data of first received security event shall be used for resulting qualified security event. Tags: atp.EnumerationLiteralIndex=0 atp.Status=candidate
+    USE_FIRST_CONTEXT_DATA = "USE-FIRST-CONTEXT-DATA"
+
+    # Context data of last received security event shall be used for resulting qualified security event. Tags: atp.EnumerationLiteralIndex=1 atp.Status=candidate
+    USE_LAST_CONTEXT_DATA = "USE-LAST-CONTEXT-DATA"
+
+    def __init__(self):
+        super().__init__(
+            [
+                SecurityEventContextDataSourceEnum.USE_FIRST_CONTEXT_DATA,
+                SecurityEventContextDataSourceEnum.USE_LAST_CONTEXT_DATA,
+            ]
+        )
+
+
+class SecurityEventReportingModeEnum(AREnum):
+    """
+    This enumeration controls the reporting mode of a security event. Tags: atp.Status=candidate
+    """
+
+    # SecurityEventReportingModeEnum method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf, Table 4.14, p.36
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — serialized as value form on SecurityEventContextProps.defaultReportingMode
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # Only the main security event properties such as its ID are processed. Any additional context data (if existing) is discarded. Tags: atp.EnumerationLiteralIndex=1 atp.Status=candidate
+    BRIEF = "BRIEF"
+
+    # The reported security event without its context data (if existing) is processed further but the filter chain is bypassed. Tags: atp.EnumerationLiteralIndex=3 atp.Status=candidate
+    BRIEF_BYPASSING_FILTERS = "BRIEF-BYPASSING-FILTERS"
+
+    # The main properties and the context data (if existing) of the reported security event are processed further. Tags: atp.EnumerationLiteralIndex=2 atp.Status=candidate
+    DETAILED = "DETAILED"
+
+    # The reported security event including its context data (if existing) is processed further but the filter chain is bypassed. Tags: atp.EnumerationLiteralIndex=4 atp.Status=candidate
+    DETAILED_BYPASSING_FILTERS = "DETAILED-BYPASSING-FILTERS"
+
+    # The reported security event is not further processed by the IdsM and therefore discarded. Tags: atp.EnumerationLiteralIndex=0 atp.Status=candidate
+    OFF = "OFF"
+
+    def __init__(self):
+        super().__init__(
+            [
+                SecurityEventReportingModeEnum.BRIEF,
+                SecurityEventReportingModeEnum.BRIEF_BYPASSING_FILTERS,
+                SecurityEventReportingModeEnum.DETAILED,
+                SecurityEventReportingModeEnum.DETAILED_BYPASSING_FILTERS,
+                SecurityEventReportingModeEnum.OFF,
+            ]
+        )
+
+
 class FMFeatureSelectionState(AREnum):
     """
     Defines how a particular FMFeature contributes to a FMFSelectionSet.
@@ -3079,14 +3143,6 @@ class MaximumMessageLengthType(AREnum):
                 MaximumMessageLengthType.ENUM_ISO6,
             ]
         )
-
-
-class SecurityEventContextDataSourceEnum(AREnum):
-    pass
-
-
-class SecurityEventReportingModeEnum(AREnum):
-    pass
 
 
 class SendIndicationEnum(AREnum):
