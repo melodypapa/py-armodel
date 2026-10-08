@@ -422,17 +422,37 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `ISignalTypeEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 6.9, p.322
+- [x] `ISignalTypeEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 6.9, p.322 (sync commit 3bf0b5044)
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A: standalone AREnum, no own XML element; serialized as the attribute value on ISignal.iSignalType and round-tripped there
+  - [x] Step 6 — Update parser & writer (Green) — N/A: standalone AREnum; the consuming-class coverage lives on the ISignal row (parser:17074 / writer:15906)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-08 (23271 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 3bf0b5044
+  - Step 1 finding: Table 6.9 (R23-11 CP_TPS_SystemTemplate, p.322 via cached pdf_page index) is an
+    `Enumeration` table — 2 literals, displayed/XSD facet order `array` (idx 0), `primitive` (idx 1);
+    XSD `I-SIGNAL-TYPE-ENUM--SIMPLE` (AUTOSAR_00052.xsd:137810) facets `ARRAY`/`PRIMITIVE`, no
+    `atp.Status="removed"` facets, no exclusions; legacy implementation literal set/order/values/names
+    and the verbatim Note already matched the spec — the drift was the legacy checklist (no `__init__`
+    row, no Columns line) + stale `# Spec verified: R23-11` marker (Rule 0023, removed at session start;
+    ratchet baseline drained by 1 line).
+  - Step 2 note: Red = entry audit ROWS FAIL (legacy checklist missed `__init__`) + mirrored-placement
+    defect (legacy `Test_ISignalTypeEnum` sat in `FibexCore/`, migrated to the CoreCommunication home and
+    renamed `TestISignalTypeEnum` per Rule 0006); content-level assertions (facet-order pin,
+    instantiability, Note pin) pass immediately — legacy implementation already spec-correct
+    (VariableAccessScopeEnum precedent).
+  - Step 8: no in-scope deviations (literals/order/values/names match Table 6.9 + XSD; docstring
+    verbatim; no naming/type/missing rows). Consumers use the constants (writer test
+    `ISignalTypeEnum().setValue(ISignalTypeEnum.ARRAY)`); observation for the batch reviewer
+    (out of scope, consuming-class business): parser:17074 materializes a plain `ARLiteral` for
+    I-SIGNAL-TYPE via `getChildElementOptionalLiteral` + cast (Rule 0013.2 anti-pattern; same pattern on
+    the adjacent DATA-TYPE-POLICY line and unlike the typed TDEvent family readers) — a typed-reader
+    upgrade belongs to an ISignal drift pass; round-trip is lossless (`test_writer_isignal` asserts the
+    value form).
 
 - [ ] `ISignalProps` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.10, p.323
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py

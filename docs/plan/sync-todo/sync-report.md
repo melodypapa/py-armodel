@@ -11,10 +11,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | Status | Classes | Percent |
 | --- | --- | --- |
 | [x] Done | 852 | 44.8% |
-| [x] Deferred | 26 | 1.4% |
+| [x] Deferred | 27 | 1.4% |
 | [x] Retired | 0 | 0.0% |
 | [ ] Deferred | 828 | 43.5% |
-| [ ] Implemented | 48 | 2.5% |
+| [ ] Implemented | 47 | 2.5% |
 | [ ] Created | 148 | 7.8% |
 | [ ] Pending | 0 | 0.0% |
 
@@ -1076,7 +1076,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `ISignalProps`                                          | [ ] Implemented| N/A                                      | Group31          |
 | `ISignalToIPduMapping`                                  | [ ] Implemented| N/A                                      | Group31          |
 | `ISignalTriggering`                                     | [ ] Implemented| N/A                                      | Group31          |
-| `ISignalTypeEnum`                                       | [ ] Implemented| N/A                                      | Group31          |
+| `ISignalTypeEnum`                                       | [x] Deferred| 3bf0b50440                               | Group31          |
 | `IcmpRule`                                              | [x] Done    | c839e30e0e                               | Group20          |
 | `IdentCaption`                                          | [x] Done    | 2dd2f91845                               | Group1           |
 | `Identifiable`                                          | [x] Done    | c17bfbf60f                               | Group1           |
