@@ -18,6 +18,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     CalibrationParameterValue,
     CanGlobalTimeDomainProps,
     CpSoftwareClusterCommunicationResourceProps,
+    DataComProps,
     DdsCpProvidedServiceInstance,
     DdsCpServiceInstanceEvent,
     DdsCpServiceInstanceOperation,
@@ -69,6 +70,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     AREnum,
     Boolean,
     ByteOrderEnum,
+    DataConsistencyPolicyEnum,
     DateTime,
     DdsDestinationOrderKindEnum,
     DdsDurabilityKindEnum,
@@ -99,6 +101,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     NameToken,
     PositiveInteger,
     RefType,
+    SendIndicationEnum,
     String,
     TimeValue,
 )
@@ -6089,3 +6092,131 @@ class TestCpSoftwareClusterCommunicationResourceProps:
         Test that __init__ carries no docstring.
         """
         assert CpSoftwareClusterCommunicationResourceProps.__init__.__doc__ is None
+
+
+class TestDataComProps:
+    """
+    Test class for DataComProps functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 11.10, p.903
+    """
+
+    CLASS_NOTE = "Represents a single resource required or provided by a CP Software Cluster which relates to the port based communication on VFB level."
+    DATA_CONSISTENCY_POLICY_NOTE = (
+        "This attribute defines requirements on the data consistency mechanism in the cross cluster communication. If the attribute is not set, the default value consistencyMechanismRequired applies."
+    )
+    SEND_INDICATION_NOTE = "Send indication behavior for last-is-the best data communication."
+
+    def _create_object(self) -> DataComProps:
+        return DataComProps()
+
+    def test_initialization(self):
+        """
+        Test that a new DataComProps initializes all attributes to their defaults.
+        """
+        obj = self._create_object()
+
+        assert obj.getChecksum() is None
+        assert obj.getTimestamp() is None
+        assert obj.getDataConsistencyPolicy() is None
+        assert obj.getSendIndication() is None
+
+    def test_is_cp_software_cluster_communication_resource_props_subclass(self):
+        """
+        Test that DataComProps derives from CpSoftwareClusterCommunicationResourceProps per the
+        Table 11.10 Base row (ARObject, CpSoftwareClusterCommunicationResourceProps — most-derived
+        CpSoftwareClusterCommunicationResourceProps).
+        """
+        assert issubclass(DataComProps, CpSoftwareClusterCommunicationResourceProps)
+        assert issubclass(DataComProps, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(DataComProps.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DataComProps.__init__.__doc__ is None
+
+    def test_member_order_follows_spec_rows(self):
+        """
+        Test that the accessors follow the Table 11.10 displayed row order (getter first per attribute).
+        """
+        methods = [name for name, value in DataComProps.__dict__.items() if callable(value) and not name.startswith("_")]
+        assert methods == [
+            "getDataConsistencyPolicy",
+            "setDataConsistencyPolicy",
+            "getSendIndication",
+            "setSendIndication",
+        ]
+
+    def test_annotations_are_spec_typed(self):
+        """
+        Test that the accessors carry the spec enum types (Table 11.10 Type column).
+        """
+        hints = typing.get_type_hints(DataComProps.getDataConsistencyPolicy)
+        assert hints.get("return") == typing.Optional[DataConsistencyPolicyEnum]
+        hints = typing.get_type_hints(DataComProps.setDataConsistencyPolicy)
+        assert hints.get("value") == typing.Optional[DataConsistencyPolicyEnum]
+        assert hints.get("return") is DataComProps
+
+        hints = typing.get_type_hints(DataComProps.getSendIndication)
+        assert hints.get("return") == typing.Optional[SendIndicationEnum]
+        hints = typing.get_type_hints(DataComProps.setSendIndication)
+        assert hints.get("value") == typing.Optional[SendIndicationEnum]
+        assert hints.get("return") is DataComProps
+
+    def test_get_set_data_consistency_policy(self):
+        """
+        Test setDataConsistencyPolicy and getDataConsistencyPolicy round-trip and None no-op.
+        """
+        obj = self._create_object()
+
+        policy = DataConsistencyPolicyEnum().setValue(DataConsistencyPolicyEnum.CONSISTENCY_MECHANISM_REQUIRED)
+
+        result = obj.setDataConsistencyPolicy(None)
+        assert result is obj
+        assert obj.getDataConsistencyPolicy() is None
+
+        result = obj.setDataConsistencyPolicy(policy)
+        assert result is obj
+        assert obj.getDataConsistencyPolicy() is policy
+        assert obj.getDataConsistencyPolicy().getValue() == DataConsistencyPolicyEnum.CONSISTENCY_MECHANISM_REQUIRED
+
+        obj.setDataConsistencyPolicy(None)
+        assert obj.getDataConsistencyPolicy() is policy
+
+    def test_get_set_send_indication(self):
+        """
+        Test setSendIndication and getSendIndication round-trip and None no-op.
+        """
+        obj = self._create_object()
+
+        indication = SendIndicationEnum().setValue(SendIndicationEnum.ANY_SEND_OPERATION)
+
+        result = obj.setSendIndication(None)
+        assert result is obj
+        assert obj.getSendIndication() is None
+
+        result = obj.setSendIndication(indication)
+        assert result is obj
+        assert obj.getSendIndication() is indication
+        assert obj.getSendIndication().getValue() == SendIndicationEnum.ANY_SEND_OPERATION
+
+        obj.setSendIndication(None)
+        assert obj.getSendIndication() is indication
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter/setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DataComProps.getDataConsistencyPolicy.__doc__) == self.DATA_CONSISTENCY_POLICY_NOTE
+        assert inspect.cleandoc(DataComProps.setDataConsistencyPolicy.__doc__) == (
+            self.DATA_CONSISTENCY_POLICY_NOTE + "\n\nA None value is a no-op and does not overwrite an existing dataConsistencyPolicy."
+        )
+        assert inspect.cleandoc(DataComProps.getSendIndication.__doc__) == self.SEND_INDICATION_NOTE
+        assert inspect.cleandoc(DataComProps.setSendIndication.__doc__) == (self.SEND_INDICATION_NOTE + "\n\nA None value is a no-op and does not overwrite an existing sendIndication.")

@@ -566,6 +566,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     CanGlobalTimeDomainProps,
     CalibrationParameterValue,
     CpSoftwareClusterCommunicationResourceProps,
+    DataComProps,
     EthGlobalTimeDomainProps,
     EthGlobalTimeManagedCouplingPort,
     EthTSynCrcFlags,
@@ -787,6 +788,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Boolean,
     ByteOrderEnum,
     CIdentifier,
+    DataConsistencyPolicyEnum,
     DateTime,
     DdsDurabilityKindEnum,
     FrArTpAckType,
@@ -848,6 +850,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     RegularExpression,
     RevisionLabelString,
     SectionInitializationPolicyType,
+    SendIndicationEnum,
     String,
     TRefType,
     UnlimitedInteger,
@@ -16382,6 +16385,23 @@ class ARXMLParser(AbstractARXMLParser):
         # ARObject level of the concrete subclass element (CLIENT-SERVER-OPERATION-COM-PROPS /
         # DATA-COM-PROPS).
         self.readARObject(element, props)
+        return props
+
+    def readDataComProps(self, element: ET.Element, props: DataComProps) -> DataComProps:
+        # The XSD DATA-COM-PROPS group (AUTOSAR_00052.xsd l.26787) follows the (empty)
+        # CP-SOFTWARE-CLUSTER-COMMUNICATION-RESOURCE-PROPS group: DATA-CONSISTENCY-POLICY then
+        # SEND-INDICATION, both enumeration literals.
+        self.readCpSoftwareClusterCommunicationResourceProps(element, props)
+        literal = self.getChildElementOptionalLiteral(element, "DATA-CONSISTENCY-POLICY")
+        if literal is not None:
+            data_consistency_policy = DataConsistencyPolicyEnum()
+            data_consistency_policy.setValue(literal.getValue())
+            props.setDataConsistencyPolicy(data_consistency_policy)
+        literal = self.getChildElementOptionalLiteral(element, "SEND-INDICATION")
+        if literal is not None:
+            send_indication = SendIndicationEnum()
+            send_indication.setValue(literal.getValue())
+            props.setSendIndication(send_indication)
         return props
 
     def getGlobalTimeProps(self, element: ET.Element, key: str) -> Optional[GlobalTimeCouplingPortProps]:

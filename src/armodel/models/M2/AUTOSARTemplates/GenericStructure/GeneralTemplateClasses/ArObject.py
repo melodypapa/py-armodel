@@ -4223,7 +4223,66 @@ class ClientServerOperationComProps(CpSoftwareClusterCommunicationResourceProps)
 
 
 class DataComProps(CpSoftwareClusterCommunicationResourceProps):
-    pass
+    """
+    Represents a single resource required or provided by a CP Software Cluster which relates to the port based communication on VFB level.
+    """
+
+    # DataComProps method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 11.10, p.903
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDataConsistencyPolicy     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataConsistencyPolicy     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSendIndication            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSendIndication            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # The XSD DATA-COM-PROPS group (AUTOSAR_00052.xsd l.26787) follows the (empty)
+    # CP-SOFTWARE-CLUSTER-COMMUNICATION-RESOURCE-PROPS group; the reader/writer call the base
+    # readCpSoftwareClusterCommunicationResourceProps / writeCpSoftwareClusterCommunicationResourceProps
+    # helpers exactly once (ARObject level). Aggregator dispatch
+    # (CpSoftwareClusterCommunicationResource.communicationResourceProps) is pending —
+    # CpSoftwareClusterCommunicationResource is an unsynced later-wave class.
+
+    def __init__(self):
+        super().__init__()
+
+        # This attribute defines requirements on the data consistency mechanism in the cross cluster communication. If the attribute is not set, the default value consistencyMechanismRequired applies.
+        self.dataConsistencyPolicy: Optional[DataConsistencyPolicyEnum] = None
+
+        # Send indication behavior for last-is-the best data communication.
+        self.sendIndication: Optional[SendIndicationEnum] = None
+
+    def getDataConsistencyPolicy(self) -> Optional[DataConsistencyPolicyEnum]:
+        """
+        This attribute defines requirements on the data consistency mechanism in the cross cluster communication. If the attribute is not set, the default value consistencyMechanismRequired applies.
+        """
+        return self.dataConsistencyPolicy
+
+    def setDataConsistencyPolicy(self, value: Optional[DataConsistencyPolicyEnum]) -> DataComProps:
+        """
+        This attribute defines requirements on the data consistency mechanism in the cross cluster communication. If the attribute is not set, the default value consistencyMechanismRequired applies.
+
+        A None value is a no-op and does not overwrite an existing dataConsistencyPolicy.
+        """
+        if value is not None:
+            self.dataConsistencyPolicy = value
+        return self
+
+    def getSendIndication(self) -> Optional[SendIndicationEnum]:
+        """
+        Send indication behavior for last-is-the best data communication.
+        """
+        return self.sendIndication
+
+    def setSendIndication(self, value: Optional[SendIndicationEnum]) -> DataComProps:
+        """
+        Send indication behavior for last-is-the best data communication.
+
+        A None value is a no-op and does not overwrite an existing sendIndication.
+        """
+        if value is not None:
+            self.sendIndication = value
+        return self
 
 
 class EthGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
@@ -4449,6 +4508,7 @@ class FrGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa: E402
     Boolean,
     ByteOrderEnum,
+    DataConsistencyPolicyEnum,
     DdsDestinationOrderKindEnum,
     DdsDurabilityKindEnum,
     DdsDurabilityServiceHistoryKindEnum,
@@ -4479,6 +4539,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     NameToken,
     PositiveInteger,
     RefType,
+    SendIndicationEnum,
     String,
     TimeValue,
 )
