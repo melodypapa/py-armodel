@@ -257,4 +257,5 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols.IEEE17
     IEEE1722TpCrfConnection as IEEE1722TpCrfConnection,
     IEEE1722TpCrfPullEnum as IEEE1722TpCrfPullEnum,
     IEEE1722TpCrfTypeEnum as IEEE1722TpCrfTypeEnum,
+    IEEE1722TpIidcConnection as IEEE1722TpIidcConnection,
 )

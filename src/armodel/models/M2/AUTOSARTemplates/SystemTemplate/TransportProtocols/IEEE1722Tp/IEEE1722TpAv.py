@@ -564,3 +564,178 @@ class IEEE1722TpAafConnection(IEEE1722TpAvConnection):
         if value is not None:
             self.streamsPerFrame = value
         return self
+
+
+class IEEE1722TpIidcConnection(IEEE1722TpAvConnection):
+    """
+    AV IEEE1722Tp IIDC connection. Tags: atp.Status=candidate atp.recommendedPackage=IEEE1722TpConnections
+    """
+
+    # IEEE1722TpIidcConnection method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.284, p.648
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getIidcChannel              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIidcChannel              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIidcDataBlockSize        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIidcDataBlockSize        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIidcFractionNumber       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIidcFractionNumber       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIidcSourcePacketHeader   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIidcSourcePacketHeader   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIidcStreamFormat         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIidcStreamFormat         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIidcSy                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIidcSy                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIidcTag                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIidcTag                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIidcTCode                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIidcTCode                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # (Base row: ARElement, ARObject, CollectableElement, IEEE1722TpAvConnection, IEEE1722TpConnection, Identifiable, MultilanguageReferrable, PackageableElement, Referrable)
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Definition of the IIDC channel. Tags: atp.Status=candidate
+        self.iidcChannel: Optional[PositiveInteger] = None
+
+        # Definition of the IIDC data block size (DBS). Tags: atp.Status=candidate
+        self.iidcDataBlockSize: Optional[PositiveInteger] = None
+
+        # Definition of the IIDC fractionNumber (FN). Tags: atp.Status=candidate
+        self.iidcFractionNumber: Optional[PositiveInteger] = None
+
+        # Defines the IIDC source packet header (SPH) existence. Tags: atp.Status=candidate
+        self.iidcSourcePacketHeader: Optional[Boolean] = None
+
+        # Definition of the IIDC stream format (FMT). Tags: atp.Status=candidate
+        self.iidcStreamFormat: Optional[PositiveInteger] = None
+
+        # Definition of the IIDC sy. Tags: atp.Status=candidate
+        self.iidcSy: Optional[PositiveInteger] = None
+
+        # Definition of the IIDC tag. Tags: atp.Status=candidate
+        self.iidcTag: Optional[PositiveInteger] = None
+
+        # Definition of the IIDC tcode. Tags: atp.Status=candidate
+        self.iidcTCode: Optional[PositiveInteger] = None
+
+    def getIidcChannel(self) -> Optional[PositiveInteger]:
+        """
+        Definition of the IIDC channel. Tags: atp.Status=candidate
+        """
+        return self.iidcChannel
+
+    def setIidcChannel(self, value: Optional[PositiveInteger]) -> IEEE1722TpIidcConnection:
+        """
+        Definition of the IIDC channel. Tags: atp.Status=candidate
+        A None value is a no-op and does not overwrite an existing iidcChannel.
+        """
+        if value is not None:
+            self.iidcChannel = value
+        return self
+
+    def getIidcDataBlockSize(self) -> Optional[PositiveInteger]:
+        """
+        Definition of the IIDC data block size (DBS). Tags: atp.Status=candidate
+        """
+        return self.iidcDataBlockSize
+
+    def setIidcDataBlockSize(self, value: Optional[PositiveInteger]) -> IEEE1722TpIidcConnection:
+        """
+        Definition of the IIDC data block size (DBS). Tags: atp.Status=candidate
+        A None value is a no-op and does not overwrite an existing iidcDataBlockSize.
+        """
+        if value is not None:
+            self.iidcDataBlockSize = value
+        return self
+
+    def getIidcFractionNumber(self) -> Optional[PositiveInteger]:
+        """
+        Definition of the IIDC fractionNumber (FN). Tags: atp.Status=candidate
+        """
+        return self.iidcFractionNumber
+
+    def setIidcFractionNumber(self, value: Optional[PositiveInteger]) -> IEEE1722TpIidcConnection:
+        """
+        Definition of the IIDC fractionNumber (FN). Tags: atp.Status=candidate
+        A None value is a no-op and does not overwrite an existing iidcFractionNumber.
+        """
+        if value is not None:
+            self.iidcFractionNumber = value
+        return self
+
+    def getIidcSourcePacketHeader(self) -> Optional[Boolean]:
+        """
+        Defines the IIDC source packet header (SPH) existence. Tags: atp.Status=candidate
+        """
+        return self.iidcSourcePacketHeader
+
+    def setIidcSourcePacketHeader(self, value: Optional[Boolean]) -> IEEE1722TpIidcConnection:
+        """
+        Defines the IIDC source packet header (SPH) existence. Tags: atp.Status=candidate
+        A None value is a no-op and does not overwrite an existing iidcSourcePacketHeader.
+        """
+        if value is not None:
+            self.iidcSourcePacketHeader = value
+        return self
+
+    def getIidcStreamFormat(self) -> Optional[PositiveInteger]:
+        """
+        Definition of the IIDC stream format (FMT). Tags: atp.Status=candidate
+        """
+        return self.iidcStreamFormat
+
+    def setIidcStreamFormat(self, value: Optional[PositiveInteger]) -> IEEE1722TpIidcConnection:
+        """
+        Definition of the IIDC stream format (FMT). Tags: atp.Status=candidate
+        A None value is a no-op and does not overwrite an existing iidcStreamFormat.
+        """
+        if value is not None:
+            self.iidcStreamFormat = value
+        return self
+
+    def getIidcSy(self) -> Optional[PositiveInteger]:
+        """
+        Definition of the IIDC sy. Tags: atp.Status=candidate
+        """
+        return self.iidcSy
+
+    def setIidcSy(self, value: Optional[PositiveInteger]) -> IEEE1722TpIidcConnection:
+        """
+        Definition of the IIDC sy. Tags: atp.Status=candidate
+        A None value is a no-op and does not overwrite an existing iidcSy.
+        """
+        if value is not None:
+            self.iidcSy = value
+        return self
+
+    def getIidcTag(self) -> Optional[PositiveInteger]:
+        """
+        Definition of the IIDC tag. Tags: atp.Status=candidate
+        """
+        return self.iidcTag
+
+    def setIidcTag(self, value: Optional[PositiveInteger]) -> IEEE1722TpIidcConnection:
+        """
+        Definition of the IIDC tag. Tags: atp.Status=candidate
+        A None value is a no-op and does not overwrite an existing iidcTag.
+        """
+        if value is not None:
+            self.iidcTag = value
+        return self
+
+    def getIidcTCode(self) -> Optional[PositiveInteger]:
+        """
+        Definition of the IIDC tcode. Tags: atp.Status=candidate
+        """
+        return self.iidcTCode
+
+    def setIidcTCode(self, value: Optional[PositiveInteger]) -> IEEE1722TpIidcConnection:
+        """
+        Definition of the IIDC tcode. Tags: atp.Status=candidate
+        A None value is a no-op and does not overwrite an existing iidcTCode.
+        """
+        if value is not None:
+            self.iidcTCode = value
+        return self

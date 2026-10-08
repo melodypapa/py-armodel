@@ -1631,6 +1631,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import
     IEEE1722TpCrfConnection,
     IEEE1722TpCrfPullEnum,
     IEEE1722TpCrfTypeEnum,
+    IEEE1722TpIidcConnection,
     J1939TpConfig,
     J1939TpConnection,
     J1939TpNode,
@@ -15025,6 +15026,17 @@ class ARXMLParser(AbstractARXMLParser):
         connection.setSparseTimestampEnabled(self.getChildElementOptionalBooleanValue(element, "SPARSE-TIMESTAMP-ENABLED"))
         connection.setStreamsPerFrame(self.getChildElementOptionalPositiveInteger(element, "STREAMS-PER-FRAME"))
 
+    def readIEEE1722TpIidcConnection(self, element: ET.Element, connection: IEEE1722TpIidcConnection):
+        self.readIEEE1722TpAvConnection(element, connection)
+        connection.setIidcChannel(self.getChildElementOptionalPositiveInteger(element, "IIDC-CHANNEL"))
+        connection.setIidcDataBlockSize(self.getChildElementOptionalPositiveInteger(element, "IIDC-DATA-BLOCK-SIZE"))
+        connection.setIidcFractionNumber(self.getChildElementOptionalPositiveInteger(element, "IIDC-FRACTION-NUMBER"))
+        connection.setIidcSourcePacketHeader(self.getChildElementOptionalBooleanValue(element, "IIDC-SOURCE-PACKET-HEADER"))
+        connection.setIidcStreamFormat(self.getChildElementOptionalPositiveInteger(element, "IIDC-STREAM-FORMAT"))
+        connection.setIidcSy(self.getChildElementOptionalPositiveInteger(element, "IIDC-SY"))
+        connection.setIidcTCode(self.getChildElementOptionalPositiveInteger(element, "IIDC-T-CODE"))
+        connection.setIidcTag(self.getChildElementOptionalPositiveInteger(element, "IIDC-TAG"))
+
     def readCanFrame(self, element: ET.Element, frame: CanFrame):
         self.logger.debug("Read CanFrame <%s>" % frame.getShortName())
         self.readFrame(element, frame)
@@ -19428,6 +19440,8 @@ class ARXMLParser(AbstractARXMLParser):
                 self.readIEEE1722TpCrfConnection(child_element, parent.createIEEE1722TpCrfConnection(self.getShortName(child_element)))
             elif tag_name == "IEEE-1722-TP-AAF-CONNECTION":
                 self.readIEEE1722TpAafConnection(child_element, parent.createIEEE1722TpAafConnection(self.getShortName(child_element)))
+            elif tag_name == "IEEE-1722-TP-IIDC-CONNECTION":
+                self.readIEEE1722TpIidcConnection(child_element, parent.createIEEE1722TpIidcConnection(self.getShortName(child_element)))
             elif tag_name == "CLIENT-ID-DEFINITION-SET":
                 id_definition_set = parent.createClientIdDefinitionSet(self.getShortName(child_element))
                 self.readClientIdDefinitionSet(child_element, id_definition_set)

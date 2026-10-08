@@ -1362,6 +1362,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import
     IEEE1722TpAvConnection,
     IEEE1722TpAafConnection,
     IEEE1722TpCrfConnection,
+    IEEE1722TpIidcConnection,
     J1939TpConfig,
     J1939TpConnection,
     J1939TpNode,
@@ -11118,6 +11119,19 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalBooleanValue(child_element, "SPARSE-TIMESTAMP-ENABLED", connection.getSparseTimestampEnabled())
         self.setChildElementOptionalPositiveInteger(child_element, "STREAMS-PER-FRAME", cast(Integer, connection.getStreamsPerFrame()))
 
+    def writeIEEE1722TpIidcConnection(self, element: ET.Element, connection: IEEE1722TpIidcConnection):
+        self.logger.debug("Write IEEE1722TpIidcConnection <%s>" % connection.getShortName())
+        child_element = ET.SubElement(element, "IEEE-1722-TP-IIDC-CONNECTION")
+        self.writeIEEE1722TpAvConnection(child_element, connection)
+        self.setChildElementOptionalPositiveInteger(child_element, "IIDC-CHANNEL", cast(Integer, connection.getIidcChannel()))
+        self.setChildElementOptionalPositiveInteger(child_element, "IIDC-DATA-BLOCK-SIZE", cast(Integer, connection.getIidcDataBlockSize()))
+        self.setChildElementOptionalPositiveInteger(child_element, "IIDC-FRACTION-NUMBER", cast(Integer, connection.getIidcFractionNumber()))
+        self.setChildElementOptionalBooleanValue(child_element, "IIDC-SOURCE-PACKET-HEADER", connection.getIidcSourcePacketHeader())
+        self.setChildElementOptionalPositiveInteger(child_element, "IIDC-STREAM-FORMAT", cast(Integer, connection.getIidcStreamFormat()))
+        self.setChildElementOptionalPositiveInteger(child_element, "IIDC-SY", cast(Integer, connection.getIidcSy()))
+        self.setChildElementOptionalPositiveInteger(child_element, "IIDC-T-CODE", cast(Integer, connection.getIidcTCode()))
+        self.setChildElementOptionalPositiveInteger(child_element, "IIDC-TAG", cast(Integer, connection.getIidcTag()))
+
     def writeFrameTriggering(self, element: ET.Element, triggering: FrameTriggering):
         self.writeIdentifiable(element, triggering)
         ref_list = triggering.getFramePortRefs()
@@ -19859,6 +19873,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeIEEE1722TpCrfConnection(element, ar_element)
         elif isinstance(ar_element, IEEE1722TpAafConnection):
             self.writeIEEE1722TpAafConnection(element, ar_element)
+        elif isinstance(ar_element, IEEE1722TpIidcConnection):
+            self.writeIEEE1722TpIidcConnection(element, ar_element)
         elif isinstance(ar_element, IEEE1722TpConfig):
             self.writeIEEE1722TpConfig(element, ar_element)
         elif isinstance(ar_element, LinCluster):

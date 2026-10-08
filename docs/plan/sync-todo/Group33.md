@@ -981,15 +981,36 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `IEEE1722TpIidcConnection` — IEEE1722TpAvConnection — R23-11 CP_TPS_SystemTemplate Table 6.284, p.648
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note: Step 1 finding — module hint ARPackage.py overridden — spec Package row
+    ...TransportProtocols::IEEE1722Tp::IEEE1722TpAv -> `TransportProtocols/IEEE1722Tp/IEEE1722TpAv.py`
+    (Rule 0007, Crf/Aaf precedent). Base row most-derived = IEEE1722TpAvConnection (hint confirmed);
+    concrete (XSD complexType abstract="false") — no TypeError guard. 8 attrs, all 0..1 attr, in
+    displayed order: iidcChannel, iidcDataBlockSize, iidcFractionNumber, iidcSourcePacketHeader,
+    iidcStreamFormat, iidcSy, iidcTag, iidcTCode (PositiveInteger x7, iidcSourcePacketHeader Boolean);
+    markdown line-split renderings (iidcDataBlock Size / iidcFraction Number / iidcSource PacketHeader /
+    iidcStream Format) resolved to the XSD mmt.qualifiedName spellings (AafConnection precedent).
+    No VARIATION-POINT in the XSD group -> no mixin; no atp.Status="removed"; no XSD-only extras;
+    caption already plain `Table 6.284:` form (no heading artifact). Reader/writer XML element order
+    per XSD sequenceOffset ends IIDC-SY, IIDC-T-CODE, IIDC-TAG — the XSD puts IIDC-T-CODE before
+    IIDC-TAG while the displayed tail is iidcSy, iidcTag, iidcTCode (Rule 0001.11: class member order
+    = displayed order, reader/writer element order = XSD order). Aggregated by ARPackage.element ->
+    ARPackage.createIEEE1722TpIidcConnection + IEEE-1722-TP-IIDC-CONNECTION dispatch; ARPackage.py
+    stub + stub-registry tuple removed.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
+    - Note: no deviations — field↔spec verified both directions (8 attrs, Optional quota shapes match
+      Mult. 0..1, verbatim Notes incl. the Tags: atp.Status=candidate tails). The XSD puts IIDC-T-CODE
+      before IIDC-TAG while the displayed tail is iidcSy, iidcTag, iidcTCode — handled as two
+      independent orders per Rule 0001.11 (class member/accessor order = displayed, reader/writer
+      element order = XSD sequenceOffset). ARPackage.py stub class + stub-registry tuple removed;
+      re-exports added to IEEE1722Tp/__init__.py and TransportProtocols/__init__.py.
 
 - [ ] `IEEE1722TpRvfConnection` — IEEE1722TpAvConnection — R23-11 CP_TPS_SystemTemplate Table 6.285, p.650
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
