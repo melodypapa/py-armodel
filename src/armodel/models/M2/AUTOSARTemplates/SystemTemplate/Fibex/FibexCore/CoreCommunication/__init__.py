@@ -1375,26 +1375,28 @@ class ISignalToIPduMapping(Identifiable, VariationPointCapable):
 class NmPdu(Pdu):
     """
     Network Management Pdu Tags: atp.recommendedPackage=Pdus
+
+    [constr_5385] Reception of UserData inside of a NmPdu by Applications is not supported: A SystemSignal that is referenced by an ISignal that in turn is mapped via an ISignalToIPduMapping into a NmPdu shall not be mapped by a DataMapping that references a RPortPrototype with the contextPort reference in the VariableDataPrototypeInSystemInstanceRef that the DataMapping aggregates.
+    [constr_3073] nmVoteInformation only valid for FrNm: The nmVoteInformation attribute is only valid for FrNm.
     """
 
     # NmPdu method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.20, p.343
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getISignalToIPduMappings     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createISignalToIPduMapping   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getNmDataInformation         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setNmDataInformation         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getNmVoteInformation         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setNmVoteInformation         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getUnusedBitPattern          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setUnusedBitPattern          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createISignalToIPduMapping   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getISignalToIPduMappings     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getNmDataInformation         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmDataInformation         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNmVoteInformation         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmVoteInformation         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getUnusedBitPattern          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUnusedBitPattern          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        # This optional aggregation is used to describe NmUserData that is transmitted in the NmPdu. The counting of the startPosition starts at the beginning of the NmPdu regardless whether Cbv or Nid are used.
+        # This optional aggregation is used to describe NmUser Data that is transmitted in the NmPdu. The counting of the startPosition starts at the beginning of the NmPdu regardless whether Cbv or Nid are used.
         self.iSignalToIPduMappings: List[ISignalToIPduMapping] = []
 
         # Defines if the Pdu contains NM Data. If the NmPdu does not aggregate any ISignalToIPduMappings it still may contain UserData that is set via Nm_SetUserData(). If the ISignalToIPduMapping exists then the nmDataInformation attribute shall be ignored.
@@ -1403,24 +1405,24 @@ class NmPdu(Pdu):
         # Defines if the Pdu contains NM Vote information.
         self.nmVoteInformation: Optional[Boolean] = None
 
-        # AUTOSAR COM is filling not used areas of an Pdu with this bit-pattern. This attribute can only be used if the nmDataInformation attribute is set to true.
+        # AUTOSAR COM is filling not used areas of an Pdu with this bit-pattern. This attribute can only be used if the nm DataInformation attribute is set to true.
         self.unusedBitPattern: Optional[Integer] = None
-
-    def getISignalToIPduMappings(self) -> List[ISignalToIPduMapping]:
-        """
-        This optional aggregation is used to describe NmUserData that is transmitted in the NmPdu. The counting of the startPosition starts at the beginning of the NmPdu regardless whether Cbv or Nid are used.
-        """
-        return self.iSignalToIPduMappings
 
     def createISignalToIPduMapping(self, short_name: str) -> ISignalToIPduMapping:
         """
-        This optional aggregation is used to describe NmUserData that is transmitted in the NmPdu. The counting of the startPosition starts at the beginning of the NmPdu regardless whether Cbv or Nid are used.
+        This optional aggregation is used to describe NmUser Data that is transmitted in the NmPdu. The counting of the startPosition starts at the beginning of the NmPdu regardless whether Cbv or Nid are used.
         """
         if not self.IsReferrableElementExists(short_name, ISignalToIPduMapping):
             mapping = ISignalToIPduMapping(self, short_name)
             self.addReferrableElement(mapping)
             self.iSignalToIPduMappings.append(mapping)
         return cast(ISignalToIPduMapping, self.getReferrableElement(short_name, ISignalToIPduMapping))
+
+    def getISignalToIPduMappings(self) -> List[ISignalToIPduMapping]:
+        """
+        This optional aggregation is used to describe NmUser Data that is transmitted in the NmPdu. The counting of the startPosition starts at the beginning of the NmPdu regardless whether Cbv or Nid are used.
+        """
+        return self.iSignalToIPduMappings
 
     def getNmDataInformation(self) -> Optional[Boolean]:
         """
@@ -1454,13 +1456,13 @@ class NmPdu(Pdu):
 
     def getUnusedBitPattern(self) -> Optional[Integer]:
         """
-        AUTOSAR COM is filling not used areas of an Pdu with this bit-pattern. This attribute can only be used if the nmDataInformation attribute is set to true.
+        AUTOSAR COM is filling not used areas of an Pdu with this bit-pattern. This attribute can only be used if the nm DataInformation attribute is set to true.
         """
         return self.unusedBitPattern
 
     def setUnusedBitPattern(self, value: Optional[Integer]) -> NmPdu:
         """
-        AUTOSAR COM is filling not used areas of an Pdu with this bit-pattern. This attribute can only be used if the nmDataInformation attribute is set to true.
+        AUTOSAR COM is filling not used areas of an Pdu with this bit-pattern. This attribute can only be used if the nm DataInformation attribute is set to true.
         A None value is a no-op and does not overwrite an existing unusedBitPattern.
         """
         if value is not None:

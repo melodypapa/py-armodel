@@ -182,7 +182,6 @@ NativeDeclarationString
 NmCluster
 NmCoordinatorRoleEnum
 NmNode
-NmPdu
 Numerical
 OperationArgumentInComponentInstanceRef
 OrderedMaster

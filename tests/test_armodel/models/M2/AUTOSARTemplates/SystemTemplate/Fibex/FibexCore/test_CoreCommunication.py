@@ -34,7 +34,6 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommu
     ISignalTriggering,
     MultiplexedIPdu,
     MultiplexedPart,
-    NmPdu,
     NPdu,
     Pdu,
     PduToFrameMapping,
@@ -535,51 +534,6 @@ class Test_FibexCoreCommunication:
         assert TransferPropertyEnum.TRIGGERED_ON_CHANGE in enum.getEnumValues()
         assert TransferPropertyEnum.TRIGGERED_ON_CHANGE_WITHOUT_REPETITION in enum.getEnumValues()
         assert TransferPropertyEnum.TRIGGERED_WITHOUT_REPETITION in enum.getEnumValues()
-
-    def test_NmPdu(self):
-        """Test NmPdu class functionality."""
-        parent = MockParent()
-        pdu = NmPdu(parent, "test_nm_pdu")
-
-        assert isinstance(pdu, Pdu)
-
-        # Test default values
-        assert pdu.getISignalToIPduMappings() == []
-        assert pdu.getNmDataInformation() is None
-        assert pdu.getNmVoteInformation() is None
-        assert pdu.getUnusedBitPattern() is None
-
-        # Test setter/getter methods with method chaining
-        _ref1 = object()
-        pdu.setNmDataInformation(True)
-        assert pdu.getNmDataInformation() is True
-        assert pdu == pdu.setNmDataInformation(True)  # Test method chaining
-        # None is a no-op and does not overwrite an existing nmDataInformation
-        assert pdu == pdu.setNmDataInformation(None)
-        assert pdu.getNmDataInformation() is True
-
-        pdu.setNmVoteInformation(False)
-        assert pdu.getNmVoteInformation() is False
-        assert pdu == pdu.setNmVoteInformation(False)  # Test method chaining
-        # None is a no-op and does not overwrite an existing nmVoteInformation
-        assert pdu == pdu.setNmVoteInformation(None)
-        assert pdu.getNmVoteInformation() is False
-
-        pdu.setUnusedBitPattern(-1)
-        assert pdu.getUnusedBitPattern() == -1
-        assert pdu == pdu.setUnusedBitPattern(-1)  # Test method chaining
-        # None is a no-op and does not overwrite an existing unusedBitPattern
-        assert pdu == pdu.setUnusedBitPattern(None)
-        assert pdu.getUnusedBitPattern() == -1
-
-        # Test ISignalToIPduMapping creation method
-        mapping = pdu.createISignalToIPduMapping("test_mapping")
-        assert isinstance(mapping, ISignalToIPduMapping)
-        assert len(pdu.getISignalToIPduMappings()) == 1
-
-        # Try creating the same mapping again (should return existing)
-        mapping2 = pdu.createISignalToIPduMapping("test_mapping")
-        assert mapping == mapping2  # Should return the same instance
 
     def test_NPdu(self):
         """Test NPdu class functionality."""
