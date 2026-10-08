@@ -198,6 +198,44 @@ class IEEE1722TpAafFormatEnum(AREnum):
         )
 
 
+class IEEE1722TpAafAes3DataTypeEnum(AREnum):
+    """
+    Definition of the AAF AES3 stream aes3_data_type reference. Tags: atp.Status=candidate
+    """
+
+    # IEEE1722TpAafAes3DataTypeEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.283, p.645
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — serialized as value form on IEEE1722TpAafConnection.aafAes3DataType
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # Data type reference is IEC 61937-2 Tags: atp.EnumerationLiteralIndex=4
+    ENUM_IEC61937 = "IEC-61937"
+
+    # Data type is PCM Tags: atp.EnumerationLiteralIndex=2
+    ENUM_PCM = "PCM"
+
+    # Data type reference is SMPTE ST 338 Tags: atp.EnumerationLiteralIndex=3
+    ENUM_SMPTE338 = "SMPTE-338"
+
+    # Data type not specified Tags: atp.EnumerationLiteralIndex=1
+    ENUM_UNSPECIFIED = "UNSPECIFIED"
+
+    # Data type reference is defined by vendor Tags: atp.EnumerationLiteralIndex=0
+    ENUM_VENDOR = "VENDOR"
+
+    def __init__(self):
+        super().__init__(
+            [
+                IEEE1722TpAafAes3DataTypeEnum.ENUM_IEC61937,
+                IEEE1722TpAafAes3DataTypeEnum.ENUM_PCM,
+                IEEE1722TpAafAes3DataTypeEnum.ENUM_SMPTE338,
+                IEEE1722TpAafAes3DataTypeEnum.ENUM_UNSPECIFIED,
+                IEEE1722TpAafAes3DataTypeEnum.ENUM_VENDOR,
+            ]
+        )
+
+
 class IEEE1722TpCrfConnection(IEEE1722TpAvConnection):
     """
     AV IEEE1722Tp CRF connection. Tags: atp.Status=candidate atp.recommendedPackage=IEEE1722TpConnections
@@ -310,4 +348,219 @@ class IEEE1722TpCrfConnection(IEEE1722TpAvConnection):
         """
         if value is not None:
             self.timestampInterval = value
+        return self
+
+
+class IEEE1722TpAafConnection(IEEE1722TpAvConnection):
+    """
+    AV IEEE1722Tp AAF connection. Tags: atp.Status=candidate atp.recommendedPackage=IEEE1722TpConnections
+    """
+
+    # IEEE1722TpAafConnection method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.280, p.643
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAafAes3DataType           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAafAes3DataType           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAafFormat                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAafFormat                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAafNominalRate            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAafNominalRate            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAes3DataTypeH             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAes3DataTypeH             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAes3DataTypeL             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAes3DataTypeL             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getChannelsPerFrame          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setChannelsPerFrame          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEventDefaultValue         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEventDefaultValue         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPcmBitDepth               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPcmBitDepth               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSparseTimestampEnabled    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSparseTimestampEnabled    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getStreamsPerFrame           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setStreamsPerFrame           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # (Base row: ARElement, ARObject, CollectableElement, IEEE1722TpAvConnection, IEEE1722TpConnection, Identifiable, MultilanguageReferrable, PackageableElement, Referrable)
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Definition of the AAF AES3 stream aes3_data_type reference.
+        self.aafAes3DataType: Optional[IEEE1722TpAafAes3DataTypeEnum] = None
+
+        # Definition of the AAF stream format.
+        self.aafFormat: Optional[IEEE1722TpAafFormatEnum] = None
+
+        # Definition of the AAF stream nominal sample / frame rate. For an AAF PCM stream this is the nominal sample rate. For an AAF AES3 stream this is the nominal frame rate.
+        self.aafNominalRate: Optional[IEEE1722TpAafNominalRateEnum] = None
+
+        # Definition of the AAF AES3 aes3_data_type_h default value. Tags: atp.Status=candidate
+        self.aes3DataTypeH: Optional[PositiveInteger] = None
+
+        # Definition of the AAF AES3 aes3_data_type_l default value. Tags: atp.Status=candidate
+        self.aes3DataTypeL: Optional[PositiveInteger] = None
+
+        # Definition of the AAF PCM stream channels_per_frame. e.g. 1: mono, 2: stereo, 8: 7.1 multicannel Tags: atp.Status=candidate
+        self.channelsPerFrame: Optional[PositiveInteger] = None
+
+        # Definition of a value to be used for the 4-bit "evt" field. Tags: atp.Status=candidate
+        self.eventDefaultValue: Optional[PositiveInteger] = None
+
+        # Definition of the AAF PCM stream bit_depth. e.g. 16, 24, 32. Tags: atp.Status=candidate
+        self.pcmBitDepth: Optional[PositiveInteger] = None
+
+        # Defines whether the "sp" (sparse timestamp) shall be enabled. false: Normal operation, timestamp in every AAF AVTPDU true: Sparse mode, timestamp in every eighth AAF AVTPDU Tags: atp.Status=candidate
+        self.sparseTimestampEnabled: Optional[Boolean] = None
+
+        # AAF AES3 stream streams_per_frame. Tags: atp.Status=candidate
+        self.streamsPerFrame: Optional[PositiveInteger] = None
+
+    def getAafAes3DataType(self) -> Optional[IEEE1722TpAafAes3DataTypeEnum]:
+        """
+        Definition of the AAF AES3 stream aes3_data_type reference.
+        """
+        return self.aafAes3DataType
+
+    def setAafAes3DataType(self, value: Optional[IEEE1722TpAafAes3DataTypeEnum]) -> IEEE1722TpAafConnection:
+        """
+        Definition of the AAF AES3 stream aes3_data_type reference.
+        A None value is a no-op and does not overwrite an existing aafAes3DataType.
+        """
+        if value is not None:
+            self.aafAes3DataType = value
+        return self
+
+    def getAafFormat(self) -> Optional[IEEE1722TpAafFormatEnum]:
+        """
+        Definition of the AAF stream format.
+        """
+        return self.aafFormat
+
+    def setAafFormat(self, value: Optional[IEEE1722TpAafFormatEnum]) -> IEEE1722TpAafConnection:
+        """
+        Definition of the AAF stream format.
+        A None value is a no-op and does not overwrite an existing aafFormat.
+        """
+        if value is not None:
+            self.aafFormat = value
+        return self
+
+    def getAafNominalRate(self) -> Optional[IEEE1722TpAafNominalRateEnum]:
+        """
+        Definition of the AAF stream nominal sample / frame rate. For an AAF PCM stream this is the nominal sample rate. For an AAF AES3 stream this is the nominal frame rate.
+        """
+        return self.aafNominalRate
+
+    def setAafNominalRate(self, value: Optional[IEEE1722TpAafNominalRateEnum]) -> IEEE1722TpAafConnection:
+        """
+        Definition of the AAF stream nominal sample / frame rate. For an AAF PCM stream this is the nominal sample rate. For an AAF AES3 stream this is the nominal frame rate.
+        A None value is a no-op and does not overwrite an existing aafNominalRate.
+        """
+        if value is not None:
+            self.aafNominalRate = value
+        return self
+
+    def getAes3DataTypeH(self) -> Optional[PositiveInteger]:
+        """
+        Definition of the AAF AES3 aes3_data_type_h default value. Tags: atp.Status=candidate
+        """
+        return self.aes3DataTypeH
+
+    def setAes3DataTypeH(self, value: Optional[PositiveInteger]) -> IEEE1722TpAafConnection:
+        """
+        Definition of the AAF AES3 aes3_data_type_h default value. Tags: atp.Status=candidate
+        A None value is a no-op and does not overwrite an existing aes3DataTypeH.
+        """
+        if value is not None:
+            self.aes3DataTypeH = value
+        return self
+
+    def getAes3DataTypeL(self) -> Optional[PositiveInteger]:
+        """
+        Definition of the AAF AES3 aes3_data_type_l default value. Tags: atp.Status=candidate
+        """
+        return self.aes3DataTypeL
+
+    def setAes3DataTypeL(self, value: Optional[PositiveInteger]) -> IEEE1722TpAafConnection:
+        """
+        Definition of the AAF AES3 aes3_data_type_l default value. Tags: atp.Status=candidate
+        A None value is a no-op and does not overwrite an existing aes3DataTypeL.
+        """
+        if value is not None:
+            self.aes3DataTypeL = value
+        return self
+
+    def getChannelsPerFrame(self) -> Optional[PositiveInteger]:
+        """
+        Definition of the AAF PCM stream channels_per_frame. e.g. 1: mono, 2: stereo, 8: 7.1 multicannel Tags: atp.Status=candidate
+        """
+        return self.channelsPerFrame
+
+    def setChannelsPerFrame(self, value: Optional[PositiveInteger]) -> IEEE1722TpAafConnection:
+        """
+        Definition of the AAF PCM stream channels_per_frame. e.g. 1: mono, 2: stereo, 8: 7.1 multicannel Tags: atp.Status=candidate
+        A None value is a no-op and does not overwrite an existing channelsPerFrame.
+        """
+        if value is not None:
+            self.channelsPerFrame = value
+        return self
+
+    def getEventDefaultValue(self) -> Optional[PositiveInteger]:
+        """
+        Definition of a value to be used for the 4-bit "evt" field. Tags: atp.Status=candidate
+        """
+        return self.eventDefaultValue
+
+    def setEventDefaultValue(self, value: Optional[PositiveInteger]) -> IEEE1722TpAafConnection:
+        """
+        Definition of a value to be used for the 4-bit "evt" field. Tags: atp.Status=candidate
+        A None value is a no-op and does not overwrite an existing eventDefaultValue.
+        """
+        if value is not None:
+            self.eventDefaultValue = value
+        return self
+
+    def getPcmBitDepth(self) -> Optional[PositiveInteger]:
+        """
+        Definition of the AAF PCM stream bit_depth. e.g. 16, 24, 32. Tags: atp.Status=candidate
+        """
+        return self.pcmBitDepth
+
+    def setPcmBitDepth(self, value: Optional[PositiveInteger]) -> IEEE1722TpAafConnection:
+        """
+        Definition of the AAF PCM stream bit_depth. e.g. 16, 24, 32. Tags: atp.Status=candidate
+        A None value is a no-op and does not overwrite an existing pcmBitDepth.
+        """
+        if value is not None:
+            self.pcmBitDepth = value
+        return self
+
+    def getSparseTimestampEnabled(self) -> Optional[Boolean]:
+        """
+        Defines whether the "sp" (sparse timestamp) shall be enabled. false: Normal operation, timestamp in every AAF AVTPDU true: Sparse mode, timestamp in every eighth AAF AVTPDU Tags: atp.Status=candidate
+        """
+        return self.sparseTimestampEnabled
+
+    def setSparseTimestampEnabled(self, value: Optional[Boolean]) -> IEEE1722TpAafConnection:
+        """
+        Defines whether the "sp" (sparse timestamp) shall be enabled. false: Normal operation, timestamp in every AAF AVTPDU true: Sparse mode, timestamp in every eighth AAF AVTPDU Tags: atp.Status=candidate
+        A None value is a no-op and does not overwrite an existing sparseTimestampEnabled.
+        """
+        if value is not None:
+            self.sparseTimestampEnabled = value
+        return self
+
+    def getStreamsPerFrame(self) -> Optional[PositiveInteger]:
+        """
+        AAF AES3 stream streams_per_frame. Tags: atp.Status=candidate
+        """
+        return self.streamsPerFrame
+
+    def setStreamsPerFrame(self, value: Optional[PositiveInteger]) -> IEEE1722TpAafConnection:
+        """
+        AAF AES3 stream streams_per_frame. Tags: atp.Status=candidate
+        A None value is a no-op and does not overwrite an existing streamsPerFrame.
+        """
+        if value is not None:
+            self.streamsPerFrame = value
         return self

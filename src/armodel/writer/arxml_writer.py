@@ -1360,6 +1360,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import
     IEEE1722TpConfig,
     IEEE1722TpConnection,
     IEEE1722TpAvConnection,
+    IEEE1722TpAafConnection,
     IEEE1722TpCrfConnection,
     J1939TpConfig,
     J1939TpConnection,
@@ -11093,6 +11094,30 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalBooleanValue(child_element, "FRAME-SYNC-ENABLED", connection.getFrameSyncEnabled())
         self.setChildElementOptionalPositiveInteger(child_element, "TIMESTAMP-INTERVAL", cast(Integer, connection.getTimestampInterval()))
 
+    def writeIEEE1722TpAafConnection(self, element: ET.Element, connection: IEEE1722TpAafConnection):
+        self.logger.debug("Write IEEE1722TpAafConnection <%s>" % connection.getShortName())
+        child_element = ET.SubElement(element, "IEEE-1722-TP-AAF-CONNECTION")
+        self.writeIEEE1722TpAvConnection(child_element, connection)
+        aes3_data_type = connection.getAafAes3DataType()
+        if aes3_data_type is not None:
+            aes3_data_type_element = ET.SubElement(child_element, "AAF-AES-3-DATA-TYPE")
+            aes3_data_type_element.text = aes3_data_type.getValue()
+        aaf_format = connection.getAafFormat()
+        if aaf_format is not None:
+            aaf_format_element = ET.SubElement(child_element, "AAF-FORMAT")
+            aaf_format_element.text = aaf_format.getValue()
+        aaf_nominal_rate = connection.getAafNominalRate()
+        if aaf_nominal_rate is not None:
+            aaf_nominal_rate_element = ET.SubElement(child_element, "AAF-NOMINAL-RATE")
+            aaf_nominal_rate_element.text = aaf_nominal_rate.getValue()
+        self.setChildElementOptionalPositiveInteger(child_element, "AES-3-DATA-TYPE-H", cast(Integer, connection.getAes3DataTypeH()))
+        self.setChildElementOptionalPositiveInteger(child_element, "AES-3-DATA-TYPE-L", cast(Integer, connection.getAes3DataTypeL()))
+        self.setChildElementOptionalPositiveInteger(child_element, "CHANNELS-PER-FRAME", cast(Integer, connection.getChannelsPerFrame()))
+        self.setChildElementOptionalPositiveInteger(child_element, "EVENT-DEFAULT-VALUE", cast(Integer, connection.getEventDefaultValue()))
+        self.setChildElementOptionalPositiveInteger(child_element, "PCM-BIT-DEPTH", cast(Integer, connection.getPcmBitDepth()))
+        self.setChildElementOptionalBooleanValue(child_element, "SPARSE-TIMESTAMP-ENABLED", connection.getSparseTimestampEnabled())
+        self.setChildElementOptionalPositiveInteger(child_element, "STREAMS-PER-FRAME", cast(Integer, connection.getStreamsPerFrame()))
+
     def writeFrameTriggering(self, element: ET.Element, triggering: FrameTriggering):
         self.writeIdentifiable(element, triggering)
         ref_list = triggering.getFramePortRefs()
@@ -19832,6 +19857,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeJ1939TpConfig(element, ar_element)
         elif isinstance(ar_element, IEEE1722TpCrfConnection):
             self.writeIEEE1722TpCrfConnection(element, ar_element)
+        elif isinstance(ar_element, IEEE1722TpAafConnection):
+            self.writeIEEE1722TpAafConnection(element, ar_element)
         elif isinstance(ar_element, IEEE1722TpConfig):
             self.writeIEEE1722TpConfig(element, ar_element)
         elif isinstance(ar_element, LinCluster):

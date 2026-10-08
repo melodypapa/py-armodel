@@ -3023,10 +3023,6 @@ class GlobalTimePortRoleEnum(AREnum):
         )
 
 
-class IEEE1722TpAafAes3DataTypeEnum(AREnum):
-    pass
-
-
 class IEEE1722TpAcfCanMessageTypeEnum(AREnum):
     pass
 

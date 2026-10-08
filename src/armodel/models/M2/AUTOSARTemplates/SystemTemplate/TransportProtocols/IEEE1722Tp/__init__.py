@@ -250,6 +250,8 @@ class IEEE1722TpAvConnection(IEEE1722TpConnection, ABC):
 
 
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols.IEEE1722Tp.IEEE1722TpAv import (  # noqa: E402
+    IEEE1722TpAafAes3DataTypeEnum as IEEE1722TpAafAes3DataTypeEnum,
+    IEEE1722TpAafConnection as IEEE1722TpAafConnection,
     IEEE1722TpAafFormatEnum as IEEE1722TpAafFormatEnum,
     IEEE1722TpAafNominalRateEnum as IEEE1722TpAafNominalRateEnum,
     IEEE1722TpCrfConnection as IEEE1722TpCrfConnection,

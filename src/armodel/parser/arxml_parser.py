@@ -1624,6 +1624,10 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import
     IEEE1722TpConfig,
     IEEE1722TpConnection,
     IEEE1722TpAvConnection,
+    IEEE1722TpAafConnection,
+    IEEE1722TpAafAes3DataTypeEnum,
+    IEEE1722TpAafFormatEnum,
+    IEEE1722TpAafNominalRateEnum,
     IEEE1722TpCrfConnection,
     IEEE1722TpCrfPullEnum,
     IEEE1722TpCrfTypeEnum,
@@ -14996,6 +15000,31 @@ class ARXMLParser(AbstractARXMLParser):
         connection.setFrameSyncEnabled(self.getChildElementOptionalBooleanValue(element, "FRAME-SYNC-ENABLED"))
         connection.setTimestampInterval(self.getChildElementOptionalPositiveInteger(element, "TIMESTAMP-INTERVAL"))
 
+    def readIEEE1722TpAafConnection(self, element: ET.Element, connection: IEEE1722TpAafConnection):
+        self.readIEEE1722TpAvConnection(element, connection)
+        aes3_data_type_literal = self.getChildElementOptionalLiteral(element, "AAF-AES-3-DATA-TYPE")
+        if aes3_data_type_literal is not None:
+            aes3_data_type = IEEE1722TpAafAes3DataTypeEnum()
+            aes3_data_type.setValue(aes3_data_type_literal.getValue())
+            connection.setAafAes3DataType(aes3_data_type)
+        aaf_format_literal = self.getChildElementOptionalLiteral(element, "AAF-FORMAT")
+        if aaf_format_literal is not None:
+            aaf_format = IEEE1722TpAafFormatEnum()
+            aaf_format.setValue(aaf_format_literal.getValue())
+            connection.setAafFormat(aaf_format)
+        aaf_nominal_rate_literal = self.getChildElementOptionalLiteral(element, "AAF-NOMINAL-RATE")
+        if aaf_nominal_rate_literal is not None:
+            aaf_nominal_rate = IEEE1722TpAafNominalRateEnum()
+            aaf_nominal_rate.setValue(aaf_nominal_rate_literal.getValue())
+            connection.setAafNominalRate(aaf_nominal_rate)
+        connection.setAes3DataTypeH(self.getChildElementOptionalPositiveInteger(element, "AES-3-DATA-TYPE-H"))
+        connection.setAes3DataTypeL(self.getChildElementOptionalPositiveInteger(element, "AES-3-DATA-TYPE-L"))
+        connection.setChannelsPerFrame(self.getChildElementOptionalPositiveInteger(element, "CHANNELS-PER-FRAME"))
+        connection.setEventDefaultValue(self.getChildElementOptionalPositiveInteger(element, "EVENT-DEFAULT-VALUE"))
+        connection.setPcmBitDepth(self.getChildElementOptionalPositiveInteger(element, "PCM-BIT-DEPTH"))
+        connection.setSparseTimestampEnabled(self.getChildElementOptionalBooleanValue(element, "SPARSE-TIMESTAMP-ENABLED"))
+        connection.setStreamsPerFrame(self.getChildElementOptionalPositiveInteger(element, "STREAMS-PER-FRAME"))
+
     def readCanFrame(self, element: ET.Element, frame: CanFrame):
         self.logger.debug("Read CanFrame <%s>" % frame.getShortName())
         self.readFrame(element, frame)
@@ -19397,6 +19426,8 @@ class ARXMLParser(AbstractARXMLParser):
                 self.readIEEE1722TpConfig(child_element, parent.createIEEE1722TpConfig(self.getShortName(child_element)))
             elif tag_name == "IEEE-1722-TP-CRF-CONNECTION":
                 self.readIEEE1722TpCrfConnection(child_element, parent.createIEEE1722TpCrfConnection(self.getShortName(child_element)))
+            elif tag_name == "IEEE-1722-TP-AAF-CONNECTION":
+                self.readIEEE1722TpAafConnection(child_element, parent.createIEEE1722TpAafConnection(self.getShortName(child_element)))
             elif tag_name == "CLIENT-ID-DEFINITION-SET":
                 id_definition_set = parent.createClientIdDefinitionSet(self.getShortName(child_element))
                 self.readClientIdDefinitionSet(child_element, id_definition_set)

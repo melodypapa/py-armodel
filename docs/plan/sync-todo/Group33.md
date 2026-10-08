@@ -893,15 +893,40 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `IEEE1722TpAafConnection` — IEEE1722TpAvConnection — R23-11 CP_TPS_SystemTemplate Table 6.280, p.643
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note: Step 1 finding — module hint ARPackage.py overridden — spec Package row
+    ...TransportProtocols::IEEE1722Tp::IEEE1722TpAv -> `TransportProtocols/IEEE1722Tp/IEEE1722TpAv.py`
+    (Rule 0007, CrfConnection precedent). Base row most-derived = IEEE1722TpAvConnection (hint
+    confirmed); concrete (XSD abstract="false") — no TypeError guard. 10 attrs, all 0..1 attr, in
+    displayed order (= XSD element order): aafAes3DataType (IEEE1722TpAafAes3DataTypeEnum), aafFormat
+    (IEEE1722TpAafFormatEnum), aafNominalRate (IEEE1722TpAafNominalRateEnum), aes3DataTypeH,
+    aes3DataTypeL, channelsPerFrame, eventDefaultValue, pcmBitDepth, sparseTimestampEnabled (Boolean),
+    streamsPerFrame (PositiveInteger x7). No VARIATION-POINT in the XSD group -> no mixin; no
+    XSD-only extras; no atp.Status="removed". Aggregated by ARPackage.element ->
+    ARPackage.createIEEE1722TpAafConnection + IEEE-1722-TP-AAF-CONNECTION dispatch. aafAes3DataType
+    types IEEE1722TpAafAes3DataTypeEnum — its own Group33 row is still a PrimitiveTypes.py stub, so
+    the enum is synced in the SAME commit (Rule 0001.10; FrArTpAckType/MaximumMessageLengthType
+    rode-the-channel-commit precedent) to keep the connection's typed read/write green.
+    Markdown-corpus cleanup: the Table 6.280 caption was rendered as a `## Table 6.280:` heading
+    (markdown conversion artifact, Table 6.278 precedent) — normalized to plain `Table 6.280:` form
+    (caption text unchanged).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
+    - Note: no code-shape deviations — field↔spec verified both directions (10 attrs, Optional quota
+      shapes match Mult. 0..1, verbatim Notes incl. the "multicannel" spec typo and the markdown's
+      line-split attribute renderings aafAes3Data Type / channelsPer Frame / eventDefault Value /
+      sparse Timestamp Enabled, resolved to the XSD mmt.qualifiedName spellings). Reader reads the
+      base readIEEE1722TpAvConnection exactly once; writer emits via writeIEEE1722TpAvConnection;
+      XML element order = XSD group order = displayed order. Enum values serialize as value form
+      (AAF-AES-3-DATA-TYPE / AAF-FORMAT / AAF-NOMINAL-RATE). Concrete class (XSD abstract="false") —
+      no TypeError guard; ARPackage factory createIEEE1722TpAafConnection + IEEE-1722-TP-AAF-CONNECTION
+      reader/writer dispatch added. Stub-registry tuple removed (ARPackage.py stub deleted).
 
 - [ ] `IEEE1722TpAafNominalRateEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 6.281, p.644
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
@@ -931,15 +956,28 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `IEEE1722TpAafAes3DataTypeEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 6.283, p.645
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note: synced in the IEEE1722TpAafConnection commit as a Rule 0001.10 dependency
+    (IEEE1722TpAafConnection.aafAes3DataType types this enum and the PrimitiveTypes.py stub was not
+    instantiable — FrArTpAckType/MaximumMessageLengthType ride-along precedent). Module hint
+    PrimitiveTypes.py overridden — spec Package row ...IEEE1722Tp::IEEE1722TpAv ->
+    `TransportProtocols/IEEE1722Tp/IEEE1722TpAv.py` (Rule 0007); PrimitiveTypes.py stub +
+    stub-registry tuple removed. 5 literals; member values = exact XSD facets
+    (IEEE-1722-TP-AAF-AES-3-DATA-TYPE-ENUM--SIMPLE: IEC-61937, PCM, SMPTE-338, UNSPECIFIED, VENDOR);
+    XSD facet order = displayed markdown order; member names from the markdown literals with the
+    ENUM_ prefix (iec61937 -> ENUM_IEC61937, smpte338 -> ENUM_SMPTE338).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A standalone enum (value form on IEEE1722TpAafConnection.aafAes3DataType)
+  - [x] Step 6 — Update parser & writer (Green) — N/A standalone enum (value form on IEEE1722TpAafConnection.aafAes3DataType)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; Steps 5/6 N/A (standalone enum, round-trips as value form on IEEE1722TpAafConnection.aafAes3DataType); 9b deferred to batch confirmation (user instruction)
+    - Note: no deviations — literal set = Table 6.283 Literal rows 1:1 (iec61937, pcm, smpte338,
+      unspecified, vendor), values = exact XSD IEEE-1722-TP-AAF-AES-3-DATA-TYPE-ENUM--SIMPLE facets,
+      member comments carry the literal descriptions + atp.EnumerationLiteralIndex verbatim;
+      instantiability + value round-trip covered by the mirrored test.
 
 - [ ] `IEEE1722TpIidcConnection` — IEEE1722TpAvConnection — R23-11 CP_TPS_SystemTemplate Table 6.284, p.648
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
