@@ -1956,6 +1956,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setJ1939NodeName(self, element: ET.Element, key: str, node_name: Optional[J1939NodeName]):
         if node_name is not None:
             child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, node_name)
             self.setChildElementOptionalBooleanValue(child_element, "ARBITRARY-ADDRESS-CAPABLE", node_name.getArbitraryAddressCapable())
             self.setChildElementOptionalIntegerValue(child_element, "ECU-INSTANCE", node_name.getEcuInstance())
             self.setChildElementOptionalIntegerValue(child_element, "FUNCTION", node_name.getFunction())

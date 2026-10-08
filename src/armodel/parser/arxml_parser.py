@@ -2249,6 +2249,7 @@ class ARXMLParser(AbstractARXMLParser):
         node_name = None
         if child_element is not None:
             node_name = J1939NodeName()
+            self.readARObject(child_element, node_name)
             node_name.setArbitraryAddressCapable(self.getChildElementOptionalBooleanValue(child_element, "ARBITRARY-ADDRESS-CAPABLE"))
             node_name.setEcuInstance(self.getChildElementOptionalIntegerValue(child_element, "ECU-INSTANCE"))
             node_name.setFunction(self.getChildElementOptionalIntegerValue(child_element, "FUNCTION"))

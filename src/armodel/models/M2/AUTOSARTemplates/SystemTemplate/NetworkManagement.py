@@ -579,29 +579,28 @@ class J1939NodeName(ARObject):
     This element contains attributes to configure the J1939NmNode NAME.
     """
 
-    # Spec verified: R23-11
     # J1939NodeName method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.321, p.691
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getArbitraryAddressCapable                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setArbitraryAddressCapable                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getEcuInstance                                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setEcuInstance                                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getFunction                                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setFunction                                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getFunctionInstance                               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setFunctionInstance                               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getIdentitiyNumber                                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setIdentitiyNumber                                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getIndustryGroup                                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setIndustryGroup                                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getManufacturerCode                               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setManufacturerCode                               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getVehicleSystem                                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setVehicleSystem                                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getVehicleSystemInstance                          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setVehicleSystemInstance                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.321, p.692
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getArbitraryAddressCapable  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setArbitraryAddressCapable  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEcuInstance              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEcuInstance              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFunction                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFunction                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFunctionInstance         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFunctionInstance         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIdentitiyNumber          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIdentitiyNumber          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIndustryGroup            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIndustryGroup            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getManufacturerCode         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setManufacturerCode         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVehicleSystem            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setVehicleSystem            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVehicleSystemInstance    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setVehicleSystemInstance    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()

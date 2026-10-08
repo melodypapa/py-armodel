@@ -1555,15 +1555,29 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `J1939NodeName` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.321, p.692
   - module: M2/AUTOSARTemplates/SystemTemplate/NetworkManagement.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note: drift re-sync of a pre-existing implementation — stale `# Spec verified: R23-11`
+    marker removed at session start (Rule 0023/0012.3); legacy 5-column checklist upgraded to
+    6-column; the `# Spec:` page corrected p.691 → p.692 (pdf_page.py --table 6.321). Step 1
+    finding — the ARObject hint is CONFIRMED by both the table Base row and the XSD complexType
+    (groups AR-OBJECT + J-1939-NODE-NAME only; abstract="false", no TypeError guard). The
+    markdown renders Table 6.321's metadata block + first 7 attr rows ABOVE its caption (under
+    the Table 6.320 heading) and the last 2 rows under the caption — page-split artifact, same
+    shift as Table 6.320. All 9 attrs 0..1 in displayed order == XSD element order (incl. the
+    spec's own `identitiyNumber` spelling, kept). Section-text blocks constr_3102/5029/3103/3104
+    render after the Table 6.322 enum body — outside Table 6.321's row group, NOT appended to
+    the docstring (AcfCanPart constr_3760 precedent). Steps 5/6: getJ1939NodeName/setJ1939NodeName
+    covered all 9 fields but skipped the ARObject level — both now call readARObject/
+    writeARObject (Rule 0025), pinned by new parser/writer S/T round-trip tests (NODE-NAME
+    emitted under J1939NmNode.nodeName only).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `J1939NmAddressConfigurationCapabilityEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 6.322, p.692
   - module: M2/AUTOSARTemplates/SystemTemplate/NetworkManagement.py
