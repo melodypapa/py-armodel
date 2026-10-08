@@ -866,17 +866,42 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
     isinstance branch). No referenced-but-missing classes.
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-08 (23463 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 75a272e53
 
-- [ ] `PduToFrameMapping` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.29, p.347
+- [x] `PduToFrameMapping` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.29, p.347 (sync commit a8e5ac35e)
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - Note: legacy 5-col checklist + stale `# Spec verified: R23-11` removed at entry
+    (Rule 0023). Own table = CP_TPS SystemTemplate Table 6.29, p.347; Base
+    most-derived = `Identifiable` + `VariationPointCapable` mixin (XSD group
+    PDU-TO-FRAME-MAPPING l.88686 carries VARIATION-POINT, Applicable for
+    Frame.pduToFrameMapping — Rule 0020). 4 attrs, all 0..1: packingByteOrder
+    (ByteOrderEnum), pdu (Pdu, ref → pduRef/RefType, DEST=PDU--SUBTYPES-ENUM),
+    startPosition/updateIndicationBitPosition (Integer). Member set/names/types
+    already match spec; no XSD-only attrs, no atp.Status=removed. Reader/writer
+    child order already matches XSD sequenceOffset; drift = docstrings missing
+    markdown wrap artifacts + legacy checklist. Markdown note ends at
+    `glyph[triangleinv]` footnote marker (dropped per repo-wide precedent; XSD
+    documentation continues past it).
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - Deviation: none for the class — no naming/type/missing rows, no Rule 0001.10
+    placeholders; referenced types (ByteOrderEnum, Integer, RefType, Identifiable,
+    VariationPointCapable) all exist and are synced. Notes for batch 9b: (a) the
+    R23-11 markdown updateIndicationBitPosition cell ends at the `glyph[triangleinv]`
+    footnote marker — token dropped, cell text copied verbatim up to it (repo-wide
+    precedent: no stamped model carries a `glyph[` token); the XSD documentation
+    continues past the footnote ("packed signals within the IPdu … sawtooth …") —
+    not merged, markdown is authoritative (Rule 0015). (b) audit BASE writer WARN is
+    a name-guess false positive — writePduToFrameMappings calls writeIdentifiable
+    directly on the mapping (pinned by test_round_trip_base_level_attributes).
+    (c) sibling reconcile note (Frame's own Table 6.78 row, still pending):
+    Frame.getPduToFrameMappings() filters referrableElements instead of returning
+    its dedicated pduToFrameMappings field (Rule 0004 shape).
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-08 (23484 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit a8e5ac35e
 
 - [ ] `IPduTiming` — Describable — R23-11 CP_TPS_SystemTemplate Table 6.30, p.348
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
