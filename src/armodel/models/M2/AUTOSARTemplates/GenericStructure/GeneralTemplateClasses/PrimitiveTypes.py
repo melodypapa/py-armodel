@@ -2842,7 +2842,33 @@ class EthGlobalTimeMessageFormatEnum(AREnum):
 
 
 class FMFeatureSelectionState(AREnum):
-    pass
+    """
+    Defines how a particular FMFeature contributes to a FMFSelectionSet.
+    """
+
+    # FMFeatureSelectionState method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf, Table 5.3, p.41
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — serialized as value form on FMFeatureSelection.state
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # The feature is excluded from the selection. Tags: atp.EnumerationLiteralIndex=0
+    DESELECTED = "DESELECTED"
+
+    # The feature is included in the selection. Tags: atp.EnumerationLiteralIndex=1
+    SELECTED = "SELECTED"
+
+    # It is not yet decided whether the feature shall be included into or excluded from the selection. Tags: atp.EnumerationLiteralIndex=2
+    UNDECIDED = "UNDECIDED"
+
+    def __init__(self):
+        super().__init__(
+            [
+                FMFeatureSelectionState.DESELECTED,
+                FMFeatureSelectionState.SELECTED,
+                FMFeatureSelectionState.UNDECIDED,
+            ]
+        )
 
 
 class FrArTpAckType(AREnum):
