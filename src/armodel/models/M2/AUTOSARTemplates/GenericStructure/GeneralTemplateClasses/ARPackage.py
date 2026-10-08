@@ -2386,6 +2386,14 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(selection_set)
         return cast(FMFeatureSelectionSet, self.getReferrableElement(short_name, FMFeatureSelectionSet))
 
+
+    def createFMFeatureMap(self, short_name: str) -> FMFeatureMap:
+
+        if not self.IsReferrableElementExists(short_name, FMFeatureMap):
+            feature_map = FMFeatureMap(self, short_name)
+            self.addReferrableElement(feature_map)
+        return cast(FMFeatureMap, self.getReferrableElement(short_name, FMFeatureMap))
+
     def createSystemTiming(self, short_name: str) -> SystemTiming:
 
         if not self.IsReferrableElementExists(short_name, SystemTiming):
@@ -11721,7 +11729,35 @@ class FMFeature(ARElement):
 
 
 class FMFeatureMap(ARElement):
-    pass
+    """
+    A FMFeatureMap associates FMFeatures with variation points in the AUTOSAR model. To do this, it defines value sets for system constants and postbuild variant criterions that shall be chosen whenever a certain combination of features (and system constants) is encountered. Tags: atp.recommendedPackage=FMFeatureMaps
+    """
+
+    # FMFeatureMap method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf, Table 6.1, p.53
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addMapping     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMappings    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Set of mappings defined by this FMFeatureMap.
+        self.mappings: List[FMFeatureMapElement] = []
+
+    def addMapping(self, value: FMFeatureMapElement) -> FMFeatureMap:
+        """
+        Set of mappings defined by this FMFeatureMap.
+        """
+        self.mappings.append(value)
+        return self
+
+    def getMappings(self) -> List[FMFeatureMapElement]:
+        """
+        Set of mappings defined by this FMFeatureMap.
+        """
+        return self.mappings
 
 
 class FMFeatureModel(ARElement):

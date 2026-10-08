@@ -424,7 +424,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (
     EvaluatedVariantSet,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, FMFeature, FMFeatureModel, FMFeatureSelectionSet, ReferenceBase
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, FMFeature, FMFeatureMap, FMFeatureModel, FMFeatureSelectionSet, ReferenceBase
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import AclObjectSet, AclOperation, AclPermission, AclRole
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import DiagnosticCustomServiceInstance, DiagnosticMapping
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
@@ -2266,6 +2266,17 @@ class ARXMLWriter(AbstractARXMLWriter):
                 selections_tag = ET.SubElement(child_element, "SELECTIONS")
                 for selection in selections:
                     self.writeFMFeatureSelection(selections_tag, selection)
+
+
+    def writeFMFeatureMap(self, element: ET.Element, feature_map: FMFeatureMap):
+        if feature_map is not None:
+            child_element = ET.SubElement(element, "FM-FEATURE-MAP")
+            self.writeIdentifiable(child_element, feature_map)
+            mappings = feature_map.getMappings()
+            if len(mappings) > 0:
+                mappings_tag = ET.SubElement(child_element, "MAPPINGS")
+                for map_element in mappings:
+                    self.writeFMFeatureMapElement(mappings_tag, map_element)
 
     def writePostBuildVariantCondition(self, element: ET.Element, condition: PostBuildVariantCondition):
         child_element = ET.SubElement(element, "POST-BUILD-VARIANT-CONDITION")
@@ -20133,6 +20144,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeFMFeatureModel(element, ar_element)
         elif isinstance(ar_element, FMFeatureSelectionSet):
             self.writeFMFeatureSelectionSet(element, ar_element)
+        elif isinstance(ar_element, FMFeatureMap):
+            self.writeFMFeatureMap(element, ar_element)
         elif isinstance(ar_element, SystemTiming):
             self.writeSystemTiming(element, ar_element)
         elif isinstance(ar_element, BswModuleTiming):

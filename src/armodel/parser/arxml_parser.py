@@ -623,7 +623,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (
     EvaluatedVariantSet,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, CalibrationParameterValueSet, FMFeature, FMFeatureModel, FMFeatureSelectionSet, PhysicalDimensionMappingSet, ReferenceBase
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, CalibrationParameterValueSet, FMFeature, FMFeatureMap, FMFeatureModel, FMFeatureSelectionSet, PhysicalDimensionMappingSet, ReferenceBase
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import AclObjectSet, AclOperation, AclPermission, AclRole
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import DiagnosticCustomServiceInstance, DiagnosticMapping
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
@@ -2510,6 +2510,14 @@ class ARXMLParser(AbstractARXMLParser):
             self.readFMFeatureSelection(child_element, selection)
             selection_set.addSelection(selection)
         return selection_set
+
+    def readFMFeatureMap(self, element: ET.Element, feature_map: FMFeatureMap) -> FMFeatureMap:
+        self.readIdentifiable(element, feature_map)
+        for child_element in self.findall(element, "MAPPINGS/FM-FEATURE-MAP-ELEMENT"):
+            map_element = FMFeatureMapElement(feature_map, self.getShortName(child_element))
+            self.readFMFeatureMapElement(child_element, map_element)
+            feature_map.addMapping(map_element)
+        return feature_map
 
     def getBindingTimeEnumElement(self, element: ET.Element, key: str) -> Optional[BindingTimeEnum]:
         literal = self.getChildElementOptionalLiteral(element, key)
@@ -19657,6 +19665,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "FM-FEATURE-SELECTION-SET":
                 selection_set = parent.createFMFeatureSelectionSet(self.getShortName(child_element))
                 self.readFMFeatureSelectionSet(child_element, selection_set)
+            elif tag_name == "FM-FEATURE-MAP":
+                feature_map = parent.createFMFeatureMap(self.getShortName(child_element))
+                self.readFMFeatureMap(child_element, feature_map)
             elif tag_name == "SYSTEM-TIMING":
                 system_timing = parent.createSystemTiming(self.getShortName(child_element))
                 self.readSystemTiming(child_element, system_timing)
