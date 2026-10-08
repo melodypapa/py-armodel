@@ -1673,7 +1673,7 @@ Status: **0/75** completed
 
 ## Group31
 
-Status: **3/75** completed
+Status: **4/75** completed
 
 | Class Name                                               | Status          | Commit ID  |
 | -------------------------------------------------------- | --------------- | ---------- |
@@ -1709,7 +1709,7 @@ Status: **3/75** completed
 | `ISignalTypeEnum`                                        | [x] Done*       | 3bf0b50440 |
 | `ISignalProps`                                           | [ ] Pending*    | 724ee746c9 |
 | `ISignalGroup`                                           | [x] Done*       | 9e6350c7c6 |
-| `SystemSignalGroup`                                      | [ ] Implemented | N/A        |
+| `SystemSignalGroup`                                      | [x] Done*       | bf1e679967 |
 | `ISignalToIPduMapping`                                   | [ ] Implemented | N/A        |
 | `ISignalTriggering`                                      | [ ] Implemented | N/A        |
 | `Pdu`                                                    | [ ] Implemented | N/A        |

@@ -499,17 +499,32 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-08 (23299 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 9e6350c7c
 
-- [ ] `SystemSignalGroup` — ARElement — R23-11 CP_TPS_SystemTemplate Table 6.13, p.324
+- [x] `SystemSignalGroup` — ARElement — R23-11 CP_TPS_SystemTemplate Table 6.13, p.324
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: own table = CP_TPS_SystemTemplate Table 6.13, p.324; concrete Class; Base
+    most-derived = `ARElement` (current base correct); exactly 2 spec attrs
+    (`systemSignal` `*` ref, `transformingSystemSignal` 0..1 ref) — no flattening;
+    XSD group SYSTEM-SIGNAL-GROUP (AUTOSAR_00052.xsd l.119828): SYSTEM-SIGNAL-REFS
+    wrapper then TRANSFORMING-SYSTEM-SIGNAL-REF; no VARIATION-POINT (not
+    VP-capable); entry audit FAIL (legacy 5-col checklist, Rule 0023) + stale
+    marker removed at session start; drift = checklist format + addXxx None no-op.
+  - Deviation: none — fixed in-pass: `addSystemSignalRef` gained the Rule 0004 None
+    no-op + `Optional[RefType]` param; legacy test mirrored to the
+    CoreCommunication home (legacy block in test_CoreCommunication.py kept, per the
+    ISignalGroup precedent); dedicated parser/writer round-trip tests added
+    (field values, XSD child order, empty-wrapper case); reader/writer coverage
+    already complete — no parser/writer change (ARPackage dispatch already real on
+    both sides); referenced classes (RefType, ARElement chain) all exist — no
+    Rule 0001.10 placeholders.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-08 (23314 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit bf1e67996
 
 - [ ] `ISignalToIPduMapping` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.14, p.326
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
