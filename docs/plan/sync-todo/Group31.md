@@ -1153,15 +1153,56 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `CryptoServiceKey` — ARElement — R23-11 CP_TPS_SystemTemplate Table 6.51, p.377
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: own table = CP_TPS_SystemTemplate Table 6.51, p.377
+    (pdf_page.py); header `Class` → concrete ARElement confirmed (Rule 0001.1);
+    Base row = ARElement, ARObject, CollectableElement, Identifiable,
+    MultilanguageReferrable, PackageableElement, Referrable,
+    UploadableDesignElement, UploadablePackageElement — most-derived ARElement
+    (spec-verified; matches current home, no flattening). Note "This meta-class
+    has the ability to represent a crypto key. Tags:
+    atp.recommendedPackage=CryptoDevelopmentKeys" (tail kept per 0012.2.5.3);
+    class-level constraints constr_5334 (length multiple of 8) + constr_9206
+    (length existence) appended to the class docstring (Rule 0012.2.4). 5
+    attribute rows in displayed order = XSD group CRYPTO-SERVICE-KEY order
+    (AUTOSAR_00052.xsd l.26314): algorithmFamily (String), developmentValue
+    (ValueSpecification 0..1 aggr — polymorphic 12-subtype XSD choice; shared
+    getChildValueSpecification/setChildValueSpecification infra exists),
+    keyGeneration (CryptoServiceKeyGenerationEnum — STUB, queued next row),
+    keyStorageType (String), length (PositiveInteger); all 0..1. No
+    atp.Status="removed" elements in the group; not VP-capable (no
+    VARIATION-POINT anchor); Aggregated by ARPackage.element — ARPackage
+    createCryptoServiceKey factory + parser tag branch + writer isinstance
+    branch currently MISSING (class was a whole-class stub; entry audit FAIL
+    BLOCK). XSD-only DEVELOPMENT-VALUE doc elaboration ("variation point ... shall
+    not exist in models. See constr_2638"; vh.variationPointApplicable=false) not
+    modeled — markdown Note authoritative (Rule 0015).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — wipe is a no-op: the class was a whole-class stub (`pass`, no docstrings/comments); all docstrings written fresh verbatim from the markdown
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - Deviation: none in scope — all 5 spec attributes fully modeled (field + typed
+    accessors + reader/writer each; XSD group order on both sides). Referenced-but-stub
+    member type (Rule 0001.10 relaxation, one-class-per-session):
+    `CryptoServiceKeyGenerationEnum` exists as `class CryptoServiceKeyGenerationEnum(AREnum):
+    pass` (no literals/marker) and is queued as its own row (Table 6.52, next) —
+    keyGeneration references the real class name (`Optional[CryptoServiceKeyGenerationEnum]`,
+    no placeholder substitution); the reader materializes the literal via
+    `getChildElementOptionalLiteral` + `cast` and the tests construct the XSD facet value
+    as typed `ARLiteral().setValue("KEY-DERIVATION")` (DiagPduType/DcmIPdu precedent)
+    until the enum's own sync lands, then switch to enum constants. No
+    atp.Status="removed" elements in the CRYPTO-SERVICE-KEY group; no XSD-only
+    attributes (Rule 0015 clean); not VP-capable (no VARIATION-POINT anchor in the group
+    or complexType). Consumer dispatch: ARPackage createCryptoServiceKey factory (new) +
+    parser CRYPTO-SERVICE-KEY tag branch + writer CryptoServiceKey isinstance branch
+    added full-level both sides (class was a whole-class stub — nothing identity-only to
+    upgrade); developmentValue uses the shared polymorphic
+    getChildValueSpecification/setChildValueSpecification dispatchers (12-subtype
+    ValueSpecification choice).
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-08 (23622 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 7f0ee1067
 
 - [ ] `CryptoServiceKeyGenerationEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 6.52, p.378
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py

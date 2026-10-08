@@ -1731,7 +1731,7 @@ Status: **17/75** completed
 | `SecureCommunicationPropsSet`                            | [ ] Pending*    | ac09333846 |
 | `SecureCommunicationFreshnessProps`                      | [ ] Pending*    | 748ee0ad2c |
 | `SecureCommunicationAuthenticationProps`                 | [ ] Pending*    | 56bcc7567c |
-| `CryptoServiceKey`                                       | [ ] Created     | N/A        |
+| `CryptoServiceKey`                                       | [ ] Pending*    | 7f0ee10676 |
 | `CryptoServiceKeyGenerationEnum`                         | [ ] Created     | N/A        |
 | `CryptoServiceQueue`                                     | [ ] Created     | N/A        |
 | `GeneralPurposeConnection`                               | [ ] Created     | N/A        |
