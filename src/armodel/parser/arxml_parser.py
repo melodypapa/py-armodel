@@ -14408,7 +14408,7 @@ class ARXMLParser(AbstractARXMLParser):
     def readNmCoordinator(self, element: ET.Element, coordinator: NmCoordinator):
         self.readARObject(element, coordinator)
         for ref in self.getChildElementRefTypeList(element, "NM-NODE-REFS/NM-NODE-REF"):
-            coordinator.addNmNode(ref)
+            coordinator.addNmNodeRef(ref)
         coordinator.setIndex(self.getChildElementOptionalIntegerValue(element, "INDEX"))
         coordinator.setNmCoordSyncSupport(self.getChildElementOptionalBooleanValue(element, "NM-COORD-SYNC-SUPPORT"))
         coordinator.setNmGlobalCoordinatorTime(self.getChildElementOptionalTimeValue(element, "NM-GLOBAL-COORDINATOR-TIME"))

@@ -1413,15 +1413,26 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `NmCoordinator` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.302, p.675
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note: Step 1 finding — spec Package row = SystemTemplate::NetworkManagement (Rule 0007), so the
+    ArObject.py hint is stale; the class stays in NetworkManagement.py next to the NmEcu family.
+    Base row ARObject confirmed (XSD complexType NM-COORDINATOR L84589 abstract="false" — concrete,
+    no TypeError guard). Table 6.302's Note column is EMPTY → attribute docstrings are the XSD
+    element documentation verbatim (TpConfig/FlexrayTpNode precedent). 4 attrs in displayed order
+    (index, nmCoordSyncSupport, nmGlobalCoordinatorTime, nmNode `*` ref). Rule 0001.5 rename
+    (to-fix): nmNodes/addNmNode/getNmNodes → nmNodeRefs/addNmNodeRef/getNmNodeRefs (rxNmPduRefs
+    precedent), parser/writer/tests updated. XSD-only NM-ACTIVE-COORDINATOR and
+    NM-SHUTDOWN-DELAY-TIMER carry atp.Status="removed" and are absent from the PDF table — NOT
+    modeled (Rule 0015). No VARIATION-POINT in the group → no mixin. Writer element order per XSD
+    sequenceOffset: INDEX, NM-COORD-SYNC-SUPPORT, NM-GLOBAL-COORDINATOR-TIME, NM-NODE-REFS.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `NmNode` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 6.303, p.676
   - module: M2/AUTOSARTemplates/SystemTemplate/NetworkManagement.py

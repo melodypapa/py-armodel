@@ -10304,7 +10304,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalIntegerValue(child_element, "INDEX", coordinator.getIndex())
         self.setChildElementOptionalBooleanValue(child_element, "NM-COORD-SYNC-SUPPORT", coordinator.getNmCoordSyncSupport())
         self.setChildElementOptionalTimeValue(child_element, "NM-GLOBAL-COORDINATOR-TIME", coordinator.getNmGlobalCoordinatorTime())
-        refs = coordinator.getNmNodes()
+        refs = coordinator.getNmNodeRefs()
         if len(refs) > 0:
             refs_tag = ET.SubElement(child_element, "NM-NODE-REFS")
             for ref in refs:

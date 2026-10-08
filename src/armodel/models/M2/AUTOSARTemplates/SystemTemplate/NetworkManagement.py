@@ -1031,8 +1031,8 @@ class NmCoordinator(ARObject):
     # [x] setNmCoordSyncSupport       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getNmGlobalCoordinatorTime  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setNmGlobalCoordinatorTime  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] addNmNode                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getNmNodes                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addNmNodeRef                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNmNodeRefs                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -1047,7 +1047,7 @@ class NmCoordinator(ARObject):
         self.nmGlobalCoordinatorTime: Optional[TimeValue] = None
 
         # reference to busses (via NmNodes) that are coordinated by the NmCoordinator.
-        self.nmNodes: List[RefType] = []
+        self.nmNodeRefs: List[RefType] = []
 
     def getIndex(self) -> Optional[Integer]:
         """
@@ -1094,20 +1094,20 @@ class NmCoordinator(ARObject):
             self.nmGlobalCoordinatorTime = value
         return self
 
-    def addNmNode(self, value: Optional[RefType]) -> NmCoordinator:
+    def addNmNodeRef(self, value: Optional[RefType]) -> NmCoordinator:
         """
         reference to busses (via NmNodes) that are coordinated by the NmCoordinator.
-        A None value is a no-op and does not extend the nmNodes list.
+        A None value is a no-op and does not extend the nmNodeRefs list.
         """
         if value is not None:
-            self.nmNodes.append(value)
+            self.nmNodeRefs.append(value)
         return self
 
-    def getNmNodes(self) -> List[RefType]:
+    def getNmNodeRefs(self) -> List[RefType]:
         """
         reference to busses (via NmNodes) that are coordinated by the NmCoordinator.
         """
-        return self.nmNodes
+        return self.nmNodeRefs
 
 
 class NmEcu(Identifiable, VariationPointCapable):
