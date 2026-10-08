@@ -1341,15 +1341,29 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `AbsoluteTolerance` — TimeRangeTypeTolerance — R23-11 CP_TPS_SystemTemplate Table 6.69, p.398
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/Timing.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: own table EXISTS (Table 6.69, p.398) — the legacy `# XSD verified:
+    AUTOSAR_00052.xsd` marker claiming "no own table in repo corpus" was stale
+    (same pattern as RelativeTolerance/Table 6.68); removed at entry (Rule 0023),
+    audit_stamped_classes baseline refreshed (unchanged — class not in the
+    known-failing set). Model already matched the table (field `absolute`
+    Optional[TimeValue], base `TimeRangeTypeTolerance`); accessor docstrings
+    missing, class docstring missing constr_9192.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-08 (23698 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit a371d1ab8
+  - Deviation: none — the model already matched its table (field `absolute`
+    Optional[TimeValue], None-no-op setter, base `TimeRangeTypeTolerance`); the
+    sync added the missing accessor docstrings, the constr_9192 class-docstring
+    row, the corrected `# Spec:` citation and the per-class parser/writer
+    round-trip tests. Stale `# XSD verified:` marker removed at entry (Rule 0023
+    removal + audit_stamped_classes baseline refresh — baseline unchanged). No
+    referenced-but-missing classes.
 
 - [ ] `Frame` — FibexElement — R23-11 CP_TPS_SystemTemplate Table 6.78, p.418
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py

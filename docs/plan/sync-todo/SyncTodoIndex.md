@@ -1736,7 +1736,7 @@ Status: **17/75** completed
 | `CryptoServiceQueue`                                     | [ ] Pending*    | eeb832d638 |
 | `GeneralPurposeConnection`                               | [ ] Pending*    | a8e970f876 |
 | `RelativeTolerance`                                      | [ ] Pending*    | 358656e2a4 |
-| `AbsoluteTolerance`                                      | [ ] Implemented | N/A        |
+| `AbsoluteTolerance`                                      | [ ] Pending*    | a371d1ab84 |
 | `Frame`                                                  | [ ] Implemented | N/A        |
 | `LinFrame`                                               | [ ] Implemented | N/A        |
 | `LinFrameTriggering`                                     | [ ] Implemented | N/A        |

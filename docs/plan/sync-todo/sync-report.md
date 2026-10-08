@@ -13,8 +13,8 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | [x] Done | 852 | 44.8% |
 | [x] Deferred | 42 | 2.2% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 838 | 44.1% |
-| [ ] Implemented | 28 | 1.5% |
+| [ ] Deferred | 839 | 44.1% |
+| [ ] Implemented | 27 | 1.4% |
 | [ ] Created | 142 | 7.5% |
 | [ ] Pending | 0 | 0.0% |
 
@@ -25,7 +25,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `ARObject`                                              | [x] Done    | 78ae363c75                               | Group1           |
 | `ARPackage`                                             | [x] Done    | 360648178f                               | Group1           |
 | `AUTOSAR`                                               | [x] Done    | 74f4d3c80a                               | Group1           |
-| `AbsoluteTolerance`                                     | [ ] Implemented| N/A                                      | Group31          |
+| `AbsoluteTolerance`                                     | [ ] Deferred| a371d1ab84                               | Group31          |
 | `AbstractAccessPoint`                                   | [x] Done    | e3d1262da1                               | Group22          |
 | `AbstractCanCluster`                                    | [ ] Deferred| b9599507f4                               | Group29          |
 | `AbstractCanCommunicationConnector`                     | [ ] Deferred| b6aaf97f5d                               | Group29          |
