@@ -24,6 +24,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     CategoryString,
     CIdentifier,
     CseCodeType,
+    DataConsistencyPolicyEnum,
     DateTime,
     DdsDestinationOrderKindEnum,
     DdsDurabilityKindEnum,
@@ -64,8 +65,14 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticWwhObdDtcClassEnum,
     DiagRequirementIdString,
     DisplayFormatString,
+    EthGlobalTimeMessageFormatEnum,
     Float,
     FrArTpAckType,
+    GlobalTimeCrcSupportEnum,
+    GlobalTimeCrcValidationEnum,
+    GlobalTimeIcvSupportEnum,
+    GlobalTimeIcvVerificationEnum,
+    GlobalTimePortRoleEnum,
     Identifier,
     Integer,
     IntervalTypeEnum,
@@ -90,6 +97,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     RegularExpression,
     RevisionLabelString,
     SectionInitializationPolicyType,
+    SendIndicationEnum,
     String,
     SymbolString,
     TimeValue,
@@ -3531,6 +3539,365 @@ class TestDdsHistoryKindEnum:
         enum.setValue(DdsHistoryKindEnum.KEEP_ALL)
 
         assert enum.getValue() == DdsHistoryKindEnum.KEEP_ALL
+
+
+class TestDataConsistencyPolicyEnum:
+    """
+    Test class for DataConsistencyPolicyEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 11.11, p.903
+    """
+
+    def test_initialization(self):
+        """
+        Test DataConsistencyPolicyEnum initialization with the spec literals in XSD facet order.
+        """
+        enum = DataConsistencyPolicyEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == [
+            DataConsistencyPolicyEnum.CONSISTENCY_MECHANISM_REQUIRED,
+            DataConsistencyPolicyEnum.NO_CONSISTENCY_MECHANISM,
+        ]
+
+    def test_enum_values(self):
+        """
+        Test DataConsistencyPolicyEnum member values.
+        """
+        enum = DataConsistencyPolicyEnum()
+
+        assert DataConsistencyPolicyEnum.CONSISTENCY_MECHANISM_REQUIRED == "CONSISTENCY-MECHANISM-REQUIRED"
+        assert DataConsistencyPolicyEnum.NO_CONSISTENCY_MECHANISM == "NO-CONSISTENCY-MECHANISM"
+
+        assert enum.validateEnumValue("CONSISTENCY-MECHANISM-REQUIRED") is True
+        assert enum.validateEnumValue("NO-CONSISTENCY-MECHANISM") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test DataConsistencyPolicyEnum instantiability and getValue.
+        """
+        enum = DataConsistencyPolicyEnum()
+        enum.setValue(DataConsistencyPolicyEnum.NO_CONSISTENCY_MECHANISM)
+
+        assert enum.getValue() == DataConsistencyPolicyEnum.NO_CONSISTENCY_MECHANISM
+
+
+class TestEthGlobalTimeMessageFormatEnum:
+    """
+    Test class for EthGlobalTimeMessageFormatEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.16, p.868
+    """
+
+    def test_initialization(self):
+        """
+        Test EthGlobalTimeMessageFormatEnum initialization with the spec literals in XSD facet order.
+        """
+        enum = EthGlobalTimeMessageFormatEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == [
+            EthGlobalTimeMessageFormatEnum.IEEE802_1AS,
+            EthGlobalTimeMessageFormatEnum.IEEE802_1AS_AUTOSAR,
+        ]
+
+    def test_enum_values(self):
+        """
+        Test EthGlobalTimeMessageFormatEnum member values.
+        """
+        enum = EthGlobalTimeMessageFormatEnum()
+
+        assert EthGlobalTimeMessageFormatEnum.IEEE802_1AS == "IEEE802-1AS"
+        assert EthGlobalTimeMessageFormatEnum.IEEE802_1AS_AUTOSAR == "IEEE802-1AS-AUTOSAR"
+
+        assert enum.validateEnumValue("IEEE802-1AS") is True
+        assert enum.validateEnumValue("IEEE802-1AS-AUTOSAR") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test EthGlobalTimeMessageFormatEnum instantiability and getValue.
+        """
+        enum = EthGlobalTimeMessageFormatEnum()
+        enum.setValue(EthGlobalTimeMessageFormatEnum.IEEE802_1AS_AUTOSAR)
+
+        assert enum.getValue() == EthGlobalTimeMessageFormatEnum.IEEE802_1AS_AUTOSAR
+
+
+class TestGlobalTimeCrcSupportEnum:
+    """
+    Test class for GlobalTimeCrcSupportEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.25, p.880
+    """
+
+    def test_initialization(self):
+        """
+        Test GlobalTimeCrcSupportEnum initialization with the spec literals in XSD facet order.
+        """
+        enum = GlobalTimeCrcSupportEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == [
+            GlobalTimeCrcSupportEnum.CRC_NOT_SUPPORTED,
+            GlobalTimeCrcSupportEnum.CRC_SUPPORTED,
+        ]
+
+    def test_enum_values(self):
+        """
+        Test GlobalTimeCrcSupportEnum member values.
+        """
+        enum = GlobalTimeCrcSupportEnum()
+
+        assert GlobalTimeCrcSupportEnum.CRC_NOT_SUPPORTED == "CRC-NOT-SUPPORTED"
+        assert GlobalTimeCrcSupportEnum.CRC_SUPPORTED == "CRC-SUPPORTED"
+
+        assert enum.validateEnumValue("CRC-NOT-SUPPORTED") is True
+        assert enum.validateEnumValue("CRC-SUPPORTED") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test GlobalTimeCrcSupportEnum instantiability and getValue.
+        """
+        enum = GlobalTimeCrcSupportEnum()
+        enum.setValue(GlobalTimeCrcSupportEnum.CRC_SUPPORTED)
+
+        assert enum.getValue() == GlobalTimeCrcSupportEnum.CRC_SUPPORTED
+
+
+class TestGlobalTimeCrcValidationEnum:
+    """
+    Test class for GlobalTimeCrcValidationEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.26, p.880
+    """
+
+    def test_initialization(self):
+        """
+        Test GlobalTimeCrcValidationEnum initialization with the spec literals in XSD facet order.
+        """
+        enum = GlobalTimeCrcValidationEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == [
+            GlobalTimeCrcValidationEnum.CRC_IGNORED,
+            GlobalTimeCrcValidationEnum.CRC_NOT_VALIDATED,
+            GlobalTimeCrcValidationEnum.CRC_OPTIONAL,
+            GlobalTimeCrcValidationEnum.CRC_VALIDATED,
+        ]
+
+    def test_enum_values(self):
+        """
+        Test GlobalTimeCrcValidationEnum member values.
+        """
+        enum = GlobalTimeCrcValidationEnum()
+
+        assert GlobalTimeCrcValidationEnum.CRC_IGNORED == "CRC-IGNORED"
+        assert GlobalTimeCrcValidationEnum.CRC_NOT_VALIDATED == "CRC-NOT-VALIDATED"
+        assert GlobalTimeCrcValidationEnum.CRC_OPTIONAL == "CRC-OPTIONAL"
+        assert GlobalTimeCrcValidationEnum.CRC_VALIDATED == "CRC-VALIDATED"
+
+        assert enum.validateEnumValue("CRC-IGNORED") is True
+        assert enum.validateEnumValue("CRC-NOT-VALIDATED") is True
+        assert enum.validateEnumValue("CRC-OPTIONAL") is True
+        assert enum.validateEnumValue("CRC-VALIDATED") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test GlobalTimeCrcValidationEnum instantiability and getValue.
+        """
+        enum = GlobalTimeCrcValidationEnum()
+        enum.setValue(GlobalTimeCrcValidationEnum.CRC_VALIDATED)
+
+        assert enum.getValue() == GlobalTimeCrcValidationEnum.CRC_VALIDATED
+
+
+class TestGlobalTimeIcvSupportEnum:
+    """
+    Test class for GlobalTimeIcvSupportEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.27, p.880
+    """
+
+    def test_initialization(self):
+        """
+        Test GlobalTimeIcvSupportEnum initialization with the spec literals in XSD facet order.
+        """
+        enum = GlobalTimeIcvSupportEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == [
+            GlobalTimeIcvSupportEnum.ICV_NOT_SUPPORTED,
+            GlobalTimeIcvSupportEnum.ICV_SUPPORTED,
+        ]
+
+    def test_enum_values(self):
+        """
+        Test GlobalTimeIcvSupportEnum member values.
+        """
+        enum = GlobalTimeIcvSupportEnum()
+
+        assert GlobalTimeIcvSupportEnum.ICV_NOT_SUPPORTED == "ICV-NOT-SUPPORTED"
+        assert GlobalTimeIcvSupportEnum.ICV_SUPPORTED == "ICV-SUPPORTED"
+
+        assert enum.validateEnumValue("ICV-NOT-SUPPORTED") is True
+        assert enum.validateEnumValue("ICV-SUPPORTED") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test GlobalTimeIcvSupportEnum instantiability and getValue.
+        """
+        enum = GlobalTimeIcvSupportEnum()
+        enum.setValue(GlobalTimeIcvSupportEnum.ICV_SUPPORTED)
+
+        assert enum.getValue() == GlobalTimeIcvSupportEnum.ICV_SUPPORTED
+
+
+class TestGlobalTimeIcvVerificationEnum:
+    """
+    Test class for GlobalTimeIcvVerificationEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.28, p.881
+    """
+
+    def test_initialization(self):
+        """
+        Test GlobalTimeIcvVerificationEnum initialization with the spec literals in XSD facet order.
+        """
+        enum = GlobalTimeIcvVerificationEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == [
+            GlobalTimeIcvVerificationEnum.ICV_IGNORED,
+            GlobalTimeIcvVerificationEnum.ICV_NOT_VERIFIED,
+            GlobalTimeIcvVerificationEnum.ICV_OPTIONAL,
+            GlobalTimeIcvVerificationEnum.ICV_VERIFIED,
+        ]
+
+    def test_enum_values(self):
+        """
+        Test GlobalTimeIcvVerificationEnum member values.
+        """
+        enum = GlobalTimeIcvVerificationEnum()
+
+        assert GlobalTimeIcvVerificationEnum.ICV_IGNORED == "ICV-IGNORED"
+        assert GlobalTimeIcvVerificationEnum.ICV_NOT_VERIFIED == "ICV-NOT-VERIFIED"
+        assert GlobalTimeIcvVerificationEnum.ICV_OPTIONAL == "ICV-OPTIONAL"
+        assert GlobalTimeIcvVerificationEnum.ICV_VERIFIED == "ICV-VERIFIED"
+
+        assert enum.validateEnumValue("ICV-IGNORED") is True
+        assert enum.validateEnumValue("ICV-NOT-VERIFIED") is True
+        assert enum.validateEnumValue("ICV-OPTIONAL") is True
+        assert enum.validateEnumValue("ICV-VERIFIED") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test GlobalTimeIcvVerificationEnum instantiability and getValue.
+        """
+        enum = GlobalTimeIcvVerificationEnum()
+        enum.setValue(GlobalTimeIcvVerificationEnum.ICV_VERIFIED)
+
+        assert enum.getValue() == GlobalTimeIcvVerificationEnum.ICV_VERIFIED
+
+
+class TestGlobalTimePortRoleEnum:
+    """
+    Test class for GlobalTimePortRoleEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.19, p.876
+    """
+
+    def test_initialization(self):
+        """
+        Test GlobalTimePortRoleEnum initialization with the spec literals in XSD facet order.
+        """
+        enum = GlobalTimePortRoleEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == [
+            GlobalTimePortRoleEnum.DYNAMIC,
+            GlobalTimePortRoleEnum.TIME_MASTER,
+            GlobalTimePortRoleEnum.TIME_SLAVE,
+        ]
+
+    def test_enum_values(self):
+        """
+        Test GlobalTimePortRoleEnum member values.
+        """
+        enum = GlobalTimePortRoleEnum()
+
+        assert GlobalTimePortRoleEnum.DYNAMIC == "DYNAMIC"
+        assert GlobalTimePortRoleEnum.TIME_MASTER == "TIME-MASTER"
+        assert GlobalTimePortRoleEnum.TIME_SLAVE == "TIME-SLAVE"
+
+        assert enum.validateEnumValue("DYNAMIC") is True
+        assert enum.validateEnumValue("TIME-MASTER") is True
+        assert enum.validateEnumValue("TIME-SLAVE") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test GlobalTimePortRoleEnum instantiability and getValue.
+        """
+        enum = GlobalTimePortRoleEnum()
+        enum.setValue(GlobalTimePortRoleEnum.TIME_MASTER)
+
+        assert enum.getValue() == GlobalTimePortRoleEnum.TIME_MASTER
+
+
+class TestSendIndicationEnum:
+    """
+    Test class for SendIndicationEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 11.13, p.904
+    """
+
+    def test_initialization(self):
+        """
+        Test SendIndicationEnum initialization with the spec literals in XSD facet order.
+        """
+        enum = SendIndicationEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == [
+            SendIndicationEnum.ANY_SEND_OPERATION,
+            SendIndicationEnum.NONE,
+        ]
+
+    def test_enum_values(self):
+        """
+        Test SendIndicationEnum member values.
+        """
+        enum = SendIndicationEnum()
+
+        assert SendIndicationEnum.ANY_SEND_OPERATION == "ANY-SEND-OPERATION"
+        assert SendIndicationEnum.NONE == "NONE"
+
+        assert enum.validateEnumValue("ANY-SEND-OPERATION") is True
+        assert enum.validateEnumValue("NONE") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test SendIndicationEnum instantiability and getValue.
+        """
+        enum = SendIndicationEnum()
+        enum.setValue(SendIndicationEnum.ANY_SEND_OPERATION)
+
+        assert enum.getValue() == SendIndicationEnum.ANY_SEND_OPERATION
 
 
 class TestFrArTpAckType:

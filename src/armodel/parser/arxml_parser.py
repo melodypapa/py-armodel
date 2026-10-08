@@ -1,6 +1,6 @@
 import os
 import xml.etree.ElementTree as ET
-from typing import Any, List, Optional, Union, cast
+from typing import Any, List, Optional, Type, TypeVar, Union, cast
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR, FileInfoComment
 from armodel.validation import ARXMLValidator
@@ -562,6 +562,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import AtpMixedString
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    AbstractGlobalTimeDomainProps,
     CalibrationParameterValue,
     RoleBasedResourceDependency,
     DiagnosticAbstractParameter,
@@ -595,6 +596,8 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DdsResourceLimits,
     DdsTopicData,
     DdsTransportPriority,
+    GlobalTimeCorrectionProps,
+    NetworkSegmentIdentification,
     PhysicalDimensionMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
@@ -1322,6 +1325,16 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication impor
     TlsVersionEnum,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanControllerConfiguration, CanXlProps
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import (
+    BusMirrorChannel,
+    BusMirrorChannelMapping,
+    BusMirrorChannelMappingCan,
+    BusMirrorChannelMappingFlexray,
+    BusMirrorChannelMappingIp,
+    BusMirrorChannelMappingUserDefined,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import BusMirrorCanIdRangeMapping, BusMirrorCanIdToCanIdMapping, BusMirrorLinPidToCanIdMapping
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import MirroringProtocolEnum
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import CommunicationDirectionType
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Dds import DdsCpISignalToDdsTopicMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
@@ -1563,9 +1576,11 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     DataPrototypeInClientServerInterfaceInstanceRef,
     DataPrototypeInPortInterfaceRef,
     DataPrototypeInSenderReceiverInterfaceInstanceRef,
+    DataPrototypeReference,
     DataPrototypeTransformationProps,
     DataTransformation,
     DataTransformationKindEnum,
+    ImplementationDataTypeElementInPortInterfaceRef,
     DataTransformationSet,
     E2EProfileCompatibilityProps,
     EndToEndProfileBehaviorEnum,
@@ -1573,6 +1588,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     EndToEndTransformationDescription,
     EndToEndTransformationISignalProps,
     SOMEIPMessageTypeEnum,
+    SOMEIPTransformationDescription,
     SOMEIPTransformationISignalProps,
     TlvDataIdDefinition,
     TlvDataIdDefinitionSet,
@@ -1580,6 +1596,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     TransformationISignalProps,
     TransformationTechnology,
     TransformerClassEnum,
+    UserDefinedTransformationDescription,
     UserDefinedTransformationISignalProps,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import (
@@ -2179,6 +2196,8 @@ DIAGNOSTIC_OPERATION_CYCLE_TYPE_XML_MAP = {
     "OTHER": "OTHER",
     "WARMUP": "WARMUP",
 }
+
+_ReferrableT = TypeVar("_ReferrableT", bound=Referrable)
 
 
 class ARXMLParser(AbstractARXMLParser):
@@ -10216,6 +10235,71 @@ class ARXMLParser(AbstractARXMLParser):
         self.readTimingExtension(element, timing)
         timing.setBehaviorRef(self.getChildElementOptionalRefType(element, "BEHAVIOR-REF"))
 
+    def getBusMirrorChannel(self, element: ET.Element, key: str) -> Optional[BusMirrorChannel]:
+        channel = None
+        child_element = self.find(element, key)
+        if child_element is not None:
+            channel = BusMirrorChannel()
+            self.readARObject(child_element, channel)
+        return channel
+
+    def readBusMirrorCanIdRangeMapping(self, element: ET.Element, mapping: BusMirrorCanIdRangeMapping):
+        self.readARObject(element, mapping)
+        mapping.setDestinationBaseId(self.getChildElementOptionalPositiveInteger(element, "DESTINATION-BASE-ID"))
+        mapping.setSourceCanIdCode(self.getChildElementOptionalPositiveInteger(element, "SOURCE-CAN-ID-CODE"))
+        mapping.setSourceCanIdMask(self.getChildElementOptionalPositiveInteger(element, "SOURCE-CAN-ID-MASK"))
+
+    def readBusMirrorCanIdToCanIdMapping(self, element: ET.Element, mapping: BusMirrorCanIdToCanIdMapping):
+        self.readARObject(element, mapping)
+        mapping.setRemappedCanId(self.getChildElementOptionalPositiveInteger(element, "REMAPPED-CAN-ID"))
+        mapping.setSouceCanIdRef(self.getChildElementOptionalRefType(element, "SOUCE-CAN-ID-REF"))
+
+    def readBusMirrorLinPidToCanIdMapping(self, element: ET.Element, mapping: BusMirrorLinPidToCanIdMapping):
+        self.readARObject(element, mapping)
+        mapping.setRemappedCanId(self.getChildElementOptionalPositiveInteger(element, "REMAPPED-CAN-ID"))
+        mapping.setSourceLinPidRef(self.getChildElementOptionalRefType(element, "SOURCE-LIN-PID-REF"))
+
+    def readBusMirrorChannelMapping(self, element: ET.Element, mapping: BusMirrorChannelMapping):
+        self.logger.debug("Read BusMirrorChannelMapping <%s>" % mapping.getShortName())
+        self.readIdentifiable(element, mapping)
+        mapping.setMirroringProtocol(cast(Optional[MirroringProtocolEnum], self.getChildElementOptionalLiteral(element, "MIRRORING-PROTOCOL")))
+        mapping.setSourceChannel(self.getBusMirrorChannel(element, "SOURCE-CHANNEL"))
+        mapping.setTargetChannel(self.getBusMirrorChannel(element, "TARGET-CHANNEL"))
+        for child_element in self.findall(element, "TARGET-PDU-TRIGGERINGS/PDU-TRIGGERING-REF-CONDITIONAL"):
+            mapping.addTargetPduTriggeringRef(self.getChildElementOptionalRefType(child_element, "PDU-TRIGGERING-REF"))
+
+    def readBusMirrorChannelMappingCan(self, element: ET.Element, mapping: BusMirrorChannelMappingCan):
+        self.logger.debug("Read BusMirrorChannelMappingCan <%s>" % mapping.getShortName())
+        self.readBusMirrorChannelMapping(element, mapping)
+        for child_element in self.findall(element, "CAN-ID-RANGE-MAPPINGS/BUS-MIRROR-CAN-ID-RANGE-MAPPING"):
+            range_mapping = BusMirrorCanIdRangeMapping()
+            self.readBusMirrorCanIdRangeMapping(child_element, range_mapping)
+            mapping.addCanIdRangeMapping(range_mapping)
+        for child_element in self.findall(element, "CAN-ID-TO-CAN-ID-MAPPINGS/BUS-MIRROR-CAN-ID-TO-CAN-ID-MAPPING"):
+            id_mapping = BusMirrorCanIdToCanIdMapping()
+            self.readBusMirrorCanIdToCanIdMapping(child_element, id_mapping)
+            mapping.addCanIdToCanIdMapping(id_mapping)
+        for child_element in self.findall(element, "LIN-PID-TO-CAN-ID-MAPPINGS/BUS-MIRROR-LIN-PID-TO-CAN-ID-MAPPING"):
+            lin_mapping = BusMirrorLinPidToCanIdMapping()
+            self.readBusMirrorLinPidToCanIdMapping(child_element, lin_mapping)
+            mapping.addLinPidToCanIdMapping(lin_mapping)
+        mapping.setMirrorSourceLinToCanRangeBaseId(self.getChildElementOptionalPositiveInteger(element, "MIRROR-SOURCE-LIN-TO-CAN-RANGE-BASE-ID"))
+        mapping.setMirrorStatusCanId(self.getChildElementOptionalPositiveInteger(element, "MIRROR-STATUS-CAN-ID"))
+
+    def readBusMirrorChannelMappingFlexray(self, element: ET.Element, mapping: BusMirrorChannelMappingFlexray):
+        self.logger.debug("Read BusMirrorChannelMappingFlexray <%s>" % mapping.getShortName())
+        self.readBusMirrorChannelMapping(element, mapping)
+        mapping.setTransmissionDeadline(self.getChildElementOptionalTimeValue(element, "TRANSMISSION-DEADLINE"))
+
+    def readBusMirrorChannelMappingIp(self, element: ET.Element, mapping: BusMirrorChannelMappingIp):
+        self.logger.debug("Read BusMirrorChannelMappingIp <%s>" % mapping.getShortName())
+        self.readBusMirrorChannelMapping(element, mapping)
+        mapping.setTransmissionDeadline(self.getChildElementOptionalTimeValue(element, "TRANSMISSION-DEADLINE"))
+
+    def readBusMirrorChannelMappingUserDefined(self, element: ET.Element, mapping: BusMirrorChannelMappingUserDefined):
+        self.logger.debug("Read BusMirrorChannelMappingUserDefined <%s>" % mapping.getShortName())
+        self.readBusMirrorChannelMapping(element, mapping)
+        mapping.setTransmissionDeadline(self.getChildElementOptionalTimeValue(element, "TRANSMISSION-DEADLINE"))
     def readTDCpSoftwareClusterMapping(self, element: ET.Element, mapping: TDCpSoftwareClusterMapping):
         self.logger.debug("Read TDCpSoftwareClusterMapping <%s>" % mapping.getShortName())
         self.readIdentifiable(element, mapping)
@@ -14976,13 +15060,30 @@ class ARXMLParser(AbstractARXMLParser):
         desc.setWindowSizeInvalid(self.getChildElementOptionalPositiveInteger(element, "WINDOW-SIZE-INVALID"))
         desc.setWindowSizeValid(self.getChildElementOptionalPositiveInteger(element, "WINDOW-SIZE-VALID"))
 
+    def readSOMEIPTransformationDescription(self, element: ET.Element, desc: SOMEIPTransformationDescription):
+        self.readTransformationDescription(element, desc)
+        desc.setAlignment(self.getChildElementOptionalPositiveInteger(element, "ALIGNMENT"))
+        desc.setByteOrder(self._readEnumToken(element, "BYTE-ORDER", ByteOrderEnum, BYTE_ORDER_XML_MAP))
+        desc.setInterfaceVersion(self.getChildElementOptionalPositiveInteger(element, "INTERFACE-VERSION"))
+
+    def readUserDefinedTransformationDescription(self, element: ET.Element, desc: UserDefinedTransformationDescription):
+        self.readTransformationDescription(element, desc)
+
     def readTransformationTechnologyTransformationDescriptions(self, element: ET.Element, tech: TransformationTechnology):
         for child_element in self.findall(element, "TRANSFORMATION-DESCRIPTIONS/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "END-TO-END-TRANSFORMATION-DESCRIPTION":
-                desc = EndToEndTransformationDescription()
-                self.readEndToEndTransformationDescription(child_element, desc)
-                tech.setTransformationDescription(desc)
+                e2e_desc = EndToEndTransformationDescription()
+                self.readEndToEndTransformationDescription(child_element, e2e_desc)
+                tech.setTransformationDescription(e2e_desc)
+            elif tag_name == "SOMEIP-TRANSFORMATION-DESCRIPTION":
+                someip_desc = SOMEIPTransformationDescription()
+                self.readSOMEIPTransformationDescription(child_element, someip_desc)
+                tech.setTransformationDescription(someip_desc)
+            elif tag_name == "USER-DEFINED-TRANSFORMATION-DESCRIPTION":
+                user_defined_desc = UserDefinedTransformationDescription()
+                self.readUserDefinedTransformationDescription(child_element, user_defined_desc)
+                tech.setTransformationDescription(user_defined_desc)
             else:
                 self.notImplemented("Unsupported TransformationDescription <%s>" % tag_name)
 
@@ -16112,6 +16213,26 @@ class ARXMLParser(AbstractARXMLParser):
         props.setPlcaLocalNodeId(self.getChildElementOptionalPositiveInteger(element, "PLCA-LOCAL-NODE-ID"))
         props.setPlcaMaxBurstCount(self.getChildElementOptionalPositiveInteger(element, "PLCA-MAX-BURST-COUNT"))
         props.setPlcaMaxBurstTimer(self.getChildElementOptionalPositiveInteger(element, "PLCA-MAX-BURST-TIMER"))
+
+    def readAbstractGlobalTimeDomainProps(self, element: ET.Element, props: AbstractGlobalTimeDomainProps) -> AbstractGlobalTimeDomainProps:
+        # VARIATION-POINT is the only element of the XSD ABSTRACT-GLOBAL-TIME-DOMAIN-PROPS group
+        # (AUTOSAR_00052.xsd l.379) and precedes the concrete subclass' own elements.
+        self.readARObject(element, props)
+        self.readVariationPointCapable(element, props)
+        return props
+
+    def readNetworkSegmentIdentification(self, element: ET.Element, props: NetworkSegmentIdentification) -> NetworkSegmentIdentification:
+        self.readARObject(element, props)
+        props.setNetworkSegmentId(self.getChildElementOptionalPositiveInteger(element, "NETWORK-SEGMENT-ID"))
+        return props
+
+    def readGlobalTimeCorrectionProps(self, element: ET.Element, props: GlobalTimeCorrectionProps) -> GlobalTimeCorrectionProps:
+        self.readARObject(element, props)
+        props.setOffsetCorrectionAdaptionInterval(self.getChildElementOptionalTimeValue(element, "OFFSET-CORRECTION-ADAPTION-INTERVAL"))
+        props.setOffsetCorrectionJumpThreshold(self.getChildElementOptionalTimeValue(element, "OFFSET-CORRECTION-JUMP-THRESHOLD"))
+        props.setRateCorrectionMeasurementDuration(self.getChildElementOptionalTimeValue(element, "RATE-CORRECTION-MEASUREMENT-DURATION"))
+        props.setRateCorrectionsPerMeasurementDuration(self.getChildElementOptionalPositiveInteger(element, "RATE-CORRECTIONS-PER-MEASUREMENT-DURATION"))
+        return props
 
     def getGlobalTimeProps(self, element: ET.Element, key: str) -> Optional[GlobalTimeCouplingPortProps]:
         props = None
@@ -17298,38 +17419,61 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported DataPrototypeTransformationProps %s" % self.getTagName(child_element))
 
-    def readDataPrototypeInPortInterfaceRef(self, element: ET.Element, ref: DataPrototypeInPortInterfaceRef):
+    def readDataPrototypeReference(self, element: ET.Element, ref: DataPrototypeReference):
         self.readARObject(element, ref)
         ref.setTagId(self.getChildElementOptionalPositiveInteger(element, "TAG-ID"))
-        child_element = self.find(element, "DATA-PROTOTYPE-IN-CLIENT-SERVER-INTERFACE-REF")
+
+    def readDataPrototypeInPortInterfaceRef(self, element: ET.Element, ref: DataPrototypeInPortInterfaceRef):
+        self.readDataPrototypeReference(element, ref)
+        child_element = self.find(element, "DATA-PROTOTYPE-IN-CLIENT-SERVER-INTERFACE-IREF")
         if child_element is not None:
             cs_ref = DataPrototypeInClientServerInterfaceInstanceRef()
             self.readDataPrototypeInClientServerInterfaceInstanceRef(child_element, cs_ref)
             ref.setDataPrototypeInClientServerInterface(cs_ref)
+        child_element = self.find(element, "DATA-PROTOTYPE-IN-SENDER-RECEIVER-INTERFACE-IREF")
+        if child_element is not None:
+            sr_ref = DataPrototypeInSenderReceiverInterfaceInstanceRef()
+            self.readDataPrototypeInSenderReceiverInterfaceInstanceRef(child_element, sr_ref)
+            ref.setDataPrototypeInSenderReceiverInterface(sr_ref)
 
     def readDataPrototypeInSenderReceiverInterfaceInstanceRef(self, element: ET.Element, iref: DataPrototypeInSenderReceiverInterfaceInstanceRef):
         self.readARObject(element, iref)
-        iref.setBaseRef(self.getChildElementOptionalRefType(element, "BASE"))
-        for ctx in self.findall(element, "CONTEXT-DATA-PROTOTYPE-IN-SR"):
-            iref.addContextDataPrototypeInSrRefs(self.getChildElementOptionalRefType(ctx, "CONTEXT-DATA-PROTOTYPE-IN-SR") or self.getChildElementOptionalRefType(ctx, "CONTEXT-DATA-PROTOTYPE"))
-        iref.setRootDataPrototypeInSrRef(self.getChildElementOptionalRefType(element, "ROOT-DATA-PROTOTYPE-IN-SR"))
-        iref.setTargetDataPrototypeInSrRef(self.getChildElementOptionalRefType(element, "TARGET-DATA-PROTOTYPE-IN-SR"))
+        iref.setRootDataPrototypeInSrRef(self.getChildElementOptionalRefType(element, "ROOT-DATA-PROTOTYPE-IN-SR-REF"))
+        for ctx in self.getChildElementRefTypeList(element, "CONTEXT-DATA-PROTOTYPE-IN-SR-REF"):
+            iref.addContextDataPrototypeInSrRefs(ctx)
+        iref.setTargetDataPrototypeInSrRef(self.getChildElementOptionalRefType(element, "TARGET-DATA-PROTOTYPE-IN-SR-REF"))
 
     def readDataPrototypeInClientServerInterfaceInstanceRef(self, element: ET.Element, iref: DataPrototypeInClientServerInterfaceInstanceRef):
         self.readARObject(element, iref)
-        iref.setBaseRef(self.getChildElementOptionalRefType(element, "BASE"))
-        for ctx in self.findall(element, "CONTEXT-DATA-PROTOTYPE-IN-CS"):
-            iref.addContextDataPrototypeInCsRefs(self.getChildElementOptionalRefType(ctx, "CONTEXT-DATA-PROTOTYPE-IN-CS") or self.getChildElementOptionalRefType(ctx, "CONTEXT-DATA-PROTOTYPE"))
-        iref.setRootDataPrototypeInCsRef(self.getChildElementOptionalRefType(element, "ROOT-DATA-PROTOTYPE-IN-CS"))
-        iref.setTargetDataPrototypeInCsRef(self.getChildElementOptionalRefType(element, "TARGET-DATA-PROTOTYPE-IN-CS"))
+        iref.setRootDataPrototypeInCsRef(self.getChildElementOptionalRefType(element, "ROOT-DATA-PROTOTYPE-IN-CS-REF"))
+        for ctx in self.getChildElementRefTypeList(element, "CONTEXT-DATA-PROTOTYPE-IN-CS-REF"):
+            iref.addContextDataPrototypeInCsRefs(ctx)
+        iref.setTargetDataPrototypeInCsRef(self.getChildElementOptionalRefType(element, "TARGET-DATA-PROTOTYPE-IN-CS-REF"))
+
+    def readImplementationDataTypeElementInPortInterfaceRef(self, element: ET.Element, ref: ImplementationDataTypeElementInPortInterfaceRef):
+        self.readDataPrototypeReference(element, ref)
+        ref.setRootDataPrototypeRef(self.getChildElementOptionalRefType(element, "ROOT-DATA-PROTOTYPE-REF"))
+        child_element = self.find(element, "CONTEXT-IMPLEMENTATION-DATA-ELEMENT-REFS")
+        if child_element is not None:
+            for ctx in self.getChildElementRefTypeList(child_element, "CONTEXT-IMPLEMENTATION-DATA-ELEMENT-REF"):
+                ref.addContextImplementationDataElementRefs(ctx)
+        ref.setTargetImplementationDataTypeElementRef(self.getChildElementOptionalRefType(element, "TARGET-IMPLEMENTATION-DATA-TYPE-ELEMENT-REF"))
 
     def readDataPrototypeTransformationProps(self, element: ET.Element, props: DataPrototypeTransformationProps):
         self.readARObject(element, props)
         child_element = self.find(element, "DATA-PROTOTYPE-IN-PORT-INTERFACE-REF")
         if child_element is not None:
-            ref = DataPrototypeInPortInterfaceRef()
-            self.readDataPrototypeInPortInterfaceRef(child_element, ref)
-            props.setDataPrototypeInPortInterfaceRef(ref)
+            impl_element = self.find(child_element, "IMPLEMENTATION-DATA-TYPE-ELEMENT-IN-PORT-INTERFACE-REF")
+            if impl_element is not None:
+                impl_ref = ImplementationDataTypeElementInPortInterfaceRef()
+                self.readImplementationDataTypeElementInPortInterfaceRef(impl_element, impl_ref)
+                props.setDataPrototypeInPortInterfaceRef(impl_ref)
+            else:
+                dp_element = self.find(child_element, "DATA-PROTOTYPE-IN-PORT-INTERFACE-REF")
+                if dp_element is not None:
+                    dp_ref = DataPrototypeInPortInterfaceRef()
+                    self.readDataPrototypeInPortInterfaceRef(dp_element, dp_ref)
+                    props.setDataPrototypeInPortInterfaceRef(dp_ref)
         props.setNetworkRepresentationProps(self.getSwDataDefProps(element, "NETWORK-REPRESENTATION-PROPS"))
         props.setTransformationPropsRef(self.getChildElementOptionalRefType(element, "TRANSFORMATION-PROPS-REF"))
 
@@ -19305,6 +19449,13 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.readARPackageElementsRest(tag_name, child_element, parent)
 
+    def _getOrCreateReferrableElement(self, parent: ARPackage, cls: Type[_ReferrableT], short_name: str) -> _ReferrableT:
+        if parent.IsReferrableElementExists(short_name, cls):
+            return cast(_ReferrableT, parent.getReferrableElement(short_name, cls))
+        element = cls(parent, short_name)
+        parent.addReferrableElement(element)
+        return element
+
     def readARPackageElementsRest(self, tag_name: str, child_element: ET.Element, parent: ARPackage):
         if tag_name == "DIAGNOSTIC-SECURITY-ACCESS":
             security_access = parent.createDiagnosticSecurityAccess(self.getShortName(child_element))
@@ -19698,6 +19849,18 @@ class ARXMLParser(AbstractARXMLParser):
         elif tag_name == "RAPID-PROTOTYPING-SCENARIO":
             scenario = parent.createRapidPrototypingScenario(self.getShortName(child_element))
             self.readRapidPrototypingScenario(child_element, scenario)
+        elif tag_name == "BUS-MIRROR-CHANNEL-MAPPING-CAN":
+            can_mapping = self._getOrCreateReferrableElement(parent, BusMirrorChannelMappingCan, self.getShortName(child_element))
+            self.readBusMirrorChannelMappingCan(child_element, can_mapping)
+        elif tag_name == "BUS-MIRROR-CHANNEL-MAPPING-FLEXRAY":
+            flexray_mapping = self._getOrCreateReferrableElement(parent, BusMirrorChannelMappingFlexray, self.getShortName(child_element))
+            self.readBusMirrorChannelMappingFlexray(child_element, flexray_mapping)
+        elif tag_name == "BUS-MIRROR-CHANNEL-MAPPING-IP":
+            ip_mapping = self._getOrCreateReferrableElement(parent, BusMirrorChannelMappingIp, self.getShortName(child_element))
+            self.readBusMirrorChannelMappingIp(child_element, ip_mapping)
+        elif tag_name == "BUS-MIRROR-CHANNEL-MAPPING-USER-DEFINED":
+            user_defined_mapping = self._getOrCreateReferrableElement(parent, BusMirrorChannelMappingUserDefined, self.getShortName(child_element))
+            self.readBusMirrorChannelMappingUserDefined(child_element, user_defined_mapping)
         else:
             self.notImplemented("Unsupported Element type of ARPackage <%s>" % tag_name)
 
