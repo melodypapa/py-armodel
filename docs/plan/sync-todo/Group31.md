@@ -315,7 +315,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-07 (22229 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit ce43303b9
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-07 (22229 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit ca22bc0a8
 
 - [ ] `IPduPort` — CommConnectorPort — R23-11 CP_TPS_SystemTemplate Table 6.3, p.304
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
@@ -341,7 +341,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — 9a passed 2026-10-07 (22256 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit b4e23166c
+  - [x] Step 9 — 9a passed 2026-10-07 (22256 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 5809b8408
 
 - [ ] `IPduSignalProcessingEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 6.4, p.305
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
@@ -369,7 +369,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
     Consumer upgrade: IPduPort/CommConnectorPort writer tests and CoreTopology legacy
     tests already used enum constants (no raw facet strings/tuples found) — updated to
     the renamed DEFERRED/IMMEDIATE constants.
-  - [x] Step 9 — 9a passed 2026-10-08 (22259 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 05f4aee8e
+  - [x] Step 9 — 9a passed 2026-10-08 (22259 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit e34ab3e1a
 
 - [ ] `ISignal` — ARElement — R23-11 CP_TPS_SystemTemplate Table 6.7, p.321
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py

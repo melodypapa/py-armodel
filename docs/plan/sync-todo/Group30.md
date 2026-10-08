@@ -989,7 +989,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — 9a passed 2026-10-07 (21866 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 86c05b7f0
+  - [x] Step 9 — 9a passed 2026-10-07 (21866 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 2065193be
 
 - [ ] `PlcaProps` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.117, p.169
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
@@ -1027,7 +1027,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — 9a passed 2026-10-07 (21896 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 01b7ce9caf
+  - [x] Step 9 — 9a passed 2026-10-07 (21896 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 227f0810e
 
 - [ ] `MacSecProps` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.118, p.173
   - module: M2/AUTOSARTemplates/SystemTemplate/SecureCommunication.py
@@ -1079,7 +1079,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — 9a passed 2026-10-07 (21911 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 7f664248c6fc6eb8445eab6d71e0b7bb32a5d885
+  - [x] Step 9 — 9a passed 2026-10-07 (21911 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit c100d36e56fc6eb8445eab6d71e0b7bb32a5d885
 
 - [ ] `MacSecLocalKayProps` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.119, p.174
   - module: M2/AUTOSARTemplates/SystemTemplate/SecureCommunication.py
@@ -1131,7 +1131,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — 9a passed 2026-10-07 (21937 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 201e92a4f
+  - [x] Step 9 — 9a passed 2026-10-07 (21937 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 506d255bd
 
 - [ ] `MacSecGlobalKayProps` — ARElement — R23-11 CP_TPS_SystemTemplate Table 3.120, p.174
   - module: M2/AUTOSARTemplates/SystemTemplate/SecureCommunication.py
@@ -1188,7 +1188,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — 9a passed 2026-10-07 (21948 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 88ba77f8f
+  - [x] Step 9 — 9a passed 2026-10-07 (21948 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit edc1d0ae3
 
 - [ ] `MacSecParticipantSet` — ARElement — R23-11 CP_TPS_SystemTemplate Table 3.121, p.174
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
@@ -1235,7 +1235,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
     as Table 3.122; the ref-kind `ethernetCluster` → `ethernetClusterRef` field name is
     the sanctioned Rule 0001.5 Kind-suffix convention, not a deviation).
   - [x] Step 8 — Deviations
-  - [x] Step 9 — 9a passed 2026-10-07 (21966 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 0d7cb05c3
+  - [x] Step 9 — 9a passed 2026-10-07 (21966 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 66ee2a894
 
 - [ ] `MacSecKayParticipant` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 3.122, p.175
   - module: M2/AUTOSARTemplates/SystemTemplate/SecureCommunication.py
@@ -1305,7 +1305,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — 9a passed 2026-10-07 (21972 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 312fe96ad
+  - [x] Step 9 — 9a passed 2026-10-07 (21972 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 006a38a1c
 
 - [ ] `MacSecCryptoAlgoConfig` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.123, p.175
   - module: M2/AUTOSARTemplates/SystemTemplate/SecureCommunication.py
@@ -1382,7 +1382,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — 9a passed 2026-10-07 (21982 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit fbd1c7b49
+  - [x] Step 9 — 9a passed 2026-10-07 (21982 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 6ce66d34d
 
 - [ ] `MacSecCipherSuiteConfig` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.124, p.176
   - module: M2/AUTOSARTemplates/SystemTemplate/SecureCommunication.py
@@ -1443,7 +1443,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — 9a passed 2026-10-07 (21991 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 9939d31b1
+  - [x] Step 9 — 9a passed 2026-10-07 (21991 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 21ec4784e
 
 - [ ] `MacSecConfidentialityOffsetEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 3.125, p.177
   - module: M2/AUTOSARTemplates/SystemTemplate/SecureCommunication.py
@@ -1490,7 +1490,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green) — N/A: standalone AREnum, no own XML element (parser/writer wiring on MacSecCryptoAlgoConfig already emits CONFIDENTIALITY-OFFSET with the facet value)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — 9a passed 2026-10-07 (21994 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 33a3a6917
+  - [x] Step 9 — 9a passed 2026-10-07 (21994 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit e609bd926
 
 - [ ] `MacSecCapabilityEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 3.126, p.177
   - module: M2/AUTOSARTemplates/SystemTemplate/SecureCommunication.py
@@ -1539,7 +1539,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green) — N/A: standalone AREnum, no own XML element (parser/writer wiring on MacSecCryptoAlgoConfig already emits CAPABILITY with the facet value)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — 9a passed 2026-10-07 (21997 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit f1d3f00e6
+  - [x] Step 9 — 9a passed 2026-10-07 (21997 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit bc28f5ecb
 
 - [ ] `MacSecRoleEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 3.127, p.177
   - module: M2/AUTOSARTemplates/SystemTemplate/SecureCommunication.py
@@ -1588,7 +1588,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green) — N/A: standalone AREnum, no own XML element (parser/writer wiring on MacSecLocalKayProps already emits ROLE with the facet value)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — 9a passed 2026-10-07 (22000 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit a89d0bb5c
+  - [x] Step 9 — 9a passed 2026-10-07 (22000 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 38c1935ef
 
 - [ ] `MacSecFailPermissiveModeEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 3.128, p.178
   - module: M2/AUTOSARTemplates/SystemTemplate/SecureCommunication.py
@@ -1637,7 +1637,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green) — N/A: standalone AREnum, no own XML element (parser/writer wiring on MacSecProps already emits ON-FAIL-PERMISSIVE-MODE with the facet value)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — 9a passed 2026-10-07 (22003 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 16ff33753
+  - [x] Step 9 — 9a passed 2026-10-07 (22003 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit e4ec64419
 
 - [ ] `UserDefinedCluster` — CommunicationCluster — R23-11 CP_TPS_SystemTemplate Table 3.129, p.179
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py
@@ -1688,7 +1688,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
     marker is deferred to the batch 9b stamp per user instruction (Step 7 wrote the
     6-column checklist without it; audit STAMP INFO expected).
   - [x] Step 8 — Deviations
-  - [x] Step 9 — 9a passed 2026-10-07 (22023 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 6e28a9d77
+  - [x] Step 9 — 9a passed 2026-10-07 (22023 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 60a130c7b
 
 - [ ] `UserDefinedPhysicalChannel` — PhysicalChannel — R23-11 CP_TPS_SystemTemplate Table 3.130, p.179
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py
@@ -1739,7 +1739,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
     deferred to the batch 9b stamp per user instruction (Step 7 wrote the 6-column
     checklist without it; audit STAMP INFO expected).
   - [x] Step 8 — Deviations
-  - [x] Step 9 — 9a passed 2026-10-07 (22042 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit fb84a1520
+  - [x] Step 9 — 9a passed 2026-10-07 (22042 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 0d446c837
 
 - [ ] `UserDefinedCommunicationConnector` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.131, p.180
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
@@ -1792,7 +1792,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — 9a passed 2026-10-07 (22074 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 4d8cdef45
+  - [x] Step 9 — 9a passed 2026-10-07 (22074 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit ff537256b
 
 - [ ] `UserDefinedCommunicationController` — CommunicationController — R23-11 CP_TPS_SystemTemplate Table 3.132, p.180
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py
@@ -1854,7 +1854,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — 9a passed 2026-10-07 (22082 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit d5745e8f7
+  - [x] Step 9 — 9a passed 2026-10-07 (22082 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit acba63082
 
 - [ ] `SystemMapping` — ARObject — R23-11 CP_TPS_SystemTemplate Table 5.1, p.193
   - module: M2/AUTOSARTemplates/SystemTemplate/__init__.py
@@ -1911,7 +1911,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — 9a passed 2026-10-07 (22099 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit a9b3162cc
+  - [x] Step 9 — 9a passed 2026-10-07 (22099 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 1fa8787ea
 
 - [ ] `SwcToApplicationPartitionMapping` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 5.4, p.200
   - module: M2/AUTOSARTemplates/SystemTemplate/SWmapping.py (moved from the
@@ -1969,7 +1969,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
     batch 9b stamp per user instruction (Step 7 wrote the 6-column checklist without it;
     audit STAMP INFO as expected).
   - [x] Step 8 — Deviations
-  - [x] Step 9 — 9a passed 2026-10-07 (22113 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 8166698df
+  - [x] Step 9 — 9a passed 2026-10-07 (22113 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 8323feb0a
 
 - [ ] `ApplicationPartition` — ARElement — R23-11 CP_TPS_SystemTemplate Table 5.5, p.201
   - module: M2/AUTOSARTemplates/SystemTemplate/SWmapping.py (moved from the
@@ -2024,7 +2024,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
     member types). audit_class.py PASS (STAMP INFO expected — the `# Spec verified:`
     marker is deferred to the batch 9b stamp per user instruction).
   - [x] Step 8 — Deviations
-  - [x] Step 9 — 9a passed 2026-10-07 (22128 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 9271a2285
+  - [x] Step 9 — 9a passed 2026-10-07 (22128 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 9241a3d9f
 
 - [ ] `MappingConstraint` — ARObject — R23-11 CP_TPS_SystemTemplate Table 5.8, p.202
   - module: M2/AUTOSARTemplates/SystemTemplate/SWmapping.py (moved from the
@@ -2078,7 +2078,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
     deferred to the batch 9b stamp per user instruction (Step 7 wrote the 6-column
     checklist without it; audit STAMP INFO as expected).
   - [x] Step 8 — Deviations
-  - [x] Step 9 — 9a passed 2026-10-07 (22143 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit db9713318
+  - [x] Step 9 — 9a passed 2026-10-07 (22143 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit a678eca67
 
 - [ ] `ComponentClustering` — MappingConstraint — R23-11 CP_TPS_SystemTemplate Table 5.9, p.203
   - module: M2/AUTOSARTemplates/SystemTemplate/SWmapping.py (moved from the ArObject.py
@@ -2131,7 +2131,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
     docstrings. The `# Spec verified:` marker is deferred to the batch 9b stamp per
     user instruction (audit STAMP INFO as expected).
   - [x] Step 8 — Deviations
-  - [x] Step 9 — 9a passed 2026-10-07 (22161 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 69736e860
+  - [x] Step 9 — 9a passed 2026-10-07 (22161 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 6ddfdbb3f
 
 - [ ] `MappingScopeEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 5.10, p.204
   - module: M2/AUTOSARTemplates/SystemTemplate/SWmapping.py (moved from the
@@ -2171,7 +2171,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 7 — Update checklist comment
   - Step 8: No deviations from Table 5.10 — three literals 1:1 (mappingScopeCore/mappingScopeEcu/mappingScopePartition), values the exact XSD MAPPING-SCOPE-ENUM--SIMPLE facets in facet order, Note verbatim ("Defines the scope for the mapping constraints." — no Tags tail), no atp.Status=removed facets, no missing referenced classes (no Base beyond AREnum; consumers ComponentClustering/ComponentSeparation exist). Placement notes (not spec deviations): (1) module moved from the PrimitiveTypes.py hint to SWmapping.py per the Rule 0007 Package row (see Step 1 finding); (2) within SWmapping.py the enum sits at the top after the imports, BEFORE its consumers — the module is NOT PEP 563 and ComponentClustering's `Optional[MappingScopeEnum]` signatures evaluate at class-definition time, so the spec-table-order slot directly after ComponentClustering (MacSec style, PEP 563 module) is not possible there; precedent SignalPaths.py (SwcToSwcOperationArgumentsDirectionEnum) / RteEventToOsTaskMapping.py (OsTaskPreemptabilityEnum) place the enum before its consumers. No stale legacy marker existed (bare `AREnum` stub — Rule 0023 removal a no-op); fresh 6-column enum checklist, no marker (batch 9b stamps). The test_group21_36_stub_classes.py STUBS row was removed with the move (MacSec precedent). Entry-time audit (pre-sync) would have FAILed ROWS (1 method vs 0 rows); post-sync audit PASS with STAMP INFO (deferred marker) as expected.
   - [x] Step 8 — Deviations
-  - [x] Step 9 — 9a passed 2026-10-07 (22162 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 4e3e9b2a2
+  - [x] Step 9 — 9a passed 2026-10-07 (22162 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit b42864d26
 
 - [ ] `ComponentSeparation` — MappingConstraint — R23-11 CP_TPS_SystemTemplate Table 5.11, p.205
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
@@ -2232,7 +2232,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
     The `# Spec verified:` marker is deferred to the batch 9b stamp per user
     instruction (audit STAMP INFO as expected).
   - [x] Step 8 — Deviations
-  - [x] Step 9 — 9a passed 2026-10-07 (22180 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 3e98eb7de
+  - [x] Step 9 — 9a passed 2026-10-07 (22180 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 525ff2c22
 
 - [ ] `J1939ControllerApplicationToJ1939NmNodeMapping` — ARObject — R23-11 CP_TPS_SystemTemplate Table 5.12, p.207
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
@@ -2286,7 +2286,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
     the batch 9b stamp per user instruction (Step 7 wrote the 6-column checklist without it;
     audit STAMP INFO as expected).
   - [x] Step 8 — Deviations
-  - [x] Step 9 — 9a passed 2026-10-07 (22193 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit e9177f9a0
+  - [x] Step 9 — 9a passed 2026-10-07 (22193 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 7ffd51701
 
 - [ ] `J1939ControllerApplication` — ARElement — R23-11 CP_TPS_SystemTemplate Table 5.13, p.207
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
@@ -2342,5 +2342,5 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
     The `# Spec verified:` marker is deferred to the batch 9b stamp per user instruction
     (Step 7 wrote the 6-column checklist without it; audit STAMP INFO as expected).
   - [x] Step 8 — Deviations
-  - [x] Step 9 — 9a passed 2026-10-07 (22211 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 8621619bd
+  - [x] Step 9 — 9a passed 2026-10-07 (22211 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit bf314fe2f
 
