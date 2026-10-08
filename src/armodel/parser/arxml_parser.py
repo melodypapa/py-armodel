@@ -1594,6 +1594,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     TlvDataIdDefinitionSet,
     TransformationDescription,
     TransformationISignalProps,
+    TransformationProps,
     TransformationTechnology,
     TransformerClassEnum,
     UserDefinedTransformationDescription,
@@ -16233,6 +16234,13 @@ class ARXMLParser(AbstractARXMLParser):
         props.setOffsetCorrectionJumpThreshold(self.getChildElementOptionalTimeValue(element, "OFFSET-CORRECTION-JUMP-THRESHOLD"))
         props.setRateCorrectionMeasurementDuration(self.getChildElementOptionalTimeValue(element, "RATE-CORRECTION-MEASUREMENT-DURATION"))
         props.setRateCorrectionsPerMeasurementDuration(self.getChildElementOptionalPositiveInteger(element, "RATE-CORRECTIONS-PER-MEASUREMENT-DURATION"))
+        return props
+
+    def readTransformationProps(self, element: ET.Element, props: TransformationProps) -> TransformationProps:
+        # The XSD TRANSFORMATION-PROPS group (AUTOSAR_00052.xsd l.125529) has an empty sequence,
+        # so the helper owns the Identifiable level of the concrete subclass element
+        # (AP-SOMEIP-/SOMEIP-/USER-DEFINED-TRANSFORMATION-PROPS).
+        self.readIdentifiable(element, props)
         return props
 
     def getGlobalTimeProps(self, element: ET.Element, key: str) -> Optional[GlobalTimeCouplingPortProps]:

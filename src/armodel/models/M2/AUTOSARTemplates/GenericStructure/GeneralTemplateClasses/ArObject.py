@@ -3687,10 +3687,6 @@ class SomeipTpConnection(ARObject):
     pass
 
 
-class TransformationProps(ARObject, ABC):
-    pass
-
-
 class BinaryManifestItemNumericalValue(BinaryManifestItemValue):
     pass
 

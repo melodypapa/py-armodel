@@ -1,3 +1,5 @@
+import inspect
+
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -22,6 +24,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     TlvDataIdDefinitionSet,
     TransformationDescription,
     TransformationISignalProps,
+    TransformationProps,
     TransformationTechnology,
     TransformerClassEnum,
     UserDefinedTransformationISignalProps,
@@ -1253,3 +1256,65 @@ class Test_UserDefinedTransformationISignalProps:
         base_accessors = {name for name in dir(TransformationISignalProps) if not name.startswith("_") and callable(getattr(TransformationISignalProps, name, None))}
         own_accessors = {name for name in dir(props) if not name.startswith("_") and callable(getattr(props, name, None))} - base_accessors
         assert own_accessors == set()
+
+
+class ConcreteTransformationProps(TransformationProps):
+    pass
+
+
+class TestTransformationProps:
+    """
+    Test class for TransformationProps functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.15, p.783
+    (abstract; subclasses SOMEIPTransformationProps and UserDefinedTransformationProps —
+    exercised through a local concrete subclass per the abstract-class test convention.
+    The table's Attribute column is a single "-" row, so the class owns no attributes of
+    its own; the Table 7.15 Base row's most-derived class is Identifiable.)
+    """
+
+    CLASS_NOTE = "This meta-class represents a abstract base class for transformation settings."
+
+    def test_abstract_initialization(self):
+        """
+        TransformationProps is abstract and cannot be instantiated directly.
+        """
+        with pytest.raises(TypeError):
+            TransformationProps(MockParent(), "TransformationProps")
+
+    def test_is_identifiable_subclass(self):
+        """
+        Test that TransformationProps derives from Identifiable per the Table 7.15 Base row
+        (ARObject, Identifiable, MultilanguageReferrable, Referrable — most-derived Identifiable).
+        """
+        assert issubclass(TransformationProps, Identifiable)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(TransformationProps.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert TransformationProps.__init__.__doc__ is None
+
+    def test_no_own_methods(self):
+        """
+        Test that the class declares no accessors — Table 7.15 has no Attribute rows.
+        """
+        methods = [name for name, value in TransformationProps.__dict__.items() if callable(value) and not name.startswith("_")]
+        assert methods == []
+
+    def test_concrete_subclass_initialization(self):
+        """
+        Test that a concrete subclass instantiates with the Identifiable state at defaults.
+        """
+        obj = ConcreteTransformationProps(MockParent(), "props")
+
+        assert obj.getShortName() == "props"
+        assert obj.getChecksum() is None
+        assert obj.getTimestamp() is None
+        assert obj.getUuid() is None

@@ -1332,6 +1332,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     TlvDataIdDefinitionSet,
     TransformationDescription,
     TransformationISignalProps,
+    TransformationProps,
     TransformationTechnology,
     UserDefinedTransformationDescription,
     UserDefinedTransformationISignalProps,
@@ -13753,6 +13754,13 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalTimeValue(child_element, "OFFSET-CORRECTION-JUMP-THRESHOLD", props.getOffsetCorrectionJumpThreshold())
         self.setChildElementOptionalTimeValue(child_element, "RATE-CORRECTION-MEASUREMENT-DURATION", props.getRateCorrectionMeasurementDuration())
         self.setChildElementOptionalPositiveInteger(child_element, "RATE-CORRECTIONS-PER-MEASUREMENT-DURATION", cast(Integer, props.getRateCorrectionsPerMeasurementDuration()))
+
+    def writeTransformationProps(self, element: ET.Element, props: TransformationProps):
+        # Populates the concrete subclass element (AP-SOMEIP-/SOMEIP-/USER-DEFINED-
+        # TRANSFORMATION-PROPS) created by the caller; the XSD TRANSFORMATION-PROPS group
+        # (AUTOSAR_00052.xsd l.125529) has an empty sequence, so the helper owns the
+        # Identifiable level only.
+        self.writeIdentifiable(element, props)
 
     def setGlobalTimeProps(self, element: ET.Element, key: str, props: Optional[GlobalTimeCouplingPortProps]):
         if props is not None:

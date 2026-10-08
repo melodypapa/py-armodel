@@ -2171,3 +2171,28 @@ class UserDefinedTransformationDescription(TransformationDescription):
 
     def __init__(self):
         super().__init__()
+
+
+class TransformationProps(Identifiable, ABC):
+    """
+    This meta-class represents a abstract base class for transformation settings.
+    """
+
+    # TransformationProps method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.15, p.783
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    #
+    # Table 7.15 has no Attribute rows (the column renders a single "-") and the XSD
+    # TRANSFORMATION-PROPS group (AUTOSAR_00052.xsd l.125529) has an empty sequence, so
+    # the class owns no attributes of its own. The reusable readTransformationProps /
+    # writeTransformationProps helpers own the Identifiable level of the concrete subclass
+    # elements (AP-SOMEIP-/SOMEIP-/USER-DEFINED-TRANSFORMATION-PROPS); aggregator dispatch
+    # (TransformationPropsSet.transformationProps) is pending — the subclasses are later-wave
+    # stubs.
+
+    def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is TransformationProps:
+            raise TypeError("TransformationProps is an abstract class.")
+
+        super().__init__(parent, short_name)
