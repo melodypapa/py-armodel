@@ -587,6 +587,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     FMAttributeDef,
+    FMFeatureRestriction,
     BinaryManifestMetaDataField,
     CpSoftwareClusterResource,
     CpSoftwareClusterToResourceMapping,
@@ -2126,6 +2127,13 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalNumericalValue(child_element, "DEFAULT-VALUE", attribute_def.getDefaultValue())
             self.setChildLimitElement(child_element, "MAX", attribute_def.getMax())
             self.setChildLimitElement(child_element, "MIN", attribute_def.getMin())
+
+
+    def writeFMFeatureRestriction(self, element: ET.Element, restriction: FMFeatureRestriction):
+        if restriction is not None:
+            child_element = ET.SubElement(element, "FM-FEATURE-RESTRICTION")
+            self.writeIdentifiable(child_element, restriction)
+            self.writeFMConditionByFeaturesAndAttributes(child_element, restriction.getRestriction(), key="RESTRICTION")
 
     def writePostBuildVariantCondition(self, element: ET.Element, condition: PostBuildVariantCondition):
         child_element = ET.SubElement(element, "POST-BUILD-VARIANT-CONDITION")

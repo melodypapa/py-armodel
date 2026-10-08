@@ -45,6 +45,7 @@ from abc import ABC
 from typing import Dict, List, Optional, TYPE_CHECKING, Union, cast
 
 if TYPE_CHECKING:
+    from armodel.models.M2.AUTOSARTemplates.FeatureModelTemplate import FMConditionByFeaturesAndAttributes
     from armodel.models.M2.MSR.AsamHdo.AdminData import AdminData
     from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName, MultiLanguageOverviewParagraph
     from armodel.models.M2.MSR.Documentation.TextModel.SingleLanguageData import SingleLanguageLongName
@@ -1486,7 +1487,38 @@ class FMFeatureRelation(Identifiable):
 
 
 class FMFeatureRestriction(Identifiable):
-    pass
+    """
+    Defines restrictions for FMFeatures. A FMFeature can only be part of a FMFeatureSelectionSet if at least one of its restrictions evaluate to true.
+    """
+
+    # FMFeatureRestriction method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf, Table 4.5, p.32
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getRestriction    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRestriction    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # A formula that contains the actual restriction.
+        self.restriction: Optional[FMConditionByFeaturesAndAttributes] = None
+
+    def getRestriction(self) -> Optional[FMConditionByFeaturesAndAttributes]:
+        """
+        A formula that contains the actual restriction.
+        """
+        return self.restriction
+
+    def setRestriction(self, value: Optional[FMConditionByFeaturesAndAttributes]) -> FMFeatureRestriction:
+        """
+        A formula that contains the actual restriction.
+
+        A None value is a no-op and does not overwrite an existing restriction.
+        """
+        if value is not None:
+            self.restriction = value
+        return self
 
 
 class FMFeatureSelection(Identifiable):

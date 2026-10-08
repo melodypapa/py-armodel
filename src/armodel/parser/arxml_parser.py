@@ -746,6 +746,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Enumerations import BindingTimeEnum, XmlSpaceEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     FMAttributeDef,
+    FMFeatureRestriction,
     BinaryManifestMetaDataField,
     CpSoftwareClusterResource,
     DdsCpConsumedServiceInstance,
@@ -2404,6 +2405,13 @@ class ARXMLParser(AbstractARXMLParser):
         attribute_def.setMax(self.getChildLimitElement(element, "MAX"))
         attribute_def.setMin(self.getChildLimitElement(element, "MIN"))
         return attribute_def
+
+    def readFMFeatureRestriction(self, element: ET.Element, restriction: FMFeatureRestriction) -> FMFeatureRestriction:
+        self.readIdentifiable(element, restriction)
+        restriction_element = self.find(element, "RESTRICTION")
+        if restriction_element is not None:
+            restriction.setRestriction(self.readFMConditionByFeaturesAndAttributes(restriction_element, FMConditionByFeaturesAndAttributes()))
+        return restriction
 
     def readPostBuildVariantCondition(self, element: ET.Element, condition: PostBuildVariantCondition) -> PostBuildVariantCondition:
         self.readARObject(element, condition)
