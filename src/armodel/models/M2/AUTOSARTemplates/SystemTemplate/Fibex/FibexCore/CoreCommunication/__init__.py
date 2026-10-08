@@ -3067,23 +3067,19 @@ class GeneralPurposeIPdu(IPdu):
 
 class SecureCommunicationPropsSet(FibexElement):
     """
-    Collection of properties used to configure SecuredIPdus.
+    Collection of properties used to configure SecuredIPdus. Tags: atp.recommendedPackage=SecureCommunicationPropsSet
     """
 
     # SecureCommunicationPropsSet method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.45, p.370
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                                         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] createSecureCommunicationAuthenticationProps     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getAuthenticationProps                           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createSecureCommunicationFreshnessProps          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getFreshnessProps                                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createSecureCommunicationAuthenticationProps [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAuthenticationProps                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createSecureCommunicationFreshnessProps      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFreshnessProps                            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the SecureCommunicationPropsSet.
-        """
         super().__init__(parent, short_name)
 
         # Authentication properties used to configure Secured IPdus.
