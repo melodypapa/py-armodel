@@ -2467,6 +2467,48 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(element)
         return cast(LinTpConfig, self.getReferrableElement(short_name, LinTpConfig))
 
+    def createFlexrayTpConfig(self, short_name: str) -> FlexrayTpConfig:
+
+        if not self.IsReferrableElementExists(short_name, FlexrayTpConfig):
+            element = FlexrayTpConfig(self, short_name)
+            self.addReferrableElement(element)
+        return cast(FlexrayTpConfig, self.getReferrableElement(short_name, FlexrayTpConfig))
+
+    def createFlexrayArTpConfig(self, short_name: str) -> FlexrayArTpConfig:
+
+        if not self.IsReferrableElementExists(short_name, FlexrayArTpConfig):
+            element = FlexrayArTpConfig(self, short_name)
+            self.addReferrableElement(element)
+        return cast(FlexrayArTpConfig, self.getReferrableElement(short_name, FlexrayArTpConfig))
+
+    def createEthTpConfig(self, short_name: str) -> EthTpConfig:
+
+        if not self.IsReferrableElementExists(short_name, EthTpConfig):
+            element = EthTpConfig(self, short_name)
+            self.addReferrableElement(element)
+        return cast(EthTpConfig, self.getReferrableElement(short_name, EthTpConfig))
+
+    def createSomeipTpConfig(self, short_name: str) -> SomeipTpConfig:
+
+        if not self.IsReferrableElementExists(short_name, SomeipTpConfig):
+            element = SomeipTpConfig(self, short_name)
+            self.addReferrableElement(element)
+        return cast(SomeipTpConfig, self.getReferrableElement(short_name, SomeipTpConfig))
+
+    def createIEEE1722TpConfig(self, short_name: str) -> IEEE1722TpConfig:
+
+        if not self.IsReferrableElementExists(short_name, IEEE1722TpConfig):
+            element = IEEE1722TpConfig(self, short_name)
+            self.addReferrableElement(element)
+        return cast(IEEE1722TpConfig, self.getReferrableElement(short_name, IEEE1722TpConfig))
+
+    def createIEEE1722TpCrfConnection(self, short_name: str) -> IEEE1722TpCrfConnection:
+
+        if not self.IsReferrableElementExists(short_name, IEEE1722TpCrfConnection):
+            element = IEEE1722TpCrfConnection(self, short_name)
+            self.addReferrableElement(element)
+        return cast(IEEE1722TpCrfConnection, self.getReferrableElement(short_name, IEEE1722TpCrfConnection))
+
     def createCanFrame(self, short_name: str) -> CanFrame:
         """
         Creates a new CAN Frame with the given short name,
@@ -5159,6 +5201,14 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import
     CanTpConfig,
     DoIpTpConfig,
     LinTpConfig,
+    EthTpConfig,
+    SomeipTpConfig,
+    FlexrayArTpConfig,
+    FlexrayTpConfig,
+    IEEE1722TpConfig,
+    IEEE1722TpConnection,
+    IEEE1722TpAvConnection,
+    IEEE1722TpCrfConnection,
 )
 from armodel.models.M2.MSR.AsamHdo.AdminData import AdminData  # noqa: E402
 from armodel.models.M2.MSR.AsamHdo.ComputationMethod import CompuMethod  # noqa: E402
@@ -11552,10 +11602,6 @@ class GlobalTimeDomain(ARElement):
     pass
 
 
-class IEEE1722TpConnection(ARElement, ABC):
-    pass
-
-
 class J1939ControllerApplication(ARElement):
     pass
 
@@ -11576,15 +11622,7 @@ class IEEE1722TpAcfConnection(IEEE1722TpConnection):
     pass
 
 
-class IEEE1722TpAvConnection(IEEE1722TpConnection, ABC):
-    pass
-
-
 class IEEE1722TpAafConnection(IEEE1722TpAvConnection):
-    pass
-
-
-class IEEE1722TpCrfConnection(IEEE1722TpAvConnection):
     pass
 
 

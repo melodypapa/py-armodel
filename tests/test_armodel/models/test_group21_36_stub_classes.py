@@ -2077,8 +2077,6 @@ STUBS = [
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
         "ARObject",
     ),
-    ("armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.__init__", "EthTpConfig", "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.__init__", "FibexElement"),
-    ("armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection", "EthTpConnection", "armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection", "TpConnection"),
     (
         "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication.__init__",
         "EthernetFrameTriggering",
@@ -2198,46 +2196,6 @@ STUBS = [
         "FMFeatureSelectionState",
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes",
         "AREnum",
-    ),
-    (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
-        "FlexrayArTpChannel",
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
-        "ARObject",
-    ),
-    ("armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.__init__", "FlexrayArTpConfig", "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.__init__", "FibexElement"),
-    ("armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection", "FlexrayArTpConnection", "armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection", "TpConnection"),
-    (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable",
-        "FlexrayArTpNode",
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable",
-        "Identifiable",
-    ),
-    ("armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.__init__", "FlexrayTpConfig", "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.__init__", "FibexElement"),
-    ("armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection", "FlexrayTpConnection", "armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection", "TpConnection"),
-    (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable",
-        "FlexrayTpConnectionControl",
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable",
-        "Identifiable",
-    ),
-    (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
-        "FlexrayTpEcu",
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
-        "ARObject",
-    ),
-    (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable",
-        "FlexrayTpNode",
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable",
-        "Identifiable",
-    ),
-    (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable",
-        "FlexrayTpPduPool",
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable",
-        "Identifiable",
     ),
     (
         "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology",
@@ -2379,33 +2337,9 @@ STUBS = [
     ),
     (
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage",
-        "IEEE1722TpConnection",
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage",
-        "ARElement",
-    ),
-    (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage",
-        "IEEE1722TpAvConnection",
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage",
-        "IEEE1722TpConnection",
-    ),
-    (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage",
         "IEEE1722TpAafConnection",
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage",
         "IEEE1722TpAvConnection",
-    ),
-    (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes",
-        "IEEE1722TpAafFormatEnum",
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes",
-        "AREnum",
-    ),
-    (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes",
-        "IEEE1722TpAafNominalRateEnum",
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes",
-        "AREnum",
     ),
     (
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable",
@@ -2454,30 +2388,6 @@ STUBS = [
         "IEEE1722TpAcfLinPart",
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable",
         "Identifiable",
-    ),
-    (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
-        "IEEE1722TpConfig",
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
-        "ARObject",
-    ),
-    (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage",
-        "IEEE1722TpCrfConnection",
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage",
-        "IEEE1722TpAvConnection",
-    ),
-    (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes",
-        "IEEE1722TpCrfPullEnum",
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes",
-        "AREnum",
-    ),
-    (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes",
-        "IEEE1722TpCrfTypeEnum",
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes",
-        "AREnum",
     ),
     (
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage",
@@ -3078,7 +2988,6 @@ STUBS = [
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable",
         "Identifiable",
     ),
-    ("armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.__init__", "SomeipTpConfig", "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.__init__", "FibexElement"),
     (
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
         "SomeipTpConnection",

@@ -58,13 +58,6 @@ BuildEngineeringObject
 BusspecificNmEcu
 CSTransformerErrorReactionEnum
 CanNmEcu
-CanTpAddress
-CanTpAddressingFormatType
-CanTpChannel
-CanTpConfig
-CanTpConnection
-CanTpEcu
-CanTpNode
 CanXlFrameTriggeringProps
 CanXlProps
 Caption
@@ -171,8 +164,6 @@ LanguageSpecific
 LifeCyclePeriod
 LinConfigurationEntry
 LinFrame
-LinTpConfig
-LinTpNode
 LinUnconditionalFrame
 Linker
 LinkerSymbolValue
@@ -218,7 +209,6 @@ MultiLanguagePlainText
 MultidimensionalTime
 NPdu
 NativeDeclarationString
-NetworkTargetAddressType
 NmCluster
 NmCoordinatorRoleEnum
 NmNode
@@ -325,8 +315,6 @@ TlsVersionEnum
 TlvDataIdDefinition
 Topic1
 TopicOrMsrQuery
-TpConfig
-TpConnection
 TpConnectionIdent
 TraceableTable
 TraceableText

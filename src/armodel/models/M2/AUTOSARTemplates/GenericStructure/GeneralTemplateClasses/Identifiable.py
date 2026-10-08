@@ -2182,22 +2182,6 @@ class DdsCpQosProfile(Identifiable):
         return self
 
 
-class FlexrayArTpNode(Identifiable):
-    pass
-
-
-class FlexrayTpConnectionControl(Identifiable):
-    pass
-
-
-class FlexrayTpNode(Identifiable):
-    pass
-
-
-class FlexrayTpPduPool(Identifiable):
-    pass
-
-
 class GlobalTimeCanSlave(Identifiable):
     pass
 

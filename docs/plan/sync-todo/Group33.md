@@ -96,315 +96,468 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `TpConfig` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.237, p.588
   - module: M2/AUTOSARTemplates/SystemTemplate/TransportProtocols.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Step 1 finding — spec table has no Base row; XSD complexType group chain
+    (AR-OBJECT → REFERRABLE → … → PACKAGEABLE-ELEMENT → FIBEX-ELEMENT → TP-CONFIG)
+    gives most-derived base `FibexElement` (Rule 0001.2), NOT the ARObject hint.
+    Abstract class aggregated by ARPackage.element with own XML attr → reusable
+    readTpConfig/writeTpConfig helpers (Rule 0001.7) — already present in parser/writer.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `FlexrayTpConfig` — FibexElement — R23-11 CP_TPS_SystemTemplate Table 6.239, p.592
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note: rehoused from the FibexCore `pass` stub to TransportProtocols.py — spec Package row =
+    SystemTemplate::TransportProtocols (Rule 0007 wins over the module hint); base is most-derived
+    TpConfig (spec Base row), not the FibexElement hint. Full reader/writer coverage + ARPackage
+    dispatch (FLEXRAY-TP-CONFIG). Child classes FlexrayTpPduPool/FlexrayTpConnection/
+    FlexrayTpConnectionControl/FlexrayTpEcu/FlexrayTpNode are still Group33 stubs — typed against
+    them, reader/writer cover their base levels only (identity/base serialization, Rule 0001.10
+    pending classes reported); stub-registry tuple removed.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `FlexrayTpConnectionControl` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 6.240, p.593
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - module: M2/AUTOSARTemplates/SystemTemplate/TransportProtocols.py
+  - note: rehoused from the Identifiable.py stub to TransportProtocols.py (spec Package row =
+    SystemTemplate::TransportProtocols, Rule 0007). XSD group FLEXRAY-TP-CONNECTION-CONTROL carries
+    VARIATION-POINT, so VariationPointCapable is mixed in and read/writeVariationPointCapable are
+    called. All 12 spec attrs modeled in displayed order (ackType, maxFcWait, maxNumberOfNpduPerCycle,
+    maxRetries, separationCycleExponent, timeBr, timeBuffer, timeCs, timeoutAr, timeoutAs, timeoutBs,
+    timeoutCr); XSD-only extras (MAX-AR, MAX-AS, MAX-BUFFER-SIZE, MAX-FR-IF, TIME-FR-IF, TIMEOUT-BR,
+    TIMEOUT-CS) absent from the PDF table NOT modeled (Rule 0015). ackType's type TpAckType has no own
+    R23-11 table (XSD-only, TP-ACK-TYPE line 144716, literals ACK-WITH-RT/NO-ACK) and is not a Group33
+    row — implemented from the XSD in the same commit (unstamped; Rule 0001.10). Writer XML element
+    order per XSD sequenceOffset coincides with the PDF displayed order for the modeled subset.
+    FlexrayTpConnection.tpConnectionControlRef stays Optional[RefType] — same convention as the
+    FlexrayTpPduPool-typed rxPduPoolRef/txPduPoolRef.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `FlexrayTpConnection` — TpConnection — R23-11 CP_TPS_SystemTemplate Table 6.241, p.594
   - module: M2/AUTOSARTemplates/SystemTemplate/DiagnosticConnection.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note: rehoused from the DiagnosticConnection.py stub to TransportProtocols.py (spec Package row =
+    SystemTemplate::TransportProtocols, Rule 0007); base is most-derived TpConnection per the spec Base
+    row. XSD group FLEXRAY-TP-CONNECTION carries VARIATION-POINT, so VariationPointCapable is mixed in
+    (same as CanTpConnection/LinTpConnection) and read/writeVariationPointCapable are called. All 9 spec
+    attrs modeled in displayed order (bandwidthLimitation, directTpSdu, multicast, receiver `*`,
+    reversedTpSdu, rxPduPool, tpConnectionControl, transmitter, txPduPool); receiverRefs shares the
+    readTpConnectionReceiverRefs/writeTpConnectionReceiverRefs helper (Union extended).
+    tpConnectionControl targets FlexrayTpConnectionControl — a later Group33 row, typed as a plain
+    RefType ref here. Same commit rehoused the EthTpConnection/FlexrayArTpConnection stubs to
+    TransportProtocols.py and removed all three stub-registry tuples.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `FlexrayTpPduPool` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 6.242, p.596
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - module: M2/AUTOSARTemplates/SystemTemplate/TransportProtocols.py
+  - note: rehoused from the Identifiable.py stub to TransportProtocols.py (spec Package row =
+    SystemTemplate::TransportProtocols, Rule 0007). XSD group FLEXRAY-TP-PDU-POOL carries
+    VARIATION-POINT, so VariationPointCapable is mixed in and read/writeVariationPointCapable are
+    called. Single spec attr nPdu (`*` ref) modeled as nPduRefs (N-PDU-REFS/N-PDU-REF wrapper per the
+    XSD, written only when non-empty); the PDF table has no Note column, so the attribute docstring is
+    the N-PDU-REFS documentation verbatim from the XSD (TpConfig precedent).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `FlexrayTpNode` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 6.243, p.596
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - module: M2/AUTOSARTemplates/SystemTemplate/TransportProtocols.py
+  - note: rehoused from the Identifiable.py stub to TransportProtocols.py (spec Package row =
+    SystemTemplate::TransportProtocols, Rule 0007). XSD group FLEXRAY-TP-NODE carries
+    VARIATION-POINT, so VariationPointCapable is mixed in and read/writeVariationPointCapable are
+    called. Both spec attrs modeled in displayed order (connector `*` ref → connectorRefs with the
+    CONNECTOR-REFS/CONNECTOR-REF wrapper per the XSD, tpAddress 0..1 ref → tpAddressRef); the PDF
+    table has no Note column, so attribute docstrings are the CONNECTOR-REFS/TP-ADDRESS-REF
+    documentation verbatim from the XSD (TpConfig precedent; the XSD's double space in
+    "Association  to" is reproduced verbatim).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `FlexrayTpEcu` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.244, p.597
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - module: M2/AUTOSARTemplates/SystemTemplate/TransportProtocols.py
+  - note: rehoused from the ArObject.py stub to TransportProtocols.py (spec Package row =
+    SystemTemplate::TransportProtocols, Rule 0007); the ARObject base hint is confirmed by both the
+    PDF Base row and the XSD complexType (AR-OBJECT group only). XSD group FLEXRAY-TP-ECU carries
+    VARIATION-POINT, so VariationPointCapable is mixed in (CanTpEcu precedent) and
+    read/writeVariationPointCapable are called. All 4 spec attrs modeled in displayed order
+    (cancellation, cycleTimeMainFunction, ecuInstance → ecuInstanceRef, fullDuplexEnabled); the
+    XSD-only TRANSMIT-CANCELLATION element is absent from the PDF table and NOT modeled (Rule 0015).
+    The PDF table has no Note column, so attribute docstrings are the XSD element documentation
+    verbatim; class docstring Note + constr_9236/9237 from the markdown.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `FlexrayArTpConfig` — FibexElement — R23-11 CP_TPS_SystemTemplate Table 6.245, p.600
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note: rehoused from the FibexCore `pass` stub to TransportProtocols.py (spec Package row =
+    SystemTemplate::TransportProtocols, Rule 0007); base is most-derived TpConfig, not the
+    FibexElement hint. Full reader/writer coverage + ARPackage dispatch (FLEXRAY-AR-TP-CONFIG).
+    Children FlexrayArTpChannel/FlexrayArTpNode are still Group33 stubs — typed against them,
+    reader/writer cover base levels only (Rule 0001.10 pending reported); stub-registry tuple
+    removed.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `FlexrayArTpChannel` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.246, p.602
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - module: M2/AUTOSARTemplates/SystemTemplate/TransportProtocols.py
+  - note: rehoused from the ArObject.py stub to TransportProtocols.py (spec Package row =
+    SystemTemplate::TransportProtocols, Rule 0007); the ARObject base hint is confirmed by both the
+    PDF Base row and the XSD complexType (AR-OBJECT group only). XSD group FLEXRAY-AR-TP-CHANNEL
+    carries VARIATION-POINT, so VariationPointCapable is mixed in and read/writeVariationPointCapable
+    are called. All 20 spec attrs modeled in displayed order across the 3 page chunks (ackType,
+    cancellation, extendedAddressing, maxAr, maxAs, maxBs, maxFcWait, maximumMessageLength, maxRetries,
+    minimumMulticastSeperationTime — spec's own spelling kept, minimumSeparationTime,
+    multicastSegmentation, nPdu `*` ref → nPduRefs with the N-PDU-REFS wrapper, timeBr, timeCs,
+    timeoutAr, timeoutAs, timeoutBs, timeoutCr, tpConnection `*` aggr → tpConnections); the deferred
+    FLEXRAY-AR-TP-CONNECTION dispatch is wired in this commit (reader TP-CONNECTIONS branch creates
+    FlexrayArTpConnection, writer emits TP-CONNECTIONS). XSD-only extras (FLOW-CONTROL-PDU-REF with
+    atp.Status="removed", MAX-BUFFER-REQUEST, MAX-FR-IF, TIME-BUFFER, TIME-FR-IF, PDU-POOLS/N-PDU
+    aggregation, TRANSMIT-CANCELLATION) are absent from the PDF table and NOT modeled (Rule 0015).
+    Referenced stub enums FrArTpAckType/MaximumMessageLengthType synced in the same commit
+    (Rule 0001.10); their literal members were not yet defined, so the placeholder-free typed read
+    (ACK-TYPE/MAXIMUM-MESSAGE-LENGTH value form) needed them first.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `FlexrayArTpNode` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 6.247, p.603
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - module: M2/AUTOSARTemplates/SystemTemplate/TransportProtocols.py
+  - note: rehoused from the Identifiable.py stub to TransportProtocols.py (spec Package row =
+    SystemTemplate::TransportProtocols, Rule 0007; the parser/writer imports were moved from
+    Identifiable.py to TransportProtocols.py in the same commit). XSD group FLEXRAY-AR-TP-NODE
+    carries VARIATION-POINT, so VariationPointCapable is mixed in and read/writeVariationPointCapable
+    are called. Both spec attrs modeled in displayed order (connector `*` ref → connectorRefs with the
+    CONNECTOR-REFS/CONNECTOR-REF wrapper per the XSD, tpAddress 0..1 ref → tpAddressRef); the PDF
+    table has no Note column, so attribute docstrings are the CONNECTOR-REFS/TP-ADDRESS-REF
+    documentation verbatim from the XSD (the XSD's double space in "Association  to" is reproduced
+    verbatim). The class docstring Note ends at "...the connection to the Topology" — verbatim from
+    the markdown, which lacks the trailing "description." that sibling FlexrayTpNode has.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `FlexrayArTpConnection` — TpConnection — R23-11 CP_TPS_SystemTemplate Table 6.248, p.603
   - module: M2/AUTOSARTemplates/SystemTemplate/DiagnosticConnection.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note: rehoused from the DiagnosticConnection.py stub to TransportProtocols.py (spec Package row =
+    SystemTemplate::TransportProtocols, Rule 0007; stub rehousing + tuple removal landed with the
+    FlexrayTpConnection commit); base is most-derived TpConnection per the spec Base row, and the XSD
+    group FLEXRAY-AR-TP-CONNECTION carries no VARIATION-POINT, so no VariationPointCapable mixin. All 6
+    spec attrs modeled in displayed order (connectionPrioPdus, directTpSdu, multicast, reversedTpSdu,
+    source, target `*`). XSD-only extras flowControlPdu (FLOW-CONTROL-PDU-REF) and transmitPdus
+    (TRANSMIT-PDU-REFS) are absent from the R23-11 PDF table and therefore NOT modeled (Rule 0015).
+    TP-CONNECTIONS dispatch is deferred to the FlexrayArTpChannel sync — the channel is a still-stub
+    Group33 row with no tpConnection aggregation, so readFlexrayArTpConnection/writeFlexrayArTpConnection
+    cover the class's own XML group and wait for the aggregator (Rule 0001.10 pending).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `FrArTpAckType` — AREnum — R23-11 CP_TPS_SystemTemplate Table 6.249, p.604
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note: synced in the FlexrayArTpChannel commit as a Rule 0001.10 dependency (FlexrayArTpChannel.ackType
+    types this enum and the stub was not instantiable). Literals ACK-WITH-RT/ACK-WITHOUT-RT/NO-ACK
+    verified against the XSD `FR-AR-TP-ACK-TYPE--SIMPLE` facets; __init__ tuple in XSD facet order
+    (ACK-WITH-RT first per the XSD, though the markdown literal-index order starts at
+    ackWithoutRt — XSD facet order wins per Rule 0011). Standalone enum — Steps 5/6 N/A, serialized as
+    value form on FlexrayArTpChannel.ackType.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A (standalone enum)
+  - [x] Step 6 — Update parser & writer (Green) — N/A (standalone enum)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `MaximumMessageLengthType` — AREnum — R23-11 CP_TPS_SystemTemplate Table 6.250, p.604
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note: synced in the FlexrayArTpChannel commit as a Rule 0001.10 dependency
+    (FlexrayArTpChannel.maximumMessageLength types this enum and the stub was not instantiable).
+    Literals I-4-G/ISO/ISO-6 verified against the XSD `MAXIMUM-MESSAGE-LENGTH-TYPE--SIMPLE` facets;
+    class docstring reproduces the markdown Note verbatim ("Type of Acknowledgement." — the spec
+    table's own copy-paste quirk). Standalone enum — Steps 5/6 N/A, serialized as value form on
+    FlexrayArTpChannel.maximumMessageLength.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A (standalone enum)
+  - [x] Step 6 — Update parser & writer (Green) — N/A (standalone enum)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `CanTpConfig` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.251, p.607
   - module: M2/AUTOSARTemplates/SystemTemplate/TransportProtocols.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Step 1 finding — spec table has no Base row; XSD complexType group chain
+    (… → FIBEX-ELEMENT → TP-CONFIG → CAN-TP-CONFIG) gives most-derived base
+    `TpConfig` (Rule 0001.2), NOT the ARObject hint. All five attrs are `*` aggr;
+    wrapper TP-ADDRESSS (XSD spelling, sic) / TP-CHANNELS / TP-CONNECTIONS /
+    TP-ECUS / TP-NODES with item tags CAN-TP-ADDRESS etc. — reader/writer already
+    present; docstrings rewritten to full verbatim Notes incl. Stereotypes/Tags tails.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `CanTpChannel` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 6.252, p.608
   - module: M2/AUTOSARTemplates/SystemTemplate/TransportProtocols.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
+    - Note: `/tmp/g33spec/CanTpChannel.txt` had grabbed the wrong table (CanTpConnection page-split rows); re-verified against the markdown — the real Table 6.252 has one attribute `channelId` (PositiveInteger 0..1), Base ARObject/Identifiable/MultilanguageReferrable/Referrable. Legacy 5-column checklist upgraded to 6-column; stale `# Spec verified: R23-11` marker from an earlier pass removed, stamping deferred to batch 9b.
 
 - [ ] `CanTpConnection` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.253, p.609
   - module: M2/AUTOSARTemplates/SystemTemplate/TransportProtocols.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
+    - Note: Base confirmed from the spec table as `ARObject, TpConnection` → Python base `TpConnection` (the Group33 hint "ARObject" was the full chain, not the most-derived base); table is page-split 608–609 (first-half rows carry the Table 6.252 caption block in the markdown render). `taType` retyped from `Optional[ARLiteral]` to the spec type `Optional[NetworkTargetAddressType]` (Rule 0001.3) — parser constructs the enum, writer emits value form; `timeoutBr` getter/setter docstrings restored to verbatim (backticks removed). Legacy 5-column checklist upgraded to 6-column; stale `# Spec verified: R23-11` marker removed, stamping deferred to batch 9b.
 
 - [ ] `CanTpAddressingFormatType` — AREnum — R23-11 CP_TPS_SystemTemplate Table 6.254, p.610
   - module: M2/AUTOSARTemplates/SystemTemplate/TransportProtocols.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
+    - Note: standalone enum — Steps 5/6 N/A, serialized as value form on CanTpConnection.addressingFormat; literals/VALUES verified against the XSD `CAN-TP-ADDRESSING-FORMAT-TYPE--SIMPLE` facets (EXTENDED, MIXED, MIXED-29-BIT, NORMALFIXED, STANDARD). Legacy 5-column checklist upgraded to 6-column; stale `# Spec verified: R23-11` marker removed, stamping deferred to batch 9b.
 
 - [ ] `CanTpAddress` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 6.255, p.610
   - module: M2/AUTOSARTemplates/SystemTemplate/TransportProtocols.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
+    - Note: fields `tpAddress`/`tpAddressExtensionValue` (Integer 0..1, verbatim Notes), Base ARObject/Identifiable/MultilanguageReferrable/Referrable confirmed. Legacy 5-column checklist upgraded to 6-column; stale `# Spec verified: R23-11` marker removed, stamping deferred to batch 9b.
 
 - [ ] `CanTpEcu` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.256, p.610
   - module: M2/AUTOSARTemplates/SystemTemplate/TransportProtocols.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
+    - Note: Base ARObject confirmed (the Group33 hint was right for this class); fields `cycleTimeMainFunction` (TimeValue 0..1) and `ecuInstanceRef` (ref) with verbatim Notes. Legacy 5-column checklist upgraded to 6-column; stale `# Spec verified: R23-11` marker removed, stamping deferred to batch 9b.
 
 - [ ] `CanTpNode` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 6.257, p.611
   - module: M2/AUTOSARTemplates/SystemTemplate/TransportProtocols.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
+    - Note: fields connectorRef/maxFcWait/stMin/timeoutAr/timeoutAs/tpAddressRef in displayed row order, verbatim Notes; Base ARObject/Identifiable/MultilanguageReferrable/Referrable confirmed. Legacy 5-column checklist upgraded to 6-column; stale `# Spec verified: R23-11` marker removed, stamping deferred to batch 9b.
 
 - [ ] `NetworkTargetAddressType` — AREnum — R23-11 CP_TPS_SystemTemplate Table 6.258, p.611
   - module: M2/AUTOSARTemplates/SystemTemplate/TransportProtocols.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
+    - Note: standalone enum — Steps 5/6 N/A, serialized as value form on CanTpConnection.taType; literals FUNCTIONAL/PHYSICAL verified against the XSD `NETWORK-TARGET-ADDRESS-TYPE--SIMPLE` facets. Deviation: XSD-only literals `FUNCTIONAL-CAN-FD`/`PHYSICAL-CAN-FD` carry `atp.Status="removed"` — deprecated, not implemented (Rule 0001.3). Legacy 5-column checklist upgraded to 6-column; stale `# Spec verified: R23-11` marker removed, stamping deferred to batch 9b.
 
 - [ ] `LinTpConfig` — FibexElement — R23-11 CP_TPS_SystemTemplate Table 6.259, p.614
   - module: M2/AUTOSARTemplates/SystemTemplate/TransportProtocols.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note: drift re-sync (legacy 5-column checklist + stale `# Spec verified: R23-11` marker,
+    Rule 0012.3/0023) — marker removed; accessors were untyped and docstring-less, now typed
+    (Rule 0003) with verbatim markdown Notes incl. the "variation Point" rendering; base is
+    most-derived TpConfig (spec Base row), not the FibexElement hint; reader/writer + dispatch
+    and model/round-trip tests pre-existed and stay green; 9b deferred.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `LinTpNode` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 6.260, p.615
   - module: M2/AUTOSARTemplates/SystemTemplate/TransportProtocols.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note: drift re-sync (legacy 5-column checklist + stale `# Spec verified: R23-11` marker,
+    Rule 0012.3/0023) — marker removed, checklist upgraded to 6-column; field-to-spec
+    cross-check clean both directions (6 attrs, verbatim Notes, Optional shapes match Mult.
+    0..1); reader/writer + dispatch and model/round-trip tests pre-existed and stay green;
+    9b deferred.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `EthTpConfig` — FibexElement — R23-11 CP_TPS_SystemTemplate Table 6.262, p.617
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note: rehoused from the FibexCore `pass` stub to TransportProtocols.py (spec Package row =
+    SystemTemplate::TransportProtocols, Rule 0007); base is most-derived TpConfig, not the
+    FibexElement hint. Full reader/writer coverage + ARPackage dispatch (ETH-TP-CONFIG).
+    Child EthTpConnection is still a Group33 stub — typed against it, reader/writer cover the
+    TpConnection base level only (Rule 0001.10 pending reported); the tpConnection Note
+    "Senders and receivers of SOME/IP TP messages." is the spec's own wording, kept verbatim;
+    stub-registry tuple removed.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `EthTpConnection` — TpConnection — R23-11 CP_TPS_SystemTemplate Table 6.263, p.618
   - module: M2/AUTOSARTemplates/SystemTemplate/DiagnosticConnection.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note: rehoused from the DiagnosticConnection.py stub to TransportProtocols.py (spec Package row =
+    SystemTemplate::TransportProtocols, Rule 0007; stub rehousing + tuple removal landed with the
+    FlexrayTpConnection commit); base is most-derived TpConnection per the spec Base row, and the XSD
+    group ETH-TP-CONNECTION carries no VARIATION-POINT, so no VariationPointCapable mixin. Single spec
+    attr tpSdu (`*` ref to PduTriggering) modeled as tpSduRefs (TP-SDU-REFS/TP-SDU-REF wrapper,
+    empty-wrapper case covered); dispatch already exists at the EthTpConfig level.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `SomeipTpConfig` — FibexElement — R23-11 CP_TPS_SystemTemplate Table 6.264, p.619
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note: rehoused from the FibexCore `pass` stub to TransportProtocols.py (spec Package row =
+    SystemTemplate::TransportProtocols, Rule 0007); base is most-derived TpConfig, not the
+    FibexElement hint. Full reader/writer coverage + ARPackage dispatch (SOMEIP-TP-CONFIG).
+    Children SomeipTpChannel/SomeipTpConnection are still Group33 stubs — typed against them,
+    reader/writer cover base levels only (Rule 0001.10 pending reported); stub-registry tuple
+    removed.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `SomeipTpConnection` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.265, p.620
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
@@ -480,87 +633,100 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `TpConnection` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.272, p.633
   - module: M2/AUTOSARTemplates/SystemTemplate/DiagnosticConnection.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: drift re-sync — legacy 5-column checklist upgraded to 6-column; stale
+    `# Spec verified: R23-11` marker from an earlier pass removed, stamping deferred to
+    batch 9b. Field↔spec verified both directions: single attr `ident` (TpConnectionIdent,
+    0..1 aggr) matches; Base ARObject confirmed (XSD TP-CONNECTION group has no
+    VARIATION-POINT → no mixin); docstrings already verbatim. Model/reader/writer were
+    spec-conformant — no code change; mirrored TestTpConnection added to
+    test_DiagnosticConnection.py pinning docstring/type-hints/factory shape.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `IEEE1722TpConfig` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.274, p.637
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
+    - Note: Base hint ARObject was wrong — spec table has no Base row; XSD complexType IEEE-1722-TP-CONFIG groups FIBEX-ELEMENT + TP-CONFIG, so base = TpConfig (Rule 0001.2). Module: rehoused from ArObject.py stub to new `SystemTemplate/TransportProtocols/IEEE1722Tp/__init__.py` (spec Package row ...TransportProtocols::IEEE1722Tp, Rule 0007; TransportProtocols.py converted to a package to avoid X.py+X/ shadowing). tpConnection is Kind=ref `*` -> tpConnectionRefs wrapper list (TP-CONNECTIONS/IEEE-1722-TP-CONNECTION-REF-CONDITIONAL).
 
 - [ ] `IEEE1722TpConnection` — ARElement — R23-11 CP_TPS_SystemTemplate Table 6.275, p.637
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
+    - Note: module hint ARPackage.py overridden — spec Package row ...TransportProtocols::IEEE1722Tp -> `SystemTemplate/TransportProtocols/IEEE1722Tp/__init__.py` (Rule 0007). Abstract (TypeError guard), Base = ARElement per spec Base row (most-derived). XSD-only COMMUNICATION-DIRECTION (mmt.RestrictToStandards=AP) not modeled per Rule 0015 (absent from PDF table). No ARPackage create-factory / read/write dispatch for the abstract class (no standalone element); owns reusable readIEEE1722TpConnection/writeIEEE1722TpConnection helpers for concrete subclasses.
 
 - [ ] `IEEE1722TpAvConnection` — IEEE1722TpConnection — R23-11 CP_TPS_SystemTemplate Table 6.276, p.639
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
+    - Note: module hint ARPackage.py overridden — spec Package row ...TransportProtocols::IEEE1722Tp -> `SystemTemplate/TransportProtocols/IEEE1722Tp/__init__.py` (Rule 0007). Abstract; Base = IEEE1722TpConnection (most-derived from spec Base row). sdu Kind=ref `*` -> sduRefs wrapper list (SDU-REFS/SDU-REF). No ARPackage create-factory / dispatch for the abstract class; owns reusable readIEEE1722TpAvConnection/writeIEEE1722TpAvConnection helpers.
 
 - [ ] `IEEE1722TpCrfConnection` — IEEE1722TpAvConnection — R23-11 CP_TPS_SystemTemplate Table 6.277, p.640
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
+    - Note: module hint ARPackage.py overridden — spec Package row ...IEEE1722Tp::IEEE1722TpAv -> `TransportProtocols/IEEE1722Tp/IEEE1722TpAv.py` (Rule 0007, together with the two enum member types). Base = IEEE1722TpAvConnection (most-derived from spec Base row). Concrete ARPackage element: ARPackage.createIEEE1722TpCrfConnection + read/write dispatch on IEEE-1722-TP-CRF-CONNECTION; crfPull/crfType serialize as value form of the two enum member types (synced in this batch).
 
 - [ ] `IEEE1722TpCrfTypeEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 6.278, p.640
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; Steps 5/6 N/A (standalone enum, round-trips as value form on IEEE1722TpCrfConnection.crfType); 9b deferred to batch confirmation (user instruction)
+    - Note: module hint PrimitiveTypes.py overridden — spec Package row ...IEEE1722Tp::IEEE1722TpAv -> `TransportProtocols/IEEE1722Tp/IEEE1722TpAv.py` (Rule 0007). Member values = exact XSD facets (AUDIO-SAMPLE, MACHINE-CYCLE, USER, VIDEO-FRAME, VIDEO-LINE) in XSD facet order; member names from the markdown literals (audioSample -> ENUM_AUDIO_SAMPLE). Corpus caption for Table 6.278 (and 6.277) was rendered as a `## Table N.M:` heading (markdown conversion artifact) which the audit CITATION index cannot see; normalized those two caption lines to plain `Table N.M:` form (caption text unchanged) so the citation verifies mechanically.
 
 - [ ] `IEEE1722TpCrfPullEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 6.279, p.641
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; Steps 5/6 N/A (standalone enum, round-trips as value form on IEEE1722TpCrfConnection.crfPull); 9b deferred to batch confirmation (user instruction)
+    - Note: module hint PrimitiveTypes.py overridden — spec Package row ...IEEE1722Tp::IEEE1722TpAv -> `TransportProtocols/IEEE1722Tp/IEEE1722TpAv.py` (Rule 0007). Member values = exact XSD facets ("1-0", "1-001", "1-1-001", "1-8", "24-25", "25-24") in XSD facet order (differs from the atp.EnumerationLiteralIndex order); member names from the markdown literals (_1_0 -> ENUM_1_0).
 
 - [ ] `IEEE1722TpAafConnection` — IEEE1722TpAvConnection — R23-11 CP_TPS_SystemTemplate Table 6.280, p.643
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
@@ -576,27 +742,29 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `IEEE1722TpAafNominalRateEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 6.281, p.644
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; Steps 5/6 N/A (standalone enum, round-trips as value form on IEEE1722TpAafConnection.aafNominalRate); 9b deferred to batch confirmation (user instruction)
+    - Note: module hint PrimitiveTypes.py overridden — spec Package row ...IEEE1722Tp::IEEE1722TpAv -> `TransportProtocols/IEEE1722Tp/IEEE1722TpAv.py` (Rule 0007); PrimitiveTypes.py stub + stub-registry tuple removed. 11 literals; member values = exact XSD facets; order = XSD facet order wins (8-KHZ before 88-2-KHZ, differs from both the markdown alphabetical render and the atp.EnumerationLiteralIndex order); member names from markdown literals (_16kHz -> ENUM_16KHZ, user -> ENUM_USER).
 
 - [ ] `IEEE1722TpAafFormatEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 6.282, p.644
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A standalone enum (value form on IEEE1722TpAafConnection.aafFormat)
+  - [x] Step 6 — Update parser & writer (Green) — N/A standalone enum (value form on IEEE1722TpAafConnection.aafFormat)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
+    - Note: module hint PrimitiveTypes.py overridden — spec Package row ...IEEE1722Tp::IEEE1722TpAv -> `TransportProtocols/IEEE1722Tp/IEEE1722TpAv.py` (Rule 0007); PrimitiveTypes.py stub + stub-registry tuple removed. 6 literals; values = exact XSD facets (IEEE-1722-TP-AAF-FORMAT-ENUM--SIMPLE); order = XSD facet order = displayed markdown order (AES-3-32-BIT first, EnumerationLiteralIndex 5/1/4/3/2/0 recorded in member comments).
 
 - [ ] `IEEE1722TpAafAes3DataTypeEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 6.283, p.645
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py

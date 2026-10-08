@@ -778,6 +778,8 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     CIdentifier,
     DateTime,
     DdsDurabilityKindEnum,
+    FrArTpAckType,
+    MaximumMessageLengthType,
     DdsDurabilityServiceHistoryKindEnum,
     DdsDestinationOrderKindEnum,
     DdsHistoryKindEnum,
@@ -1576,9 +1578,32 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import
     DoIpLogicAddress,
     DoIpTpConfig,
     DoIpTpConnection,
+    EthTpConfig,
+    EthTpConnection,
+    FlexrayArTpChannel,
+    FlexrayArTpConfig,
+    FlexrayArTpConnection,
+    FlexrayArTpNode,
+    FlexrayTpConfig,
+    FlexrayTpConnection,
+    FlexrayTpConnectionControl,
+    FlexrayTpEcu,
+    FlexrayTpNode,
+    FlexrayTpPduPool,
+    IEEE1722TpConfig,
+    IEEE1722TpConnection,
+    IEEE1722TpAvConnection,
+    IEEE1722TpCrfConnection,
+    IEEE1722TpCrfPullEnum,
+    IEEE1722TpCrfTypeEnum,
     LinTpConfig,
     LinTpConnection,
     LinTpNode,
+    NetworkTargetAddressType,
+    SomeipTpChannel,
+    SomeipTpConfig,
+    SomeipTpConnection,
+    TpAckType,
     TpAddress,
     TpConfig,
 )
@@ -14310,7 +14335,7 @@ class ARXMLParser(AbstractARXMLParser):
             ident = connection.createTpConnectionIdent(self.getShortName(child_element))
             self.readReferrable(child_element, ident)
 
-    def readTpConnectionReceiverRefs(self, element: ET.Element, connection: CanTpConnection):
+    def readTpConnectionReceiverRefs(self, element: ET.Element, connection: Union[CanTpConnection, FlexrayTpConnection, LinTpConnection]):
         for ref in self.getChildElementRefTypeList(element, "RECEIVER-REFS/RECEIVER-REF"):
             connection.addReceiverRef(ref)
 
@@ -14329,7 +14354,11 @@ class ARXMLParser(AbstractARXMLParser):
         connection.setMulticastRef(self.getChildElementOptionalRefType(element, "MULTICAST-REF"))
         connection.setPaddingActivation(self.getChildElementOptionalBooleanValue(element, "PADDING-ACTIVATION"))
         self.readTpConnectionReceiverRefs(element, connection)
-        connection.setTaType(self.getChildElementOptionalLiteral(element, "TA-TYPE"))
+        ta_type_literal = self.getChildElementOptionalLiteral(element, "TA-TYPE")
+        if ta_type_literal is not None:
+            ta_type = NetworkTargetAddressType()
+            ta_type.setValue(ta_type_literal.getValue())
+            connection.setTaType(ta_type)
         connection.setTimeoutBr(self.getChildElementOptionalTimeValue(element, "TIMEOUT-BR"))
         connection.setTimeoutBs(self.getChildElementOptionalTimeValue(element, "TIMEOUT-BS"))
         connection.setTimeoutCr(self.getChildElementOptionalTimeValue(element, "TIMEOUT-CR"))
@@ -14450,6 +14479,312 @@ class ARXMLParser(AbstractARXMLParser):
         self.readLinTpConfigTpAddresses(element, config)
         self.readLinTpConfigTpConnections(element, config)
         self.readLinTpConfigTpNodes(element, config)
+
+    def readFlexrayTpPduPool(self, element: ET.Element, pool: FlexrayTpPduPool):
+        self.readIdentifiable(element, pool)
+        for ref in self.getChildElementRefTypeList(element, "N-PDU-REFS/N-PDU-REF"):
+            pool.addNPduRef(ref)
+        self.readVariationPointCapable(element, pool)
+
+    def readFlexrayTpConfigPduPools(self, element: ET.Element, config: FlexrayTpConfig):
+        for child_element in self.findall(element, "PDU-POOLS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "FLEXRAY-TP-PDU-POOL":
+                pool = config.createFlexrayTpPduPool(self.getShortName(child_element))
+                self.readFlexrayTpPduPool(child_element, pool)
+            else:
+                self.notImplemented("Unsupported TpPduPool <%s>" % tag_name)
+
+    def readFlexrayTpConfigTpAddresses(self, element: ET.Element, config: FlexrayTpConfig):
+        for child_element in self.findall(element, "TP-ADDRESSS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "TP-ADDRESS":
+                address = config.createTpAddress(self.getShortName(child_element))
+                self.readTpAddress(child_element, address)
+            else:
+                self.notImplemented("Unsupported TpAddress <%s>" % tag_name)
+
+    def readFlexrayTpConnection(self, element: ET.Element, connection: FlexrayTpConnection):
+        self.readTpConnection(element, connection)
+        connection.setBandwidthLimitation(self.getChildElementOptionalBooleanValue(element, "BANDWIDTH-LIMITATION"))
+        connection.setDirectTpSduRef(self.getChildElementOptionalRefType(element, "DIRECT-TP-SDU-REF"))
+        connection.setMulticastRef(self.getChildElementOptionalRefType(element, "MULTICAST-REF"))
+        self.readTpConnectionReceiverRefs(element, connection)
+        connection.setReversedTpSduRef(self.getChildElementOptionalRefType(element, "REVERSED-TP-SDU-REF"))
+        connection.setRxPduPoolRef(self.getChildElementOptionalRefType(element, "RX-PDU-POOL-REF"))
+        connection.setTpConnectionControlRef(self.getChildElementOptionalRefType(element, "TP-CONNECTION-CONTROL-REF"))
+        connection.setTransmitterRef(self.getChildElementOptionalRefType(element, "TRANSMITTER-REF"))
+        connection.setTxPduPoolRef(self.getChildElementOptionalRefType(element, "TX-PDU-POOL-REF"))
+        self.readVariationPointCapable(element, connection)
+
+    def readFlexrayTpConfigTpConnections(self, element: ET.Element, config: FlexrayTpConfig):
+        for child_element in self.findall(element, "TP-CONNECTIONS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "FLEXRAY-TP-CONNECTION":
+                connection = FlexrayTpConnection()
+                self.readFlexrayTpConnection(child_element, connection)
+                config.addTpConnection(connection)
+            else:
+                self.notImplemented("Unsupported TpConnection <%s>" % tag_name)
+
+    def readFlexrayTpConnectionControl(self, element: ET.Element, control: FlexrayTpConnectionControl):
+        self.readIdentifiable(element, control)
+        ack_type_literal = self.getChildElementOptionalLiteral(element, "ACK-TYPE")
+        if ack_type_literal is not None:
+            ack_type = TpAckType()
+            ack_type.setValue(ack_type_literal.getValue())
+            control.setAckType(ack_type)
+        control.setMaxFcWait(self.getChildElementOptionalIntegerValue(element, "MAX-FC-WAIT"))
+        control.setMaxNumberOfNpduPerCycle(self.getChildElementOptionalIntegerValue(element, "MAX-NUMBER-OF-NPDU-PER-CYCLE"))
+        control.setMaxRetries(self.getChildElementOptionalIntegerValue(element, "MAX-RETRIES"))
+        control.setSeparationCycleExponent(self.getChildElementOptionalIntegerValue(element, "SEPARATION-CYCLE-EXPONENT"))
+        control.setTimeBr(self.getChildElementOptionalTimeValue(element, "TIME-BR"))
+        control.setTimeBuffer(self.getChildElementOptionalTimeValue(element, "TIME-BUFFER"))
+        control.setTimeCs(self.getChildElementOptionalTimeValue(element, "TIME-CS"))
+        control.setTimeoutAr(self.getChildElementOptionalTimeValue(element, "TIMEOUT-AR"))
+        control.setTimeoutAs(self.getChildElementOptionalTimeValue(element, "TIMEOUT-AS"))
+        control.setTimeoutBs(self.getChildElementOptionalTimeValue(element, "TIMEOUT-BS"))
+        control.setTimeoutCr(self.getChildElementOptionalTimeValue(element, "TIMEOUT-CR"))
+        self.readVariationPointCapable(element, control)
+
+    def readFlexrayTpConfigTpConnectionControls(self, element: ET.Element, config: FlexrayTpConfig):
+        for child_element in self.findall(element, "TP-CONNECTION-CONTROLS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "FLEXRAY-TP-CONNECTION-CONTROL":
+                control = config.createFlexrayTpConnectionControl(self.getShortName(child_element))
+                self.readFlexrayTpConnectionControl(child_element, control)
+            else:
+                self.notImplemented("Unsupported TpConnectionControl <%s>" % tag_name)
+
+    def readFlexrayTpEcu(self, element: ET.Element, tp_ecu: FlexrayTpEcu):
+        self.readARObject(element, tp_ecu)
+        tp_ecu.setCancellation(self.getChildElementOptionalBooleanValue(element, "CANCELLATION"))
+        tp_ecu.setCycleTimeMainFunction(self.getChildElementOptionalTimeValue(element, "CYCLE-TIME-MAIN-FUNCTION"))
+        tp_ecu.setEcuInstanceRef(self.getChildElementOptionalRefType(element, "ECU-INSTANCE-REF"))
+        tp_ecu.setFullDuplexEnabled(self.getChildElementOptionalBooleanValue(element, "FULL-DUPLEX-ENABLED"))
+        self.readVariationPointCapable(element, tp_ecu)
+
+    def readFlexrayTpConfigTpEcus(self, element: ET.Element, config: FlexrayTpConfig):
+        for child_element in self.findall(element, "TP-ECUS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "FLEXRAY-TP-ECU":
+                tp_ecu = FlexrayTpEcu()
+                self.readFlexrayTpEcu(child_element, tp_ecu)
+                config.addTpEcu(tp_ecu)
+            else:
+                self.notImplemented("Unsupported TpEcu <%s>" % tag_name)
+
+    def readFlexrayTpNode(self, element: ET.Element, tp_node: FlexrayTpNode):
+        self.readIdentifiable(element, tp_node)
+        for ref in self.getChildElementRefTypeList(element, "CONNECTOR-REFS/CONNECTOR-REF"):
+            tp_node.addConnectorRef(ref)
+        tp_node.setTpAddressRef(self.getChildElementOptionalRefType(element, "TP-ADDRESS-REF"))
+        self.readVariationPointCapable(element, tp_node)
+
+    def readFlexrayTpConfigTpNodes(self, element: ET.Element, config: FlexrayTpConfig):
+        for child_element in self.findall(element, "TP-NODES/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "FLEXRAY-TP-NODE":
+                tp_node = config.createFlexrayTpNode(self.getShortName(child_element))
+                self.readFlexrayTpNode(child_element, tp_node)
+            else:
+                self.notImplemented("Unsupported TpNode <%s>" % tag_name)
+
+    def readFlexrayTpConfig(self, element: ET.Element, config: FlexrayTpConfig):
+        self.logger.debug("Read FlexrayTpConfig <%s>" % config.getShortName())
+        self.readTpConfig(element, config)
+        self.readFlexrayTpConfigPduPools(element, config)
+        self.readFlexrayTpConfigTpAddresses(element, config)
+        self.readFlexrayTpConfigTpConnections(element, config)
+        self.readFlexrayTpConfigTpConnectionControls(element, config)
+        self.readFlexrayTpConfigTpEcus(element, config)
+        self.readFlexrayTpConfigTpNodes(element, config)
+
+    def readFlexrayArTpConfigTpAddresses(self, element: ET.Element, config: FlexrayArTpConfig):
+        for child_element in self.findall(element, "TP-ADDRESSS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "TP-ADDRESS":
+                address = config.createTpAddress(self.getShortName(child_element))
+                self.readTpAddress(child_element, address)
+            else:
+                self.notImplemented("Unsupported TpAddress <%s>" % tag_name)
+
+    def readFlexrayArTpChannel(self, element: ET.Element, channel: FlexrayArTpChannel):
+        self.readARObject(element, channel)
+        ack_type_literal = self.getChildElementOptionalLiteral(element, "ACK-TYPE")
+        if ack_type_literal is not None:
+            ack_type = FrArTpAckType()
+            ack_type.setValue(ack_type_literal.getValue())
+            channel.setAckType(ack_type)
+        channel.setCancellation(self.getChildElementOptionalBooleanValue(element, "CANCELLATION"))
+        channel.setExtendedAddressing(self.getChildElementOptionalBooleanValue(element, "EXTENDED-ADDRESSING"))
+        channel.setMaxAr(self.getChildElementOptionalIntegerValue(element, "MAX-AR"))
+        channel.setMaxAs(self.getChildElementOptionalIntegerValue(element, "MAX-AS"))
+        channel.setMaxBs(self.getChildElementOptionalIntegerValue(element, "MAX-BS"))
+        channel.setMaxFcWait(self.getChildElementOptionalPositiveInteger(element, "MAX-FC-WAIT"))
+        maximum_message_length_literal = self.getChildElementOptionalLiteral(element, "MAXIMUM-MESSAGE-LENGTH")
+        if maximum_message_length_literal is not None:
+            maximum_message_length = MaximumMessageLengthType()
+            maximum_message_length.setValue(maximum_message_length_literal.getValue())
+            channel.setMaximumMessageLength(maximum_message_length)
+        channel.setMaxRetries(self.getChildElementOptionalIntegerValue(element, "MAX-RETRIES"))
+        channel.setMinimumMulticastSeperationTime(self.getChildElementOptionalTimeValue(element, "MINIMUM-MULTICAST-SEPERATION-TIME"))
+        channel.setMinimumSeparationTime(self.getChildElementOptionalTimeValue(element, "MINIMUM-SEPARATION-TIME"))
+        channel.setMulticastSegmentation(self.getChildElementOptionalBooleanValue(element, "MULTICAST-SEGMENTATION"))
+        for ref in self.getChildElementRefTypeList(element, "N-PDU-REFS/N-PDU-REF"):
+            channel.addNPduRef(ref)
+        channel.setTimeBr(self.getChildElementOptionalTimeValue(element, "TIME-BR"))
+        channel.setTimeCs(self.getChildElementOptionalTimeValue(element, "TIME-CS"))
+        channel.setTimeoutAr(self.getChildElementOptionalTimeValue(element, "TIMEOUT-AR"))
+        channel.setTimeoutAs(self.getChildElementOptionalTimeValue(element, "TIMEOUT-AS"))
+        channel.setTimeoutBs(self.getChildElementOptionalTimeValue(element, "TIMEOUT-BS"))
+        channel.setTimeoutCr(self.getChildElementOptionalTimeValue(element, "TIMEOUT-CR"))
+        self.readFlexrayArTpChannelTpConnections(element, channel)
+        self.readVariationPointCapable(element, channel)
+
+    def readFlexrayArTpChannelTpConnections(self, element: ET.Element, channel: FlexrayArTpChannel):
+        for child_element in self.findall(element, "TP-CONNECTIONS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "FLEXRAY-AR-TP-CONNECTION":
+                connection = FlexrayArTpConnection()
+                self.readFlexrayArTpConnection(child_element, connection)
+                channel.addTpConnection(connection)
+            else:
+                self.notImplemented("Unsupported TpConnection <%s>" % tag_name)
+
+    def readFlexrayArTpConnection(self, element: ET.Element, connection: FlexrayArTpConnection):
+        self.readTpConnection(element, connection)
+        connection.setConnectionPrioPdus(self.getChildElementOptionalIntegerValue(element, "CONNECTION-PRIO-PDUS"))
+        connection.setDirectTpSduRef(self.getChildElementOptionalRefType(element, "DIRECT-TP-SDU-REF"))
+        connection.setMulticastRef(self.getChildElementOptionalRefType(element, "MULTICAST-REF"))
+        connection.setReversedTpSduRef(self.getChildElementOptionalRefType(element, "REVERSED-TP-SDU-REF"))
+        connection.setSourceRef(self.getChildElementOptionalRefType(element, "SOURCE-REF"))
+        for ref in self.getChildElementRefTypeList(element, "TARGET-REFS/TARGET-REF"):
+            connection.addTargetRef(ref)
+
+    def readFlexrayArTpConfigTpChannels(self, element: ET.Element, config: FlexrayArTpConfig):
+        for child_element in self.findall(element, "TP-CHANNELS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "FLEXRAY-AR-TP-CHANNEL":
+                channel = FlexrayArTpChannel()
+                self.readFlexrayArTpChannel(child_element, channel)
+                config.addTpChannel(channel)
+            else:
+                self.notImplemented("Unsupported TpChannel <%s>" % tag_name)
+
+    def readFlexrayArTpNode(self, element: ET.Element, tp_node: FlexrayArTpNode):
+        self.readIdentifiable(element, tp_node)
+        for ref in self.getChildElementRefTypeList(element, "CONNECTOR-REFS/CONNECTOR-REF"):
+            tp_node.addConnectorRef(ref)
+        tp_node.setTpAddressRef(self.getChildElementOptionalRefType(element, "TP-ADDRESS-REF"))
+        self.readVariationPointCapable(element, tp_node)
+
+    def readFlexrayArTpConfigTpNodes(self, element: ET.Element, config: FlexrayArTpConfig):
+        for child_element in self.findall(element, "TP-NODES/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "FLEXRAY-AR-TP-NODE":
+                tp_node = config.createFlexrayArTpNode(self.getShortName(child_element))
+                self.readFlexrayArTpNode(child_element, tp_node)
+            else:
+                self.notImplemented("Unsupported TpNode <%s>" % tag_name)
+
+    def readFlexrayArTpConfig(self, element: ET.Element, config: FlexrayArTpConfig):
+        self.logger.debug("Read FlexrayArTpConfig <%s>" % config.getShortName())
+        self.readTpConfig(element, config)
+        self.readFlexrayArTpConfigTpAddresses(element, config)
+        self.readFlexrayArTpConfigTpChannels(element, config)
+        self.readFlexrayArTpConfigTpNodes(element, config)
+
+    def readEthTpConnection(self, element: ET.Element, connection: EthTpConnection):
+        self.readTpConnection(element, connection)
+        for ref in self.getChildElementRefTypeList(element, "TP-SDU-REFS/TP-SDU-REF"):
+            connection.addTpSduRef(ref)
+
+    def readEthTpConfigTpConnections(self, element: ET.Element, config: EthTpConfig):
+        for child_element in self.findall(element, "TP-CONNECTIONS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "ETH-TP-CONNECTION":
+                connection = EthTpConnection()
+                self.readEthTpConnection(child_element, connection)
+                config.addTpConnection(connection)
+            else:
+                self.notImplemented("Unsupported TpConnection <%s>" % tag_name)
+
+    def readEthTpConfig(self, element: ET.Element, config: EthTpConfig):
+        self.logger.debug("Read EthTpConfig <%s>" % config.getShortName())
+        self.readTpConfig(element, config)
+        self.readEthTpConfigTpConnections(element, config)
+
+    def readSomeipTpChannel(self, element: ET.Element, channel: SomeipTpChannel):
+        self.readIdentifiable(element, channel)
+
+    def readSomeipTpConfigTpChannels(self, element: ET.Element, config: SomeipTpConfig):
+        for child_element in self.findall(element, "TP-CHANNELS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "SOMEIP-TP-CHANNEL":
+                channel = config.createSomeipTpChannel(self.getShortName(child_element))
+                self.readSomeipTpChannel(child_element, channel)
+            else:
+                self.notImplemented("Unsupported TpChannel <%s>" % tag_name)
+
+    def readSomeipTpConnection(self, element: ET.Element, connection: SomeipTpConnection):
+        self.readARObject(element, connection)
+
+    def readSomeipTpConfigTpConnections(self, element: ET.Element, config: SomeipTpConfig):
+        for child_element in self.findall(element, "TP-CONNECTIONS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "SOMEIP-TP-CONNECTION":
+                connection = SomeipTpConnection()
+                self.readSomeipTpConnection(child_element, connection)
+                config.addTpConnection(connection)
+            else:
+                self.notImplemented("Unsupported TpConnection <%s>" % tag_name)
+
+    def readSomeipTpConfig(self, element: ET.Element, config: SomeipTpConfig):
+        self.logger.debug("Read SomeipTpConfig <%s>" % config.getShortName())
+        self.readTpConfig(element, config)
+        self.readSomeipTpConfigTpChannels(element, config)
+        self.readSomeipTpConfigTpConnections(element, config)
+
+    def readIEEE1722TpConfigTpConnectionRefs(self, element: ET.Element, config: IEEE1722TpConfig):
+        for ref in self.getChildElementRefTypeList(element, "TP-CONNECTIONS/IEEE-1722-TP-CONNECTION-REF-CONDITIONAL/IEEE-1722-TP-CONNECTION-REF"):
+            config.addTpConnectionRef(ref)
+
+    def readIEEE1722TpConfig(self, element: ET.Element, config: IEEE1722TpConfig):
+        self.logger.debug("Read IEEE1722TpConfig <%s>" % config.getShortName())
+        self.readTpConfig(element, config)
+        self.readIEEE1722TpConfigTpConnectionRefs(element, config)
+
+    def readIEEE1722TpConnection(self, element: ET.Element, connection: IEEE1722TpConnection):
+        self.readIdentifiable(element, connection)
+        connection.setDestinationMacAddress(self.getChildElementOptionalMacAddressString(element, "DESTINATION-MAC-ADDRESS"))
+        connection.setMacAddressStreamId(self.getChildElementOptionalMacAddressString(element, "MAC-ADDRESS-STREAM-ID"))
+        connection.setPduRef(self.getChildElementOptionalRefType(element, "PDU-REF"))
+        connection.setUniqueStreamId(self.getChildElementOptionalPositiveInteger(element, "UNIQUE-STREAM-ID"))
+        connection.setVersion(self.getChildElementOptionalPositiveInteger(element, "VERSION"))
+        connection.setVlanPriority(self.getChildElementOptionalPositiveInteger(element, "VLAN-PRIORITY"))
+
+    def readIEEE1722TpAvConnection(self, element: ET.Element, connection: IEEE1722TpAvConnection):
+        self.readIEEE1722TpConnection(element, connection)
+        connection.setMaxTransitTime(self.getChildElementOptionalTimeValue(element, "MAX-TRANSIT-TIME"))
+        for ref in self.getChildElementRefTypeList(element, "SDU-REFS/SDU-REF"):
+            connection.addSduRef(ref)
+
+    def readIEEE1722TpCrfConnection(self, element: ET.Element, connection: IEEE1722TpCrfConnection):
+        self.readIEEE1722TpAvConnection(element, connection)
+        connection.setBaseFrequency(self.getChildElementOptionalPositiveInteger(element, "BASE-FREQUENCY"))
+        crf_pull_literal = self.getChildElementOptionalLiteral(element, "CRF-PULL")
+        if crf_pull_literal is not None:
+            crf_pull = IEEE1722TpCrfPullEnum()
+            crf_pull.setValue(crf_pull_literal.getValue())
+            connection.setCrfPull(crf_pull)
+        crf_type_literal = self.getChildElementOptionalLiteral(element, "CRF-TYPE")
+        if crf_type_literal is not None:
+            crf_type = IEEE1722TpCrfTypeEnum()
+            crf_type.setValue(crf_type_literal.getValue())
+            connection.setCrfType(crf_type)
+        connection.setFrameSyncEnabled(self.getChildElementOptionalBooleanValue(element, "FRAME-SYNC-ENABLED"))
+        connection.setTimestampInterval(self.getChildElementOptionalPositiveInteger(element, "TIMESTAMP-INTERVAL"))
 
     def readCanFrame(self, element: ET.Element, frame: CanFrame):
         self.logger.debug("Read CanFrame <%s>" % frame.getShortName())
@@ -18649,6 +18984,18 @@ class ARXMLParser(AbstractARXMLParser):
                 self.readCanTpConfig(child_element, parent.createCanTpConfig(self.getShortName(child_element)))
             elif tag_name == "LIN-TP-CONFIG":
                 self.readLinTpConfig(child_element, parent.createLinTpConfig(self.getShortName(child_element)))
+            elif tag_name == "FLEXRAY-TP-CONFIG":
+                self.readFlexrayTpConfig(child_element, parent.createFlexrayTpConfig(self.getShortName(child_element)))
+            elif tag_name == "FLEXRAY-AR-TP-CONFIG":
+                self.readFlexrayArTpConfig(child_element, parent.createFlexrayArTpConfig(self.getShortName(child_element)))
+            elif tag_name == "ETH-TP-CONFIG":
+                self.readEthTpConfig(child_element, parent.createEthTpConfig(self.getShortName(child_element)))
+            elif tag_name == "SOMEIP-TP-CONFIG":
+                self.readSomeipTpConfig(child_element, parent.createSomeipTpConfig(self.getShortName(child_element)))
+            elif tag_name == "IEEE-1722-TP-CONFIG":
+                self.readIEEE1722TpConfig(child_element, parent.createIEEE1722TpConfig(self.getShortName(child_element)))
+            elif tag_name == "IEEE-1722-TP-CRF-CONNECTION":
+                self.readIEEE1722TpCrfConnection(child_element, parent.createIEEE1722TpCrfConnection(self.getShortName(child_element)))
             elif tag_name == "CLIENT-ID-DEFINITION-SET":
                 id_definition_set = parent.createClientIdDefinitionSet(self.getShortName(child_element))
                 self.readClientIdDefinitionSet(child_element, id_definition_set)

@@ -3297,14 +3297,6 @@ class EthTSynSubTlvConfig(ARObject):
     pass
 
 
-class FlexrayArTpChannel(ARObject):
-    pass
-
-
-class FlexrayTpEcu(ARObject):
-    pass
-
-
 class GlobalTimeCorrectionProps(ARObject):
     pass
 
@@ -3318,10 +3310,6 @@ class IEEE1722TpAcfBusPart(ARObject, ABC):
 
 
 class IEEE1722TpAcfLin(ARObject):
-    pass
-
-
-class IEEE1722TpConfig(ARObject):
     pass
 
 
