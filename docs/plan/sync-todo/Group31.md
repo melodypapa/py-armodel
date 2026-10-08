@@ -1015,15 +1015,33 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `SecureCommunicationProps` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.44, p.369
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: placement verified per Package row (CoreCommunication, non-leaf →
+    `__init__.py` — no move); concrete Class, Base most-derived = `ARObject`
+    (matches). Table 6.44 lists 11 attrs, all PositiveInteger 0..1 attr; displayed
+    order == current member order == XSD group SECURE-COMMUNICATION-PROPS
+    (l.102992) order. Legacy 5-column checklist + stale `# Spec verified: R23-11`
+    marker found (Rule 0023) — marker removed at session start, baseline
+    regenerated (288 entries). Parser `getSecureCommunicationProps` / writer
+    `setSecureCommunicationProps` already covered all 11 children in XSD order but
+    missed the base-level ARObject helpers — `readARObject`/`writeARObject` added
+    (S/T round-trip pinned by tests). constr_9205 (dataId existence) appended to
+    the class docstring.
+  - Deviation: 7 XSD-only elements of group SECURE-COMMUNICATION-PROPS carry
+    atp.Status="removed" (AUTH-ALGORITHM, AUTH-INFO-TX-LENGTH,
+    FRESHNESS-COUNTER-SYNC-ATTEMPTS, FRESHNESS-TIMESTAMP-TIME-PERIOD-FACTOR,
+    FRESHNESS-VALUE-LENGTH, FRESHNESS-VALUE-TX-LENGTH, USE-FRESHNESS-TIMESTAMP)
+    and are absent from Table 6.44 → deprecated (atp.Status=removed), not
+    implemented (Rules 0015/0001.3). No other deviations; referenced member type
+    PositiveInteger is a synced primitive; no referenced-but-missing classes.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-08 (23549 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit e744b793f
 
 - [ ] `SecureCommunicationPropsSet` — FibexElement — R23-11 CP_TPS_SystemTemplate Table 6.45, p.370
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
