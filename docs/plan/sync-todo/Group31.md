@@ -1102,17 +1102,54 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-08 (23584 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 748ee0ad2
 
-- [ ] `SecureCommunicationAuthenticationProps` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 6.47, p.371
+- [x] `SecureCommunicationAuthenticationProps` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 6.47, p.371
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: Table 6.47 is single-page (no split); concrete Class; Package row
+    `...Fibex::FibexCore::CoreCommunication` matches src home (Rule 0007 — non-leaf
+    `__init__.py`, no move); Base most-derived = `Identifiable` ✓ (card kind verified
+    against the spec Base row `ARObject, Identifiable, MultilanguageReferrable,
+    Referrable`); Class Note "Authentication properties used to configure SecuredIPdus."
+    (no Tags/Stereotypes tail, no constr rows); Aggregated by
+    `SecureCommunicationPropsSet.authenticationProps` (`*` aggr). Exactly ONE
+    attribute row `authInfoTxLength` (PositiveInteger, 0..1, attr; markdown renders
+    the wrap artifact "authInfoTx Length" — XSD mmt.qualifiedName confirms camelCase).
+    XSD group SECURE-COMMUNICATION-AUTHENTICATION-PROPS (AUTOSAR_00052.xsd l.102877):
+    AUTH-INFO-TX-LENGTH (POSITIVE-INTEGER, 0..1) + AUTH-ALGORITHM carrying
+    atp.Status="removed" (atp.StatusRevisionBegin="4.4.0", absent from Table 6.47) →
+    deprecated, NOT modeled; complexType (l.102899) chains
+    AR-OBJECT→REFERRABLE→MULTILANGUAGE-REFERRABLE→IDENTIFIABLE; no VARIATION-POINT
+    (not VP-capable). Rule 0023: legacy 5-column checklist + stale
+    `# Spec verified: R23-11` marker removed at session start; stamped-audit baseline
+    refreshed (286 → 285 known-failing). Reader/writer already complete at the right
+    level (readIdentifiable/writeIdentifiable exactly once per side, spec-typed
+    PositiveInteger helpers); consumer dispatch
+    read/writeSecureCommunicationPropsSetAuthenticationProps already identity-based —
+    no upgrade needed.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - Deviation: `AUTH-ALGORITHM` (XSD group SECURE-COMMUNICATION-AUTHENTICATION-PROPS,
+    AUTOSAR_00052.xsd l.102884) carries atp.Status="removed"
+    (atp.StatusRevisionBegin="4.4.0") and is absent from the Table 6.47 Attribute
+    column → deprecated (atp.Status=removed), not implemented (Rules 0015/0001.3).
+    No other deviations — the single spec attribute authInfoTxLength is fully
+    modeled (field + typed accessors + reader/writer); no XSD-only members kept;
+    no Rule 0001.10 placeholders (`PositiveInteger` is a synced primitive, the base
+    chain ARObject→Referrable→MultilanguageReferrable→Identifiable is fully
+    modeled). Honest-Red note: model Red = `test_init_docless` (legacy `__init__`
+    docstring — fields/types/docstrings already verbatim); reader/writer tests
+    passed on placement (both helpers were completed in the
+    SecureCommunicationPropsSet sync ac0933384) — drift evidence = the entry audit
+    FAIL (ROWS legacy 5-column checklist / STAMP stale marker / DOC), per the
+    autonomous-mode class card. Legacy test modernized: bare-int
+    `setAuthInfoTxLength(4)` call in test_CoreCommunication.py → typed
+    `PositiveInteger().setValue("24")` (Rule 0006).
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-08 (23599 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 56bcc7567
 
 - [ ] `CryptoServiceKey` — ARElement — R23-11 CP_TPS_SystemTemplate Table 6.51, p.377
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py

@@ -11,10 +11,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | Status | Classes | Percent |
 | --- | --- | --- |
 | [x] Done | 852 | 44.8% |
-| [x] Deferred | 43 | 2.3% |
+| [x] Deferred | 44 | 2.3% |
 | [x] Retired | 0 | 0.0% |
 | [ ] Deferred | 831 | 43.7% |
-| [ ] Implemented | 30 | 1.6% |
+| [ ] Implemented | 29 | 1.5% |
 | [ ] Created | 146 | 7.7% |
 | [ ] Pending | 0 | 0.0% |
 
@@ -1540,7 +1540,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `SecOcCryptoServiceMapping`                             | [x] Done    | eec98574a9                               | Group18          |
 | `SectionInitializationPolicyType`                       | [x] Done    | 70ce06f500                               | Group22          |
 | `SectionNamePrefix`                                     | [x] Done    | bc26545b98                               | Group20          |
-| `SecureCommunicationAuthenticationProps`                | [ ] Implemented| N/A                                      | Group31          |
+| `SecureCommunicationAuthenticationProps`                | [x] Deferred| 56bcc7567c                               | Group31          |
 | `SecureCommunicationFreshnessProps`                     | [x] Deferred| 748ee0ad2c                               | Group31          |
 | `SecureCommunicationProps`                              | [ ] Deferred| e744b793f0                               | Group31          |
 | `SecureCommunicationPropsSet`                           | [ ] Deferred| ac09333846                               | Group31          |

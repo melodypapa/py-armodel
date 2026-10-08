@@ -1673,7 +1673,7 @@ Status: **0/75** completed
 
 ## Group31
 
-Status: **18/75** completed
+Status: **19/75** completed
 
 | Class Name                                               | Status          | Commit ID  |
 | -------------------------------------------------------- | --------------- | ---------- |
@@ -1730,7 +1730,7 @@ Status: **18/75** completed
 | `SecureCommunicationProps`                               | [ ] Pending*    | e744b793f0 |
 | `SecureCommunicationPropsSet`                            | [ ] Pending*    | ac09333846 |
 | `SecureCommunicationFreshnessProps`                      | [x] Done*       | 748ee0ad2c |
-| `SecureCommunicationAuthenticationProps`                 | [ ] Implemented | N/A        |
+| `SecureCommunicationAuthenticationProps`                 | [x] Done*       | 56bcc7567c |
 | `CryptoServiceKey`                                       | [ ] Created     | N/A        |
 | `CryptoServiceKeyGenerationEnum`                         | [ ] Created     | N/A        |
 | `CryptoServiceQueue`                                     | [ ] Created     | N/A        |
