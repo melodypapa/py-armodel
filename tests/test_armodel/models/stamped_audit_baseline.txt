@@ -127,7 +127,6 @@ HwCategory
 HwElement
 HwPortMapping
 IPSecConfig
-IPdu
 IPduTiming
 ISignalIPdu
 Identifiable
