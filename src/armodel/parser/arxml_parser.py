@@ -15122,6 +15122,8 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readIEEE1722TpAcfLinPart(self, element: ET.Element, part: IEEE1722TpAcfLinPart):
         self.readIEEE1722TpAcfBusPart(element, part)
+        part.setLinIdentifier(self.getChildElementOptionalPositiveInteger(element, "LIN-IDENTIFIER"))
+        part.setSduRef(self.getChildElementOptionalRefType(element, "SDU-REF"))
 
     def readIEEE1722TpAcfCan(self, element: ET.Element, bus: IEEE1722TpAcfCan):
         self.readIEEE1722TpAcfBus(element, bus)

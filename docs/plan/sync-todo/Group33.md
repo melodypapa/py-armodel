@@ -1362,15 +1362,36 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `IEEE1722TpAcfLinPart` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 6.297, p.667
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note: Step 1 finding — spec Package row = ...IEEE1722Tp::IEEE1722TpAcf confirms the family home
+    `TransportProtocols/IEEE1722Tp/IEEE1722TpAcf.py` (Identifiable.py hint stale; stub already
+    rehoused and rebased there, Rule 0007). Base row most-derived = IEEE1722TpAcfBusPart
+    (Identifiable-chain hint confirmed by the rebase); concrete (XSD IEEE-1722-TP-ACF-LIN-PART
+    abstract="false") — no TypeError guard. 2 attrs in displayed order (= XSD group element order):
+    linIdentifier (PositiveInteger 0..1 attr, Tags: atp.Status=candidate), sdu (PduTriggering 0..1
+    ref → sduRef, SDU-REF with required DEST PDU-TRIGGERING--SUBTYPES-ENUM, Tags:
+    atp.Status=candidate). No VARIATION-POINT in the LIN-PART group (inherited via the ACF-BUS-PART
+    group → mixin on the base); no XSD-only extras, no atp.Status="removed". Section-text blocks
+    constr_3757/3753 + TPS_SYST_03105/03106 render before Figure 6.91 — outside the Table 6.297
+    rows, not appended (AcfCanPart constr_3760 precedent). Aggregated by IEEE1722TpAcfBus.acfPart
+    only → no ARPackage factory/dispatch; the ACF-PARTS choice dispatch from the Bus wave now
+    flows into the real class.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
+    - Note: no code-shape deviations — field↔spec verified both directions (2 attrs, Optional quota
+      shapes match Mult. 0..1, verbatim Notes incl. the atp.Status=candidate Tags tails on both rows).
+      The AcfLin commit's Rule 0001.10 pending is resolved in this row: the LinPart helpers now read/
+      write LIN-IDENTIFIER/SDU-REF (base IEEE1722TpAcfBusPart helper called exactly once each side,
+      Rule 0025), and the class-1 dispatch tests were strengthened to assert the part fields through
+      the ACF-PARTS/ACF-TRANSPORTED-BUSS round-trips (J1939TpConnection/J1939TpPg strengthening
+      precedent). Section-text blocks constr_3757/3753 + TPS_SYST_03105/03106 render outside the
+      Table 6.297 rows — not appended (AcfCanPart constr_3760 precedent).
 
 - [ ] `BusspecificNmEcu` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.301, p.675
   - module: M2/AUTOSARTemplates/SystemTemplate/NetworkManagement.py

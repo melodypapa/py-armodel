@@ -62,6 +62,7 @@ class TestReadIEEE1722TpAcfLin:
                 <ACF-PARTS>
                     <IEEE-1722-TP-ACF-LIN-PART>
                         <SHORT-NAME>LinPart1</SHORT-NAME>
+                        <LIN-IDENTIFIER>17</LIN-IDENTIFIER>
                     </IEEE-1722-TP-ACF-LIN-PART>
                 </ACF-PARTS>
                 <BUS-ID>5</BUS-ID>
@@ -78,6 +79,7 @@ class TestReadIEEE1722TpAcfLin:
         assert len(bus.getAcfParts()) == 1
         assert isinstance(bus.getAcfParts()[0], IEEE1722TpAcfLinPart)
         assert bus.getAcfParts()[0].getShortName() == "LinPart1"
+        assert bus.getAcfParts()[0].getLinIdentifier().getValue() == 17
         assert bus.getBusId().getValue() == 5
         assert bus.getVariationPoint() is not None
         assert bus.getBaseFrequency().getValue() == 48000

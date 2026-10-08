@@ -313,7 +313,61 @@ class IEEE1722TpAcfCanPart(IEEE1722TpAcfBusPart):
 
 
 class IEEE1722TpAcfLinPart(IEEE1722TpAcfBusPart):
-    pass
+    """
+    Definition of one LIN part transported over the IEEE1722Tp channel. Tags: atp.Status=candidate
+    """
+
+    # IEEE1722TpAcfLinPart method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.297, p.667
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getLinIdentifier       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setLinIdentifier       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSduRef              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSduRef              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # (Base = ARObject, IEEE1722TpAcfBusPart, Identifiable, MultilanguageReferrable, Referrable — most-derived
+    # base IEEE1722TpAcfBusPart; concrete (XSD abstract="false"); no VARIATION-POINT in the XSD
+    # IEEE-1722-TP-ACF-LIN-PART group — getVariationPoint/setVariationPoint provided by the
+    # VariationPointCapable base (mixin), no spec rows; aggregated by IEEE1722TpAcfBus.acfPart only)
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Optional Lin Id defined in case the Lin Id can not be determined during runtime. Tags: atp.Status=candidate
+        self.linIdentifier: Optional[PositiveInteger] = None
+
+        # Reference to the Pdu transported in the IEEE1722Tp channel. Tags: atp.Status=candidate
+        self.sduRef: Optional[RefType] = None
+
+    def getLinIdentifier(self) -> Optional[PositiveInteger]:
+        """
+        Optional Lin Id defined in case the Lin Id can not be determined during runtime. Tags: atp.Status=candidate
+        """
+        return self.linIdentifier
+
+    def setLinIdentifier(self, value: Optional[PositiveInteger]) -> IEEE1722TpAcfLinPart:
+        """
+        Optional Lin Id defined in case the Lin Id can not be determined during runtime. Tags: atp.Status=candidate
+        A None value is a no-op and does not overwrite an existing linIdentifier.
+        """
+        if value is not None:
+            self.linIdentifier = value
+        return self
+
+    def getSduRef(self) -> Optional[RefType]:
+        """
+        Reference to the Pdu transported in the IEEE1722Tp channel. Tags: atp.Status=candidate
+        """
+        return self.sduRef
+
+    def setSduRef(self, value: Optional[RefType]) -> IEEE1722TpAcfLinPart:
+        """
+        Reference to the Pdu transported in the IEEE1722Tp channel. Tags: atp.Status=candidate
+        A None value is a no-op and does not overwrite an existing sduRef.
+        """
+        if value is not None:
+            self.sduRef = value
+        return self
 
 
 class IEEE1722TpAcfCan(IEEE1722TpAcfBus):

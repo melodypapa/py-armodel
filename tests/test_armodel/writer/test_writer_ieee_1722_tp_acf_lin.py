@@ -5,7 +5,7 @@ import xml.etree.cElementTree as ET
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, PositiveInteger
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, PositiveInteger, RefType
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols.IEEE1722Tp.IEEE1722TpAcf import (
     IEEE1722TpAcfLin,
     IEEE1722TpAcfLinPart,
@@ -54,8 +54,16 @@ def _bool(value):
     return boolean
 
 
+def _sdu_ref():
+    ref = RefType()
+    ref.setDest("PDU-TRIGGERING-REF")
+    ref.setValue("/Pkg/PduTriggering")
+    return ref
+
+
 def _fill_bus(bus: IEEE1722TpAcfLin) -> IEEE1722TpAcfLin:
-    bus.createIEEE1722TpAcfLinPart("LinPart1")
+    part = bus.createIEEE1722TpAcfLinPart("LinPart1")
+    part.setLinIdentifier(_pos_int(17))
     bus.setBusId(_pos_int(5))
     bus.setBaseFrequency(_pos_int(48000))
     bus.setFrameSyncEnabled(_bool(True))
@@ -115,6 +123,7 @@ class TestWriteIEEE1722TpAcfLin:
         parts = reloaded.getAcfParts()
         assert len(parts) == 1
         assert parts[0].getShortName() == "LinPart1"
+        assert parts[0].getLinIdentifier().getValue() == 17
         assert reloaded.getBusId().getValue() == 5
         assert reloaded.getBaseFrequency().getValue() == 48000
         assert reloaded.getFrameSyncEnabled().getValue() is True
@@ -127,7 +136,8 @@ class TestWriteIEEE1722TpAcfLin:
 
         connection = IEEE1722TpAcfConnection(None, "AcfConnection")
         bus = connection.createIEEE1722TpAcfLin("LinBus")
-        bus.createIEEE1722TpAcfLinPart("LinPart1")
+        part = bus.createIEEE1722TpAcfLinPart("LinPart1")
+        part.setSduRef(_sdu_ref())
         bus.setBusId(_pos_int(5))
         bus.setBaseFrequency(_pos_int(48000))
         bus.setTimestampInterval(_pos_int(4))
@@ -149,3 +159,5 @@ class TestWriteIEEE1722TpAcfLin:
         assert len(parts) == 1
         assert isinstance(parts[0], IEEE1722TpAcfLinPart)
         assert parts[0].getShortName() == "LinPart1"
+        assert parts[0].getSduRef().getValue() == "/Pkg/PduTriggering"
+        assert parts[0].getSduRef().getDest() == "PDU-TRIGGERING-REF"

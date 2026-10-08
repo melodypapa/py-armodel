@@ -11211,6 +11211,8 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeIEEE1722TpAcfLinPart(self, element: ET.Element, part: IEEE1722TpAcfLinPart):
         child_element = ET.SubElement(element, "IEEE-1722-TP-ACF-LIN-PART")
         self.writeIEEE1722TpAcfBusPart(child_element, part)
+        self.setChildElementOptionalPositiveInteger(child_element, "LIN-IDENTIFIER", cast(Integer, part.getLinIdentifier()))
+        self.setChildElementOptionalRefType(child_element, "SDU-REF", part.getSduRef())
 
     def writeIEEE1722TpAcfCan(self, element: ET.Element, bus: IEEE1722TpAcfCan):
         child_element = ET.SubElement(element, "IEEE-1722-TP-ACF-CAN")
