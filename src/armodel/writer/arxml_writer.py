@@ -543,6 +543,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     AbstractGlobalTimeDomainProps,
     CalibrationParameterValue,
+    EthGlobalTimeManagedCouplingPort,
     RoleBasedResourceDependency,
     DiagnosticAbstractParameter,
     DiagnosticCommonProps,
@@ -13777,6 +13778,17 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalPositiveInteger(element, "TIME-LEAP-HEALING-COUNTER", cast(Integer, slave.getTimeLeapHealingCounter()))
         self.setChildElementOptionalTimeValue(element, "TIME-LEAP-PAST-THRESHOLD", slave.getTimeLeapPastThreshold())
         self.writeVariationPoint(element, slave.getVariationPoint())
+
+    def writeEthGlobalTimeManagedCouplingPort(self, element: ET.Element, port: EthGlobalTimeManagedCouplingPort):
+        child_element = ET.SubElement(element, "ETH-GLOBAL-TIME-MANAGED-COUPLING-PORT")
+        self.writeARObject(child_element, port)
+        self.setChildElementOptionalRefType(child_element, "COUPLING-PORT-REF", port.getCouplingPortRef())
+        self.setChildElementOptionalLiteral(child_element, "GLOBAL-TIME-PORT-ROLE", port.getGlobalTimePortRole())
+        self.setChildElementOptionalTimeValue(child_element, "GLOBAL-TIME-TX-PERIOD", port.getGlobalTimeTxPeriod())
+        self.setChildElementOptionalTimeValue(child_element, "PDELAY-LATENCY-THRESHOLD", port.getPdelayLatencyThreshold())
+        self.setChildElementOptionalTimeValue(child_element, "PDELAY-REQUEST-PERIOD", port.getPdelayRequestPeriod())
+        self.setChildElementOptionalTimeValue(child_element, "PDELAY-RESP-AND-RESP-FOLLOW-UP-TIMEOUT", port.getPdelayRespAndRespFollowUpTimeout())
+        self.setChildElementOptionalBooleanValue(child_element, "PDELAY-RESPONSE-ENABLED", port.getPdelayResponseEnabled())
 
     def setGlobalTimeProps(self, element: ET.Element, key: str, props: Optional[GlobalTimeCouplingPortProps]):
         if props is not None:

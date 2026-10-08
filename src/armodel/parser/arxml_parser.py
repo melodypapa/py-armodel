@@ -564,6 +564,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     AbstractGlobalTimeDomainProps,
     CalibrationParameterValue,
+    EthGlobalTimeManagedCouplingPort,
     RoleBasedResourceDependency,
     DiagnosticAbstractParameter,
     DiagnosticCommonProps,
@@ -784,6 +785,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DdsDurabilityKindEnum,
     FrArTpAckType,
     GlobalTimeIcvVerificationEnum,
+    GlobalTimePortRoleEnum,
     MaximumMessageLengthType,
     DdsDurabilityServiceHistoryKindEnum,
     DdsDestinationOrderKindEnum,
@@ -16261,6 +16263,21 @@ class ARXMLParser(AbstractARXMLParser):
         slave.setTimeLeapHealingCounter(self.getChildElementOptionalPositiveInteger(element, "TIME-LEAP-HEALING-COUNTER"))
         slave.setTimeLeapPastThreshold(self.getChildElementOptionalTimeValue(element, "TIME-LEAP-PAST-THRESHOLD"))
         return slave
+
+    def readEthGlobalTimeManagedCouplingPort(self, element: ET.Element, port: EthGlobalTimeManagedCouplingPort) -> EthGlobalTimeManagedCouplingPort:
+        self.readARObject(element, port)
+        port.setCouplingPortRef(self.getChildElementOptionalRefType(element, "COUPLING-PORT-REF"))
+        literal = self.getChildElementOptionalLiteral(element, "GLOBAL-TIME-PORT-ROLE")
+        if literal is not None:
+            port_role = GlobalTimePortRoleEnum()
+            port_role.setValue(literal.getValue())
+            port.setGlobalTimePortRole(port_role)
+        port.setGlobalTimeTxPeriod(self.getChildElementOptionalTimeValue(element, "GLOBAL-TIME-TX-PERIOD"))
+        port.setPdelayLatencyThreshold(self.getChildElementOptionalTimeValue(element, "PDELAY-LATENCY-THRESHOLD"))
+        port.setPdelayRequestPeriod(self.getChildElementOptionalTimeValue(element, "PDELAY-REQUEST-PERIOD"))
+        port.setPdelayRespAndRespFollowUpTimeout(self.getChildElementOptionalTimeValue(element, "PDELAY-RESP-AND-RESP-FOLLOW-UP-TIMEOUT"))
+        port.setPdelayResponseEnabled(self.getChildElementOptionalBooleanValue(element, "PDELAY-RESPONSE-ENABLED"))
+        return port
 
     def getGlobalTimeProps(self, element: ET.Element, key: str) -> Optional[GlobalTimeCouplingPortProps]:
         props = None

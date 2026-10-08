@@ -3475,7 +3475,169 @@ class DdsTransportPriority(ARObject):
 
 
 class EthGlobalTimeManagedCouplingPort(ARObject):
-    pass
+    """
+    Specifies a CouplingPort which is managed by an Ethernet Global Time Domain.
+    """
+
+    # EthGlobalTimeManagedCouplingPort method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.17, p.875
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCouplingPortRef                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCouplingPortRef                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getGlobalTimePortRole               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setGlobalTimePortRole               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getGlobalTimeTxPeriod               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setGlobalTimeTxPeriod               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPdelayLatencyThreshold           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPdelayLatencyThreshold           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPdelayRequestPeriod              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPdelayRequestPeriod              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPdelayRespAndRespFollowUpTimeout [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPdelayRespAndRespFollowUpTimeout [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPdelayResponseEnabled            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPdelayResponseEnabled            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # Aggregator dispatch (EthGlobalTimeDomainProps.managedCouplingPort) is pending —
+    # EthGlobalTimeDomainProps is a later-wave class; the reusable
+    # readEthGlobalTimeManagedCouplingPort / writeEthGlobalTimeManagedCouplingPort helpers own
+    # the ETH-GLOBAL-TIME-MANAGED-COUPLING-PORT element (AUTOSAR_00052.xsd l.55634).
+
+    def __init__(self):
+        super().__init__()
+
+        # Defines which CouplingPort is managed by this EthGlobalTimeManagedCouplingPort.
+        self.couplingPortRef: Optional[RefType] = None
+
+        # This attribute defines the port behavior.
+        self.globalTimePortRole: Optional[GlobalTimePortRoleEnum] = None
+
+        # This attribute defines the TX period in seconds
+        self.globalTimeTxPeriod: Optional[TimeValue] = None
+
+        # Threshold for calculated Pdelay. If a measured Pdelay exceeds pdelayLatencyThreshold, the measured Pdelay value is discarded.
+        self.pdelayLatencyThreshold: Optional[TimeValue] = None
+
+        # Defines the period for the pdelay request messages.
+        self.pdelayRequestPeriod: Optional[TimeValue] = None
+
+        # Timeout value for Pdelay_Resp and Pdelay_Resp_Follow_Up after a Pdelay_Req has been transmitted resp. a Pdelay_Resp has been received. A value of 0 or not defining this attribute deactivates this timeout observation.
+        self.pdelayRespAndRespFollowUpTimeout: Optional[TimeValue] = None
+
+        # Defines whether PDELAY RESPONSE and PDELAY RESPONSE FOLLOW UP shall be sent on this Coupling Port.
+        self.pdelayResponseEnabled: Optional[Boolean] = None
+
+    def getCouplingPortRef(self) -> Optional[RefType]:
+        """
+        Defines which CouplingPort is managed by this EthGlobalTimeManagedCouplingPort.
+        """
+        return self.couplingPortRef
+
+    def setCouplingPortRef(self, value: Optional[RefType]) -> EthGlobalTimeManagedCouplingPort:
+        """
+        Defines which CouplingPort is managed by this EthGlobalTimeManagedCouplingPort.
+
+        A None value is a no-op and does not overwrite an existing couplingPortRef.
+        """
+        if value is not None:
+            self.couplingPortRef = value
+        return self
+
+    def getGlobalTimePortRole(self) -> Optional[GlobalTimePortRoleEnum]:
+        """
+        This attribute defines the port behavior.
+        """
+        return self.globalTimePortRole
+
+    def setGlobalTimePortRole(self, value: Optional[GlobalTimePortRoleEnum]) -> EthGlobalTimeManagedCouplingPort:
+        """
+        This attribute defines the port behavior.
+
+        A None value is a no-op and does not overwrite an existing globalTimePortRole.
+        """
+        if value is not None:
+            self.globalTimePortRole = value
+        return self
+
+    def getGlobalTimeTxPeriod(self) -> Optional[TimeValue]:
+        """
+        This attribute defines the TX period in seconds
+        """
+        return self.globalTimeTxPeriod
+
+    def setGlobalTimeTxPeriod(self, value: Optional[TimeValue]) -> EthGlobalTimeManagedCouplingPort:
+        """
+        This attribute defines the TX period in seconds
+
+        A None value is a no-op and does not overwrite an existing globalTimeTxPeriod.
+        """
+        if value is not None:
+            self.globalTimeTxPeriod = value
+        return self
+
+    def getPdelayLatencyThreshold(self) -> Optional[TimeValue]:
+        """
+        Threshold for calculated Pdelay. If a measured Pdelay exceeds pdelayLatencyThreshold, the measured Pdelay value is discarded.
+        """
+        return self.pdelayLatencyThreshold
+
+    def setPdelayLatencyThreshold(self, value: Optional[TimeValue]) -> EthGlobalTimeManagedCouplingPort:
+        """
+        Threshold for calculated Pdelay. If a measured Pdelay exceeds pdelayLatencyThreshold, the measured Pdelay value is discarded.
+
+        A None value is a no-op and does not overwrite an existing pdelayLatencyThreshold.
+        """
+        if value is not None:
+            self.pdelayLatencyThreshold = value
+        return self
+
+    def getPdelayRequestPeriod(self) -> Optional[TimeValue]:
+        """
+        Defines the period for the pdelay request messages.
+        """
+        return self.pdelayRequestPeriod
+
+    def setPdelayRequestPeriod(self, value: Optional[TimeValue]) -> EthGlobalTimeManagedCouplingPort:
+        """
+        Defines the period for the pdelay request messages.
+
+        A None value is a no-op and does not overwrite an existing pdelayRequestPeriod.
+        """
+        if value is not None:
+            self.pdelayRequestPeriod = value
+        return self
+
+    def getPdelayRespAndRespFollowUpTimeout(self) -> Optional[TimeValue]:
+        """
+        Timeout value for Pdelay_Resp and Pdelay_Resp_Follow_Up after a Pdelay_Req has been transmitted resp. a Pdelay_Resp has been received. A value of 0 or not defining this attribute deactivates this timeout observation.
+        """
+        return self.pdelayRespAndRespFollowUpTimeout
+
+    def setPdelayRespAndRespFollowUpTimeout(self, value: Optional[TimeValue]) -> EthGlobalTimeManagedCouplingPort:
+        """
+        Timeout value for Pdelay_Resp and Pdelay_Resp_Follow_Up after a Pdelay_Req has been transmitted resp. a Pdelay_Resp has been received. A value of 0 or not defining this attribute deactivates this timeout observation.
+
+        A None value is a no-op and does not overwrite an existing pdelayRespAndRespFollowUpTimeout.
+        """
+        if value is not None:
+            self.pdelayRespAndRespFollowUpTimeout = value
+        return self
+
+    def getPdelayResponseEnabled(self) -> Optional[Boolean]:
+        """
+        Defines whether PDELAY RESPONSE and PDELAY RESPONSE FOLLOW UP shall be sent on this Coupling Port.
+        """
+        return self.pdelayResponseEnabled
+
+    def setPdelayResponseEnabled(self, value: Optional[Boolean]) -> EthGlobalTimeManagedCouplingPort:
+        """
+        Defines whether PDELAY RESPONSE and PDELAY RESPONSE FOLLOW UP shall be sent on this Coupling Port.
+
+        A None value is a no-op and does not overwrite an existing pdelayResponseEnabled.
+        """
+        if value is not None:
+            self.pdelayResponseEnabled = value
+        return self
 
 
 class EthTSynCrcFlags(ARObject):
@@ -3741,6 +3903,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticUdsSeverityEnum,
     DiagnosticWwhObdDtcClassEnum,
     Float,
+    GlobalTimePortRoleEnum,
     Identifier,
     NameToken,
     PositiveInteger,

@@ -52,6 +52,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticTroubleCodeObd,
     DiagnosticTroubleCodeProps,
     DiagnosticTroubleCodeUds,
+    EthGlobalTimeManagedCouplingPort,
     EventObdReadinessGroup,
     GlobalTimeCorrectionProps,
     NetworkSegmentIdentification,
@@ -86,6 +87,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticUdsSeverityEnum,
     DiagnosticWwhObdDtcClassEnum,
     Float,
+    GlobalTimePortRoleEnum,
     NameToken,
     PositiveInteger,
     RefType,
@@ -4962,3 +4964,215 @@ class TestDdsResourceLimits:
         assert inspect.cleandoc(DdsResourceLimits.setMaxSamples.__doc__) == (self.MAX_SAMPLES_NOTE + none_no_op % "maxSamples")
         assert inspect.cleandoc(DdsResourceLimits.getMaxSamplesPerInstance.__doc__) == self.MAX_SAMPLES_PER_INSTANCE_NOTE
         assert inspect.cleandoc(DdsResourceLimits.setMaxSamplesPerInstance.__doc__) == (self.MAX_SAMPLES_PER_INSTANCE_NOTE + none_no_op % "maxSamplesPerInstance")
+
+
+class TestEthGlobalTimeManagedCouplingPort:
+    """
+    Test class for EthGlobalTimeManagedCouplingPort functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.17, p.875
+    """
+
+    CLASS_NOTE = "Specifies a CouplingPort which is managed by an Ethernet Global Time Domain."
+    COUPLING_PORT_REF_NOTE = "Defines which CouplingPort is managed by this EthGlobalTimeManagedCouplingPort."
+    GLOBAL_TIME_PORT_ROLE_NOTE = "This attribute defines the port behavior."
+    GLOBAL_TIME_TX_PERIOD_NOTE = "This attribute defines the TX period in seconds"
+    PDELAY_LATENCY_THRESHOLD_NOTE = "Threshold for calculated Pdelay. If a measured Pdelay exceeds pdelayLatencyThreshold, the measured Pdelay value is discarded."
+    PDELAY_REQUEST_PERIOD_NOTE = "Defines the period for the pdelay request messages."
+    PDELAY_RESP_AND_RESP_FOLLOW_UP_TIMEOUT_NOTE = "Timeout value for Pdelay_Resp and Pdelay_Resp_Follow_Up after a Pdelay_Req has been transmitted resp. a Pdelay_Resp has been received. A value of 0 or not defining this attribute deactivates this timeout observation."
+    PDELAY_RESPONSE_ENABLED_NOTE = "Defines whether PDELAY RESPONSE and PDELAY RESPONSE FOLLOW UP shall be sent on this Coupling Port."
+
+    def _create_object(self) -> EthGlobalTimeManagedCouplingPort:
+        return EthGlobalTimeManagedCouplingPort()
+
+    def test_initialization(self):
+        """
+        Test that a new EthGlobalTimeManagedCouplingPort initializes all attributes to their defaults.
+        """
+        obj = self._create_object()
+
+        assert obj.getChecksum() is None
+        assert obj.getTimestamp() is None
+        assert obj.getCouplingPortRef() is None
+        assert obj.getGlobalTimePortRole() is None
+        assert obj.getGlobalTimeTxPeriod() is None
+        assert obj.getPdelayLatencyThreshold() is None
+        assert obj.getPdelayRequestPeriod() is None
+        assert obj.getPdelayRespAndRespFollowUpTimeout() is None
+        assert obj.getPdelayResponseEnabled() is None
+
+    def test_is_ar_object_subclass(self):
+        """
+        Test that EthGlobalTimeManagedCouplingPort derives from ARObject per the Table 9.17 Base row.
+        """
+        assert issubclass(EthGlobalTimeManagedCouplingPort, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(EthGlobalTimeManagedCouplingPort.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert EthGlobalTimeManagedCouplingPort.__init__.__doc__ is None
+
+    def test_member_order_follows_spec_rows(self):
+        """
+        Test that the accessors follow the Table 9.17 displayed row order (getter first per attribute).
+        """
+        methods = [name for name, value in EthGlobalTimeManagedCouplingPort.__dict__.items() if callable(value) and not name.startswith("_")]
+        assert methods == [
+            "getCouplingPortRef",
+            "setCouplingPortRef",
+            "getGlobalTimePortRole",
+            "setGlobalTimePortRole",
+            "getGlobalTimeTxPeriod",
+            "setGlobalTimeTxPeriod",
+            "getPdelayLatencyThreshold",
+            "setPdelayLatencyThreshold",
+            "getPdelayRequestPeriod",
+            "setPdelayRequestPeriod",
+            "getPdelayRespAndRespFollowUpTimeout",
+            "setPdelayRespAndRespFollowUpTimeout",
+            "getPdelayResponseEnabled",
+            "setPdelayResponseEnabled",
+        ]
+
+    def test_annotations_are_optional_typed(self):
+        """
+        Test that the accessors carry the spec types (0..1 rows).
+        """
+        hints = typing.get_type_hints(EthGlobalTimeManagedCouplingPort.getCouplingPortRef)
+        assert hints.get("return") == typing.Optional[RefType]
+        hints = typing.get_type_hints(EthGlobalTimeManagedCouplingPort.setCouplingPortRef)
+        assert hints.get("value") == typing.Optional[RefType]
+        assert hints.get("return") is EthGlobalTimeManagedCouplingPort
+
+        hints = typing.get_type_hints(EthGlobalTimeManagedCouplingPort.getGlobalTimePortRole)
+        assert hints.get("return") == typing.Optional[GlobalTimePortRoleEnum]
+        hints = typing.get_type_hints(EthGlobalTimeManagedCouplingPort.getGlobalTimeTxPeriod)
+        assert hints.get("return") == typing.Optional[TimeValue]
+        hints = typing.get_type_hints(EthGlobalTimeManagedCouplingPort.getPdelayLatencyThreshold)
+        assert hints.get("return") == typing.Optional[TimeValue]
+        hints = typing.get_type_hints(EthGlobalTimeManagedCouplingPort.getPdelayRequestPeriod)
+        assert hints.get("return") == typing.Optional[TimeValue]
+        hints = typing.get_type_hints(EthGlobalTimeManagedCouplingPort.getPdelayRespAndRespFollowUpTimeout)
+        assert hints.get("return") == typing.Optional[TimeValue]
+        hints = typing.get_type_hints(EthGlobalTimeManagedCouplingPort.getPdelayResponseEnabled)
+        assert hints.get("return") == typing.Optional[Boolean]
+
+    def test_get_set_coupling_port_ref(self):
+        """
+        Test getCouplingPortRef and setCouplingPortRef round-trip and None no-op.
+        """
+        obj = self._create_object()
+
+        value = RefType()
+        value.setValue("/Cluster/CouplingPort0")
+        result = obj.setCouplingPortRef(value)
+        assert result is obj
+        assert obj.getCouplingPortRef() is value
+        assert obj.getCouplingPortRef().getValue() == "/Cluster/CouplingPort0"
+
+        result = obj.setCouplingPortRef(None)
+        assert result is obj
+        assert obj.getCouplingPortRef() is value
+
+    def test_get_set_global_time_port_role(self):
+        """
+        Test getGlobalTimePortRole and setGlobalTimePortRole round-trip and None no-op.
+        """
+        obj = self._create_object()
+
+        value = GlobalTimePortRoleEnum()
+        value.setValue(GlobalTimePortRoleEnum.TIME_MASTER)
+        result = obj.setGlobalTimePortRole(value)
+        assert result is obj
+        assert obj.getGlobalTimePortRole() is value
+        assert obj.getGlobalTimePortRole().getValue() == GlobalTimePortRoleEnum.TIME_MASTER
+
+        result = obj.setGlobalTimePortRole(None)
+        assert result is obj
+        assert obj.getGlobalTimePortRole() is value
+
+    def test_get_set_time_valued_attributes(self):
+        """
+        Test the TimeValue getter/setter pairs round-trip and None no-op.
+        """
+        obj = self._create_object()
+
+        tx_period = TimeValue().setValue("0.25")
+        result = obj.setGlobalTimeTxPeriod(tx_period)
+        assert result is obj
+        assert obj.getGlobalTimeTxPeriod() is tx_period
+
+        latency = TimeValue().setValue("0.001")
+        result = obj.setPdelayLatencyThreshold(latency)
+        assert result is obj
+        assert obj.getPdelayLatencyThreshold() is latency
+
+        request = TimeValue().setValue("1.0")
+        result = obj.setPdelayRequestPeriod(request)
+        assert result is obj
+        assert obj.getPdelayRequestPeriod() is request
+
+        timeout = TimeValue().setValue("0.5")
+        result = obj.setPdelayRespAndRespFollowUpTimeout(timeout)
+        assert result is obj
+        assert obj.getPdelayRespAndRespFollowUpTimeout() is timeout
+
+        result = obj.setGlobalTimeTxPeriod(None)
+        assert result is obj
+        assert obj.getGlobalTimeTxPeriod() is tx_period
+
+    def test_get_set_pdelay_response_enabled(self):
+        """
+        Test getPdelayResponseEnabled and setPdelayResponseEnabled round-trip and None no-op.
+        """
+        obj = self._create_object()
+
+        value = Boolean()
+        value.setValue(True)
+        result = obj.setPdelayResponseEnabled(value)
+        assert result is obj
+        assert obj.getPdelayResponseEnabled() is value
+
+        result = obj.setPdelayResponseEnabled(None)
+        assert result is obj
+        assert obj.getPdelayResponseEnabled() is value
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        assert inspect.cleandoc(EthGlobalTimeManagedCouplingPort.getCouplingPortRef.__doc__) == self.COUPLING_PORT_REF_NOTE
+        assert inspect.cleandoc(EthGlobalTimeManagedCouplingPort.setCouplingPortRef.__doc__) == (
+            self.COUPLING_PORT_REF_NOTE + "\n\nA None value is a no-op and does not overwrite an existing couplingPortRef."
+        )
+        assert inspect.cleandoc(EthGlobalTimeManagedCouplingPort.getGlobalTimePortRole.__doc__) == self.GLOBAL_TIME_PORT_ROLE_NOTE
+        assert inspect.cleandoc(EthGlobalTimeManagedCouplingPort.setGlobalTimePortRole.__doc__) == (
+            self.GLOBAL_TIME_PORT_ROLE_NOTE + "\n\nA None value is a no-op and does not overwrite an existing globalTimePortRole."
+        )
+        assert inspect.cleandoc(EthGlobalTimeManagedCouplingPort.getGlobalTimeTxPeriod.__doc__) == self.GLOBAL_TIME_TX_PERIOD_NOTE
+        assert inspect.cleandoc(EthGlobalTimeManagedCouplingPort.setGlobalTimeTxPeriod.__doc__) == (
+            self.GLOBAL_TIME_TX_PERIOD_NOTE + "\n\nA None value is a no-op and does not overwrite an existing globalTimeTxPeriod."
+        )
+        assert inspect.cleandoc(EthGlobalTimeManagedCouplingPort.getPdelayLatencyThreshold.__doc__) == self.PDELAY_LATENCY_THRESHOLD_NOTE
+        assert inspect.cleandoc(EthGlobalTimeManagedCouplingPort.setPdelayLatencyThreshold.__doc__) == (
+            self.PDELAY_LATENCY_THRESHOLD_NOTE + "\n\nA None value is a no-op and does not overwrite an existing pdelayLatencyThreshold."
+        )
+        assert inspect.cleandoc(EthGlobalTimeManagedCouplingPort.getPdelayRequestPeriod.__doc__) == self.PDELAY_REQUEST_PERIOD_NOTE
+        assert inspect.cleandoc(EthGlobalTimeManagedCouplingPort.setPdelayRequestPeriod.__doc__) == (
+            self.PDELAY_REQUEST_PERIOD_NOTE + "\n\nA None value is a no-op and does not overwrite an existing pdelayRequestPeriod."
+        )
+        assert inspect.cleandoc(EthGlobalTimeManagedCouplingPort.getPdelayRespAndRespFollowUpTimeout.__doc__) == self.PDELAY_RESP_AND_RESP_FOLLOW_UP_TIMEOUT_NOTE
+        assert inspect.cleandoc(EthGlobalTimeManagedCouplingPort.setPdelayRespAndRespFollowUpTimeout.__doc__) == (
+            self.PDELAY_RESP_AND_RESP_FOLLOW_UP_TIMEOUT_NOTE + "\n\nA None value is a no-op and does not overwrite an existing pdelayRespAndRespFollowUpTimeout."
+        )
+        assert inspect.cleandoc(EthGlobalTimeManagedCouplingPort.getPdelayResponseEnabled.__doc__) == self.PDELAY_RESPONSE_ENABLED_NOTE
+        assert inspect.cleandoc(EthGlobalTimeManagedCouplingPort.setPdelayResponseEnabled.__doc__) == (
+            self.PDELAY_RESPONSE_ENABLED_NOTE + "\n\nA None value is a no-op and does not overwrite an existing pdelayResponseEnabled."
+        )
