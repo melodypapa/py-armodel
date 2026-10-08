@@ -1,14 +1,12 @@
 # This module contains AUTOSAR System Template classes for CAN communication
 # It defines CAN frames, frame triggering, and related communication elements for CAN networks
 
-from typing import TYPE_CHECKING, List, Optional
+from typing import List, Optional
 
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ttcan.TtcanCommunication import TtcanAbsolutelyScheduledTiming
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import Frame, FrameTriggering
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, Integer, PositiveInteger
-
-if TYPE_CHECKING:
-    from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ttcan.TtcanCommunication import TtcanAbsolutelyScheduledTiming
 
 
 class CanAddressingModeType(AREnum):
@@ -16,9 +14,9 @@ class CanAddressingModeType(AREnum):
 
     # CanAddressingModeType method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.111, p.443
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # (no methods)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on consuming classes (Rules 0010-0011)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # Extended 29-bit-identifiers are used (CAN 2.0B) Tags: atp.EnumerationLiteralIndex=0
     ENUM_EXTENDED = "EXTENDED"
@@ -40,9 +38,9 @@ class CanFrameRxBehaviorEnum(AREnum):
 
     # CanFrameRxBehaviorEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.113, p.444
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # (no methods)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on consuming classes (Rules 0010-0011)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # This CAN frame may be received as both, CAN 2.0 and CAN FD. Tags: atp.EnumerationLiteralIndex=0
     ENUM_ANY = "ANY"
@@ -68,9 +66,9 @@ class CanFrameTxBehaviorEnum(AREnum):
 
     # CanFrameTxBehaviorEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.114, p.445
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # (no methods)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on consuming classes (Rules 0010-0011)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # This CAN frame shall be sent as CAN 2.0 only. Tags: atp.EnumerationLiteralIndex=0
     ENUM_CAN_20 = "CAN-20"
@@ -177,13 +175,12 @@ class RxIdentifierRange(ARObject):
 
     # RxIdentifierRange method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.112, p.444
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getLowerCanId                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setLowerCanId                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getUpperCanId                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setUpperCanId                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getLowerCanId  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setLowerCanId  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getUpperCanId  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUpperCanId  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -223,14 +220,13 @@ class RxIdentifierRange(ARObject):
 
 class CanFrame(Frame):
     """
-    CAN specific Frame element. This element shall also be used for TTCan.
+    CAN specific Frame element. This element shall also be used for TTCan. Tags: atp.recommendedPackage=Frames
     """
 
     # CanFrame method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.109, p.442
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # (no own attributes; Base = ARObject, CollectableElement, FibexElement, Frame, Identifiable, MultilanguageReferrable, PackageableElement, Referrable)
 
     def __init__(self, parent: ARObject, short_name: str):
@@ -244,29 +240,28 @@ class CanFrameTriggering(FrameTriggering):
 
     # CanFrameTriggering method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.110, p.443
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getAbsolutelyScheduledTimings      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addAbsolutelyScheduledTiming       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getCanAddressingMode               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setCanAddressingMode               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getCanFrameRxBehavior              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setCanFrameRxBehavior              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getCanFrameTxBehavior              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setCanFrameTxBehavior              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getCanXlFrameTriggeringProps       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setCanXlFrameTriggeringProps       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getIdentifier                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setIdentifier                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getJ1939requestable                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setJ1939requestable                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getRxIdentifierRange               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setRxIdentifierRange               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getRxMask                          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setRxMask                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTxMask                          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTxMask                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAbsolutelyScheduledTimings   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addAbsolutelyScheduledTiming    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCanAddressingMode            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCanAddressingMode            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCanFrameRxBehavior           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCanFrameRxBehavior           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCanFrameTxBehavior           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCanFrameTxBehavior           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCanXlFrameTriggeringProps    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCanXlFrameTriggeringProps    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIdentifier                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIdentifier                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getJ1939requestable             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setJ1939requestable             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRxIdentifierRange            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRxIdentifierRange            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRxMask                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRxMask                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTxMask                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTxMask                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)

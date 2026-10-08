@@ -6,9 +6,9 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, Boolean, PositiveInteger, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, PositiveInteger, RefType
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import SdClientConfig
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import ConsumedEventGroup, PduActivationRoutingGroup
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import ConsumedEventGroup, EventGroupControlTypeEnum, PduActivationRoutingGroup
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 
@@ -80,7 +80,7 @@ def _full_group():
     group.addEventMulticastAddressRef(_ref("APPLICATION-ENDPOINT", "/Ether/Endpoint/MC1"))
     group.addEventMulticastAddressRef(_ref("APPLICATION-ENDPOINT", "/Ether/Endpoint/MC2"))
     group.setPriority(_pos_int("5"))
-    group.addRoutingGroupRef(_ref("SOAD-ROUTING-GROUP", "/SoAd/RoutingGroup/RG1"))
+    group.addRoutingGroupRef(_ref("SO-AD-ROUTING-GROUP", "/SoAd/RoutingGroup/RG1"))
     config = SdClientConfig()
     config.setClientServiceMajorVersion(_pos_int("15"))
     config.setTtl(_pos_int("10"))
@@ -108,6 +108,7 @@ class TestWriteConsumedEventGroup:
         rg = el.find("ROUTING-GROUP-REFS")
         assert rg is not None
         assert rg.find("ROUTING-GROUP-REF").text == "/SoAd/RoutingGroup/RG1"
+        assert rg.find("ROUTING-GROUP-REF").get("DEST") == "SO-AD-ROUTING-GROUP"
         sdc = el.find("SD-CLIENT-CONFIG")
         assert sdc is not None
         assert sdc.find("CLIENT-SERVICE-MAJOR-VERSION").text == "15"
@@ -177,11 +178,9 @@ class TestConsumedEventGroupRoundTrip:
         assert recovered.getSdClientTimerConfigRef() is None
 
 
-def _activation_group(short_name, control_value):
+def _activation_group(short_name, member):
     group = PduActivationRoutingGroup(MockParent(), short_name)
-    literal = ARLiteral()
-    literal.setValue(control_value)
-    group.setEventGroupControlType(literal)
+    group.setEventGroupControlType(EventGroupControlTypeEnum().setValue(member))
     return group
 
 
@@ -189,8 +188,8 @@ class TestConsumedEventGroupPduActivationRoutingGroups:
     def test_write_pdu_activation_routing_groups(self, writer):
         parent = _parent()
         group = ConsumedEventGroup(MockParent(), "CEG")
-        group.addPduActivationRoutingGroup(_activation_group("PARG1", "activateAndTriggerUnicast"))
-        group.addPduActivationRoutingGroup(_activation_group("PARG2", "deactivateAndTriggerUnicast"))
+        group.addPduActivationRoutingGroup(_activation_group("PARG1", EventGroupControlTypeEnum.ACTIVATION_AND_TRIGGER_UNICAST))
+        group.addPduActivationRoutingGroup(_activation_group("PARG2", EventGroupControlTypeEnum.TRIGGER_UNICAST))
         writer.writeConsumedEventGroup(parent, group)
 
         el = parent.find("CONSUMED-EVENT-GROUP")
@@ -199,14 +198,14 @@ class TestConsumedEventGroupPduActivationRoutingGroups:
         entries = wrapper.findall("PDU-ACTIVATION-ROUTING-GROUP")
         assert len(entries) == 2
         assert entries[0].find("SHORT-NAME").text == "PARG1"
-        assert entries[0].find("EVENT-GROUP-CONTROL-TYPE").text == "activateAndTriggerUnicast"
+        assert entries[0].find("EVENT-GROUP-CONTROL-TYPE").text == "ACTIVATION-AND-TRIGGER-UNICAST"
         assert entries[1].find("SHORT-NAME").text == "PARG2"
 
     def test_round_trip_preserves_pdu_activation_routing_groups(self, writer, parser):
         parent = _parent()
         group = ConsumedEventGroup(MockParent(), "CEG")
-        group.addPduActivationRoutingGroup(_activation_group("PARG1", "activateAndTriggerUnicast"))
-        group.addPduActivationRoutingGroup(_activation_group("PARG2", "deactivateAndTriggerUnicast"))
+        group.addPduActivationRoutingGroup(_activation_group("PARG1", EventGroupControlTypeEnum.ACTIVATION_AND_TRIGGER_UNICAST))
+        group.addPduActivationRoutingGroup(_activation_group("PARG2", EventGroupControlTypeEnum.TRIGGER_UNICAST))
         writer.writeConsumedEventGroup(parent, group)
 
         element = _namespaced_wrap(parent)
@@ -217,9 +216,9 @@ class TestConsumedEventGroupPduActivationRoutingGroups:
         assert len(groups) == 2
         assert isinstance(groups[0], PduActivationRoutingGroup)
         assert groups[0].getShortName() == "PARG1"
-        assert groups[0].getEventGroupControlType().getValue() == "activateAndTriggerUnicast"
+        assert groups[0].getEventGroupControlType().getValue() == EventGroupControlTypeEnum.ACTIVATION_AND_TRIGGER_UNICAST
         assert groups[1].getShortName() == "PARG2"
-        assert groups[1].getEventGroupControlType().getValue() == "deactivateAndTriggerUnicast"
+        assert groups[1].getEventGroupControlType().getValue() == EventGroupControlTypeEnum.TRIGGER_UNICAST
 
     def test_reader_no_wrapper_leaves_list_empty(self, parser):
         element = ET.fromstring(f"<CONSUMED-EVENT-GROUP xmlns='{NS}'><SHORT-NAME>CEG</SHORT-NAME></CONSUMED-EVENT-GROUP>")

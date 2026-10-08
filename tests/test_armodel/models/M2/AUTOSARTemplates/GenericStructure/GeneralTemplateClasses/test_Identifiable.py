@@ -14,6 +14,8 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import Diag
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
+    DdsCpServiceInstanceEvent,
+    DdsCpServiceInstanceOperation,
     DdsDeadline,
     DdsDestinationOrder,
     DdsDurability,
@@ -33,7 +35,11 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     CpSoftwareClusterResource,
+    DdsCpConsumedServiceInstance,
+    DdsCpDomain,
+    DdsCpPartition,
     DdsCpQosProfile,
+    DdsCpServiceInstance,
     DdsCpTopic,
     Describable,
     DiagnosticAuthTransmitCertificateEvaluation,
@@ -52,6 +58,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     SingleLanguageReferrable,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    AnyVersionString,
     Boolean,
     CategoryString,
     DiagnosticDebounceBehaviorEnum,
@@ -2174,3 +2181,552 @@ class TestDdsCpQosProfile:
             field_name = name[0].lower() + name[1:]
             assert inspect.cleandoc(getter.__doc__) == self.NOTES[name], name
             assert inspect.cleandoc(setter.__doc__) == (self.NOTES[name] + f"\n\nA None value is a no-op and does not overwrite an existing {field_name}."), name
+
+
+class TestDdsCpServiceInstance:
+    """
+    Test class for DdsCpServiceInstance functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.152, p.472 (abstract; Base most-derived
+    synced = Identifiable — AbstractServiceInstance is cycle-blocked from Identifiable.py,
+    wave-1 DdsCp* precedent 0babf1fb0). Concrete subclass DdsCpConsumedServiceInstance is
+    used where an instance is required.
+    """
+
+    CLASS_NOTE = "Provided and Consumed Dds Service Instances that are available at the ApplicationEndpoint. Tags: atp.Status=candidate"
+    FIELD_REPLY_NOTE = "Reference to the DdsTopic used as fragment for the topic name of field setters. Tags: atp.Status=candidate"
+    FIELD_REQUEST_NOTE = "Reference to the DdsTopic used as fragment for the topic name of field getters. Tags: atp.Status=candidate"
+    METHOD_REPLY_NOTE = "Reference to the DdsTopic used as fragment for the topic name of method replies. Tags: atp.Status=candidate"
+    METHOD_REQUEST_NOTE = "Reference to the DdsTopic used as fragment for the topic name of method requests. Tags: atp.Status=candidate"
+    QOS_PROFILE_NOTE = "Reference to the QOS Profile used for the service. Tags: atp.Status=candidate"
+    INSTANCE_ID_NOTE = "Identification number that is used by DDS to identify DomainParticipants associated with an instance of the service. Tags: atp.Status=candidate"
+    INTERFACE_ID_NOTE = "Unique Identifier that identifies the ServiceInterface in DDS. This Identifier is encoded in the USER_DATA QoS of the DomainParticipant associated with the Service Instance and its value is propagated by DDS Discovery messages. Tags: atp.Status=candidate"
+
+    def _create_instance(self):
+        return DdsCpConsumedServiceInstance(AUTOSAR.getInstance(), "DdsInstance1")
+
+    def test_abstract_instantiation_blocked(self):
+        """
+        Test that the abstract DdsCpServiceInstance cannot be instantiated directly.
+        """
+        with pytest.raises(TypeError):
+            DdsCpServiceInstance(AUTOSAR.getInstance(), "Abstract1")
+
+    def test_subclass_inherits_identifiable(self):
+        """
+        Test that DdsCpServiceInstance derives from Identifiable and the concrete subclass inherits it.
+        """
+        assert issubclass(DdsCpServiceInstance, Identifiable)
+        assert issubclass(DdsCpServiceInstance, ARObject)
+        assert issubclass(DdsCpConsumedServiceInstance, DdsCpServiceInstance)
+
+    def test_initialization(self):
+        """
+        Test that a new DdsCpServiceInstance subclass initializes all attributes to their defaults.
+        """
+        obj = self._create_instance()
+
+        assert obj.getShortName() == "DdsInstance1"
+        assert obj.getDdsFieldReplyTopicRef() is None
+        assert obj.getDdsFieldRequestTopicRef() is None
+        assert obj.getDdsMethodReplyTopicRef() is None
+        assert obj.getDdsMethodRequestTopicRef() is None
+        assert obj.getDdsServiceQosProfileRef() is None
+        assert obj.getServiceInstanceId() is None
+        assert obj.getServiceInterfaceId() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(DdsCpServiceInstance.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DdsCpServiceInstance.__init__.__doc__ is None
+
+    def _check_ref(self, getter_name, setter_name, dest):
+        obj = self._create_instance()
+        getter = getattr(obj, getter_name)
+        setter = getattr(obj, setter_name)
+        value = RefType().setDest(dest).setValue("/DdsCpConfig/Topics/Topic1")
+        assert setter(value) is obj
+        assert getter() is value
+        assert getter().getDest() == dest
+        assert setter(None) is obj
+        assert getter() is value
+
+    def test_get_set_dds_field_reply_topic_ref(self):
+        """Test get/setDdsFieldReplyTopicRef round-trip and None no-op."""
+        self._check_ref("getDdsFieldReplyTopicRef", "setDdsFieldReplyTopicRef", "DDS-CP-TOPIC")
+
+    def test_get_set_dds_field_request_topic_ref(self):
+        """Test get/setDdsFieldRequestTopicRef round-trip and None no-op."""
+        self._check_ref("getDdsFieldRequestTopicRef", "setDdsFieldRequestTopicRef", "DDS-CP-TOPIC")
+
+    def test_get_set_dds_method_reply_topic_ref(self):
+        """Test get/setDdsMethodReplyTopicRef round-trip and None no-op."""
+        self._check_ref("getDdsMethodReplyTopicRef", "setDdsMethodReplyTopicRef", "DDS-CP-TOPIC")
+
+    def test_get_set_dds_method_request_topic_ref(self):
+        """Test get/setDdsMethodRequestTopicRef round-trip and None no-op."""
+        self._check_ref("getDdsMethodRequestTopicRef", "setDdsMethodRequestTopicRef", "DDS-CP-TOPIC")
+
+    def test_get_set_dds_service_qos_profile_ref(self):
+        """Test get/setDdsServiceQosProfileRef round-trip and None no-op."""
+        self._check_ref("getDdsServiceQosProfileRef", "setDdsServiceQosProfileRef", "DDS-CP-QOS-PROFILE")
+
+    def test_get_set_service_instance_id(self):
+        """
+        Test getServiceInstanceId/setServiceInstanceId round-trip and None no-op.
+        """
+        obj = self._create_instance()
+        value = PositiveInteger().setValue("42")
+        assert obj.setServiceInstanceId(value) is obj
+        assert obj.getServiceInstanceId() is value
+        assert obj.getServiceInstanceId().getValue() == 42
+        obj.setServiceInstanceId(None)
+        assert obj.getServiceInstanceId() is value
+
+    def test_get_set_service_interface_id(self):
+        """
+        Test getServiceInterfaceId/setServiceInterfaceId round-trip and None no-op.
+        """
+        obj = self._create_instance()
+        value = String().setValue("MyServiceInterface")
+        assert obj.setServiceInterfaceId(value) is obj
+        assert obj.getServiceInterfaceId() is value
+        assert obj.getServiceInterfaceId().getValue() == "MyServiceInterface"
+        obj.setServiceInterfaceId(None)
+        assert obj.getServiceInterfaceId() is value
+
+    def test_type_annotations(self):
+        """
+        Getter returns and setter parameters match the spec multiplicity (all 0..1 → Optional).
+        """
+        assert typing.get_type_hints(DdsCpServiceInstance.setDdsFieldReplyTopicRef)["value"] == typing.Optional[RefType]
+        assert typing.get_type_hints(DdsCpServiceInstance.setDdsServiceQosProfileRef)["value"] == typing.Optional[RefType]
+        assert typing.get_type_hints(DdsCpServiceInstance.setServiceInstanceId)["value"] == typing.Optional[PositiveInteger]
+        assert typing.get_type_hints(DdsCpServiceInstance.setServiceInterfaceId)["value"] == typing.Optional[String]
+        assert typing.get_type_hints(DdsCpServiceInstance.getServiceInterfaceId)["return"] == typing.Optional[String]
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        pairs = [
+            ("DdsFieldReplyTopicRef", self.FIELD_REPLY_NOTE),
+            ("DdsFieldRequestTopicRef", self.FIELD_REQUEST_NOTE),
+            ("DdsMethodReplyTopicRef", self.METHOD_REPLY_NOTE),
+            ("DdsMethodRequestTopicRef", self.METHOD_REQUEST_NOTE),
+            ("DdsServiceQosProfileRef", self.QOS_PROFILE_NOTE),
+            ("ServiceInstanceId", self.INSTANCE_ID_NOTE),
+            ("ServiceInterfaceId", self.INTERFACE_ID_NOTE),
+        ]
+        for suffix, note in pairs:
+            getter = getattr(DdsCpServiceInstance, f"get{suffix}")
+            setter = getattr(DdsCpServiceInstance, f"set{suffix}")
+            field_name = suffix[0].lower() + suffix[1:]
+            assert inspect.cleandoc(getter.__doc__) == note, suffix
+            assert inspect.cleandoc(setter.__doc__) == (note + f"\n\nA None value is a no-op and does not overwrite an existing {field_name}."), suffix
+
+
+class TestDdsCpConsumedServiceInstance:
+    """
+    Test class for DdsCpConsumedServiceInstance functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.154, p.475
+    """
+
+    CLASS_NOTE = "This meta-class represents the ability to describe the existence and configuration of a consumed (required) service instance in a concrete implementation on top of DDS. Tags: atp.Status=candidate"
+    OPERATIONS_NOTE = (
+        "Collection of consumed operations. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=consumedDdsOperation, consumedDds Operation.variationPoint.shortLabel atp.Status=candidate"
+    )
+    EVENTS_NOTE = "Collection of consumed events. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=consumedDdsServiceEvent, consumedDds ServiceEvent.variationPoint.shortLabel atp.Status=candidate vh.latestBindingTime=systemDesignTime"
+    LOCAL_UNICAST_NOTE = "The local address over which the Service is consumed. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=localUnicastAddress.applicationEndpoint, localUnicastAddress.variationPoint.shortLabel atp.Status=candidate vh.latestBindingTime=systemDesignTime xml.namePlural=LOCAL-UNICAST-ADDRESSES"
+    MINOR_VERSION_NOTE = "Minor Version of the ServiceInterface. Value can be set to a number that represents the Minor Version of the searched service or to ANY."
+    MULTICAST_NOTE = "This reference defines the remote multicast address of the Service provider. This reference shall ONLY be used if the remote multicast address of the server is determined from the configuration and not at runtime. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=staticRemoteMulticastAddress.application Endpoint, staticRemoteMulticastAddress.variation Point.shortLabel atp.Status=candidate vh.latestBindingTime=systemDesignTime xml.namePlural=STATIC-REMOTE-MULTICAST-ADDRESSES"
+    UNICAST_NOTE = "This reference defines the remote unicast address of the Service provider. This reference shall ONLY be used if the remote unicast address of the server is determined from the configuration and not at runtime. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=staticRemoteUnicastAddress.application Endpoint, staticRemoteUnicastAddress.variation Point.shortLabel atp.Status=candidate vh.latestBindingTime=systemDesignTime xml.namePlural=STATIC-REMOTE-UNICAST-ADDRESSES"
+
+    def _create_instance(self) -> DdsCpConsumedServiceInstance:
+        return DdsCpConsumedServiceInstance(AUTOSAR.getInstance(), "ConsumedInstance1")
+
+    def test_initialization(self):
+        """
+        Test that a new DdsCpConsumedServiceInstance initializes all attributes to their defaults.
+        """
+        obj = self._create_instance()
+
+        assert obj.getShortName() == "ConsumedInstance1"
+        assert obj.getConsumedDdsOperations() == []
+        assert obj.getConsumedDdsServiceEvents() == []
+        assert obj.getLocalUnicastAddressRef() is None
+        assert obj.getMinorVersion() is None
+        assert obj.getStaticRemoteMulticastAddressRef() is None
+        assert obj.getStaticRemoteUnicastAddressRef() is None
+
+    def test_is_concrete_subclass_of_base(self):
+        """
+        Test that DdsCpConsumedServiceInstance derives from DdsCpServiceInstance and is concrete.
+        """
+        assert issubclass(DdsCpConsumedServiceInstance, DdsCpServiceInstance)
+        assert issubclass(DdsCpConsumedServiceInstance, Identifiable)
+        assert issubclass(DdsCpConsumedServiceInstance, ARObject)
+        obj = self._create_instance()
+        assert isinstance(obj, DdsCpServiceInstance)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(DdsCpConsumedServiceInstance.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DdsCpConsumedServiceInstance.__init__.__doc__ is None
+
+    def test_add_get_consumed_dds_operations(self):
+        """
+        Test addConsumedDdsOperation appends and getConsumedDdsOperations returns the list; None is a no-op.
+        """
+        obj = self._create_instance()
+
+        operation = DdsCpServiceInstanceOperation()
+        operation.setDdsOperationRequestTriggeringRef(RefType().setDest("IDENTIFIABLE").setValue("/Swc/InternTrigger1"))
+        result = obj.addConsumedDdsOperation(operation)
+        assert result is obj
+        assert obj.getConsumedDdsOperations() == [operation]
+        assert obj.getConsumedDdsOperations()[0].getDdsOperationRequestTriggeringRef().getValue() == "/Swc/InternTrigger1"
+
+        assert obj.addConsumedDdsOperation(None) is obj
+        assert obj.getConsumedDdsOperations() == [operation]
+
+    def test_add_get_consumed_dds_service_events(self):
+        """
+        Test addConsumedDdsServiceEvent appends and getConsumedDdsServiceEvents returns the list; None is a no-op.
+        """
+        obj = self._create_instance()
+
+        event = DdsCpServiceInstanceEvent()
+        event.setDdsEventRef(RefType().setDest("IDENTIFIABLE").setValue("/Swc/Event1"))
+        result = obj.addConsumedDdsServiceEvent(event)
+        assert result is obj
+        assert obj.getConsumedDdsServiceEvents() == [event]
+        assert obj.getConsumedDdsServiceEvents()[0].getDdsEventRef().getValue() == "/Swc/Event1"
+
+        assert obj.addConsumedDdsServiceEvent(None) is obj
+        assert obj.getConsumedDdsServiceEvents() == [event]
+
+    def test_get_set_local_unicast_address_ref(self):
+        """
+        Test get/setLocalUnicastAddressRef round-trip and None no-op.
+        """
+        obj = self._create_instance()
+
+        value = RefType().setDest("APPLICATION-ENDPOINT").setValue("/Cluster/Connector/Endpoint1")
+        result = obj.setLocalUnicastAddressRef(value)
+        assert result is obj
+        assert obj.getLocalUnicastAddressRef() is value
+        assert obj.getLocalUnicastAddressRef().getValue() == "/Cluster/Connector/Endpoint1"
+        assert obj.getLocalUnicastAddressRef().getDest() == "APPLICATION-ENDPOINT"
+
+        result = obj.setLocalUnicastAddressRef(None)
+        assert result is obj
+        assert obj.getLocalUnicastAddressRef() is value
+
+    def test_get_set_minor_version(self):
+        """
+        Test get/setMinorVersion round-trip and None no-op (AnyVersionString "2" and "ANY").
+        """
+        obj = self._create_instance()
+
+        value = AnyVersionString().setValue("2")
+        result = obj.setMinorVersion(value)
+        assert result is obj
+        assert obj.getMinorVersion() is value
+        assert obj.getMinorVersion().getValue() == "2"
+
+        any_value = AnyVersionString().setValue("ANY")
+        obj.setMinorVersion(any_value)
+        assert obj.getMinorVersion().getValue() == "ANY"
+
+        result = obj.setMinorVersion(None)
+        assert result is obj
+        assert obj.getMinorVersion() is any_value
+
+    def test_get_set_static_remote_multicast_address_ref(self):
+        """
+        Test get/setStaticRemoteMulticastAddressRef round-trip and None no-op.
+        """
+        obj = self._create_instance()
+
+        value = RefType().setDest("APPLICATION-ENDPOINT").setValue("/Cluster/Connector/MulticastEndpoint")
+        result = obj.setStaticRemoteMulticastAddressRef(value)
+        assert result is obj
+        assert obj.getStaticRemoteMulticastAddressRef() is value
+        assert obj.getStaticRemoteMulticastAddressRef().getValue() == "/Cluster/Connector/MulticastEndpoint"
+
+        result = obj.setStaticRemoteMulticastAddressRef(None)
+        assert result is obj
+        assert obj.getStaticRemoteMulticastAddressRef() is value
+
+    def test_get_set_static_remote_unicast_address_ref(self):
+        """
+        Test get/setStaticRemoteUnicastAddressRef round-trip and None no-op (Table 6.154 Mult 0..1 — single ref).
+        """
+        obj = self._create_instance()
+
+        value = RefType().setDest("APPLICATION-ENDPOINT").setValue("/Cluster/Connector/UnicastEndpoint")
+        result = obj.setStaticRemoteUnicastAddressRef(value)
+        assert result is obj
+        assert obj.getStaticRemoteUnicastAddressRef() is value
+        assert obj.getStaticRemoteUnicastAddressRef().getValue() == "/Cluster/Connector/UnicastEndpoint"
+
+        result = obj.setStaticRemoteUnicastAddressRef(None)
+        assert result is obj
+        assert obj.getStaticRemoteUnicastAddressRef() is value
+
+    def test_inherited_base_accessors(self):
+        """
+        Test that the inherited DdsCpServiceInstance group members still round-trip on the subclass.
+        """
+        obj = self._create_instance()
+        value = PositiveInteger().setValue("7")
+        assert obj.setServiceInstanceId(value) is obj
+        assert obj.getServiceInstanceId() is value
+
+    def test_type_annotations(self):
+        """
+        Getter returns and setter parameters match the spec multiplicity (lists for `*`, Optional for 0..1).
+        """
+        assert typing.get_type_hints(DdsCpConsumedServiceInstance.addConsumedDdsOperation)["value"] == typing.Optional[DdsCpServiceInstanceOperation]
+        assert typing.get_type_hints(DdsCpConsumedServiceInstance.getConsumedDdsOperations)["return"] == typing.List[DdsCpServiceInstanceOperation]
+        assert typing.get_type_hints(DdsCpConsumedServiceInstance.addConsumedDdsServiceEvent)["value"] == typing.Optional[DdsCpServiceInstanceEvent]
+        assert typing.get_type_hints(DdsCpConsumedServiceInstance.getConsumedDdsServiceEvents)["return"] == typing.List[DdsCpServiceInstanceEvent]
+        assert typing.get_type_hints(DdsCpConsumedServiceInstance.setLocalUnicastAddressRef)["value"] == typing.Optional[RefType]
+        assert typing.get_type_hints(DdsCpConsumedServiceInstance.getLocalUnicastAddressRef)["return"] == typing.Optional[RefType]
+        assert typing.get_type_hints(DdsCpConsumedServiceInstance.setMinorVersion)["value"] == typing.Optional[AnyVersionString]
+        assert typing.get_type_hints(DdsCpConsumedServiceInstance.getMinorVersion)["return"] == typing.Optional[AnyVersionString]
+        assert typing.get_type_hints(DdsCpConsumedServiceInstance.setStaticRemoteMulticastAddressRef)["value"] == typing.Optional[RefType]
+        assert typing.get_type_hints(DdsCpConsumedServiceInstance.setStaticRemoteUnicastAddressRef)["value"] == typing.Optional[RefType]
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setter/add + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DdsCpConsumedServiceInstance.addConsumedDdsOperation.__doc__) == (
+            self.OPERATIONS_NOTE + "\n\nA None value is a no-op and does not extend the consumedDdsOperations list."
+        )
+        assert inspect.cleandoc(DdsCpConsumedServiceInstance.getConsumedDdsOperations.__doc__) == self.OPERATIONS_NOTE
+        assert inspect.cleandoc(DdsCpConsumedServiceInstance.addConsumedDdsServiceEvent.__doc__) == (
+            self.EVENTS_NOTE + "\n\nA None value is a no-op and does not extend the consumedDdsServiceEvents list."
+        )
+        assert inspect.cleandoc(DdsCpConsumedServiceInstance.getConsumedDdsServiceEvents.__doc__) == self.EVENTS_NOTE
+        assert inspect.cleandoc(DdsCpConsumedServiceInstance.getLocalUnicastAddressRef.__doc__) == self.LOCAL_UNICAST_NOTE
+        assert inspect.cleandoc(DdsCpConsumedServiceInstance.setLocalUnicastAddressRef.__doc__) == (
+            self.LOCAL_UNICAST_NOTE + "\n\nA None value is a no-op and does not overwrite an existing localUnicastAddressRef."
+        )
+        assert inspect.cleandoc(DdsCpConsumedServiceInstance.getMinorVersion.__doc__) == self.MINOR_VERSION_NOTE
+        assert inspect.cleandoc(DdsCpConsumedServiceInstance.setMinorVersion.__doc__) == (self.MINOR_VERSION_NOTE + "\n\nA None value is a no-op and does not overwrite an existing minorVersion.")
+        assert inspect.cleandoc(DdsCpConsumedServiceInstance.getStaticRemoteMulticastAddressRef.__doc__) == self.MULTICAST_NOTE
+        assert inspect.cleandoc(DdsCpConsumedServiceInstance.setStaticRemoteMulticastAddressRef.__doc__) == (
+            self.MULTICAST_NOTE + "\n\nA None value is a no-op and does not overwrite an existing staticRemoteMulticastAddressRef."
+        )
+        assert inspect.cleandoc(DdsCpConsumedServiceInstance.getStaticRemoteUnicastAddressRef.__doc__) == self.UNICAST_NOTE
+        assert inspect.cleandoc(DdsCpConsumedServiceInstance.setStaticRemoteUnicastAddressRef.__doc__) == (
+            self.UNICAST_NOTE + "\n\nA None value is a no-op and does not overwrite an existing staticRemoteUnicastAddressRef."
+        )
+
+
+class TestDdsCpDomain:
+    """
+    Test class for DdsCpDomain functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.176, p.526
+    """
+
+    CLASS_NOTE = "Definition of a DDS Domain. Tags: atp.Status=candidate"
+    DDS_PARTITION_NOTE = "Collection of DDS Partition definitions. Tags: atp.Status=candidate"
+    DDS_TOPIC_NOTE = "Collection of DDS Topics. Tags: atp.Status=candidate"
+    DOMAIN_ID_NOTE = "Definition of the DDS Domain Id. Tags: atp.Status=candidate"
+
+    def _create_domain(self) -> DdsCpDomain:
+        return DdsCpDomain(AUTOSAR.getInstance(), "Domain1")
+
+    def test_initialization(self):
+        """
+        Test that a new DdsCpDomain initializes all attributes to their defaults.
+        """
+        obj = self._create_domain()
+
+        assert obj.getShortName() == "Domain1"
+        assert obj.getDdsPartitions() == []
+        assert obj.getDdsTopics() == []
+        assert obj.getDomainId() is None
+
+    def test_is_identifiable_subclass(self):
+        """
+        Test that DdsCpDomain derives from Identifiable (Base column most-derived class).
+        """
+        assert issubclass(DdsCpDomain, Identifiable)
+        assert issubclass(DdsCpDomain, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(DdsCpDomain.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DdsCpDomain.__init__.__doc__ is None
+
+    def test_create_dds_partition(self):
+        """
+        Test createDdsPartition appends a DdsCpPartition and returns the existing one for a duplicate short name.
+        """
+        obj = self._create_domain()
+
+        partition = obj.createDdsPartition("Partition1")
+        assert isinstance(partition, DdsCpPartition)
+        assert partition.getShortName() == "Partition1"
+        assert obj.getDdsPartitions() == [partition]
+
+        duplicate = obj.createDdsPartition("Partition1")
+        assert duplicate is partition
+        assert len(obj.getDdsPartitions()) == 1
+
+    def test_create_dds_topic(self):
+        """
+        Test createDdsTopic appends a DdsCpTopic and returns the existing one for a duplicate short name.
+        """
+        obj = self._create_domain()
+
+        topic = obj.createDdsTopic("Topic1")
+        assert isinstance(topic, DdsCpTopic)
+        assert topic.getShortName() == "Topic1"
+        assert obj.getDdsTopics() == [topic]
+
+        duplicate = obj.createDdsTopic("Topic1")
+        assert duplicate is topic
+        assert len(obj.getDdsTopics()) == 1
+
+    def test_get_set_domain_id(self):
+        """
+        Test get/setDomainId round-trip and None no-op.
+        """
+        obj = self._create_domain()
+
+        value = PositiveInteger().setValue("1")
+        result = obj.setDomainId(value)
+        assert result is obj
+        assert obj.getDomainId() is value
+        assert obj.getDomainId().getValue() == 1
+
+        result = obj.setDomainId(None)
+        assert result is obj
+        assert obj.getDomainId() is value
+
+    def test_type_annotations(self):
+        """
+        Getter returns and setter parameters match the spec multiplicity (List for `*`, Optional for 0..1).
+        """
+        assert typing.get_type_hints(DdsCpDomain.createDdsPartition)["short_name"] is str
+        assert typing.get_type_hints(DdsCpDomain.getDdsPartitions)["return"] == typing.List[DdsCpPartition]
+        assert typing.get_type_hints(DdsCpDomain.createDdsTopic)["short_name"] is str
+        assert typing.get_type_hints(DdsCpDomain.getDdsTopics)["return"] == typing.List[DdsCpTopic]
+        assert typing.get_type_hints(DdsCpDomain.setDomainId)["value"] == typing.Optional[PositiveInteger]
+        assert typing.get_type_hints(DdsCpDomain.getDomainId)["return"] == typing.Optional[PositiveInteger]
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Accessor docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DdsCpDomain.createDdsPartition.__doc__) == self.DDS_PARTITION_NOTE
+        assert inspect.cleandoc(DdsCpDomain.getDdsPartitions.__doc__) == self.DDS_PARTITION_NOTE
+        assert inspect.cleandoc(DdsCpDomain.createDdsTopic.__doc__) == self.DDS_TOPIC_NOTE
+        assert inspect.cleandoc(DdsCpDomain.getDdsTopics.__doc__) == self.DDS_TOPIC_NOTE
+        assert inspect.cleandoc(DdsCpDomain.getDomainId.__doc__) == self.DOMAIN_ID_NOTE
+        assert inspect.cleandoc(DdsCpDomain.setDomainId.__doc__) == (self.DOMAIN_ID_NOTE + "\n\nA None value is a no-op and does not overwrite an existing domainId.")
+
+
+class TestDdsCpPartition:
+    """
+    Test class for DdsCpPartition functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.178, p.527
+    """
+
+    CLASS_NOTE = "Definition of a DDS Partition. Tags: atp.Status=candidate"
+    PARTITION_NAME_NOTE = "Definition of the DDS Partition Name. '*' may be used to define the default partition. Tags: atp.Status=candidate"
+
+    def _create_partition(self) -> DdsCpPartition:
+        return DdsCpPartition(AUTOSAR.getInstance(), "Partition1")
+
+    def test_initialization(self):
+        """
+        Test that a new DdsCpPartition initializes all attributes to their defaults.
+        """
+        obj = self._create_partition()
+
+        assert obj.getShortName() == "Partition1"
+        assert obj.getPartitionName() is None
+
+    def test_is_identifiable_subclass(self):
+        """
+        Test that DdsCpPartition derives from Identifiable (Base column most-derived class).
+        """
+        assert issubclass(DdsCpPartition, Identifiable)
+        assert issubclass(DdsCpPartition, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(DdsCpPartition.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DdsCpPartition.__init__.__doc__ is None
+
+    def test_get_set_partition_name(self):
+        """
+        Test get/setPartitionName round-trip and None no-op.
+        """
+        obj = self._create_partition()
+
+        value = String().setValue("Partition_A")
+        result = obj.setPartitionName(value)
+        assert result is obj
+        assert obj.getPartitionName() is value
+        assert obj.getPartitionName().getValue() == "Partition_A"
+
+        default = String().setValue("*")
+        obj.setPartitionName(default)
+        assert obj.getPartitionName().getValue() == "*"
+
+        result = obj.setPartitionName(None)
+        assert result is obj
+        assert obj.getPartitionName() is default
+
+    def test_type_annotations(self):
+        """
+        Getter returns and setter parameters match the spec multiplicity (0..1 → Optional).
+        """
+        assert typing.get_type_hints(DdsCpPartition.setPartitionName)["value"] == typing.Optional[String]
+        assert typing.get_type_hints(DdsCpPartition.getPartitionName)["return"] == typing.Optional[String]
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DdsCpPartition.getPartitionName.__doc__) == self.PARTITION_NAME_NOTE
+        assert inspect.cleandoc(DdsCpPartition.setPartitionName.__doc__) == (self.PARTITION_NAME_NOTE + "\n\nA None value is a no-op and does not overwrite an existing partitionName.")

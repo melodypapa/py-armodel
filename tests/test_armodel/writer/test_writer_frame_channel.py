@@ -283,6 +283,29 @@ class TestWriteCanFrameTriggering:
         assert reloaded_rng.getLowerCanId().getValue() == 256
         assert reloaded_rng.getUpperCanId().getValue() == 511
 
+    def test_roundtrip_rx_identifier_range_carries_arobject_st(self, writer):
+        pkg = _pkg()
+        ft = CanFrameTriggering(pkg, "CanFt")
+        rng = RxIdentifierRange()
+        checksum = String()
+        checksum.setValue("511")
+        rng.setChecksum(checksum)
+        timestamp = DateTime()
+        timestamp.setValue("2009-07-23T14:38:00+01:00")
+        rng.setTimestamp(timestamp)
+        ft.setRxIdentifierRange(rng)
+        parent = _parent()
+        writer.writeCanFrameTriggering(parent, ft)
+
+        xml_str = ET.tostring(parent, encoding="unicode").replace("<PARENT>", "<PARENT xmlns='http://autosar.org/schema/r4.0'>", 1)
+        parser = ARXMLParser()
+        reloaded = CanFrameTriggering(pkg, "CanFt2")
+        parser.readCanFrameTriggering(parser.find(ET.fromstring(xml_str), "CAN-FRAME-TRIGGERING"), reloaded)
+        reloaded_rng = reloaded.getRxIdentifierRange()
+        assert reloaded_rng is not None
+        assert reloaded_rng.getChecksum().getValue() == "511"
+        assert reloaded_rng.getTimestamp().getValue() == "2009-07-23T14:38:00+01:00"
+
     def test_roundtrip_rx_identifier_range_empty_wrapper(self, writer):
         pkg = _pkg()
         ft = CanFrameTriggering(pkg, "CanFt")
@@ -1168,6 +1191,26 @@ class TestWriteNetworkEndPoint:
         tag = parent.find("INFRASTRUCTURE-SERVICES")
         assert tag is not None
         assert tag.find("DO-IP-ENTITY") is not None
+
+    def test_round_trip_infrastructure_services_preserves_values(self, writer):
+        svc = InfrastructureServices()
+        svc.setChecksum(String().setValue("77"))
+        svc.setTimestamp(DateTime().setValue("2024-01-01T00:00:00Z"))
+        entity = DoIpEntity()
+        entity.setDoIpEntityRole(_literal("NODE"))
+        svc.setDoIpEntity(entity)
+        parent = _parent()
+        writer.setInfrastructureServices(parent, "INFRASTRUCTURE-SERVICES", svc)
+        inner = ET.tostring(parent).decode("utf-8")
+        root = ET.fromstring("<ROOT xmlns='http://autosar.org/schema/r4.0'>%s</ROOT>" % inner)
+
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        reloaded = ARXMLParser().getInfrastructureServices(root[0], "INFRASTRUCTURE-SERVICES")
+        assert reloaded is not None
+        assert reloaded.getChecksum().getValue() == "77"
+        assert reloaded.getTimestamp().getValue() == "2024-01-01T00:00:00Z"
+        assert reloaded.getDoIpEntity().getDoIpEntityRole().getValue() == "NODE"
 
     def test_write_network_end_point(self, writer):
         pkg = _pkg()

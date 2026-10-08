@@ -40,7 +40,3 @@ class BusMirrorChannelMappingUserDefined(BusMirrorChannelMapping):
 
 class EthernetWakeupSleepOnDatalineConfigSet(FibexElement):
     pass
-
-
-class ServiceInstanceCollectionSet(FibexElement):
-    pass
