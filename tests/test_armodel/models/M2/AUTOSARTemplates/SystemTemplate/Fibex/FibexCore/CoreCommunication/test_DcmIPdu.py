@@ -2,7 +2,6 @@ import inspect
 import typing
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    ARLiteral,
     DiagPduType,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
@@ -39,10 +38,10 @@ class TestDcmIPdu:
     def test_get_set_diag_pdu_type(self):
         pdu = DcmIPdu(None, "DcmIPdu1")
 
-        value = ARLiteral().setValue("DIAG-REQUEST")
+        value = DiagPduType().setValue(DiagPduType.DIAG_REQUEST)
         assert pdu.setDiagPduType(value) is pdu
         assert pdu.getDiagPduType() is value
-        assert pdu.getDiagPduType().getValue() == "DIAG-REQUEST"
+        assert pdu.getDiagPduType().getValue() == DiagPduType.DIAG_REQUEST
         pdu.setDiagPduType(None)
         assert pdu.getDiagPduType() is value
 

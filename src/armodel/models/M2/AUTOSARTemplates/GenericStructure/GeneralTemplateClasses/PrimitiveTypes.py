@@ -1904,7 +1904,29 @@ class DefaultValueApplicationStrategyEnum(AREnum):
 
 
 class DiagPduType(AREnum):
-    pass
+    """
+    Used to distinguish a diagnostic request from a response.
+    """
+
+    # DiagPduType method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.23, p.344
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — serialized as value form on DcmIPdu.diagPduType members
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # Diagnostic Request Tags: atp.EnumerationLiteralIndex=0
+    DIAG_REQUEST = "DIAG-REQUEST"
+
+    # Diagnostic Response Tags: atp.EnumerationLiteralIndex=1
+    DIAG_RESPONSE = "DIAG-RESPONSE"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DiagPduType.DIAG_REQUEST,
+                DiagPduType.DIAG_RESPONSE,
+            ]
+        )
 
 
 class DiagnosticClearDtcLimitationEnum(AREnum):

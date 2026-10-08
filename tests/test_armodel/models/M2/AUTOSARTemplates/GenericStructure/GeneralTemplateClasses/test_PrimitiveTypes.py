@@ -63,6 +63,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticTypeOfFreezeFrameRecordNumerationEnum,
     DiagnosticUdsSeverityEnum,
     DiagnosticWwhObdDtcClassEnum,
+    DiagPduType,
     DiagRequirementIdString,
     DisplayFormatString,
     EthGlobalTimeMessageFormatEnum,
@@ -2505,6 +2506,49 @@ class TestDiagnosticResponseOnEventActionEnum:
         enum.setValue(DiagnosticResponseOnEventActionEnum.ON_CHANGE_OF_DATA_IDENTIFIER)
 
         assert enum.getValue() == DiagnosticResponseOnEventActionEnum.ON_CHANGE_OF_DATA_IDENTIFIER
+
+
+class TestDiagPduType:
+    """
+    Test class for DiagPduType functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.23, p.344
+    """
+
+    def test_initialization(self):
+        """
+        Test DiagPduType initialization with the spec literals in XSD facet order.
+        """
+        enum = DiagPduType()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == [
+            DiagPduType.DIAG_REQUEST,
+            DiagPduType.DIAG_RESPONSE,
+        ]
+
+    def test_enum_values(self):
+        """
+        Test DiagPduType member values.
+        """
+        enum = DiagPduType()
+
+        assert DiagPduType.DIAG_REQUEST == "DIAG-REQUEST"
+        assert DiagPduType.DIAG_RESPONSE == "DIAG-RESPONSE"
+
+        assert enum.validateEnumValue("DIAG-REQUEST") is True
+        assert enum.validateEnumValue("DIAG-RESPONSE") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test DiagPduType instantiability and getValue.
+        """
+        enum = DiagPduType()
+        enum.setValue(DiagPduType.DIAG_REQUEST)
+
+        assert enum.getValue() == DiagPduType.DIAG_REQUEST
 
 
 class TestDiagnosticClearDtcLimitationEnum:

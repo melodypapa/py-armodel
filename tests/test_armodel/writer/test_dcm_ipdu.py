@@ -16,9 +16,9 @@ import pytest
 
 from armodel.models import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    ARLiteral,
     Boolean,
     DateTime,
+    DiagPduType,
     PositiveInteger,
     String,
     UnlimitedInteger,
@@ -78,7 +78,7 @@ def _populate(pdu: DcmIPdu):
 
     pdu.setContainedIPduProps(_populate_props())
 
-    pdu.setDiagPduType(ARLiteral().setValue("DIAG-REQUEST"))
+    pdu.setDiagPduType(DiagPduType().setValue(DiagPduType.DIAG_REQUEST))
 
 
 def _write(pdu: DcmIPdu) -> ET.Element:
@@ -134,7 +134,7 @@ class TestWriteDcmIPdu:
         assert props.getHeaderIdShortHeader().getValue() == 4
 
         assert reloaded.getDiagPduType() is not None
-        assert reloaded.getDiagPduType().getValue() == "DIAG-REQUEST"
+        assert reloaded.getDiagPduType().getValue() == DiagPduType.DIAG_REQUEST
 
     def test_round_trip_base_level_attributes(self):
         pdu = DcmIPdu(None, "DcmIPdu1")
