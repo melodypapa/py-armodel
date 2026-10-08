@@ -188,7 +188,6 @@ PModeInSystemInstanceRef
 PTriggerInAtomicSwcTypeInstanceRef
 ParameterDataPrototype
 ParameterValue
-PduTriggering
 PortDefinedArgumentValue
 PortPrototype
 PositiveInteger

@@ -10515,6 +10515,7 @@ class ARXMLParser(AbstractARXMLParser):
             condition = TriggerIPduSendCondition()
             self.readTriggerIPduSendCondition(child_element, condition)
             triggering.addTriggerIPduSendCondition(condition)
+        self.readVariationPointCapable(element, triggering)
 
     def readTriggerIPduSendCondition(self, element: ET.Element, condition: TriggerIPduSendCondition):
         self.readARObject(element, condition)

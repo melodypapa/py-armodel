@@ -11154,7 +11154,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writePduTriggering(self, element: ET.Element, triggering: PduTriggering):
         self.logger.debug("Write PduTriggering %s" % triggering.getShortName())
         child_element = ET.SubElement(element, "PDU-TRIGGERING")
-        self.writeIdentifiable(child_element, triggering)
+        self.writeIdentifiable(child_element, triggering, write_variation_point=False)
         ref_list = triggering.getIPduPortRefs()
         if len(ref_list) > 0:
             i_pdu_port_refs_tag = ET.SubElement(child_element, "I-PDU-PORT-REFS")
@@ -11178,6 +11178,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeTriggerIPduSendCondition(conditions_tag, condition)
                 else:
                     self.notImplemented("Unsupported TriggerIPduSendCondition <%s>" % type(condition))
+        self.writeVariationPointCapable(child_element, triggering)
 
     def writeTriggerIPduSendCondition(self, element: ET.Element, condition: TriggerIPduSendCondition):
         child_element = ET.SubElement(element, "TRIGGER-I-PDU-SEND-CONDITION")
