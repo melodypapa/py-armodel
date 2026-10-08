@@ -257,7 +257,6 @@ SwServiceArg
 SwServiceImplPolicyEnum
 SwSystemconstDependentFormula
 SwSystemconstValue
-SwSystemconstantValueSet
 SwcInternalBehavior
 SystemSignalGroup
 TDEventBsw
