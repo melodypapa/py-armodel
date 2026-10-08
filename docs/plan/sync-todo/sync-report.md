@@ -11,10 +11,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | Status | Classes | Percent |
 | --- | --- | --- |
 | [x] Done | 852 | 44.8% |
-| [x] Deferred | 42 | 2.2% |
+| [x] Deferred | 43 | 2.3% |
 | [x] Retired | 0 | 0.0% |
 | [ ] Deferred | 831 | 43.7% |
-| [ ] Implemented | 31 | 1.6% |
+| [ ] Implemented | 30 | 1.6% |
 | [ ] Created | 146 | 7.7% |
 | [ ] Pending | 0 | 0.0% |
 
@@ -1541,7 +1541,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `SectionInitializationPolicyType`                       | [x] Done    | 70ce06f500                               | Group22          |
 | `SectionNamePrefix`                                     | [x] Done    | bc26545b98                               | Group20          |
 | `SecureCommunicationAuthenticationProps`                | [ ] Implemented| N/A                                      | Group31          |
-| `SecureCommunicationFreshnessProps`                     | [ ] Implemented| N/A                                      | Group31          |
+| `SecureCommunicationFreshnessProps`                     | [x] Deferred| 748ee0ad2c                               | Group31          |
 | `SecureCommunicationProps`                              | [ ] Deferred| e744b793f0                               | Group31          |
 | `SecureCommunicationPropsSet`                           | [ ] Deferred| ac09333846                               | Group31          |
 | `SecureOnBoardCommunicationNeeds`                       | [ ] Deferred| 294106f57d                               | Group29          |

@@ -1673,7 +1673,7 @@ Status: **0/75** completed
 
 ## Group31
 
-Status: **17/75** completed
+Status: **18/75** completed
 
 | Class Name                                               | Status          | Commit ID  |
 | -------------------------------------------------------- | --------------- | ---------- |
@@ -1729,7 +1729,7 @@ Status: **17/75** completed
 | `RxAcceptContainedIPduEnum`                              | [ ] Pending*    | N/A        |
 | `SecureCommunicationProps`                               | [ ] Pending*    | e744b793f0 |
 | `SecureCommunicationPropsSet`                            | [ ] Pending*    | ac09333846 |
-| `SecureCommunicationFreshnessProps`                      | [ ] Implemented | N/A        |
+| `SecureCommunicationFreshnessProps`                      | [x] Done*       | 748ee0ad2c |
 | `SecureCommunicationAuthenticationProps`                 | [ ] Implemented | N/A        |
 | `CryptoServiceKey`                                       | [ ] Created     | N/A        |
 | `CryptoServiceKeyGenerationEnum`                         | [ ] Created     | N/A        |
