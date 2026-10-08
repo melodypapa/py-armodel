@@ -10363,7 +10363,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeNPdu(self, element: ET.Element, pdu: NPdu):
         self.logger.debug("Write NPdu <%s>" % pdu.getShortName())
         child_element = ET.SubElement(element, "N-PDU")
-        self.writePdu(child_element, pdu)
+        self.writeIPdu(child_element, pdu)
 
     def writeDcmIPdu(self, element: ET.Element, pdu: DcmIPdu):
         self.logger.debug("Write DcmIPdu <%s>" % pdu.getShortName())

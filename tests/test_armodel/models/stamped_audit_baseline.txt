@@ -177,7 +177,6 @@ MsrQueryTopic1
 MultiLanguageOverviewParagraph
 MultiLanguagePlainText
 MultidimensionalTime
-NPdu
 NativeDeclarationString
 NmCluster
 NmCoordinatorRoleEnum
