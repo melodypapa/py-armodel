@@ -4165,7 +4165,69 @@ class BinaryManifestItemNumericalValue(BinaryManifestItemValue):
 
 
 class BinaryManifestItemPointerValue(BinaryManifestItemValue):
-    pass
+    """
+    This meta-class has the ability to provide a value for a pointer in the context of a binary manifest item.
+
+    [constr_5218] Existence of attribute BinaryManifestItemPointerValue.address: For each BinaryManifestItemPointerValue, attribute address shall exist at the time when the definition of binary object metadata is finished.
+
+    [constr_5203] Existence of attribute BinaryManifestItemPointerValue.symbol: For each BinaryManifestItemPointerValue, attribute symbol shall exist at the time when the definition of binary object meta-data is finished.
+    """
+
+    # BinaryManifestItemPointerValue method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 11.27, p.922
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAddress [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAddress [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSymbol  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSymbol  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # The XSD BINARY-MANIFEST-ITEM-POINTER-VALUE group (AUTOSAR_00052.xsd l.8727) orders ADDRESS,
+    # SYMBOL; the reader/writer call the base readBinaryManifestItemValue /
+    # writeBinaryManifestItemValue helpers exactly once (ARObject level). Aggregator dispatch
+    # (BinaryManifestItem.value / BinaryManifestItem.defaultValue) is pending — BinaryManifestItem
+    # is an unsynced later-wave stub.
+
+    def __init__(self):
+        super().__init__()
+
+        # This attribute represents the address value of the enclosing pointer value.
+        self.address: Optional[Address] = None
+
+        # This attribute represents the symbol associated with the binary manifest handle.
+        self.symbol: Optional[SymbolString] = None
+
+    def getAddress(self) -> Optional[Address]:
+        """
+        This attribute represents the address value of the enclosing pointer value.
+        """
+        return self.address
+
+    def setAddress(self, value: Optional[Address]) -> BinaryManifestItemPointerValue:
+        """
+        This attribute represents the address value of the enclosing pointer value.
+
+        A None value is a no-op and does not overwrite an existing address.
+        """
+        if value is not None:
+            self.address = value
+        return self
+
+    def getSymbol(self) -> Optional[SymbolString]:
+        """
+        This attribute represents the symbol associated with the binary manifest handle.
+        """
+        return self.symbol
+
+    def setSymbol(self, value: Optional[SymbolString]) -> BinaryManifestItemPointerValue:
+        """
+        This attribute represents the symbol associated with the binary manifest handle.
+
+        A None value is a no-op and does not overwrite an existing symbol.
+        """
+        if value is not None:
+            self.symbol = value
+        return self
 
 
 class CanGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
@@ -4600,6 +4662,7 @@ class FrGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
 # at the bottom, after every class above is defined. Placed here so get_type_hints can
 # resolve the bitOffset/parameterSize annotations at runtime on Python 3.8.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa: E402
+    Address,
     Boolean,
     ByteOrderEnum,
     DataConsistencyPolicyEnum,
@@ -4636,6 +4699,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     RefType,
     SendIndicationEnum,
     String,
+    SymbolString,
     TimeValue,
 )
 

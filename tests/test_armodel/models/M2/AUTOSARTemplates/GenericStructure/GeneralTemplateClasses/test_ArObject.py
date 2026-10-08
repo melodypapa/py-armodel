@@ -13,6 +13,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     AbstractGlobalTimeDomainProps,
     ARObject,
     BinaryManifestItemNumericalValue,
+    BinaryManifestItemPointerValue,
     BinaryManifestItemValue,
     BusMirrorCanIdRangeMapping,
     BusMirrorCanIdToCanIdMapping,
@@ -70,6 +71,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import DiagnosticDebounceAlgorithmProps, DiagnosticFunctionInhibitSource, DiagnosticParameterElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    Address,
     AREnum,
     Boolean,
     ByteOrderEnum,
@@ -107,6 +109,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     RefType,
     SendIndicationEnum,
     String,
+    SymbolString,
     TimeValue,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
@@ -6477,3 +6480,133 @@ class TestBinaryManifestItemNumericalValue:
         """
         assert inspect.cleandoc(BinaryManifestItemNumericalValue.getValue.__doc__) == self.VALUE_NOTE
         assert inspect.cleandoc(BinaryManifestItemNumericalValue.setValue.__doc__) == (self.VALUE_NOTE + "\n\nA None value is a no-op and does not overwrite an existing value.")
+
+
+class TestBinaryManifestItemPointerValue:
+    """
+    Test class for BinaryManifestItemPointerValue functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 11.27, p.922
+    """
+
+    CLASS_NOTE_WITH_CONSTRAINTS = (
+        "This meta-class has the ability to provide a value for a pointer in the context of a binary manifest item.\n"
+        "\n"
+        "[constr_5218] Existence of attribute BinaryManifestItemPointerValue.address: For each BinaryManifestItemPointerValue, attribute address shall exist at the time when the definition of binary object metadata is finished.\n"
+        "\n"
+        "[constr_5203] Existence of attribute BinaryManifestItemPointerValue.symbol: For each BinaryManifestItemPointerValue, attribute symbol shall exist at the time when the definition of binary object meta-data is finished."
+    )
+    ADDRESS_NOTE = "This attribute represents the address value of the enclosing pointer value."
+    SYMBOL_NOTE = "This attribute represents the symbol associated with the binary manifest handle."
+
+    def _create_object(self) -> BinaryManifestItemPointerValue:
+        return BinaryManifestItemPointerValue()
+
+    def test_initialization(self):
+        """
+        Test that a new BinaryManifestItemPointerValue initializes all attributes to their defaults.
+        """
+        obj = self._create_object()
+
+        assert obj.getChecksum() is None
+        assert obj.getTimestamp() is None
+        assert obj.getAddress() is None
+        assert obj.getSymbol() is None
+
+    def test_is_binary_manifest_item_value_subclass(self):
+        """
+        Test that BinaryManifestItemPointerValue derives from BinaryManifestItemValue per the
+        Table 11.27 Base row (ARObject, BinaryManifestItemValue — most-derived
+        BinaryManifestItemValue).
+        """
+        assert issubclass(BinaryManifestItemPointerValue, BinaryManifestItemValue)
+        assert issubclass(BinaryManifestItemPointerValue, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim plus the class-level constr rows.
+        """
+        assert inspect.cleandoc(BinaryManifestItemPointerValue.__doc__) == self.CLASS_NOTE_WITH_CONSTRAINTS
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert BinaryManifestItemPointerValue.__init__.__doc__ is None
+
+    def test_member_order_follows_spec_rows(self):
+        """
+        Test that the accessors follow the Table 11.27 displayed row order (getter first per attribute).
+        """
+        methods = [name for name, value in BinaryManifestItemPointerValue.__dict__.items() if callable(value) and not name.startswith("_")]
+        assert methods == [
+            "getAddress",
+            "setAddress",
+            "getSymbol",
+            "setSymbol",
+        ]
+
+    def test_annotations_are_spec_typed(self):
+        """
+        Test that the accessors carry the Table 11.27 Type column types (Address 0..1, SymbolString 0..1).
+        """
+        hints = typing.get_type_hints(BinaryManifestItemPointerValue.getAddress)
+        assert hints.get("return") == typing.Optional[Address]
+        hints = typing.get_type_hints(BinaryManifestItemPointerValue.setAddress)
+        assert hints.get("value") == typing.Optional[Address]
+        assert hints.get("return") is BinaryManifestItemPointerValue
+
+        hints = typing.get_type_hints(BinaryManifestItemPointerValue.getSymbol)
+        assert hints.get("return") == typing.Optional[SymbolString]
+        hints = typing.get_type_hints(BinaryManifestItemPointerValue.setSymbol)
+        assert hints.get("value") == typing.Optional[SymbolString]
+        assert hints.get("return") is BinaryManifestItemPointerValue
+
+    def test_get_set_address(self):
+        """
+        Test setAddress and getAddress round-trip and None no-op.
+        """
+        obj = self._create_object()
+
+        address = Address().setValue("0x0000B000")
+
+        result = obj.setAddress(None)
+        assert result is obj
+        assert obj.getAddress() is None
+
+        result = obj.setAddress(address)
+        assert result is obj
+        assert obj.getAddress() is address
+        assert obj.getAddress().getValue() == "0x0000B000"
+
+        obj.setAddress(None)
+        assert obj.getAddress() is address
+
+    def test_get_set_symbol(self):
+        """
+        Test setSymbol and getSymbol round-trip and None no-op.
+        """
+        obj = self._create_object()
+
+        symbol = SymbolString().setValue("PointerTarget")
+
+        result = obj.setSymbol(None)
+        assert result is obj
+        assert obj.getSymbol() is None
+
+        result = obj.setSymbol(symbol)
+        assert result is obj
+        assert obj.getSymbol() is symbol
+        assert obj.getSymbol().getValue() == "PointerTarget"
+
+        obj.setSymbol(None)
+        assert obj.getSymbol() is symbol
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter/setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        assert inspect.cleandoc(BinaryManifestItemPointerValue.getAddress.__doc__) == self.ADDRESS_NOTE
+        assert inspect.cleandoc(BinaryManifestItemPointerValue.setAddress.__doc__) == (self.ADDRESS_NOTE + "\n\nA None value is a no-op and does not overwrite an existing address.")
+        assert inspect.cleandoc(BinaryManifestItemPointerValue.getSymbol.__doc__) == self.SYMBOL_NOTE
+        assert inspect.cleandoc(BinaryManifestItemPointerValue.setSymbol.__doc__) == (self.SYMBOL_NOTE + "\n\nA None value is a no-op and does not overwrite an existing symbol.")

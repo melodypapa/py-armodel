@@ -564,6 +564,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     AbstractGlobalTimeDomainProps,
     BinaryManifestItemNumericalValue,
+    BinaryManifestItemPointerValue,
     BinaryManifestItemValue,
     CanGlobalTimeDomainProps,
     CalibrationParameterValue,
@@ -16451,6 +16452,14 @@ class ARXMLParser(AbstractARXMLParser):
         # after the (empty) BINARY-MANIFEST-ITEM-VALUE group.
         self.readBinaryManifestItemValue(element, value)
         value.setValue(self.getChildElementOptionalNumerical(element, "VALUE"))
+        return value
+
+    def readBinaryManifestItemPointerValue(self, element: ET.Element, value: BinaryManifestItemPointerValue) -> BinaryManifestItemPointerValue:
+        # The XSD BINARY-MANIFEST-ITEM-POINTER-VALUE group (AUTOSAR_00052.xsd l.8727) orders ADDRESS,
+        # SYMBOL after the (empty) BINARY-MANIFEST-ITEM-VALUE group.
+        self.readBinaryManifestItemValue(element, value)
+        value.setAddress(self.getChildElementOptionalAddress(element, "ADDRESS"))
+        value.setSymbol(self.getChildElementOptionalSymbolString(element, "SYMBOL"))
         return value
 
     def getGlobalTimeProps(self, element: ET.Element, key: str) -> Optional[GlobalTimeCouplingPortProps]:

@@ -543,6 +543,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     AbstractGlobalTimeDomainProps,
     BinaryManifestItemNumericalValue,
+    BinaryManifestItemPointerValue,
     BinaryManifestItemValue,
     CanGlobalTimeDomainProps,
     CalibrationParameterValue,
@@ -13946,6 +13947,14 @@ class ARXMLWriter(AbstractARXMLWriter):
         # BINARY-MANIFEST-ITEM-VALUE group: VALUE.
         self.writeBinaryManifestItemValue(element, value)
         self.setChildElementOptionalNumerical(element, "VALUE", value.getValue())
+
+    def writeBinaryManifestItemPointerValue(self, element: ET.Element, value: BinaryManifestItemPointerValue):
+        # Populates the BINARY-MANIFEST-ITEM-POINTER-VALUE element created by the caller; the XSD
+        # BINARY-MANIFEST-ITEM-POINTER-VALUE group (AUTOSAR_00052.xsd l.8727) follows the (empty)
+        # BINARY-MANIFEST-ITEM-VALUE group: ADDRESS then SYMBOL.
+        self.writeBinaryManifestItemValue(element, value)
+        self.setChildElementOptionalAddress(element, "ADDRESS", value.getAddress())
+        self.setChildElementOptionalSymbolString(element, "SYMBOL", value.getSymbol())
 
     def setGlobalTimeProps(self, element: ET.Element, key: str, props: Optional[GlobalTimeCouplingPortProps]):
         if props is not None:
