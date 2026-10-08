@@ -614,6 +614,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     CalibrationParameterValueSet,
     CryptoServiceKey,
     CryptoServiceQueue,
+    GeneralPurposeConnection,
     PhysicalDimensionMappingSet,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultidimensionalTime import MultidimensionalTime
@@ -15191,6 +15192,16 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeIdentifiable(child_element, queue)
         self.setChildElementOptionalPositiveInteger(child_element, "QUEUE-SIZE", cast(Integer, queue.getQueueSize()))
 
+    def writeGeneralPurposeConnection(self, element: ET.Element, connection: GeneralPurposeConnection):
+        self.logger.debug("writeGeneralPurposeConnection %s" % connection.getShortName())
+        child_element = ET.SubElement(element, "GENERAL-PURPOSE-CONNECTION")
+        self.writeIdentifiable(child_element, connection)
+        refs = connection.getPduTriggeringRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(child_element, "PDU-TRIGGERING-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "PDU-TRIGGERING-REF", ref)
+
     def writeSecOcCryptoServiceMapping(self, element: ET.Element, mapping: SecOcCryptoServiceMapping):
         self.writeIdentifiable(element, mapping)
         self.setChildElementOptionalRefType(element, "AUTHENTICATION-REF", mapping.getAuthenticationRef())
@@ -20040,6 +20051,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeCryptoServiceKey(element, ar_element)
         elif isinstance(ar_element, CryptoServiceQueue):
             self.writeCryptoServiceQueue(element, ar_element)
+        elif isinstance(ar_element, GeneralPurposeConnection):
+            self.writeGeneralPurposeConnection(element, ar_element)
         elif isinstance(ar_element, SoAdRoutingGroup):
             self.writeSoAdRoutingGroup(element, ar_element)
         elif isinstance(ar_element, CanXlProps):

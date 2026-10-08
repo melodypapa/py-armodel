@@ -626,6 +626,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     CalibrationParameterValueSet,
     CryptoServiceKey,
     CryptoServiceQueue,
+    GeneralPurposeConnection,
     PhysicalDimensionMappingSet,
     ReferenceBase,
 )
@@ -18538,6 +18539,12 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, queue)
         queue.setQueueSize(self.getChildElementOptionalPositiveInteger(element, "QUEUE-SIZE"))
 
+    def readGeneralPurposeConnection(self, element: ET.Element, connection: GeneralPurposeConnection):
+        self.logger.debug("Read GeneralPurposeConnection <%s>" % connection.getShortName())
+        self.readIdentifiable(element, connection)
+        for ref in self.getChildElementRefTypeList(element, "PDU-TRIGGERING-REFS/PDU-TRIGGERING-REF"):
+            connection.addPduTriggeringRef(ref)
+
     def readSecOcCryptoServiceMapping(self, element: ET.Element, mapping: SecOcCryptoServiceMapping):
         self.readIdentifiable(element, mapping)
         ref = self.getChildElementOptionalRefType(element, "AUTHENTICATION-REF")
@@ -19754,6 +19761,9 @@ class ARXMLParser(AbstractARXMLParser):
         elif tag_name == "CRYPTO-SERVICE-QUEUE":
             crypto_service_queue = parent.createCryptoServiceQueue(self.getShortName(child_element))
             self.readCryptoServiceQueue(child_element, crypto_service_queue)
+        elif tag_name == "GENERAL-PURPOSE-CONNECTION":
+            general_purpose_connection = parent.createGeneralPurposeConnection(self.getShortName(child_element))
+            self.readGeneralPurposeConnection(child_element, general_purpose_connection)
         elif tag_name == "DDS-CP-CONFIG":
             dds_config = parent.createDdsConfig(self.getShortName(child_element))
             self.readDdsCpConfig(child_element, dds_config)

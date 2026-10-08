@@ -2238,6 +2238,13 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(queue)
         return cast(CryptoServiceQueue, self.getReferrableElement(short_name, CryptoServiceQueue))
 
+    def createGeneralPurposeConnection(self, short_name: str) -> GeneralPurposeConnection:
+
+        if not self.IsReferrableElementExists(short_name, GeneralPurposeConnection):
+            connection = GeneralPurposeConnection(self, short_name)
+            self.addReferrableElement(connection)
+        return cast(GeneralPurposeConnection, self.getReferrableElement(short_name, GeneralPurposeConnection))
+
     def createIPSecConfigProps(self, short_name: str) -> IPSecConfigProps:
 
         if not self.IsReferrableElementExists(short_name, IPSecConfigProps):
@@ -11807,7 +11814,43 @@ class CryptoServiceQueue(ARElement):
 
 
 class GeneralPurposeConnection(ARElement):
-    pass
+    """
+    This meta-class allows to describe the relationship between several PduTriggerings that are defined on the same PhysicalChannel, e.g. to create a link between Rx and Tx Pdu that are used for request/ response. Tags: atp.recommendedPackage=GeneralPurposeConnections
+
+    [constr_3384] PduTriggerings referenced by GeneralPurposeConnection shall be defined on the same PhysicalChannel: The PduTriggerings that are referenced by the GeneralPurposeConnection in the role pduTriggering shall be defined on the same PhysicalChannel.
+    [constr_3383] Standardized values for the attribute category of meta-class GeneralPurposeConnection: The following values of the attribute category of metaclass GeneralPurposeConnection are reserved by the AUTOSAR standard: XcpChannel.
+    [constr_3385] XcpChannel is allowed to reference exactly two PduTriggerings: In case that the category of meta-class GeneralPurposeConnection is set to the value XcpChannel the GeneralPurposeConnection is allowed to reference exactly two PduTriggerings in the role pduTriggering.
+    [constr_3386] XcpChannel is only allowed to reference PduTriggerings of GeneralPurposeIPdus with category XCP: In case that the category of metaclass GeneralPurposeConnection is set to the value XcpChannel the GeneralPurposeConnection is allowed to reference PduTriggerings of GeneralPurposeIPdus with category XCP.
+    """
+
+    # GeneralPurposeConnection method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.58, p.388
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addPduTriggeringRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPduTriggeringRefs  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Reference to PduTriggerings that are connected to each other by a GeneralPurposeConnection.
+        self.pduTriggeringRefs: List[RefType] = []
+
+    def addPduTriggeringRef(self, value: Optional[RefType]) -> GeneralPurposeConnection:
+        """
+        Reference to PduTriggerings that are connected to each other by a GeneralPurposeConnection.
+
+        A None value is a no-op and does not append anything.
+        """
+        if value is not None:
+            self.pduTriggeringRefs.append(value)
+        return self
+
+    def getPduTriggeringRefs(self) -> List[RefType]:
+        """
+        Reference to PduTriggerings that are connected to each other by a GeneralPurposeConnection.
+        """
+        return self.pduTriggeringRefs
 
 
 class GlobalTimeDomain(ARElement):
