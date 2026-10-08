@@ -1564,20 +1564,19 @@ class IPduTiming(Describable, VariationPointCapable):
 
 class ISignalIPdu(IPdu):
     """
-    Represents the IPdus handled by Com. The ISignalIPdu assembled and disassembled in AUTOSAR COM consists of one or more signals. In case no multiplexing is performed this IPdu is routed to/from the Interface Layer. A maximum of one dynamic length signal per IPdu is allowed.
+    Represents the IPdus handled by Com. The ISignalIPdu assembled and disassembled in AUTOSAR COM consists of one or more signals. In case no multiplexing is performed this IPdu is routed to/from the Interface Layer. A maximum of one dynamic length signal per IPdu is allowed. Tags: atp.recommendedPackage=Pdus
     """
 
     # ISignalIPdu method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.19, p.342
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getIPduTimingSpecification  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setIPduTimingSpecification  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getISignalToPduMappings     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createISignalToPduMappings  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getUnusedBitPattern         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setUnusedBitPattern         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getIPduTimingSpecification  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIPduTimingSpecification  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createISignalToPduMapping   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getISignalToPduMappings     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getUnusedBitPattern         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUnusedBitPattern         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -1606,13 +1605,7 @@ class ISignalIPdu(IPdu):
             self.iPduTimingSpecification = value
         return self
 
-    def getISignalToPduMappings(self) -> List[ISignalToIPduMapping]:
-        """
-        Definition of SignalToIPduMappings included in the Signal IPdu. atpVariation: The content of a PDU can be variable. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=iSignalToPduMapping.shortName, iSignalTo PduMapping.variationPoint.shortLabel vh.latestBindingTime=postBuild
-        """
-        return self.iSignalToPduMappings
-
-    def createISignalToPduMappings(self, short_name: str) -> ISignalToIPduMapping:
+    def createISignalToPduMapping(self, short_name: str) -> ISignalToIPduMapping:
         """
         Definition of SignalToIPduMappings included in the Signal IPdu. atpVariation: The content of a PDU can be variable. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=iSignalToPduMapping.shortName, iSignalTo PduMapping.variationPoint.shortLabel vh.latestBindingTime=postBuild
         """
@@ -1621,6 +1614,12 @@ class ISignalIPdu(IPdu):
             self.addReferrableElement(mapping)
             self.iSignalToPduMappings.append(mapping)
         return cast(ISignalToIPduMapping, self.getReferrableElement(short_name, ISignalToIPduMapping))
+
+    def getISignalToPduMappings(self) -> List[ISignalToIPduMapping]:
+        """
+        Definition of SignalToIPduMappings included in the Signal IPdu. atpVariation: The content of a PDU can be variable. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=iSignalToPduMapping.shortName, iSignalTo PduMapping.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
+        return self.iSignalToPduMappings
 
     def getUnusedBitPattern(self) -> Optional[Integer]:
         """

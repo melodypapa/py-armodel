@@ -19294,8 +19294,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeISignalIPdu(self, element: ET.Element, ipdu: ISignalIPdu):
         self.logger.debug("ISignalIPdu %s" % ipdu.getShortName())
         child_element = ET.SubElement(element, "I-SIGNAL-I-PDU")
-        self.writeIdentifiable(child_element, ipdu)
-        self.setChildElementOptionalNumericalValue(child_element, "LENGTH", ipdu.getLength())
+        self.writeIPdu(child_element, ipdu)
         self.setISignalIPduIPduTimingSpecification(child_element, ipdu.getIPduTimingSpecification())
         self.writeISignalToPduMappings(child_element, ipdu)
         self.setChildElementOptionalIntegerValue(child_element, "UNUSED-BIT-PATTERN", ipdu.getUnusedBitPattern())

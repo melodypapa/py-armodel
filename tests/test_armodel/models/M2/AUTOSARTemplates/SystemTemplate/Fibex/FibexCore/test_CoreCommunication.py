@@ -655,10 +655,10 @@ class Test_FibexCoreCommunication:
         assert ipdu.getUnusedBitPattern() == 255
 
         # Test ISignalToPduMappings creation method
-        mapping = ipdu.createISignalToPduMappings("test_mapping")
+        mapping = ipdu.createISignalToPduMapping("test_mapping")
         assert isinstance(mapping, ISignalToIPduMapping)
         assert len(ipdu.getISignalToPduMappings()) == 1
-        assert ipdu.createISignalToPduMappings("test_mapping") is mapping  # duplicate returns existing
+        assert ipdu.createISignalToPduMapping("test_mapping") is mapping  # duplicate returns existing
 
     def test_ISignal(self):
         """Test ISignal class functionality."""

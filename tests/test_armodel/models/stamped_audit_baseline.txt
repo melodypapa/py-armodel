@@ -128,7 +128,6 @@ HwElement
 HwPortMapping
 IPSecConfig
 IPduTiming
-ISignalIPdu
 Identifiable
 ImplementationElementInParameterInstanceRef
 InnerDataPrototypeGroupInCompositionInstanceRef

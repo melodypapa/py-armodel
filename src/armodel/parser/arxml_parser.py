@@ -17605,7 +17605,7 @@ class ARXMLParser(AbstractARXMLParser):
     def readISignalToPduMappings(self, element: ET.Element, parent: ISignalIPdu):
         for child_element in self.findall(element, "I-SIGNAL-TO-PDU-MAPPINGS/I-SIGNAL-TO-I-PDU-MAPPING"):
             short_name = self.getShortName(child_element)
-            mapping = parent.createISignalToPduMappings(short_name)
+            mapping = parent.createISignalToPduMapping(short_name)
             self.readISignalToIPduMapping(child_element, mapping)
 
     def getDataFilter(self, element: ET.Element, key: str) -> Optional[DataFilter]:
@@ -17758,8 +17758,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readISignalIPdu(self, element: ET.Element, ipdu: ISignalIPdu):
         self.logger.debug("Read ISignalIPdu <%s>" % ipdu.getShortName())
-        self.readIdentifiable(element, ipdu)
-        ipdu.setLength(cast(Optional[UnlimitedInteger], self.getChildElementOptionalNumericalValue(element, "LENGTH")))
+        self.readIPdu(element, ipdu)
         ipdu.setIPduTimingSpecification(self.getISignalIPduIPduTimingSpecification(element))
         self.readISignalToPduMappings(element, ipdu)
         ipdu.setUnusedBitPattern(self.getChildElementOptionalIntegerValue(element, "UNUSED-BIT-PATTERN"))
