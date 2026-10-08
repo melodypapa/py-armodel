@@ -563,6 +563,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     AbstractGlobalTimeDomainProps,
+    CanGlobalTimeDomainProps,
     CalibrationParameterValue,
     EthGlobalTimeManagedCouplingPort,
     EthTSynCrcFlags,
@@ -16227,6 +16228,26 @@ class ARXMLParser(AbstractARXMLParser):
         # (AUTOSAR_00052.xsd l.379) and precedes the concrete subclass' own elements.
         self.readARObject(element, props)
         self.readVariationPointCapable(element, props)
+        return props
+
+    def readCanGlobalTimeDomainProps(self, element: ET.Element, props: CanGlobalTimeDomainProps) -> CanGlobalTimeDomainProps:
+        # The XSD CAN-GLOBAL-TIME-DOMAIN-PROPS group (AUTOSAR_00052.xsd l.15163) follows the
+        # ABSTRACT-GLOBAL-TIME-DOMAIN-PROPS group: each ordered DataIDList attribute is wrapped
+        # in a <...-DATA-ID-LISTS> element holding 0..16 <...-DATA-ID-LIST> items.
+        self.readAbstractGlobalTimeDomainProps(element, props)
+        for wrapper_key, item_key, add_data_id_list in [
+            ("FUP-DATA-ID-LISTS", "FUP-DATA-ID-LIST", props.addFupDataIDList),
+            ("OFNS-DATA-ID-LISTS", "OFNS-DATA-ID-LIST", props.addOfnsDataIDList),
+            ("OFS-DATA-ID-LISTS", "OFS-DATA-ID-LIST", props.addOfsDataIDList),
+            ("SYNC-DATA-ID-LISTS", "SYNC-DATA-ID-LIST", props.addSyncDataIDList),
+        ]:
+            wrapper = self.find(element, wrapper_key)
+            if wrapper is not None:
+                for child_element in self.findall(wrapper, item_key):
+                    if child_element.text is not None:
+                        value = PositiveInteger()
+                        value.setValue(child_element.text)
+                        add_data_id_list(value)
         return props
 
     def readNetworkSegmentIdentification(self, element: ET.Element, props: NetworkSegmentIdentification) -> NetworkSegmentIdentification:

@@ -4092,7 +4092,109 @@ class BinaryManifestItemPointerValue(BinaryManifestItemValue):
 
 
 class CanGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
-    pass
+    """
+    Enables the definition of Can Global Time specific properties.
+    """
+
+    # CanGlobalTimeDomainProps method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.10, p.864
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addFupDataIDList    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFupDataIDLists   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addOfnsDataIDList   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOfnsDataIDLists  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addOfsDataIDList    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOfsDataIDLists   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addSyncDataIDList   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSyncDataIDLists  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    #
+    # getVariationPoint / setVariationPoint provided by the VariationPointCapable base (mixin) — no spec row (stereotype-inherent)
+    # The four DataIDList attributes are ordered 0..16 wrapper lists: the XSD CAN-GLOBAL-TIME-DOMAIN-PROPS
+    # group (AUTOSAR_00052.xsd l.15163) wraps <FUP/OFNS/OFS/SYNC-DATA-ID-LIST> items in a
+    # <...-DATA-ID-LISTS> wrapper emitted only when non-empty. Aggregator dispatch
+    # (GlobalTimeDomain.globalTimeDomainProperty) is pending — GlobalTimeDomain is a later-wave
+    # class; the reader/writer call the base readAbstractGlobalTimeDomainProps /
+    # writeAbstractGlobalTimeDomainProps helpers (VARIATION-POINT precedes the wrapper elements).
+
+    def __init__(self):
+        super().__init__()
+
+        # The DataIDList for FUP messages to calculate CRC.
+        self.fupDataIDLists: List[PositiveInteger] = []
+
+        # The DataIDList for OFNS messages to calculate CRC.
+        self.ofnsDataIDLists: List[PositiveInteger] = []
+
+        # The DataIDList for OFS messages to calculate CRC.
+        self.ofsDataIDLists: List[PositiveInteger] = []
+
+        # The DataIDList for SYNC messages to calculate CRC.
+        self.syncDataIDLists: List[PositiveInteger] = []
+
+    def addFupDataIDList(self, value: Optional[PositiveInteger]) -> CanGlobalTimeDomainProps:
+        """
+        The DataIDList for FUP messages to calculate CRC.
+
+        A None value is a no-op and does not append to fupDataIDLists.
+        """
+        if value is not None:
+            self.fupDataIDLists.append(value)
+        return self
+
+    def getFupDataIDLists(self) -> List[PositiveInteger]:
+        """
+        The DataIDList for FUP messages to calculate CRC.
+        """
+        return self.fupDataIDLists
+
+    def addOfnsDataIDList(self, value: Optional[PositiveInteger]) -> CanGlobalTimeDomainProps:
+        """
+        The DataIDList for OFNS messages to calculate CRC.
+
+        A None value is a no-op and does not append to ofnsDataIDLists.
+        """
+        if value is not None:
+            self.ofnsDataIDLists.append(value)
+        return self
+
+    def getOfnsDataIDLists(self) -> List[PositiveInteger]:
+        """
+        The DataIDList for OFNS messages to calculate CRC.
+        """
+        return self.ofnsDataIDLists
+
+    def addOfsDataIDList(self, value: Optional[PositiveInteger]) -> CanGlobalTimeDomainProps:
+        """
+        The DataIDList for OFS messages to calculate CRC.
+
+        A None value is a no-op and does not append to ofsDataIDLists.
+        """
+        if value is not None:
+            self.ofsDataIDLists.append(value)
+        return self
+
+    def getOfsDataIDLists(self) -> List[PositiveInteger]:
+        """
+        The DataIDList for OFS messages to calculate CRC.
+        """
+        return self.ofsDataIDLists
+
+    def addSyncDataIDList(self, value: Optional[PositiveInteger]) -> CanGlobalTimeDomainProps:
+        """
+        The DataIDList for SYNC messages to calculate CRC.
+
+        A None value is a no-op and does not append to syncDataIDLists.
+        """
+        if value is not None:
+            self.syncDataIDLists.append(value)
+        return self
+
+    def getSyncDataIDLists(self) -> List[PositiveInteger]:
+        """
+        The DataIDList for SYNC messages to calculate CRC.
+        """
+        return self.syncDataIDLists
 
 
 class ClientServerOperationComProps(CpSoftwareClusterCommunicationResourceProps):

@@ -542,6 +542,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     AbstractGlobalTimeDomainProps,
+    CanGlobalTimeDomainProps,
     CalibrationParameterValue,
     EthGlobalTimeManagedCouplingPort,
     EthTSynCrcFlags,
@@ -13745,6 +13746,23 @@ class ARXMLWriter(AbstractARXMLWriter):
         # group (AUTOSAR_00052.xsd l.379) and precedes the concrete subclass' own elements.
         self.writeARObject(element, props)
         self.writeVariationPointCapable(element, props)
+
+    def writeCanGlobalTimeDomainProps(self, element: ET.Element, props: CanGlobalTimeDomainProps):
+        # Populates the CAN-GLOBAL-TIME-DOMAIN-PROPS element created by the caller; the XSD
+        # CAN-GLOBAL-TIME-DOMAIN-PROPS group (AUTOSAR_00052.xsd l.15163) follows the
+        # ABSTRACT-GLOBAL-TIME-DOMAIN-PROPS group and wraps each ordered DataIDList attribute in a
+        # <...-DATA-ID-LISTS> element emitted only when non-empty.
+        self.writeAbstractGlobalTimeDomainProps(element, props)
+        for wrapper_key, item_key, data_id_lists in [
+            ("FUP-DATA-ID-LISTS", "FUP-DATA-ID-LIST", props.getFupDataIDLists()),
+            ("OFNS-DATA-ID-LISTS", "OFNS-DATA-ID-LIST", props.getOfnsDataIDLists()),
+            ("OFS-DATA-ID-LISTS", "OFS-DATA-ID-LIST", props.getOfsDataIDLists()),
+            ("SYNC-DATA-ID-LISTS", "SYNC-DATA-ID-LIST", props.getSyncDataIDLists()),
+        ]:
+            if len(data_id_lists) > 0:
+                wrapper = ET.SubElement(element, wrapper_key)
+                for value in data_id_lists:
+                    self.setChildElementOptionalPositiveInteger(wrapper, item_key, cast(Integer, value))
 
     def writeNetworkSegmentIdentification(self, element: ET.Element, props: NetworkSegmentIdentification):
         child_element = ET.SubElement(element, "NETWORK-SEGMENT-ID")
