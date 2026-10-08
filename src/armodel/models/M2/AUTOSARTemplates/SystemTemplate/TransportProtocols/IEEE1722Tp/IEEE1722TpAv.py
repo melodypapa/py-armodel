@@ -274,6 +274,72 @@ class IEEE1722TpRvfPixelDepthEnum(AREnum):
         )
 
 
+class IEEE1722TpRvfPixelFormatEnum(AREnum):
+    """
+    Definition of the RVF Pixel Format. Tags: atp.Status=candidate
+    """
+
+    # IEEE1722TpRvfPixelFormatEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.287, p.651
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — serialized as value form on IEEE1722TpRvfConnection.rvfPixelFormat
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # pixel format 4:1:1 Tags: atp.EnumerationLiteralIndex=0 xml.name=4-1-1
+    ENUM_4_1_1 = "4-1-1"
+
+    # pixel format 4:2:0 Tags: atp.EnumerationLiteralIndex=1 xml.name=4-2-0
+    ENUM_4_2_0 = "4-2-0"
+
+    # pixel format 4:2:2 Tags: atp.EnumerationLiteralIndex=2 xml.name=4-2-2
+    ENUM_4_2_2 = "4-2-2"
+
+    # pixel format 4:2:2:4 Tags: atp.EnumerationLiteralIndex=3 xml.name=4-2-2-4
+    ENUM_4_2_2_4 = "4-2-2-4"
+
+    # pixel format 4:4:4 Tags: atp.EnumerationLiteralIndex=4 xml.name=4-4-4
+    ENUM_4_4_4 = "4-4-4"
+
+    # pixel format 4:4:4:4 Tags: atp.EnumerationLiteralIndex=5 xml.name=4-4-4-4
+    ENUM_4_4_4_4 = "4-4-4-4"
+
+    # pixel format Bayer bggr Tags: atp.EnumerationLiteralIndex=6 xml.name=BAYER-BGGR
+    ENUM_BAYER_BGGR = "BAYER-BGGR"
+
+    # pixel format Bayer gbrg Tags: atp.EnumerationLiteralIndex=7 xml.name=BAYER-GBRG
+    ENUM_BAYER_GBRG = "BAYER-GBRG"
+
+    # pixel format Bayer grbg Tags: atp.EnumerationLiteralIndex=8 xml.name=BAYER-GRBG
+    ENUM_BAYER_GRBG = "BAYER-GRBG"
+
+    # pixel format Bayer rggb Tags: atp.EnumerationLiteralIndex=9 xml.name=BAYER-RGGB
+    ENUM_BAYER_RGGB = "BAYER-RGGB"
+
+    # pixel format Monochrome Tags: atp.EnumerationLiteralIndex=10
+    ENUM_MONOCHROME = "MONOCHROME"
+
+    # pixel format User defined Tags: atp.EnumerationLiteralIndex=11
+    ENUM_USER = "USER"
+
+    def __init__(self):
+        super().__init__(
+            [
+                IEEE1722TpRvfPixelFormatEnum.ENUM_4_1_1,
+                IEEE1722TpRvfPixelFormatEnum.ENUM_4_2_0,
+                IEEE1722TpRvfPixelFormatEnum.ENUM_4_2_2,
+                IEEE1722TpRvfPixelFormatEnum.ENUM_4_2_2_4,
+                IEEE1722TpRvfPixelFormatEnum.ENUM_4_4_4,
+                IEEE1722TpRvfPixelFormatEnum.ENUM_4_4_4_4,
+                IEEE1722TpRvfPixelFormatEnum.ENUM_BAYER_BGGR,
+                IEEE1722TpRvfPixelFormatEnum.ENUM_BAYER_GBRG,
+                IEEE1722TpRvfPixelFormatEnum.ENUM_BAYER_GRBG,
+                IEEE1722TpRvfPixelFormatEnum.ENUM_BAYER_RGGB,
+                IEEE1722TpRvfPixelFormatEnum.ENUM_MONOCHROME,
+                IEEE1722TpRvfPixelFormatEnum.ENUM_USER,
+            ]
+        )
+
+
 class IEEE1722TpCrfConnection(IEEE1722TpAvConnection):
     """
     AV IEEE1722Tp CRF connection. Tags: atp.Status=candidate atp.recommendedPackage=IEEE1722TpConnections

@@ -3698,4 +3698,5 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols.IEEE17
     IEEE1722TpCrfPullEnum as IEEE1722TpCrfPullEnum,
     IEEE1722TpCrfTypeEnum as IEEE1722TpCrfTypeEnum,
     IEEE1722TpRvfPixelDepthEnum as IEEE1722TpRvfPixelDepthEnum,
+    IEEE1722TpRvfPixelFormatEnum as IEEE1722TpRvfPixelFormatEnum,
 )
