@@ -746,6 +746,8 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Enumerations import BindingTimeEnum, XmlSpaceEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     FMAttributeDef,
+    IdsmRateLimitation,
+    IdsmTrafficLimitation,
     FMFeatureMapAssertion,
     FMFeatureMapCondition,
     FMFeatureMapElement,
@@ -2518,6 +2520,18 @@ class ARXMLParser(AbstractARXMLParser):
             self.readFMFeatureMapElement(child_element, map_element)
             feature_map.addMapping(map_element)
         return feature_map
+
+    def readIdsmRateLimitation(self, element: ET.Element, limitation: IdsmRateLimitation) -> IdsmRateLimitation:
+        self.readIdentifiable(element, limitation)
+        limitation.setMaxEventsInInterval(self.getChildElementOptionalPositiveInteger(element, "MAX-EVENTS-IN-INTERVAL"))
+        limitation.setTimeInterval(self.getChildElementOptionalFloatValue(element, "TIME-INTERVAL"))
+        return limitation
+
+    def readIdsmTrafficLimitation(self, element: ET.Element, limitation: IdsmTrafficLimitation) -> IdsmTrafficLimitation:
+        self.readIdentifiable(element, limitation)
+        limitation.setMaxBytesInInterval(self.getChildElementOptionalPositiveInteger(element, "MAX-BYTES-IN-INTERVAL"))
+        limitation.setTimeInterval(self.getChildElementOptionalFloatValue(element, "TIME-INTERVAL"))
+        return limitation
 
     def getBindingTimeEnumElement(self, element: ET.Element, key: str) -> Optional[BindingTimeEnum]:
         literal = self.getChildElementOptionalLiteral(element, key)

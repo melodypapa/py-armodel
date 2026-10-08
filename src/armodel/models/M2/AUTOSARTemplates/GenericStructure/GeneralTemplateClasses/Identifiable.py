@@ -35,6 +35,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     CategoryString,
     DiagnosticDebounceBehaviorEnum,
     FMFeatureSelectionState,
+    Float,
     Identifier,
     Limit,
     Numerical,
@@ -1717,6 +1718,118 @@ class FMFeatureRestriction(Identifiable):
         return self
 
 
+class IdsmRateLimitation(Identifiable):
+    """
+    This meta-class represents the configuration of a rate limitation filter for security events. This means that security events are dropped if the number of events (of any type) processed within a configurable time window is greater than a configurable threshold. Tags: atp.Status=candidate
+    """
+
+    # IdsmRateLimitation method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf, Table 4.10, p.28
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getMaxEventsInInterval    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxEventsInInterval    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeInterval           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeInterval           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This attribute configures the threshold for dropping security events if the number of all processed security events exceeds the threshold in the respective time interval. Tags: atp.Status=candidate
+        self.maxEventsInInterval: Optional[PositiveInteger] = None
+
+        # This attribute configures the length of the time interval in seconds for dropping security events if the number of all processed security events exceeds the configurable threshold within the respective time interval. Tags: atp.Status=candidate
+        self.timeInterval: Optional[Float] = None
+
+    def getMaxEventsInInterval(self) -> Optional[PositiveInteger]:
+        """
+        This attribute configures the threshold for dropping security events if the number of all processed security events exceeds the threshold in the respective time interval. Tags: atp.Status=candidate
+        """
+        return self.maxEventsInInterval
+
+    def setMaxEventsInInterval(self, value: Optional[PositiveInteger]) -> IdsmRateLimitation:
+        """
+        This attribute configures the threshold for dropping security events if the number of all processed security events exceeds the threshold in the respective time interval. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing maxEventsInInterval.
+        """
+        if value is not None:
+            self.maxEventsInInterval = value
+        return self
+
+    def getTimeInterval(self) -> Optional[Float]:
+        """
+        This attribute configures the length of the time interval in seconds for dropping security events if the number of all processed security events exceeds the configurable threshold within the respective time interval. Tags: atp.Status=candidate
+        """
+        return self.timeInterval
+
+    def setTimeInterval(self, value: Optional[Float]) -> IdsmRateLimitation:
+        """
+        This attribute configures the length of the time interval in seconds for dropping security events if the number of all processed security events exceeds the configurable threshold within the respective time interval. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing timeInterval.
+        """
+        if value is not None:
+            self.timeInterval = value
+        return self
+
+
+class IdsmTrafficLimitation(Identifiable):
+    """
+    This meta-class represents the configuration of a traffic limitation filter for Security Events. This means that security events are dropped if the size (in terms of bandwidth) of security events (of any type) processed within a configurable time window is greater than a configurable threshold. Tags: atp.Status=candidate
+    """
+
+    # IdsmTrafficLimitation method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf, Table 4.11, p.29
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getMaxBytesInInterval     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxBytesInInterval     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeInterval           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeInterval           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This attribute configures the threshold for dropping security events if the size of all processed security events exceeds the threshold in the respective time interval. Tags: atp.Status=candidate
+        self.maxBytesInInterval: Optional[PositiveInteger] = None
+
+        # This attribute configures the length of the time interval in seconds for dropping security events if the size of all processed security events exceeds the configurable threshold within the respective time interval. Tags: atp.Status=candidate
+        self.timeInterval: Optional[Float] = None
+
+    def getMaxBytesInInterval(self) -> Optional[PositiveInteger]:
+        """
+        This attribute configures the threshold for dropping security events if the size of all processed security events exceeds the threshold in the respective time interval. Tags: atp.Status=candidate
+        """
+        return self.maxBytesInInterval
+
+    def setMaxBytesInInterval(self, value: Optional[PositiveInteger]) -> IdsmTrafficLimitation:
+        """
+        This attribute configures the threshold for dropping security events if the size of all processed security events exceeds the threshold in the respective time interval. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing maxBytesInInterval.
+        """
+        if value is not None:
+            self.maxBytesInInterval = value
+        return self
+
+    def getTimeInterval(self) -> Optional[Float]:
+        """
+        This attribute configures the length of the time interval in seconds for dropping security events if the size of all processed security events exceeds the configurable threshold within the respective time interval. Tags: atp.Status=candidate
+        """
+        return self.timeInterval
+
+    def setTimeInterval(self, value: Optional[Float]) -> IdsmTrafficLimitation:
+        """
+        This attribute configures the length of the time interval in seconds for dropping security events if the size of all processed security events exceeds the configurable threshold within the respective time interval. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing timeInterval.
+        """
+        if value is not None:
+            self.timeInterval = value
+        return self
+
+
 class FMFeatureSelection(Identifiable):
     """
     A FMFeatureSelection represents the state of a particular FMFeature within a FMFeatureSelectionSet.
@@ -1831,10 +1944,6 @@ class FMFeatureSelection(Identifiable):
         if value is not None:
             self.state = value
         return self
-
-
-class IdsmRateLimitation(Identifiable):
-    pass
 
 
 class PrimitiveAttributeTailoring(AttributeTailoring):

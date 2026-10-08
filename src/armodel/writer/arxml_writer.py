@@ -587,6 +587,8 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     FMAttributeDef,
+    IdsmRateLimitation,
+    IdsmTrafficLimitation,
     FMFeatureMapAssertion,
     FMFeatureMapCondition,
     FMFeatureMapElement,
@@ -2167,6 +2169,20 @@ class ARXMLWriter(AbstractARXMLWriter):
                 for value in attribute_values:
                     self.writeFMAttributeValue(values_tag, value)
 
+
+    def writeIdsmRateLimitation(self, element: ET.Element, limitation: IdsmRateLimitation):
+        if limitation is not None:
+            child_element = ET.SubElement(element, "IDSM-RATE-LIMITATION")
+            self.writeIdentifiable(child_element, limitation)
+            self.setChildElementOptionalPositiveInteger(child_element, "MAX-EVENTS-IN-INTERVAL", limitation.getMaxEventsInInterval())
+            self.setChildElementOptionalFloatValue(child_element, "TIME-INTERVAL", limitation.getTimeInterval())
+
+    def writeIdsmTrafficLimitation(self, element: ET.Element, limitation: IdsmTrafficLimitation):
+        if limitation is not None:
+            child_element = ET.SubElement(element, "IDSM-TRAFFIC-LIMITATION")
+            self.writeIdentifiable(child_element, limitation)
+            self.setChildElementOptionalPositiveInteger(child_element, "MAX-BYTES-IN-INTERVAL", limitation.getMaxBytesInInterval())
+            self.setChildElementOptionalFloatValue(child_element, "TIME-INTERVAL", limitation.getTimeInterval())
 
     def writeFMFeatureMapCondition(self, element: ET.Element, condition: FMFeatureMapCondition):
         if condition is not None:
