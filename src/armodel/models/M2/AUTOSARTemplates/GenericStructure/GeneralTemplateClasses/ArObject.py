@@ -2291,7 +2291,28 @@ class AbstractGlobalTimeDomainProps(ARObject, VariationPointCapable):
 
 
 class BinaryManifestItemValue(ARObject, ABC):
-    pass
+    """
+    This meta-class has the ability to act as an abstract base class for values of binary manifest item.
+    """
+
+    # BinaryManifestItemValue method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 11.25, p.922
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    #
+    # Table 11.25 declares no Attribute rows and the XSD BINARY-MANIFEST-ITEM-VALUE group
+    # (AUTOSAR_00052.xsd l.8763) has an empty sequence; the reusable readBinaryManifestItemValue /
+    # writeBinaryManifestItemValue helpers own the ARObject level of the concrete subclass element
+    # (BINARY-MANIFEST-ITEM-NUMERICAL-VALUE / BINARY-MANIFEST-ITEM-POINTER-VALUE) and are called by
+    # the BinaryManifestItemNumericalValue / BinaryManifestItemPointerValue readers/writers.
+    # Aggregator dispatch (BinaryManifestItem.value / BinaryManifestItem.defaultValue) is pending —
+    # BinaryManifestItem is an unsynced later-wave stub.
+
+    def __init__(self):
+        if type(self) is BinaryManifestItemValue:
+            raise TypeError("BinaryManifestItemValue is an abstract class.")
+
+        super().__init__()
 
 
 class BusMirrorCanIdRangeMapping(ARObject):

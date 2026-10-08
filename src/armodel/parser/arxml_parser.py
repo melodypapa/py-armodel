@@ -563,6 +563,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     AbstractGlobalTimeDomainProps,
+    BinaryManifestItemValue,
     CanGlobalTimeDomainProps,
     CalibrationParameterValue,
     ClientServerOperationComProps,
@@ -16435,6 +16436,14 @@ class ARXMLParser(AbstractARXMLParser):
         obj.setAddress(self.getChildElementOptionalAddress(element, "ADDRESS"))
         obj.setSymbol(self.getChildElementOptionalSymbolString(element, "SYMBOL"))
         return obj
+
+    def readBinaryManifestItemValue(self, element: ET.Element, value: BinaryManifestItemValue) -> BinaryManifestItemValue:
+        # Table 11.25 declares no Attribute rows and the XSD BINARY-MANIFEST-ITEM-VALUE group
+        # (AUTOSAR_00052.xsd l.8763) has an empty sequence, so the helper owns the ARObject level of
+        # the concrete subclass element (BINARY-MANIFEST-ITEM-NUMERICAL-VALUE /
+        # BINARY-MANIFEST-ITEM-POINTER-VALUE).
+        self.readARObject(element, value)
+        return value
 
     def getGlobalTimeProps(self, element: ET.Element, key: str) -> Optional[GlobalTimeCouplingPortProps]:
         props = None

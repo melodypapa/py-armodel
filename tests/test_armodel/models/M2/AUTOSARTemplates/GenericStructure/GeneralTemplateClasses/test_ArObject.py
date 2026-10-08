@@ -12,6 +12,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import TextVal
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     AbstractGlobalTimeDomainProps,
     ARObject,
+    BinaryManifestItemValue,
     BusMirrorCanIdRangeMapping,
     BusMirrorCanIdToCanIdMapping,
     BusMirrorLinPidToCanIdMapping,
@@ -6314,3 +6315,67 @@ class TestClientServerOperationComProps:
         """
         assert inspect.cleandoc(ClientServerOperationComProps.getQueueLength.__doc__) == self.QUEUE_LENGTH_NOTE
         assert inspect.cleandoc(ClientServerOperationComProps.setQueueLength.__doc__) == (self.QUEUE_LENGTH_NOTE + "\n\nA None value is a no-op and does not overwrite an existing queueLength.")
+
+
+class TestBinaryManifestItemValue:
+    """
+    Test class for BinaryManifestItemValue functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 11.25, p.922
+    (abstract; Table 11.25 declares no Attribute rows — the concrete subclasses
+    BinaryManifestItemNumericalValue and BinaryManifestItemPointerValue carry the XML content,
+    exercised in their own test classes.)
+    """
+
+    CLASS_NOTE = "This meta-class has the ability to act as an abstract base class for values of binary manifest item."
+
+    def _create_object(self) -> BinaryManifestItemValue:
+        class ConcreteItemValue(BinaryManifestItemValue):
+            pass
+
+        return ConcreteItemValue()
+
+    def test_cannot_instantiate_abstract(self):
+        """
+        BinaryManifestItemValue is abstract per Table 11.25 and cannot be instantiated directly.
+        """
+        with pytest.raises(TypeError):
+            BinaryManifestItemValue()
+
+    def test_is_ar_object_subclass(self):
+        """
+        Test that BinaryManifestItemValue derives from ARObject per the Table 11.25 Base row
+        (ARObject — most-derived, the class is abstract).
+        """
+        import abc
+
+        assert issubclass(BinaryManifestItemValue, ARObject)
+        assert issubclass(BinaryManifestItemValue, abc.ABC)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(BinaryManifestItemValue.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert BinaryManifestItemValue.__init__.__doc__ is None
+
+    def test_table_declares_no_attribute_rows(self):
+        """
+        Test that the class declares no own accessors (Table 11.25 Attribute row is '-').
+        """
+        methods = [name for name, value in BinaryManifestItemValue.__dict__.items() if callable(value) and not name.startswith("_")]
+        assert methods == []
+
+    def test_concrete_subclass_initialization(self):
+        """
+        Test that a concrete subclass initializes the inherited ARObject state to its defaults.
+        """
+        obj = self._create_object()
+
+        assert obj.getChecksum() is None
+        assert obj.getTimestamp() is None
