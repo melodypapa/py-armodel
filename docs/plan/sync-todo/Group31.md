@@ -934,17 +934,36 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
     readIPduTiming/writeIPduTiming pair, not recorded as a deviation.
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-08 (23504 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 028e48768
 
-- [ ] `PduTriggering` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 6.31, p.349
+- [x] `PduTriggering` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 6.31, p.349 (sync commit cb8a7e121)
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: page-split table (body rows above + below the caption, markdown l.9249-9271);
+    5 attrs in displayed order (iPdu 0..1 ref, iPduPort * ref, iSignalTriggering * ref,
+    secOcCryptoMapping 0..1 ref, triggerIPduSendCondition * aggr) — field/accessor set
+    already matches spec; drift = reader+writer missing VARIATION-POINT coverage
+    (XSD group PDU-TRIGGERING carries VARIATION-POINT last, sequenceOffset 10000,
+    "Applicable for: PhysicalChannel.pduTriggering") and 3 docstrings missing the
+    markdown space artifacts ("ISignal Triggerings", "role i Pdu.", "Com_Trigger
+    IPDUSend"); stale legacy 5-col `# Spec verified: R23-11` marker removed at session
+    start (Rule 0023), stamped baseline refreshed. Legacy test in
+    test_CoreCommunication.py kept (batch precedent); new per-class mirror test added.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - Deviation: none — all 5 spec attributes modeled (iPdu/iPduPort/iSignalTriggering/
+    secOcCryptoMapping refs + triggerIPduSendCondition aggr, TriggerIPduSendCondition
+    Base=ARObject so addXxx shape is correct); reader/writer coverage complete incl.
+    the previously-missing VARIATION-POINT pair (readVariationPointCapable +
+    write_variation_point=False with explicit trailing writeVariationPointCapable per
+    sequenceOffset 10000); no referenced-but-missing classes (RefType,
+    TriggerIPduSendCondition, VariationPoint all exist); class-level constraint
+    constr_9198 appended to the class docstring per Rule 0012.2.4; no
+    atp.Status="removed" elements in XSD group PDU-TRIGGERING.
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-08 (23522 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit cb8a7e121
 
 - [ ] `ContainerIPdu` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.35, p.354
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py

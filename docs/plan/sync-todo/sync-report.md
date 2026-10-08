@@ -11,10 +11,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | Status | Classes | Percent |
 | --- | --- | --- |
 | [x] Done | 852 | 44.8% |
-| [x] Deferred | 41 | 2.2% |
+| [x] Deferred | 42 | 2.2% |
 | [x] Retired | 0 | 0.0% |
 | [ ] Deferred | 829 | 43.6% |
-| [ ] Implemented | 34 | 1.8% |
+| [ ] Implemented | 33 | 1.7% |
 | [ ] Created | 146 | 7.7% |
 | [ ] Pending | 0 | 0.0% |
 
@@ -1383,7 +1383,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `PduCollectionTriggerEnum`                              | [x] Done    | 64d125ffae                               | Group5           |
 | `PduMappingDefaultValue`                                | [x] Done    | 9c8e10b37f                               | Group6           |
 | `PduToFrameMapping`                                     | [x] Deferred| a8e5ac35ee                               | Group31          |
-| `PduTriggering`                                         | [ ] Implemented| N/A                                      | Group31          |
+| `PduTriggering`                                         | [x] Deferred| cb8a7e121b                               | Group31          |
 | `PdurIPduGroup`                                         | [x] Done    | c53a7febdc                               | Group5           |
 | `PerInstanceMemory`                                     | [x] Done    | f35aa0cd0a                               | Group2           |
 | `PerInstanceMemorySize`                                 | [x] Done    | df36bbb1fa                               | Group10          |
