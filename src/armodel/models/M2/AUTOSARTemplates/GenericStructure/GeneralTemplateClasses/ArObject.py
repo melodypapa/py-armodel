@@ -3641,7 +3641,147 @@ class EthGlobalTimeManagedCouplingPort(ARObject):
 
 
 class EthTSynCrcFlags(ARObject):
-    pass
+    """
+    Defines the fields of the message which shall be taken into account for CRC calculation and verification.
+    """
+
+    # EthTSynCrcFlags method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.15, p.868
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCrcCorrectionField         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCrcCorrectionField         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCrcDomainNumber            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCrcDomainNumber            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCrcMessageLength           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCrcMessageLength           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCrcPreciseOriginTimestamp  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCrcPreciseOriginTimestamp  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCrcSequenceId              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCrcSequenceId              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCrcSourcePortIdentity      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCrcSourcePortIdentity      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # Aggregator dispatch (EthGlobalTimeDomainProps.crcFlags) is pending — EthGlobalTimeDomainProps
+    # is a later-wave class; the reusable readEthTSynCrcFlags / writeEthTSynCrcFlags helpers own
+    # the ETH-T-SYN-CRC-FLAGS element (AUTOSAR_00052.xsd l.55765).
+
+    def __init__(self):
+        super().__init__()
+
+        # CorrectionField from the Follow_Up Message Header shall be included in CRC calculation.
+        self.crcCorrectionField: Optional[Boolean] = None
+
+        # DomainNumber from the Follow_Up Message Header shall be included in CRC calculation.
+        self.crcDomainNumber: Optional[Boolean] = None
+
+        # MessageLength from the Follow_Up Message Header shall be included in CRC calculation.
+        self.crcMessageLength: Optional[Boolean] = None
+
+        # PreciseOriginTimestamp from the Follow_Up Message Field shall be included in CRC calculation.
+        self.crcPreciseOriginTimestamp: Optional[Boolean] = None
+
+        # SequenceId from the Follow_Up Message Header shall be included in CRC calculation.
+        self.crcSequenceId: Optional[Boolean] = None
+
+        # SourcePortIdentity from the Follow_Up Message Header shall be included in CRC calculation.
+        self.crcSourcePortIdentity: Optional[Boolean] = None
+
+    def getCrcCorrectionField(self) -> Optional[Boolean]:
+        """
+        CorrectionField from the Follow_Up Message Header shall be included in CRC calculation.
+        """
+        return self.crcCorrectionField
+
+    def setCrcCorrectionField(self, value: Optional[Boolean]) -> EthTSynCrcFlags:
+        """
+        CorrectionField from the Follow_Up Message Header shall be included in CRC calculation.
+
+        A None value is a no-op and does not overwrite an existing crcCorrectionField.
+        """
+        if value is not None:
+            self.crcCorrectionField = value
+        return self
+
+    def getCrcDomainNumber(self) -> Optional[Boolean]:
+        """
+        DomainNumber from the Follow_Up Message Header shall be included in CRC calculation.
+        """
+        return self.crcDomainNumber
+
+    def setCrcDomainNumber(self, value: Optional[Boolean]) -> EthTSynCrcFlags:
+        """
+        DomainNumber from the Follow_Up Message Header shall be included in CRC calculation.
+
+        A None value is a no-op and does not overwrite an existing crcDomainNumber.
+        """
+        if value is not None:
+            self.crcDomainNumber = value
+        return self
+
+    def getCrcMessageLength(self) -> Optional[Boolean]:
+        """
+        MessageLength from the Follow_Up Message Header shall be included in CRC calculation.
+        """
+        return self.crcMessageLength
+
+    def setCrcMessageLength(self, value: Optional[Boolean]) -> EthTSynCrcFlags:
+        """
+        MessageLength from the Follow_Up Message Header shall be included in CRC calculation.
+
+        A None value is a no-op and does not overwrite an existing crcMessageLength.
+        """
+        if value is not None:
+            self.crcMessageLength = value
+        return self
+
+    def getCrcPreciseOriginTimestamp(self) -> Optional[Boolean]:
+        """
+        PreciseOriginTimestamp from the Follow_Up Message Field shall be included in CRC calculation.
+        """
+        return self.crcPreciseOriginTimestamp
+
+    def setCrcPreciseOriginTimestamp(self, value: Optional[Boolean]) -> EthTSynCrcFlags:
+        """
+        PreciseOriginTimestamp from the Follow_Up Message Field shall be included in CRC calculation.
+
+        A None value is a no-op and does not overwrite an existing crcPreciseOriginTimestamp.
+        """
+        if value is not None:
+            self.crcPreciseOriginTimestamp = value
+        return self
+
+    def getCrcSequenceId(self) -> Optional[Boolean]:
+        """
+        SequenceId from the Follow_Up Message Header shall be included in CRC calculation.
+        """
+        return self.crcSequenceId
+
+    def setCrcSequenceId(self, value: Optional[Boolean]) -> EthTSynCrcFlags:
+        """
+        SequenceId from the Follow_Up Message Header shall be included in CRC calculation.
+
+        A None value is a no-op and does not overwrite an existing crcSequenceId.
+        """
+        if value is not None:
+            self.crcSequenceId = value
+        return self
+
+    def getCrcSourcePortIdentity(self) -> Optional[Boolean]:
+        """
+        SourcePortIdentity from the Follow_Up Message Header shall be included in CRC calculation.
+        """
+        return self.crcSourcePortIdentity
+
+    def setCrcSourcePortIdentity(self, value: Optional[Boolean]) -> EthTSynCrcFlags:
+        """
+        SourcePortIdentity from the Follow_Up Message Header shall be included in CRC calculation.
+
+        A None value is a no-op and does not overwrite an existing crcSourcePortIdentity.
+        """
+        if value is not None:
+            self.crcSourcePortIdentity = value
+        return self
 
 
 class EthTSynSubTlvConfig(ARObject):

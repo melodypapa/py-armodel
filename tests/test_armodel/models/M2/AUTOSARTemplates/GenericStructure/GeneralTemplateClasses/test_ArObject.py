@@ -53,6 +53,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticTroubleCodeProps,
     DiagnosticTroubleCodeUds,
     EthGlobalTimeManagedCouplingPort,
+    EthTSynCrcFlags,
     EthTSynSubTlvConfig,
     EventObdReadinessGroup,
     GlobalTimeCorrectionProps,
@@ -5300,3 +5301,156 @@ class TestEthTSynSubTlvConfig:
         assert inspect.cleandoc(EthTSynSubTlvConfig.setTimeSubTlv.__doc__) == (self.TIME_SUB_TLV_NOTE + "\n\nA None value is a no-op and does not overwrite an existing timeSubTlv.")
         assert inspect.cleandoc(EthTSynSubTlvConfig.getUserDataSubTlv.__doc__) == self.USER_DATA_SUB_TLV_NOTE
         assert inspect.cleandoc(EthTSynSubTlvConfig.setUserDataSubTlv.__doc__) == (self.USER_DATA_SUB_TLV_NOTE + "\n\nA None value is a no-op and does not overwrite an existing userDataSubTlv.")
+
+
+class TestEthTSynCrcFlags:
+    """
+    Test class for EthTSynCrcFlags functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.15, p.868
+    """
+
+    CLASS_NOTE = "Defines the fields of the message which shall be taken into account for CRC calculation and verification."
+    CRC_CORRECTION_FIELD_NOTE = "CorrectionField from the Follow_Up Message Header shall be included in CRC calculation."
+    CRC_DOMAIN_NUMBER_NOTE = "DomainNumber from the Follow_Up Message Header shall be included in CRC calculation."
+    CRC_MESSAGE_LENGTH_NOTE = "MessageLength from the Follow_Up Message Header shall be included in CRC calculation."
+    CRC_PRECISE_ORIGIN_TIMESTAMP_NOTE = "PreciseOriginTimestamp from the Follow_Up Message Field shall be included in CRC calculation."
+    CRC_SEQUENCE_ID_NOTE = "SequenceId from the Follow_Up Message Header shall be included in CRC calculation."
+    CRC_SOURCE_PORT_IDENTITY_NOTE = "SourcePortIdentity from the Follow_Up Message Header shall be included in CRC calculation."
+
+    def _create_object(self) -> EthTSynCrcFlags:
+        return EthTSynCrcFlags()
+
+    def test_initialization(self):
+        """
+        Test that a new EthTSynCrcFlags initializes all attributes to their defaults.
+        """
+        obj = self._create_object()
+
+        assert obj.getChecksum() is None
+        assert obj.getTimestamp() is None
+        assert obj.getCrcCorrectionField() is None
+        assert obj.getCrcDomainNumber() is None
+        assert obj.getCrcMessageLength() is None
+        assert obj.getCrcPreciseOriginTimestamp() is None
+        assert obj.getCrcSequenceId() is None
+        assert obj.getCrcSourcePortIdentity() is None
+
+    def test_is_ar_object_subclass(self):
+        """
+        Test that EthTSynCrcFlags derives from ARObject per the Table 9.15 Base row.
+        """
+        assert issubclass(EthTSynCrcFlags, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(EthTSynCrcFlags.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert EthTSynCrcFlags.__init__.__doc__ is None
+
+    def test_member_order_follows_spec_rows(self):
+        """
+        Test that the accessors follow the Table 9.15 displayed row order (getter first per attribute).
+        """
+        methods = [name for name, value in EthTSynCrcFlags.__dict__.items() if callable(value) and not name.startswith("_")]
+        assert methods == [
+            "getCrcCorrectionField",
+            "setCrcCorrectionField",
+            "getCrcDomainNumber",
+            "setCrcDomainNumber",
+            "getCrcMessageLength",
+            "setCrcMessageLength",
+            "getCrcPreciseOriginTimestamp",
+            "setCrcPreciseOriginTimestamp",
+            "getCrcSequenceId",
+            "setCrcSequenceId",
+            "getCrcSourcePortIdentity",
+            "setCrcSourcePortIdentity",
+        ]
+
+    def test_annotations_are_optional_typed(self):
+        """
+        Test that the accessors carry the spec Boolean type (0..1 rows).
+        """
+        for getter, setter in [
+            (EthTSynCrcFlags.getCrcCorrectionField, EthTSynCrcFlags.setCrcCorrectionField),
+            (EthTSynCrcFlags.getCrcDomainNumber, EthTSynCrcFlags.setCrcDomainNumber),
+            (EthTSynCrcFlags.getCrcMessageLength, EthTSynCrcFlags.setCrcMessageLength),
+            (EthTSynCrcFlags.getCrcPreciseOriginTimestamp, EthTSynCrcFlags.setCrcPreciseOriginTimestamp),
+            (EthTSynCrcFlags.getCrcSequenceId, EthTSynCrcFlags.setCrcSequenceId),
+            (EthTSynCrcFlags.getCrcSourcePortIdentity, EthTSynCrcFlags.setCrcSourcePortIdentity),
+        ]:
+            hints = typing.get_type_hints(getter)
+            assert hints.get("return") == typing.Optional[Boolean]
+            hints = typing.get_type_hints(setter)
+            assert hints.get("value") == typing.Optional[Boolean]
+            assert hints.get("return") is EthTSynCrcFlags
+
+    def test_get_set_crc_flags(self):
+        """
+        Test the six getter/setter pairs round-trip and None no-op.
+        """
+        obj = self._create_object()
+
+        correction = Boolean().setValue(True)
+        result = obj.setCrcCorrectionField(correction)
+        assert result is obj
+        assert obj.getCrcCorrectionField() is correction
+
+        domain = Boolean().setValue(True)
+        result = obj.setCrcDomainNumber(domain)
+        assert result is obj
+        assert obj.getCrcDomainNumber() is domain
+
+        length = Boolean().setValue(False)
+        result = obj.setCrcMessageLength(length)
+        assert result is obj
+        assert obj.getCrcMessageLength() is length
+
+        timestamp = Boolean().setValue(True)
+        result = obj.setCrcPreciseOriginTimestamp(timestamp)
+        assert result is obj
+        assert obj.getCrcPreciseOriginTimestamp() is timestamp
+
+        sequence = Boolean().setValue(True)
+        result = obj.setCrcSequenceId(sequence)
+        assert result is obj
+        assert obj.getCrcSequenceId() is sequence
+
+        port = Boolean().setValue(True)
+        result = obj.setCrcSourcePortIdentity(port)
+        assert result is obj
+        assert obj.getCrcSourcePortIdentity() is port
+
+        result = obj.setCrcCorrectionField(None)
+        assert result is obj
+        assert obj.getCrcCorrectionField() is correction
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        assert inspect.cleandoc(EthTSynCrcFlags.getCrcCorrectionField.__doc__) == self.CRC_CORRECTION_FIELD_NOTE
+        assert inspect.cleandoc(EthTSynCrcFlags.setCrcCorrectionField.__doc__) == (
+            self.CRC_CORRECTION_FIELD_NOTE + "\n\nA None value is a no-op and does not overwrite an existing crcCorrectionField."
+        )
+        assert inspect.cleandoc(EthTSynCrcFlags.getCrcDomainNumber.__doc__) == self.CRC_DOMAIN_NUMBER_NOTE
+        assert inspect.cleandoc(EthTSynCrcFlags.setCrcDomainNumber.__doc__) == (self.CRC_DOMAIN_NUMBER_NOTE + "\n\nA None value is a no-op and does not overwrite an existing crcDomainNumber.")
+        assert inspect.cleandoc(EthTSynCrcFlags.getCrcMessageLength.__doc__) == self.CRC_MESSAGE_LENGTH_NOTE
+        assert inspect.cleandoc(EthTSynCrcFlags.setCrcMessageLength.__doc__) == (self.CRC_MESSAGE_LENGTH_NOTE + "\n\nA None value is a no-op and does not overwrite an existing crcMessageLength.")
+        assert inspect.cleandoc(EthTSynCrcFlags.getCrcPreciseOriginTimestamp.__doc__) == self.CRC_PRECISE_ORIGIN_TIMESTAMP_NOTE
+        assert inspect.cleandoc(EthTSynCrcFlags.setCrcPreciseOriginTimestamp.__doc__) == (
+            self.CRC_PRECISE_ORIGIN_TIMESTAMP_NOTE + "\n\nA None value is a no-op and does not overwrite an existing crcPreciseOriginTimestamp."
+        )
+        assert inspect.cleandoc(EthTSynCrcFlags.getCrcSequenceId.__doc__) == self.CRC_SEQUENCE_ID_NOTE
+        assert inspect.cleandoc(EthTSynCrcFlags.setCrcSequenceId.__doc__) == (self.CRC_SEQUENCE_ID_NOTE + "\n\nA None value is a no-op and does not overwrite an existing crcSequenceId.")
+        assert inspect.cleandoc(EthTSynCrcFlags.getCrcSourcePortIdentity.__doc__) == self.CRC_SOURCE_PORT_IDENTITY_NOTE
+        assert inspect.cleandoc(EthTSynCrcFlags.setCrcSourcePortIdentity.__doc__) == (
+            self.CRC_SOURCE_PORT_IDENTITY_NOTE + "\n\nA None value is a no-op and does not overwrite an existing crcSourcePortIdentity."
+        )

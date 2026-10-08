@@ -565,6 +565,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     AbstractGlobalTimeDomainProps,
     CalibrationParameterValue,
     EthGlobalTimeManagedCouplingPort,
+    EthTSynCrcFlags,
     EthTSynSubTlvConfig,
     RoleBasedResourceDependency,
     DiagnosticAbstractParameter,
@@ -16287,6 +16288,16 @@ class ARXMLParser(AbstractARXMLParser):
         config.setTimeSubTlv(self.getChildElementOptionalBooleanValue(element, "TIME-SUB-TLV"))
         config.setUserDataSubTlv(self.getChildElementOptionalBooleanValue(element, "USER-DATA-SUB-TLV"))
         return config
+
+    def readEthTSynCrcFlags(self, element: ET.Element, flags: EthTSynCrcFlags) -> EthTSynCrcFlags:
+        self.readARObject(element, flags)
+        flags.setCrcCorrectionField(self.getChildElementOptionalBooleanValue(element, "CRC-CORRECTION-FIELD"))
+        flags.setCrcDomainNumber(self.getChildElementOptionalBooleanValue(element, "CRC-DOMAIN-NUMBER"))
+        flags.setCrcMessageLength(self.getChildElementOptionalBooleanValue(element, "CRC-MESSAGE-LENGTH"))
+        flags.setCrcPreciseOriginTimestamp(self.getChildElementOptionalBooleanValue(element, "CRC-PRECISE-ORIGIN-TIMESTAMP"))
+        flags.setCrcSequenceId(self.getChildElementOptionalBooleanValue(element, "CRC-SEQUENCE-ID"))
+        flags.setCrcSourcePortIdentity(self.getChildElementOptionalBooleanValue(element, "CRC-SOURCE-PORT-IDENTITY"))
+        return flags
 
     def getGlobalTimeProps(self, element: ET.Element, key: str) -> Optional[GlobalTimeCouplingPortProps]:
         props = None

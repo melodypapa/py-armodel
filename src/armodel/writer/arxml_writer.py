@@ -544,6 +544,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     AbstractGlobalTimeDomainProps,
     CalibrationParameterValue,
     EthGlobalTimeManagedCouplingPort,
+    EthTSynCrcFlags,
     EthTSynSubTlvConfig,
     RoleBasedResourceDependency,
     DiagnosticAbstractParameter,
@@ -13798,6 +13799,16 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalBooleanValue(child_element, "STATUS-SUB-TLV", config.getStatusSubTlv())
         self.setChildElementOptionalBooleanValue(child_element, "TIME-SUB-TLV", config.getTimeSubTlv())
         self.setChildElementOptionalBooleanValue(child_element, "USER-DATA-SUB-TLV", config.getUserDataSubTlv())
+
+    def writeEthTSynCrcFlags(self, element: ET.Element, flags: EthTSynCrcFlags):
+        child_element = ET.SubElement(element, "ETH-T-SYN-CRC-FLAGS")
+        self.writeARObject(child_element, flags)
+        self.setChildElementOptionalBooleanValue(child_element, "CRC-CORRECTION-FIELD", flags.getCrcCorrectionField())
+        self.setChildElementOptionalBooleanValue(child_element, "CRC-DOMAIN-NUMBER", flags.getCrcDomainNumber())
+        self.setChildElementOptionalBooleanValue(child_element, "CRC-MESSAGE-LENGTH", flags.getCrcMessageLength())
+        self.setChildElementOptionalBooleanValue(child_element, "CRC-PRECISE-ORIGIN-TIMESTAMP", flags.getCrcPreciseOriginTimestamp())
+        self.setChildElementOptionalBooleanValue(child_element, "CRC-SEQUENCE-ID", flags.getCrcSequenceId())
+        self.setChildElementOptionalBooleanValue(child_element, "CRC-SOURCE-PORT-IDENTITY", flags.getCrcSourcePortIdentity())
 
     def setGlobalTimeProps(self, element: ET.Element, key: str, props: Optional[GlobalTimeCouplingPortProps]):
         if props is not None:
