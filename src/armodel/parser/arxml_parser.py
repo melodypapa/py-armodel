@@ -563,6 +563,9 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     FMAttributeValue,
+    IdsmSignatureSupportAp,
+    IdsmSignatureSupportCp,
+    SecurityEventContextData,
     FMFeatureDecomposition,
     AbstractGlobalTimeDomainProps,
     CalibrationParameterValue,
@@ -623,7 +626,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (
     EvaluatedVariantSet,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, IdsmProperties, CalibrationParameterValueSet, FMFeature, FMFeatureMap, FMFeatureModel, FMFeatureSelectionSet, PhysicalDimensionMappingSet, ReferenceBase
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, LogAndTraceMessageCollectionSet, PostBuildVariantCriterionValueSet, IdsmProperties, CalibrationParameterValueSet, FMFeature, FMFeatureMap, FMFeatureModel, FMFeatureSelectionSet, PhysicalDimensionMappingSet, ReferenceBase
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import AclObjectSet, AclOperation, AclPermission, AclRole
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import DiagnosticCustomServiceInstance, DiagnosticMapping
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
@@ -2532,6 +2535,39 @@ class ARXMLParser(AbstractARXMLParser):
         limitation.setMaxBytesInInterval(self.getChildElementOptionalPositiveInteger(element, "MAX-BYTES-IN-INTERVAL"))
         limitation.setTimeInterval(self.getChildElementOptionalFloatValue(element, "TIME-INTERVAL"))
         return limitation
+
+    def readPostBuildVariantCriterionValueSet(self, element: ET.Element, value_set: PostBuildVariantCriterionValueSet) -> PostBuildVariantCriterionValueSet:
+        self.readIdentifiable(element, value_set)
+        for child_element in self.findall(element, "POST-BUILD-VARIANT-CRITERION-VALUES/POST-BUILD-VARIANT-CRITERION-VALUE"):
+            value = PostBuildVariantCriterionValue()
+            self.readPostBuildVariantCriterionValue(child_element, value)
+            value_set.addPostBuildVariantCriterionValue(value)
+        return value_set
+
+    def readLogAndTraceMessageCollectionSet(self, element: ET.Element, collection_set: LogAndTraceMessageCollectionSet) -> LogAndTraceMessageCollectionSet:
+        self.readIdentifiable(element, collection_set)
+        for child_element in self.findall(element, "DLT-MESSAGES/DLT-MESSAGE"):
+            message = DltMessage(collection_set, self.getShortName(child_element))
+            self.readDltMessage(child_element, message)
+            collection_set.addDltMessage(message)
+        return collection_set
+
+    def readIdsmSignatureSupportAp(self, element: ET.Element, signature_support: IdsmSignatureSupportAp) -> IdsmSignatureSupportAp:
+        self.readARObject(element, signature_support)
+        signature_support.setCryptoPrimitive(self.getChildElementOptionalString(element, "CRYPTO-PRIMITIVE"))
+        signature_support.setKeySlotRef(self.getChildElementOptionalRefType(element, "KEY-SLOT-REF"))
+        return signature_support
+
+    def readIdsmSignatureSupportCp(self, element: ET.Element, signature_support: IdsmSignatureSupportCp) -> IdsmSignatureSupportCp:
+        self.readARObject(element, signature_support)
+        signature_support.setAuthenticationRef(self.getChildElementOptionalRefType(element, "AUTHENTICATION-REF"))
+        signature_support.setCryptoServiceKeyRef(self.getChildElementOptionalRefType(element, "CRYPTO-SERVICE-KEY-REF"))
+        return signature_support
+
+    def readSecurityEventContextData(self, element: ET.Element, context_data: SecurityEventContextData) -> SecurityEventContextData:
+        self.readARObject(element, context_data)
+        self.readVariationPointCapable(element, context_data)
+        return context_data
 
     def readIdsmProperties(self, element: ET.Element, idsm_properties: IdsmProperties) -> IdsmProperties:
         self.readIdentifiable(element, idsm_properties)
@@ -19685,6 +19721,12 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "IDSM-PROPERTIES":
                 idsm_properties = parent.createIdsmProperties(self.getShortName(child_element))
                 self.readIdsmProperties(child_element, idsm_properties)
+            elif tag_name == "POST-BUILD-VARIANT-CRITERION-VALUE-SET":
+                value_set = parent.createPostBuildVariantCriterionValueSet(self.getShortName(child_element))
+                self.readPostBuildVariantCriterionValueSet(child_element, value_set)
+            elif tag_name == "LOG-AND-TRACE-MESSAGE-COLLECTION-SET":
+                collection_set = parent.createLogAndTraceMessageCollectionSet(self.getShortName(child_element))
+                self.readLogAndTraceMessageCollectionSet(child_element, collection_set)
             elif tag_name == "FM-FEATURE":
                 feature = parent.createFMFeature(self.getShortName(child_element))
                 self.readFMFeature(child_element, feature)

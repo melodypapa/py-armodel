@@ -2365,6 +2365,20 @@ class ARPackage(CollectableElement, VariationPointCapable):
         return cast(VfbTiming, self.getReferrableElement(short_name, VfbTiming))
 
 
+    def createLogAndTraceMessageCollectionSet(self, short_name: str) -> LogAndTraceMessageCollectionSet:
+
+        if not self.IsReferrableElementExists(short_name, LogAndTraceMessageCollectionSet):
+            collection_set = LogAndTraceMessageCollectionSet(self, short_name)
+            self.addReferrableElement(collection_set)
+        return cast(LogAndTraceMessageCollectionSet, self.getReferrableElement(short_name, LogAndTraceMessageCollectionSet))
+
+    def createPostBuildVariantCriterionValueSet(self, short_name: str) -> PostBuildVariantCriterionValueSet:
+
+        if not self.IsReferrableElementExists(short_name, PostBuildVariantCriterionValueSet):
+            value_set = PostBuildVariantCriterionValueSet(self, short_name)
+            self.addReferrableElement(value_set)
+        return cast(PostBuildVariantCriterionValueSet, self.getReferrableElement(short_name, PostBuildVariantCriterionValueSet))
+
     def createIdsmProperties(self, short_name: str) -> IdsmProperties:
 
         if not self.IsReferrableElementExists(short_name, IdsmProperties):
@@ -5227,6 +5241,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     SdgDef,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (  # noqa: E402
+    PostBuildVariantCriterionValue,  # noqa: F401
     EvaluatedVariantSet,
     PostBuildVariantCriterion,
     PredefinedVariant,
@@ -5268,7 +5283,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import
     SenderReceiverInterface,
     TriggerInterface,
 )
-from armodel.models.M2.AUTOSARTemplates.LogAndTraceExtract import DltContext, DltEcu  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.LogAndTraceExtract import DltContext, DltEcu, DltMessage  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm import DiagnosticAccessPermission, DiagnosticSecurityLevel, DiagnosticSession  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.EnvironmentalCondition import DiagnosticEnvironmentalCondition  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.MeasurementAndCalibration.InterpolationRoutineMappingSet import InterpolationRoutineMappingSet  # noqa: E402
@@ -11969,7 +11984,35 @@ class PhysicalDimensionMappingSet(ARElement):
 
 
 class PostBuildVariantCriterionValueSet(ARElement):
-    pass
+    """
+    This meta-class represents the ability to denote a set of values for postbuild variant criterions. Tags: atp.recommendedPackage=PostBuildVariantCriterionValueSets
+    """
+
+    # PostBuildVariantCriterionValueSet method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf, Table 6.6, p.56
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addPostBuildVariantCriterionValue  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPostBuildVariantCriterionValues [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This is one particular value of a post build variant criterion.
+        self.postBuildVariantCriterionValues: List[PostBuildVariantCriterionValue] = []
+
+    def addPostBuildVariantCriterionValue(self, value: PostBuildVariantCriterionValue) -> PostBuildVariantCriterionValueSet:
+        """
+        This is one particular value of a post build variant criterion.
+        """
+        self.postBuildVariantCriterionValues.append(value)
+        return self
+
+    def getPostBuildVariantCriterionValues(self) -> List[PostBuildVariantCriterionValue]:
+        """
+        This is one particular value of a post build variant criterion.
+        """
+        return self.postBuildVariantCriterionValues
 
 
 class SecurityEventContextMappingApplication(ARElement):
@@ -12102,7 +12145,35 @@ class IdsmProperties(IdsCommonElement):
 
 
 class LogAndTraceMessageCollectionSet(ARElement):
-    pass
+    """
+    This meta-class represents the ability to configure a collection of DltMessages. Tags: atp.recommendedPackage=LogAndTraceMessageCollectionSets
+    """
+
+    # LogAndTraceMessageCollectionSet method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_LogAndTraceExtract.pdf, Table 3.1, p.12
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addDltMessage         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDltMessages        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This is a DltMessage to be collected.
+        self.dltMessages: List[DltMessage] = []
+
+    def addDltMessage(self, value: DltMessage) -> LogAndTraceMessageCollectionSet:
+        """
+        This is a DltMessage to be collected.
+        """
+        self.dltMessages.append(value)
+        return self
+
+    def getDltMessages(self) -> List[DltMessage]:
+        """
+        This is a DltMessage to be collected.
+        """
+        return self.dltMessages
 
 
 class TransformationPropsSet(ARElement):

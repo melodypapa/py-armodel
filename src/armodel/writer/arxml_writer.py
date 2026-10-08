@@ -424,7 +424,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (
     EvaluatedVariantSet,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, IdsmProperties, FMFeature, FMFeatureMap, FMFeatureModel, FMFeatureSelectionSet, ReferenceBase
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, LogAndTraceMessageCollectionSet, PostBuildVariantCriterionValueSet, IdsmProperties, FMFeature, FMFeatureMap, FMFeatureModel, FMFeatureSelectionSet, ReferenceBase
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import AclObjectSet, AclOperation, AclPermission, AclRole
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import DiagnosticCustomServiceInstance, DiagnosticMapping
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
@@ -542,6 +542,9 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     FMAttributeValue,
+    IdsmSignatureSupportAp,
+    IdsmSignatureSupportCp,
+    SecurityEventContextData,
     FMFeatureDecomposition,
     AbstractGlobalTimeDomainProps,
     CalibrationParameterValue,
@@ -2169,6 +2172,46 @@ class ARXMLWriter(AbstractARXMLWriter):
                 for value in attribute_values:
                     self.writeFMAttributeValue(values_tag, value)
 
+
+    def writePostBuildVariantCriterionValueSet(self, element: ET.Element, value_set: PostBuildVariantCriterionValueSet):
+        if value_set is not None:
+            child_element = ET.SubElement(element, "POST-BUILD-VARIANT-CRITERION-VALUE-SET")
+            self.writeIdentifiable(child_element, value_set)
+            values = value_set.getPostBuildVariantCriterionValues()
+            if len(values) > 0:
+                values_tag = ET.SubElement(child_element, "POST-BUILD-VARIANT-CRITERION-VALUES")
+                for value in values:
+                    self.writePostBuildVariantCriterionValue(values_tag, value)
+
+    def writeLogAndTraceMessageCollectionSet(self, element: ET.Element, collection_set: LogAndTraceMessageCollectionSet):
+        if collection_set is not None:
+            child_element = ET.SubElement(element, "LOG-AND-TRACE-MESSAGE-COLLECTION-SET")
+            self.writeIdentifiable(child_element, collection_set)
+            messages = collection_set.getDltMessages()
+            if len(messages) > 0:
+                messages_tag = ET.SubElement(child_element, "DLT-MESSAGES")
+                for message in messages:
+                    self.writeDltMessage(messages_tag, message)
+
+    def writeIdsmSignatureSupportAp(self, element: ET.Element, signature_support: IdsmSignatureSupportAp, key: str = "SIGNATURE-SUPPORT-AP"):
+        if signature_support is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, signature_support)
+            self.setChildElementOptionalString(child_element, "CRYPTO-PRIMITIVE", signature_support.getCryptoPrimitive())
+            self.setChildElementOptionalRefType(child_element, "KEY-SLOT-REF", signature_support.getKeySlotRef())
+
+    def writeIdsmSignatureSupportCp(self, element: ET.Element, signature_support: IdsmSignatureSupportCp, key: str = "SIGNATURE-SUPPORT-CP"):
+        if signature_support is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, signature_support)
+            self.setChildElementOptionalRefType(child_element, "AUTHENTICATION-REF", signature_support.getAuthenticationRef())
+            self.setChildElementOptionalRefType(child_element, "CRYPTO-SERVICE-KEY-REF", signature_support.getCryptoServiceKeyRef())
+
+    def writeSecurityEventContextData(self, element: ET.Element, context_data: SecurityEventContextData):
+        if context_data is not None:
+            child_element = ET.SubElement(element, "SECURITY-EVENT-CONTEXT-DATA")
+            self.writeARObject(child_element, context_data)
+            self.writeVariationPointCapable(child_element, context_data)
 
     def writeIdsmProperties(self, element: ET.Element, idsm_properties: IdsmProperties):
         if idsm_properties is not None:
@@ -20169,6 +20212,10 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeSwcTiming(element, ar_element)
         elif isinstance(ar_element, IdsmProperties):
             self.writeIdsmProperties(element, ar_element)
+        elif isinstance(ar_element, PostBuildVariantCriterionValueSet):
+            self.writePostBuildVariantCriterionValueSet(element, ar_element)
+        elif isinstance(ar_element, LogAndTraceMessageCollectionSet):
+            self.writeLogAndTraceMessageCollectionSet(element, ar_element)
         elif isinstance(ar_element, VfbTiming):
             self.writeVfbTiming(element, ar_element)
         elif isinstance(ar_element, FMFeature):
