@@ -233,25 +233,24 @@ class NmNode(Identifiable, VariationPointCapable, ABC):
 
     # NmNode method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.303, p.676
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getControllerRef                                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setControllerRef                                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getNmCoordCluster                                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setNmCoordCluster                                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getNmCoordinatorRole                               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setNmCoordinatorRole                               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getNmIfEcuRef                                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setNmIfEcuRef                                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getNmNodeId                                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setNmNodeId                                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getNmPassiveModeEnabled                            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setNmPassiveModeEnabled                            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] addRxNmPduRef                                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getRxNmPduRefs                                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addTxNmPduRef                                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTxNmPduRefs                                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getControllerRef                                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setControllerRef                                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNmCoordCluster                                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmCoordCluster                                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNmCoordinatorRole                              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmCoordinatorRole                              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNmIfEcuRef                                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmIfEcuRef                                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNmNodeId                                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmNodeId                                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNmPassiveModeEnabled                           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmPassiveModeEnabled                           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addRxNmPduRef                                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRxNmPduRefs                                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addTxNmPduRef                                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTxNmPduRefs                                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is NmNode:
@@ -376,8 +375,10 @@ class NmNode(Identifiable, VariationPointCapable, ABC):
     def addRxNmPduRef(self, ref: RefType) -> NmNode:
         """
         receive NM Pdu.
+        A None value is a no-op and does not extend the rxNmPduRefs list.
         """
-        self.rxNmPduRefs.append(ref)
+        if ref is not None:
+            self.rxNmPduRefs.append(ref)
         return self
 
     def getRxNmPduRefs(self) -> List[RefType]:
@@ -389,8 +390,10 @@ class NmNode(Identifiable, VariationPointCapable, ABC):
     def addTxNmPduRef(self, ref: RefType) -> NmNode:
         """
         transmit NM Pdu
+        A None value is a no-op and does not extend the txNmPduRefs list.
         """
-        self.txNmPduRefs.append(ref)
+        if ref is not None:
+            self.txNmPduRefs.append(ref)
         return self
 
     def getTxNmPduRefs(self) -> List[RefType]:

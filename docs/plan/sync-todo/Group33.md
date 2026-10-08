@@ -1436,15 +1436,32 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `NmNode` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 6.303, p.676
   - module: M2/AUTOSARTemplates/SystemTemplate/NetworkManagement.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note: drift re-sync of a pre-existing implementation — legacy 5-column checklist + stale
+    `# Spec verified: R23-11` marker removed at session start (Rule 0023/0012.3). Table 6.303 is
+    page-split (p.675-676); Base row most-derived = Identifiable (hint confirmed); abstract
+    (TypeError guard kept). 9 attrs in displayed order (controller → controllerRef, nmCoordCluster,
+    nmCoordinatorRole — the enum synced in the preceding commit per the order adjustment —
+    nmIfEcu → nmIfEcuRef, nmNodeId, nmPassiveModeEnabled, rxNmPdu `*` → rxNmPduRefs, txNmPdu `*`
+    → txNmPduRefs); verbatim Notes incl. the markdown's "Nm Node" spacing and "transmit NM Pdu"
+    without the trailing period. VARIATION-POINT in the NM-NODE group (Applicable for:
+    NmCluster.nmNode) → VariationPointCapable mixin confirmed. Rule 0004 fix: addRxNmPduRef/
+    addTxNmPduRef gained the None no-op guard (previously appended None). XSD-only MACHINE-REF
+    (mmt.RestrictToStandards="AP") absent from the CP table — NOT modeled (Rule 0015); reader
+    ignores it (pinned by test). Step 6 finding: writeNmNode deliberately does NOT write
+    VARIATION-POINT — the element (sequenceOffset=10000) is emitted by the concrete-element
+    writers (writeCanNmNode/writeUdpNmNode/writeJ1939NmNode/writeFlexrayNmNode) after all
+    subclass elements; a base-level write was tried and reverted (double emission + wrong order,
+    caught by the CanNmNode/UdpNmNode VP-last tests); VP round-trip is covered through the
+    concrete path in the new tests. Mirrored test_NmNode.py + parser/writer test_nm_node.py added.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `NmCoordinatorRoleEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 6.304, p.676
   - module: M2/AUTOSARTemplates/SystemTemplate/NetworkManagement.py
