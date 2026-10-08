@@ -19291,12 +19291,17 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setTransmissionModeTiming(child_element, "TRANSMISSION-MODE-FALSE-TIMING", decl.getTransmissionModeFalseTiming())
             self.setTransmissionModeTiming(child_element, "TRANSMISSION-MODE-TRUE-TIMING", decl.getTransmissionModeTrueTiming())
 
+    def writeIPduTiming(self, element: ET.Element, timing: IPduTiming):
+        self.writeDescribable(element, timing)
+        self.setChildElementOptionalTimeValue(element, "MINIMUM-DELAY", timing.getMinimumDelay())
+        self.setTransmissionModeDeclaration(element, "TRANSMISSION-MODE-DECLARATION", timing.getTransmissionModeDeclaration())
+        self.writeVariationPointCapable(element, timing)
+
     def setISignalIPduIPduTimingSpecification(self, element: ET.Element, timing: Optional[IPduTiming]):
         if timing is not None:
             spec_tag = ET.SubElement(element, "I-PDU-TIMING-SPECIFICATIONS")
             child_element = ET.SubElement(spec_tag, "I-PDU-TIMING")
-            self.setChildElementOptionalTimeValue(child_element, "MINIMUM-DELAY", timing.getMinimumDelay())
-            self.setTransmissionModeDeclaration(child_element, "TRANSMISSION-MODE-DECLARATION", timing.getTransmissionModeDeclaration())
+            self.writeIPduTiming(child_element, timing)
 
     def writeISignalIPdu(self, element: ET.Element, ipdu: ISignalIPdu):
         self.logger.debug("ISignalIPdu %s" % ipdu.getShortName())

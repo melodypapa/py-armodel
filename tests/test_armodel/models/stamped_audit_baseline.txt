@@ -127,7 +127,6 @@ HwCategory
 HwElement
 HwPortMapping
 IPSecConfig
-IPduTiming
 Identifiable
 ImplementationElementInParameterInstanceRef
 InnerDataPrototypeGroupInCompositionInstanceRef

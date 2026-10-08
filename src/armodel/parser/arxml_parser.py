@@ -17717,13 +17717,18 @@ class ARXMLParser(AbstractARXMLParser):
             decl.setTransmissionModeTrueTiming(self.getTransmissionModeTiming(child_element, "TRANSMISSION-MODE-TRUE-TIMING"))
         return decl
 
+    def readIPduTiming(self, element: ET.Element, timing: IPduTiming):
+        self.readDescribable(element, timing)
+        timing.setMinimumDelay(self.getChildElementOptionalTimeValue(element, "MINIMUM-DELAY"))
+        timing.setTransmissionModeDeclaration(self.getTransmissionModeDeclaration(element, "TRANSMISSION-MODE-DECLARATION"))
+        self.readVariationPointCapable(element, timing)
+
     def getISignalIPduIPduTimingSpecification(self, element: ET.Element) -> Optional[IPduTiming]:
         timing = None
         child_element = self.find(element, "I-PDU-TIMING-SPECIFICATIONS/I-PDU-TIMING")
         if child_element is not None:
             timing = IPduTiming()
-            timing.setMinimumDelay(self.getChildElementOptionalTimeValue(child_element, "MINIMUM-DELAY"))
-            timing.setTransmissionModeDeclaration(self.getTransmissionModeDeclaration(child_element, "TRANSMISSION-MODE-DECLARATION"))
+            self.readIPduTiming(child_element, timing)
         return timing
 
     def readDoIpConfig(self, element: ET.Element, config: DoIpConfig):
