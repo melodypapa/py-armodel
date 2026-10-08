@@ -1213,7 +1213,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Obso
     SoAdRoutingGroup,
     SocketConnection,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import GenericEthernetFrame
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import EthernetFrameTriggering, GenericEthernetFrame, Ieee1722TpEthernetFrame, UserDefinedEthernetFrame
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
     CouplingElement,
     CouplingElementAbstractDetails,
@@ -1325,16 +1325,16 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication impor
     TlsVersionEnum,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanControllerConfiguration, CanXlProps
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import (
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.BusMirror import (
     BusMirrorChannel,
     BusMirrorChannelMapping,
     BusMirrorChannelMappingCan,
     BusMirrorChannelMappingFlexray,
     BusMirrorChannelMappingIp,
     BusMirrorChannelMappingUserDefined,
+    MirroringProtocolEnum,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import BusMirrorCanIdRangeMapping, BusMirrorCanIdToCanIdMapping, BusMirrorLinPidToCanIdMapping
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import MirroringProtocolEnum
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import CommunicationDirectionType
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Dds import DdsCpISignalToDdsTopicMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
@@ -1437,7 +1437,6 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommu
     DcmIPdu,
     DynamicPart,
     DynamicPartAlternative,
-    EthernetFrameTriggering,
     Frame,
     FramePort,
     FrameTriggering,
@@ -1624,10 +1623,26 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import
     FlexrayTpPduPool,
     IEEE1722TpConfig,
     IEEE1722TpConnection,
+    IEEE1722TpAcfBus,
+    IEEE1722TpAcfConnection,
     IEEE1722TpAvConnection,
+    IEEE1722TpAafConnection,
+    IEEE1722TpAafAes3DataTypeEnum,
+    IEEE1722TpAafFormatEnum,
+    IEEE1722TpAafNominalRateEnum,
     IEEE1722TpCrfConnection,
     IEEE1722TpCrfPullEnum,
     IEEE1722TpCrfTypeEnum,
+    IEEE1722TpIidcConnection,
+    IEEE1722TpRvfColorSpaceEnum,
+    IEEE1722TpRvfConnection,
+    IEEE1722TpRvfFrameRateEnum,
+    IEEE1722TpRvfPixelDepthEnum,
+    IEEE1722TpRvfPixelFormatEnum,
+    J1939TpConfig,
+    J1939TpConnection,
+    J1939TpNode,
+    J1939TpPg,
     LinTpConfig,
     LinTpConnection,
     LinTpNode,
@@ -1638,6 +1653,15 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import
     TpAckType,
     TpAddress,
     TpConfig,
+)
+
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols.IEEE1722Tp.IEEE1722TpAcf import (
+    IEEE1722TpAcfBusPart,
+    IEEE1722TpAcfCan,
+    IEEE1722TpAcfCanMessageTypeEnum,
+    IEEE1722TpAcfCanPart,
+    IEEE1722TpAcfLin,
+    IEEE1722TpAcfLinPart,
 )
 from armodel.models.M2.MSR.AsamHdo.AdminData import AdminData, DocRevision, Modification
 from armodel.models.M2.MSR.AsamHdo.BaseTypes import BaseTypeDirectDefinition, SwBaseType
@@ -2225,6 +2249,7 @@ class ARXMLParser(AbstractARXMLParser):
         node_name = None
         if child_element is not None:
             node_name = J1939NodeName()
+            self.readARObject(child_element, node_name)
             node_name.setArbitraryAddressCapable(self.getChildElementOptionalBooleanValue(child_element, "ARBITRARY-ADDRESS-CAPABLE"))
             node_name.setEcuInstance(self.getChildElementOptionalIntegerValue(child_element, "ECU-INSTANCE"))
             node_name.setFunction(self.getChildElementOptionalIntegerValue(child_element, "FUNCTION"))
@@ -10241,6 +10266,8 @@ class ARXMLParser(AbstractARXMLParser):
         if child_element is not None:
             channel = BusMirrorChannel()
             self.readARObject(child_element, channel)
+            channel.setBusMirrorNetworkId(self.getChildElementOptionalPositiveInteger(child_element, "BUS-MIRROR-NETWORK-ID"))
+            channel.setChannelRef(self.getChildElementOptionalRefType(child_element, "CHANNELS/PHYSICAL-CHANNEL-REF-CONDITIONAL/PHYSICAL-CHANNEL-REF"))
         return channel
 
     def readBusMirrorCanIdRangeMapping(self, element: ET.Element, mapping: BusMirrorCanIdRangeMapping):
@@ -10262,7 +10289,11 @@ class ARXMLParser(AbstractARXMLParser):
     def readBusMirrorChannelMapping(self, element: ET.Element, mapping: BusMirrorChannelMapping):
         self.logger.debug("Read BusMirrorChannelMapping <%s>" % mapping.getShortName())
         self.readIdentifiable(element, mapping)
-        mapping.setMirroringProtocol(cast(Optional[MirroringProtocolEnum], self.getChildElementOptionalLiteral(element, "MIRRORING-PROTOCOL")))
+        mirroring_protocol_literal = self.getChildElementOptionalLiteral(element, "MIRRORING-PROTOCOL")
+        if mirroring_protocol_literal is not None:
+            mirroring_protocol = MirroringProtocolEnum()
+            mirroring_protocol.setValue(mirroring_protocol_literal.getValue())
+            mapping.setMirroringProtocol(mirroring_protocol)
         mapping.setSourceChannel(self.getBusMirrorChannel(element, "SOURCE-CHANNEL"))
         mapping.setTargetChannel(self.getBusMirrorChannel(element, "TARGET-CHANNEL"))
         for child_element in self.findall(element, "TARGET-PDU-TRIGGERINGS/PDU-TRIGGERING-REF-CONDITIONAL"):
@@ -14205,7 +14236,11 @@ class ARXMLParser(AbstractARXMLParser):
     def readJ1939NmNode(self, element: ET.Element, nm_node: J1939NmNode):
         self.logger.debug("Read J1939NmNode <%s>" % nm_node.getShortName())
         self.readNmNode(element, nm_node)
-        nm_node.setAddressConfigurationCapability(cast(Optional[J1939NmAddressConfigurationCapabilityEnum], self.getChildElementOptionalLiteral(element, "ADDRESS-CONFIGURATION-CAPABILITY")))
+        capability_literal = self.getChildElementOptionalLiteral(element, "ADDRESS-CONFIGURATION-CAPABILITY")
+        if capability_literal is not None:
+            capability = J1939NmAddressConfigurationCapabilityEnum()
+            capability.setValue(capability_literal.getValue())
+            nm_node.setAddressConfigurationCapability(capability)
         nm_node.setNodeName(self.getJ1939NodeName(element, "NODE-NAME"))
 
     def readNmClusterNmNodes(self, element: ET.Element, cluster: NmCluster):
@@ -14354,7 +14389,7 @@ class ARXMLParser(AbstractARXMLParser):
         ecu.setNmMainFunctionAcrossFrCycle(self.getChildElementOptionalBooleanValue(element, "NM-MAIN-FUNCTION-ACROSS-FR-CYCLE"))
 
     def readCanNmEcu(self, element: ET.Element, ecu: CanNmEcu):
-        pass
+        self.readARObject(element, ecu)
 
     def readJ1939NmEcu(self, element: ET.Element, ecu: J1939NmEcu):
         pass
@@ -14384,7 +14419,7 @@ class ARXMLParser(AbstractARXMLParser):
     def readNmCoordinator(self, element: ET.Element, coordinator: NmCoordinator):
         self.readARObject(element, coordinator)
         for ref in self.getChildElementRefTypeList(element, "NM-NODE-REFS/NM-NODE-REF"):
-            coordinator.addNmNode(ref)
+            coordinator.addNmNodeRef(ref)
         coordinator.setIndex(self.getChildElementOptionalIntegerValue(element, "INDEX"))
         coordinator.setNmCoordSyncSupport(self.getChildElementOptionalBooleanValue(element, "NM-COORD-SYNC-SUPPORT"))
         coordinator.setNmGlobalCoordinatorTime(self.getChildElementOptionalTimeValue(element, "NM-GLOBAL-COORDINATOR-TIME"))
@@ -14460,7 +14495,7 @@ class ARXMLParser(AbstractARXMLParser):
             ident = connection.createTpConnectionIdent(self.getShortName(child_element))
             self.readReferrable(child_element, ident)
 
-    def readTpConnectionReceiverRefs(self, element: ET.Element, connection: Union[CanTpConnection, FlexrayTpConnection, LinTpConnection]):
+    def readTpConnectionReceiverRefs(self, element: ET.Element, connection: Union[CanTpConnection, FlexrayTpConnection, J1939TpConnection, LinTpConnection]):
         for ref in self.getChildElementRefTypeList(element, "RECEIVER-REFS/RECEIVER-REF"):
             connection.addReceiverRef(ref)
 
@@ -14547,6 +14582,82 @@ class ARXMLParser(AbstractARXMLParser):
     def readTpAddress(self, element: ET.Element, address: TpAddress):
         self.readIdentifiable(element, address)
         address.setTpAddress(self.getChildElementOptionalIntegerValue(element, "TP-ADDRESS"))
+
+    def readJ1939TpConnection(self, element: ET.Element, connection: J1939TpConnection):
+        self.readTpConnection(element, connection)
+        connection.setBroadcast(self.getChildElementOptionalBooleanValue(element, "BROADCAST"))
+        connection.setBufferRatio(self.getChildElementOptionalPositiveInteger(element, "BUFFER-RATIO"))
+        connection.setCancellation(self.getChildElementOptionalBooleanValue(element, "CANCELLATION"))
+        connection.setDataPduRef(self.getChildElementOptionalRefType(element, "DATA-PDU-REF"))
+        connection.setDynamicBs(self.getChildElementOptionalBooleanValue(element, "DYNAMIC-BS"))
+        for ref in self.getChildElementRefTypeList(element, "FLOW-CONTROL-PDU-REFS/FLOW-CONTROL-PDU-REF"):
+            connection.addFlowControlPduRef(ref)
+        connection.setMaxBs(self.getChildElementOptionalPositiveInteger(element, "MAX-BS"))
+        connection.setMaxExpBs(self.getChildElementOptionalPositiveInteger(element, "MAX-EXP-BS"))
+        self.readTpConnectionReceiverRefs(element, connection)
+        connection.setRetry(self.getChildElementOptionalBooleanValue(element, "RETRY"))
+        self.readJ1939TpConnectionTpPgs(element, connection)
+        connection.setTransmitterRef(self.getChildElementOptionalRefType(element, "TRANSMITTER-REF"))
+        self.readVariationPointCapable(element, connection)
+
+    def readJ1939TpConnectionTpPgs(self, element: ET.Element, connection: J1939TpConnection):
+        for child_element in self.findall(element, "TP-PGS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "J-1939-TP-PG":
+                tp_pg = J1939TpPg()
+                self.readJ1939TpPg(child_element, tp_pg)
+                connection.addTpPg(tp_pg)
+            else:
+                self.notImplemented("Unsupported TpPg <%s>" % tag_name)
+
+    def readJ1939TpConfigTpAddresses(self, element: ET.Element, config: J1939TpConfig):
+        for child_element in self.findall(element, "TP-ADDRESSS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "TP-ADDRESS":
+                address = config.createTpAddress(self.getShortName(child_element))
+                self.readTpAddress(child_element, address)
+            else:
+                self.notImplemented("Unsupported TpAddress <%s>" % tag_name)
+
+    def readJ1939TpConfigTpConnections(self, element: ET.Element, config: J1939TpConfig):
+        for child_element in self.findall(element, "TP-CONNECTIONS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "J-1939-TP-CONNECTION":
+                connection = J1939TpConnection()
+                self.readJ1939TpConnection(child_element, connection)
+                config.addTpConnection(connection)
+            else:
+                self.notImplemented("Unsupported TpConnection <%s>" % tag_name)
+
+    def readJ1939TpNode(self, element: ET.Element, tp_node: J1939TpNode):
+        self.readIdentifiable(element, tp_node)
+        tp_node.setConnectorRef(self.getChildElementOptionalRefType(element, "CONNECTOR-REF"))
+        tp_node.setTpAddressRef(self.getChildElementOptionalRefType(element, "TP-ADDRESS-REF"))
+        self.readVariationPointCapable(element, tp_node)
+
+    def readJ1939TpPg(self, element: ET.Element, tp_pg: J1939TpPg):
+        self.readARObject(element, tp_pg)
+        tp_pg.setDirectPduRef(self.getChildElementOptionalRefType(element, "DIRECT-PDU-REF"))
+        tp_pg.setPgn(self.getChildElementOptionalIntegerValue(element, "PGN"))
+        tp_pg.setRequestable(self.getChildElementOptionalBooleanValue(element, "REQUESTABLE"))
+        for ref in self.getChildElementRefTypeList(element, "SDU-REFS/SDU-REF"):
+            tp_pg.addSduRef(ref)
+
+    def readJ1939TpConfigTpNodes(self, element: ET.Element, config: J1939TpConfig):
+        for child_element in self.findall(element, "TP-NODES/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "J-1939-TP-NODE":
+                tp_node = config.createJ1939TpNode(self.getShortName(child_element))
+                self.readJ1939TpNode(child_element, tp_node)
+            else:
+                self.notImplemented("Unsupported TpNode <%s>" % tag_name)
+
+    def readJ1939TpConfig(self, element: ET.Element, config: J1939TpConfig):
+        self.logger.debug("Read J1939TpConfig <%s>" % config.getShortName())
+        self.readTpConfig(element, config)
+        self.readJ1939TpConfigTpAddresses(element, config)
+        self.readJ1939TpConfigTpConnections(element, config)
+        self.readJ1939TpConfigTpNodes(element, config)
 
     def readLinTpConfigTpAddresses(self, element: ET.Element, config: LinTpConfig):
         for child_element in self.findall(element, "TP-ADDRESSS/*"):
@@ -14842,6 +14953,9 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readSomeipTpChannel(self, element: ET.Element, channel: SomeipTpChannel):
         self.readIdentifiable(element, channel)
+        channel.setBurstSize(self.getChildElementOptionalPositiveInteger(element, "BURST-SIZE"))
+        channel.setRxTimeoutTime(self.getChildElementOptionalTimeValue(element, "RX-TIMEOUT-TIME"))
+        channel.setSeparationTime(self.getChildElementOptionalTimeValue(element, "SEPARATION-TIME"))
 
     def readSomeipTpConfigTpChannels(self, element: ET.Element, config: SomeipTpConfig):
         for child_element in self.findall(element, "TP-CHANNELS/*"):
@@ -14854,6 +14968,9 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readSomeipTpConnection(self, element: ET.Element, connection: SomeipTpConnection):
         self.readARObject(element, connection)
+        connection.setTpChannelRef(self.getChildElementOptionalRefType(element, "TP-CHANNEL-REF"))
+        connection.setTpSduRef(self.getChildElementOptionalRefType(element, "TP-SDU-REF"))
+        connection.setTransportPduRef(self.getChildElementOptionalRefType(element, "TRANSPORT-PDU-REF"))
 
     def readSomeipTpConfigTpConnections(self, element: ET.Element, config: SomeipTpConfig):
         for child_element in self.findall(element, "TP-CONNECTIONS/*"):
@@ -14910,6 +15027,142 @@ class ARXMLParser(AbstractARXMLParser):
             connection.setCrfType(crf_type)
         connection.setFrameSyncEnabled(self.getChildElementOptionalBooleanValue(element, "FRAME-SYNC-ENABLED"))
         connection.setTimestampInterval(self.getChildElementOptionalPositiveInteger(element, "TIMESTAMP-INTERVAL"))
+
+    def readIEEE1722TpAafConnection(self, element: ET.Element, connection: IEEE1722TpAafConnection):
+        self.readIEEE1722TpAvConnection(element, connection)
+        aes3_data_type_literal = self.getChildElementOptionalLiteral(element, "AAF-AES-3-DATA-TYPE")
+        if aes3_data_type_literal is not None:
+            aes3_data_type = IEEE1722TpAafAes3DataTypeEnum()
+            aes3_data_type.setValue(aes3_data_type_literal.getValue())
+            connection.setAafAes3DataType(aes3_data_type)
+        aaf_format_literal = self.getChildElementOptionalLiteral(element, "AAF-FORMAT")
+        if aaf_format_literal is not None:
+            aaf_format = IEEE1722TpAafFormatEnum()
+            aaf_format.setValue(aaf_format_literal.getValue())
+            connection.setAafFormat(aaf_format)
+        aaf_nominal_rate_literal = self.getChildElementOptionalLiteral(element, "AAF-NOMINAL-RATE")
+        if aaf_nominal_rate_literal is not None:
+            aaf_nominal_rate = IEEE1722TpAafNominalRateEnum()
+            aaf_nominal_rate.setValue(aaf_nominal_rate_literal.getValue())
+            connection.setAafNominalRate(aaf_nominal_rate)
+        connection.setAes3DataTypeH(self.getChildElementOptionalPositiveInteger(element, "AES-3-DATA-TYPE-H"))
+        connection.setAes3DataTypeL(self.getChildElementOptionalPositiveInteger(element, "AES-3-DATA-TYPE-L"))
+        connection.setChannelsPerFrame(self.getChildElementOptionalPositiveInteger(element, "CHANNELS-PER-FRAME"))
+        connection.setEventDefaultValue(self.getChildElementOptionalPositiveInteger(element, "EVENT-DEFAULT-VALUE"))
+        connection.setPcmBitDepth(self.getChildElementOptionalPositiveInteger(element, "PCM-BIT-DEPTH"))
+        connection.setSparseTimestampEnabled(self.getChildElementOptionalBooleanValue(element, "SPARSE-TIMESTAMP-ENABLED"))
+        connection.setStreamsPerFrame(self.getChildElementOptionalPositiveInteger(element, "STREAMS-PER-FRAME"))
+
+    def readIEEE1722TpIidcConnection(self, element: ET.Element, connection: IEEE1722TpIidcConnection):
+        self.readIEEE1722TpAvConnection(element, connection)
+        connection.setIidcChannel(self.getChildElementOptionalPositiveInteger(element, "IIDC-CHANNEL"))
+        connection.setIidcDataBlockSize(self.getChildElementOptionalPositiveInteger(element, "IIDC-DATA-BLOCK-SIZE"))
+        connection.setIidcFractionNumber(self.getChildElementOptionalPositiveInteger(element, "IIDC-FRACTION-NUMBER"))
+        connection.setIidcSourcePacketHeader(self.getChildElementOptionalBooleanValue(element, "IIDC-SOURCE-PACKET-HEADER"))
+        connection.setIidcStreamFormat(self.getChildElementOptionalPositiveInteger(element, "IIDC-STREAM-FORMAT"))
+        connection.setIidcSy(self.getChildElementOptionalPositiveInteger(element, "IIDC-SY"))
+        connection.setIidcTCode(self.getChildElementOptionalPositiveInteger(element, "IIDC-T-CODE"))
+        connection.setIidcTag(self.getChildElementOptionalPositiveInteger(element, "IIDC-TAG"))
+
+    def readIEEE1722TpRvfConnection(self, element: ET.Element, connection: IEEE1722TpRvfConnection):
+        self.readIEEE1722TpAvConnection(element, connection)
+        connection.setRvfActivePixels(self.getChildElementOptionalPositiveInteger(element, "RVF-ACTIVE-PIXELS"))
+        rvf_color_space_literal = self.getChildElementOptionalLiteral(element, "RVF-COLOR-SPACE")
+        if rvf_color_space_literal is not None:
+            rvf_color_space = IEEE1722TpRvfColorSpaceEnum()
+            rvf_color_space.setValue(rvf_color_space_literal.getValue())
+            connection.setRvfColorSpace(rvf_color_space)
+        connection.setRvfEventDefault(self.getChildElementOptionalPositiveInteger(element, "RVF-EVENT-DEFAULT"))
+        rvf_frame_rate_literal = self.getChildElementOptionalLiteral(element, "RVF-FRAME-RATE")
+        if rvf_frame_rate_literal is not None:
+            rvf_frame_rate = IEEE1722TpRvfFrameRateEnum()
+            rvf_frame_rate.setValue(rvf_frame_rate_literal.getValue())
+            connection.setRvfFrameRate(rvf_frame_rate)
+        connection.setRvfInterlaced(self.getChildElementOptionalBooleanValue(element, "RVF-INTERLACED"))
+        rvf_pixel_depth_literal = self.getChildElementOptionalLiteral(element, "RVF-PIXEL-DEPTH")
+        if rvf_pixel_depth_literal is not None:
+            rvf_pixel_depth = IEEE1722TpRvfPixelDepthEnum()
+            rvf_pixel_depth.setValue(rvf_pixel_depth_literal.getValue())
+            connection.setRvfPixelDepth(rvf_pixel_depth)
+        rvf_pixel_format_literal = self.getChildElementOptionalLiteral(element, "RVF-PIXEL-FORMAT")
+        if rvf_pixel_format_literal is not None:
+            rvf_pixel_format = IEEE1722TpRvfPixelFormatEnum()
+            rvf_pixel_format.setValue(rvf_pixel_format_literal.getValue())
+            connection.setRvfPixelFormat(rvf_pixel_format)
+        connection.setRvfTotalLines(self.getChildElementOptionalPositiveInteger(element, "RVF-TOTAL-LINES"))
+
+    def readIEEE1722TpAcfBus(self, element: ET.Element, bus: IEEE1722TpAcfBus):
+        self.readIdentifiable(element, bus)
+        for child_element in self.findall(element, "ACF-PARTS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "IEEE-1722-TP-ACF-CAN-PART":
+                self.readIEEE1722TpAcfCanPart(child_element, bus.createIEEE1722TpAcfCanPart(self.getShortName(child_element)))
+            elif tag_name == "IEEE-1722-TP-ACF-LIN-PART":
+                self.readIEEE1722TpAcfLinPart(child_element, bus.createIEEE1722TpAcfLinPart(self.getShortName(child_element)))
+            else:
+                self.notImplemented("Unsupported ACF Bus Part <%s>" % tag_name)
+        bus.setBusId(self.getChildElementOptionalPositiveInteger(element, "BUS-ID"))
+        self.readVariationPointCapable(element, bus)
+
+    def readIEEE1722TpAcfBusPart(self, element: ET.Element, part: IEEE1722TpAcfBusPart):
+        self.readIdentifiable(element, part)
+        collection_trigger_literal = self.getChildElementOptionalLiteral(element, "COLLECTION-TRIGGER")
+        if collection_trigger_literal is not None:
+            collection_trigger = PduCollectionTriggerEnum()
+            collection_trigger.setValue(collection_trigger_literal.getValue())
+            part.setCollectionTrigger(collection_trigger)
+        self.readVariationPointCapable(element, part)
+
+    def readIEEE1722TpAcfCanPart(self, element: ET.Element, part: IEEE1722TpAcfCanPart):
+        self.readIEEE1722TpAcfBusPart(element, part)
+        can_addressing_mode_literal = self.getChildElementOptionalLiteral(element, "CAN-ADDRESSING-MODE")
+        if can_addressing_mode_literal is not None:
+            can_addressing_mode = CanAddressingModeType()
+            can_addressing_mode.setValue(can_addressing_mode_literal.getValue())
+            part.setCanAddressingMode(can_addressing_mode)
+        part.setCanBitRateSwitch(self.getChildElementOptionalBooleanValue(element, "CAN-BIT-RATE-SWITCH"))
+        can_frame_tx_behavior_literal = self.getChildElementOptionalLiteral(element, "CAN-FRAME-TX-BEHAVIOR")
+        if can_frame_tx_behavior_literal is not None:
+            can_frame_tx_behavior = CanFrameTxBehaviorEnum()
+            can_frame_tx_behavior.setValue(can_frame_tx_behavior_literal.getValue())
+            part.setCanFrameTxBehavior(can_frame_tx_behavior)
+        part.setCanIdentifier(self.getChildElementOptionalPositiveInteger(element, "CAN-IDENTIFIER"))
+        part.setCanIdentifierMask(self.getChildElementOptionalPositiveInteger(element, "CAN-IDENTIFIER-MASK"))
+        part.setCanIdentifierRange(self.getRxIdentifierRange(element, "CAN-IDENTIFIER-RANGE"))
+        part.setSduRef(self.getChildElementOptionalRefType(element, "SDU-REF"))
+
+    def readIEEE1722TpAcfLinPart(self, element: ET.Element, part: IEEE1722TpAcfLinPart):
+        self.readIEEE1722TpAcfBusPart(element, part)
+        part.setLinIdentifier(self.getChildElementOptionalPositiveInteger(element, "LIN-IDENTIFIER"))
+        part.setSduRef(self.getChildElementOptionalRefType(element, "SDU-REF"))
+
+    def readIEEE1722TpAcfCan(self, element: ET.Element, bus: IEEE1722TpAcfCan):
+        self.readIEEE1722TpAcfBus(element, bus)
+        message_type_literal = self.getChildElementOptionalLiteral(element, "MESSAGE-TYPE")
+        if message_type_literal is not None:
+            message_type = IEEE1722TpAcfCanMessageTypeEnum()
+            message_type.setValue(message_type_literal.getValue())
+            bus.setMessageType(message_type)
+
+    def readIEEE1722TpAcfLin(self, element: ET.Element, bus: IEEE1722TpAcfLin):
+        self.readIEEE1722TpAcfBus(element, bus)
+        bus.setBaseFrequency(self.getChildElementOptionalPositiveInteger(element, "BASE-FREQUENCY"))
+        bus.setFrameSyncEnabled(self.getChildElementOptionalBooleanValue(element, "FRAME-SYNC-ENABLED"))
+        bus.setTimestampInterval(self.getChildElementOptionalPositiveInteger(element, "TIMESTAMP-INTERVAL"))
+
+    def readIEEE1722TpAcfConnection(self, element: ET.Element, connection: IEEE1722TpAcfConnection):
+        self.readIEEE1722TpConnection(element, connection)
+        for child_element in self.findall(element, "ACF-TRANSPORTED-BUSS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "IEEE-1722-TP-ACF-CAN":
+                self.readIEEE1722TpAcfCan(child_element, connection.createIEEE1722TpAcfCan(self.getShortName(child_element)))
+            elif tag_name == "IEEE-1722-TP-ACF-LIN":
+                self.readIEEE1722TpAcfLin(child_element, connection.createIEEE1722TpAcfLin(self.getShortName(child_element)))
+            else:
+                self.notImplemented("Unsupported ACF Transported Bus <%s>" % tag_name)
+        connection.setCollectionThreshold(self.getChildElementOptionalPositiveInteger(element, "COLLECTION-THRESHOLD"))
+        connection.setCollectionTimeout(self.getChildElementOptionalTimeValue(element, "COLLECTION-TIMEOUT"))
+        connection.setMixedBusTypeCollection(self.getChildElementOptionalBooleanValue(element, "MIXED-BUS-TYPE-COLLECTION"))
 
     def readCanFrame(self, element: ET.Element, frame: CanFrame):
         self.logger.debug("Read CanFrame <%s>" % frame.getShortName())
@@ -18837,6 +19090,18 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read GenericEthernetFrame <%s>" % frame.getShortName())
         self.readFrame(element, frame)
 
+    def readUserDefinedEthernetFrame(self, element: ET.Element, frame: UserDefinedEthernetFrame):
+        self.logger.debug("Read UserDefinedEthernetFrame <%s>" % frame.getShortName())
+        self.readFrame(element, frame)
+
+    def readIeee1722TpEthernetFrame(self, element: ET.Element, frame: Ieee1722TpEthernetFrame):
+        self.logger.debug("Read Ieee1722TpEthernetFrame <%s>" % frame.getShortName())
+        self.readFrame(element, frame)
+        frame.setRelativeRepresentationTime(self.getChildElementOptionalTimeValue(element, "RELATIVE-REPRESENTATION-TIME"))
+        frame.setStreamIdentifier(self.getChildElementOptionalPositiveInteger(element, "STREAM-IDENTIFIER"))
+        frame.setSubType(self.getChildElementOptionalPositiveInteger(element, "SUB-TYPE"))
+        frame.setVersion(self.getChildElementOptionalPositiveInteger(element, "VERSION"))
+
     def getLifeCyclePeriod(self, element: ET.Element, key: str) -> Optional[LifeCyclePeriod]:
         child_element = self.find(element, key)
         period = None
@@ -19294,10 +19559,20 @@ class ARXMLParser(AbstractARXMLParser):
                 self.readEthTpConfig(child_element, parent.createEthTpConfig(self.getShortName(child_element)))
             elif tag_name == "SOMEIP-TP-CONFIG":
                 self.readSomeipTpConfig(child_element, parent.createSomeipTpConfig(self.getShortName(child_element)))
+            elif tag_name == "J-1939-TP-CONFIG":
+                self.readJ1939TpConfig(child_element, parent.createJ1939TpConfig(self.getShortName(child_element)))
             elif tag_name == "IEEE-1722-TP-CONFIG":
                 self.readIEEE1722TpConfig(child_element, parent.createIEEE1722TpConfig(self.getShortName(child_element)))
             elif tag_name == "IEEE-1722-TP-CRF-CONNECTION":
                 self.readIEEE1722TpCrfConnection(child_element, parent.createIEEE1722TpCrfConnection(self.getShortName(child_element)))
+            elif tag_name == "IEEE-1722-TP-AAF-CONNECTION":
+                self.readIEEE1722TpAafConnection(child_element, parent.createIEEE1722TpAafConnection(self.getShortName(child_element)))
+            elif tag_name == "IEEE-1722-TP-IIDC-CONNECTION":
+                self.readIEEE1722TpIidcConnection(child_element, parent.createIEEE1722TpIidcConnection(self.getShortName(child_element)))
+            elif tag_name == "IEEE-1722-TP-RVF-CONNECTION":
+                self.readIEEE1722TpRvfConnection(child_element, parent.createIEEE1722TpRvfConnection(self.getShortName(child_element)))
+            elif tag_name == "IEEE-1722-TP-ACF-CONNECTION":
+                self.readIEEE1722TpAcfConnection(child_element, parent.createIEEE1722TpAcfConnection(self.getShortName(child_element)))
             elif tag_name == "CLIENT-ID-DEFINITION-SET":
                 id_definition_set = parent.createClientIdDefinitionSet(self.getShortName(child_element))
                 self.readClientIdDefinitionSet(child_element, id_definition_set)
@@ -19377,6 +19652,10 @@ class ARXMLParser(AbstractARXMLParser):
                 self.readParameterInterface(child_element, param_interface)
             elif tag_name == "GENERIC-ETHERNET-FRAME":
                 self.readGenericEthernetFrame(child_element, parent.createGenericEthernetFrame(self.getShortName(child_element)))
+            elif tag_name == "USER-DEFINED-ETHERNET-FRAME":
+                self.readUserDefinedEthernetFrame(child_element, parent.createUserDefinedEthernetFrame(self.getShortName(child_element)))
+            elif tag_name == "IEEE-1722-TP-ETHERNET-FRAME":
+                self.readIeee1722TpEthernetFrame(child_element, parent.createIeee1722TpEthernetFrame(self.getShortName(child_element)))
             elif tag_name == "LIFE-CYCLE-INFO-SET":
                 info_set = parent.createLifeCycleInfoSet(self.getShortName(child_element))
                 self.readLifeCycleInfoSet(child_element, info_set)

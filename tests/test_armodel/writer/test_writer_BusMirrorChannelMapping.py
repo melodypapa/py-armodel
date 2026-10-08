@@ -7,9 +7,8 @@ MIRRORING-PROTOCOL, SOURCE-CHANNEL, TARGET-CHANNEL, TARGET-PDU-TRIGGERINGS.
 
 import xml.etree.ElementTree as ET
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import BusMirrorChannel
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import MirroringProtocolEnum, RefType
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import BusMirrorChannelMapping
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.BusMirror import BusMirrorChannel, BusMirrorChannelMapping, MirroringProtocolEnum
 from armodel.writer.arxml_writer import ARXMLWriter
 
 
@@ -18,7 +17,7 @@ class _ConcreteMapping(BusMirrorChannelMapping):
 
 
 def _populate(mapping):
-    mapping.setMirroringProtocol(MirroringProtocolEnum(["NONE", "VERSION-1"]).setValue("VERSION-1"))
+    mapping.setMirroringProtocol(MirroringProtocolEnum().setValue(MirroringProtocolEnum.VERSION1))
 
     source_channel = BusMirrorChannel()
     source_channel.setChecksum(_checksum("1234"))

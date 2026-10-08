@@ -11,7 +11,6 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection impo
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import AbstractDoIpLogicAddressProps, DoIpLogicTargetAddressProps, DoIpLogicTesterAddressProps
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
-    SomeipTpChannel,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
@@ -24,7 +23,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     TimeValue,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import FibexElement
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject, SomeipTpConnection
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 
 class TpConfig(FibexElement, ABC):
@@ -3061,15 +3060,654 @@ class SomeipTpConfig(TpConfig):
         return self
 
 
+class SomeipTpConnection(ARObject):
+    """
+    A connection identifies the sender and the receiver of this particular communication. The SOME/IP TP module routes a Pdu through this connection.
+
+    [constr_3328] SomeipTpConnection.transportPdu reference restriction: A PduTriggering that is referenced by a SomeipTpConnection in the role transportPdu shall reference a GeneralPurposeIPdu with category SOMEIP_SEGMENTED_IPDU in the role iPdu.
+
+    [constr_3329] SomeipTpConnection.tpSdu reference restriction: A PduTriggering that is referenced by a SomeipTpConnection in the role tpSdu shall reference an IPdu in the role iPdu.
+
+    [constr_3330] Same transportPdu shall not be used in different SomeipTpConnections: A PduTriggering that is referencing a GeneralPurposeIPdu with category SOMEIP_SEGMENTED_IPDU in the role iPdu shall be referenced at most once by a SomeipTpConnection in the role transportPdu.
+
+    [constr_5378] PduTriggering shall only be referenced once from a SomeipTpConnection in the role tpSdu: Each PduTriggering that is referenced in the role tpSdu from a SomeipTpConnection shall not be referenced in the role tpSdu from a different SomeipTpConnection.
+    """
+
+    # SomeipTpConnection method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.265, p.620
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTpChannelRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTpChannelRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTpSduRef           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTpSduRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTransportPduRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTransportPduRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # (Base = ARObject; XSD group SOMEIP-TP-CONNECTION carries no VARIATION-POINT)
+
+    def __init__(self):
+        super().__init__()
+
+        # Assignment of configuration properties valid for this SomeipTpConnection.
+        self.tpChannelRef: Optional[RefType] = None
+
+        # Reference to an IPdu that is segmented by the Transport Protocol.
+        self.tpSduRef: Optional[RefType] = None
+
+        # Reference to the segmented IPdu.
+        self.transportPduRef: Optional[RefType] = None
+
+    def getTpChannelRef(self) -> Optional[RefType]:
+        """
+        Assignment of configuration properties valid for this SomeipTpConnection.
+        """
+        return self.tpChannelRef
+
+    def setTpChannelRef(self, value: Optional[RefType]) -> SomeipTpConnection:
+        """
+        Assignment of configuration properties valid for this SomeipTpConnection.
+        A None value is a no-op and does not overwrite an existing tpChannelRef.
+        """
+        if value is not None:
+            self.tpChannelRef = value
+        return self
+
+    def getTpSduRef(self) -> Optional[RefType]:
+        """
+        Reference to an IPdu that is segmented by the Transport Protocol.
+        """
+        return self.tpSduRef
+
+    def setTpSduRef(self, value: Optional[RefType]) -> SomeipTpConnection:
+        """
+        Reference to an IPdu that is segmented by the Transport Protocol.
+        A None value is a no-op and does not overwrite an existing tpSduRef.
+        """
+        if value is not None:
+            self.tpSduRef = value
+        return self
+
+    def getTransportPduRef(self) -> Optional[RefType]:
+        """
+        Reference to the segmented IPdu.
+        """
+        return self.transportPduRef
+
+    def setTransportPduRef(self, value: Optional[RefType]) -> SomeipTpConnection:
+        """
+        Reference to the segmented IPdu.
+        A None value is a no-op and does not overwrite an existing transportPduRef.
+        """
+        if value is not None:
+            self.transportPduRef = value
+        return self
+
+
+class SomeipTpChannel(Identifiable):
+    """
+    This element is used to assign properties to SomeipTpConnections that are referencing this SomeipTp Channel.
+    """
+
+    # SomeipTpChannel method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.266, p.620
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBurstSize          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBurstSize          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRxTimeoutTime      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRxTimeoutTime      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSeparationTime     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSeparationTime     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # (Base = ARObject, Identifiable, MultilanguageReferrable, Referrable; XSD group
+    # SOMEIP-TP-CHANNEL carries no VARIATION-POINT)
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Specifies the number of segments that shall be transmitted in a burst ignoring separationTime. SeparationTime will then only be applied between bursts. If not configured, SeparationTime will be applied between all frames.
+        self.burstSize: Optional[PositiveInteger] = None
+
+        # Timer to monitor the successful reception. It is started when the first NPdu is received, restarted after reception of intermediate NPdus, and is stopped when the last NPdu has been received.
+        self.rxTimeoutTime: Optional[TimeValue] = None
+
+        # Sets the duration of the minimum time in seconds the SOME/IP TP module shall wait between the transmissions of NPdus.
+        self.separationTime: Optional[TimeValue] = None
+
+    def getBurstSize(self) -> Optional[PositiveInteger]:
+        """
+        Specifies the number of segments that shall be transmitted in a burst ignoring separationTime. SeparationTime will then only be applied between bursts. If not configured, SeparationTime will be applied between all frames.
+        """
+        return self.burstSize
+
+    def setBurstSize(self, value: Optional[PositiveInteger]) -> SomeipTpChannel:
+        """
+        Specifies the number of segments that shall be transmitted in a burst ignoring separationTime. SeparationTime will then only be applied between bursts. If not configured, SeparationTime will be applied between all frames.
+        A None value is a no-op and does not overwrite an existing burstSize.
+        """
+        if value is not None:
+            self.burstSize = value
+        return self
+
+    def getRxTimeoutTime(self) -> Optional[TimeValue]:
+        """
+        Timer to monitor the successful reception. It is started when the first NPdu is received, restarted after reception of intermediate NPdus, and is stopped when the last NPdu has been received.
+        """
+        return self.rxTimeoutTime
+
+    def setRxTimeoutTime(self, value: Optional[TimeValue]) -> SomeipTpChannel:
+        """
+        Timer to monitor the successful reception. It is started when the first NPdu is received, restarted after reception of intermediate NPdus, and is stopped when the last NPdu has been received.
+        A None value is a no-op and does not overwrite an existing rxTimeoutTime.
+        """
+        if value is not None:
+            self.rxTimeoutTime = value
+        return self
+
+    def getSeparationTime(self) -> Optional[TimeValue]:
+        """
+        Sets the duration of the minimum time in seconds the SOME/IP TP module shall wait between the transmissions of NPdus.
+        """
+        return self.separationTime
+
+    def setSeparationTime(self, value: Optional[TimeValue]) -> SomeipTpChannel:
+        """
+        Sets the duration of the minimum time in seconds the SOME/IP TP module shall wait between the transmissions of NPdus.
+        A None value is a no-op and does not overwrite an existing separationTime.
+        """
+        if value is not None:
+            self.separationTime = value
+        return self
+
+
+class J1939TpConfig(TpConfig):
+    """
+    This element defines exactly one J1939 TP Configuration. One J1939TpConfig element shall be created for each J1939 Network in the System. Tags: atp.recommendedPackage=TpConfigs
+
+    [constr_9264] Existence of J1939TpConfig.tpAddress: For each J1939TpConfig, at least one TpAddress shall be aggregated in the role tpAddress at the time when the System Description is complete.
+    [constr_9265] Existence of J1939TpConfig.tpConnection: For each J1939TpConfig, at least one J1939TpConnection shall be aggregated in the role tpConnection at the time when the System Description is complete.
+    [constr_9266] Existence of J1939TpConfig.tpNode: For each J1939TpConfig, at least one J1939TpNode shall be aggregated in the role tpNode at the time when the System Description is complete.
+    """
+
+    # J1939TpConfig method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.267, p.624
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createTpAddress       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTpAddresses        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addTpConnection       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTpConnections      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createJ1939TpNode     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTpNodes            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # (Base = ARObject, CollectableElement, FibexElement, Identifiable, MultilanguageReferrable,
+    # PackageableElement, Referrable, TpConfig; XSD group J-1939-TP-CONFIG carries no VARIATION-POINT)
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Collection of TP Adresses. atpVariation: Derived, because EcuInstance can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=tpAddress.shortName, tpAddress.variation Point.shortLabel vh.latestBindingTime=postBuild
+        self.tpAddresses: List[TpAddress] = []
+
+        # Configuration of J1939 TP connections. atpVariation: Derived, because TpNode can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=tpConnection, tpConnection.variation Point.shortLabel vh.latestBindingTime=postBuild
+        self.tpConnections: List[J1939TpConnection] = []
+
+        # Senders and receivers of J1939 TP messages. atpVariation: Derived, because EcuInstance can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=tpNode.shortName, tpNode.variation Point.shortLabel vh.latestBindingTime=postBuild
+        self.tpNodes: List[J1939TpNode] = []
+
+    def createTpAddress(self, short_name: str) -> TpAddress:
+        """
+        Collection of TP Adresses. atpVariation: Derived, because EcuInstance can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=tpAddress.shortName, tpAddress.variation Point.shortLabel vh.latestBindingTime=postBuild
+        """
+        if not self.IsReferrableElementExists(short_name, TpAddress):
+            address = TpAddress(self, short_name)
+            self.addReferrableElement(address)
+            self.tpAddresses.append(address)
+        return cast(TpAddress, self.getReferrableElement(short_name, TpAddress))
+
+    def getTpAddresses(self) -> List[TpAddress]:
+        """
+        Collection of TP Adresses. atpVariation: Derived, because EcuInstance can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=tpAddress.shortName, tpAddress.variation Point.shortLabel vh.latestBindingTime=postBuild
+        """
+        return self.tpAddresses
+
+    def addTpConnection(self, value: Optional[J1939TpConnection]) -> J1939TpConfig:
+        """
+        Configuration of J1939 TP connections. atpVariation: Derived, because TpNode can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=tpConnection, tpConnection.variation Point.shortLabel vh.latestBindingTime=postBuild
+        A None value is a no-op and is not appended to tpConnections.
+        """
+        if value is not None:
+            self.tpConnections.append(value)
+        return self
+
+    def getTpConnections(self) -> List[J1939TpConnection]:
+        """
+        Configuration of J1939 TP connections. atpVariation: Derived, because TpNode can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=tpConnection, tpConnection.variation Point.shortLabel vh.latestBindingTime=postBuild
+        """
+        return self.tpConnections
+
+    def createJ1939TpNode(self, short_name: str) -> J1939TpNode:
+        """
+        Senders and receivers of J1939 TP messages. atpVariation: Derived, because EcuInstance can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=tpNode.shortName, tpNode.variation Point.shortLabel vh.latestBindingTime=postBuild
+        """
+        if not self.IsReferrableElementExists(short_name, J1939TpNode):
+            node = J1939TpNode(self, short_name)
+            self.addReferrableElement(node)
+            self.tpNodes.append(node)
+        return cast(J1939TpNode, self.getReferrableElement(short_name, J1939TpNode))
+
+    def getTpNodes(self) -> List[J1939TpNode]:
+        """
+        Senders and receivers of J1939 TP messages. atpVariation: Derived, because EcuInstance can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=tpNode.shortName, tpNode.variation Point.shortLabel vh.latestBindingTime=postBuild
+        """
+        return self.tpNodes
+
+
+class J1939TpConnection(TpConnection, VariationPointCapable):
+    """
+    A J1939TpConnection represents an internal path for the transmission or reception of a Pdu via J1939Tp and describes the sender and the receiver of this particular communication. The J1939Tp module routes a Pdu (J1939 PGN) through the connection.
+
+    [constr_9267] Existence of J1939TpConnection.broadcast: For each J1939TpConnection, the attribute broadcast shall exist at the time when the System Description is complete.
+    [constr_9268] Existence of J1939TpConnection.dataPdu: For each J1939TpConnection, the reference to NPdu in the role dataPdu shall exist at the time when the System Description is complete.
+    [constr_9269] Existence of J1939TpConnection.flowControlPdu: For each J1939TpConnection, at least one reference to NPdu in the role flowControlPdu shall exist at the time when the System Description is complete.
+    """
+
+    # J1939TpConnection method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.268, p.625
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBroadcast              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBroadcast              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getBufferRatio            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBufferRatio            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCancellation           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCancellation           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDataPduRef             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataPduRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDynamicBs              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDynamicBs              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addFlowControlPduRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFlowControlPduRefs     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getMaxBs                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxBs                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxExpBs               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxExpBs               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addReceiverRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getReceiverRefs           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getRetry                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRetry                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addTpPg                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTpPgs                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getTransmitterRef         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTransmitterRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # (Base = ARObject, TpConnection; XSD group J-1939-TP-CONNECTION carries VARIATION-POINT —
+    # getVariationPoint/setVariationPoint provided by the VariationPointCapable base (mixin), no
+    # spec rows; XSD-only DIRECT-PDU-REF and TP-SDU-REFS carry atp.Status="removed", absent from
+    # the PDF table — not modeled)
+
+    def __init__(self):
+        super().__init__()
+
+        # BAM (Broadcast Announce Message) is a broadcast protocol. If this attribute is set to true broadcast is used. Since address FF is the only broadcast address, there's no reason to configure it.
+        self.broadcast: Optional[Boolean] = None
+
+        # Defines usage of available data for dynamic block size calculation when protocol retry is enabled. This attribute describes in percent of available buffer that shall be used for retry.
+        self.bufferRatio: Optional[PositiveInteger] = None
+
+        # Enable support for Tx/Rx cancellation.
+        self.cancellation: Optional[Boolean] = None
+
+        # Data Message (TP .DT) used by CMDT and BAM. The DataNPdu has a fixed length of 8 bytes.
+        self.dataPduRef: Optional[RefType] = None
+
+        # Enable support for dynamic block size calculation.
+        self.dynamicBs: Optional[Boolean] = None
+
+        # Reference to the Command NPdus (TP .CM) that are used in the CMDT (Connection Mode Data Transfer) in both directions. BAM uses one TP.CM (Transport Protocol Command). The flowControlNPdu has a fixed length of 8 bytes. Please note that the role name "flowControlIPdu" is misleading and is kept for backward compatibilty reasons.
+        self.flowControlPduRefs: List[RefType] = []
+
+        # Set maximum block size (number of packets in TP.CM_ CTS).
+        self.maxBs: Optional[PositiveInteger] = None
+
+        # Set maximum for expected block size (maximum number of packets in TP.CM_RTS).
+        self.maxExpBs: Optional[PositiveInteger] = None
+
+        # The target of the TP connection.
+        self.receiverRefs: List[RefType] = []
+
+        # Enable support for protocol retry.
+        self.retry: Optional[Boolean] = None
+
+        # J1939 messages (parameter groups, PGs) that can be transferred via this connection.
+        self.tpPgs: List[J1939TpPg] = []
+
+        # The source of the TP connection.
+        self.transmitterRef: Optional[RefType] = None
+
+    def getBroadcast(self) -> Optional[Boolean]:
+        """BAM (Broadcast Announce Message) is a broadcast protocol. If this attribute is set to true broadcast is used. Since address FF is the only broadcast address, there's no reason to configure it."""
+        return self.broadcast
+
+    def setBroadcast(self, value: Optional[Boolean]) -> J1939TpConnection:
+        """
+        BAM (Broadcast Announce Message) is a broadcast protocol. If this attribute is set to true broadcast is used. Since address FF is the only broadcast address, there's no reason to configure it.
+        A None value is a no-op and does not overwrite an existing broadcast.
+        """
+        if value is not None:
+            self.broadcast = value
+        return self
+
+    def getBufferRatio(self) -> Optional[PositiveInteger]:
+        """Defines usage of available data for dynamic block size calculation when protocol retry is enabled. This attribute describes in percent of available buffer that shall be used for retry."""
+        return self.bufferRatio
+
+    def setBufferRatio(self, value: Optional[PositiveInteger]) -> J1939TpConnection:
+        """
+        Defines usage of available data for dynamic block size calculation when protocol retry is enabled. This attribute describes in percent of available buffer that shall be used for retry.
+        A None value is a no-op and does not overwrite an existing bufferRatio.
+        """
+        if value is not None:
+            self.bufferRatio = value
+        return self
+
+    def getCancellation(self) -> Optional[Boolean]:
+        """Enable support for Tx/Rx cancellation."""
+        return self.cancellation
+
+    def setCancellation(self, value: Optional[Boolean]) -> J1939TpConnection:
+        """
+        Enable support for Tx/Rx cancellation.
+        A None value is a no-op and does not overwrite an existing cancellation.
+        """
+        if value is not None:
+            self.cancellation = value
+        return self
+
+    def getDataPduRef(self) -> Optional[RefType]:
+        """Data Message (TP .DT) used by CMDT and BAM. The DataNPdu has a fixed length of 8 bytes."""
+        return self.dataPduRef
+
+    def setDataPduRef(self, value: Optional[RefType]) -> J1939TpConnection:
+        """
+        Data Message (TP .DT) used by CMDT and BAM. The DataNPdu has a fixed length of 8 bytes.
+        A None value is a no-op and does not overwrite an existing dataPduRef.
+        """
+        if value is not None:
+            self.dataPduRef = value
+        return self
+
+    def getDynamicBs(self) -> Optional[Boolean]:
+        """Enable support for dynamic block size calculation."""
+        return self.dynamicBs
+
+    def setDynamicBs(self, value: Optional[Boolean]) -> J1939TpConnection:
+        """
+        Enable support for dynamic block size calculation.
+        A None value is a no-op and does not overwrite an existing dynamicBs.
+        """
+        if value is not None:
+            self.dynamicBs = value
+        return self
+
+    def addFlowControlPduRef(self, value: Optional[RefType]) -> J1939TpConnection:
+        """
+        Reference to the Command NPdus (TP .CM) that are used in the CMDT (Connection Mode Data Transfer) in both directions. BAM uses one TP.CM (Transport Protocol Command). The flowControlNPdu has a fixed length of 8 bytes. Please note that the role name "flowControlIPdu" is misleading and is kept for backward compatibilty reasons.
+        A None value is a no-op and is not appended to flowControlPduRefs.
+        """
+        if value is not None:
+            self.flowControlPduRefs.append(value)
+        return self
+
+    def getFlowControlPduRefs(self) -> List[RefType]:
+        """Reference to the Command NPdus (TP .CM) that are used in the CMDT (Connection Mode Data Transfer) in both directions. BAM uses one TP.CM (Transport Protocol Command). The flowControlNPdu has a fixed length of 8 bytes. Please note that the role name "flowControlIPdu" is misleading and is kept for backward compatibilty reasons."""
+        return self.flowControlPduRefs
+
+    def getMaxBs(self) -> Optional[PositiveInteger]:
+        """Set maximum block size (number of packets in TP.CM_ CTS)."""
+        return self.maxBs
+
+    def setMaxBs(self, value: Optional[PositiveInteger]) -> J1939TpConnection:
+        """
+        Set maximum block size (number of packets in TP.CM_ CTS).
+        A None value is a no-op and does not overwrite an existing maxBs.
+        """
+        if value is not None:
+            self.maxBs = value
+        return self
+
+    def getMaxExpBs(self) -> Optional[PositiveInteger]:
+        """Set maximum for expected block size (maximum number of packets in TP.CM_RTS)."""
+        return self.maxExpBs
+
+    def setMaxExpBs(self, value: Optional[PositiveInteger]) -> J1939TpConnection:
+        """
+        Set maximum for expected block size (maximum number of packets in TP.CM_RTS).
+        A None value is a no-op and does not overwrite an existing maxExpBs.
+        """
+        if value is not None:
+            self.maxExpBs = value
+        return self
+
+    def addReceiverRef(self, value: Optional[RefType]) -> J1939TpConnection:
+        """
+        The target of the TP connection.
+        A None value is a no-op and is not appended to receiverRefs.
+        """
+        if value is not None:
+            self.receiverRefs.append(value)
+        return self
+
+    def getReceiverRefs(self) -> List[RefType]:
+        """The target of the TP connection."""
+        return self.receiverRefs
+
+    def getRetry(self) -> Optional[Boolean]:
+        """Enable support for protocol retry."""
+        return self.retry
+
+    def setRetry(self, value: Optional[Boolean]) -> J1939TpConnection:
+        """
+        Enable support for protocol retry.
+        A None value is a no-op and does not overwrite an existing retry.
+        """
+        if value is not None:
+            self.retry = value
+        return self
+
+    def addTpPg(self, value: Optional[J1939TpPg]) -> J1939TpConnection:
+        """
+        J1939 messages (parameter groups, PGs) that can be transferred via this connection.
+        A None value is a no-op and is not appended to tpPgs.
+        """
+        if value is not None:
+            self.tpPgs.append(value)
+        return self
+
+    def getTpPgs(self) -> List[J1939TpPg]:
+        """J1939 messages (parameter groups, PGs) that can be transferred via this connection."""
+        return self.tpPgs
+
+    def getTransmitterRef(self) -> Optional[RefType]:
+        """The source of the TP connection."""
+        return self.transmitterRef
+
+    def setTransmitterRef(self, value: Optional[RefType]) -> J1939TpConnection:
+        """
+        The source of the TP connection.
+        A None value is a no-op and does not overwrite an existing transmitterRef.
+        """
+        if value is not None:
+            self.transmitterRef = value
+        return self
+
+
+class J1939TpPg(ARObject):
+    """
+    A J1939TpPg represents one J1939 message (parameter group, PG) identified by the PGN (parameter group number) that can be received or transmitted via J1939Tp.
+
+    [constr_3210] J1939TpPgs with identical pgn value: For all J1939TpPgs where the attribute pgn has an identical value the attribute requestable shall also have an identical value.
+    [constr_5379] IPdu shall only be referenced once from a J1939TpPg in the role sdu on a J1939Cluster: Each IPdu that is referenced in the role sdu from a J1939TpPg that is aggregated by a J1939TpConfig that references a J1939Cluster shall not be referenced in the role sdu from a different J1939TpPg that is aggregated by a J1939TpConfig that references the same J1939Cluster.
+    """
+
+    # J1939TpPg method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.269, p.626
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDirectPduRef      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDirectPduRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPgn               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPgn               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRequestable       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRequestable       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addSduRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSduRefs           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # (Base = ARObject; XSD group J-1939-TP-PG carries no VARIATION-POINT; XSD-only TP-SDU-REF
+    # carries atp.Status="removed", absent from the PDF table — not modeled)
+
+    def __init__(self):
+        super().__init__()
+
+        # In case of variable length IPdus (with system signals of variable length), an additional NPdu (with the PGN in the CAN ID) is used for messages with up to 8 bytes.
+        self.directPduRef: Optional[RefType] = None
+
+        # Parameter group number (PGN) of a J1939 message (parameter group, PG) that can be received or transmitted via J1939Tp. The PGN may be omitted when the a directPdu is referenced and is mapped into a Can FrameTriggering with an identifier.
+        self.pgn: Optional[Integer] = None
+
+        # Parameter Group can be triggered by the J1939 request message.
+        self.requestable: Optional[Boolean] = None
+
+        # Reference to IPdus that are segmented by the Transport Protocol. If more than one IPdu is referenced, the IPdus are used when the same PGN is received in parallel via different transport protocols (BAM, CMDT, direct) on the same J1939TpConnection.
+        self.sduRefs: List[RefType] = []
+
+    def getDirectPduRef(self) -> Optional[RefType]:
+        """In case of variable length IPdus (with system signals of variable length), an additional NPdu (with the PGN in the CAN ID) is used for messages with up to 8 bytes."""
+        return self.directPduRef
+
+    def setDirectPduRef(self, value: Optional[RefType]) -> J1939TpPg:
+        """
+        In case of variable length IPdus (with system signals of variable length), an additional NPdu (with the PGN in the CAN ID) is used for messages with up to 8 bytes.
+        A None value is a no-op and does not overwrite an existing directPduRef.
+        """
+        if value is not None:
+            self.directPduRef = value
+        return self
+
+    def getPgn(self) -> Optional[Integer]:
+        """Parameter group number (PGN) of a J1939 message (parameter group, PG) that can be received or transmitted via J1939Tp. The PGN may be omitted when the a directPdu is referenced and is mapped into a Can FrameTriggering with an identifier."""
+        return self.pgn
+
+    def setPgn(self, value: Optional[Integer]) -> J1939TpPg:
+        """
+        Parameter group number (PGN) of a J1939 message (parameter group, PG) that can be received or transmitted via J1939Tp. The PGN may be omitted when the a directPdu is referenced and is mapped into a Can FrameTriggering with an identifier.
+        A None value is a no-op and does not overwrite an existing pgn.
+        """
+        if value is not None:
+            self.pgn = value
+        return self
+
+    def getRequestable(self) -> Optional[Boolean]:
+        """Parameter Group can be triggered by the J1939 request message."""
+        return self.requestable
+
+    def setRequestable(self, value: Optional[Boolean]) -> J1939TpPg:
+        """
+        Parameter Group can be triggered by the J1939 request message.
+        A None value is a no-op and does not overwrite an existing requestable.
+        """
+        if value is not None:
+            self.requestable = value
+        return self
+
+    def addSduRef(self, value: Optional[RefType]) -> J1939TpPg:
+        """
+        Reference to IPdus that are segmented by the Transport Protocol. If more than one IPdu is referenced, the IPdus are used when the same PGN is received in parallel via different transport protocols (BAM, CMDT, direct) on the same J1939TpConnection.
+        A None value is a no-op and is not appended to sduRefs.
+        """
+        if value is not None:
+            self.sduRefs.append(value)
+        return self
+
+    def getSduRefs(self) -> List[RefType]:
+        """Reference to IPdus that are segmented by the Transport Protocol. If more than one IPdu is referenced, the IPdus are used when the same PGN is received in parallel via different transport protocols (BAM, CMDT, direct) on the same J1939TpConnection."""
+        return self.sduRefs
+
+
+class J1939TpNode(Identifiable, VariationPointCapable):
+    """
+    TP Node (Sender or Receiver) provides the TP Address and the connection to the Topology description.
+    """
+
+    # J1939TpNode method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.270, p.626
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getConnectorRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setConnectorRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTpAddressRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTpAddressRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # (Base = ARObject, Identifiable, MultilanguageReferrable, Referrable; XSD group J-1939-TP-NODE
+    # carries VARIATION-POINT — getVariationPoint/setVariationPoint provided by the
+    # VariationPointCapable base (mixin), no spec rows)
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Association to a CommunicationConnector in the topology description. In a System Description this reference is mandatory. In an ECU Extract this reference is optional (references to ECUs that are not part of the ECU Extract shall be avoided).
+        self.connectorRef: Optional[RefType] = None
+
+        # Reference to the TP Address that is used by the TpNode. This reference is optional only when no TP is sent and only BAM is received.
+        self.tpAddressRef: Optional[RefType] = None
+
+    def getConnectorRef(self) -> Optional[RefType]:
+        """Association to a CommunicationConnector in the topology description. In a System Description this reference is mandatory. In an ECU Extract this reference is optional (references to ECUs that are not part of the ECU Extract shall be avoided)."""
+        return self.connectorRef
+
+    def setConnectorRef(self, value: Optional[RefType]) -> J1939TpNode:
+        """
+        Association to a CommunicationConnector in the topology description. In a System Description this reference is mandatory. In an ECU Extract this reference is optional (references to ECUs that are not part of the ECU Extract shall be avoided).
+        A None value is a no-op and does not overwrite an existing connectorRef.
+        """
+        if value is not None:
+            self.connectorRef = value
+        return self
+
+    def getTpAddressRef(self) -> Optional[RefType]:
+        """Reference to the TP Address that is used by the TpNode. This reference is optional only when no TP is sent and only BAM is received."""
+        return self.tpAddressRef
+
+    def setTpAddressRef(self, value: Optional[RefType]) -> J1939TpNode:
+        """
+        Reference to the TP Address that is used by the TpNode. This reference is optional only when no TP is sent and only BAM is received.
+        A None value is a no-op and does not overwrite an existing tpAddressRef.
+        """
+        if value is not None:
+            self.tpAddressRef = value
+        return self
+
+
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols.IEEE1722Tp import (  # noqa: E402
     IEEE1722TpConfig as IEEE1722TpConfig,
     IEEE1722TpConnection as IEEE1722TpConnection,
+    IEEE1722TpAcfConnection as IEEE1722TpAcfConnection,
+    IEEE1722TpAcfBus as IEEE1722TpAcfBus,
+    IEEE1722TpAcfBusPart as IEEE1722TpAcfBusPart,
+    IEEE1722TpAcfCan as IEEE1722TpAcfCan,
+    IEEE1722TpAcfCanMessageTypeEnum as IEEE1722TpAcfCanMessageTypeEnum,
+    IEEE1722TpAcfCanPart as IEEE1722TpAcfCanPart,
+    IEEE1722TpAcfLin as IEEE1722TpAcfLin,
+    IEEE1722TpAcfLinPart as IEEE1722TpAcfLinPart,
     IEEE1722TpAvConnection as IEEE1722TpAvConnection,
+    IEEE1722TpAafConnection as IEEE1722TpAafConnection,
+    IEEE1722TpIidcConnection as IEEE1722TpIidcConnection,
+    IEEE1722TpRvfConnection as IEEE1722TpRvfConnection,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols.IEEE1722Tp.IEEE1722TpAv import (  # noqa: E402
+    IEEE1722TpAafAes3DataTypeEnum as IEEE1722TpAafAes3DataTypeEnum,
     IEEE1722TpAafFormatEnum as IEEE1722TpAafFormatEnum,
     IEEE1722TpAafNominalRateEnum as IEEE1722TpAafNominalRateEnum,
     IEEE1722TpCrfConnection as IEEE1722TpCrfConnection,
     IEEE1722TpCrfPullEnum as IEEE1722TpCrfPullEnum,
     IEEE1722TpCrfTypeEnum as IEEE1722TpCrfTypeEnum,
+    IEEE1722TpRvfPixelDepthEnum as IEEE1722TpRvfPixelDepthEnum,
+    IEEE1722TpRvfPixelFormatEnum as IEEE1722TpRvfPixelFormatEnum,
+    IEEE1722TpRvfColorSpaceEnum as IEEE1722TpRvfColorSpaceEnum,
+    IEEE1722TpRvfFrameRateEnum as IEEE1722TpRvfFrameRateEnum,
 )

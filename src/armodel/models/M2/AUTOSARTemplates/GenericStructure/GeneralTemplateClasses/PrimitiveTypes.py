@@ -3023,30 +3023,6 @@ class GlobalTimePortRoleEnum(AREnum):
         )
 
 
-class IEEE1722TpAafAes3DataTypeEnum(AREnum):
-    pass
-
-
-class IEEE1722TpAcfCanMessageTypeEnum(AREnum):
-    pass
-
-
-class IEEE1722TpRvfColorSpaceEnum(AREnum):
-    pass
-
-
-class IEEE1722TpRvfFrameRateEnum(AREnum):
-    pass
-
-
-class IEEE1722TpRvfPixelDepthEnum(AREnum):
-    pass
-
-
-class IEEE1722TpRvfPixelFormatEnum(AREnum):
-    pass
-
-
 class LinChecksumType(AREnum):
     pass
 
@@ -3077,10 +3053,6 @@ class MaximumMessageLengthType(AREnum):
                 MaximumMessageLengthType.ENUM_ISO6,
             ]
         )
-
-
-class MirroringProtocolEnum(AREnum):
-    pass
 
 
 class SecurityEventContextDataSourceEnum(AREnum):

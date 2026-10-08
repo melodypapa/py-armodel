@@ -1910,6 +1910,20 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(frame)
         return cast(GenericEthernetFrame, self.getReferrableElement(short_name, GenericEthernetFrame))
 
+    def createUserDefinedEthernetFrame(self, short_name: str) -> UserDefinedEthernetFrame:
+
+        if not self.IsReferrableElementExists(short_name, UserDefinedEthernetFrame):
+            frame = UserDefinedEthernetFrame(self, short_name)
+            self.addReferrableElement(frame)
+        return cast(UserDefinedEthernetFrame, self.getReferrableElement(short_name, UserDefinedEthernetFrame))
+
+    def createIeee1722TpEthernetFrame(self, short_name: str) -> Ieee1722TpEthernetFrame:
+
+        if not self.IsReferrableElementExists(short_name, Ieee1722TpEthernetFrame):
+            frame = Ieee1722TpEthernetFrame(self, short_name)
+            self.addReferrableElement(frame)
+        return cast(Ieee1722TpEthernetFrame, self.getReferrableElement(short_name, Ieee1722TpEthernetFrame))
+
     def createLifeCycleInfoSet(self, short_name: str) -> LifeCycleInfoSet:
 
         if not self.IsReferrableElementExists(short_name, LifeCycleInfoSet):
@@ -2509,6 +2523,13 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(element)
         return cast(SomeipTpConfig, self.getReferrableElement(short_name, SomeipTpConfig))
 
+    def createJ1939TpConfig(self, short_name: str) -> J1939TpConfig:
+
+        if not self.IsReferrableElementExists(short_name, J1939TpConfig):
+            element = J1939TpConfig(self, short_name)
+            self.addReferrableElement(element)
+        return cast(J1939TpConfig, self.getReferrableElement(short_name, J1939TpConfig))
+
     def createIEEE1722TpConfig(self, short_name: str) -> IEEE1722TpConfig:
 
         if not self.IsReferrableElementExists(short_name, IEEE1722TpConfig):
@@ -2522,6 +2543,34 @@ class ARPackage(CollectableElement, VariationPointCapable):
             element = IEEE1722TpCrfConnection(self, short_name)
             self.addReferrableElement(element)
         return cast(IEEE1722TpCrfConnection, self.getReferrableElement(short_name, IEEE1722TpCrfConnection))
+
+    def createIEEE1722TpAafConnection(self, short_name: str) -> IEEE1722TpAafConnection:
+
+        if not self.IsReferrableElementExists(short_name, IEEE1722TpAafConnection):
+            element = IEEE1722TpAafConnection(self, short_name)
+            self.addReferrableElement(element)
+        return cast(IEEE1722TpAafConnection, self.getReferrableElement(short_name, IEEE1722TpAafConnection))
+
+    def createIEEE1722TpIidcConnection(self, short_name: str) -> IEEE1722TpIidcConnection:
+
+        if not self.IsReferrableElementExists(short_name, IEEE1722TpIidcConnection):
+            element = IEEE1722TpIidcConnection(self, short_name)
+            self.addReferrableElement(element)
+        return cast(IEEE1722TpIidcConnection, self.getReferrableElement(short_name, IEEE1722TpIidcConnection))
+
+    def createIEEE1722TpRvfConnection(self, short_name: str) -> IEEE1722TpRvfConnection:
+
+        if not self.IsReferrableElementExists(short_name, IEEE1722TpRvfConnection):
+            element = IEEE1722TpRvfConnection(self, short_name)
+            self.addReferrableElement(element)
+        return cast(IEEE1722TpRvfConnection, self.getReferrableElement(short_name, IEEE1722TpRvfConnection))
+
+    def createIEEE1722TpAcfConnection(self, short_name: str) -> IEEE1722TpAcfConnection:
+
+        if not self.IsReferrableElementExists(short_name, IEEE1722TpAcfConnection):
+            element = IEEE1722TpAcfConnection(self, short_name)
+            self.addReferrableElement(element)
+        return cast(IEEE1722TpAcfConnection, self.getReferrableElement(short_name, IEEE1722TpAcfConnection))
 
     def createCanFrame(self, short_name: str) -> CanFrame:
         """
@@ -5182,7 +5231,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping i
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import ApplicationPartition, J1939ControllerApplication  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrame  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanXlProps, J1939Cluster  # noqa: E402
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import GenericEthernetFrame  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import GenericEthernetFrame, Ieee1722TpEthernetFrame, UserDefinedEthernetFrame  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import CouplingElement, EthIpProps, EthTcpIpIcmpProps, EthernetCluster, EthTcpIpProps  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetWakeupSleepOnDatalineConfigSet  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ObsoleteModel import SoAdRoutingGroup  # noqa: E402
@@ -5252,10 +5301,15 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import
     SomeipTpConfig,
     FlexrayArTpConfig,
     FlexrayTpConfig,
+    J1939TpConfig,
     IEEE1722TpConfig,
     IEEE1722TpConnection,
+    IEEE1722TpAcfConnection,
     IEEE1722TpAvConnection,
     IEEE1722TpCrfConnection,
+    IEEE1722TpAafConnection,
+    IEEE1722TpIidcConnection,
+    IEEE1722TpRvfConnection,
 )
 from armodel.models.M2.MSR.AsamHdo.AdminData import AdminData  # noqa: E402
 from armodel.models.M2.MSR.AsamHdo.ComputationMethod import CompuMethod  # noqa: E402
@@ -11650,20 +11704,4 @@ class LogAndTraceMessageCollectionSet(ARElement):
 
 
 class TransformationPropsSet(ARElement):
-    pass
-
-
-class IEEE1722TpAcfConnection(IEEE1722TpConnection):
-    pass
-
-
-class IEEE1722TpAafConnection(IEEE1722TpAvConnection):
-    pass
-
-
-class IEEE1722TpIidcConnection(IEEE1722TpAvConnection):
-    pass
-
-
-class IEEE1722TpRvfConnection(IEEE1722TpAvConnection):
     pass

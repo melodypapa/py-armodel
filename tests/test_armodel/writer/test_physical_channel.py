@@ -147,8 +147,8 @@ class TestWritePhysicalChannel:
         assert comm_refs[0].getDest() == "CAN-COMMUNICATION-CONNECTOR"
 
         from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrameTriggering
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import EthernetFrameTriggering
         from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import LinFrameTriggering
-        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import EthernetFrameTriggering
 
         triggerings = reloaded.getFrameTriggerings()
         assert [type(t) for t in triggerings] == [CanFrameTriggering, EthernetFrameTriggering, LinFrameTriggering]

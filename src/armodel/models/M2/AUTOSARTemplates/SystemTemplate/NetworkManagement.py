@@ -163,7 +163,9 @@ class FlexrayNmScheduleVariant(AREnum):
 
     # FlexrayNmScheduleVariant method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.310, p.680
-    # (no methods)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — serialized as value form on FlexrayNmClusterCoupling.nmScheduleVariant
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # NM-Vote and NM Data transmitted within one PDU in static segment. The NM-Vote has to be realized as separate bit within the PDU. Tags: atp.EnumerationLiteralIndex=0
     SCHEDULE_VARIANT_1 = "SCHEDULE-VARIANT-1"
@@ -207,8 +209,9 @@ class NmCoordinatorRoleEnum(AREnum):
 
     # NmCoordinatorRoleEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.304, p.676
-    # Spec verified: R23-11
-    # (no methods)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — serialized as value form on NmNode.nmCoordinatorRole
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # Coordinator which "actively" performs NmCoordinator functionality at this channel Tags: atp.EnumerationLiteralIndex=0
     ACTIVE = "ACTIVE"
@@ -232,25 +235,24 @@ class NmNode(Identifiable, VariationPointCapable, ABC):
 
     # NmNode method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.303, p.676
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getControllerRef                                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setControllerRef                                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getNmCoordCluster                                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setNmCoordCluster                                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getNmCoordinatorRole                               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setNmCoordinatorRole                               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getNmIfEcuRef                                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setNmIfEcuRef                                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getNmNodeId                                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setNmNodeId                                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getNmPassiveModeEnabled                            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setNmPassiveModeEnabled                            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] addRxNmPduRef                                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getRxNmPduRefs                                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addTxNmPduRef                                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTxNmPduRefs                                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getControllerRef                                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setControllerRef                                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNmCoordCluster                                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmCoordCluster                                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNmCoordinatorRole                              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmCoordinatorRole                              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNmIfEcuRef                                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmIfEcuRef                                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNmNodeId                                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmNodeId                                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNmPassiveModeEnabled                           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmPassiveModeEnabled                           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addRxNmPduRef                                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRxNmPduRefs                                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addTxNmPduRef                                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTxNmPduRefs                                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is NmNode:
@@ -375,8 +377,10 @@ class NmNode(Identifiable, VariationPointCapable, ABC):
     def addRxNmPduRef(self, ref: RefType) -> NmNode:
         """
         receive NM Pdu.
+        A None value is a no-op and does not extend the rxNmPduRefs list.
         """
-        self.rxNmPduRefs.append(ref)
+        if ref is not None:
+            self.rxNmPduRefs.append(ref)
         return self
 
     def getRxNmPduRefs(self) -> List[RefType]:
@@ -388,8 +392,10 @@ class NmNode(Identifiable, VariationPointCapable, ABC):
     def addTxNmPduRef(self, ref: RefType) -> NmNode:
         """
         transmit NM Pdu
+        A None value is a no-op and does not extend the txNmPduRefs list.
         """
-        self.txNmPduRefs.append(ref)
+        if ref is not None:
+            self.txNmPduRefs.append(ref)
         return self
 
     def getTxNmPduRefs(self) -> List[RefType]:
@@ -535,10 +541,11 @@ class J1939NmAddressConfigurationCapabilityEnum(AREnum):
     Defines the Address Configuration Capability options for the J1939NmNode.
     """
 
-    # Spec verified: R23-11
     # J1939NmAddressConfigurationCapabilityEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.322, p.692
-    # (no methods)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — serialized as value form on J1939NmNode.addressConfigurationCapability
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # Arbitrary Address Capable CA Tags: atp.EnumerationLiteralIndex=4 xml.name=J-1939-NM-AAC
     J1939NM_AAC = "J-1939-NM--AAC"
@@ -557,13 +564,13 @@ class J1939NmAddressConfigurationCapabilityEnum(AREnum):
 
     def __init__(self):
         super().__init__(
-            (
+            [
                 J1939NmAddressConfigurationCapabilityEnum.J1939NM_AAC,
                 J1939NmAddressConfigurationCapabilityEnum.J1939NM_CCA,
                 J1939NmAddressConfigurationCapabilityEnum.J1939NM_NCA,
                 J1939NmAddressConfigurationCapabilityEnum.J1939NM_SCA,
                 J1939NmAddressConfigurationCapabilityEnum.J1939NM_SVCA,
-            )
+            ]
         )
 
 
@@ -572,29 +579,28 @@ class J1939NodeName(ARObject):
     This element contains attributes to configure the J1939NmNode NAME.
     """
 
-    # Spec verified: R23-11
     # J1939NodeName method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.321, p.691
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getArbitraryAddressCapable                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setArbitraryAddressCapable                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getEcuInstance                                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setEcuInstance                                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getFunction                                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setFunction                                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getFunctionInstance                               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setFunctionInstance                               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getIdentitiyNumber                                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setIdentitiyNumber                                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getIndustryGroup                                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setIndustryGroup                                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getManufacturerCode                               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setManufacturerCode                               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getVehicleSystem                                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setVehicleSystem                                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getVehicleSystemInstance                          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setVehicleSystemInstance                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.321, p.692
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getArbitraryAddressCapable  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setArbitraryAddressCapable  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEcuInstance              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEcuInstance              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFunction                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFunction                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFunctionInstance         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFunctionInstance         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIdentitiyNumber          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIdentitiyNumber          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIndustryGroup            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIndustryGroup            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getManufacturerCode         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setManufacturerCode         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVehicleSystem            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setVehicleSystem            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVehicleSystemInstance    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setVehicleSystemInstance    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -767,15 +773,14 @@ class J1939NmNode(NmNode):
     J1939 specific NM Node attributes.
     """
 
-    # Spec verified: R23-11
     # J1939NmNode method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.320, p.691
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getAddressConfigurationCapability                 [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setAddressConfigurationCapability                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getNodeName                                       [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setNodeName                                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAddressConfigurationCapability  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAddressConfigurationCapability  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNodeName                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNodeName                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -783,7 +788,7 @@ class J1939NmNode(NmNode):
         # Defines the Address Configuration Capability of the J1939NmNode (corresponding to an SAE J1939 Controller Application, CA).
         self.addressConfigurationCapability: Optional[J1939NmAddressConfigurationCapabilityEnum] = None
 
-        # NodeName configuration.
+        # NodeName configuration
         self.nodeName: Optional[J1939NodeName] = None
 
     def getAddressConfigurationCapability(self) -> Optional[J1939NmAddressConfigurationCapabilityEnum]:
@@ -803,13 +808,13 @@ class J1939NmNode(NmNode):
 
     def getNodeName(self) -> Optional[J1939NodeName]:
         """
-        NodeName configuration.
+        NodeName configuration
         """
         return self.nodeName
 
     def setNodeName(self, value: Optional[J1939NodeName]) -> J1939NmNode:
         """
-        NodeName configuration.
+        NodeName configuration
         A None value is a no-op and does not overwrite an existing nodeName.
         """
         if value is not None:
@@ -884,9 +889,8 @@ class BusspecificNmEcu(ARObject, ABC):
 
     # BusspecificNmEcu method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.301, p.675
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self):
         if type(self) is BusspecificNmEcu:
@@ -901,10 +905,9 @@ class CanNmEcu(BusspecificNmEcu):
 
     # CanNmEcu method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.312, p.683
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # (no own attributes; reader/writer coverage via BUS-DEPENDENT-NM-ECUS dispatch)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # (no own attributes; the S/T ARObject level round-trips via read/writeARObject in the BUS-DEPENDENT-NM-ECUS dispatch)
 
     def __init__(self):
         super().__init__()
@@ -1032,8 +1035,8 @@ class NmCoordinator(ARObject):
     # [x] setNmCoordSyncSupport       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getNmGlobalCoordinatorTime  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setNmGlobalCoordinatorTime  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] addNmNode                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getNmNodes                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addNmNodeRef                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNmNodeRefs                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -1048,7 +1051,7 @@ class NmCoordinator(ARObject):
         self.nmGlobalCoordinatorTime: Optional[TimeValue] = None
 
         # reference to busses (via NmNodes) that are coordinated by the NmCoordinator.
-        self.nmNodes: List[RefType] = []
+        self.nmNodeRefs: List[RefType] = []
 
     def getIndex(self) -> Optional[Integer]:
         """
@@ -1095,20 +1098,20 @@ class NmCoordinator(ARObject):
             self.nmGlobalCoordinatorTime = value
         return self
 
-    def addNmNode(self, value: Optional[RefType]) -> NmCoordinator:
+    def addNmNodeRef(self, value: Optional[RefType]) -> NmCoordinator:
         """
         reference to busses (via NmNodes) that are coordinated by the NmCoordinator.
-        A None value is a no-op and does not extend the nmNodes list.
+        A None value is a no-op and does not extend the nmNodeRefs list.
         """
         if value is not None:
-            self.nmNodes.append(value)
+            self.nmNodeRefs.append(value)
         return self
 
-    def getNmNodes(self) -> List[RefType]:
+    def getNmNodeRefs(self) -> List[RefType]:
         """
         reference to busses (via NmNodes) that are coordinated by the NmCoordinator.
         """
-        return self.nmNodes
+        return self.nmNodeRefs
 
 
 class NmEcu(Identifiable, VariationPointCapable):

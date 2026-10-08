@@ -33,7 +33,7 @@ class TestNmCoordinator:
         assert coordinator.getIndex() is None
         assert coordinator.getNmCoordSyncSupport() is None
         assert coordinator.getNmGlobalCoordinatorTime() is None
-        assert coordinator.getNmNodes() == []
+        assert coordinator.getNmNodeRefs() == []
 
     def test_get_set_index(self):
         coordinator = NmCoordinator()
@@ -59,10 +59,10 @@ class TestNmCoordinator:
         coordinator.setNmGlobalCoordinatorTime(None)
         assert coordinator.getNmGlobalCoordinatorTime() is value
 
-    def test_add_get_nm_nodes(self):
+    def test_add_get_nm_node_refs(self):
         coordinator = NmCoordinator()
         ref = _ref("NM-NODE", "/Clusters/Can1/node")
-        assert coordinator.addNmNode(ref) is coordinator
-        assert coordinator.getNmNodes() == [ref]
-        coordinator.addNmNode(None)
-        assert coordinator.getNmNodes() == [ref]
+        assert coordinator.addNmNodeRef(ref) is coordinator
+        assert coordinator.getNmNodeRefs() == [ref]
+        coordinator.addNmNodeRef(None)
+        assert coordinator.getNmNodeRefs() == [ref]

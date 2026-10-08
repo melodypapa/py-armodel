@@ -2202,31 +2202,11 @@ class GlobalTimeMaster(Identifiable, ABC):
     pass
 
 
-class IEEE1722TpAcfBus(Identifiable, ABC):
-    pass
-
-
-class IEEE1722TpAcfCanPart(Identifiable):
-    pass
-
-
-class IEEE1722TpAcfLinPart(Identifiable):
-    pass
-
-
-class J1939TpNode(Identifiable):
-    pass
-
-
 class PortElementToCommunicationResourceMapping(Identifiable):
     pass
 
 
 class SOMEIPTransformationProps(Identifiable):
-    pass
-
-
-class SomeipTpChannel(Identifiable):
     pass
 
 
@@ -2387,10 +2367,6 @@ class GlobalTimeEthMaster(GlobalTimeMaster):
 
 
 class GlobalTimeFrMaster(GlobalTimeMaster):
-    pass
-
-
-class IEEE1722TpAcfCan(IEEE1722TpAcfBus):
     pass
 
 

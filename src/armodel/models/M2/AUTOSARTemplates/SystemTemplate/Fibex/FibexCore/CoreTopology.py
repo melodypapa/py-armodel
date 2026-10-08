@@ -32,9 +32,9 @@ if TYPE_CHECKING:
         LinSlave,
     )
     from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrameTriggering
+    from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import EthernetFrameTriggering
     from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
         CommunicationDirectionType,
-        EthernetFrameTriggering,
         FramePort,
         FrameTriggering,
         IPduPort,
@@ -312,7 +312,7 @@ class PhysicalChannel(Identifiable, VariationPointCapable, ABC):
         """
         One frame triggering is defined for exactly one channel. Channels may have assigned an arbitrary number of frame triggerings. atpVariation: If signals/PDUs/frames are variable, the corresponding triggerings shall be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=frameTriggering.shortName, frame Triggering.variationPoint.shortLabel vh.latestBindingTime=postBuild
         """
-        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import EthernetFrameTriggering
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import EthernetFrameTriggering
 
         if not self.IsReferrableElementExists(short_name, EthernetFrameTriggering):
             triggering = EthernetFrameTriggering(self, short_name)

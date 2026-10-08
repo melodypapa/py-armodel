@@ -2431,10 +2431,6 @@ class BusMirrorCanIdToCanIdMapping(ARObject):
         return self
 
 
-class BusMirrorChannel(ARObject):
-    pass
-
-
 class BusMirrorLinPidToCanIdMapping(ARObject):
     """
     This element defines a rule for remapping a single LIN Frame.
@@ -3592,31 +3588,11 @@ class GlobalTimeSlave(ARObject, ABC):
     pass
 
 
-class IEEE1722TpAcfBusPart(ARObject, ABC):
-    pass
-
-
-class IEEE1722TpAcfLin(ARObject):
-    pass
-
-
 class IdsmInstance(ARObject):
     pass
 
 
 class IdsmTrafficLimitation(ARObject):
-    pass
-
-
-class J1939TpConfig(ARObject):
-    pass
-
-
-class J1939TpConnection(ARObject):
-    pass
-
-
-class J1939TpPg(ARObject):
     pass
 
 
@@ -3680,10 +3656,6 @@ class SecurityEventFilterChain(ARObject):
 
 
 class SecurityEventStateFilter(ARObject):
-    pass
-
-
-class SomeipTpConnection(ARObject):
     pass
 
 

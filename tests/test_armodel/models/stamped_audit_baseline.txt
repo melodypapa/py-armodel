@@ -55,8 +55,6 @@ BswSchedulerNamePrefix
 BswServiceDependencyIdent
 BswTimingEvent
 BuildEngineeringObject
-BusspecificNmEcu
-CanNmEcu
 CanXlFrameTriggeringProps
 CanXlProps
 Caption
@@ -188,8 +186,6 @@ MultidimensionalTime
 NPdu
 NativeDeclarationString
 NmCluster
-NmCoordinatorRoleEnum
-NmNode
 NmPdu
 Numerical
 OperationArgumentInComponentInstanceRef
