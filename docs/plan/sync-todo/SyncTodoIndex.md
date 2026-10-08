@@ -1673,7 +1673,7 @@ Status: **0/75** completed
 
 ## Group31
 
-Status: **9/75** completed
+Status: **10/75** completed
 
 | Class Name                                               | Status          | Commit ID  |
 | -------------------------------------------------------- | --------------- | ---------- |
@@ -1715,7 +1715,7 @@ Status: **9/75** completed
 | `Pdu`                                                    | [x] Done*       | b51f649ba4 |
 | `IPdu`                                                   | [x] Done*       | 6d2c23610d |
 | `ISignalIPdu`                                            | [x] Done*       | e9cdc05065 |
-| `NmPdu`                                                  | [ ] Implemented | N/A        |
+| `NmPdu`                                                  | [x] Done*       | 462941c124 |
 | `NPdu`                                                   | [ ] Implemented | N/A        |
 | `DcmIPdu`                                                | [ ] Implemented | N/A        |
 | `DiagPduType`                                            | [ ] Created     | N/A        |

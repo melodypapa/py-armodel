@@ -698,17 +698,38 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-08 (23392 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit e9cdc0506
 
-- [ ] `NmPdu` — Pdu — R23-11 CP_TPS_SystemTemplate Table 6.20, p.343
+- [x] `NmPdu` — Pdu — R23-11 CP_TPS_SystemTemplate Table 6.20, p.343 (sync commit 462941c12)
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: legacy 5-column checklist + stale `# Spec verified: R23-11` (Rule 0023) —
+    marker removed at entry, stamped baseline refreshed. Accessor order drift
+    (getISignalToIPduMappings before createISignalToIPduMapping — Rule 0001.11
+    wants mutator first); unusedBitPattern Note carried XSD wording, dropping the
+    markdown wrap artifact "nm DataInformation". Not VP-capable (no
+    VARIATION-POINT in the NM-PDU group/complexType). Reader/writer already
+    chain readPdu/writePdu once per side.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - Deviation: none — fixed in-pass: `createISignalToIPduMapping` moved before
+    `getISignalToIPduMappings` (Rule 0001.11 mutator-first; checklist rows
+    reordered to source order); `iSignalToIPduMapping`/`unusedBitPattern` Notes
+    re-synced verbatim from the markdown (wrap artifacts "NmUser Data" / "nm
+    DataInformation" restored — prior text had XSD-collapsed wording); legacy
+    5-column checklist upgraded to 6-column with per-row release; class docstring
+    gained the class-level constr_5385/constr_3073 rows. Reader/writer source
+    unchanged (readNmPdu/writeNmPdu already chain readPdu/writePdu exactly once
+    per side; XSD l.85128 child order; ARPackage dispatch full both sides). XSD
+    notes the I-SIGNAL-TO-I-PDU-MAPPINGS aggregation carries a variation point
+    that "shall not exist in models" (constr_2638) — not an attribute, not
+    modeled. No referenced-but-missing classes (Pdu synced b51f649ba;
+    ISignalToIPduMapping synced; Boolean/Integer primitives exist) — no Rule
+    0001.10 placeholders.
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-08 (23407 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 462941c12
 
 - [ ] `NPdu` — IPdu — R23-11 CP_TPS_SystemTemplate Table 6.21, p.343
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py

@@ -11,10 +11,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | Status | Classes | Percent |
 | --- | --- | --- |
 | [x] Done | 852 | 44.8% |
-| [x] Deferred | 34 | 1.8% |
+| [x] Deferred | 35 | 1.8% |
 | [x] Retired | 0 | 0.0% |
 | [ ] Deferred | 829 | 43.6% |
-| [ ] Implemented | 39 | 2.1% |
+| [ ] Implemented | 38 | 2.0% |
 | [ ] Created | 148 | 7.8% |
 | [ ] Pending | 0 | 0.0% |
 
@@ -1320,7 +1320,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `NmCoordinatorRoleEnum`                                 | [ ] Implemented| N/A                                      | Group33          |
 | `NmEcu`                                                 | [x] Done    | c5eafef533                               | Group18          |
 | `NmNode`                                                | [ ] Implemented| N/A                                      | Group33          |
-| `NmPdu`                                                 | [ ] Implemented| N/A                                      | Group31          |
+| `NmPdu`                                                 | [x] Deferred| 462941c124                               | Group31          |
 | `NonqueuedReceiverComSpec`                              | [ ] Deferred| 4179558606                               | Group27          |
 | `NonqueuedSenderComSpec`                                | [ ] Deferred| f6f67d00a4                               | Group27          |
 | `NotAvailableValueSpecification`                        | [ ] Deferred| 83ab0d13f3                               | Group28          |
