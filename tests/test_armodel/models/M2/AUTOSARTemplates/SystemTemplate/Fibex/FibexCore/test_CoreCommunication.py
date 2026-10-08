@@ -7,7 +7,7 @@ import pytest
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable, Identifiable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, ByteOrderEnum, DiagPduType, Integer, RefType, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, ByteOrderEnum, DiagPduType, Integer, PositiveInteger, RefType, TimeValue
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
@@ -1079,10 +1079,12 @@ class Test_FibexCoreCommunication:
         parent = MockParent()
         auth_props = SecureCommunicationAuthenticationProps(parent, "test_auth_props")
 
-        auth_props.setAuthInfoTxLength(4)
-        assert auth_props.getAuthInfoTxLength() == 4
+        value = PositiveInteger()
+        value.setValue("24")
+        auth_props.setAuthInfoTxLength(value)
+        assert auth_props.getAuthInfoTxLength() == value
         assert auth_props == auth_props.setAuthInfoTxLength(None)
-        assert auth_props.getAuthInfoTxLength() == 4
+        assert auth_props.getAuthInfoTxLength() == value
 
     def test_SecureCommunicationFreshnessProps_initialization(self):
         parent = MockParent()

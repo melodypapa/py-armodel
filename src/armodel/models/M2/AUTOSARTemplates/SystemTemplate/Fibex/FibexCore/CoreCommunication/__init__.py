@@ -3198,16 +3198,12 @@ class SecureCommunicationAuthenticationProps(Identifiable):
 
     # SecureCommunicationAuthenticationProps method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.47, p.371
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getAuthInfoTxLength            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setAuthInfoTxLength            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAuthInfoTxLength  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAuthInfoTxLength  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the SecureCommunicationAuthenticationProps.
-        """
         super().__init__(parent, short_name)
 
         # This attribute defines the length in bits of the authentication code to be included in the payload of the authenticated Pdu.
