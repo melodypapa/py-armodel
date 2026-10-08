@@ -207,8 +207,9 @@ class NmCoordinatorRoleEnum(AREnum):
 
     # NmCoordinatorRoleEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.304, p.676
-    # Spec verified: R23-11
-    # (no methods)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — serialized as value form on NmNode.nmCoordinatorRole
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # Coordinator which "actively" performs NmCoordinator functionality at this channel Tags: atp.EnumerationLiteralIndex=0
     ACTIVE = "ACTIVE"
