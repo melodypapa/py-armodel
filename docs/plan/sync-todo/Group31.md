@@ -731,17 +731,33 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-08 (23407 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 462941c12
 
-- [ ] `NPdu` — IPdu — R23-11 CP_TPS_SystemTemplate Table 6.21, p.343
+- [x] `NPdu` — IPdu — R23-11 CP_TPS_SystemTemplate Table 6.21, p.343 (sync commit 5cff010b1)
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: legacy 5-column checklist + stale `# Spec verified: R23-11` (Rule 0023) —
+    marker removed at entry, stamped baseline refreshed (292 → 291 known-failing
+    stamped classes). Step 1: concrete Class; Base most-derived = `IPdu`
+    (markdown Base row and XSD group chain AR-OBJECT..PDU, I-PDU, N-PDU agree);
+    ZERO own Attribute rows — the N-PDU group (AUTOSAR_00052.xsd l.83999) is an
+    empty `<xsd:sequence/>`, so NPdu declares no fields (inherited Pdu/IPdu
+    members stay on the bases — no flattening). Class Note keeps the
+    `Tags: atp.recommendedPackage=Pdus` tail verbatim. Not VP-capable (no
+    VARIATION-POINT in the N-PDU group/complexType).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - Deviation: none — fixed in-pass: the flagged read/write asymmetry resolved —
+    `readNPdu` dispatched `readIPdu` but legacy `writeNPdu` called `writePdu`
+    only, silently dropping CONTAINED-I-PDU-PROPS on write; `writeNPdu` now
+    calls `writeIPdu` exactly once per side (Rule 0025 symmetry; Base = IPdu),
+    pinned by writer round-trip tests (Red: 3 failed before the fix). Reader
+    unchanged. ARPackage dispatch full both sides; base-level S/T/UUID
+    round-trip pinned (`test_round_trip_base_level_attributes`).
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-08 (23424 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 5cff010b1
 
 - [ ] `DcmIPdu` — IPdu — R23-11 CP_TPS_SystemTemplate Table 6.22, p.343
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py

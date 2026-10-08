@@ -11,10 +11,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | Status | Classes | Percent |
 | --- | --- | --- |
 | [x] Done | 852 | 44.8% |
-| [x] Deferred | 35 | 1.8% |
+| [x] Deferred | 36 | 1.9% |
 | [x] Retired | 0 | 0.0% |
 | [ ] Deferred | 829 | 43.6% |
-| [ ] Implemented | 38 | 2.0% |
+| [ ] Implemented | 37 | 1.9% |
 | [ ] Created | 148 | 7.8% |
 | [ ] Pending | 0 | 0.0% |
 
@@ -1306,7 +1306,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `MultiplexedIPdu`                                       | [x] Done    | 2c2e102933                               | Group15          |
 | `MultiplexedPart`                                       | [x] Done    | 9ed9d78782                               | Group15          |
 | `MultiplicityRestrictionWithSeverity`                   | [ ] Created | N/A                                      | Group36          |
-| `NPdu`                                                  | [ ] Implemented| N/A                                      | Group31          |
+| `NPdu`                                                  | [x] Deferred| 5cff010b1a                               | Group31          |
 | `NameTokens`                                            | [x] Done    | c8a3ff507d                               | Group3           |
 | `NetworkEndpoint`                                       | [x] Done    | 84587c11f6                               | Group16          |
 | `NetworkEndpointAddress`                                | [x] Done    | c052de0226                               | Group6           |
