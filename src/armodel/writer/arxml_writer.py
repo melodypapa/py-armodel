@@ -10276,7 +10276,8 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeCanNmEcu(self, element: ET.Element, ecu: CanNmEcu):
         if ecu is not None:
-            ET.SubElement(element, "CAN-NM-ECU")
+            child_element = ET.SubElement(element, "CAN-NM-ECU")
+            self.writeARObject(child_element, ecu)
 
     def writeJ1939NmEcu(self, element: ET.Element, ecu: J1939NmEcu):
         if ecu is not None:

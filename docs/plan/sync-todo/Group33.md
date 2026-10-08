@@ -1504,15 +1504,26 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `CanNmEcu` — BusspecificNmEcu — R23-11 CP_TPS_SystemTemplate Table 6.312, p.683
   - module: M2/AUTOSARTemplates/SystemTemplate/NetworkManagement.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note: drift re-sync of a pre-existing implementation — stale `# Spec verified: R23-11`
+    marker removed at session start (Rule 0023/0012.3); legacy 5-column checklist upgraded to
+    6-column. Table 6.312 has ZERO attribute rows (empty-attribute class; the XSD group
+    CAN-NM-ECU's only element NM-REPEAT-MSG-INDICATION-ENABLED carries atp.Status="removed" and
+    is absent from the PDF table — NOT modeled, Rule 0015); Base row most-derived =
+    BusspecificNmEcu (hint confirmed); concrete class (XSD abstract="false"), no TypeError
+    guard. Steps 5/6 NOT N/A for the S/T level: readCanNmEcu was `pass` and writeCanNmEcu
+    emitted a bare element — both now call readARObject/writeARObject (Rule 0025; nearest
+    ancestor owning a helper, BusspecificNmEcu owns none — NmCoordinator precedent), pinned by
+    new parser/writer tests asserting the S/T round-trip through the BUS-DEPENDENT-NM-ECUS
+    dispatch.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `J1939NmNode` — NmNode — R23-11 CP_TPS_SystemTemplate Table 6.320, p.691
   - module: M2/AUTOSARTemplates/SystemTemplate/NetworkManagement.py

@@ -14378,7 +14378,7 @@ class ARXMLParser(AbstractARXMLParser):
         ecu.setNmMainFunctionAcrossFrCycle(self.getChildElementOptionalBooleanValue(element, "NM-MAIN-FUNCTION-ACROSS-FR-CYCLE"))
 
     def readCanNmEcu(self, element: ET.Element, ecu: CanNmEcu):
-        pass
+        self.readARObject(element, ecu)
 
     def readJ1939NmEcu(self, element: ET.Element, ecu: J1939NmEcu):
         pass
