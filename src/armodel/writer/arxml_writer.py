@@ -1363,6 +1363,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import
     IEEE1722TpAafConnection,
     IEEE1722TpCrfConnection,
     IEEE1722TpIidcConnection,
+    IEEE1722TpRvfConnection,
     J1939TpConfig,
     J1939TpConnection,
     J1939TpNode,
@@ -11132,6 +11133,31 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalPositiveInteger(child_element, "IIDC-T-CODE", cast(Integer, connection.getIidcTCode()))
         self.setChildElementOptionalPositiveInteger(child_element, "IIDC-TAG", cast(Integer, connection.getIidcTag()))
 
+    def writeIEEE1722TpRvfConnection(self, element: ET.Element, connection: IEEE1722TpRvfConnection):
+        self.logger.debug("Write IEEE1722TpRvfConnection <%s>" % connection.getShortName())
+        child_element = ET.SubElement(element, "IEEE-1722-TP-RVF-CONNECTION")
+        self.writeIEEE1722TpAvConnection(child_element, connection)
+        self.setChildElementOptionalPositiveInteger(child_element, "RVF-ACTIVE-PIXELS", cast(Integer, connection.getRvfActivePixels()))
+        rvf_color_space = connection.getRvfColorSpace()
+        if rvf_color_space is not None:
+            rvf_color_space_element = ET.SubElement(child_element, "RVF-COLOR-SPACE")
+            rvf_color_space_element.text = rvf_color_space.getValue()
+        self.setChildElementOptionalPositiveInteger(child_element, "RVF-EVENT-DEFAULT", cast(Integer, connection.getRvfEventDefault()))
+        rvf_frame_rate = connection.getRvfFrameRate()
+        if rvf_frame_rate is not None:
+            rvf_frame_rate_element = ET.SubElement(child_element, "RVF-FRAME-RATE")
+            rvf_frame_rate_element.text = rvf_frame_rate.getValue()
+        self.setChildElementOptionalBooleanValue(child_element, "RVF-INTERLACED", connection.getRvfInterlaced())
+        rvf_pixel_depth = connection.getRvfPixelDepth()
+        if rvf_pixel_depth is not None:
+            rvf_pixel_depth_element = ET.SubElement(child_element, "RVF-PIXEL-DEPTH")
+            rvf_pixel_depth_element.text = rvf_pixel_depth.getValue()
+        rvf_pixel_format = connection.getRvfPixelFormat()
+        if rvf_pixel_format is not None:
+            rvf_pixel_format_element = ET.SubElement(child_element, "RVF-PIXEL-FORMAT")
+            rvf_pixel_format_element.text = rvf_pixel_format.getValue()
+        self.setChildElementOptionalPositiveInteger(child_element, "RVF-TOTAL-LINES", cast(Integer, connection.getRvfTotalLines()))
+
     def writeFrameTriggering(self, element: ET.Element, triggering: FrameTriggering):
         self.writeIdentifiable(element, triggering)
         ref_list = triggering.getFramePortRefs()
@@ -19875,6 +19901,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeIEEE1722TpAafConnection(element, ar_element)
         elif isinstance(ar_element, IEEE1722TpIidcConnection):
             self.writeIEEE1722TpIidcConnection(element, ar_element)
+        elif isinstance(ar_element, IEEE1722TpRvfConnection):
+            self.writeIEEE1722TpRvfConnection(element, ar_element)
         elif isinstance(ar_element, IEEE1722TpConfig):
             self.writeIEEE1722TpConfig(element, ar_element)
         elif isinstance(ar_element, LinCluster):

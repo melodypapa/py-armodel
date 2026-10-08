@@ -2371,12 +2371,6 @@ STUBS = [
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable",
         "Identifiable",
     ),
-    (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage",
-        "IEEE1722TpRvfConnection",
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage",
-        "IEEE1722TpAvConnection",
-    ),
     ("armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication", "IPSecConfigProps", "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage", "ARElement"),
     ("armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication", "IPSecRule", "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable", "Identifiable"),
     (

@@ -1014,15 +1014,36 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `IEEE1722TpRvfConnection` — IEEE1722TpAvConnection — R23-11 CP_TPS_SystemTemplate Table 6.285, p.650
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note: Step 1 finding — module hint ARPackage.py overridden — spec Package row
+    ...IEEE1722Tp::IEEE1722TpAv -> `TransportProtocols/IEEE1722Tp/IEEE1722TpAv.py` (Rule 0007,
+    Crf/Aaf/Iidc precedent). Base row most-derived = IEEE1722TpAvConnection (hint confirmed);
+    concrete (XSD complexType abstract="false") — no TypeError guard. 8 attrs, all 0..1 attr, in
+    displayed order (= XSD group order): rvfActivePixels, rvfColorSpace, rvfEventDefault,
+    rvfFrameRate, rvfInterlaced, rvfPixelDepth, rvfPixelFormat, rvfTotalLines; the four enum-typed
+    attrs type the four RVF enums synced earlier in this batch (dependency-first queue order);
+    markdown line-split renderings (IEEE1722TpRvfColor SpaceEnum / Frame RateEnum / Pixel DepthEnum /
+    Pixel FormatEnum) resolved to the XSD mmt.qualifiedName spellings (AafConnection precedent).
+    No VARIATION-POINT in the XSD group -> no mixin; no XSD-only extras; no atp.Status="removed".
+    The markdown renders the Table 6.285 table body BEFORE its caption line (page-split rendering
+    artifact, Table 6.287 precedent) — caption text unchanged, no heading-normalization needed.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
+    - Note: no deviations — field↔spec verified both directions (8 attrs, Optional quota shapes match
+      Mult. 0..1, verbatim Notes incl. the Tags: atp.Status=candidate tails). Reader reads the base
+      readIEEE1722TpAvConnection exactly once; writer emits via writeIEEE1722TpAvConnection; XML
+      element order = XSD group order = displayed order. Enum attrs serialize as value form
+      (RVF-COLOR-SPACE / RVF-FRAME-RATE / RVF-PIXEL-DEPTH / RVF-PIXEL-FORMAT). Concrete class
+      (XSD abstract="false") — no TypeError guard; ARPackage factory createIEEE1722TpRvfConnection +
+      IEEE-1722-TP-RVF-CONNECTION reader/writer dispatch added. ARPackage.py stub class +
+      stub-registry tuple removed; re-exports added to IEEE1722Tp/__init__.py and
+      TransportProtocols/__init__.py.
 
 - [ ] `IEEE1722TpRvfPixelDepthEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 6.286, p.650
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py

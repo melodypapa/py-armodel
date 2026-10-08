@@ -1003,3 +1003,178 @@ class IEEE1722TpIidcConnection(IEEE1722TpAvConnection):
         if value is not None:
             self.iidcTCode = value
         return self
+
+
+class IEEE1722TpRvfConnection(IEEE1722TpAvConnection):
+    """
+    AV IEEE1722Tp RVF connection. Tags: atp.Status=candidate atp.recommendedPackage=IEEE1722TpConnections
+    """
+
+    # IEEE1722TpRvfConnection method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.285, p.650
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getRvfActivePixels      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRvfActivePixels      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRvfColorSpace        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRvfColorSpace        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRvfEventDefault      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRvfEventDefault      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRvfFrameRate         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRvfFrameRate         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRvfInterlaced        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRvfInterlaced        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRvfPixelDepth        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRvfPixelDepth        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRvfPixelFormat       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRvfPixelFormat       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRvfTotalLines        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRvfTotalLines        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # (Base row: ARElement, ARObject, CollectableElement, IEEE1722TpAvConnection, IEEE1722TpConnection, Identifiable, MultilanguageReferrable, PackageableElement, Referrable)
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Definition of the RVF stream active_pixels. Tags: atp.Status=candidate
+        self.rvfActivePixels: Optional[PositiveInteger] = None
+
+        # Definition of the RVF stream colorspace. Tags: atp.Status=candidate
+        self.rvfColorSpace: Optional[IEEE1722TpRvfColorSpaceEnum] = None
+
+        # Definition of the RVF stream event (evt) default value. Tags: atp.Status=candidate
+        self.rvfEventDefault: Optional[PositiveInteger] = None
+
+        # Definition of the RVF stream frame_rate. Tags: atp.Status=candidate
+        self.rvfFrameRate: Optional[IEEE1722TpRvfFrameRateEnum] = None
+
+        # Defines the RVF stream interlaced (i). Tags: atp.Status=candidate
+        self.rvfInterlaced: Optional[Boolean] = None
+
+        # Definition of the RVF stream pixel_depth. Tags: atp.Status=candidate
+        self.rvfPixelDepth: Optional[IEEE1722TpRvfPixelDepthEnum] = None
+
+        # Definition of the RVF stream pixel_format. Tags: atp.Status=candidate
+        self.rvfPixelFormat: Optional[IEEE1722TpRvfPixelFormatEnum] = None
+
+        # Definition of the RVF stream total_lines. Tags: atp.Status=candidate
+        self.rvfTotalLines: Optional[PositiveInteger] = None
+
+    def getRvfActivePixels(self) -> Optional[PositiveInteger]:
+        """
+        Definition of the RVF stream active_pixels. Tags: atp.Status=candidate
+        """
+        return self.rvfActivePixels
+
+    def setRvfActivePixels(self, value: Optional[PositiveInteger]) -> IEEE1722TpRvfConnection:
+        """
+        Definition of the RVF stream active_pixels. Tags: atp.Status=candidate
+        A None value is a no-op and does not overwrite an existing rvfActivePixels.
+        """
+        if value is not None:
+            self.rvfActivePixels = value
+        return self
+
+    def getRvfColorSpace(self) -> Optional[IEEE1722TpRvfColorSpaceEnum]:
+        """
+        Definition of the RVF stream colorspace. Tags: atp.Status=candidate
+        """
+        return self.rvfColorSpace
+
+    def setRvfColorSpace(self, value: Optional[IEEE1722TpRvfColorSpaceEnum]) -> IEEE1722TpRvfConnection:
+        """
+        Definition of the RVF stream colorspace. Tags: atp.Status=candidate
+        A None value is a no-op and does not overwrite an existing rvfColorSpace.
+        """
+        if value is not None:
+            self.rvfColorSpace = value
+        return self
+
+    def getRvfEventDefault(self) -> Optional[PositiveInteger]:
+        """
+        Definition of the RVF stream event (evt) default value. Tags: atp.Status=candidate
+        """
+        return self.rvfEventDefault
+
+    def setRvfEventDefault(self, value: Optional[PositiveInteger]) -> IEEE1722TpRvfConnection:
+        """
+        Definition of the RVF stream event (evt) default value. Tags: atp.Status=candidate
+        A None value is a no-op and does not overwrite an existing rvfEventDefault.
+        """
+        if value is not None:
+            self.rvfEventDefault = value
+        return self
+
+    def getRvfFrameRate(self) -> Optional[IEEE1722TpRvfFrameRateEnum]:
+        """
+        Definition of the RVF stream frame_rate. Tags: atp.Status=candidate
+        """
+        return self.rvfFrameRate
+
+    def setRvfFrameRate(self, value: Optional[IEEE1722TpRvfFrameRateEnum]) -> IEEE1722TpRvfConnection:
+        """
+        Definition of the RVF stream frame_rate. Tags: atp.Status=candidate
+        A None value is a no-op and does not overwrite an existing rvfFrameRate.
+        """
+        if value is not None:
+            self.rvfFrameRate = value
+        return self
+
+    def getRvfInterlaced(self) -> Optional[Boolean]:
+        """
+        Defines the RVF stream interlaced (i). Tags: atp.Status=candidate
+        """
+        return self.rvfInterlaced
+
+    def setRvfInterlaced(self, value: Optional[Boolean]) -> IEEE1722TpRvfConnection:
+        """
+        Defines the RVF stream interlaced (i). Tags: atp.Status=candidate
+        A None value is a no-op and does not overwrite an existing rvfInterlaced.
+        """
+        if value is not None:
+            self.rvfInterlaced = value
+        return self
+
+    def getRvfPixelDepth(self) -> Optional[IEEE1722TpRvfPixelDepthEnum]:
+        """
+        Definition of the RVF stream pixel_depth. Tags: atp.Status=candidate
+        """
+        return self.rvfPixelDepth
+
+    def setRvfPixelDepth(self, value: Optional[IEEE1722TpRvfPixelDepthEnum]) -> IEEE1722TpRvfConnection:
+        """
+        Definition of the RVF stream pixel_depth. Tags: atp.Status=candidate
+        A None value is a no-op and does not overwrite an existing rvfPixelDepth.
+        """
+        if value is not None:
+            self.rvfPixelDepth = value
+        return self
+
+    def getRvfPixelFormat(self) -> Optional[IEEE1722TpRvfPixelFormatEnum]:
+        """
+        Definition of the RVF stream pixel_format. Tags: atp.Status=candidate
+        """
+        return self.rvfPixelFormat
+
+    def setRvfPixelFormat(self, value: Optional[IEEE1722TpRvfPixelFormatEnum]) -> IEEE1722TpRvfConnection:
+        """
+        Definition of the RVF stream pixel_format. Tags: atp.Status=candidate
+        A None value is a no-op and does not overwrite an existing rvfPixelFormat.
+        """
+        if value is not None:
+            self.rvfPixelFormat = value
+        return self
+
+    def getRvfTotalLines(self) -> Optional[PositiveInteger]:
+        """
+        Definition of the RVF stream total_lines. Tags: atp.Status=candidate
+        """
+        return self.rvfTotalLines
+
+    def setRvfTotalLines(self, value: Optional[PositiveInteger]) -> IEEE1722TpRvfConnection:
+        """
+        Definition of the RVF stream total_lines. Tags: atp.Status=candidate
+        A None value is a no-op and does not overwrite an existing rvfTotalLines.
+        """
+        if value is not None:
+            self.rvfTotalLines = value
+        return self

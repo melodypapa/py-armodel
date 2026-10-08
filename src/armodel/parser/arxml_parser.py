@@ -1632,6 +1632,11 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import
     IEEE1722TpCrfPullEnum,
     IEEE1722TpCrfTypeEnum,
     IEEE1722TpIidcConnection,
+    IEEE1722TpRvfColorSpaceEnum,
+    IEEE1722TpRvfConnection,
+    IEEE1722TpRvfFrameRateEnum,
+    IEEE1722TpRvfPixelDepthEnum,
+    IEEE1722TpRvfPixelFormatEnum,
     J1939TpConfig,
     J1939TpConnection,
     J1939TpNode,
@@ -15037,6 +15042,33 @@ class ARXMLParser(AbstractARXMLParser):
         connection.setIidcTCode(self.getChildElementOptionalPositiveInteger(element, "IIDC-T-CODE"))
         connection.setIidcTag(self.getChildElementOptionalPositiveInteger(element, "IIDC-TAG"))
 
+    def readIEEE1722TpRvfConnection(self, element: ET.Element, connection: IEEE1722TpRvfConnection):
+        self.readIEEE1722TpAvConnection(element, connection)
+        connection.setRvfActivePixels(self.getChildElementOptionalPositiveInteger(element, "RVF-ACTIVE-PIXELS"))
+        rvf_color_space_literal = self.getChildElementOptionalLiteral(element, "RVF-COLOR-SPACE")
+        if rvf_color_space_literal is not None:
+            rvf_color_space = IEEE1722TpRvfColorSpaceEnum()
+            rvf_color_space.setValue(rvf_color_space_literal.getValue())
+            connection.setRvfColorSpace(rvf_color_space)
+        connection.setRvfEventDefault(self.getChildElementOptionalPositiveInteger(element, "RVF-EVENT-DEFAULT"))
+        rvf_frame_rate_literal = self.getChildElementOptionalLiteral(element, "RVF-FRAME-RATE")
+        if rvf_frame_rate_literal is not None:
+            rvf_frame_rate = IEEE1722TpRvfFrameRateEnum()
+            rvf_frame_rate.setValue(rvf_frame_rate_literal.getValue())
+            connection.setRvfFrameRate(rvf_frame_rate)
+        connection.setRvfInterlaced(self.getChildElementOptionalBooleanValue(element, "RVF-INTERLACED"))
+        rvf_pixel_depth_literal = self.getChildElementOptionalLiteral(element, "RVF-PIXEL-DEPTH")
+        if rvf_pixel_depth_literal is not None:
+            rvf_pixel_depth = IEEE1722TpRvfPixelDepthEnum()
+            rvf_pixel_depth.setValue(rvf_pixel_depth_literal.getValue())
+            connection.setRvfPixelDepth(rvf_pixel_depth)
+        rvf_pixel_format_literal = self.getChildElementOptionalLiteral(element, "RVF-PIXEL-FORMAT")
+        if rvf_pixel_format_literal is not None:
+            rvf_pixel_format = IEEE1722TpRvfPixelFormatEnum()
+            rvf_pixel_format.setValue(rvf_pixel_format_literal.getValue())
+            connection.setRvfPixelFormat(rvf_pixel_format)
+        connection.setRvfTotalLines(self.getChildElementOptionalPositiveInteger(element, "RVF-TOTAL-LINES"))
+
     def readCanFrame(self, element: ET.Element, frame: CanFrame):
         self.logger.debug("Read CanFrame <%s>" % frame.getShortName())
         self.readFrame(element, frame)
@@ -19442,6 +19474,8 @@ class ARXMLParser(AbstractARXMLParser):
                 self.readIEEE1722TpAafConnection(child_element, parent.createIEEE1722TpAafConnection(self.getShortName(child_element)))
             elif tag_name == "IEEE-1722-TP-IIDC-CONNECTION":
                 self.readIEEE1722TpIidcConnection(child_element, parent.createIEEE1722TpIidcConnection(self.getShortName(child_element)))
+            elif tag_name == "IEEE-1722-TP-RVF-CONNECTION":
+                self.readIEEE1722TpRvfConnection(child_element, parent.createIEEE1722TpRvfConnection(self.getShortName(child_element)))
             elif tag_name == "CLIENT-ID-DEFINITION-SET":
                 id_definition_set = parent.createClientIdDefinitionSet(self.getShortName(child_element))
                 self.readClientIdDefinitionSet(child_element, id_definition_set)
