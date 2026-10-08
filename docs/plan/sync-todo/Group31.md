@@ -842,17 +842,29 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-08 (23444 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit de6338d74
 
-- [ ] `J1939DcmIPdu` — IPdu — R23-11 CP_TPS_SystemTemplate Table 6.24, p.344
+- [x] `J1939DcmIPdu` — IPdu — R23-11 CP_TPS_SystemTemplate Table 6.24, p.344 (sync commit 75a272e53)
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: own table = SystemTemplate Table 6.24, p.344 (single page, no split); concrete
+    Class; Base most-derived = `IPdu` (already synced); one own attribute
+    `diagnosticMessageType` (PositiveInteger, 0..1, attr; markdown renders
+    "diagnostic MessageType" — XSD mmt.qualifiedName + constr_3096 confirm camelCase);
+    class Note carries Tags: atp.recommendedPackage=Pdus; constr_3096 (range 1..57);
+    XSD group J-1939-DCM-I-PDU (l.75299) = single child DIAGNOSTIC-MESSAGE-TYPE
+    (POSITIVE-INTEGER, 0..1), complexType l.75315; no XSD-only attrs, no removed attrs.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - Note: No deviations — single own attribute diagnosticMessageType modeled per PDF
+    (PositiveInteger, 0..1); no XSD-only attrs, no atp.Status=removed elements, no
+    Rule 0001.10 placeholders; consumer dispatch upgraded end-to-end (ARPackage
+    createJ1939DcmIPdu factory added, parser J-1939-DCM-I-PDU tag branch, writer
+    isinstance branch). No referenced-but-missing classes.
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-08 (23463 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 75a272e53
 
 - [ ] `PduToFrameMapping` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.29, p.347
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py

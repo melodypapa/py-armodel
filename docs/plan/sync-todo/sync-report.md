@@ -11,11 +11,11 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | Status | Classes | Percent |
 | --- | --- | --- |
 | [x] Done | 852 | 44.8% |
-| [x] Deferred | 38 | 2.0% |
+| [x] Deferred | 39 | 2.1% |
 | [x] Retired | 0 | 0.0% |
 | [ ] Deferred | 829 | 43.6% |
 | [ ] Implemented | 36 | 1.9% |
-| [ ] Created | 147 | 7.7% |
+| [ ] Created | 146 | 7.7% |
 | [ ] Pending | 0 | 0.0% |
 
 | Class Name                                              | Status      | Commit ID                                | Groups           |
@@ -1147,7 +1147,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `J1939ControllerApplication`                            | [ ] Deferred| bf314fe2fe                               | Group30          |
 | `J1939ControllerApplicationToJ1939NmNodeMapping`        | [ ] Deferred| 7ffd517014                               | Group30          |
 | `J1939DcmDm19Support`                                   | [x] Done    | 839c29d67e                               | Group5           |
-| `J1939DcmIPdu`                                          | [ ] Created | N/A                                      | Group31          |
+| `J1939DcmIPdu`                                          | [x] Deferred| 75a272e532                               | Group31          |
 | `J1939NmAddressConfigurationCapabilityEnum`             | [ ] Implemented| N/A                                      | Group33          |
 | `J1939NmCluster`                                        | [x] Done    | 9c8e10b37f                               | Group6           |
 | `J1939NmEcu`                                            | [x] Done    | 9c8e10b37f                               | Group6           |

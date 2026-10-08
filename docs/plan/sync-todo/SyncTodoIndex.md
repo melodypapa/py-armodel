@@ -1673,7 +1673,7 @@ Status: **0/75** completed
 
 ## Group31
 
-Status: **13/75** completed
+Status: **14/75** completed
 
 | Class Name                                               | Status          | Commit ID  |
 | -------------------------------------------------------- | --------------- | ---------- |
@@ -1719,7 +1719,7 @@ Status: **13/75** completed
 | `NPdu`                                                   | [x] Done*       | 5cff010b1a |
 | `DcmIPdu`                                                | [x] Done*       | edf35e5e2a |
 | `DiagPduType`                                            | [x] Done*       | de6338d747 |
-| `J1939DcmIPdu`                                           | [ ] Created     | N/A        |
+| `J1939DcmIPdu`                                           | [x] Done*       | 75a272e532 |
 | `PduToFrameMapping`                                      | [ ] Implemented | N/A        |
 | `IPduTiming`                                             | [ ] Implemented | N/A        |
 | `PduTriggering`                                          | [ ] Implemented | N/A        |
