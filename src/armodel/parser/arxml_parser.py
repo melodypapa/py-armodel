@@ -774,6 +774,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticRoutineSubfunction,
     DiagnosticStartRoutine,
     DiagnosticStopRoutine,
+    GlobalTimeCanMaster,
     GlobalTimeGateway,
     GlobalTimeMaster,
     GlobalTimeSlave,
@@ -800,6 +801,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DateTime,
     DdsDurabilityKindEnum,
     FrArTpAckType,
+    GlobalTimeCrcSupportEnum,
     GlobalTimeIcvSupportEnum,
     GlobalTimeIcvVerificationEnum,
     GlobalTimePortRoleEnum,
@@ -16348,6 +16350,19 @@ class ARXMLParser(AbstractARXMLParser):
         gateway.setMasterRef(self.getChildElementOptionalRefType(element, "MASTER-REF"))
         gateway.setSlaveRef(self.getChildElementOptionalRefType(element, "SLAVE-REF"))
         return gateway
+
+    def readGlobalTimeCanMaster(self, element: ET.Element, master: GlobalTimeCanMaster) -> GlobalTimeCanMaster:
+        # The XSD GLOBAL-TIME-CAN-MASTER group (AUTOSAR_00052.xsd l.64210) follows the
+        # GLOBAL-TIME-MASTER group: CRC-SECURED then SYNC-CONFIRMATION-TIMEOUT. The removed
+        # FOLLOW-UP-OFFSET element (atp.Status="removed", absent from Table 9.8) is not read.
+        self.readGlobalTimeMaster(element, master)
+        literal = self.getChildElementOptionalLiteral(element, "CRC-SECURED")
+        if literal is not None:
+            crc_secured = GlobalTimeCrcSupportEnum()
+            crc_secured.setValue(literal.getValue())
+            master.setCrcSecured(crc_secured)
+        master.setSyncConfirmationTimeout(self.getChildElementOptionalTimeValue(element, "SYNC-CONFIRMATION-TIMEOUT"))
+        return master
 
     def readEthGlobalTimeManagedCouplingPort(self, element: ET.Element, port: EthGlobalTimeManagedCouplingPort) -> EthGlobalTimeManagedCouplingPort:
         self.readARObject(element, port)

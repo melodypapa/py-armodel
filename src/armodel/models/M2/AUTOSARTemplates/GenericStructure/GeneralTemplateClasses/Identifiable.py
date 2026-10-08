@@ -33,6 +33,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Boolean,
     CategoryString,
     DiagnosticDebounceBehaviorEnum,
+    GlobalTimeCrcSupportEnum,
     GlobalTimeIcvSupportEnum,
     GlobalTimeIcvVerificationEnum,
     Identifier,
@@ -2888,7 +2889,66 @@ class DdsCpConsumedServiceInstance(DdsCpServiceInstance):
 
 
 class GlobalTimeCanMaster(GlobalTimeMaster):
-    pass
+    """
+    This represents the specialization of the GlobalTimeMaster for the CAN communication.
+    """
+
+    # GlobalTimeCanMaster method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.8, p.864
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCrcSecured               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCrcSecured               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSyncConfirmationTimeout  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSyncConfirmationTimeout  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # The reader/writer call the Table 9.4 base helpers (readGlobalTimeMaster /
+    # writeGlobalTimeMaster) exactly once; the XSD GLOBAL-TIME-CAN-MASTER group
+    # (AUTOSAR_00052.xsd l.64210) element order is CRC-SECURED then SYNC-CONFIRMATION-TIMEOUT.
+    # FOLLOW-UP-OFFSET is absent from Table 9.8 and carries atp.Status="removed" in the XSD —
+    # deprecated, not implemented. Aggregator dispatch (GlobalTimeDomain.globalTimeMaster) is
+    # pending — GlobalTimeDomain is a later-wave class.
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Definition of whether or not CRC is supported. This is only relevant for selected bus systems.
+        self.crcSecured: Optional[GlobalTimeCrcSupportEnum] = None
+
+        # This represents the value for the confirmation timeout. Unit: seconds.
+        self.syncConfirmationTimeout: Optional[TimeValue] = None
+
+    def getCrcSecured(self) -> Optional[GlobalTimeCrcSupportEnum]:
+        """
+        Definition of whether or not CRC is supported. This is only relevant for selected bus systems.
+        """
+        return self.crcSecured
+
+    def setCrcSecured(self, value: Optional[GlobalTimeCrcSupportEnum]) -> GlobalTimeCanMaster:
+        """
+        Definition of whether or not CRC is supported. This is only relevant for selected bus systems.
+
+        A None value is a no-op and does not overwrite an existing crcSecured.
+        """
+        if value is not None:
+            self.crcSecured = value
+        return self
+
+    def getSyncConfirmationTimeout(self) -> Optional[TimeValue]:
+        """
+        This represents the value for the confirmation timeout. Unit: seconds.
+        """
+        return self.syncConfirmationTimeout
+
+    def setSyncConfirmationTimeout(self, value: Optional[TimeValue]) -> GlobalTimeCanMaster:
+        """
+        This represents the value for the confirmation timeout. Unit: seconds.
+
+        A None value is a no-op and does not overwrite an existing syncConfirmationTimeout.
+        """
+        if value is not None:
+            self.syncConfirmationTimeout = value
+        return self
 
 
 class GlobalTimeEthMaster(GlobalTimeMaster):

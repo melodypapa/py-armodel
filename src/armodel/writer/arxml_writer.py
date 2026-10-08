@@ -617,6 +617,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticRoutineSubfunction,
     DiagnosticStartRoutine,
     DiagnosticStopRoutine,
+    GlobalTimeCanMaster,
     GlobalTimeGateway,
     GlobalTimeMaster,
     GlobalTimeSlave,
@@ -13854,6 +13855,15 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalRefType(element, "MASTER-REF", gateway.getMasterRef())
         self.setChildElementOptionalRefType(element, "SLAVE-REF", gateway.getSlaveRef())
         self.writeVariationPoint(element, gateway.getVariationPoint())
+
+    def writeGlobalTimeCanMaster(self, element: ET.Element, master: GlobalTimeCanMaster):
+        # Populates the GLOBAL-TIME-CAN-MASTER element created by the caller; the XSD
+        # GLOBAL-TIME-CAN-MASTER group (AUTOSAR_00052.xsd l.64210) follows the
+        # GLOBAL-TIME-MASTER group: CRC-SECURED then SYNC-CONFIRMATION-TIMEOUT. The removed
+        # FOLLOW-UP-OFFSET element (atp.Status="removed", absent from Table 9.8) is not written.
+        self.writeGlobalTimeMaster(element, master)
+        self.setChildElementOptionalLiteral(element, "CRC-SECURED", master.getCrcSecured())
+        self.setChildElementOptionalTimeValue(element, "SYNC-CONFIRMATION-TIMEOUT", master.getSyncConfirmationTimeout())
 
     def writeEthGlobalTimeManagedCouplingPort(self, element: ET.Element, port: EthGlobalTimeManagedCouplingPort):
         child_element = ET.SubElement(element, "ETH-GLOBAL-TIME-MANAGED-COUPLING-PORT")
