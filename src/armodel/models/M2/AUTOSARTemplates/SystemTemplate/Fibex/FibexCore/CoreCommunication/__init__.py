@@ -2481,15 +2481,14 @@ class ISignalTriggering(Identifiable, VariationPointCapable):
 
     # ISignalTriggering method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.16, p.330
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getISignalRef             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setISignalRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getISignalGroupRef        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setISignalGroupRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] addISignalPortRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getISignalPortRefs        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getISignalRef      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setISignalRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getISignalGroupRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setISignalGroupRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addISignalPortRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getISignalPortRefs [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)

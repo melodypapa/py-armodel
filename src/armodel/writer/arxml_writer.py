@@ -11134,7 +11134,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeISignalTriggering(self, element: ET.Element, triggering: ISignalTriggering):
         self.logger.debug("Write ISignalTriggering %s" % triggering.getShortName())
         child_element = ET.SubElement(element, "I-SIGNAL-TRIGGERING")
-        self.writeIdentifiable(child_element, triggering)
+        self.writeIdentifiable(child_element, triggering, write_variation_point=False)
         self.setChildElementOptionalRefType(child_element, "I-SIGNAL-GROUP-REF", triggering.getISignalGroupRef())
         ref_list = triggering.getISignalPortRefs()
         if len(ref_list) > 0:
@@ -11142,6 +11142,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             for ref in ref_list:
                 self.setChildElementOptionalRefType(i_signal_port_refs_tag, "I-SIGNAL-PORT-REF", ref)
         self.setChildElementOptionalRefType(child_element, "I-SIGNAL-REF", triggering.getISignalRef())
+        self.writeVariationPointCapable(child_element, triggering)
 
     def writePduTriggering(self, element: ET.Element, triggering: PduTriggering):
         self.logger.debug("Write PduTriggering %s" % triggering.getShortName())

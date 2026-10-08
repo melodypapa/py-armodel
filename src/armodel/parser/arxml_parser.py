@@ -10498,6 +10498,7 @@ class ARXMLParser(AbstractARXMLParser):
         for ref in self.getChildElementRefTypeList(element, "I-SIGNAL-PORT-REFS/I-SIGNAL-PORT-REF"):
             triggering.addISignalPortRef(ref)
         triggering.setISignalRef(self.getChildElementOptionalRefType(element, "I-SIGNAL-REF"))
+        self.readVariationPointCapable(element, triggering)
 
     def readPduTriggering(self, element: ET.Element, triggering: PduTriggering):
         self.logger.debug("Read PduTriggering %s" % triggering.getShortName())
