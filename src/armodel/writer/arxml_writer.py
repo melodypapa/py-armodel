@@ -541,6 +541,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticWriteDataByIdentifier,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    FMAttributeValue,
     AbstractGlobalTimeDomainProps,
     CalibrationParameterValue,
     RoleBasedResourceDependency,
@@ -2093,6 +2094,13 @@ class ARXMLWriter(AbstractARXMLWriter):
                 child_element.text = text
             if isinstance(formula, FMFormulaByFeaturesAndAttributes):
                 self.writeFMFormulaByFeaturesAndAttributes(child_element, formula)
+
+    def writeFMAttributeValue(self, element: ET.Element, value: FMAttributeValue):
+        if value is not None:
+            child_element = ET.SubElement(element, "FM-ATTRIBUTE-VALUE")
+            self.writeARObject(child_element, value)
+            self.setChildElementOptionalRefType(child_element, "DEFINITION-REF", value.getDefinitionRef())
+            self.setChildElementOptionalNumericalValue(child_element, "VALUE", value.getValue())
 
     def writePostBuildVariantCondition(self, element: ET.Element, condition: PostBuildVariantCondition):
         child_element = ET.SubElement(element, "POST-BUILD-VARIANT-CONDITION")

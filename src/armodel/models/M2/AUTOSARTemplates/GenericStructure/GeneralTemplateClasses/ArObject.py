@@ -2125,7 +2125,59 @@ class EventObdReadinessGroup(ARObject):
 
 
 class FMAttributeValue(ARObject):
-    pass
+    """
+    This defines a value for the attribute that is referred to in the role definition.
+    """
+
+    # FMAttributeValue method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf, Table 5.4, p.42
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDefinitionRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDefinitionRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getValue           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setValue           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # This refers to the definition of this attribute. Stereotypes: atpIdentityContributor
+        self.definitionRef: Optional[RefType] = None
+
+        # This represents the value of this attribute.
+        self.value: Optional[Numerical] = None
+
+    def getDefinitionRef(self) -> Optional[RefType]:
+        """
+        This refers to the definition of this attribute. Stereotypes: atpIdentityContributor
+        """
+        return self.definitionRef
+
+    def setDefinitionRef(self, value: Optional[RefType]) -> FMAttributeValue:
+        """
+        This refers to the definition of this attribute. Stereotypes: atpIdentityContributor
+
+        A None value is a no-op and does not overwrite an existing definitionRef.
+        """
+        if value is not None:
+            self.definitionRef = value
+        return self
+
+    def getValue(self) -> Optional[Numerical]:
+        """
+        This represents the value of this attribute.
+        """
+        return self.value
+
+    def setValue(self, value: Optional[Numerical]) -> FMAttributeValue:
+        """
+        This represents the value of this attribute.
+
+        A None value is a no-op and does not overwrite an existing value.
+        """
+        if value is not None:
+            self.value = value
+        return self
 
 
 class FMFeatureDecomposition(ARObject):
@@ -3720,9 +3772,11 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticTypeOfFreezeFrameRecordNumerationEnum,
     DiagnosticUdsSeverityEnum,
     DiagnosticWwhObdDtcClassEnum,
+    CategoryString,
     Float,
     Identifier,
     NameToken,
+    Numerical,
     PositiveInteger,
     RefType,
     String,

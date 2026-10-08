@@ -562,6 +562,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import AtpMixedString
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    FMAttributeValue,
     AbstractGlobalTimeDomainProps,
     CalibrationParameterValue,
     RoleBasedResourceDependency,
@@ -2379,6 +2380,12 @@ class ARXMLParser(AbstractARXMLParser):
         if isinstance(formula, FMFormulaByFeaturesAndAttributes):
             self.readFMFormulaByFeaturesAndAttributes(element, formula)
         return formula
+
+    def readFMAttributeValue(self, element: ET.Element, value: FMAttributeValue) -> FMAttributeValue:
+        self.readARObject(element, value)
+        value.setDefinitionRef(self.getChildElementOptionalRefType(element, "DEFINITION-REF"))
+        value.setValue(self.getChildElementOptionalNumericalValue(element, "VALUE"))
+        return value
 
     def readPostBuildVariantCondition(self, element: ET.Element, condition: PostBuildVariantCondition) -> PostBuildVariantCondition:
         self.readARObject(element, condition)
