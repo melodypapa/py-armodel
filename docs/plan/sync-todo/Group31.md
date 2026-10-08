@@ -583,17 +583,32 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-08 (23348 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 96695d8a3
 
-- [ ] `Pdu` — ARElement — R23-11 CP_TPS_SystemTemplate Table 6.17, p.340
+- [x] `Pdu` — ARElement — R23-11 CP_TPS_SystemTemplate Table 6.17, p.340 (sync commit b51f649ba)
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: own table = CP_TPS_SystemTemplate Table 6.17, p.340; abstract Class; Base
+    most-derived modeled = `FibexElement` (`UploadableDesignElement`/`UploadablePackageElement`
+    are spec chain names with no model class; `FibexElement(PackageableElement, ABC)` is the
+    established family base) — pre-existing base correct; 2 spec attrs (`hasDynamicLength`
+    Boolean 0..1, `length` UnlimitedInteger 0..1), no refs/aggrs, XSD group PDU
+    (AUTOSAR_00052.xsd l.88521) order HAS-DYNAMIC-LENGTH, LENGTH; META-DATA-LENGTH carries
+    `atp.Status="removed"` → not modeled; class Note + constr_5249/5321/3448 to append.
+    Entry audit FAIL (Rule 0023 legacy 5-col checklist + stale `# Spec verified:`
+    marker) — marker removed at session start, baseline refreshed (one-line diff).
+    `readPdu`/`writePdu` reusable helpers + subclass call sites already exist.
+  - Deviation: `META-DATA-LENGTH` (PDU group, AUTOSAR_00052.xsd l.88554) carries
+    `atp.Status="removed"` (atp.StatusRevisionBegin="4.3.0") — deprecated, not
+    implemented (Rule 0001.3/0015); absent from the Table 6.17 Attribute column.
+    No referenced-but-missing classes (Boolean, UnlimitedInteger, FibexElement all
+    exist; FibexElement stamped `# Spec verified: R23-11`).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-08 (23363 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit b51f649ba
 
 - [ ] `IPdu` — Pdu — R23-11 CP_TPS_SystemTemplate Table 6.18, p.341
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py

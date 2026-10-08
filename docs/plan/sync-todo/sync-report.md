@@ -11,10 +11,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | Status | Classes | Percent |
 | --- | --- | --- |
 | [x] Done | 852 | 44.8% |
-| [x] Deferred | 31 | 1.6% |
+| [x] Deferred | 32 | 1.7% |
 | [x] Retired | 0 | 0.0% |
 | [ ] Deferred | 829 | 43.6% |
-| [ ] Implemented | 42 | 2.2% |
+| [ ] Implemented | 41 | 2.2% |
 | [ ] Created | 148 | 7.8% |
 | [ ] Pending | 0 | 0.0% |
 
@@ -1377,7 +1377,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `PassThroughSwConnector`                                | [ ] Deferred| 1c0ee7d639                               | Group27          |
 | `PayloadBytePatternRule`                                | [x] Done    | d77a6727fc                               | Group20          |
 | `PayloadBytePatternRulePart`                            | [x] Done    | 0cc195ce8e                               | Group20          |
-| `Pdu`                                                   | [ ] Implemented| N/A                                      | Group31          |
+| `Pdu`                                                   | [x] Deferred| b51f649ba4                               | Group31          |
 | `PduActivationRoutingGroup`                             | [ ] Deferred| 5cb5ddacc2                               | Group32          |
 | `PduCollectionSemanticsEnum`                            | [x] Done    | 5d4adec228                               | Group16          |
 | `PduCollectionTriggerEnum`                              | [x] Done    | 64d125ffae                               | Group5           |
