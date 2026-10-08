@@ -2435,6 +2435,13 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(value_set)
         return cast(PostBuildVariantCriterionValueSet, self.getReferrableElement(short_name, PostBuildVariantCriterionValueSet))
 
+    def createDataExchangePoint(self, short_name: str) -> DataExchangePoint:
+
+        if not self.IsReferrableElementExists(short_name, DataExchangePoint):
+            data_exchange_point = DataExchangePoint(self, short_name)
+            self.addReferrableElement(data_exchange_point)
+        return cast(DataExchangePoint, self.getReferrableElement(short_name, DataExchangePoint))
+
     def createIdsmProperties(self, short_name: str) -> IdsmProperties:
 
         if not self.IsReferrableElementExists(short_name, IdsmProperties):
@@ -5802,7 +5809,103 @@ class CpSwClusterToDiagRoutineSubfunctionMapping(DiagnosticMapping):
 
 
 class DataExchangePoint(ARElement):
-    pass
+    """
+    This meta-class represents a Data Exchange Point: an agreed, producer or consumer view on the exchanged AUTOSAR data.
+    """
+
+    # DataExchangePoint method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 6.1, p.78
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getKind                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setKind                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getReferencedBaseline        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setReferencedBaseline        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSpecificationScope        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSpecificationScope        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDataFormatTailoring       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataFormatTailoring       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Specifies the kind of this DataExchangePoint. It provides information if this DataExchangePoint represents • the output of a tool (producer) • an input of a tool (consumer) • the agreed information between different tools
+        self.kind: Optional[DataExchangePointKind] = None
+
+        # The baseline of the AUTOSAR standard that is used as a reference within this Data Exchange Point. Tags: xml.sequenceOffset=10
+        self.referencedBaseline: Optional[Baseline] = None
+
+        # The speficication of the relevant subset of Autosar standardized and custom specifications. Tags: xml.sequenceOffset=20
+        self.specificationScope: Optional[SpecificationScope] = None
+
+        # tailoring to the Autosar Exchange Data Format The subset and tailoring of the templates specifications (Meta-Classes and attributes) Tags: xml.sequenceOffset=30
+        self.dataFormatTailoring: Optional[DataFormatTailoring] = None
+
+    def getKind(self) -> Optional[DataExchangePointKind]:
+        """
+        Specifies the kind of this DataExchangePoint. It provides information if this DataExchangePoint represents • the output of a tool (producer) • an input of a tool (consumer) • the agreed information between different tools
+        """
+        return self.kind
+
+    def setKind(self, value: Optional[DataExchangePointKind]) -> DataExchangePoint:
+        """
+        Specifies the kind of this DataExchangePoint. It provides information if this DataExchangePoint represents • the output of a tool (producer) • an input of a tool (consumer) • the agreed information between different tools
+
+        A None value is a no-op and does not overwrite an existing kind.
+        """
+        if value is not None:
+            self.kind = value
+        return self
+
+    def getReferencedBaseline(self) -> Optional[Baseline]:
+        """
+        The baseline of the AUTOSAR standard that is used as a reference within this Data Exchange Point. Tags: xml.sequenceOffset=10
+        """
+        return self.referencedBaseline
+
+    def setReferencedBaseline(self, value: Optional[Baseline]) -> DataExchangePoint:
+        """
+        The baseline of the AUTOSAR standard that is used as a reference within this Data Exchange Point. Tags: xml.sequenceOffset=10
+
+        A None value is a no-op and does not overwrite an existing referencedBaseline.
+        """
+        if value is not None:
+            self.referencedBaseline = value
+        return self
+
+    def getSpecificationScope(self) -> Optional[SpecificationScope]:
+        """
+        The speficication of the relevant subset of Autosar standardized and custom specifications. Tags: xml.sequenceOffset=20
+        """
+        return self.specificationScope
+
+    def setSpecificationScope(self, value: Optional[SpecificationScope]) -> DataExchangePoint:
+        """
+        The speficication of the relevant subset of Autosar standardized and custom specifications. Tags: xml.sequenceOffset=20
+
+        A None value is a no-op and does not overwrite an existing specificationScope.
+        """
+        if value is not None:
+            self.specificationScope = value
+        return self
+
+    def getDataFormatTailoring(self) -> Optional[DataFormatTailoring]:
+        """
+        tailoring to the Autosar Exchange Data Format The subset and tailoring of the templates specifications (Meta-Classes and attributes) Tags: xml.sequenceOffset=30
+        """
+        return self.dataFormatTailoring
+
+    def setDataFormatTailoring(self, value: Optional[DataFormatTailoring]) -> DataExchangePoint:
+        """
+        tailoring to the Autosar Exchange Data Format The subset and tailoring of the templates specifications (Meta-Classes and attributes) Tags: xml.sequenceOffset=30
+
+        A None value is a no-op and does not overwrite an existing dataFormatTailoring.
+        """
+        if value is not None:
+            self.dataFormatTailoring = value
+        return self
+
+
 
 
 class DiagnosticAbstractAliasEvent(ARElement, ABC):

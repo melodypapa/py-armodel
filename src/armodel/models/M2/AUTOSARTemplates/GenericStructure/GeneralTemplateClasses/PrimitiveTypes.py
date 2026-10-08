@@ -1701,10 +1701,6 @@ class DataConsistencyPolicyEnum(AREnum):
         )
 
 
-class DataExchangePointKind(AREnum):
-    pass
-
-
 class DdsDestinationOrderKindEnum(AREnum):
     """
     Defines the DDS DESTINATION_ORDER kind. Tags: atp.Status=candidate
@@ -1897,10 +1893,6 @@ class DdsReliabilityKindEnum(AREnum):
                 DdsReliabilityKindEnum.RELIABLE,
             ]
         )
-
-
-class DefaultValueApplicationStrategyEnum(AREnum):
-    pass
 
 
 class DiagPduType(AREnum):
@@ -2841,6 +2833,120 @@ class EthGlobalTimeMessageFormatEnum(AREnum):
         )
 
 
+class SeverityEnum(AREnum):
+    """
+    This enumeration represents the severity levels of a restriction. Tags: atp.Recommendation=FOR_STANDARDIZATION
+    """
+
+    # SeverityEnum method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 6.7, p.87
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — serialized as value form on the consuming class attribute
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+        # The severity level error.
+    ERROR = "ERROR"
+
+    # The severity level info.
+    INFO = "INFO"
+
+    # The severity level warning.
+    WARNING = "WARNING"
+
+    # The content shall not be shown.
+    NO_SHOW_CONTENT = "NO-SHOW-CONTENT"
+
+    # The content shall be shown.
+    SHOW_CONTENT = "SHOW-CONTENT"
+
+    def __init__(self):
+        super().__init__(
+            [
+                SeverityEnum.ERROR,
+                SeverityEnum.INFO,
+                SeverityEnum.WARNING,
+                SeverityEnum.NO_SHOW_CONTENT,
+                SeverityEnum.SHOW_CONTENT,
+            ]
+        )
+
+
+class DataExchangePointKind(AREnum):
+    """
+    This enumeration represents the kind of a DataExchangePoint.
+    """
+
+    # DataExchangePointKind method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 6.3, p.79
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — serialized as value form on the consuming class attribute
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+        # The DataExchangePoint represents the agreed content between producer and consumer.
+    AGREED = "AGREED"
+
+    # The DataExchangePoint represents the view of a consumer.
+    CONSUMER = "CONSUMER"
+
+    # The DataExchangePoint represents the view of a producer.
+    PRODUCER = "PRODUCER"
+
+    # The content is always applicable.
+    ALWAYS = "ALWAYS"
+
+    # Masked new differs masked old.
+    MASKED_NEW_DIFFERS_MASKED_OLD = "MASKED-NEW-DIFFERS-MASKED-OLD"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DataExchangePointKind.AGREED,
+                DataExchangePointKind.CONSUMER,
+                DataExchangePointKind.PRODUCER,
+                DataExchangePointKind.ALWAYS,
+                DataExchangePointKind.MASKED_NEW_DIFFERS_MASKED_OLD,
+            ]
+        )
+
+
+class DefaultValueApplicationStrategyEnum(AREnum):
+    """
+    This enumeration specifies how to handle AUTOSAR defined default values.
+    """
+
+    # DefaultValueApplicationStrategyEnum method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 6.33, p.112
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — serialized as value form on the consuming class attribute
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+        # The default value shall be applied if the revision is updated.
+    DEFAULT_IF_REVISION_UPDATE = "DEFAULT-IF-REVISION-UPDATE"
+
+    # The default value shall be applied if the value is undefined.
+    DEFAULT_IF_UNDEFINED = "DEFAULT-IF-UNDEFINED"
+
+    # No default value shall be applied.
+    NO_DEFAULT = "NO-DEFAULT"
+
+    # The default value shall be applied at build time.
+    BUILD = "BUILD"
+
+    # The default value shall be applied at code generation time.
+    CODEGENERATION = "CODEGENERATION"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DefaultValueApplicationStrategyEnum.DEFAULT_IF_REVISION_UPDATE,
+                DefaultValueApplicationStrategyEnum.DEFAULT_IF_UNDEFINED,
+                DefaultValueApplicationStrategyEnum.NO_DEFAULT,
+                DefaultValueApplicationStrategyEnum.BUILD,
+                DefaultValueApplicationStrategyEnum.CODEGENERATION,
+            ]
+        )
+
+
 class SecurityEventContextDataSourceEnum(AREnum):
     """
     This enumeration controls the elements used to creating the resulting qualified security event Tags: atp.Status=candidate
@@ -3170,6 +3276,3 @@ class SendIndicationEnum(AREnum):
             ]
         )
 
-
-class SeverityEnum(AREnum):
-    pass

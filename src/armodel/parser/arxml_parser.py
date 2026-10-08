@@ -562,6 +562,25 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import AtpMixedString
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    AbstractCondition,
+    AggregationCondition,
+    Baseline,
+    ClassTailoring,
+    DataFormatTailoring,
+    InvertCondition,
+    MultiplicityRestrictionWithSeverity,
+    PrimitiveAttributeCondition,
+    ReferenceCondition,
+    SpecificationScope,
+    TextualCondition,
+    AggregationCondition,
+    Baseline,
+    DataFormatTailoring,
+    InvertCondition,
+    PrimitiveAttributeCondition,
+    ReferenceCondition,
+    SpecificationScope,
+    TextualCondition,
     FMAttributeValue,
     IdsmSignatureSupportAp,
     IdsmSignatureSupportCp,
@@ -622,11 +641,13 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     AbstractValueRestriction,
     AbstractVariationRestriction,
     FullBindingTimeEnum,
+    VariationRestrictionWithSeverity,
+    ValueRestrictionWithSeverity,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (
     EvaluatedVariantSet,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, SecurityEventContextMapping, SecurityEventFilterChain, SecurityEventDefinition, SecurityEventContextMappingFunctionalCluster, SecurityEventContextMappingCommConnector, SecurityEventContextMappingBswModule, SecurityEventContextMappingApplication, IdsmInstance, IdsDesign, LogAndTraceMessageCollectionSet, PostBuildVariantCriterionValueSet, IdsmProperties, CalibrationParameterValueSet, FMFeature, FMFeatureMap, FMFeatureModel, FMFeatureSelectionSet, PhysicalDimensionMappingSet, ReferenceBase
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, DataExchangePoint, SecurityEventContextMapping, SecurityEventFilterChain, SecurityEventDefinition, SecurityEventContextMappingFunctionalCluster, SecurityEventContextMappingCommConnector, SecurityEventContextMappingBswModule, SecurityEventContextMappingApplication, IdsmInstance, IdsDesign, LogAndTraceMessageCollectionSet, PostBuildVariantCriterionValueSet, IdsmProperties, CalibrationParameterValueSet, FMFeature, FMFeatureMap, FMFeatureModel, FMFeatureSelectionSet, PhysicalDimensionMappingSet, ReferenceBase
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import AclObjectSet, AclOperation, AclPermission, AclRole
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import DiagnosticCustomServiceInstance, DiagnosticMapping
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
@@ -749,6 +770,15 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Enumerations import BindingTimeEnum, XmlSpaceEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     FMAttributeDef,
+    AggregationTailoring,
+    ClassContentConditional,
+    ConstraintTailoring,
+    ConcreteClassTailoring,
+    DocumentElementScope,
+    PrimitiveAttributeTailoring,
+    ReferenceTailoring,
+    SpecificationDocumentScope,
+
     AbstractSecurityEventFilter,
     SecurityEventAggregationFilter,
     SecurityEventContextProps,
@@ -867,6 +897,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     VerbatimStringPlain,
     ViewTokens,
     SecurityEventReportingModeEnum,
+    DataExchangePointKind,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.LifeCycles import LifeCycleInfo, LifeCycleInfoSet, LifeCyclePeriod
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (
@@ -2703,6 +2734,235 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "TRAFFIC-LIMITATION-FILTERS/IDSM-TRAFFIC-LIMITATION-REF-CONDITIONAL"):
             idsm_instance.addTrafficLimitationFilterRef(self.getChildElementOptionalRefType(child_element, "IDSM-TRAFFIC-LIMITATION-REF"))
         return idsm_instance
+
+    def readConditionByTag(self, element: ET.Element) -> Optional[AbstractCondition]:
+        tag_name = self.getTagName(element)
+        if tag_name == "AGGREGATION-CONDITION":
+            condition = AggregationCondition()
+            self.readAggregationCondition(element, condition)
+            return condition
+        if tag_name == "INVERT-CONDITION":
+            condition = InvertCondition()
+            self.readInvertCondition(element, condition)
+            return condition
+        if tag_name == "PRIMITIVE-ATTRIBUTE-CONDITION":
+            condition = PrimitiveAttributeCondition()
+            self.readPrimitiveAttributeCondition(element, condition)
+            return condition
+        if tag_name == "REFERENCE-CONDITION":
+            condition = ReferenceCondition()
+            self.readReferenceCondition(element, condition)
+            return condition
+        if tag_name == "TEXTUAL-CONDITION":
+            condition = TextualCondition()
+            self.readTextualCondition(element, condition)
+            return condition
+        return None
+
+    def writeConditionByType(self, parent_element, condition) -> None:
+        if isinstance(condition, AggregationCondition):
+            self.writeAggregationCondition(parent_element, condition)
+        elif isinstance(condition, InvertCondition):
+            self.writeInvertCondition(parent_element, condition)
+        elif isinstance(condition, PrimitiveAttributeCondition):
+            self.writePrimitiveAttributeCondition(parent_element, condition)
+        elif isinstance(condition, ReferenceCondition):
+            self.writeReferenceCondition(parent_element, condition)
+        elif isinstance(condition, TextualCondition):
+            self.writeTextualCondition(parent_element, condition)
+
+    def readAggregationCondition(self, element: ET.Element, condition: AggregationCondition) -> AggregationCondition:
+        self.readARObject(element, condition)
+        condition.setAggregationRef(self.getChildElementOptionalRefType(element, "AGGREGATION-REF"))
+        return condition
+
+    def readPrimitiveAttributeCondition(self, element: ET.Element, condition: PrimitiveAttributeCondition) -> PrimitiveAttributeCondition:
+        self.readARObject(element, condition)
+        condition.setAttributeRef(self.getChildElementOptionalRefType(element, "ATTRIBUTE-REF"))
+        return condition
+
+    def readReferenceCondition(self, element: ET.Element, condition: ReferenceCondition) -> ReferenceCondition:
+        self.readARObject(element, condition)
+        condition.setReferenceRef(self.getChildElementOptionalRefType(element, "REFERENCE-REF"))
+        return condition
+
+    def readTextualCondition(self, element: ET.Element, condition: TextualCondition) -> TextualCondition:
+        self.readARObject(element, condition)
+        return condition
+
+    def readInvertCondition(self, element: ET.Element, condition: InvertCondition) -> InvertCondition:
+        self.readARObject(element, condition)
+        for child_element in self.findall(element, "CONDITIONS/*"):
+            condition.setCondition(self.readConditionByTag(child_element))
+        return condition
+
+    def readBaseline(self, element: ET.Element, baseline: Baseline) -> Baseline:
+        self.readARObject(element, baseline)
+        for child_element in self.findall(element, "STANDARD-REVISIONS/STANDARD-REVISION"):
+            value = String()
+            value.setValue(child_element.text if child_element.text else "")
+            baseline.addStandardRevision(value)
+        for ref in self.getChildElementRefTypeList(element, "CUSTOM-SPECIFICATION-REFS/CUSTOM-SPECIFICATION-REF"):
+            baseline.addCustomSpecificationRef(ref)
+        for ref in self.getChildElementRefTypeList(element, "CUSTOM-SDG-DEF-REFS/CUSTOM-SDG-DEF-REF"):
+            baseline.addCustomSdgDefRef(ref)
+        return baseline
+
+    def readSpecificationScope(self, element: ET.Element, specification_scope: SpecificationScope) -> SpecificationScope:
+        self.readARObject(element, specification_scope)
+        for child_element in self.findall(element, "SPECIFICATION-DOCUMENT-SCOPES/SPECIFICATION-DOCUMENT-SCOPE"):
+            scope = SpecificationDocumentScope(specification_scope, self.getShortName(child_element))
+            self.readSpecificationDocumentScope(child_element, scope)
+            specification_scope.addSpecificationDocumentScope(scope)
+        return specification_scope
+
+    def readSpecificationDocumentScope(self, element: ET.Element, scope: SpecificationDocumentScope) -> SpecificationDocumentScope:
+        self.readIdentifiable(element, scope)
+        scope.setCustomDocumentationRef(self.getChildElementOptionalRefType(element, "CUSTOM-DOCUMENTATION-REF"))
+        for child_element in self.findall(element, "DOCUMENT-ELEMENT-SCOPES/DOCUMENT-ELEMENT-SCOPE"):
+            element_scope = DocumentElementScope(scope, self.getShortName(child_element))
+            self.readDocumentElementScope(child_element, element_scope)
+            scope.addDocumentElementScope(element_scope)
+        return scope
+
+    def readDocumentElementScope(self, element: ET.Element, scope: DocumentElementScope) -> DocumentElementScope:
+        self.readIdentifiable(element, scope)
+        scope.setCustomDocumentElementRef(self.getChildElementOptionalRefType(element, "CUSTOM-DOCUMENT-ELEMENT-REF"))
+        for ref in self.getChildElementRefTypeList(element, "TAILORING-REFS/TAILORING-REF"):
+            scope.addTailoringRef(ref)
+        return scope
+
+    def readClassTailoringContents(self, element: ET.Element, class_tailoring: ClassTailoring) -> ClassTailoring:
+        multiplicity_restriction = self.find(element, "MULTIPLICITY-RESTRICTION")
+        if multiplicity_restriction is not None:
+            class_tailoring.setMultiplicityRestriction(self.readMultiplicityRestrictionWithSeverity(multiplicity_restriction, MultiplicityRestrictionWithSeverity()))
+        variation_restriction = self.find(element, "VARIATION-RESTRICTION")
+        if variation_restriction is not None:
+            class_tailoring.setVariationRestriction(self.readVariationRestrictionWithSeverity(variation_restriction, VariationRestrictionWithSeverity()))
+        for child_element in self.findall(element, "CLASS-CONTENTS/CLASS-CONTENT-CONDITIONAL"):
+            content = ClassContentConditional(class_tailoring, self.getShortName(child_element))
+            self.readClassContentConditional(child_element, content)
+            class_tailoring.addClassContent(content)
+        return class_tailoring
+
+    def readMultiplicityRestrictionWithSeverity(self, element: ET.Element, restriction: MultiplicityRestrictionWithSeverity) -> MultiplicityRestrictionWithSeverity:
+        self.readARObject(element, restriction)
+        return restriction
+
+    def readVariationRestrictionWithSeverity(self, element: ET.Element, restriction: VariationRestrictionWithSeverity) -> VariationRestrictionWithSeverity:
+        self.readARObject(element, restriction)
+        valid_binding_time = self.getChildElementOptionalLiteral(element, "VALID-BINDING-TIME")
+        if valid_binding_time is not None:
+            restriction.setValidBindingTime(FullBindingTimeEnum().setValue(valid_binding_time.getValue()))
+        return restriction
+
+    def readClassContentConditional(self, element: ET.Element, content: ClassContentConditional) -> ClassContentConditional:
+        self.readIdentifiable(element, content)
+        for child_element in self.findall(element, "CONDITIONS/*"):
+            content.setCondition(self.readConditionByTag(child_element))
+        for child_element in self.findall(element, "ATTRIBUTE-TAILORINGS/*"):
+            tag_name = self.getTagName(child_element)
+            tailoring = None
+            if tag_name == "PRIMITIVE-ATTRIBUTE-TAILORING":
+                tailoring = PrimitiveAttributeTailoring(content, self.getShortName(child_element))
+                self.readPrimitiveAttributeTailoring(child_element, tailoring)
+            elif tag_name == "AGGREGATION-TAILORING":
+                tailoring = AggregationTailoring(content, self.getShortName(child_element))
+                self.readAggregationTailoring(child_element, tailoring)
+            elif tag_name == "REFERENCE-TAILORING":
+                tailoring = ReferenceTailoring(content, self.getShortName(child_element))
+                self.readReferenceTailoring(child_element, tailoring)
+            if tailoring is not None:
+                content.addAttributeTailoring(tailoring)
+        for child_element in self.findall(element, "CONSTRAINT-TAILORINGS/CONSTRAINT-TAILORING"):
+            tailoring = ConstraintTailoring(content, self.getShortName(child_element))
+            self.readIdentifiable(child_element, tailoring)
+            content.addConstraintTailoring(tailoring)
+        for child_element in self.findall(element, "SDG-TAILORINGS/SDG-TAILORING"):
+            tailoring = SdgTailoring(content, self.getShortName(child_element))
+            self.readIdentifiable(child_element, tailoring)
+            content.addSdgTailoring(tailoring)
+        return content
+
+    def readPrimitiveAttributeTailoring(self, element: ET.Element, tailoring: PrimitiveAttributeTailoring) -> PrimitiveAttributeTailoring:
+        self.readIdentifiable(element, tailoring)
+        default_value_handling = self.getChildElementOptionalLiteral(element, "DEFAULT-VALUE-HANDLING")
+        if default_value_handling is not None:
+            tailoring.setDefaultValueHandling(DefaultValueApplicationStrategyEnum().setValue(default_value_handling.getValue()))
+        for child_element in self.findall(element, "SUB-ATTRIBUTE-TAILORINGS/PRIMITIVE-ATTRIBUTE-TAILORING"):
+            sub_tailoring = PrimitiveAttributeTailoring(tailoring, self.getShortName(child_element))
+            self.readPrimitiveAttributeTailoring(child_element, sub_tailoring)
+            tailoring.addSubAttributeTailoring(sub_tailoring)
+        value_restriction_element = self.find(element, "VALUE-RESTRICTION")
+        if value_restriction_element is not None:
+            tailoring.setValueRestriction(self.readValueRestrictionWithSeverity(value_restriction_element, ValueRestrictionWithSeverity()))
+        return tailoring
+
+    def readValueRestrictionWithSeverity(self, element: ET.Element, restriction: ValueRestrictionWithSeverity) -> ValueRestrictionWithSeverity:
+        self.readARObject(element, restriction)
+        return restriction
+
+    def readAggregationTailoring(self, element: ET.Element, tailoring: AggregationTailoring) -> AggregationTailoring:
+        self.readIdentifiable(element, tailoring)
+        for child_element in self.findall(element, "TYPE-TAILORINGS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "ABSTRACT-CLASS-TAILORING":
+                class_tailoring = AbstractClassTailoring(tailoring, self.getShortName(child_element))
+            elif tag_name == "CONCRETE-CLASS-TAILORING":
+                class_tailoring = ConcreteClassTailoring(tailoring, self.getShortName(child_element))
+            else:
+                continue
+            self.readClassTailoringContents(child_element, class_tailoring)
+            tailoring.addTypeTailoring(class_tailoring)
+        return tailoring
+
+    def readReferenceTailoring(self, element: ET.Element, tailoring: ReferenceTailoring) -> ReferenceTailoring:
+        self.readIdentifiable(element, tailoring)
+        for child_element in self.findall(element, "TYPE-TAILORINGS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "ABSTRACT-CLASS-TAILORING":
+                class_tailoring = AbstractClassTailoring(tailoring, self.getShortName(child_element))
+            elif tag_name == "CONCRETE-CLASS-TAILORING":
+                class_tailoring = ConcreteClassTailoring(tailoring, self.getShortName(child_element))
+            else:
+                continue
+            self.readClassTailoringContents(child_element, class_tailoring)
+            tailoring.addTypeTailoring(class_tailoring)
+        return tailoring
+
+    def readDataExchangePoint(self, element: ET.Element, data_exchange_point: DataExchangePoint) -> DataExchangePoint:
+        self.readIdentifiable(element, data_exchange_point)
+        kind = self.getChildElementOptionalLiteral(element, "KIND")
+        if kind is not None:
+            data_exchange_point.setKind(DataExchangePointKind().setValue(kind.getValue()))
+        referenced_baseline = self.find(element, "REFERENCED-BASELINE")
+        if referenced_baseline is not None:
+            data_exchange_point.setReferencedBaseline(self.readBaseline(referenced_baseline, Baseline()))
+        specification_scope = self.find(element, "SPECIFICATION-SCOPE")
+        if specification_scope is not None:
+            data_exchange_point.setSpecificationScope(self.readSpecificationScope(specification_scope, SpecificationScope()))
+        data_format_tailoring = self.find(element, "DATA-FORMAT-TAILORING")
+        if data_format_tailoring is not None:
+            data_exchange_point.setDataFormatTailoring(self.readDataFormatTailoring(data_format_tailoring, DataFormatTailoring()))
+        return data_exchange_point
+
+    def readDataFormatTailoring(self, element: ET.Element, tailoring: DataFormatTailoring) -> DataFormatTailoring:
+        self.readARObject(element, tailoring)
+        for child_element in self.findall(element, "CLASS-TAILORINGS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "ABSTRACT-CLASS-TAILORING":
+                class_tailoring = AbstractClassTailoring(tailoring, self.getShortName(child_element))
+            elif tag_name == "CONCRETE-CLASS-TAILORING":
+                class_tailoring = ConcreteClassTailoring(tailoring, self.getShortName(child_element))
+            else:
+                continue
+            self.readClassTailoringContents(child_element, class_tailoring)
+            tailoring.addClassTailoring(class_tailoring)
+        for child_element in self.findall(element, "CONSTRAINT-TAILORINGS/CONSTRAINT-TAILORING"):
+            constraint_tailoring = ConstraintTailoring(tailoring, self.getShortName(child_element))
+            self.readIdentifiable(child_element, constraint_tailoring)
+            tailoring.addConstraintTailoring(constraint_tailoring)
+        return tailoring
 
     def readIdsmSignatureSupportAp(self, element: ET.Element, signature_support: IdsmSignatureSupportAp) -> IdsmSignatureSupportAp:
         self.readARObject(element, signature_support)
@@ -19873,6 +20133,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "IDSM-PROPERTIES":
                 idsm_properties = parent.createIdsmProperties(self.getShortName(child_element))
                 self.readIdsmProperties(child_element, idsm_properties)
+            elif tag_name == "DATA-EXCHANGE-POINT":
+                data_exchange_point = parent.createDataExchangePoint(self.getShortName(child_element))
+                self.readDataExchangePoint(child_element, data_exchange_point)
             elif tag_name == "IDS-DESIGN":
                 ids_design = parent.createIdsDesign(self.getShortName(child_element))
                 self.readIdsDesign(child_element, ids_design)

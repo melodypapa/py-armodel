@@ -7,6 +7,7 @@ from __future__ import annotations
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
+    ClassTailoring,
     FMAttributeValue,
     DdsCpServiceInstanceEvent,
     DdsCpServiceInstanceOperation,
@@ -47,6 +48,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     String,
     TimeValue,
     VerbatimString,
+    DefaultValueApplicationStrategyEnum,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from abc import ABC
@@ -56,6 +58,8 @@ if TYPE_CHECKING:
     from armodel.models.M2.AUTOSARTemplates.FeatureModelTemplate import FMConditionByFeaturesAndAttributes, FMConditionByFeaturesAndSwSystemconsts
     from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import FunctionGroupStateInFunctionGroupSetInstanceRef
     from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import SecurityEventContextData
+    from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import AbstractCondition, ClassTailoring
+    from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ModelRestrictionTypes import ValueRestrictionWithSeverity
     from armodel.models.M2.MSR.AsamHdo.AdminData import AdminData
     from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName, MultiLanguageOverviewParagraph
     from armodel.models.M2.MSR.Documentation.TextModel.SingleLanguageData import SingleLanguageLongName
@@ -679,39 +683,365 @@ class Describable(ARObject, ABC):
 
 
 class SpecElementReference(Identifiable, ABC):
-    pass
+    """
+    This meta-class represents the ability to reference a specification element. Tags: atp.Recommendation=FOR_STANDARDIZATION
+    """
+
+    # SpecElementReference method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 6.4, p.82
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is SpecElementReference:
+            raise TypeError("SpecElementReference is an abstract class.")
+
+        super().__init__(parent, short_name)
+
 
 
 class DataFormatElementReference(SpecElementReference, ABC):
-    pass
+    """
+    This meta-class represents the ability to reference an element of the data format. Tags: atp.Recommendation=FOR_STANDARDIZATION
+    """
+
+    # DataFormatElementReference method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 6.15, p.91
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is DataFormatElementReference:
+            raise TypeError("DataFormatElementReference is an abstract class.")
+
+        super().__init__(parent, short_name)
 
 
-class AbstractClassTailoring(DataFormatElementReference):
-    pass
+
+class AbstractClassTailoring(Identifiable):
+    """
+    This meta-class represents the ability to tailor an abstract class and its subclasses. Tags: atp.Recommendation=FOR_STANDARDIZATION
+    """
+
+    # AbstractClassTailoring method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 6.20, p.101
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addClassContent             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getClassContents            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getMultiplicityRestriction  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMultiplicityRestriction  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVariationRestriction     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setVariationRestriction     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Specifies the accepted / not accepted content of the class. All rules apply that fullfill the condition of the Class ContentConditional. Tags: xml.sequenceOffset=30
+        self.classContents: List[ClassContentConditional] = []
+
+        # Specifies the multiplicity of the class in the current context. Tags: xml.sequenceOffset=10
+        self.multiplicityRestriction: Optional[MultiplicityRestrictionWithSeverity] = None
+
+        # Specifies restrictions on the usage of variant handling. Tags: xml.sequenceOffset=20
+        self.variationRestriction: Optional[VariationRestrictionWithSeverity] = None
+
+    def addClassContent(self, value: ClassContentConditional) -> AbstractClassTailoring:
+        """
+        Specifies the accepted / not accepted content of the class. All rules apply that fullfill the condition of the Class ContentConditional. Tags: xml.sequenceOffset=30
+        """
+        self.classContents.append(value)
+        return self
+
+    def getClassContents(self) -> List[ClassContentConditional]:
+        """
+        Specifies the accepted / not accepted content of the class. All rules apply that fullfill the condition of the Class ContentConditional. Tags: xml.sequenceOffset=30
+        """
+        return self.classContents
+
+    def getMultiplicityRestriction(self) -> Optional[MultiplicityRestrictionWithSeverity]:
+        """
+        Specifies the multiplicity of the class in the current context. Tags: xml.sequenceOffset=10
+        """
+        return self.multiplicityRestriction
+
+    def setMultiplicityRestriction(self, value: Optional[MultiplicityRestrictionWithSeverity]) -> AbstractClassTailoring:
+        """
+        Specifies the multiplicity of the class in the current context. Tags: xml.sequenceOffset=10
+
+        A None value is a no-op and does not overwrite an existing multiplicityRestriction.
+        """
+        if value is not None:
+            self.multiplicityRestriction = value
+        return self
+
+    def getVariationRestriction(self) -> Optional[VariationRestrictionWithSeverity]:
+        """
+        Specifies restrictions on the usage of variant handling. Tags: xml.sequenceOffset=20
+        """
+        return self.variationRestriction
+
+    def setVariationRestriction(self, value: Optional[VariationRestrictionWithSeverity]) -> AbstractClassTailoring:
+        """
+        Specifies restrictions on the usage of variant handling. Tags: xml.sequenceOffset=20
+
+        A None value is a no-op and does not overwrite an existing variationRestriction.
+        """
+        if value is not None:
+            self.variationRestriction = value
+        return self
+
 
 
 class DataFormatElementScope(DataFormatElementReference, ABC):
-    pass
+    """
+    This meta-class represents the ability to define the scope within the data format that is subject of a tailoring. Tags: atp.Recommendation=FOR_STANDARDIZATION
+    """
+
+    # DataFormatElementScope method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 6.16, p.91
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is DataFormatElementScope:
+            raise TypeError("DataFormatElementScope is an abstract class.")
+
+        super().__init__(parent, short_name)
+
 
 
 class AttributeTailoring(DataFormatElementScope, ABC):
-    pass
+    """
+    This meta-class represents the ability to tailor attributes. Tags: atp.Recommendation=FOR_STANDARDIZATION
+    """
+
+    # AttributeTailoring method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 6.31, p.109
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is AttributeTailoring:
+            raise TypeError("AttributeTailoring is an abstract class.")
+
+        super().__init__(parent, short_name)
+
 
 
 class AggregationTailoring(AttributeTailoring):
-    pass
+    """
+    This meta-class represents the ability to tailor an aggregation of a class. Tags: atp.Recommendation=FOR_STANDARDIZATION
+    """
+
+    # AggregationTailoring method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 6.34, p.113
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addTypeTailoring          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTypeTailorings         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Local class tailoring which is applied if the content is contained by this aggregation.
+        self.typeTailorings: List[ClassTailoring] = []
+
+    def addTypeTailoring(self, value: ClassTailoring) -> AggregationTailoring:
+        """
+        Local class tailoring which is applied if the content is contained by this aggregation.
+        """
+        self.typeTailorings.append(value)
+        return self
+
+    def getTypeTailorings(self) -> List[ClassTailoring]:
+        """
+        Local class tailoring which is applied if the content is contained by this aggregation.
+        """
+        return self.typeTailorings
+
+
 
 
 class ClassContentConditional(Identifiable):
-    pass
+    """
+    This meta-class specifies the condition and the tailorings of the content of a class.
+    """
+
+    # ClassContentConditional method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 6.25, p.103
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCondition                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCondition                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addAttributeTailoring        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAttributeTailorings       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addConstraintTailoring       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getConstraintTailorings      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addSdgTailoring              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSdgTailorings             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # The rules on the content of this class are enabled if the condition validates to true. Tags: xml.sequenceOffset=10
+        self.condition: Optional[AbstractCondition] = None
+
+        # Tailorings of the owned and inherited attributes of this Meta Classes Tags: xml.sequenceOffset=20
+        self.attributeTailorings: List[AttributeTailoring] = []
+
+        # Specification of tailorings of Constraints of that are owned by this Meta Classes Tags: xml.sequenceOffset=30
+        self.constraintTailorings: List[ConstraintTailoring] = []
+
+        # Specification of the applicable Special Data Group Tags: xml.sequenceOffset=40
+        self.sdgTailorings: List[SdgTailoring] = []
+
+    def getCondition(self) -> Optional[AbstractCondition]:
+        """
+        The rules on the content of this class are enabled if the condition validates to true. Tags: xml.sequenceOffset=10
+        """
+        return self.condition
+
+    def setCondition(self, value: Optional[AbstractCondition]) -> ClassContentConditional:
+        """
+        The rules on the content of this class are enabled if the condition validates to true. Tags: xml.sequenceOffset=10
+
+        A None value is a no-op and does not overwrite an existing condition.
+        """
+        if value is not None:
+            self.condition = value
+        return self
+
+    def addAttributeTailoring(self, value: AttributeTailoring) -> ClassContentConditional:
+        """
+        Tailorings of the owned and inherited attributes of this Meta Classes Tags: xml.sequenceOffset=20
+        """
+        self.attributeTailorings.append(value)
+        return self
+
+    def getAttributeTailorings(self) -> List[AttributeTailoring]:
+        """
+        Tailorings of the owned and inherited attributes of this Meta Classes Tags: xml.sequenceOffset=20
+        """
+        return self.attributeTailorings
+
+    def addConstraintTailoring(self, value: ConstraintTailoring) -> ClassContentConditional:
+        """
+        Specification of tailorings of Constraints of that are owned by this Meta Classes Tags: xml.sequenceOffset=30
+        """
+        self.constraintTailorings.append(value)
+        return self
+
+    def getConstraintTailorings(self) -> List[ConstraintTailoring]:
+        """
+        Specification of tailorings of Constraints of that are owned by this Meta Classes Tags: xml.sequenceOffset=30
+        """
+        return self.constraintTailorings
+
+    def addSdgTailoring(self, value: SdgTailoring) -> ClassContentConditional:
+        """
+        Specification of the applicable Special Data Group Tags: xml.sequenceOffset=40
+        """
+        self.sdgTailorings.append(value)
+        return self
+
+    def getSdgTailorings(self) -> List[SdgTailoring]:
+        """
+        Specification of the applicable Special Data Group Tags: xml.sequenceOffset=40
+        """
+        return self.sdgTailorings
 
 
-class ConcreteClassTailoring(DataFormatElementScope):
-    pass
+
+
+class ConcreteClassTailoring(Identifiable):
+    """
+    This meta-class represents the ability to tailor a concrete class. Tags: atp.Recommendation=FOR_STANDARDIZATION
+    """
+
+    # ConcreteClassTailoring method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 6.26, p.104
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addClassContent             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getClassContents            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getMultiplicityRestriction  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMultiplicityRestriction  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVariationRestriction     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setVariationRestriction     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Specifies the accepted / not accepted content of the class. All rules apply that fullfill the condition of the Class ContentConditional. Tags: xml.sequenceOffset=30
+        self.classContents: List[ClassContentConditional] = []
+
+        # Specifies the multiplicity of the class in the current context. Tags: xml.sequenceOffset=10
+        self.multiplicityRestriction: Optional[MultiplicityRestrictionWithSeverity] = None
+
+        # Specifies restrictions on the usage of variant handling. Tags: xml.sequenceOffset=20
+        self.variationRestriction: Optional[VariationRestrictionWithSeverity] = None
+
+    def addClassContent(self, value: ClassContentConditional) -> ConcreteClassTailoring:
+        """
+        Specifies the accepted / not accepted content of the class. All rules apply that fullfill the condition of the Class ContentConditional. Tags: xml.sequenceOffset=30
+        """
+        self.classContents.append(value)
+        return self
+
+    def getClassContents(self) -> List[ClassContentConditional]:
+        """
+        Specifies the accepted / not accepted content of the class. All rules apply that fullfill the condition of the Class ContentConditional. Tags: xml.sequenceOffset=30
+        """
+        return self.classContents
+
+    def getMultiplicityRestriction(self) -> Optional[MultiplicityRestrictionWithSeverity]:
+        """
+        Specifies the multiplicity of the class in the current context. Tags: xml.sequenceOffset=10
+        """
+        return self.multiplicityRestriction
+
+    def setMultiplicityRestriction(self, value: Optional[MultiplicityRestrictionWithSeverity]) -> ConcreteClassTailoring:
+        """
+        Specifies the multiplicity of the class in the current context. Tags: xml.sequenceOffset=10
+
+        A None value is a no-op and does not overwrite an existing multiplicityRestriction.
+        """
+        if value is not None:
+            self.multiplicityRestriction = value
+        return self
+
+    def getVariationRestriction(self) -> Optional[VariationRestrictionWithSeverity]:
+        """
+        Specifies restrictions on the usage of variant handling. Tags: xml.sequenceOffset=20
+        """
+        return self.variationRestriction
+
+    def setVariationRestriction(self, value: Optional[VariationRestrictionWithSeverity]) -> ConcreteClassTailoring:
+        """
+        Specifies restrictions on the usage of variant handling. Tags: xml.sequenceOffset=20
+
+        A None value is a no-op and does not overwrite an existing variationRestriction.
+        """
+        if value is not None:
+            self.variationRestriction = value
+        return self
+
 
 
 class ConstraintTailoring(DataFormatElementScope):
-    pass
+    """
+    This meta-class represents the ability to tailor constraints. Tags: atp.Recommendation=FOR_STANDARDIZATION
+    """
+
+    # ConstraintTailoring method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 6.36, p.117
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
 
 
 class CpSoftwareClusterResource(Identifiable):
@@ -1388,11 +1718,76 @@ class DiagnosticStopRoutine(DiagnosticRoutineSubfunction):
 
 
 class SpecElementScope(SpecElementReference, ABC):
-    pass
+    """
+    This meta-class represents the ability to define the scope within a specification that is subject of a tailoring. Tags: atp.Recommendation=FOR_STANDARDIZATION
+    """
+
+    # SpecElementScope method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 6.5, p.84
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is SpecElementScope:
+            raise TypeError("SpecElementScope is an abstract class.")
+
+        super().__init__(parent, short_name)
+
 
 
 class DocumentElementScope(SpecElementScope):
-    pass
+    """
+    This meta-class represents the scope of an element within a specification document.
+    """
+
+    # DocumentElementScope method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 6.19, p.97
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCustomDocumentElementRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCustomDocumentElementRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addTailoringRef                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTailoringRefs               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Reference to a custom defined specification element.
+        self.customDocumentElementRef: Optional[RefType] = None
+
+        # Data Format Element that is implied by this element in the specification. Used to share one rationale for more tailorings.
+        self.tailoringRefs: List[RefType] = []
+
+    def getCustomDocumentElementRef(self) -> Optional[RefType]:
+        """
+        Reference to a custom defined specification element.
+        """
+        return self.customDocumentElementRef
+
+    def setCustomDocumentElementRef(self, value: Optional[RefType]) -> DocumentElementScope:
+        """
+        Reference to a custom defined specification element.
+
+        A None value is a no-op and does not overwrite an existing customDocumentElementRef.
+        """
+        if value is not None:
+            self.customDocumentElementRef = value
+        return self
+
+    def addTailoringRef(self, ref: RefType) -> DocumentElementScope:
+        """
+        Data Format Element that is implied by this element in the specification. Used to share one rationale for more tailorings.
+        """
+        self.tailoringRefs.append(ref)
+        return self
+
+    def getTailoringRefs(self) -> List[RefType]:
+        """
+        Data Format Element that is implied by this element in the specification. Used to share one rationale for more tailorings.
+        """
+        return self.tailoringRefs
+
+
 
 
 class FMAttributeDef(Identifiable):
@@ -2314,19 +2709,183 @@ class FMFeatureSelection(Identifiable):
 
 
 class PrimitiveAttributeTailoring(AttributeTailoring):
-    pass
+    """
+    This meta-class represents the ability to tailor a primitive attribute. Tags: atp.Recommendation=FOR_STANDARDIZATION
+    """
+
+    # PrimitiveAttributeTailoring method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 6.32, p.111
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDefaultValueHandling        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDefaultValueHandling        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addSubAttributeTailoring       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSubAttributeTailorings      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getValueRestriction            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setValueRestriction            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Specification of how to handle AUTOSAR defined default values.
+        self.defaultValueHandling: Optional[DefaultValueApplicationStrategyEnum] = None
+
+        # Tailors the attribute of a <<primitive>> data type.
+        self.subAttributeTailorings: List[PrimitiveAttributeTailoring] = []
+
+        # The restriction of the attribute value.
+        self.valueRestriction: Optional[ValueRestrictionWithSeverity] = None
+
+    def getDefaultValueHandling(self) -> Optional[DefaultValueApplicationStrategyEnum]:
+        """
+        Specification of how to handle AUTOSAR defined default values.
+        """
+        return self.defaultValueHandling
+
+    def setDefaultValueHandling(self, value: Optional[DefaultValueApplicationStrategyEnum]) -> PrimitiveAttributeTailoring:
+        """
+        Specification of how to handle AUTOSAR defined default values.
+
+        A None value is a no-op and does not overwrite an existing defaultValueHandling.
+        """
+        if value is not None:
+            self.defaultValueHandling = value
+        return self
+
+    def addSubAttributeTailoring(self, value: PrimitiveAttributeTailoring) -> PrimitiveAttributeTailoring:
+        """
+        Tailors the attribute of a <<primitive>> data type.
+        """
+        self.subAttributeTailorings.append(value)
+        return self
+
+    def getSubAttributeTailorings(self) -> List[PrimitiveAttributeTailoring]:
+        """
+        Tailors the attribute of a <<primitive>> data type.
+        """
+        return self.subAttributeTailorings
+
+    def getValueRestriction(self) -> Optional[ValueRestrictionWithSeverity]:
+        """
+        The restriction of the attribute value.
+        """
+        return self.valueRestriction
+
+    def setValueRestriction(self, value: Optional[ValueRestrictionWithSeverity]) -> PrimitiveAttributeTailoring:
+        """
+        The restriction of the attribute value.
+
+        A None value is a no-op and does not overwrite an existing valueRestriction.
+        """
+        if value is not None:
+            self.valueRestriction = value
+        return self
+
+
 
 
 class ReferenceTailoring(AttributeTailoring):
-    pass
+    """
+    This meta-class represents the ability to tailor a reference of a class. Tags: atp.Recommendation=FOR_STANDARDIZATION
+    """
+
+    # ReferenceTailoring method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 6.35, p.115
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addTypeTailoring          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTypeTailorings         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Local class tailoring which is applied if the content is contained by this aggregation.
+        self.typeTailorings: List[ClassTailoring] = []
+
+    def addTypeTailoring(self, value: ClassTailoring) -> ReferenceTailoring:
+        """
+        Local class tailoring which is applied if the content is contained by this aggregation.
+        """
+        self.typeTailorings.append(value)
+        return self
+
+    def getTypeTailorings(self) -> List[ClassTailoring]:
+        """
+        Local class tailoring which is applied if the content is contained by this aggregation.
+        """
+        return self.typeTailorings
+
+
 
 
 class SdgTailoring(DataFormatElementScope):
-    pass
+    """
+    This meta-class represents the ability to tailor SpecialDataGroups. Tags: atp.Recommendation=FOR_STANDARDIZATION
+    """
+
+    # SdgTailoring method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 6.37, p.118
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
 
 
 class SpecificationDocumentScope(SpecElementScope):
-    pass
+    """
+    This meta-class represents the scope of a whole specification document.
+    """
+
+    # SpecificationDocumentScope method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 6.18, p.97
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCustomDocumentationRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCustomDocumentationRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addDocumentElementScope      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDocumentElementScopes     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # reference to a custom defined specification.
+        self.customDocumentationRef: Optional[RefType] = None
+
+        # An element with a name or ID that is specified in the Specification Document.
+        self.documentElementScopes: List[DocumentElementScope] = []
+
+    def getCustomDocumentationRef(self) -> Optional[RefType]:
+        """
+        reference to a custom defined specification.
+        """
+        return self.customDocumentationRef
+
+    def setCustomDocumentationRef(self, value: Optional[RefType]) -> SpecificationDocumentScope:
+        """
+        reference to a custom defined specification.
+
+        A None value is a no-op and does not overwrite an existing customDocumentationRef.
+        """
+        if value is not None:
+            self.customDocumentationRef = value
+        return self
+
+    def addDocumentElementScope(self, value: DocumentElementScope) -> SpecificationDocumentScope:
+        """
+        An element with a name or ID that is specified in the Specification Document.
+        """
+        self.documentElementScopes.append(value)
+        return self
+
+    def getDocumentElementScopes(self) -> List[DocumentElementScope]:
+        """
+        An element with a name or ID that is specified in the Specification Document.
+        """
+        return self.documentElementScopes
+
+
 
 
 class BinaryManifestItem(Identifiable):

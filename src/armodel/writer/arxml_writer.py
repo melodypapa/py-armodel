@@ -420,11 +420,13 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ModelRestrictionTypes import (
     AbstractValueRestriction,
     AbstractVariationRestriction,
+    ValueRestrictionWithSeverity,
+    VariationRestrictionWithSeverity,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (
     EvaluatedVariantSet,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, SecurityEventContextMapping, SecurityEventFilterChain, SecurityEventDefinition, SecurityEventContextMappingFunctionalCluster, SecurityEventContextMappingCommConnector, SecurityEventContextMappingBswModule, SecurityEventContextMappingApplication, IdsmInstance, IdsDesign, LogAndTraceMessageCollectionSet, PostBuildVariantCriterionValueSet, IdsmProperties, FMFeature, FMFeatureMap, FMFeatureModel, FMFeatureSelectionSet, ReferenceBase
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, DataExchangePoint, SecurityEventContextMapping, SecurityEventFilterChain, SecurityEventDefinition, SecurityEventContextMappingFunctionalCluster, SecurityEventContextMappingCommConnector, SecurityEventContextMappingBswModule, SecurityEventContextMappingApplication, IdsmInstance, IdsDesign, LogAndTraceMessageCollectionSet, PostBuildVariantCriterionValueSet, IdsmProperties, FMFeature, FMFeatureMap, FMFeatureModel, FMFeatureSelectionSet, ReferenceBase
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import AclObjectSet, AclOperation, AclPermission, AclRole
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import DiagnosticCustomServiceInstance, DiagnosticMapping
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
@@ -541,6 +543,16 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticWriteDataByIdentifier,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    AggregationCondition,
+    Baseline,
+    ClassTailoring,
+    DataFormatTailoring,
+    InvertCondition,
+    MultiplicityRestrictionWithSeverity,
+    PrimitiveAttributeCondition,
+    ReferenceCondition,
+    SpecificationScope,
+    TextualCondition,
     FMAttributeValue,
     IdsmSignatureSupportAp,
     IdsmSignatureSupportCp,
@@ -590,6 +602,16 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     FMAttributeDef,
+    AggregationTailoring,
+    ClassContentConditional,
+    AbstractClassTailoring,
+    ConstraintTailoring,
+    ConcreteClassTailoring,
+    DocumentElementScope,
+    PrimitiveAttributeTailoring,
+    ReferenceTailoring,
+    SpecificationDocumentScope,
+
     SecurityEventAggregationFilter,
     SecurityEventContextProps,
     SecurityEventOneEveryNFilter,
@@ -641,6 +663,8 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     RefType,
     Integer,
     SecurityEventReportingModeEnum,
+    DataExchangePointKind,
+    DefaultValueApplicationStrategyEnum,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.LifeCycles import LifeCycleInfo, LifeCycleInfoSet, LifeCyclePeriod
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (
@@ -2366,6 +2390,218 @@ class ARXMLWriter(AbstractARXMLWriter):
                 for ref in traffic_limitation_filter_refs:
                     conditional = ET.SubElement(filters_tag, "IDSM-TRAFFIC-LIMITATION-REF-CONDITIONAL")
                     self.setChildElementOptionalRefType(conditional, "IDSM-TRAFFIC-LIMITATION-REF", ref)
+
+    def writeAggregationCondition(self, element: ET.Element, condition: AggregationCondition):
+        if condition is not None:
+            child_element = ET.SubElement(element, "AGGREGATION-CONDITION")
+            self.writeARObject(child_element, condition)
+            self.setChildElementOptionalRefType(child_element, "AGGREGATION-REF", condition.getAggregationRef())
+
+    def writeInvertCondition(self, element: ET.Element, condition: InvertCondition):
+        if condition is not None:
+            child_element = ET.SubElement(element, "INVERT-CONDITION")
+            self.writeARObject(child_element, condition)
+            inner_condition = condition.getCondition()
+            if inner_condition is not None:
+                conditions_tag = ET.SubElement(child_element, "CONDITIONS")
+                self.writeConditionByType(conditions_tag, inner_condition)
+
+    def writePrimitiveAttributeCondition(self, element: ET.Element, condition: PrimitiveAttributeCondition):
+        if condition is not None:
+            child_element = ET.SubElement(element, "PRIMITIVE-ATTRIBUTE-CONDITION")
+            self.writeARObject(child_element, condition)
+            self.setChildElementOptionalRefType(child_element, "ATTRIBUTE-REF", condition.getAttributeRef())
+
+    def writeReferenceCondition(self, element: ET.Element, condition: ReferenceCondition):
+        if condition is not None:
+            child_element = ET.SubElement(element, "REFERENCE-CONDITION")
+            self.writeARObject(child_element, condition)
+            self.setChildElementOptionalRefType(child_element, "REFERENCE-REF", condition.getReferenceRef())
+
+    def writeTextualCondition(self, element: ET.Element, condition: TextualCondition):
+        if condition is not None:
+            child_element = ET.SubElement(element, "TEXTUAL-CONDITION")
+            self.writeARObject(child_element, condition)
+
+    def writeBaseline(self, element: ET.Element, baseline: Baseline):
+        if baseline is not None:
+            child_element = ET.SubElement(element, "REFERENCED-BASELINE")
+            self.writeARObject(child_element, baseline)
+            revisions = baseline.getStandardRevisions()
+            if len(revisions) > 0:
+                revisions_tag = ET.SubElement(child_element, "STANDARD-REVISIONS")
+                for revision in revisions:
+                    revision_element = ET.SubElement(revisions_tag, "STANDARD-REVISION")
+                    if revision is not None:
+                        revision_element.text = revision.getValue()
+            refs = baseline.getCustomSpecificationRefs()
+            if len(refs) > 0:
+                refs_tag = ET.SubElement(child_element, "CUSTOM-SPECIFICATION-REFS")
+                for ref in refs:
+                    self.setChildElementOptionalRefType(refs_tag, "CUSTOM-SPECIFICATION-REF", ref)
+            refs = baseline.getCustomSdgDefRefs()
+            if len(refs) > 0:
+                refs_tag = ET.SubElement(child_element, "CUSTOM-SDG-DEF-REFS")
+                for ref in refs:
+                    self.setChildElementOptionalRefType(refs_tag, "CUSTOM-SDG-DEF-REF", ref)
+
+    def writeSpecificationScope(self, element: ET.Element, specification_scope: SpecificationScope, key: str = "SPECIFICATION-SCOPE"):
+        if specification_scope is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, specification_scope)
+            scopes = specification_scope.getSpecificationDocumentScopes()
+            if len(scopes) > 0:
+                scopes_tag = ET.SubElement(child_element, "SPECIFICATION-DOCUMENT-SCOPES")
+                for scope in scopes:
+                    self.writeSpecificationDocumentScope(scopes_tag, scope)
+
+    def writeSpecificationDocumentScope(self, element: ET.Element, scope: SpecificationDocumentScope):
+        if scope is not None:
+            child_element = ET.SubElement(element, "SPECIFICATION-DOCUMENT-SCOPE")
+            self.writeIdentifiable(child_element, scope)
+            self.setChildElementOptionalRefType(child_element, "CUSTOM-DOCUMENTATION-REF", scope.getCustomDocumentationRef())
+            element_scopes = scope.getDocumentElementScopes()
+            if len(element_scopes) > 0:
+                scopes_tag = ET.SubElement(child_element, "DOCUMENT-ELEMENT-SCOPES")
+                for element_scope in element_scopes:
+                    self.writeDocumentElementScope(scopes_tag, element_scope)
+
+    def writeDocumentElementScope(self, element: ET.Element, scope: DocumentElementScope):
+        if scope is not None:
+            child_element = ET.SubElement(element, "DOCUMENT-ELEMENT-SCOPE")
+            self.writeIdentifiable(child_element, scope)
+            self.setChildElementOptionalRefType(child_element, "CUSTOM-DOCUMENT-ELEMENT-REF", scope.getCustomDocumentElementRef())
+            refs = scope.getTailoringRefs()
+            if len(refs) > 0:
+                refs_tag = ET.SubElement(child_element, "TAILORING-REFS")
+                for ref in refs:
+                    self.setChildElementOptionalRefType(refs_tag, "TAILORING-REF", ref)
+
+    def writeClassTailoringContents(self, element: ET.Element, class_tailoring: ClassTailoring):
+        self.writeMultiplicityRestrictionWithSeverity(element, class_tailoring.getMultiplicityRestriction(), key="MULTIPLICITY-RESTRICTION")
+        self.writeVariationRestrictionWithSeverity(element, class_tailoring.getVariationRestriction(), key="VARIATION-RESTRICTION")
+        class_contents = class_tailoring.getClassContents()
+        if len(class_contents) > 0:
+            contents_tag = ET.SubElement(element, "CLASS-CONTENTS")
+            for content in class_contents:
+                content_element = ET.SubElement(contents_tag, "CLASS-CONTENT-CONDITIONAL")
+                self.writeClassContentConditional(content_element, content)
+
+    def writeMultiplicityRestrictionWithSeverity(self, element: ET.Element, restriction: MultiplicityRestrictionWithSeverity, key: str = "MULTIPLICITY-RESTRICTION-WITH-SEVERITY"):
+        if restriction is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, restriction)
+
+    def writeVariationRestrictionWithSeverity(self, element: ET.Element, restriction: VariationRestrictionWithSeverity, key: str = "VARIATION-RESTRICTION-WITH-SEVERITY"):
+        if restriction is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, restriction)
+            self.setChildElementOptionalLiteral(child_element, "VALID-BINDING-TIME", restriction.getValidBindingTime())
+
+    def writeClassContentConditional(self, element: ET.Element, content: ClassContentConditional):
+        if content is not None:
+            child_element = ET.SubElement(element, "CLASS-CONTENT-CONDITIONAL")
+            self.writeIdentifiable(child_element, content)
+            condition = content.getCondition()
+            if condition is not None:
+                conditions_tag = ET.SubElement(child_element, "CONDITIONS")
+                self.writeConditionByType(conditions_tag, condition)
+            attribute_tailorings = content.getAttributeTailorings()
+            if len(attribute_tailorings) > 0:
+                tailorings_tag = ET.SubElement(child_element, "ATTRIBUTE-TAILORINGS")
+                for tailoring in attribute_tailorings:
+                    if isinstance(tailoring, PrimitiveAttributeTailoring):
+                        self.writePrimitiveAttributeTailoring(tailorings_tag, tailoring)
+                    elif isinstance(tailoring, AggregationTailoring):
+                        self.writeAggregationTailoring(tailorings_tag, tailoring)
+                    elif isinstance(tailoring, ReferenceTailoring):
+                        self.writeReferenceTailoring(tailorings_tag, tailoring)
+            constraint_tailorings = content.getConstraintTailorings()
+            if len(constraint_tailorings) > 0:
+                tailorings_tag = ET.SubElement(child_element, "CONSTRAINT-TAILORINGS")
+                for tailoring in constraint_tailorings:
+                    tailoring_element = ET.SubElement(tailorings_tag, "CONSTRAINT-TAILORING")
+                    self.writeIdentifiable(tailoring_element, tailoring)
+            sdg_tailorings = content.getSdgTailorings()
+            if len(sdg_tailorings) > 0:
+                tailorings_tag = ET.SubElement(child_element, "SDG-TAILORINGS")
+                for tailoring in sdg_tailorings:
+                    tailoring_element = ET.SubElement(tailorings_tag, "SDG-TAILORING")
+                    self.writeIdentifiable(tailoring_element, tailoring)
+
+    def writePrimitiveAttributeTailoring(self, element: ET.Element, tailoring: PrimitiveAttributeTailoring):
+        if tailoring is not None:
+            child_element = ET.SubElement(element, "PRIMITIVE-ATTRIBUTE-TAILORING")
+            self.writeIdentifiable(child_element, tailoring)
+            self.setChildElementOptionalLiteral(child_element, "DEFAULT-VALUE-HANDLING", tailoring.getDefaultValueHandling())
+            sub_tailorings = tailoring.getSubAttributeTailorings()
+            if len(sub_tailorings) > 0:
+                subs_tag = ET.SubElement(child_element, "SUB-ATTRIBUTE-TAILORINGS")
+                for sub_tailoring in sub_tailorings:
+                    self.writePrimitiveAttributeTailoring(subs_tag, sub_tailoring)
+            value_restriction = tailoring.getValueRestriction()
+            if value_restriction is not None:
+                self.writeValueRestrictionWithSeverity(child_element, value_restriction, key="VALUE-RESTRICTION")
+
+    def writeValueRestrictionWithSeverity(self, element: ET.Element, restriction: ValueRestrictionWithSeverity, key: str = "VALUE-RESTRICTION-WITH-SEVERITY"):
+        if restriction is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, restriction)
+
+    def writeClassTailoringByType(self, parent_element, class_tailoring) -> None:
+        if isinstance(class_tailoring, AbstractClassTailoring):
+            child_element = ET.SubElement(parent_element, "ABSTRACT-CLASS-TAILORING")
+        elif isinstance(class_tailoring, ConcreteClassTailoring):
+            child_element = ET.SubElement(parent_element, "CONCRETE-CLASS-TAILORING")
+        else:
+            return
+        self.writeIdentifiable(child_element, class_tailoring)
+        self.writeClassTailoringContents(child_element, class_tailoring)
+
+    def writeAggregationTailoring(self, element: ET.Element, tailoring: AggregationTailoring):
+        if tailoring is not None:
+            child_element = ET.SubElement(element, "AGGREGATION-TAILORING")
+            self.writeIdentifiable(child_element, tailoring)
+            type_tailorings = tailoring.getTypeTailorings()
+            if len(type_tailorings) > 0:
+                types_tag = ET.SubElement(child_element, "TYPE-TAILORINGS")
+                for class_tailoring in type_tailorings:
+                    self.writeClassTailoringByType(types_tag, class_tailoring)
+
+    def writeReferenceTailoring(self, element: ET.Element, tailoring: ReferenceTailoring):
+        if tailoring is not None:
+            child_element = ET.SubElement(element, "REFERENCE-TAILORING")
+            self.writeIdentifiable(child_element, tailoring)
+            type_tailorings = tailoring.getTypeTailorings()
+            if len(type_tailorings) > 0:
+                types_tag = ET.SubElement(child_element, "TYPE-TAILORINGS")
+                for class_tailoring in type_tailorings:
+                    self.writeClassTailoringByType(types_tag, class_tailoring)
+
+    def writeDataFormatTailoring(self, element: ET.Element, tailoring: DataFormatTailoring, key: str = "DATA-FORMAT-TAILORING"):
+        if tailoring is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, tailoring)
+            class_tailorings = tailoring.getClassTailorings()
+            if len(class_tailorings) > 0:
+                tailorings_tag = ET.SubElement(child_element, "CLASS-TAILORINGS")
+                for class_tailoring in class_tailorings:
+                    self.writeClassTailoringByType(tailorings_tag, class_tailoring)
+            constraint_tailorings = tailoring.getConstraintTailorings()
+            if len(constraint_tailorings) > 0:
+                tailorings_tag = ET.SubElement(child_element, "CONSTRAINT-TAILORINGS")
+                for constraint_tailoring in constraint_tailorings:
+                    tailoring_element = ET.SubElement(tailorings_tag, "CONSTRAINT-TAILORING")
+                    self.writeIdentifiable(tailoring_element, constraint_tailoring)
+
+    def writeDataExchangePoint(self, element: ET.Element, data_exchange_point: DataExchangePoint):
+        if data_exchange_point is not None:
+            child_element = ET.SubElement(element, "DATA-EXCHANGE-POINT")
+            self.writeIdentifiable(child_element, data_exchange_point)
+            self.setChildElementOptionalLiteral(child_element, "KIND", data_exchange_point.getKind())
+            self.writeBaseline(child_element, data_exchange_point.getReferencedBaseline())
+            self.writeSpecificationScope(child_element, data_exchange_point.getSpecificationScope(), key="SPECIFICATION-SCOPE")
+            self.writeDataFormatTailoring(child_element, data_exchange_point.getDataFormatTailoring(), key="DATA-FORMAT-TAILORING")
 
     def writeIdsmSignatureSupportAp(self, element: ET.Element, signature_support: IdsmSignatureSupportAp, key: str = "SIGNATURE-SUPPORT-AP"):
         if signature_support is not None:
@@ -20390,6 +20626,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writePostBuildVariantCriterionValueSet(element, ar_element)
         elif isinstance(ar_element, LogAndTraceMessageCollectionSet):
             self.writeLogAndTraceMessageCollectionSet(element, ar_element)
+        elif isinstance(ar_element, DataExchangePoint):
+            self.writeDataExchangePoint(element, ar_element)
         elif isinstance(ar_element, IdsDesign):
             self.writeIdsDesign(element, ar_element)
         elif isinstance(ar_element, SecurityEventContextMappingBswModule):
