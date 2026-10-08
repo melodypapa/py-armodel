@@ -774,6 +774,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticRoutineSubfunction,
     DiagnosticStartRoutine,
     DiagnosticStopRoutine,
+    GlobalTimeMaster,
     GlobalTimeSlave,
     Identifiable,
     MultilanguageReferrable,
@@ -798,6 +799,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DateTime,
     DdsDurabilityKindEnum,
     FrArTpAckType,
+    GlobalTimeIcvSupportEnum,
     GlobalTimeIcvVerificationEnum,
     GlobalTimePortRoleEnum,
     EthGlobalTimeMessageFormatEnum,
@@ -16319,6 +16321,22 @@ class ARXMLParser(AbstractARXMLParser):
         slave.setTimeLeapHealingCounter(self.getChildElementOptionalPositiveInteger(element, "TIME-LEAP-HEALING-COUNTER"))
         slave.setTimeLeapPastThreshold(self.getChildElementOptionalTimeValue(element, "TIME-LEAP-PAST-THRESHOLD"))
         return slave
+
+    def readGlobalTimeMaster(self, element: ET.Element, master: GlobalTimeMaster) -> GlobalTimeMaster:
+        # VARIATION-POINT is the last element of the XSD GLOBAL-TIME-MASTER group
+        # (AUTOSAR_00052.xsd l.64923, xml.sequenceOffset=10000); readIdentifiable picks it up
+        # because GlobalTimeMaster is VariationPointCapable.
+        self.readIdentifiable(element, master)
+        master.setCommunicationConnectorRef(self.getChildElementOptionalRefType(element, "COMMUNICATION-CONNECTOR-REF"))
+        literal = self.getChildElementOptionalLiteral(element, "ICV-SECURED")
+        if literal is not None:
+            icv_secured = GlobalTimeIcvSupportEnum()
+            icv_secured.setValue(literal.getValue())
+            master.setIcvSecured(icv_secured)
+        master.setImmediateResumeTime(self.getChildElementOptionalTimeValue(element, "IMMEDIATE-RESUME-TIME"))
+        master.setIsSystemWideGlobalTimeMaster(self.getChildElementOptionalBooleanValue(element, "IS-SYSTEM-WIDE-GLOBAL-TIME-MASTER"))
+        master.setSyncPeriod(self.getChildElementOptionalTimeValue(element, "SYNC-PERIOD"))
+        return master
 
     def readEthGlobalTimeManagedCouplingPort(self, element: ET.Element, port: EthGlobalTimeManagedCouplingPort) -> EthGlobalTimeManagedCouplingPort:
         self.readARObject(element, port)

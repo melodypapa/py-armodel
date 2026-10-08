@@ -54,6 +54,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticRoutineSubfunction,
     DiagnosticStartRoutine,
     DiagnosticStopRoutine,
+    GlobalTimeMaster,
     GlobalTimeSlave,
     Identifiable,
     MultilanguageReferrable,
@@ -67,6 +68,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Boolean,
     CategoryString,
     DiagnosticDebounceBehaviorEnum,
+    GlobalTimeIcvSupportEnum,
     GlobalTimeIcvVerificationEnum,
     Identifier,
     PositiveInteger,
@@ -2742,6 +2744,10 @@ class TestDdsCpPartition:
         assert inspect.cleandoc(DdsCpPartition.setPartitionName.__doc__) == (self.PARTITION_NAME_NOTE + "\n\nA None value is a no-op and does not overwrite an existing partitionName.")
 
 
+class ConcreteGlobalTimeMaster(GlobalTimeMaster):
+    pass
+
+
 class ConcreteGlobalTimeSlave(GlobalTimeSlave):
     pass
 
@@ -2972,6 +2978,225 @@ class TestGlobalTimeSlave:
         assert inspect.cleandoc(GlobalTimeSlave.setTimeLeapPastThreshold.__doc__) == (
             self.TIME_LEAP_PAST_THRESHOLD_NOTE + "\n\nA None value is a no-op and does not overwrite an existing timeLeapPastThreshold."
         )
+
+
+class TestGlobalTimeMaster:
+    """
+    Test class for GlobalTimeMaster functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.4, p.860
+    (abstract; subclasses GlobalTimeCanMaster, GlobalTimeEthMaster, GlobalTimeFrMaster and
+    UserDefinedGlobalTimeMaster — exercised through a local concrete subclass per the
+    abstract-class test convention.)
+    """
+
+    CLASS_NOTE = "This represents the generic concept of a global time master."
+    COMMUNICATION_CONNECTOR_REF_NOTE = "The GlobalTimeMaster is bound to the Communication Connector."
+    ICV_SECURED_NOTE = "Defines whether an Integrity Check Value (ICV) shall be added to the sent time sync messages. Tags: atp.Status=candidate"
+    IMMEDIATE_RESUME_TIME_NOTE = 'Defines the minimum time between an "immediate" message and the next periodic message.'
+    IS_SYSTEM_WIDE_GLOBAL_TIME_MASTER_NOTE = "If set to TRUE, the GlobalTimeMaster is supposed to act as the root of global time information."
+    SYNC_PERIOD_NOTE = "This represents the period. Unit: seconds"
+
+    def _create_master(self) -> ConcreteGlobalTimeMaster:
+        return ConcreteGlobalTimeMaster(AUTOSAR.getInstance(), "master")
+
+    def test_abstract_initialization(self):
+        """
+        GlobalTimeMaster is abstract and cannot be instantiated directly.
+        """
+        with pytest.raises(TypeError):
+            GlobalTimeMaster(AUTOSAR.getInstance(), "master")
+
+    def test_is_identifiable_subclass_with_variation_point_capable(self):
+        """
+        Test that GlobalTimeMaster derives from Identifiable per the Table 9.4 Base row
+        (ARObject, Identifiable, MultilanguageReferrable, Referrable — most-derived
+        Identifiable) and from VariationPointCapable (the atpVariation on the owning
+        GlobalTimeDomain.globalTimeMaster row makes the class VP-capable; the XSD
+        GLOBAL-TIME-MASTER group carries VARIATION-POINT last, xml.sequenceOffset=10000).
+        """
+        assert issubclass(GlobalTimeMaster, Identifiable)
+        assert issubclass(GlobalTimeMaster, VariationPointCapable)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(GlobalTimeMaster.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert GlobalTimeMaster.__init__.__doc__ is None
+
+    def test_member_order_follows_spec_rows(self):
+        """
+        Test that the accessors follow the Table 9.4 displayed row order (getter first per attribute).
+        """
+        methods = [name for name, value in GlobalTimeMaster.__dict__.items() if callable(value) and not name.startswith("_")]
+        assert methods == [
+            "getCommunicationConnectorRef",
+            "setCommunicationConnectorRef",
+            "getIcvSecured",
+            "setIcvSecured",
+            "getImmediateResumeTime",
+            "setImmediateResumeTime",
+            "getIsSystemWideGlobalTimeMaster",
+            "setIsSystemWideGlobalTimeMaster",
+            "getSyncPeriod",
+            "setSyncPeriod",
+        ]
+
+    def test_initialization_defaults(self):
+        """
+        Test that a concrete subclass initializes all attributes to their defaults.
+        """
+        obj = self._create_master()
+
+        assert obj.getShortName() == "master"
+        assert obj.getChecksum() is None
+        assert obj.getCommunicationConnectorRef() is None
+        assert obj.getIcvSecured() is None
+        assert obj.getImmediateResumeTime() is None
+        assert obj.getIsSystemWideGlobalTimeMaster() is None
+        assert obj.getSyncPeriod() is None
+        assert obj.getVariationPoint() is None
+
+    def test_annotations_are_optional_typed(self):
+        """
+        Test that the accessors carry the spec types (0..1 rows).
+        """
+        hints = typing.get_type_hints(GlobalTimeMaster.getCommunicationConnectorRef)
+        assert hints.get("return") == typing.Optional[RefType]
+        hints = typing.get_type_hints(GlobalTimeMaster.setCommunicationConnectorRef)
+        assert hints.get("value") == typing.Optional[RefType]
+        assert hints.get("return") is GlobalTimeMaster
+
+        hints = typing.get_type_hints(GlobalTimeMaster.getIcvSecured)
+        assert hints.get("return") == typing.Optional[GlobalTimeIcvSupportEnum]
+        hints = typing.get_type_hints(GlobalTimeMaster.getImmediateResumeTime)
+        assert hints.get("return") == typing.Optional[TimeValue]
+        hints = typing.get_type_hints(GlobalTimeMaster.getIsSystemWideGlobalTimeMaster)
+        assert hints.get("return") == typing.Optional[Boolean]
+        hints = typing.get_type_hints(GlobalTimeMaster.getSyncPeriod)
+        assert hints.get("return") == typing.Optional[TimeValue]
+
+    def test_get_set_communication_connector_ref(self):
+        """
+        Test getCommunicationConnectorRef and setCommunicationConnectorRef round-trip and None no-op.
+        """
+        obj = self._create_master()
+
+        value = RefType()
+        value.setValue("/CommunicationClusters/Cluster/Connector")
+        result = obj.setCommunicationConnectorRef(value)
+        assert result is obj
+        assert obj.getCommunicationConnectorRef() is value
+        assert obj.getCommunicationConnectorRef().getValue() == "/CommunicationClusters/Cluster/Connector"
+
+        result = obj.setCommunicationConnectorRef(None)
+        assert result is obj
+        assert obj.getCommunicationConnectorRef() is value
+
+    def test_get_set_icv_secured(self):
+        """
+        Test getIcvSecured and setIcvSecured round-trip and None no-op.
+        """
+        obj = self._create_master()
+
+        value = GlobalTimeIcvSupportEnum()
+        value.setValue(GlobalTimeIcvSupportEnum.ICV_SUPPORTED)
+        result = obj.setIcvSecured(value)
+        assert result is obj
+        assert obj.getIcvSecured() is value
+        assert obj.getIcvSecured().getValue() == GlobalTimeIcvSupportEnum.ICV_SUPPORTED
+
+        result = obj.setIcvSecured(None)
+        assert result is obj
+        assert obj.getIcvSecured() is value
+
+    def test_get_set_immediate_resume_time(self):
+        """
+        Test getImmediateResumeTime and setImmediateResumeTime round-trip and None no-op.
+        """
+        obj = self._create_master()
+
+        value = TimeValue()
+        value.setValue("2.0")
+        result = obj.setImmediateResumeTime(value)
+        assert result is obj
+        assert obj.getImmediateResumeTime() is value
+
+        result = obj.setImmediateResumeTime(None)
+        assert result is obj
+        assert obj.getImmediateResumeTime() is value
+
+    def test_get_set_is_system_wide_global_time_master(self):
+        """
+        Test getIsSystemWideGlobalTimeMaster and setIsSystemWideGlobalTimeMaster round-trip and None no-op.
+        """
+        obj = self._create_master()
+
+        value = Boolean().setValue(True)
+        result = obj.setIsSystemWideGlobalTimeMaster(value)
+        assert result is obj
+        assert obj.getIsSystemWideGlobalTimeMaster() is value
+        assert obj.getIsSystemWideGlobalTimeMaster().getValue() is True
+
+        result = obj.setIsSystemWideGlobalTimeMaster(None)
+        assert result is obj
+        assert obj.getIsSystemWideGlobalTimeMaster() is value
+
+    def test_get_set_sync_period(self):
+        """
+        Test getSyncPeriod and setSyncPeriod round-trip and None no-op.
+        """
+        obj = self._create_master()
+
+        value = TimeValue()
+        value.setValue("0.2")
+        result = obj.setSyncPeriod(value)
+        assert result is obj
+        assert obj.getSyncPeriod() is value
+
+        result = obj.setSyncPeriod(None)
+        assert result is obj
+        assert obj.getSyncPeriod() is value
+
+    def test_variation_point_base_accessors(self):
+        """
+        Exercise the inherited VariationPointCapable accessors: chaining, round-trip, None no-op.
+        """
+        obj = self._create_master()
+
+        variation_point = VariationPoint()
+        assert obj.setVariationPoint(variation_point) is obj
+        assert obj.getVariationPoint() is variation_point
+
+        obj.setVariationPoint(None)
+        assert obj.getVariationPoint() is variation_point
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        assert inspect.cleandoc(GlobalTimeMaster.getCommunicationConnectorRef.__doc__) == self.COMMUNICATION_CONNECTOR_REF_NOTE
+        assert inspect.cleandoc(GlobalTimeMaster.setCommunicationConnectorRef.__doc__) == (
+            self.COMMUNICATION_CONNECTOR_REF_NOTE + "\n\nA None value is a no-op and does not overwrite an existing communicationConnectorRef."
+        )
+        assert inspect.cleandoc(GlobalTimeMaster.getIcvSecured.__doc__) == self.ICV_SECURED_NOTE
+        assert inspect.cleandoc(GlobalTimeMaster.setIcvSecured.__doc__) == (self.ICV_SECURED_NOTE + "\n\nA None value is a no-op and does not overwrite an existing icvSecured.")
+        assert inspect.cleandoc(GlobalTimeMaster.getImmediateResumeTime.__doc__) == self.IMMEDIATE_RESUME_TIME_NOTE
+        assert inspect.cleandoc(GlobalTimeMaster.setImmediateResumeTime.__doc__) == (
+            self.IMMEDIATE_RESUME_TIME_NOTE + "\n\nA None value is a no-op and does not overwrite an existing immediateResumeTime."
+        )
+        assert inspect.cleandoc(GlobalTimeMaster.getIsSystemWideGlobalTimeMaster.__doc__) == self.IS_SYSTEM_WIDE_GLOBAL_TIME_MASTER_NOTE
+        assert inspect.cleandoc(GlobalTimeMaster.setIsSystemWideGlobalTimeMaster.__doc__) == (
+            self.IS_SYSTEM_WIDE_GLOBAL_TIME_MASTER_NOTE + "\n\nA None value is a no-op and does not overwrite an existing isSystemWideGlobalTimeMaster."
+        )
+        assert inspect.cleandoc(GlobalTimeMaster.getSyncPeriod.__doc__) == self.SYNC_PERIOD_NOTE
+        assert inspect.cleandoc(GlobalTimeMaster.setSyncPeriod.__doc__) == (self.SYNC_PERIOD_NOTE + "\n\nA None value is a no-op and does not overwrite an existing syncPeriod.")
 
 
 class TestBinaryManifestResource:

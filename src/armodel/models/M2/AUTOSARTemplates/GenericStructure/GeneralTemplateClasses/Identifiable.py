@@ -33,6 +33,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Boolean,
     CategoryString,
     DiagnosticDebounceBehaviorEnum,
+    GlobalTimeIcvSupportEnum,
     GlobalTimeIcvVerificationEnum,
     Identifier,
     PositiveInteger,
@@ -2356,8 +2357,136 @@ class GlobalTimeGateway(Identifiable):
     pass
 
 
-class GlobalTimeMaster(Identifiable, ABC):
-    pass
+class GlobalTimeMaster(Identifiable, VariationPointCapable, ABC):
+    """
+    This represents the generic concept of a global time master.
+    """
+
+    # GlobalTimeMaster method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.4, p.860
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCommunicationConnectorRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCommunicationConnectorRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIcvSecured                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIcvSecured                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getImmediateResumeTime           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setImmediateResumeTime           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIsSystemWideGlobalTimeMaster  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIsSystemWideGlobalTimeMaster  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSyncPeriod                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSyncPeriod                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # getVariationPoint / setVariationPoint provided by the VariationPointCapable base (mixin) — no spec row
+    # (stereotype-inherent). VARIATION-POINT is the last element of the XSD GLOBAL-TIME-MASTER group
+    # (AUTOSAR_00052.xsd l.64923, xml.sequenceOffset=10000, "Applicable for:
+    # GlobalTimeDomain.globalTimeMaster"): the reader reads it inside readIdentifiable, the writer
+    # emits it as the tail after the class's own elements (writeIdentifiable is called with
+    # write_variation_point=False). Abstract XML-bearing base: the reusable readGlobalTimeMaster /
+    # writeGlobalTimeMaster helpers own the five group elements and are called by the concrete
+    # master subclasses. Aggregator dispatch (GlobalTimeDomain.globalTimeMaster) is pending —
+    # GlobalTimeDomain is a later-wave class.
+
+    def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is GlobalTimeMaster:
+            raise TypeError("GlobalTimeMaster is an abstract class.")
+
+        super().__init__(parent, short_name)
+
+        # The GlobalTimeMaster is bound to the Communication Connector.
+        self.communicationConnectorRef: Optional[RefType] = None
+
+        # Defines whether an Integrity Check Value (ICV) shall be added to the sent time sync messages. Tags: atp.Status=candidate
+        self.icvSecured: Optional[GlobalTimeIcvSupportEnum] = None
+
+        # Defines the minimum time between an "immediate" message and the next periodic message.
+        self.immediateResumeTime: Optional[TimeValue] = None
+
+        # If set to TRUE, the GlobalTimeMaster is supposed to act as the root of global time information.
+        self.isSystemWideGlobalTimeMaster: Optional[Boolean] = None
+
+        # This represents the period. Unit: seconds
+        self.syncPeriod: Optional[TimeValue] = None
+
+    def getCommunicationConnectorRef(self) -> Optional[RefType]:
+        """
+        The GlobalTimeMaster is bound to the Communication Connector.
+        """
+        return self.communicationConnectorRef
+
+    def setCommunicationConnectorRef(self, value: Optional[RefType]) -> GlobalTimeMaster:
+        """
+        The GlobalTimeMaster is bound to the Communication Connector.
+
+        A None value is a no-op and does not overwrite an existing communicationConnectorRef.
+        """
+        if value is not None:
+            self.communicationConnectorRef = value
+        return self
+
+    def getIcvSecured(self) -> Optional[GlobalTimeIcvSupportEnum]:
+        """
+        Defines whether an Integrity Check Value (ICV) shall be added to the sent time sync messages. Tags: atp.Status=candidate
+        """
+        return self.icvSecured
+
+    def setIcvSecured(self, value: Optional[GlobalTimeIcvSupportEnum]) -> GlobalTimeMaster:
+        """
+        Defines whether an Integrity Check Value (ICV) shall be added to the sent time sync messages. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing icvSecured.
+        """
+        if value is not None:
+            self.icvSecured = value
+        return self
+
+    def getImmediateResumeTime(self) -> Optional[TimeValue]:
+        """
+        Defines the minimum time between an "immediate" message and the next periodic message.
+        """
+        return self.immediateResumeTime
+
+    def setImmediateResumeTime(self, value: Optional[TimeValue]) -> GlobalTimeMaster:
+        """
+        Defines the minimum time between an "immediate" message and the next periodic message.
+
+        A None value is a no-op and does not overwrite an existing immediateResumeTime.
+        """
+        if value is not None:
+            self.immediateResumeTime = value
+        return self
+
+    def getIsSystemWideGlobalTimeMaster(self) -> Optional[Boolean]:
+        """
+        If set to TRUE, the GlobalTimeMaster is supposed to act as the root of global time information.
+        """
+        return self.isSystemWideGlobalTimeMaster
+
+    def setIsSystemWideGlobalTimeMaster(self, value: Optional[Boolean]) -> GlobalTimeMaster:
+        """
+        If set to TRUE, the GlobalTimeMaster is supposed to act as the root of global time information.
+
+        A None value is a no-op and does not overwrite an existing isSystemWideGlobalTimeMaster.
+        """
+        if value is not None:
+            self.isSystemWideGlobalTimeMaster = value
+        return self
+
+    def getSyncPeriod(self) -> Optional[TimeValue]:
+        """
+        This represents the period. Unit: seconds
+        """
+        return self.syncPeriod
+
+    def setSyncPeriod(self, value: Optional[TimeValue]) -> GlobalTimeMaster:
+        """
+        This represents the period. Unit: seconds
+
+        A None value is a no-op and does not overwrite an existing syncPeriod.
+        """
+        if value is not None:
+            self.syncPeriod = value
+        return self
 
 
 class GlobalTimeSlave(Identifiable, VariationPointCapable, ABC):

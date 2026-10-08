@@ -617,6 +617,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticRoutineSubfunction,
     DiagnosticStartRoutine,
     DiagnosticStopRoutine,
+    GlobalTimeMaster,
     GlobalTimeSlave,
     Identifiable,
     MultilanguageReferrable,
@@ -13828,6 +13829,20 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalPositiveInteger(element, "TIME-LEAP-HEALING-COUNTER", cast(Integer, slave.getTimeLeapHealingCounter()))
         self.setChildElementOptionalTimeValue(element, "TIME-LEAP-PAST-THRESHOLD", slave.getTimeLeapPastThreshold())
         self.writeVariationPoint(element, slave.getVariationPoint())
+
+    def writeGlobalTimeMaster(self, element: ET.Element, master: GlobalTimeMaster):
+        # Populates the concrete subclass element (GLOBAL-TIME-CAN-/ETH-/FR-/USER-DEFINED-
+        # GLOBAL-TIME-MASTER) created by the caller. VARIATION-POINT is the last element of the
+        # XSD GLOBAL-TIME-MASTER group (AUTOSAR_00052.xsd l.64923, xml.sequenceOffset=10000),
+        # so the generic emission inside writeIdentifiable is suppressed here and re-emitted
+        # after the class's own elements.
+        self.writeIdentifiable(element, master, write_variation_point=False)
+        self.setChildElementOptionalRefType(element, "COMMUNICATION-CONNECTOR-REF", master.getCommunicationConnectorRef())
+        self.setChildElementOptionalLiteral(element, "ICV-SECURED", master.getIcvSecured())
+        self.setChildElementOptionalTimeValue(element, "IMMEDIATE-RESUME-TIME", master.getImmediateResumeTime())
+        self.setChildElementOptionalBooleanValue(element, "IS-SYSTEM-WIDE-GLOBAL-TIME-MASTER", master.getIsSystemWideGlobalTimeMaster())
+        self.setChildElementOptionalTimeValue(element, "SYNC-PERIOD", master.getSyncPeriod())
+        self.writeVariationPoint(element, master.getVariationPoint())
 
     def writeEthGlobalTimeManagedCouplingPort(self, element: ET.Element, port: EthGlobalTimeManagedCouplingPort):
         child_element = ET.SubElement(element, "ETH-GLOBAL-TIME-MANAGED-COUPLING-PORT")
