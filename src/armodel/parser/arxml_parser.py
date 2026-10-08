@@ -15104,6 +15104,21 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readIEEE1722TpAcfCanPart(self, element: ET.Element, part: IEEE1722TpAcfCanPart):
         self.readIEEE1722TpAcfBusPart(element, part)
+        can_addressing_mode_literal = self.getChildElementOptionalLiteral(element, "CAN-ADDRESSING-MODE")
+        if can_addressing_mode_literal is not None:
+            can_addressing_mode = CanAddressingModeType()
+            can_addressing_mode.setValue(can_addressing_mode_literal.getValue())
+            part.setCanAddressingMode(can_addressing_mode)
+        part.setCanBitRateSwitch(self.getChildElementOptionalBooleanValue(element, "CAN-BIT-RATE-SWITCH"))
+        can_frame_tx_behavior_literal = self.getChildElementOptionalLiteral(element, "CAN-FRAME-TX-BEHAVIOR")
+        if can_frame_tx_behavior_literal is not None:
+            can_frame_tx_behavior = CanFrameTxBehaviorEnum()
+            can_frame_tx_behavior.setValue(can_frame_tx_behavior_literal.getValue())
+            part.setCanFrameTxBehavior(can_frame_tx_behavior)
+        part.setCanIdentifier(self.getChildElementOptionalPositiveInteger(element, "CAN-IDENTIFIER"))
+        part.setCanIdentifierMask(self.getChildElementOptionalPositiveInteger(element, "CAN-IDENTIFIER-MASK"))
+        part.setCanIdentifierRange(self.getRxIdentifierRange(element, "CAN-IDENTIFIER-RANGE"))
+        part.setSduRef(self.getChildElementOptionalRefType(element, "SDU-REF"))
 
     def readIEEE1722TpAcfLinPart(self, element: ET.Element, part: IEEE1722TpAcfLinPart):
         self.readIEEE1722TpAcfBusPart(element, part)

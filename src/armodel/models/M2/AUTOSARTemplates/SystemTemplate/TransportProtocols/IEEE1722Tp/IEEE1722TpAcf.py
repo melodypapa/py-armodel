@@ -7,8 +7,13 @@ from typing import List, Optional, cast
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, PositiveInteger
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, PositiveInteger, RefType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import (
+    CanAddressingModeType,
+    CanFrameTxBehaviorEnum,
+    RxIdentifierRange,
+)
 
 
 class IEEE1722TpAcfCanMessageTypeEnum(AREnum):
@@ -150,7 +155,161 @@ class IEEE1722TpAcfBusPart(Identifiable, VariationPointCapable):
 
 
 class IEEE1722TpAcfCanPart(IEEE1722TpAcfBusPart):
-    pass
+    """
+    Definition of one CAN part (frame or frame range) transported over the IEEE1722Tp channel. Tags: atp.Status=candidate
+    """
+
+    # IEEE1722TpAcfCanPart method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.294, p.661
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCanAddressingMode   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCanAddressingMode   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCanBitRateSwitch    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCanBitRateSwitch    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCanFrameTxBehavior  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCanFrameTxBehavior  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCanIdentifier       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCanIdentifier       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCanIdentifierMask   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCanIdentifierMask   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCanIdentifierRange  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCanIdentifierRange  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSduRef              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSduRef              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # (Base = ARObject, IEEE1722TpAcfBusPart, Identifiable, MultilanguageReferrable, Referrable — most-derived
+    # base IEEE1722TpAcfBusPart; concrete (XSD abstract="false"); XSD group IEEE-1722-TP-ACF-BUS-PART carries
+    # VARIATION-POINT — getVariationPoint/setVariationPoint provided by the VariationPointCapable base (mixin),
+    # no spec rows; aggregated by IEEE1722TpAcfBus.acfPart only)
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Defines whether standard or extended address format shall be used.
+        self.canAddressingMode: Optional[CanAddressingModeType] = None
+
+        # Defines whether the bit rate switch bit shall be set.
+        self.canBitRateSwitch: Optional[Boolean] = None
+
+        # Defines which CAN protocol shall be used for frame transmission.
+        self.canFrameTxBehavior: Optional[CanFrameTxBehaviorEnum] = None
+
+        # Optional Can Id defined in case the Can Id can not be determined during runtime.
+        self.canIdentifier: Optional[PositiveInteger] = None
+
+        # CAN identifier mask which denotes relevant bits in the CAN Identifier. This attribute defines a CAN Identifier range in an alternative way to canIdentifierRange. It identifies the bits of the configured CAN Identifier that must match the received CAN Identifier.
+        self.canIdentifierMask: Optional[PositiveInteger] = None
+
+        # Definition of the identifier range for IEEE1722Tp ACF Can messages. Tags: atp.Status=candidate
+        self.canIdentifierRange: Optional[RxIdentifierRange] = None
+
+        # Reference to the Pdu transported in the IEEE1722Tp channel. Tags: atp.Status=candidate
+        self.sduRef: Optional[RefType] = None
+
+    def getCanAddressingMode(self) -> Optional[CanAddressingModeType]:
+        """
+        Defines whether standard or extended address format shall be used.
+        """
+        return self.canAddressingMode
+
+    def setCanAddressingMode(self, value: Optional[CanAddressingModeType]) -> IEEE1722TpAcfCanPart:
+        """
+        Defines whether standard or extended address format shall be used.
+        A None value is a no-op and does not overwrite an existing canAddressingMode.
+        """
+        if value is not None:
+            self.canAddressingMode = value
+        return self
+
+    def getCanBitRateSwitch(self) -> Optional[Boolean]:
+        """
+        Defines whether the bit rate switch bit shall be set.
+        """
+        return self.canBitRateSwitch
+
+    def setCanBitRateSwitch(self, value: Optional[Boolean]) -> IEEE1722TpAcfCanPart:
+        """
+        Defines whether the bit rate switch bit shall be set.
+        A None value is a no-op and does not overwrite an existing canBitRateSwitch.
+        """
+        if value is not None:
+            self.canBitRateSwitch = value
+        return self
+
+    def getCanFrameTxBehavior(self) -> Optional[CanFrameTxBehaviorEnum]:
+        """
+        Defines which CAN protocol shall be used for frame transmission.
+        """
+        return self.canFrameTxBehavior
+
+    def setCanFrameTxBehavior(self, value: Optional[CanFrameTxBehaviorEnum]) -> IEEE1722TpAcfCanPart:
+        """
+        Defines which CAN protocol shall be used for frame transmission.
+        A None value is a no-op and does not overwrite an existing canFrameTxBehavior.
+        """
+        if value is not None:
+            self.canFrameTxBehavior = value
+        return self
+
+    def getCanIdentifier(self) -> Optional[PositiveInteger]:
+        """
+        Optional Can Id defined in case the Can Id can not be determined during runtime.
+        """
+        return self.canIdentifier
+
+    def setCanIdentifier(self, value: Optional[PositiveInteger]) -> IEEE1722TpAcfCanPart:
+        """
+        Optional Can Id defined in case the Can Id can not be determined during runtime.
+        A None value is a no-op and does not overwrite an existing canIdentifier.
+        """
+        if value is not None:
+            self.canIdentifier = value
+        return self
+
+    def getCanIdentifierMask(self) -> Optional[PositiveInteger]:
+        """
+        CAN identifier mask which denotes relevant bits in the CAN Identifier. This attribute defines a CAN Identifier range in an alternative way to canIdentifierRange. It identifies the bits of the configured CAN Identifier that must match the received CAN Identifier.
+        """
+        return self.canIdentifierMask
+
+    def setCanIdentifierMask(self, value: Optional[PositiveInteger]) -> IEEE1722TpAcfCanPart:
+        """
+        CAN identifier mask which denotes relevant bits in the CAN Identifier. This attribute defines a CAN Identifier range in an alternative way to canIdentifierRange. It identifies the bits of the configured CAN Identifier that must match the received CAN Identifier.
+        A None value is a no-op and does not overwrite an existing canIdentifierMask.
+        """
+        if value is not None:
+            self.canIdentifierMask = value
+        return self
+
+    def getCanIdentifierRange(self) -> Optional[RxIdentifierRange]:
+        """
+        Definition of the identifier range for IEEE1722Tp ACF Can messages. Tags: atp.Status=candidate
+        """
+        return self.canIdentifierRange
+
+    def setCanIdentifierRange(self, value: Optional[RxIdentifierRange]) -> IEEE1722TpAcfCanPart:
+        """
+        Definition of the identifier range for IEEE1722Tp ACF Can messages. Tags: atp.Status=candidate
+        A None value is a no-op and does not overwrite an existing canIdentifierRange.
+        """
+        if value is not None:
+            self.canIdentifierRange = value
+        return self
+
+    def getSduRef(self) -> Optional[RefType]:
+        """
+        Reference to the Pdu transported in the IEEE1722Tp channel. Tags: atp.Status=candidate
+        """
+        return self.sduRef
+
+    def setSduRef(self, value: Optional[RefType]) -> IEEE1722TpAcfCanPart:
+        """
+        Reference to the Pdu transported in the IEEE1722Tp channel. Tags: atp.Status=candidate
+        A None value is a no-op and does not overwrite an existing sduRef.
+        """
+        if value is not None:
+            self.sduRef = value
+        return self
 
 
 class IEEE1722TpAcfLinPart(IEEE1722TpAcfBusPart):

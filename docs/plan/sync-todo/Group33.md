@@ -1276,15 +1276,34 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `IEEE1722TpAcfCanPart` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 6.294, p.661
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note: Step 1 finding — module hint overridden — spec Package row = ...IEEE1722Tp::IEEE1722TpAcf ->
+    `TransportProtocols/IEEE1722Tp/IEEE1722TpAcf.py` with the family (stub already rebased there in the
+    BusPart wave, Rule 0007). Base row most-derived = IEEE1722TpAcfBusPart (Identifiable-chain hint
+    confirmed by the stub rebase); concrete (XSD complexType IEEE-1722-TP-ACF-CAN-PART
+    abstract="false") — no TypeError guard. All 7 spec attrs modeled in displayed order (= XSD group
+    element order): canAddressingMode (CanAddressingModeType), canBitRateSwitch (Boolean),
+    canFrameTxBehavior (CanFrameTxBehaviorEnum), canIdentifier (PositiveInteger), canIdentifierMask
+    (PositiveInteger), canIdentifierRange (RxIdentifierRange 0..1 aggr — non-Referrable child →
+    set/get shape, reusing the shared getRxIdentifierRange/setRxIdentifierRange helpers),
+    sdu (PduTriggering 0..1 ref → sduRef, SDU-REF with required DEST
+    PDU-TRIGGERING--SUBTYPES-ENUM); markdown line-split renderings (canAddressing Mode /
+    canBitRate Switch / canFrameTx Behavior Enum / canIdentifier Mask / canIdentifier Range) resolved
+    to the XSD mmt.qualifiedName spellings. Member types CanAddressingModeType/CanFrameTxBehaviorEnum/
+    RxIdentifierRange already synced (CanCommunication.py, Tables 6.111/6.112/6.114) — imported
+    top-level, no cycle. No XSD-only extras; canIdentifierRange + sdu carry Tags: atp.Status=candidate.
+    constr_3760 (canIdentifierRange-or-mask existence) is rendered outside the Table 6.294 rows in
+    the markdown (before Figure 6.88) — not a table row, not appended. Aggregated by
+    IEEE1722TpAcfBus.acfPart only → no ARPackage factory/dispatch; the ACF-PARTS choice dispatch from
+    the Bus wave now flows into the real class.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `IEEE1722TpAcfCanMessageTypeEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 6.295, p.662
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py

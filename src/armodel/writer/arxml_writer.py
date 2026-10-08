@@ -11194,6 +11194,19 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeIEEE1722TpAcfCanPart(self, element: ET.Element, part: IEEE1722TpAcfCanPart):
         child_element = ET.SubElement(element, "IEEE-1722-TP-ACF-CAN-PART")
         self.writeIEEE1722TpAcfBusPart(child_element, part)
+        can_addressing_mode = part.getCanAddressingMode()
+        if can_addressing_mode is not None:
+            can_addressing_mode_element = ET.SubElement(child_element, "CAN-ADDRESSING-MODE")
+            can_addressing_mode_element.text = can_addressing_mode.getValue()
+        self.setChildElementOptionalBooleanValue(child_element, "CAN-BIT-RATE-SWITCH", part.getCanBitRateSwitch())
+        can_frame_tx_behavior = part.getCanFrameTxBehavior()
+        if can_frame_tx_behavior is not None:
+            can_frame_tx_behavior_element = ET.SubElement(child_element, "CAN-FRAME-TX-BEHAVIOR")
+            can_frame_tx_behavior_element.text = can_frame_tx_behavior.getValue()
+        self.setChildElementOptionalPositiveInteger(child_element, "CAN-IDENTIFIER", cast(Integer, part.getCanIdentifier()))
+        self.setChildElementOptionalPositiveInteger(child_element, "CAN-IDENTIFIER-MASK", cast(Integer, part.getCanIdentifierMask()))
+        self.setRxIdentifierRange(child_element, "CAN-IDENTIFIER-RANGE", part.getCanIdentifierRange())
+        self.setChildElementOptionalRefType(child_element, "SDU-REF", part.getSduRef())
 
     def writeIEEE1722TpAcfLinPart(self, element: ET.Element, part: IEEE1722TpAcfLinPart):
         child_element = ET.SubElement(element, "IEEE-1722-TP-ACF-LIN-PART")
