@@ -3608,10 +3608,6 @@ class IdsmTrafficLimitation(ARObject):
     pass
 
 
-class J1939TpPg(ARObject):
-    pass
-
-
 class NetworkSegmentIdentification(ARObject):
     """
     This meta-class represents the ability to identify the PhysicalChannel on a system scope in a numerical way. One possible application of this approach is the Time Validation.

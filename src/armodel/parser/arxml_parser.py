@@ -14602,6 +14602,11 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readJ1939TpPg(self, element: ET.Element, tp_pg: J1939TpPg):
         self.readARObject(element, tp_pg)
+        tp_pg.setDirectPduRef(self.getChildElementOptionalRefType(element, "DIRECT-PDU-REF"))
+        tp_pg.setPgn(self.getChildElementOptionalIntegerValue(element, "PGN"))
+        tp_pg.setRequestable(self.getChildElementOptionalBooleanValue(element, "REQUESTABLE"))
+        for ref in self.getChildElementRefTypeList(element, "SDU-REFS/SDU-REF"):
+            tp_pg.addSduRef(ref)
 
     def readJ1939TpConfigTpNodes(self, element: ET.Element, config: J1939TpConfig):
         for child_element in self.findall(element, "TP-NODES/*"):

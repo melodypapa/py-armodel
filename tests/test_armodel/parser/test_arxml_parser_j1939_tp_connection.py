@@ -36,7 +36,9 @@ CONNECTION_XML = (
     "</RECEIVER-REFS>"
     "<RETRY>true</RETRY>"
     "<TP-PGS>"
-    "<J-1939-TP-PG />"
+    "<J-1939-TP-PG>"
+    "<PGN>61444</PGN>"
+    "</J-1939-TP-PG>"
     "</TP-PGS>"
     '<TRANSMITTER-REF DEST="J-1939-TP-NODE">/TpConfigs/Config1/Tx</TRANSMITTER-REF>'
     "<VARIATION-POINT />"
@@ -106,6 +108,8 @@ class TestReadJ1939TpConnection:
         assert connection.getRetry().getValue() is True
 
         assert len(connection.getTpPgs()) == 1
+        assert connection.getTpPgs()[0].getPgn() is not None
+        assert connection.getTpPgs()[0].getPgn().getValue() == 61444
 
         transmitter_ref = connection.getTransmitterRef()
         assert transmitter_ref.getValue() == "/TpConfigs/Config1/Tx"

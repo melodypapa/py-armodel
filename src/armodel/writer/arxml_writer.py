@@ -10631,6 +10631,14 @@ class ARXMLWriter(AbstractARXMLWriter):
         if tp_pg is not None:
             child_element = ET.SubElement(element, "J-1939-TP-PG")
             self.writeARObject(child_element, tp_pg)
+            self.setChildElementOptionalRefType(child_element, "DIRECT-PDU-REF", tp_pg.getDirectPduRef())
+            self.setChildElementOptionalIntegerValue(child_element, "PGN", tp_pg.getPgn())
+            self.setChildElementOptionalBooleanValue(child_element, "REQUESTABLE", tp_pg.getRequestable())
+            sdu_refs = tp_pg.getSduRefs()
+            if len(sdu_refs) > 0:
+                sdu_refs_element = ET.SubElement(child_element, "SDU-REFS")
+                for ref in sdu_refs:
+                    self.setChildElementOptionalRefType(sdu_refs_element, "SDU-REF", ref)
 
     def writeJ1939TpConfigTpNodes(self, element: ET.Element, config: J1939TpConfig):
         tp_nodes = config.getTpNodes()

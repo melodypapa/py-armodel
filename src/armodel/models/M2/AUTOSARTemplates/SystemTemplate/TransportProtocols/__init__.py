@@ -24,7 +24,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     TimeValue,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import FibexElement
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject, J1939TpPg
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 
 class TpConfig(FibexElement, ABC):
@@ -3538,6 +3538,97 @@ class J1939TpConnection(TpConnection, VariationPointCapable):
         if value is not None:
             self.transmitterRef = value
         return self
+
+
+class J1939TpPg(ARObject):
+    """
+    A J1939TpPg represents one J1939 message (parameter group, PG) identified by the PGN (parameter group number) that can be received or transmitted via J1939Tp.
+
+    [constr_3210] J1939TpPgs with identical pgn value: For all J1939TpPgs where the attribute pgn has an identical value the attribute requestable shall also have an identical value.
+    [constr_5379] IPdu shall only be referenced once from a J1939TpPg in the role sdu on a J1939Cluster: Each IPdu that is referenced in the role sdu from a J1939TpPg that is aggregated by a J1939TpConfig that references a J1939Cluster shall not be referenced in the role sdu from a different J1939TpPg that is aggregated by a J1939TpConfig that references the same J1939Cluster.
+    """
+
+    # J1939TpPg method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.269, p.626
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDirectPduRef      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDirectPduRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPgn               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPgn               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRequestable       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRequestable       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addSduRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSduRefs           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # (Base = ARObject; XSD group J-1939-TP-PG carries no VARIATION-POINT; XSD-only TP-SDU-REF
+    # carries atp.Status="removed", absent from the PDF table — not modeled)
+
+    def __init__(self):
+        super().__init__()
+
+        # In case of variable length IPdus (with system signals of variable length), an additional NPdu (with the PGN in the CAN ID) is used for messages with up to 8 bytes.
+        self.directPduRef: Optional[RefType] = None
+
+        # Parameter group number (PGN) of a J1939 message (parameter group, PG) that can be received or transmitted via J1939Tp. The PGN may be omitted when the a directPdu is referenced and is mapped into a Can FrameTriggering with an identifier.
+        self.pgn: Optional[Integer] = None
+
+        # Parameter Group can be triggered by the J1939 request message.
+        self.requestable: Optional[Boolean] = None
+
+        # Reference to IPdus that are segmented by the Transport Protocol. If more than one IPdu is referenced, the IPdus are used when the same PGN is received in parallel via different transport protocols (BAM, CMDT, direct) on the same J1939TpConnection.
+        self.sduRefs: List[RefType] = []
+
+    def getDirectPduRef(self) -> Optional[RefType]:
+        """In case of variable length IPdus (with system signals of variable length), an additional NPdu (with the PGN in the CAN ID) is used for messages with up to 8 bytes."""
+        return self.directPduRef
+
+    def setDirectPduRef(self, value: Optional[RefType]) -> J1939TpPg:
+        """
+        In case of variable length IPdus (with system signals of variable length), an additional NPdu (with the PGN in the CAN ID) is used for messages with up to 8 bytes.
+        A None value is a no-op and does not overwrite an existing directPduRef.
+        """
+        if value is not None:
+            self.directPduRef = value
+        return self
+
+    def getPgn(self) -> Optional[Integer]:
+        """Parameter group number (PGN) of a J1939 message (parameter group, PG) that can be received or transmitted via J1939Tp. The PGN may be omitted when the a directPdu is referenced and is mapped into a Can FrameTriggering with an identifier."""
+        return self.pgn
+
+    def setPgn(self, value: Optional[Integer]) -> J1939TpPg:
+        """
+        Parameter group number (PGN) of a J1939 message (parameter group, PG) that can be received or transmitted via J1939Tp. The PGN may be omitted when the a directPdu is referenced and is mapped into a Can FrameTriggering with an identifier.
+        A None value is a no-op and does not overwrite an existing pgn.
+        """
+        if value is not None:
+            self.pgn = value
+        return self
+
+    def getRequestable(self) -> Optional[Boolean]:
+        """Parameter Group can be triggered by the J1939 request message."""
+        return self.requestable
+
+    def setRequestable(self, value: Optional[Boolean]) -> J1939TpPg:
+        """
+        Parameter Group can be triggered by the J1939 request message.
+        A None value is a no-op and does not overwrite an existing requestable.
+        """
+        if value is not None:
+            self.requestable = value
+        return self
+
+    def addSduRef(self, value: Optional[RefType]) -> J1939TpPg:
+        """
+        Reference to IPdus that are segmented by the Transport Protocol. If more than one IPdu is referenced, the IPdus are used when the same PGN is received in parallel via different transport protocols (BAM, CMDT, direct) on the same J1939TpConnection.
+        A None value is a no-op and is not appended to sduRefs.
+        """
+        if value is not None:
+            self.sduRefs.append(value)
+        return self
+
+    def getSduRefs(self) -> List[RefType]:
+        """Reference to IPdus that are segmented by the Transport Protocol. If more than one IPdu is referenced, the IPdus are used when the same PGN is received in parallel via different transport protocols (BAM, CMDT, direct) on the same J1939TpConnection."""
+        return self.sduRefs
 
 
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols.IEEE1722Tp import (  # noqa: E402

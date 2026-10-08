@@ -734,15 +734,35 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `J1939TpPg` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.269, p.626
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note: Step 1 finding — rehoused from the ArObject.py stub to TransportProtocols/__init__.py (spec
+    Package row = SystemTemplate::TransportProtocols, Rule 0007); base = ARObject (hint confirmed;
+    XSD complexType groups AR-OBJECT + J-1939-TP-PG only). No VARIATION-POINT in the group → no
+    mixin. 4 attrs in displayed order (directPdu 0..1 ref → directPduRef, pgn 0..1 attr Integer,
+    requestable 0..1 attr Boolean, sdu `*` ref → sduRefs with the SDU-REFS/SDU-REF wrapper);
+    XSD-only TP-SDU-REF carries atp.Status="removed" and is absent from the PDF table — NOT modeled
+    (Rule 0015). Class constraints constr_3210 (identical pgn → identical requestable) and constr_5379
+    (IPdu referenced once in role sdu per J1939Cluster) from the markdown. No SHORT-NAME (ARObject
+    base — the J-1939-TP-PG element is anonymous). Not an ARPackage element (Aggregated by
+    J1939TpConnection.tpPg only) → no ARPackage factory/dispatch. Markdown-corpus cleanup: the
+    Table 6.269 caption was rendered as a `## Table 6.269:` heading (markdown conversion artifact,
+    IEEE1722TpCrfTypeEnum Table 6.278 precedent) — normalized to plain `Table 6.269:` form (caption
+    text unchanged) so the audit CITATION verifies mechanically.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
+    - Note: no code-shape deviations — field↔spec verified both directions (4 attrs, Optional/List
+      quota shapes match the Mult. column, dedicated typed list field for sduRefs, verbatim Notes incl.
+      the "the a directPdu" spec typo and the markdown's "Can FrameTriggering" spacing). Accepted:
+      XSD-only TP-SDU-REF carries atp.Status="removed" and is absent from the PDF table — not modeled
+      per Rule 0015 (no field, no deviation row). Class-2 connection tests strengthened: the TP-PGS
+      item now asserts PGN through the connection-level round-trip. Markdown-corpus cleanup: Table
+      6.269 caption heading normalized (see Step 1 note).
 
 - [ ] `J1939TpNode` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 6.270, p.626
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py

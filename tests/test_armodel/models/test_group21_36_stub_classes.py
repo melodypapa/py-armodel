@@ -2548,12 +2548,6 @@ STUBS = [
         "Identifiable",
     ),
     (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
-        "J1939TpPg",
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
-        "ARObject",
-    ),
-    (
         "armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure.__init__",
         "LifeCycleState",
         "armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure.__init__",

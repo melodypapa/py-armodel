@@ -5,7 +5,7 @@ import xml.etree.cElementTree as ET
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, PositiveInteger, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Integer, PositiveInteger, RefType
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import J1939TpConnection, J1939TpPg
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
@@ -49,6 +49,12 @@ def _positive(value):
     return integer
 
 
+def _int(value):
+    integer = Integer()
+    integer.setValue(str(value))
+    return integer
+
+
 def _ref(value):
     ref = RefType()
     ref.setValue(value)
@@ -69,7 +75,9 @@ def _fill_connection(connection: J1939TpConnection) -> J1939TpConnection:
     connection.addReceiverRef(_ref("/TpConfigs/Config1/Rx1"))
     connection.addReceiverRef(_ref("/TpConfigs/Config1/Rx2"))
     connection.setRetry(_bool(True))
-    connection.addTpPg(J1939TpPg())
+    tp_pg = J1939TpPg()
+    tp_pg.setPgn(_int(61444))
+    connection.addTpPg(tp_pg)
     connection.setTransmitterRef(_ref("/TpConfigs/Config1/Tx"))
     return connection
 
@@ -131,6 +139,8 @@ class TestWriteJ1939TpConnection:
         assert receiver_refs[1].getValue() == "/TpConfigs/Config1/Rx2"
         assert reloaded.getRetry().getValue() is True
         assert len(reloaded.getTpPgs()) == 1
+        assert reloaded.getTpPgs()[0].getPgn() is not None
+        assert reloaded.getTpPgs()[0].getPgn().getValue() == 61444
         assert reloaded.getTransmitterRef().getValue() == "/TpConfigs/Config1/Tx"
 
     def test_round_trip_empty(self):
