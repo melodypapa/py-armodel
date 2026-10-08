@@ -340,6 +340,64 @@ class IEEE1722TpRvfPixelFormatEnum(AREnum):
         )
 
 
+class IEEE1722TpRvfColorSpaceEnum(AREnum):
+    """
+    Definition of the RVF stream colorspace. Tags: atp.Status=candidate
+    """
+
+    # IEEE1722TpRvfColorSpaceEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.288, p.652
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — serialized as value form on IEEE1722TpRvfConnection.rvfColorSpace
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # BT Rec.601 Tags: atp.EnumerationLiteralIndex=0 xml.name=BT-REC-601
+    ENUM_BT_REC_601 = "BT-REC-601"
+
+    # BT Rec.709 Tags: atp.EnumerationLiteralIndex=1 xml.name=BT-REC-709
+    ENUM_BT_REC_709 = "BT-REC-709"
+
+    # Grayscale Tags: atp.EnumerationLiteralIndex=2
+    ENUM_GRAYSCALE = "GRAYSCALE"
+
+    # ITU BT 2020 Tags: atp.EnumerationLiteralIndex=3 xml.name=ITU-BT-2020
+    ENUM_ITU_BT_2020 = "ITU-BT-2020"
+
+    # sRGB Tags: atp.EnumerationLiteralIndex=9
+    ENUM_SRGB = "SRGB"
+
+    # User defined Tags: atp.EnumerationLiteralIndex=4
+    ENUM_USER = "USER"
+
+    # XYZ Tags: atp.EnumerationLiteralIndex=5
+    ENUM_XYZ = "XYZ"
+
+    # YCbCr Tags: atp.EnumerationLiteralIndex=7
+    ENUM_YCBCR = "YCBCR"
+
+    # YCgCo Tags: atp.EnumerationLiteralIndex=8
+    ENUM_YCGCO = "YCGCO"
+
+    # YCM Tags: atp.EnumerationLiteralIndex=6
+    ENUM_YCM = "YCM"
+
+    def __init__(self):
+        super().__init__(
+            [
+                IEEE1722TpRvfColorSpaceEnum.ENUM_BT_REC_601,
+                IEEE1722TpRvfColorSpaceEnum.ENUM_BT_REC_709,
+                IEEE1722TpRvfColorSpaceEnum.ENUM_GRAYSCALE,
+                IEEE1722TpRvfColorSpaceEnum.ENUM_ITU_BT_2020,
+                IEEE1722TpRvfColorSpaceEnum.ENUM_SRGB,
+                IEEE1722TpRvfColorSpaceEnum.ENUM_USER,
+                IEEE1722TpRvfColorSpaceEnum.ENUM_XYZ,
+                IEEE1722TpRvfColorSpaceEnum.ENUM_YCBCR,
+                IEEE1722TpRvfColorSpaceEnum.ENUM_YCGCO,
+                IEEE1722TpRvfColorSpaceEnum.ENUM_YCM,
+            ]
+        )
+
+
 class IEEE1722TpCrfConnection(IEEE1722TpAvConnection):
     """
     AV IEEE1722Tp CRF connection. Tags: atp.Status=candidate atp.recommendedPackage=IEEE1722TpConnections

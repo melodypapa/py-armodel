@@ -1065,15 +1065,23 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `IEEE1722TpRvfColorSpaceEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 6.288, p.652
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note: module hint PrimitiveTypes.py overridden — spec Package row ...IEEE1722Tp::IEEE1722TpAv ->
+    `TransportProtocols/IEEE1722Tp/IEEE1722TpAv.py` (Rule 0007); PrimitiveTypes.py stub + stub-registry
+    tuple removed. 10 literals; member values = exact XSD IEEE-1722-TP-RVF-COLOR-SPACE-ENUM--SIMPLE
+    facets (BT-REC-601, BT-REC-709, GRAYSCALE, ITU-BT-2020, SRGB, USER, XYZ, YCBCR, YCGCO, YCM);
+    __init__ tuple order = XSD facet order = displayed markdown order, which DIFFERS from the
+    atp.EnumerationLiteralIndex order (srgb idx 9 and user idx 4 sit 5th/6th in the display; ycm idx
+    6 displayed last) — member comments carry the literal indices verbatim (Rule 0011); member names
+    ENUM_-prefixed from the markdown literals (bt_rec_601 -> ENUM_BT_REC_601, user -> ENUM_USER).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A standalone enum (value form on IEEE1722TpRvfConnection.rvfColorSpace)
+  - [x] Step 6 — Update parser & writer (Green) — N/A standalone enum (value form on IEEE1722TpRvfConnection.rvfColorSpace)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; Steps 5/6 N/A (standalone enum, round-trips as value form on IEEE1722TpRvfConnection.rvfColorSpace); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `IEEE1722TpRvfFrameRateEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 6.289, p.654
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
