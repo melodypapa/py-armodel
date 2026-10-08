@@ -65,7 +65,6 @@ ChapterOrMsrQuery
 ClientIdRange
 ClientServerApplicationErrorMapping
 ClientServerOperationMapping
-CommConnectorPort
 CommunicationCluster
 CommunicationControllerMapping
 CompositionSwComponentType
@@ -129,7 +128,6 @@ HwElement
 HwPortMapping
 IPSecConfig
 IPdu
-IPduPort
 IPduTiming
 ISignal
 ISignalGroup
@@ -158,16 +156,6 @@ LinUnconditionalFrame
 Linker
 LinkerSymbolValue
 LogTraceDefaultLogLevelEnum
-MacSecCapabilityEnum
-MacSecCipherSuiteConfig
-MacSecConfidentialityOffsetEnum
-MacSecCryptoAlgoConfig
-MacSecFailPermissiveModeEnum
-MacSecGlobalKayProps
-MacSecKayParticipant
-MacSecLocalKayProps
-MacSecProps
-MacSecRoleEnum
 MaxCommModeEnum
 McDataAccessDetails
 McDataInstance
@@ -214,7 +202,6 @@ ParameterValue
 Pdu
 PduToFrameMapping
 PduTriggering
-PlcaProps
 PortDefinedArgumentValue
 PortPrototype
 PositiveInteger

@@ -956,313 +956,1391 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `EthernetWakeupSleepOnDatalineConfigSet` — FibexElement — R23-11 CP_TPS_SystemTemplate Table 3.116, p.159
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: Table 3.116 is a single-page table (no page-split; pdf_page.py cites p.159)
+    — Class header (concrete), one `*` aggr attribute row `ethernetWakeupSleepOnDatalineConfig`
+    (type EthernetWakeupSleepOnDatalineConfig; markdown renders the class name in the Note with
+    an internal space "EthernetWakeup SleepOnDatalineConfig" — kept verbatim in docstrings).
+    Class Note verbatim carries the `Tags: atp.recommendedPackage=EthernetWakeupSleepOnDatalineConfigSets`
+    tail. Base chain's most-derived model class is `FibexElement` (two parallel chains —
+    CollectableElement/Identifiable and FibexElement/PackageableElement; the role-matching
+    branch is FibexElement, as the stub and siblings CouplingElement/EthernetCluster already use).
+    Placement per Rule 0007 (spec Package row `…Fibex4Ethernet::EthernetTopology`, same row as
+    the Table 3.115 sibling): class moved from the FibexCore/__init__.py stub to
+    `M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py` (spec table
+    order: directly after EthernetWakeupSleepOnDatalineConfig, before Table 3.117 sibling
+    PlcaProps); stub-guard tuple re-pointed at the new defining module. Child is Identifiable
+    (Referrable) → `createEthernetWakeupSleepOnDatalineConfig(short_name)` factory + dedicated
+    `List[EthernetWakeupSleepOnDatalineConfig]` field + `getEthernetWakeupSleepOnDatalineConfigs()`
+    (CouplingElement.createCouplingPort precedent; spec-`*` singular name → plural field/accessors).
+    XML child order per XSD group ETHERNET-WAKEUP-SLEEP-ON-DATALINE-CONFIG-SET: single optional
+    wrapper `ETHERNET-WAKEUP-SLEEP-ON-DATALINE-CONFIGS` (wrapper emitted only when non-empty)
+    holding unbounded `ETHERNET-WAKEUP-SLEEP-ON-DATALINE-CONFIG` items. Aggregated by
+    ARPackage.element → wiring upgrades performed: `createEthernetWakeupSleepOnDatalineConfigSet`
+    factory in ARPackage.py (bottom import + `__all__`), parser `readARPackageElements` branch,
+    writer `writeARPackageElement` isinstance branch; the Set's reader/writer dispatch each child
+    via the previously-unwired read/writeEthernetWakeupSleepOnDatalineConfig. The constr_3601–3610
+    block following the table constrains the member class (already carried by its own docstring/
+    notes from the 3.115 sync) — not duplicated on the Set.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-07 (21866 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 2065193be
 
 - [ ] `PlcaProps` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.117, p.169
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: Table 3.117 is a single-page table (no page-split; pdf_page.py cites
+    p.169) — Class header (concrete), one Note row with no Tags tail, Base ARObject
+    (most-derived model ancestor → `__init__(self)`), Aggregated by CouplingPort.plcaProps
+    (XSD: single optional PLCA-PROPS element under COUPLING-PORT). Three PositiveInteger
+    0..1 attr rows in displayed order (plcaLocalNodeId, plcaMaxBurstCount, plcaMaxBurstTimer
+    — the markdown splits each camelCase name across lines, e.g. "plcaLocalNode Id"); XSD
+    group PLCA-PROPS (AUTOSAR_00052.xsd line 91534) carries the identical child order
+    PLCA-LOCAL-NODE-ID → PLCA-MAX-BURST-COUNT → PLCA-MAX-BURST-TIMER, so member order and
+    XML order coincide here. Placement per Rule 0007 (spec Package row
+    `…Fibex4Ethernet::EthernetTopology`): class already sits at its spec-table-order slot in
+    `M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py` directly
+    after EthernetWakeupSleepOnDatalineConfigSet (Table 3.116) — no move needed. Upgrades
+    performed on the prior legacy sync (5-column checklist + stale `# Spec verified: R23-11`
+    marker, both retired): checklist rewritten to the 6-column format and the marker removed
+    (batch 9b stamps it later); setter docstring None-no-op sentence re-joined with the
+    batch `\n\n` blank line (was single `\n`); the presence-only parser getPlcaProps / writer
+    setPlcaProps helpers were upgraded to delegate to dedicated readPlcaProps/writePlcaProps
+    levels that call readARObject/writeARObject exactly once (Rule 0025 — was silently
+    dropping S/T; CouplingPort dispatch sites unchanged). Legacy CouplingPort-dispatch writer
+    tests (test_armodel/writer/test_plca_props.py) kept and extended with the dedicated-level
+    S/T/XSD-order/partial/empty-wrapper cases plus new parser tests
+    (test_armodel/parser/test_plca_props.py); deprecated cElementTree import modernized to
+    ElementTree. 9a: the stamped-audit ratchet baseline was drained for this class (the
+    single `PlcaProps` line removed from tests/test_armodel/models/stamped_audit_baseline.txt
+    via `scripts/audit_stamped_classes.py --write-baseline` — the class now passes the
+    current-bar audit).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-07 (21896 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 227f0810e
 
 - [ ] `MacSecProps` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.118, p.173
   - module: M2/AUTOSARTemplates/SystemTemplate/SecureCommunication.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: Table 3.118 is a single-page table (no page-split; pdf_page.py cites
+    p.173) — Class header (concrete), Base ARObject, Aggregated by CouplingPort.macSecProps
+    (XSD: single optional MAC-SEC-PROPSS wrapper under COUPLING-PORT holding unbounded
+    MAC-SEC-PROPS items, pureMM.maxOccurs="-1"). Five 0..1 attr/aggr rows in displayed order
+    (autoStart, macSecKayConfig, onFailPermissiveMode, onFailPermissiveModeTimeout,
+    sakRekeyTimeSpan); XSD group MAC-SEC-PROPS (AUTOSAR_00052.xsd line 79292) carries the
+    identical child order, so member order and XML order coincide. Every Note (class +
+    attributes) carries the `Tags: atp.Status=candidate` tail — kept verbatim at every level
+    (class docstring, inline __init__ comments, getter/setter docstrings; Rule 0012.2.5.3).
+    Placement per Rule 0007 (spec Package row
+    `M2::AUTOSARTemplates::SystemTemplate::SecureCommunication`): class already sits in
+    SecureCommunication.py at its spec-table slot — no move needed.
+  - Legacy upgrade: the class was a prior legacy sync carrying the stale
+    `# Spec verified: R23-11` marker + 5-column checklist — both retired (marker removed per
+    Rule 0023, batch 9b re-stamps; checklist rewritten to the 6-column format). Model fields
+    already matched Table 3.118 (typed per the stub-typed-field pattern:
+    `Optional[MacSecLocalKayProps]` / `Optional[MacSecFailPermissiveModeEnum]`; the enum
+    member types are queued later in this batch as Tables 3.125–3.128), so the Step 2 model
+    tests extended the legacy suite to the current-bar matrix (per-setter round-trip +
+    chaining + None-no-op retention) and passed immediately — the RED was not observable at
+    model level; the honest Red→Green pair landed at reader/writer level (17 failed before
+    the dedicated levels existed).
+  - Reader/writer upgrade: the legacy parser getMacSecProps / writer setMacSecProps populated
+    all five children but never called the ARObject base level (entry-time audit BASE FAIL —
+    S/T silently dropped on round-trip). Upgraded PlcaProps-style (Rule 0025): dedicated
+    readMacSecProps/writeMacSecProps levels calling readARObject/writeARObject exactly once,
+    with the legacy getMacSecProps(element) / setMacSecProps(element, key, props) helpers
+    kept as delegating wrappers — the CouplingPort dispatch sites (readCouplingPort
+    MAC-SEC-PROPSS/MAC-SEC-PROPS loop; writer MAC-SEC-PROPSS wrapper emission) needed no
+    changes. New parser tests (test_armodel/parser/test_mac_sec_props.py) and writer
+    round-trip tests (test_armodel/writer/test_mac_sec_props.py) assert field values, S/T
+    base level, XSD child order, partial/empty-wrapper cases and the write→parse round-trip
+    at both levels.
+  - 9a: the stamped-audit ratchet baseline was drained for this class (the single
+    `MacSecProps` line removed from tests/test_armodel/models/stamped_audit_baseline.txt via
+    `scripts/audit_stamped_classes.py --write-baseline` — the class now passes the
+    current-bar audit).
+  - No deviations from Table 3.118; no missing referenced classes (MacSecLocalKayProps and
+    MacSecFailPermissiveModeEnum exist; both re-sync later in this batch as Tables
+    3.119/3.128).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-07 (21911 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit c100d36e56fc6eb8445eab6d71e0b7bb32a5d885
 
 - [ ] `MacSecLocalKayProps` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.119, p.174
   - module: M2/AUTOSARTemplates/SystemTemplate/SecureCommunication.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: Table 3.119 is a page-split table (four attribute rows on p.174, then
+    two more after the page break just before the caption; pdf_page.py cites p.174) —
+    Class header (concrete), Base ARObject (most-derived model ancestor → `__init__(self)`),
+    Aggregated by MacSecProps.macSecKayConfig (XSD: single optional MAC-SEC-KAY-CONFIG
+    under MAC-SEC-PROPS). Six 0..1/`*` attr/ref rows in displayed order
+    (destinationMacAddress, globalKayProps, keyServerPriority, mkaParticipant, role,
+    sourceMacAddress — alphabetical page-split render); XSD group MAC-SEC-LOCAL-KAY-PROPS
+    (AUTOSAR_00052.xsd line 79157) carries the identical child order DESTINATION-MAC-ADDRESS
+    → GLOBAL-KAY-PROPS-REF → KEY-SERVER-PRIORITY → MKA-PARTICIPANT-REFS (wrapper, unbounded
+    MKA-PARTICIPANT-REF items) → ROLE → SOURCE-MAC-ADDRESS, so member order and XML order
+    coincide. ref-kind rows are typed per codebase convention as RefType with the Kind
+    suffix (`globalKayProps` → `globalKayPropsRef: Optional[RefType]`, `mkaParticipant` →
+    `mkaParticipantRefs: List[RefType]`; SakRef/MacSecKayParticipant.ckn precedent);
+    MacSecRoleEnum/MacSecGlobalKayProps/MacSecKayParticipant all exist (queued later in
+    this batch as Tables 3.120/3.122/3.125-3.128 — stub-typed fields stay). Every Note
+    (class + attributes) carries the `Tags: atp.Status=candidate` tail — kept verbatim at
+    every level (Rule 0012.2.5.3); note the `role` Note has no period before the tail
+    ("…Key Agreement Entity Tags: …") — preserved verbatim. Placement per Rule 0007 (spec
+    Package row `M2::AUTOSARTemplates::SystemTemplate::SecureCommunication`): class already
+    sits in SecureCommunication.py at its spec-table slot (directly before MacSecKayParticipant
+    / MacSecProps) — no move needed.
+  - Legacy upgrade: the class was a prior legacy sync carrying the stale
+    `# Spec verified: R23-11` marker + 5-column checklist — both retired (marker removed per
+    Rule 0023, batch 9b re-stamps; checklist rewritten to the 6-column format). Model fields
+    already matched Table 3.119 (names, types, order, quota shapes), so the Step 2 model
+    tests extended the legacy suite to the current-bar matrix (per-setter round-trip +
+    chaining + None-no-op retention) and passed immediately — the RED was not observable at
+    model level; the honest Red→Green pair landed at reader/writer level.
+  - Reader/writer upgrade: the legacy parser getMacSecLocalKayProps / writer
+    setMacSecLocalKayProps populated all six children but never called the ARObject base
+    level (entry-time audit BASE FAIL — S/T silently dropped on round-trip). Upgraded
+    MacSecProps-style (Rule 0025): dedicated readMacSecLocalKayProps/writeMacSecLocalKayProps
+    levels calling readARObject/writeARObject exactly once, with the legacy
+    getMacSecLocalKayProps(element) / setMacSecLocalKayProps(element, key, props) helpers
+    kept as delegating wrappers — the MacSecProps dispatch sites (readMacSecProps
+    MAC-SEC-KAY-CONFIG call; writeMacSecProps setMacSecLocalKayProps call) needed no
+    changes. New parser tests (test_armodel/parser/test_mac_sec_local_kay_props.py) and
+    extended writer tests (test_armodel/writer/test_mac_sec_local_kay_props.py; deprecated
+    cElementTree import modernized to ElementTree per PlcaProps precedent) assert field
+    values, S/T base level, XSD child order, partial/empty-wrapper cases and the write→parse
+    round-trip at both levels.
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-07 (21937 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 506d255bd
 
 - [ ] `MacSecGlobalKayProps` — ARElement — R23-11 CP_TPS_SystemTemplate Table 3.120, p.174
   - module: M2/AUTOSARTemplates/SystemTemplate/SecureCommunication.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: Table 3.120 is a single contiguous table (caption above the table body;
+    pdf_page.py cites p.174) — Class header (concrete), Base chain ARElement, ARObject,
+    CollectableElement, Identifiable, MultilanguageReferrable, PackageableElement, Referrable,
+    UploadableDesignElement, UploadablePackageElement (Uploadable* have no model classes —
+    interface realizations; the primary chain's most-derived model ancestor is ARElement),
+    Aggregated by ARPackage.element. Two 0..255 attr rows in displayed order (bypassEtherType,
+    bypassVlan — PositiveInteger bounded many → plural List fields + add/get accessors); XSD
+    group MAC-SEC-GLOBAL-KAY-PROPS (AUTOSAR_00052.xsd line 79032) carries the identical child
+    order BYPASS-ETHER-TYPES (wrapper, choice max 255 BYPASS-ETHER-TYPE POSITIVE-INTEGER items)
+    → BYPASS-VLANS (wrapper, BYPASS-VLAN items), so member order and XML order coincide.
+    ARElement instance tag MAC-SEC-GLOBAL-KAY-PROPS in the ARPackage element choice (line 5359).
+    Every Note (class + attributes) carries the `Tags: atp.Status=candidate` tail — the class
+    Note additionally carries `atp.recommendedPackage=MacSecGlobalKayProps` — kept verbatim at
+    every level (Rule 0012.2.5.3). Placement per Rule 0007 (spec Package row
+    `M2::AUTOSARTemplates::SystemTemplate::SecureCommunication`): class already sits in
+    SecureCommunication.py at its legacy slot (directly before MacSecCipherSuiteConfig;
+    sibling 3.118/3.119 precedent — no move needed).
+  - Legacy upgrade: the class was a prior legacy sync carrying the stale
+    `# Spec verified: R23-11` marker + a 4-column checklist (rows end at the writer column,
+    no per-row release token) — both retired at session start (marker removed per Rule 0023,
+    batch 9b re-stamps; checklist rewritten to the 6-column format at Step 7). The class
+    docstring/attr comments/accessor docstrings also lacked the `Tags:` tails — rewritten
+    verbatim at Step 4. Model fields already matched Table 3.120 (names, types, order,
+    quota shapes), so the Step 2 model tests extended the legacy suite to the current-bar
+    matrix (per-adder round-trip + chaining + None-no-op retention) — the field-matrix RED
+    was not observable at model level; the honest model RED was the ARPackage factory test
+    (`AttributeError: no attribute 'createMacSecGlobalKayProps'`, 1 failed / 5 passed).
+  - Reader/writer wiring upgrade: dedicated readMacSecGlobalKayProps (calls
+    readIdentifiable once) / writeMacSecGlobalKayProps (calls writeARElement) helpers
+    already existed but had NO call sites — identity-only debt per Rule 0001.7. The
+    ARPackage.element aggregator dispatch was wired this pass: `createMacSecGlobalKayProps`
+    factory in ARPackage.py (bottom import + `__all__`), parser `readARPackageElements`
+    branch (tag MAC-SEC-GLOBAL-KAY-PROPS, after ETHERNET-WAKEUP-SLEEP-ON-DATALINE-CONFIG-SET),
+    writer `writeARPackageElement` isinstance branch — both dispatch sites call the
+    pre-existing dedicated levels, whose base-helper calls were already correct (no Rule
+    0025 upgrade needed). Honest reader/writer RED: 3 dispatch tests failed (parser load
+    found 0 props; writer raised `NotImplementedError: Unsupported Elements of ARPackage`)
+    with the 8 dedicated-level tests passing. Legacy writer test
+    (test_armodel/writer/test_mac_sec_global_kay_props.py) kept and extended (deprecated
+    cElementTree import modernized to ElementTree per PlcaProps precedent; XSD child-order
+    assertion added; new ARPackage save→load round-trip + empty-props cases); new parser
+    tests (test_armodel/parser/test_mac_sec_global_kay_props.py) assert field values, the
+    Identifiable base level (UUID + S/T), XSD child order, partial/empty-wrapper cases and
+    the ARPackage-level load dispatch.
+  - No deviations from Table 3.120; no missing referenced classes (PositiveInteger exists).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-07 (21948 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit edc1d0ae3
 
 - [ ] `MacSecParticipantSet` — ARElement — R23-11 CP_TPS_SystemTemplate Table 3.121, p.174
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: Table 3.121 is a single-page table (no page-split; pdf_page.py cites
+    p.174) — Class header (concrete), Base chain ARElement, ARObject, CollectableElement,
+    Identifiable, MultilanguageReferrable, PackageableElement, Referrable,
+    UploadableDesignElement, UploadablePackageElement (Uploadable* have no model classes —
+    interface realizations; the primary chain's most-derived model ancestor is ARElement),
+    Aggregated by ARPackage.element. Two rows in displayed order (ethernetCluster —
+    EthernetCluster — 0..1 — ref; mkaParticipant — MacSecKayParticipant — * — aggr); XSD
+    group MAC-SEC-PARTICIPANT-SET (AUTOSAR_00052.xsd line 79236) carries the identical
+    child order ETHERNET-CLUSTER-REF (0..1) → MKA-PARTICIPANTS (wrapper, unbounded
+    MAC-SEC-KAY-PARTICIPANT items, pureMM.maxOccurs="-1"; wrapper emitted only when
+    non-empty), so member order and XML order coincide. ARElement instance tag
+    MAC-SEC-PARTICIPANT-SET in the ARPackage element choice (line 5360). Every Note (class
+    + attributes) carries the `Tags: atp.Status=candidate` tail — the class Note
+    additionally carries `atp.recommendedPackage=MacSecKayParticipantSets` — kept verbatim
+    at every level (Rule 0012.2.5.3); the ethernetCluster Note has no period before the
+    tail ("…are located Tags: …") — preserved verbatim. Placement per Rule 0007 (spec
+    Package row `M2::AUTOSARTemplates::SystemTemplate::SecureCommunication`): class MOVED
+    from the ARPackage.py stub to `M2/AUTOSARTemplates/SystemTemplate/SecureCommunication.py`
+    at its spec-table-order slot (directly after MacSecGlobalKayProps Table 3.120, before
+    MacSecKayParticipant Table 3.122) — the MacSecGlobalKayProps precedent (same
+    Aggregated-by ARPackage.element, same SecureCommunication package row); stub-guard
+    tuple re-pointed at the new defining module. Member typing: ref-kind row per codebase
+    convention (`ethernetCluster` → `ethernetClusterRef: Optional[RefType]`,
+    MacSecLocalKayProps.globalKayPropsRef precedent); `mkaParticipant` is an Identifiable
+    `*` aggr → dedicated `List[MacSecKayParticipant]` field +
+    `createMacSecKayParticipant(short_name)` factory + `getMkaParticipants()`
+    (EthernetWakeupSleepOnDatalineConfigSet precedent; spec-`*` singular name → plural
+    field/accessors); MacSecKayParticipant is queued later in this batch (Table 3.122) —
+    stub-typed-field pattern, and its dedicated readMacSecKayParticipant/
+    writeMacSecKayParticipant levels already exist fully populated, so the Set's
+    reader/writer dispatch each child via them (no placeholder needed).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - No deviations from Table 3.121; no missing referenced classes (EthernetCluster and
+    MacSecKayParticipant both exist — MacSecKayParticipant re-syncs later in this batch
+    as Table 3.122; the ref-kind `ethernetCluster` → `ethernetClusterRef` field name is
+    the sanctioned Rule 0001.5 Kind-suffix convention, not a deviation).
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-07 (21966 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 66ee2a894
 
 - [ ] `MacSecKayParticipant` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 3.122, p.175
   - module: M2/AUTOSARTemplates/SystemTemplate/SecureCommunication.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: Table 3.122 is a page-split table (attribute rows render before the
+    caption, which sits directly before Table 3.123's body; pdf_page.py cites p.175) —
+    Class header (concrete), Base ARObject, Identifiable, MultilanguageReferrable,
+    Referrable (most-derived model ancestor → Identifiable, `__init__(parent, short_name)`),
+    Aggregated by MacSecParticipantSet.mkaParticipant. Three 0..1 rows in displayed order
+    (ckn — CryptoServiceKey — ref; cryptoAlgoConfig — MacSecCryptoAlgoConfig — aggr; sak —
+    CryptoServiceKey — ref); XSD group MAC-SEC-KAY-PARTICIPANT (AUTOSAR_00052.xsd line
+    79093) carries the identical child order CKN-REF → CRYPTO-ALGO-CONFIG → SAK-REF (all
+    minOccurs 0), so member order and XML order coincide; both REF elements carry
+    `DEST type=AR:CRYPTO-SERVICE-KEY--SUBTYPES-ENUM` (facet noted for fixtures). The class
+    Note carries `Tags: atp.Status=candidate atp.recommendedPackage=MacSecKayParticipants`
+    and every attribute Note carries `Tags: atp.Status=candidate` — kept verbatim at every
+    level (Rule 0012.2.5.3). Placement per Rule 0007 (spec Package row
+    `M2::AUTOSARTemplates::SystemTemplate::SecureCommunication`): class already sits in
+    SecureCommunication.py after MacSecParticipantSet (its spec-table slot) — no move
+    needed. ref-kind rows typed per codebase convention (`ckn` → `cknRef: Optional[RefType]`,
+    `sak` → `sakRef: Optional[RefType]`; SakRef/MacSecLocalKayProps.globalKayPropsRef
+    precedent); `cryptoAlgoConfig` is an aggr whose child Base is ARObject (non-Referrable)
+    → `setCryptoAlgoConfig`/`getCryptoAlgoConfig` pair, no create factory; MacSecCryptoAlgoConfig
+    is queued later in this batch (Table 3.123) — stub-typed field stays until its own sync.
+  - Legacy upgrade: the class was a prior legacy sync carrying the stale
+    `# Spec verified: R23-11` marker + a 5-column checklist (no per-row release token) —
+    both retired at session start (marker removed per Rule 0023, batch 9b re-stamps;
+    checklist rewritten to the 6-column format at Step 7). Model fields already matched
+    Table 3.122 (names, types, order, quota shapes), so the Step 2 model tests extend the
+    legacy suite to the current-bar matrix — the field-matrix RED is not observable at
+    model level; entry-time audit FAILed ROWS/STAMP as expected.
+  - Reader/writer wiring: dedicated readMacSecKayParticipant (calls readIdentifiable once)
+    / writeMacSecKayParticipant (calls writeIdentifiable once) levels already exist fully
+    populated (CKN-REF/SAK-REF via getChildElementOptionalRefType, CRYPTO-ALGO-CONFIG via
+    the dedicated readMacSecCryptoAlgoConfig level); the MacSecParticipantSet
+    MKA-PARTICIPANTS dispatch already routes through them (no placeholder). The writer
+    serializes CRYPTO-ALGO-CONFIG INLINE (not via writeMacSecCryptoAlgoConfig) — that is
+    REQUIRED, not debt: the XSD role element inside MAC-SEC-KAY-PARTICIPANT is
+    CRYPTO-ALGO-CONFIG (AUTOSAR_00052.xsd line 79113) while the dedicated writer level
+    emits the type-name tag MAC-SEC-CRYPTO-ALGO-CONFIG (it has no aggregator call site —
+    only its own tests use it). The attempted symmetric refactor (guarded
+    writeMacSecCryptoAlgoConfig call) was caught by the new XSD child-order assertion
+    (2 failed: role tag CRYPTO-ALGO-CONFIG vs emitted MAC-SEC-CRYPTO-ALGO-CONFIG) and
+    REVERTED — writer left byte-identical to HEAD; the child-order test now pins the
+    correct role tag.
+  - Red observation (Step 5): new parser test file
+    (test_armodel/parser/test_mac_sec_kay_participant.py — base level UUID/S/T, field
+    values, DEST facet CRYPTO-SERVICE-KEY, partial/empty/empty-crypto-algo cases) and
+    extended writer tests (cElementTree import modernized to ElementTree per PlcaProps
+    precedent; XSD child-order + DEST-facet + nested-field assertions; UUID round-trip).
+    Initial run failed 3 — all test-contract corrections, not implementation defects
+    (SHORT-NAME is consumed by the dispatching aggregator at construction, not by
+    readIdentifiable — repo-wide convention, MacSecParticipantSet sibling identical;
+    UUID set via setUuid(String), a fresh Identifiable's getUuid() is None). After the
+    corrections all 9 pass — the dedicated levels were already current-bar; no
+    functional RED against the implementation existed to observe.
+  - No deviations from Table 3.122; no missing referenced classes (the ref targets
+    CryptoServiceKey are typed `RefType` per the Kind-suffix convention — ref targets are
+    not pulled into the closure; MacSecCryptoAlgoConfig exists and re-syncs later in this
+    batch as Table 3.123, the stub-typed field stays until its own sync). The
+    `# Spec verified: R23-11` marker is deferred to the batch 9b stamp per user
+    instruction; the entry-time stale legacy marker was removed (Rule 0023).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-07 (21972 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 006a38a1c
 
 - [ ] `MacSecCryptoAlgoConfig` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.123, p.175
   - module: M2/AUTOSARTemplates/SystemTemplate/SecureCommunication.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: Table 3.123 is a page-split table — the body (Class header + all five
+    attribute rows, markdown lines 4728-4739) renders BEFORE the caption (line 4741), which
+    sits directly before Table 3.124's body; pdf_page.py cites p.175. Class header (concrete),
+    Base ARObject (only; most-derived model ancestor → `__init__(self)`), Aggregated by
+    MacSecKayParticipant.cryptoAlgoConfig (XSD: single optional role element CRYPTO-ALGO-CONFIG
+    of type AR:MAC-SEC-CRYPTO-ALGO-CONFIG under MAC-SEC-KAY-PARTICIPANT, AUTOSAR_00052.xsd
+    line 79113). Five 0..1/0..4 attr/aggr rows in displayed order (capability —
+    MacSecCapabilityEnum; cipherSuiteConfig — MacSecCipherSuiteConfig, 0..4, aggr — the
+    markdown splits names across lines, e.g. "cipherSuite Config", "confidentiality Offset",
+    "replayProtection Window"; confidentialityOffset — MacSecConfidentialityOffsetEnum;
+    replayProtection — Boolean; replayProtectionWindow — PositiveInteger); XSD group
+    MAC-SEC-CRYPTO-ALGO-CONFIG (line 78974) carries the identical child order CAPABILITY →
+    CIPHER-SUITE-CONFIGS (wrapper, choice max 4 MAC-SEC-CIPHER-SUITE-CONFIG items) →
+    CONFIDENTIALITY-OFFSET → REPLAY-PROTECTION → REPLAY-PROTECTION-WINDOW, so member order
+    and XML order coincide; the complexType (line 79019) = AR:AR-OBJECT group + the class
+    group → base level readARObject/writeARObject (S/T). Every Note (class + attributes)
+    carries the `Tags: atp.Status=candidate` tail — kept verbatim at every level (Rule
+    0012.2.5.3). cipherSuiteConfig is a bounded-many (0..4) aggr of a non-Referrable child
+    (Base ARObject) → dedicated `List[MacSecCipherSuiteConfig]` field + `addCipherSuiteConfig`
+    /`getCipherSuiteConfigs` (Rule 0001.6: no create factory for a non-Referrable child — the
+    legacy no-arg `createCipherSuiteConfig()` is a to-fix violation, renamed to
+    `addCipherSuiteConfig(value)` with the None no-op; parser instantiates and hands to the
+    adder). Referenced types MacSecCapabilityEnum/MacSecConfidentialityOffsetEnum/
+    MacSecCipherSuiteConfig exist (queued later in this batch as Tables 3.124-3.126 —
+    stub-typed fields stay). Placement per Rule 0007 (spec Package row
+    `M2::AUTOSARTemplates::SystemTemplate::SecureCommunication`): class already sits in
+    SecureCommunication.py at its legacy slot (directly after its aggregated child
+    MacSecCipherSuiteConfig, before MacSecLocalKayProps) — module placement correct, no move
+    needed (MacSecProps/MacSecLocalKayProps/MacSecGlobalKayProps sibling precedent: classes
+    already in the defining module keep their legacy slot).
+  - Legacy upgrade: the class was a prior legacy sync carrying the stale
+    `# Spec verified: R23-11` marker + 5-column checklist (no per-row release token) — both
+    retired (marker removed per Rule 0023, batch 9b re-stamps; checklist rewritten to the
+    6-column format at Step 7). Docstrings lacked the `Tags:` tails — rewritten verbatim at
+    Step 4. Entry-time audit FAILed ROWS/STAMP/BASE (both directions) as expected.
+  - Model API migration (Rule 0001.6): the legacy no-arg `createCipherSuiteConfig()` factory
+    on a non-Referrable child (MacSecCipherSuiteConfig Base is ARObject) was renamed to
+    `addCipherSuiteConfig(value: Optional[MacSecCipherSuiteConfig])` with the None no-op
+    ("do not invent a no-arg createXxx()" — the parser now instantiates and hands to the
+    adder); the only call sites were the parser readMacSecCryptoAlgoConfig loop and this
+    class's own tests.
+  - Reader/writer wiring upgrade: readMacSecCryptoAlgoConfig never called the ARObject base
+    level (audit BASE FAIL — S/T silently dropped on round-trip) → now calls readARObject
+    exactly once. The dedicated writeMacSecCryptoAlgoConfig emitted the type-name tag
+    MAC-SEC-CRYPTO-ALGO-CONFIG and had no aggregator call site (writeMacSecKayParticipant
+    serialized the five children INLINE under the role element) → uplifted to emit the XSD
+    ROLE element CRYPTO-ALGO-CONFIG (AUTOSAR_00052.xsd line 79113) and call writeARObject
+    exactly once; writeMacSecKayParticipant's inline block was replaced by the guarded
+    `self.writeMacSecCryptoAlgoConfig(child_element, config)` call — the wire format stays
+    byte-identical (same role tag, same child order, S/T attrs only when set), closing the
+    Table 3.122 finding ("attempted symmetric refactor reverted") the correct way: the
+    child-order test in test_mac_sec_kay_participant.py still pins CRYPTO-ALGO-CONFIG and
+    passes unchanged.
+  - Red observation (Step 5): model RED was the Rule 0001.6 API migration (2 failed:
+    AttributeError no attribute 'addCipherSuiteConfig' / 6 passed). Reader/writer RED: 7
+    failed / 7 passed (parser base-level S/T + all-fields via the removed factory; writer
+    role-tag CRYPTO-ALGO-CONFIG vs emitted MAC-SEC-CRYPTO-ALGO-CONFIG on 4 tests incl. the
+    base-level S/T case). After the Step 6 upgrade all 153 MacSec-family tests pass, and the
+    parser+writer suites are green (9484 passed).
+  - No deviations from Table 3.123; no missing referenced classes (MacSecCapabilityEnum,
+    MacSecConfidentialityOffsetEnum and MacSecCipherSuiteConfig exist and re-sync later in
+    this batch as Tables 3.124-3.126 — the stub-typed fields stay until their own syncs;
+    Boolean/PositiveInteger primitives exist). The `# Spec verified: R23-11` marker is
+    deferred to the batch 9b stamp per user instruction; the entry-time stale legacy marker
+    was removed (Rule 0023).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-07 (21982 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 6ce66d34d
 
 - [ ] `MacSecCipherSuiteConfig` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.124, p.176
   - module: M2/AUTOSARTemplates/SystemTemplate/SecureCommunication.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: Table 3.124 is a page-split table — the Class/Package/Note rows
+    (markdown lines 4743-4746) render BEFORE the caption (line 4769) and the Base/
+    Aggregated-by rows plus the two attribute rows render after it (lines 4771-4777);
+    pdf_page.py cites p.176. Class header (concrete), Base ARObject (only; most-derived
+    model ancestor → `__init__(self)`), Aggregated by MacSecCryptoAlgoConfig.cipherSuiteConfig
+    (XSD: single optional CIPHER-SUITE-CONFIGS wrapper under MAC-SEC-CRYPTO-ALGO-CONFIG
+    holding a choice of max 4 MAC-SEC-CIPHER-SUITE-CONFIG items — the role element IS the
+    type name, AUTOSAR_00052.xsd line 78994, unlike the CRYPTO-ALGO-CONFIG role element).
+    Two 0..1 attr rows in displayed order (cipherSuite — String; cipherSuitePriority —
+    PositiveInteger; the markdown splits the name "cipherSuite Priority"); XSD group
+    MAC-SEC-CIPHER-SUITE-CONFIG (line 78937) carries the identical child order CIPHER-SUITE
+    → CIPHER-SUITE-PRIORITY, so member order and XML order coincide; the complexType (line
+    78960) = AR:AR-OBJECT group + the class group → base level readARObject/writeARObject
+    (S/T). Every Note (class + attributes) carries the `Tags: atp.Status=candidate` tail —
+    kept verbatim at every level (Rule 0012.2.5.3). The TPS_SYST_02389 semantics text
+    (cipherSuitePriority 1 = highest … 4 = lowest) sits outside the table Note — not copied
+    (Table 3.123/TPS_SYST_02388 precedent). Placement per Rule 0007 (spec Package row
+    `M2::AUTOSARTemplates::SystemTemplate::SecureCommunication`): class already sits in
+    SecureCommunication.py; per batch instruction it MOVES to its spec-table-order slot
+    directly after MacSecCryptoAlgoConfig (Table 3.123 → 3.124 order; safe — the module is
+    PEP 563, so the aggregatee annotation resolves despite the later definition).
+  - Legacy upgrade: the class was a prior legacy sync carrying the stale
+    `# Spec verified: R23-11` marker + a 5-column checklist (no per-row release token) —
+    both retired at session start (marker removed per Rule 0023, batch 9b re-stamps;
+    checklist rewritten to the 6-column format at Step 7). Docstrings lacked the `Tags:`
+    tails — rewritten verbatim at Step 4. Model fields already match Table 3.124 (names,
+    types, order, quota shapes); entry-time audit FAILed ROWS/STAMP/BASE (both directions)
+    as expected.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - Reader/writer wiring upgrade: readMacSecCipherSuiteConfig / writeMacSecCipherSuiteConfig
+    populated both children but never called the ARObject base level (entry-time audit BASE
+    FAIL — S/T silently dropped on round-trip). Upgraded Rule 0025-style: each dedicated
+    level now calls readARObject/writeARObject exactly once; the aggregator dispatch needed
+    no changes — readMacSecCryptoAlgoConfig already instantiated children and handed them to
+    addCipherSuiteConfig (the Table 3.123 adder) before dispatching the dedicated level, and
+    writeMacSecCryptoAlgoConfig already emitted the CIPHER-SUITE-CONFIGS wrapper whose items
+    carry the XSD type-name role element MAC-SEC-CIPHER-SUITE-CONFIG (AUTOSAR_00052.xsd line
+    78994).
+  - Red observation (Step 5): model RED was not observable (fields already matched Table
+    3.124 — the Step 2 tests extended the legacy suite to the current-bar matrix and passed
+    immediately). Reader/writer RED: 4 failed / 8 passed — all four the missing ARObject
+    base level (parser S/T read + nested-child checksum via readMacSecCryptoAlgoConfig;
+    writer S/T attribute emission + the S/T round-trip). After the Step 6 upgrade all 12
+    pass and the MacSec family regression (crypto-algo-config + kay-participant, both
+    directions) stays green. The legacy writer test file's deprecated cElementTree import
+    was modernized to ElementTree (batch precedent).
+  - No deviations from Table 3.124; no missing referenced classes (String and
+    PositiveInteger primitives exist). The `# Spec verified: R23-11` marker is deferred to
+    the batch 9b stamp per user instruction; the entry-time stale legacy marker was removed
+    (Rule 0023).
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-07 (21991 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 21ec4784e
 
 - [ ] `MacSecConfidentialityOffsetEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 3.125, p.177
   - module: M2/AUTOSARTemplates/SystemTemplate/SecureCommunication.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: Table 3.125 is a page-split table — fragment A (markdown lines 4756-4763:
+    Enumeration header, Package `M2::AUTOSARTemplates::SystemTemplate::SecureCommunication`,
+    Note "This enum defines the MACsec capability options. Tags: atp.Status=candidate",
+    Aggregated by MacSecCryptoAlgoConfig.confidentialityOffset, Literal/Description header +
+    literals _0/_30) renders before the Table 3.124 caption, fragment B (lines 4790-4792:
+    repeated Enumeration header + literal _50) after it; the caption sits at line 4794;
+    pdf_page.py cites p.177. Header Enumeration → AREnum. Three literals in displayed/
+    atp.EnumerationLiteralIndex order (Confidentiality Offset_0/_30/_50) — member names
+    UPPER_SNAKE of the spec literals, values the exact XSD
+    MAC-SEC-CONFIDENTIALITY-OFFSET-ENUM--SIMPLE facets (AUTOSAR_00052.xsd lines 139970-139989):
+    CONFIDENTIALITY-OFFSET--0 / --30 / --50 (double hyphen before the number — XSD spelling
+    quirk kept verbatim per Rule 0011; the markdown xml.name tags show the single-hyphen form
+    CONFIDENTIALITY-OFFSET-0 and are kept verbatim in the literal comments as the text
+    source). No atp.Status=removed facets — nothing deprecated to drop. Consumer
+    MacSecCryptoAlgoConfig.confidentialityOffset already typed
+    Optional[MacSecConfidentialityOffsetEnum] (Table 3.123 sync) with the parser level
+    (arxml_parser.py readMacSecCryptoAlgoConfig) and writer CONFIDENTIALITY-OFFSET element
+    wired; its model/writer tests already use the real constants — no placeholder doubles to
+    upgrade. Placement per Rule 0007 (spec Package row): class already sat in
+    SecureCommunication.py; per batch instruction it MOVES to its spec-table-order slot
+    directly after MacSecCipherSuiteConfig (Table 3.124 → 3.125 order; safe — the module is
+    PEP 563).
+  - Legacy upgrade: the class was a prior legacy sync carrying the stale
+    `# Spec verified: R23-11` marker + a 5-column checklist with zero method rows — both
+    retired at session start (marker removed per Rule 0023, batch 9b re-stamps; checklist
+    rewritten to the 6-column format with the `__init__` row at Step 7). Entry-time audit
+    FAILed ROWS (1 method vs 0 rows) + STAMP warn as expected. Docstring lacked the
+    `Tags: atp.Status=candidate` tail — the Step 2 spec-contract test went RED exactly
+    there (1 failed / 2 passed; fields and literal values already matched Table 3.125).
+    Leaves tests/test_armodel/models/stamped_audit_baseline.txt (marker removed → no longer
+    a stamped target; ratchet drain is exactly this one line).
+  - No deviations from Table 3.125; no missing referenced classes (the enum has no Base
+    beyond AREnum and its consumer MacSecCryptoAlgoConfig exists). The `# Spec verified:
+    R23-11` marker is deferred to the batch 9b stamp per user instruction; the entry-time
+    stale legacy marker was removed (Rule 0023).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A: standalone AREnum, no own XML element (serialized as an attribute value on MacSecCryptoAlgoConfig.confidentialityOffset; round-trip covered there)
+  - [x] Step 6 — Update parser & writer (Green) — N/A: standalone AREnum, no own XML element (parser/writer wiring on MacSecCryptoAlgoConfig already emits CONFIDENTIALITY-OFFSET with the facet value)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-07 (21994 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit e609bd926
 
 - [ ] `MacSecCapabilityEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 3.126, p.177
   - module: M2/AUTOSARTemplates/SystemTemplate/SecureCommunication.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: Table 3.126 is NOT page-split — single fragment (markdown lines 4796-4805:
+    body renders before the caption, same rendering quirk as Table 3.125's fragment B).
+    Header Enumeration → AREnum. Package `M2::AUTOSARTemplates::SystemTemplate::SecureCommunication`.
+    Note "This enum defines the MACsec capability options. Tags: atp.Status=candidate"
+    (verbatim, Tags tail kept). Aggregated by MacSecCryptoAlgoConfig.capability.
+    Two literals in displayed/XSD-facet order (INTERGRITY-AND-CONFIDENTIALITY idx1 first,
+    INTERGRITY-WITHOUT-CONFIDENTIALITY idx0 second — the XSD facet order
+    AUTOSAR_00052.xsd lines 139942-139960 agrees with the markdown displayed order and
+    DISAGREES with raw EnumerationLiteralIndex order, so Rule 0011's XSD-facet-order rule
+    wins). Member names UPPER_SNAKE of the spec literals (camelCase
+    intergrityAndConfidentiality/intergrityWithoutConfidentiality — the spec's "intergrity"
+    spelling kept verbatim per Rule 0011); values the exact XSD
+    MAC-SEC-CAPABILITY-ENUM--SIMPLE facets (UPPER-KEBAB, no double-hyphen quirk). No
+    atp.Status=removed facets, no xml.name tags on the facets — nothing deprecated to drop.
+    pdf_page.py cites p.177. Consumer MacSecCryptoAlgoConfig.capability already typed
+    Optional[MacSecCapabilityEnum] (Table 3.123 sync) with the parser level
+    (arxml_parser.py readMacSecCryptoAlgoConfig instantiates the enum for CAPABILITY) and
+    writer CAPABILITY element (arxml_writer.py setChildElementOptionalLiteral) wired; the
+    parser/writer tests already use the real constants — no placeholder doubles to upgrade.
+    Placement per Rule 0007 (spec Package row) + batch instruction: class MOVES from its
+    legacy slot (after CryptoCertificateFormatEnum) to its spec-table-order slot directly
+    after MacSecConfidentialityOffsetEnum (Table 3.125 → 3.126 order; safe — the module is
+    PEP 563).
+  - Legacy upgrade: the class was a prior legacy sync carrying the stale
+    `# Spec verified: R23-11` marker + a 5-column checklist with zero method rows — both
+    retired at session start (marker removed per Rule 0023, batch 9b re-stamps; checklist
+    rewritten to the 6-column format with the `__init__` row at Step 7, e609bd926
+    precedent). Entry-time audit FAILed ROWS (1 method vs 0 rows) + STAMP warn as
+    expected. The legacy body also had the literal member order reversed vs the XSD facet
+    order (WITHOUT-before-AND, raw index order) and the class docstring lacked the
+    `Tags: atp.Status=candidate` tail — the Step 2 spec-contract test went RED exactly
+    there (2 failed / 1 passed: getEnumValues facet order + verbatim Note; values and
+    instantiability already matched Table 3.126).
+  - No deviations from Table 3.126; no missing referenced classes (the enum has no Base
+    beyond AREnum and its consumer MacSecCryptoAlgoConfig exists). The `# Spec verified:
+    R23-11` marker is deferred to the batch 9b stamp per user instruction; the entry-time
+    stale legacy marker was removed (Rule 0023).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A: standalone AREnum, no own XML element (serialized as an attribute value on MacSecCryptoAlgoConfig.capability; round-trip covered there)
+  - [x] Step 6 — Update parser & writer (Green) — N/A: standalone AREnum, no own XML element (parser/writer wiring on MacSecCryptoAlgoConfig already emits CAPABILITY with the facet value)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-07 (21997 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit bc28f5ecb
 
 - [ ] `MacSecRoleEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 3.127, p.177
   - module: M2/AUTOSARTemplates/SystemTemplate/SecureCommunication.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: Table 3.127 is NOT page-split — single fragment (markdown lines
+    4807-4814: body renders before the caption, same rendering quirk as Table 3.126).
+    Header Enumeration → AREnum. Package
+    `M2::AUTOSARTemplates::SystemTemplate::SecureCommunication`.
+    Note "This enum defines the MACsec Role options. Tags: atp.Status=candidate"
+    (verbatim, Tags tail kept). Aggregated by MacSecLocalKayProps.role. Two literals in
+    displayed/XSD-facet order (KEY-SERVER idx1 first, PEER idx0 second — the XSD facet
+    order AUTOSAR_00052.xsd lines 140038-140052 agrees with the markdown displayed order
+    and DISAGREES with raw EnumerationLiteralIndex order, so Rule 0011's XSD-facet-order
+    rule wins). Member names UPPER_SNAKE of the spec literals (keyServer → KEY_SERVER,
+    peer → PEER); values the exact XSD MAC-SEC-ROLE-ENUM--SIMPLE facets (UPPER-KEBAB,
+    no double-hyphen quirk). No atp.Status=removed facets, no xml.name tags on the
+    facets — nothing deprecated to drop. pdf_page.py cites p.177. Consumer
+    MacSecLocalKayProps.role already typed Optional[MacSecRoleEnum] (Table 3.119 sync)
+    with the parser level (arxml_parser.py readMacSecLocalKayProps instantiates the enum
+    for ROLE) and writer ROLE element wired; the parser/writer tests already use the real
+    constants — no placeholder doubles to upgrade. Placement per Rule 0007 (spec Package
+    row) + batch instruction: class MOVES from its legacy slot (between
+    CryptoCertificateFormatEnum and MacSecFailPermissiveModeEnum) to its
+    spec-table-order slot directly after MacSecCapabilityEnum (Table 3.126 → 3.127 order;
+    safe — the module is PEP 563).
+  - Legacy upgrade: the class was a prior legacy sync carrying the stale
+    `# Spec verified: R23-11` marker + a 5-column checklist with zero method rows — both
+    retired at session start (marker removed per Rule 0023, batch 9b re-stamps; checklist
+    rewritten to the 6-column format with the `__init__` row at Step 7, e609bd926
+    precedent). Entry-time audit FAILed ROWS (1 method vs 0 rows) + STAMP warn as
+    expected. The legacy body also had the literal member order reversed vs the XSD facet
+    order (PEER-before-KEY_SERVER, raw index order) and the class docstring lacked the
+    `Tags: atp.Status=candidate` tail — the Step 2 spec-contract test went RED exactly
+    there (2 failed / 1 passed: getEnumValues facet order + verbatim Note; values and
+    instantiability already matched Table 3.127). Leaves
+    tests/test_armodel/models/stamped_audit_baseline.txt (marker removed → no longer a
+    stamped target; ratchet drain is exactly this one line).
+  - No deviations from Table 3.127; no missing referenced classes (the enum has no Base
+    beyond AREnum and its consumer MacSecLocalKayProps exists). The `# Spec verified:
+    R23-11` marker is deferred to the batch 9b stamp per user instruction; the entry-time
+    stale legacy marker was removed (Rule 0023).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A: standalone AREnum, no own XML element (serialized as an attribute value on MacSecLocalKayProps.role; round-trip covered there)
+  - [x] Step 6 — Update parser & writer (Green) — N/A: standalone AREnum, no own XML element (parser/writer wiring on MacSecLocalKayProps already emits ROLE with the facet value)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-07 (22000 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 38c1935ef
 
 - [ ] `MacSecFailPermissiveModeEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 3.128, p.178
   - module: M2/AUTOSARTemplates/SystemTemplate/SecureCommunication.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: Table 3.128 is a page-split table — fragment A (markdown lines 4818-4824:
+    Enumeration header, Package `M2::AUTOSARTemplates::SystemTemplate::SecureCommunication`,
+    Note "Behavior options of the Port Access Entity in case MACsec does not succeed.
+    Tags: atp.Status=candidate", Aggregated by MacSecProps.onFailPermissiveMode,
+    Literal/Description header + literal never) renders before the Table 3.128 caption
+    (line 4830), fragment B (lines 4834-4836: repeated Enumeration header + literal timeout)
+    after it — same rendering quirk as Tables 3.125-3.127; pdf_page.py cites p.178. Header
+    Enumeration → AREnum. Two literals in displayed/XSD-facet order (NEVER idx0 first,
+    TIMEOUT idx1 second — the XSD facet order AUTOSAR_00052.xsd lines 140004-140024 agrees
+    with the markdown displayed order AND the raw EnumerationLiteralIndex order, so no
+    reorder needed). Member names UPPER_SNAKE of the spec literals (never → NEVER,
+    timeout → TIMEOUT); values the exact XSD MAC-SEC-FAIL-PERMISSIVE-MODE-ENUM--SIMPLE
+    facets (UPPER-KEBAB, no double-hyphen quirk). No atp.Status=removed facets, no xml.name
+    tags on the facets — nothing deprecated to drop. Consumer MacSecProps.onFailPermissiveMode
+    already typed Optional[MacSecFailPermissiveModeEnum] (Table 3.118 sync) with the parser
+    level (arxml_parser.py readMacSecProps ON-FAIL-PERMISSIVE-MODE) and writer
+    ON-FAIL-PERMISSIVE-MODE element (arxml_writer.py setChildElementOptionalLiteral) wired;
+    the parser/writer tests already use the real constants and facet values — no placeholder
+    doubles to upgrade. Placement per Rule 0007 (spec Package row) + batch instruction:
+    class MOVES from its legacy slot (between CryptoCertificateFormatEnum and
+    IPsecIpProtocolEnum) to its spec-table-order slot directly after MacSecRoleEnum
+    (Table 3.127 → 3.128 order; safe — the module is PEP 563).
+  - Legacy upgrade: the class was a prior legacy sync carrying the stale
+    `# Spec verified: R23-11` marker + a 5-column checklist with zero method rows — both
+    retired at session start (marker removed per Rule 0023, batch 9b re-stamps; checklist
+    rewritten to the 6-column format with the `__init__` row at Step 7, e609bd926
+    precedent). Entry-time audit FAILed ROWS (1 method vs 0 rows) + STAMP warn as expected.
+    The legacy body's literal members/values/order already matched Table 3.128 (NEVER →
+    TIMEOUT, XSD facet order) and the literal comments carried the verbatim descriptions
+    with their `Tags:` tails — the only spec-text drift was the class docstring missing the
+    `Tags: atp.Status=candidate` tail; the Step 2 spec-contract test goes RED exactly there.
+    Leaves tests/test_armodel/models/stamped_audit_baseline.txt (marker removed → no longer
+    a stamped target; ratchet drain is exactly this one line).
+  - No deviations from Table 3.128; no missing referenced classes (the enum has no Base
+    beyond AREnum and its consumer MacSecProps exists). The `# Spec verified: R23-11`
+    marker is deferred to the batch 9b stamp per user instruction; the entry-time stale
+    legacy marker was removed (Rule 0023).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A: standalone AREnum, no own XML element (serialized as an attribute value on MacSecProps.onFailPermissiveMode; round-trip covered there)
+  - [x] Step 6 — Update parser & writer (Green) — N/A: standalone AREnum, no own XML element (parser/writer wiring on MacSecProps already emits ON-FAIL-PERMISSIVE-MODE with the facet value)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-07 (22003 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit e4ec64419
 
 - [ ] `UserDefinedCluster` — CommunicationCluster — R23-11 CP_TPS_SystemTemplate Table 3.129, p.179
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: Table 3.129 is a page-split table — fragment A (markdown lines
+    4858-4865: Class `<<atpVariation>> UserDefinedCluster`, Package
+    `M2::AUTOSARTemplates::SystemTemplate::Fibex::CddSupport`, Note with
+    `Tags: atp.recommendedPackage=CommunicationClusters`, Base chain
+    `ARElement , ARObject , CollectableElement , CommunicationCluster , FibexElement ,
+    Identifiable , MultilanguageReferrable , PackageableElement , Referrable ,
+    UploadableDesignElement , Uploadable PackageElement`, Aggregated by
+    `ARPackage.element`, Attribute header) renders before the caption (line 4867); NO
+    attribute rows and no fragment B (Table 3.130's fragment follows the caption
+    directly) — pdf_page.py cites p.179. Header Class → model class; the class-row
+    `<<atpVariation>>` stereotype is not a VP-aggregation indicator (Rule 0020) but the
+    XSD own group USER-DEFINED-CLUSTER (AUTOSAR_00052.xsd lines 128516-128536) holds
+    only the atpVariation `USER-DEFINED-CLUSTER-VARIANTS/USER-DEFINED-CLUSTER-CONDITIONAL`
+    wrapper (identical shape to LinCluster, whose XSD LIN-CLUSTER group is the same
+    pattern) — zero own fields/accessors (Rule 0001.3). Base most-derived MODELED
+    ancestor = `CommunicationCluster` (Table 3.6; UploadableDesignElement/
+    UploadablePackageElement unmodeled, CollectableElement/FibexElement already in
+    CommunicationCluster's chain). Placement per Rule 0007 (spec Package row): class
+    MOVES from its legacy stub slot in CoreTopology.py to a NEW leaf-package module
+    `SystemTemplate/Fibex/CddSupport.py` (XSD comments confirm
+    `...Fibex::CddSupport::UserDefinedCluster`); stub-guard tuple + models export
+    chain updated. Wiring: ARPackage-level ARElement —
+    `createUserDefinedCluster` factory, parser `USER-DEFINED-CLUSTER` tag branch +
+    `readUserDefinedCluster` (readIdentifiable on the outer element +
+    readCommunicationCluster exactly once on the CONDITIONAL), writer isinstance branch
+    + `writeUserDefinedCluster` (writeIdentifiable + writeCommunicationCluster once on
+    the CONDITIONAL) — LinCluster is the 1:1 sibling precedent (Tables 3.36/3.129 both
+    attribute-less cluster leaves).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — fresh-module creation: no stale docstrings existed to wipe; the verbatim Note went into the class docstring at creation (pinned by test_class_docstring_note) and `__init__` stays docless (pinned by test_init_docless); the class has no own accessors (zero Attribute rows)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - Step 8: No deviations from Table 3.129 — the table carries zero Attribute rows, so
+    the class models no own fields (Rule 0001.3 both directions: nothing fabricated,
+    nothing missing); inherited levels round-trip through the CommunicationCluster
+    reader/writer helper called exactly once per side (Rule 0025, pinned by tests). No
+    referenced-but-missing classes: CommunicationCluster is stamped `R23-11` and all
+    inherited accessors exist. Remark (not a deviation): Base-column ancestors
+    UploadableDesignElement / UploadablePackageElement are unmodeled mid-chain abstract
+    classes subsumed by CommunicationCluster's own chain (its Table 3.6 sync made the
+    same choice); CollectableElement/FibexElement are modeled. The `# Spec verified:`
+    marker is deferred to the batch 9b stamp per user instruction (Step 7 wrote the
+    6-column checklist without it; audit STAMP INFO expected).
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-07 (22023 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 60a130c7b
 
 - [ ] `UserDefinedPhysicalChannel` — PhysicalChannel — R23-11 CP_TPS_SystemTemplate Table 3.130, p.179
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: Table 3.130 is a page-split table — its fragment (markdown lines
+    4869-4877: Class `UserDefinedPhysicalChannel`, Package
+    `M2::AUTOSARTemplates::SystemTemplate::Fibex::CddSupport`, Note
+    `This element allows the modeling of arbitrary Physical Channels.` with NO Tags
+    tail, Base chain `ARObject , Identifiable , MultilanguageReferrable ,
+    PhysicalChannel , Referrable`, Aggregated by `CommunicationCluster
+    .physicalChannel`, Attribute header) renders before the caption (line 4878); NO
+    attribute rows — pdf_page.py cites p.179. Header Class → model class; the XSD own
+    group USER-DEFINED-PHYSICAL-CHANNEL (AUTOSAR_00052.xsd lines 128980-128988) is an
+    EMPTY `<xsd:sequence/>` — no atpVariation VARIANTS wrapper, unlike the
+    UserDefinedCluster sibling — zero own fields/accessors (Rule 0001.3). Base
+    most-derived MODELED ancestor = `PhysicalChannel` (Table 3.7, abstract). Placement
+    per Rule 0007 (spec Package row): class MOVES from its legacy stub slot in
+    CoreTopology.py into the EXISTING leaf module `SystemTemplate/Fibex/CddSupport.py`
+    next to UserDefinedCluster (spec-table order); stub-guard tuple updated; the
+    models export chain needs no edit (CddSupport wildcard import already added by the
+    UserDefinedCluster commit). Wiring: CommunicationCluster-level aggregator —
+    `createUserDefinedPhysicalChannel` factory (alongside createCanPhysicalChannel
+    et al., Table 3.130 Aggregated-by row), parser `USER-DEFINED-PHYSICAL-CHANNEL`
+    tag branch in `readCommunicationClusterPhysicalChannels` +
+    `readUserDefinedPhysicalChannel` (readIdentifiable on the outer element +
+    readPhysicalChannel exactly once), writer isinstance branch in
+    `writeCommunicationClusterPhysicalChannels` + `writeUserDefinedPhysicalChannel`
+    (writeIdentifiable + writePhysicalChannel once) — the 1:1 sibling precedent is the
+    CanPhysicalChannel dispatch shape (empty own XSD group, coverage flows through the
+    concrete dispatch).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - Step 8: No deviations from Table 3.130 — the table carries zero Attribute rows, so
+    the class models no own fields (Rule 0001.3 both directions: nothing fabricated,
+    nothing missing); inherited levels round-trip through the PhysicalChannel
+    reader/writer helper called exactly once per side (Rule 0025, pinned by tests).
+    No referenced-but-missing classes: PhysicalChannel is stamped `R23-11` and all
+    inherited accessors exist. Remark (not a deviation): the reader/writer entry
+    points call ONLY the base helper (readPhysicalChannel/writePhysicalChannel owns
+    the Identifiable level — the readCanPhysicalChannel/writeCanPhysicalChannel
+    leveling); an extra readIdentifiable/writeIdentifiable at the entry point was
+    tried first and correctly dropped as the Rule 0013.1 double-call (duplicate
+    SHORT-NAME caught by the round-trip tests). The `# Spec verified:` marker is
+    deferred to the batch 9b stamp per user instruction (Step 7 wrote the 6-column
+    checklist without it; audit STAMP INFO expected).
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-07 (22042 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 0d446c837
 
 - [ ] `UserDefinedCommunicationConnector` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.131, p.180
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: page-split table — the Class/Package/Note/Base fragment renders
+    BEFORE the caption (markdown lines 4880-4884) and the Aggregated-by/Attribute
+    fragment after it (lines 4894-4898); NO attribute rows — the class adds no own
+    fields/accessors (Rule 0001.3). Base most-derived MODELED ancestor =
+    `CommunicationConnector` (Table 3.4, abstract, CoreTopology.py). Package row
+    `M2::AUTOSARTemplates::SystemTemplate::Fibex::CddSupport` → per Rule 0007 the
+    class MOVES from its legacy stub slot in ArObject.py into the EXISTING leaf
+    module `SystemTemplate/Fibex/CddSupport.py` next to UserDefinedCluster/
+    UserDefinedPhysicalChannel (spec-table order = last); stub-guard tuple updated;
+    models export chain needs no edit (CddSupport wildcard import already in
+    models/__init__.py line 113). XSD own group USER-DEFINED-COMMUNICATION-CONNECTOR
+    (AUTOSAR_00052.xsd lines 128603-128611) is an EMPTY `<xsd:sequence/>` — no
+    atpVariation wrapper (header carries no <<atpVariation>> stereotype). Wiring:
+    EcuInstance-level aggregator — `createUserDefinedCommunicationConnector` factory
+    on EcuInstance (alongside createCanCommunicationConnector et al.), parser
+    USER-DEFINED-COMMUNICATION-CONNECTOR branch in `readEcuInstanceConnectors` +
+    `readUserDefinedCommunicationConnector` (readCommunicationConnector exactly
+    once — the TtcanCommunicationConnector leveling), writer isinstance branch in
+    `writeEcuInstanceConnectors` + `writeUserDefinedCommunicationConnector`
+    (dispatch creates the SubElement, mirroring the writeTtcanCommunicationConnector
+    family shape). Aggregated-by row also lists `MachineDesign
+    .communicationConnector` — MachineDesign is NOT modeled anywhere (no class, no
+    parser/writer handling); collected as referenced-but-missing for Step 8, no
+    branch hookable there yet.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - Step 8: No deviations from Table 3.131 — the table carries zero Attribute rows, so
+    the class models no own fields (Rule 0001.3 both directions: nothing fabricated,
+    nothing missing); inherited levels round-trip through the CommunicationConnector
+    reader/writer helper called exactly once per side (Rule 0025, pinned by the
+    direct-children SHORT-NAME exactly-once assertions in the round-trip tests).
+    Referenced-but-missing class (Rule 0001.10, reported not blocking): MachineDesign
+    — the Aggregated-by row lists `MachineDesign.communicationConnector`, but
+    MachineDesign is not modeled anywhere in the codebase (no class, no parser/writer
+    handling); the EcuInstance.connector branch is fully wired and the MachineDesign
+    dispatch lands when MachineDesign gets its own sync. Remark (not a deviation): the
+    `# Spec verified:` marker is deferred to the batch 9b stamp per user instruction
+    (Step 7 wrote the 6-column checklist without it; audit STAMP INFO as expected).
+    Remark (not a deviation): the new EcuInstance-level factory required one new row
+    `createUserDefinedCommunicationConnector` (reader [x] / writer [—]) in the stamped
+    EcuInstance checklist (Table 3.1) so its ROWS audit stays green — spec-grounded via
+    the Aggregated-by row `EcuInstance.connector`; the stamped-audit ratchet test
+    caught the omission and passes after the row was added (no baseline drain).
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-07 (22074 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit ff537256b
 
 - [ ] `UserDefinedCommunicationController` — CommunicationController — R23-11 CP_TPS_SystemTemplate Table 3.132, p.180
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: no Attribute rows — the class adds no own fields/accessors
+    (Rule 0001.3). Base most-derived MODELED ancestor = `CommunicationController`
+    (Table 3.3, abstract, CoreTopology.py). Package row
+    `M2::AUTOSARTemplates::SystemTemplate::Fibex::CddSupport` → per Rule 0007 the
+    class MOVES from its legacy stub slot in CoreTopology.py into the EXISTING leaf
+    module `SystemTemplate/Fibex/CddSupport.py` next to UserDefinedCluster/
+    UserDefinedPhysicalChannel/UserDefinedCommunicationConnector (spec-table order
+    = last of the four); stub-guard tuple updated; models export chain needs no
+    edit (CddSupport wildcard import already in models/__init__.py line 113).
+    Unlike the 3.131 connector sibling, the header carries `<<atpVariation>>`:
+    the XSD own group USER-DEFINED-COMMUNICATION-CONTROLLER (AUTOSAR_00052.xsd
+    lines 128630-128650) holds an optional
+    USER-DEFINED-COMMUNICATION-CONTROLLER-VARIANTS wrapper (atpSplitable) whose
+    unbounded choice of USER-DEFINED-COMMUNICATION-CONTROLLER-CONDITIONAL carries
+    the inherited COMMUNICATION-CONTROLLER-CONTENT (WAKE-UP-BY-CONTROLLER-SUPPORTED)
+    + an empty own CONTENT group + an optional VARIATION-POINT — the
+    readUserDefinedCluster leveling (readIdentifiable at top level, inherited base
+    helper on the CONDITIONAL) applies. Wiring: EcuInstance-level aggregator —
+    `createUserDefinedCommunicationController` factory on EcuInstance (alongside
+    createCanCommunicationController et al.), parser USER-DEFINED-COMMUNICATION-
+    CONTROLLER branch in `readEcuInstanceCommControllers` +
+    `readUserDefinedCommunicationController` (readCommunicationController exactly
+    once, on the CONDITIONAL), writer isinstance branch in
+    `writeEcuInstanceCommControllers` + `writeUserDefinedCommunicationController`
+    (the entry point creates the SubElement itself, mirroring the
+    writeCanCommunicationController shape shared by every CONTROLLERS dispatch
+    branch — the dispatch passes the COMM-CONTROLLERS wrapper element;
+    VARIANTS/CONDITIONAL emitted unconditionally per the writeUserDefinedCluster
+    shape). Aggregated-by row also
+    lists `MachineDesign.communicationController` — MachineDesign is NOT modeled
+    anywhere (same as the 3.131 connector sibling); collected as
+    referenced-but-missing for Step 8, no branch hookable there yet.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - Step 8: No deviations from Table 3.132 — the table carries zero Attribute rows, so
+    the class models no own fields (Rule 0001.3 both directions); inherited levels
+    round-trip through the CommunicationController reader/writer helper called
+    exactly once per side, on the USER-DEFINED-COMMUNICATION-CONTROLLER-CONDITIONAL
+    (XSD COMMUNICATION-CONTROLLER-CONTENT lives inside the atpVariation conditional;
+    readUserDefinedCluster leveling). Referenced-but-missing class (Rule 0001.10,
+    reported not blocking): MachineDesign — the Aggregated-by row lists
+    `MachineDesign.communicationController`, but MachineDesign is not modeled
+    anywhere in the codebase (no class, no parser/writer handling); the
+    EcuInstance.commController branch is fully wired and the MachineDesign dispatch
+    lands when MachineDesign gets its own sync. Remark (not a deviation): the
+    `# Spec verified:` marker is deferred to the batch 9b stamp per user instruction
+    (Step 7 wrote the 6-column checklist without it; audit STAMP INFO as expected).
+    Remark (not a deviation): the new EcuInstance-level factory required one new row
+    `createUserDefinedCommunicationController` (reader [x] / writer [—]) in the
+    stamped EcuInstance checklist (Table 3.1) so its ROWS audit stays green —
+    spec-grounded via the Aggregated-by row `EcuInstance.commController` (the
+    ff537256b precedent: grow the row, no baseline drain).
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-07 (22082 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit acba63082
 
 - [ ] `SystemMapping` — ARObject — R23-11 CP_TPS_SystemTemplate Table 5.1, p.193
   - module: M2/AUTOSARTemplates/SystemTemplate/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: Base row verified = `ARObject, Identifiable, MultilanguageReferrable,
+    Referrable` (queue dash said ARObject — the most-derived MODELED ancestor is
+    `Identifiable`, kept as the Python base alongside the `VariationPointCapable` mixin:
+    the XSD SYSTEM-MAPPING group ends with VARIATION-POINT and readIdentifiable/
+    writeIdentifiable handle it for VariationPointCapable instances). Table 5.1 carries
+    24 `* aggr` Attribute rows split across 4 page fragments (lines 5091-5148); R23-11
+    Note/classifier text identical to R4.3.1 Table 5.1 (p.126), whose 11 attribute rows
+    are a STRICT SUBSET of R23-11's 24 — the Rule 0019 COMBINE CASE DOES NOT APPLY (no
+    attribute documented in the older corpus is absent from the target table). The
+    "SystemMapping legacy" flag materialized as a Rule 0023 legacy 4-column checklist
+    (rows ending at `test`, no `# Spec:` line, no stale `# Spec verified:` marker to
+    remove) plus a legacy sync with: 15 bare-`List` untyped fields, a Rule 0004
+    registry-filter alias getter `getSwcToEcuMappings` (REMOVED — swMapping's getter is
+    `getSwMappings`; no external callers, legacy co-located test updated), a plural
+    `addSwcToApplicationPartitionMappings` naming deviation (RENAMED singular, Rule
+    0001.5), and 4 of 24 attributes with NO reader/writer coverage
+    (j1939ControllerApplicationToJ1939NmNodeMapping, mappingConstraint,
+    portElementToComResourceMapping, swcToApplicationPartitionMapping — all four wired
+    this pass in XSD sequenceOffset order: J-1939-...-MAPPINGS and MAPPING-CONSTRAINTS
+    after ECU-RESOURCE-MAPPINGS, PORT-ELEMENT-TO-COM-RESOURCE-MAPPINGS before
+    RESOURCE-ESTIMATIONS, SWC-TO-APPLICATION-PARTITION-MAPPINGS after SW-MAPPINGS).
+    Class member/checklist order = markdown displayed order (attr 1
+    applicationPartitionToEcuPartitionMapping first); reader/writer XML order = XSD
+    order (APP-OS-TASK-... first) — the two orders differ only in the first two rows
+    and are kept independent per Rule 0001.11. Placement per Rule 0007 confirmed:
+    Package row `M2::AUTOSARTemplates::SystemTemplate` is non-leaf → the class stays
+    in `SystemTemplate/__init__.py`.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - Step 8: No accepted deviations from Table 5.1 — all 24 attributes modeled with
+    dedicated typed list fields (Rule 0004), verbatim Notes incl. Stereotypes:/Tags:
+    tails (Rule 0012.2.5.3), reader+writer coverage for every attribute (Rule 0001.7).
+    Referenced-but-missing class (Rule 0001.10, reported not blocking):
+    SwcToEcuMappingConstraint — third member of the XSD MAPPING-CONSTRAINTS choice
+    (AUTOSAR_00052.xsd line 118057), no model class exists; the reader branch warns
+    notImplemented and lands with the MappingConstraint-family sync (Table 5.8 queue
+    row). Remark (not a deviation, Rule 0001.7 identity-only debt): the concrete
+    MappingConstraint stubs ComponentClustering/ComponentSeparation (queued Table
+    5.9/5.11) and the ARObject stub J1939ControllerApplicationToJ1939NmNodeMapping
+    (queued Table 5.12) are serialized identity-only — reader instantiates +
+    readARObject (S/T preserved), writer emits the element + writeARObject; the
+    Identifiable stubs PortElementToCommunicationResourceMapping and
+    SwcToApplicationPartitionMapping round-trip at the Identifiable level
+    (SHORT-NAME/UUID) until their own Table 5.4-family syncs replace the placeholder.
+    Remark (not a deviation): the `# Spec verified:` marker is deferred to the batch
+    9b stamp per user instruction (Step 7 wrote the 6-column checklist without it;
+    audit STAMP INFO as expected).
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-07 (22099 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 1fa8787ea
 
 - [ ] `SwcToApplicationPartitionMapping` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 5.4, p.200
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - module: M2/AUTOSARTemplates/SystemTemplate/SWmapping.py (moved from the
+    Identifiable.py hint)
+  - Step 1 finding: Class table confirmed (not Enumeration). Package row
+    `M2::AUTOSARTemplates::SystemTemplate::SWmapping` → Rule 0007 placement is the
+    leaf-package module `SystemTemplate/SWmapping.py` next to the stamped siblings
+    SwcToImplMapping (Table 5.3) / SwcToEcuMapping (Table 5.2) / ApplicationPartitionTo
+    EcuPartitionMapping (Table 5.6) — the Identifiable.py module hint in the queue row
+    was wrong per the same precedent as the UserDefined family (moved to
+    Fibex/CddSupport.py); the identity-only stub is moved out of Identifiable.py and the
+    SWmapping module wins. Base row `ARObject, Identifiable, MultilanguageReferrable,
+    Referrable` → most-derived MODELED ancestor `Identifiable`, kept alongside the
+    `VariationPointCapable` mixin (the XSD SWC-TO-APPLICATION-PARTITION-MAPPING group
+    ends with a VARIATION-POINT anchor — "Applicable for:
+    CpSoftwareClusterMappingSet.swcToApplicationPartitionMapping,
+    SystemMapping.swcToApplicationPartitionMapping" — and readIdentifiable/
+    writeIdentifiable handle it for VariationPointCapable instances; same shape as the
+    two stamped siblings). 2 attribute rows (displayed order):
+    applicationPartition (ApplicationPartition, 0..1, ref → applicationPartitionRef:
+    Optional[RefType]) and swComponentPrototype (SwComponentPrototype, 0..1, iref
+    "InstanceRef implemented by: ComponentInSystemInstanceRef" → swComponentPrototype
+    IRef: Optional[ComponentInSystemInstanceRef]); XSD element order (reader/writer):
+    APPLICATION-PARTITION-REF, SW-COMPONENT-PROTOTYPE-IREF, VARIATION-POINT (last,
+    sequenceOffset=10000).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - Step 8: No accepted deviations from Table 5.4 — both attributes modeled (0..1 ref
+    → applicationPartitionRef: Optional[RefType]; 0..1 iref → swComponentPrototypeIRef:
+    Optional[ComponentInSystemInstanceRef]), verbatim Notes, full reader+writer coverage.
+    No stale legacy marker existed (the pre-sync stub was a bare `pass` in
+    Identifiable.py — no checklist, no `# Spec verified:` line, so Rule 0023 removal was
+    a no-op); the checklist is fresh 6-column format. Placement MOVE per Rule 0007 (not a
+    deviation): Identifiable.py hint → SystemTemplate/SWmapping.py (Package row
+    `M2::AUTOSARTemplates::SystemTemplate::SWmapping`, leaf package, stamped siblings
+    already live there); imports re-pointed in SystemTemplate/__init__.py,
+    SoftwareCluster.py, arxml_writer.py (parser gained its first SWmapping-type import
+    for the reader annotation), and the test_group21_36_stub_classes.py STUBS tuple
+    module was updated to the new defining module. Wiring upgrade (clears the
+    identity-only debt the SystemMapping row Step 8 recorded):
+    readSystemMappingSwcToApplicationPartitionMappings /
+    writeSystemMappingSwcToApplicationPartitionMappings and the
+    CpSoftwareClusterMappingSet reader/writer branches now dispatch to the dedicated
+    read/writeSwcToApplicationPartitionMapping level. Referenced-but-missing class
+    (Rule 0001.10, reported not blocking): SwComponentMappingConstraints — named in the
+    Table 5.4 "Aggregated by" row, no model class exists anywhere (not queued in this
+    batch). Remark: ref target ApplicationPartition is queued in this batch (Table 5.5
+    row); the iref element type ComponentInSystemInstanceRef exists in
+    SystemTemplate/InstanceRefs.py. The `# Spec verified:` marker is deferred to the
+    batch 9b stamp per user instruction (Step 7 wrote the 6-column checklist without it;
+    audit STAMP INFO as expected).
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-07 (22113 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 8323feb0a
 
 - [ ] `ApplicationPartition` — ARElement — R23-11 CP_TPS_SystemTemplate Table 5.5, p.201
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - module: M2/AUTOSARTemplates/SystemTemplate/SWmapping.py (moved from the
+    ARPackage.py hint)
+  - Step 1 finding: Class table confirmed (not Enumeration). Table 5.5 is page-split
+    (p.200→201): body fragment A (Class/Package/Note/Base, md lines 5306-5310) renders
+    BEFORE the caption at line 5322; continuation fragment B (Class/Aggregated by/
+    Attribute header — ZERO attribute rows, lines 5316-5321) sits between a figure and
+    the caption. Package row `M2::AUTOSARTemplates::SystemTemplate::SWmapping` →
+    Rule 0007 placement MOVE out of the ARPackage.py stub to the leaf module
+    `SystemTemplate/SWmapping.py` (same precedent as SwcToApplicationPartitionMapping
+    commit 8323feb0a; stamped siblings Tables 5.2-5.7 already live there; the XSD
+    comment `<!-- element group for class AUTOSAR Templates::SystemTemplate::SWmapping
+    ::ApplicationPartition -->` confirms). Base row `ARElement, ARObject,
+    CollectableElement, Identifiable, MultilanguageReferrable, PackageableElement,
+    Referrable` → most-derived MODELED ancestor `ARElement` (stub base already right).
+    Zero own Attribute rows — empty-attribute ARElement (all members inherited); the
+    XSD APPLICATION-PARTITION complexType carries only the base groups (AR-OBJECT →
+    … → AR-ELEMENT) + an EMPTY `APPLICATION-PARTITION` group and NO VARIATION-POINT →
+    NOT VP-capable (no VariationPointCapable mixin). Aggregated by `ARPackage.element`
+    → full ARElement wiring: createApplicationPartition factory + ARPackage `__all__`
+    + bottom import, readARPackageElements branch, writeARPackageElement isinstance
+    branch (pattern 2065193be/edc1d0ae3; sibling EthernetWakeupSleepOnDatalineConfigSet).
+    Note verbatim: "ApplicationPartition to which SwComponentPrototypes are mapped at a
+    point in time when the corresponding EcuInstance is not yet known or defined. In a
+    later methodology step the Application Partition can be assigned to an EcuPartition.
+    Tags: atp.recommendedPackage=ApplicationPartitions" (Tags tail kept per
+    Rule 0012.2.5.3). No stale legacy marker existed (bare `pass` stub — Rule 0023
+    removal a no-op). Checklist = single `__init__` row (no own accessors).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - Step 8: No accepted deviations from Table 5.5 — the table carries zero Attribute
+    rows (empty-attribute ARElement), so the class declares no own members; the
+    inherited IDENTIFIABLE level is covered by readIdentifiable/writeIdentifiable
+    (called exactly once per side in readApplicationPartition/writeApplicationPartition)
+    and pinned by UUID/CATEGORY round-trip assertions. Full ARElement wiring landed:
+    createApplicationPartition factory + ARPackage `__all__` entry removed-and-rehomed
+    + bottom `# noqa: E402` import, readARPackageElements branch (after
+    APPLICATION-INTERFACE, XSD tag order) and writeARPackageElement isinstance branch
+    (after ApplicationInterface). Placement MOVE per Rule 0007: ARPackage.py stub →
+    SystemTemplate/SWmapping.py (spec Package row + XSD comment); stub-guard tuple in
+    test_group21_36_stub_classes.py re-pointed; SystemTemplate/__init__.py import list
+    extended; parser/writer SWmapping imports extended. No aggregator dispatch upgrades
+    were pending (nothing else serializes APPLICATION-PARTITION; the
+    SwcToApplicationPartitionMapping.applicationPartitionRef ref target is RefType-typed
+    — DEST string only, no wiring change). No referenced-but-missing classes (zero
+    member types). audit_class.py PASS (STAMP INFO expected — the `# Spec verified:`
+    marker is deferred to the batch 9b stamp per user instruction).
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-07 (22128 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 9241a3d9f
 
 - [ ] `MappingConstraint` — ARObject — R23-11 CP_TPS_SystemTemplate Table 5.8, p.202
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - module: M2/AUTOSARTemplates/SystemTemplate/SWmapping.py (moved from the
+    ArObject.py hint)
+  - Step 1 finding: Class table confirmed (not Enumeration): `Class |
+    MappingConstraint (abstract)`. Package row
+    `M2::AUTOSARTemplates::SystemTemplate::SWmapping` → Rule 0007 placement MOVE out
+    of the ArObject.py stub to the leaf module `SystemTemplate/SWmapping.py` (same
+    precedent as SwcToApplicationPartitionMapping commit 8323feb0a /
+    ApplicationPartition commit 9241a3d9f; stamped siblings Tables 5.2-5.6 already
+    live there). Base row verified = `ARObject` (queue dash correct) — most-derived
+    MODELED ancestor ARObject; spec marks the class abstract → ABC base + the
+    `type(self) is MappingConstraint` TypeError guard (SignalPathConstraint
+    precedent). VP-capable per Rule 0020 XSD anchor: the MAPPING-CONSTRAINT group
+    (AUTOSAR_00052.xsd l.79829) ends with VARIATION-POINT ("Applicable for:
+    SystemMapping.mappingConstraint", sequenceOffset=10000) → `VariationPointCapable`
+    mixin, base order `(ARObject, VariationPointCapable, ABC)`; no checklist rows for
+    the mixin accessors. Table 5.8 carries exactly ONE attribute row (no page split):
+    introduction (DocumentationBlock, 0..1, aggr), Note without Tags:/Stereotypes:
+    tail. XSD element order (reader/writer): INTRODUCTION, VARIATION-POINT (last).
+    The subclass stubs ComponentClustering/ComponentSeparation (queued Tables
+    5.9/5.11, Base `ARObject , MappingConstraint`, Package rows SWmapping) moved with
+    the base into SWmapping.py — keeping them in ArObject.py would need a circular
+    import (ArObject→SWmapping→ArObject) since they subclass MappingConstraint; the
+    stub-guard STUBS tuple in tests/test_armodel/models/test_group21_36_stub_classes.py
+    was updated for all three.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - Step 8: No accepted deviations from Table 5.8 — the single attribute (introduction)
+    modeled as Optional[DocumentationBlock] with verbatim Notes (no tails), PEP 526
+    annotated assignment, full reader+writer coverage. No stale legacy marker existed
+    (the pre-sync stub was a bare `pass` in ArObject.py — no checklist, no
+    `# Spec verified:` line, so Rule 0023 removal was a no-op); the checklist is fresh
+    6-column format. Placement MOVE per Rule 0007 (not a deviation): ArObject.py hint →
+    SystemTemplate/SWmapping.py; imports re-pointed in SystemTemplate/__init__.py,
+    arxml_parser.py, arxml_writer.py, test_SystemMapping.py, and the parser/writer
+    system_mapping tests. Wiring upgrade (clears the identity-only debt the
+    SystemMapping row Step 8 recorded for this pair):
+    readMappingConstraint/writeMappingConstraint abstract-level helpers added and the
+    SystemMapping MAPPING-CONSTRAINTS dispatch now routes the ComponentClustering/
+    ComponentSeparation choice members through them (INTRODUCTION + VARIATION-POINT
+    round-trip). Referenced-but-missing class (Rule 0001.10, reported not blocking):
+    SwcToEcuMappingConstraint — third member of the XSD MAPPING-CONSTRAINTS choice
+    (AUTOSAR_00052.xsd line 118057), no model class exists; the reader/writer
+    else-branch warns notImplemented and stays. The `# Spec verified:` marker is
+    deferred to the batch 9b stamp per user instruction (Step 7 wrote the 6-column
+    checklist without it; audit STAMP INFO as expected).
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-07 (22143 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit a678eca67
 
 - [ ] `ComponentClustering` — MappingConstraint — R23-11 CP_TPS_SystemTemplate Table 5.9, p.203
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - module: M2/AUTOSARTemplates/SystemTemplate/SWmapping.py (moved from the ArObject.py
+    hint — the stub relocated with the MappingConstraint base sync)
+  - Step 1 finding: Class table confirmed (not Enumeration): `Class |
+    ComponentClustering`. Package row
+    `M2::AUTOSARTemplates::SystemTemplate::SWmapping` → the stub already lives in the
+    leaf module `SystemTemplate/SWmapping.py` (moved there by the MappingConstraint
+    sync, commit a678eca67). Base row `ARObject , MappingConstraint` → direct Python
+    base MappingConstraint (most-derived modeled ancestor). Table 5.9 carries exactly
+    TWO attribute rows (no page split): clusteredComponent (SwComponentPrototype, `*`,
+    iref — "InstanceRef implemented by: ComponentInSystemInstanceRef", XSD element
+    CLUSTERED-COMPONENT-IREF type COMPONENT-IN-SYSTEM-INSTANCE-REF) and mappingScope
+    (MappingScopeEnum, 0..1, attr). Both Notes carry no Tags:/Stereotypes: tail. XSD
+    element order (reader/writer): complexType COMPONENT-CLUSTERING sequence =
+    AR-OBJECT group, MAPPING-CONSTRAINT group (INTRODUCTION, VARIATION-POINT — via the
+    abstract read/writeMappingConstraint level), then own children
+    CLUSTERED-COMPONENT-IREFS (wrapper, unbounded CLUSTERED-COMPONENT-IREF choice),
+    MAPPING-SCOPE. The markdown renders the Table 5.9 class table itself fine (wide
+    4x-repeated cells); the page-split fragment under the Table 5.9 caption (lines
+    5403-5409, `Enumeration | MappingScopeEnum` + mappingScopeCore) is actually
+    Table 5.10's first fragment — MappingScopeEnum material, not ComponentClustering
+    attributes.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - Step 8: No accepted deviations from Table 5.9 — both attributes modeled exactly
+    (clusteredComponentIRefs as dedicated List[ComponentInSystemInstanceRef] field +
+    addClusteredComponentIRef/getClusteredComponentIRefs; mappingScope as
+    Optional[MappingScopeEnum] with verbatim Notes, PEP 526 annotated assignments,
+    blank-line separated blocks, full reader+writer coverage through the new concrete
+    readComponentClustering/writeComponentClustering levels that call the abstract
+    read/writeMappingConstraint level exactly once). No stale legacy marker existed
+    (the pre-sync stub was a bare `pass` — Rule 0023 removal a no-op); fresh 6-column
+    checklist. Referenced classes: ComponentInSystemInstanceRef — fully synced/stamped
+    (Table B.1), no placeholder needed. MappingScopeEnum — exists only as a bare
+    `AREnum` stub (no literals, no `__init__`), queued as the NEXT row (Table 5.10):
+    reported not blocking per Rule 0001.10; the reader/writer/tests construct it
+    inline with the exact XSD facet tuple
+    ("MAPPING-SCOPE-CORE"/"MAPPING-SCOPE-ECU"/"MAPPING-SCOPE-PARTITION") until its own
+    sync lands. Docstring verbatim note: attribute/mappingScope Note text kept exactly
+    as the markdown renders it ("mappingScope Ecu" wrap artifact preserved, same
+    precedent as the sibling Table 5.2 "SwComponent Prototype" body text); the
+    "InstanceRef implemented by:" tail is joined to the real class name
+    (ComponentInSystemInstanceRef) matching the 9b-passed Table 5.2/5.3/5.4
+    docstrings. The `# Spec verified:` marker is deferred to the batch 9b stamp per
+    user instruction (audit STAMP INFO as expected).
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-07 (22161 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 6ddfdbb3f
 
 - [ ] `MappingScopeEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 5.10, p.204
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - module: M2/AUTOSARTemplates/SystemTemplate/SWmapping.py (moved from the
+    PrimitiveTypes.py hint — Rule 0007 Package row decision, see Step 1 finding)
+  - Step 1 finding: Table 5.10 is a page-split table — fragment A (Enumeration header,
+    Package `M2::AUTOSARTemplates::SystemTemplate::SWmapping`, Note "Defines the scope
+    for the mapping constraints.", Aggregated by ComponentClustering.mappingScope,
+    ComponentSeparation.mappingScope, Literal/Description header + literal
+    mappingScopeCore idx0) renders BEFORE the caption under Table 5.9's caption (the
+    6ddfdbb3f page-split fragment), fragment B (repeated Enumeration header +
+    mappingScopeEcu idx1, mappingScopePartition idx2) after it — same shape as Table
+    3.125. Header Enumeration → AREnum. Note has NO Tags:/Stereotypes: tail. Three
+    literals in displayed order = XSD facet order = raw EnumerationLiteralIndex order
+    (all three agree, no Rule 0011 conflict): mappingScopeCore/mappingScopeEcu/
+    mappingScopePartition → member names MAPPING_SCOPE_CORE/MAPPING_SCOPE_ECU/
+    MAPPING_SCOPE_PARTITION, values the exact XSD MAPPING-SCOPE-ENUM--SIMPLE facets
+    (AUTOSAR_00052.xsd lines 140100-140120) "MAPPING-SCOPE-CORE"/"MAPPING-SCOPE-ECU"/
+    "MAPPING-SCOPE-PARTITION" (plain UPPER-KEBAB, no double-hyphen quirk, no xml.name
+    tags, no atp.Status=removed facets). pdf_page.py cites p.204. Placement per Rule
+    0007 (spec Package row): MOVES from the bare AREnum stub in PrimitiveTypes.py to
+    `SystemTemplate/SWmapping.py` next to its consumer ComponentClustering, in
+    spec-table order directly after it (Table 5.9 → 5.10, before Table 5.11
+    ComponentSeparation) — MacSec-enum precedent; safe (module is PEP 563; the
+    SWmapping import line drops the now-local name). Consumer ComponentClustering.
+    mappingScope already typed Optional[MappingScopeEnum]; parser level
+    readComponentClustering still instantiates the raw XSD facet tuple — upgraded to
+    `MappingScopeEnum()` at this sync; writer MAPPING-SCOPE already wired via
+    setChildElementOptionalLiteral — no change. The
+    test_group21_36_stub_classes.py STUBS entry (PrimitiveTypes/MappingScopeEnum/
+    AREnum) is removed with the move (MacSec precedent: stub rows leave at sync).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A: standalone AREnum, no own XML element (serialized as an attribute value on ComponentClustering.mappingScope / ComponentSeparation.mappingScope; round-trip covered by the consumer's parser/writer tests, which already assert the MAPPING-SCOPE facet values through write → re-parse)
+  - [x] Step 6 — Update parser & writer (Green) — N/A: standalone AREnum, no own XML element (writer MAPPING-SCOPE already wired via setChildElementOptionalLiteral; parser readComponentClustering upgraded from the raw XSD facet tuple to `MappingScopeEnum()` at this sync). Consumer test upgrades: TestComponentClustering._mapping_scope helper (model) + writer test _mapping_scope helper now instantiate `MappingScopeEnum()` and pass/compare the real constants MAPPING_SCOPE_CORE/ECU/PARTITION (wire-format XML assertions keep raw facet strings per Rule 0011 exception (a); parser test untouched — already wire-format only)
+  - [x] Step 7 — Update checklist comment
+  - Step 8: No deviations from Table 5.10 — three literals 1:1 (mappingScopeCore/mappingScopeEcu/mappingScopePartition), values the exact XSD MAPPING-SCOPE-ENUM--SIMPLE facets in facet order, Note verbatim ("Defines the scope for the mapping constraints." — no Tags tail), no atp.Status=removed facets, no missing referenced classes (no Base beyond AREnum; consumers ComponentClustering/ComponentSeparation exist). Placement notes (not spec deviations): (1) module moved from the PrimitiveTypes.py hint to SWmapping.py per the Rule 0007 Package row (see Step 1 finding); (2) within SWmapping.py the enum sits at the top after the imports, BEFORE its consumers — the module is NOT PEP 563 and ComponentClustering's `Optional[MappingScopeEnum]` signatures evaluate at class-definition time, so the spec-table-order slot directly after ComponentClustering (MacSec style, PEP 563 module) is not possible there; precedent SignalPaths.py (SwcToSwcOperationArgumentsDirectionEnum) / RteEventToOsTaskMapping.py (OsTaskPreemptabilityEnum) place the enum before its consumers. No stale legacy marker existed (bare `AREnum` stub — Rule 0023 removal a no-op); fresh 6-column enum checklist, no marker (batch 9b stamps). The test_group21_36_stub_classes.py STUBS row was removed with the move (MacSec precedent). Entry-time audit (pre-sync) would have FAILed ROWS (1 method vs 0 rows); post-sync audit PASS with STAMP INFO (deferred marker) as expected.
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-07 (22162 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit b42864d26
 
 - [ ] `ComponentSeparation` — MappingConstraint — R23-11 CP_TPS_SystemTemplate Table 5.11, p.205
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: Class table confirmed (not Enumeration): `Class |
+    ComponentSeparation` (concrete — XSD complexType abstract="false"). Package row
+    `M2::AUTOSARTemplates::SystemTemplate::SWmapping` → the stub already lives in the
+    leaf module `SystemTemplate/SWmapping.py` (moved there by the MappingConstraint
+    sync, commit a678eca67), subclassing MappingConstraint in spec-table order after
+    ComponentClustering. Base row `ARObject , MappingConstraint` → direct Python base
+    MappingConstraint (most-derived modeled ancestor). Table 5.11 carries exactly TWO
+    attribute rows (no page split; caption md l.5444, body l.5446-5454), displayed
+    order: mappingScope (MappingScopeEnum, 0..1, attr) then separatedComponent
+    (SwComponentPrototype, 0..2, iref — "InstanceRef implemented by:
+    ComponentInSystemInstanceRef"; XSD wrapper SEPARATED-COMPONENT-IREFS, item
+    SEPARATED-COMPONENT-IREF type COMPONENT-IN-SYSTEM-INSTANCE-REF,
+    pureMM.maxOccurs="2" → bounded many → List field). Both Notes carry no
+    Tags:/Stereotypes: tail; markdown wrap artifacts kept verbatim per the 6ddfdbb3f
+    precedent (class Note "If mapping Scope is not specified", mappingScope Note
+    "Component Separation mapping constraint"), the "InstanceRef implemented by:
+    ComponentInSystem InstanceRef" tail joined to the real class name
+    (ComponentInSystemInstanceRef). XSD element order (reader/writer): complexType
+    COMPONENT-SEPARATION sequence (AUTOSAR_00052.xsd l.20788) = AR-OBJECT group,
+    MAPPING-CONSTRAINT group (INTRODUCTION, VARIATION-POINT — via the abstract
+    read/writeMappingConstraint level), then own group COMPONENT-SEPARATION (l.20759):
+    MAPPING-SCOPE, SEPARATED-COMPONENT-IREFS — own-child order is the REVERSE of
+    ComponentClustering's (CLUSTERED-COMPONENT-IREFS, MAPPING-SCOPE): here MAPPING-SCOPE
+    comes first.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - Step 8: No accepted deviations from Table 5.11 — both attributes modeled exactly
+    (mappingScope as Optional[MappingScopeEnum]; separatedComponentIRefs as dedicated
+    List[ComponentInSystemInstanceRef] field + addSeparatedComponentIRef/
+    getSeparatedComponentIRefs — 0..2 bounded many → List, Rule 0001.4; verbatim Notes,
+    PEP 526 annotated assignments, blank-line separated blocks), full reader+writer
+    coverage through the new concrete readComponentSeparation/writeComponentSeparation
+    levels that call the abstract read/writeMappingConstraint level exactly once per
+    side (6ddfdbb3f precedent) with own children in XSD group order MAPPING-SCOPE,
+    SEPARATED-COMPONENT-IREFS (the reverse of ComponentClustering's own-child order).
+    Wiring upgrade: the SystemMapping MAPPING-CONSTRAINTS dispatcher
+    (readSystemMappingMappingConstraints/writeSystemMappingMappingConstraints) now
+    routes the COMPONENT-SEPARATION choice member through the concrete level instead of
+    the abstract read/writeMappingConstraint level. No stale legacy marker existed
+    (bare `pass` stub — Rule 0023 removal a no-op); fresh 6-column checklist, no marker
+    (batch 9b stamps). Referenced classes: ComponentInSystemInstanceRef — fully
+    synced/stamped; MappingScopeEnum — synced earlier in this batch (commit 4e3e9b2a2);
+    no referenced-but-missing classes (the MAPPING-CONSTRAINTS third choice member
+    SwcToEcuMappingConstraint remains unmodeled and is tracked by the MappingConstraint
+    row's Step 8 note — not this class's member). Docstring verbatim notes: markdown
+    wrap artifacts kept exactly as rendered per the 6ddfdbb3f precedent (class Note
+    "If mapping Scope is not specified", mappingScope Note "Component Separation
+    mapping constraint"); the "InstanceRef implemented by: ComponentInSystem
+    InstanceRef" tail joined to the real class name (ComponentInSystemInstanceRef).
+    The `# Spec verified:` marker is deferred to the batch 9b stamp per user
+    instruction (audit STAMP INFO as expected).
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-07 (22180 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 525ff2c22
 
 - [ ] `J1939ControllerApplicationToJ1939NmNodeMapping` — ARObject — R23-11 CP_TPS_SystemTemplate Table 5.12, p.207
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: Class table confirmed (not Enumeration). Base row verified = `ARObject`
+    (queue dash said ARObject — correct; `__init__(self)` shape, no parent/short_name). XSD
+    complexType sequence = AR-OBJECT group + J-1939-...-MAPPING group, NO VARIATION-POINT
+    anchor → no VariationPointCapable mixin. Package row
+    `M2::AUTOSARTemplates::SystemTemplate::SWmapping` → Rule 0007 placement is the
+    leaf-package module `SystemTemplate/SWmapping.py` next to the stamped Table 5.4–5.11
+    family (same MOVE precedent as SwcToApplicationPartitionMapping); the ArObject.py module
+    hint is wrong; stub-guard tuple + consumer imports (SystemTemplate/__init__.py,
+    arxml_parser.py) re-pointed. 2 attribute rows (displayed order), both `0..1 ref` →
+    `Optional[RefType]` with the Rule 0001.5 Ref suffix: j1939ControllerApplication →
+    j1939ControllerApplicationRef (ref target J1939ControllerApplication — existing ARElement
+    stub ARPackage.py:11530, queued Table 5.13 next; RefType per the family precedent), and
+    j1939NmNode → j1939NmNodeRef (ref target J1939NmNode — fully synced,
+    SystemTemplate/NetworkManagement.py). XSD element order = J-1939-CONTROLLER-APPLICATION-REF,
+    J-1939-NM-NODE-REF (same as displayed order). The j1939NmNode Note's
+    "J1939Controller ApplicationTo1939NmNodeMapping" is the markdown wrap of
+    "J1939ControllerApplicationTo1939NmNodeMapping" (joined per the 6ddfdbb3f
+    ComponentInSystemInstanceRef precedent) keeping the spec's own missing-J typo, which both
+    markdown and XSD carry verbatim.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - Step 8: No accepted deviations from Table 5.12 — both attributes modeled (0..1 ref →
+    Optional[RefType] with the Rule 0001.5 Ref suffix), verbatim Notes, full reader+writer
+    coverage at the dedicated read/write level (read/writeJ1939ControllerApplicationToJ1939Nm
+    NodeMapping calling readARObject/writeARObject once per side; SystemMapping dispatch
+    upgraded from the 1fa8787ea identity-only debt). No stale legacy marker existed (the
+    pre-sync stub was a bare `pass` in ArObject.py — no checklist, no `# Spec verified:` line,
+    so Rule 0023 removal was a no-op); the checklist is fresh 6-column format. Placement MOVE
+    per Rule 0007 (not a deviation): ArObject.py hint → SystemTemplate/SWmapping.py (Package
+    row `M2::AUTOSARTemplates::SystemTemplate::SWmapping`, leaf package, stamped Table
+    5.4–5.11 family already lives there); imports re-pointed in SystemTemplate/__init__.py,
+    arxml_parser.py (writer gained its first SWmapping-type import for the writer annotation),
+    test_SystemMapping.py, parser/writer test_system_mapping.py, and the
+    test_group21_36_stub_classes.py STUBS tuple module. Referenced-but-missing class (Rule
+    0001.10, reported not blocking): J1939ControllerApplication — ref target of
+    j1939ControllerApplication, exists as an ARElement whole-class stub (ARPackage.py:11530,
+    bare `pass`), queued NEXT in this batch (Table 5.13); the ref stays RefType per the family
+    precedent (SwcToApplicationPartitionMapping.applicationPartitionRef). Remark (not a
+    deviation): the j1939NmNode Note's "J1939Controller ApplicationTo1939NmNodeMapping" is
+    the markdown wrap of "J1939ControllerApplicationTo1939NmNodeMapping" (joined per the
+    6ddfdbb3f ComponentInSystemInstanceRef precedent) keeping the spec's own missing-J typo,
+    carried verbatim by both markdown and XSD. The `# Spec verified:` marker is deferred to
+    the batch 9b stamp per user instruction (Step 7 wrote the 6-column checklist without it;
+    audit STAMP INFO as expected).
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-07 (22193 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 7ffd51701
 
 - [ ] `J1939ControllerApplication` — ARElement — R23-11 CP_TPS_SystemTemplate Table 5.13, p.207
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: Class table confirmed (not Enumeration; p.207 via pdf_page.py). Package
+    row `M2::AUTOSARTemplates::SystemTemplate::SWmapping` → Rule 0007 placement is the
+    leaf-package module `SystemTemplate/SWmapping.py` next to the stamped Table 5.2–5.12
+    family and the ARElement sibling ApplicationPartition (9241a3d9f) — same MOVE precedent;
+    the ARPackage.py module hint is wrong. Whole-class stub (ARPackage.py:11530, bare
+    `pass`) + its `__all__` entry (ARPackage.py:410) move out; stub-guard tuple in
+    test_group21_36_stub_classes.py re-pointed to SWmapping; ARPackage gains
+    `createJ1939ControllerApplication` factory + bottom import; SystemTemplate/__init__.py
+    gains the import + `__all__` entry. Base row verified = `ARElement` (most-derived of
+    ARElement, ARObject, CollectableElement, Identifiable, MultilanguageReferrable,
+    PackageableElement, Referrable) → `__init__(self, parent, short_name)`. Aggregated by
+    `ARPackage.element` → readARPackageElements + writeARPackageElement branches. No
+    VARIATION-POINT anchor in the complexType → no VariationPointCapable mixin. 2 attribute
+    rows (displayed order): functionId (PositiveInteger, 0..1, attr) → `Optional[
+    PositiveInteger]` get/setFunctionId; swComponentPrototype (SwComponentPrototype, 0..1,
+    iref, Note ends "InstanceRef implemented by: ComponentInSystem InstanceRef" — wrap
+    joined per the 6ddfdbb3f precedent) → `swComponentPrototypeIRef: Optional[
+    ComponentInSystemInstanceRef]` get/setSwComponentPrototypeIRef (same-file precedent
+    SwcToApplicationPartitionMapping). XSD group J-1939-CONTROLLER-APPLICATION
+    (AUTOSAR_00052.xsd l.75176): FUNCTION-ID, SW-COMPONENT-PROTOTYPE-IREF — same as
+    displayed order. constr_5493 (Existence of J1939ControllerApplication.functionId)
+    targets this class → appended to the class docstring per Rule 0012.2.4;
+    constr_3239/constr_3240 target the Table 5.12 mapping's roles (its own sync did not
+    absorb them — kept consistent). No stale legacy `# Spec verified:` marker (the stub is
+    a bare `pass` — Rule 0023 removal is a no-op).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - Step 8: No accepted deviations from Table 5.13 — both attribute rows modeled (functionId
+    0..1 attr → `Optional[PositiveInteger]`; swComponentPrototype 0..1 iref →
+    `swComponentPrototypeIRef: Optional[ComponentInSystemInstanceRef]`, concrete InstanceRef
+    type per the Note's "InstanceRef implemented by:" and the SwcToApplicationPartitionMapping
+    same-file precedent), verbatim Notes (class Note + constr_5493 appended per Rule 0012.2.4),
+    full reader+writer coverage at the dedicated read/write level
+    (read/writeJ1939ControllerApplication calling readIdentifiable/writeIdentifiable once per
+    side; own fields in XSD order FUNCTION-ID, SW-COMPONENT-PROTOTYPE-IREF). No aggregator
+    dispatch needed upgrading: no J-1939-CONTROLLER-APPLICATION-REFS wrapper exists in the XSD
+    or on J1939NmNode; SystemMapping's mapping refs are RefType-typed per the family precedent.
+    No stale legacy `# Spec verified:` marker existed (pre-sync stub was a bare `pass` — Rule
+    0023 removal a no-op); checklist is fresh 6-column format. Placement MOVE per Rule 0007
+    (not a deviation): ARPackage.py hint → SystemTemplate/SWmapping.py (Package row
+    `M2::AUTOSARTemplates::SystemTemplate::SWmapping`, leaf package, stamped family + ARElement
+    sibling ApplicationPartition already live there); ARPackage `__all__` entry removed,
+    `createJ1939ControllerApplication` factory + bottom import added,
+    SystemTemplate/__init__.py import + `__all__` entry added, stub-guard tuple re-pointed.
+    The `# Spec verified:` marker is deferred to the batch 9b stamp per user instruction
+    (Step 7 wrote the 6-column checklist without it; audit STAMP INFO as expected).
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-07 (22211 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit bf314fe2f
 

@@ -192,9 +192,9 @@ class TestSystemTemplate:
         assert "sw_cluster_mapping" in mapping.getSwClusterMappings()
         assert mapping == mapping.addSwClusterMapping("sw_cluster_mapping2")
 
-        mapping.addSwcToApplicationPartitionMappings("swc_app_mapping")
+        mapping.addSwcToApplicationPartitionMapping("swc_app_mapping")
         assert "swc_app_mapping" in mapping.getSwcToApplicationPartitionMappings()
-        assert mapping == mapping.addSwcToApplicationPartitionMappings("swc_app_mapping2")
+        assert mapping == mapping.addSwcToApplicationPartitionMapping("swc_app_mapping2")
 
         mapping.addSystemSignalGroupToComResourceMapping("signal_group_mapping")
         assert "signal_group_mapping" in mapping.getSystemSignalGroupToComResourceMappings()
@@ -221,11 +221,6 @@ class TestSystemTemplate:
         swc_mapping = mapping.createSwcToEcuMapping("swc_mapping_name")
         assert swc_mapping is not None
         assert swc_mapping in mapping.getSwMappings()
-
-        # Test getSwcToEcuMappings to cover line 291
-        swc_to_ecu_mappings = mapping.getSwcToEcuMappings()
-        assert swc_mapping in swc_to_ecu_mappings
-        assert isinstance(swc_to_ecu_mappings, list)
 
     def test_root_sw_composition_prototype(self):
         """

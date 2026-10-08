@@ -25,13 +25,25 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import (
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.PncMapping import PncMapping, PncMappingIdent
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SignalPaths import CommonSignalPath, SignalPathConstraint, SwcToSwcOperationArguments, SwcToSwcOperationArgumentsDirectionEnum, SwcToSwcSignal
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import ApplicationPartitionToEcuPartitionMapping, SwcToEcuMapping, SwcToImplMapping
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import (
+    ApplicationPartition,
+    ApplicationPartitionToEcuPartitionMapping,
+    EcuResourceEstimation,
+    J1939ControllerApplication,
+    J1939ControllerApplicationToJ1939NmNodeMapping,
+    MappingConstraint,
+    MappingScopeEnum,
+    SwcToApplicationPartitionMapping,
+    SwcToEcuMapping,
+    SwcToImplMapping,
+)
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster import (
     CpSoftwareCluster,
     CpSoftwareClusterMappingSet,
     CpSoftwareClusterResourceToApplicationPartitionMapping,
     CpSoftwareClusterToApplicationPartitionMapping,
     CpSoftwareClusterToEcuInstanceMapping,
+    CpSoftwareClusterToResourceMapping,
     SwComponentPrototypeAssignment,
     SystemSignalGroupToCommunicationResourceMapping,
     SystemSignalToCommunicationResourceMapping,
@@ -40,6 +52,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
+    PortElementToCommunicationResourceMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     ByteOrderEnum,
@@ -130,145 +143,236 @@ class ComManagementMapping(Identifiable, VariationPointCapable):
 
 class SystemMapping(Identifiable, VariationPointCapable):
     """
-    Represents system mapping in the AUTOSAR system, organizing
-    various types of mappings including application partition mappings,
-    ECU resource mappings, data mappings, and software component mappings
-    for comprehensive system configuration.
+    The system mapping aggregates all mapping aspects (mapping of SW components to ECUs, mapping of data elements to signals, and mapping constraints).
     """
 
     # SystemMapping method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getApplicationPartitionToEcuPartitionMappings [x] impl  [ ] docstring  [ ] test
-    # [ ] addApplicationPartitionToEcuPartitionMapping [x] impl  [ ] docstring  [ ] test
-    # [ ] createApplicationPartitionToEcuPartitionMapping [x] impl  [ ] docstring  [ ] test
-    # [ ] getAppOsTaskProxyToEcuTaskProxyMappings [x] impl  [ ] docstring  [ ] test
-    # [ ] addAppOsTaskProxyToEcuTaskProxyMapping [x] impl  [ ] docstring  [ ] test
-    # [ ] createAppOsTaskProxyToEcuTaskProxyMapping [x] impl  [ ] docstring  [ ] test
-    # [ ] getComManagementMappings     [x] impl  [ ] docstring  [ ] test
-    # [ ] addComManagementMapping      [x] impl  [ ] docstring  [ ] test
-    # [ ] createComManagementMapping   [x] impl  [ ] docstring  [ ] test
-    # [ ] getCryptoServiceMappings     [x] impl  [ ] docstring  [ ] test
-    # [ ] addCryptoServiceMapping      [x] impl  [ ] docstring  [ ] test
-    # [ ] getDataMappings              [x] impl  [ ] docstring  [ ] test
-    # [ ] addDataMapping               [x] impl  [ ] docstring  [ ] test
-    # [ ] getDdsISignalToTopicMappings  [x] impl  [ ] docstring  [ ] test
-    # [ ] addDdsISignalToTopicMapping  [x] impl  [ ] docstring  [ ] test
-    # [ ] getEcuResourceMappings       [x] impl  [ ] docstring  [ ] test
-    # [ ] createECUMapping             [x] impl  [ ] docstring  [ ] test
-    # [ ] getJ1939ControllerApplicationToJ1939NmNodeMappings [x] impl  [ ] docstring  [ ] test
-    # [ ] addJ1939ControllerApplicationToJ1939NmNodeMapping [x] impl  [ ] docstring  [ ] test
-    # [ ] getMappingConstraints        [x] impl  [ ] docstring  [ ] test
-    # [ ] addMappingConstraint         [x] impl  [ ] docstring  [ ] test
-    # [ ] getPncMappings               [x] impl  [ ] docstring  [ ] test
-    # [ ] addPncMapping                [x] impl  [ ] docstring  [ ] test
-    # [ ] getPortElementToComResourceMappings [x] impl  [ ] docstring  [ ] test
-    # [ ] addPortElementToComResourceMapping [x] impl  [ ] docstring  [ ] test
-    # [ ] getResourceEstimations       [x] impl  [ ] docstring  [ ] test
-    # [ ] addResourceEstimation        [x] impl  [ ] docstring  [ ] test
-    # [ ] getResourceToApplicationPartitionMappings [x] impl  [ ] docstring  [ ] test
-    # [ ] addResourceToApplicationPartitionMapping [x] impl  [ ] docstring  [ ] test
-    # [ ] getRteEventSeparations       [x] impl  [ ] docstring  [ ] test
-    # [ ] addRteEventSeparation        [x] impl  [ ] docstring  [ ] test
-    # [ ] getRteEventToOsTaskProxyMappings [x] impl  [ ] docstring  [ ] test
-    # [ ] addRteEventToOsTaskProxyMapping [x] impl  [ ] docstring  [ ] test
-    # [ ] getSignalPathConstraints     [x] impl  [ ] docstring  [ ] test
-    # [ ] addSignalPathConstraint      [x] impl  [ ] docstring  [ ] test
-    # [ ] getSoftwareClusterToApplicationPartitionMappings [x] impl  [ ] docstring  [ ] test
-    # [ ] addSoftwareClusterToApplicationPartitionMapping [x] impl  [ ] docstring  [ ] test
-    # [ ] getSoftwareClusterToResourceMappings [x] impl  [ ] docstring  [ ] test
-    # [ ] addSoftwareClusterToResourceMapping [x] impl  [ ] docstring  [ ] test
-    # [ ] getSwClusterMappings         [x] impl  [ ] docstring  [ ] test
-    # [ ] addSwClusterMapping          [x] impl  [ ] docstring  [ ] test
-    # [ ] getSwcToApplicationPartitionMappings [x] impl  [ ] docstring  [ ] test
-    # [ ] addSwcToApplicationPartitionMappings [x] impl  [ ] docstring  [ ] test
-    # [ ] getSwImplMappings            [x] impl  [ ] docstring  [ ] test
-    # [ ] createSwcToImplMapping       [x] impl  [ ] docstring  [ ] test
-    # [ ] getSwMappings                [x] impl  [ ] docstring  [ ] test
-    # [ ] getSwcToEcuMappings          [x] impl  [ ] docstring  [ ] test
-    # [ ] createSwcToEcuMapping        [x] impl  [ ] docstring  [ ] test
-    # [ ] getSystemSignalGroupToComResourceMappings [x] impl  [ ] docstring  [ ] test
-    # [ ] addSystemSignalGroupToComResourceMapping [x] impl  [ ] docstring  [ ] test
-    # [ ] getSystemSignalToComResourceMappings [x] impl  [ ] docstring  [ ] test
-    # [ ] addSystemSignalToComResourceMapping [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 5.1, p.193
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addApplicationPartitionToEcuPartitionMapping        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createApplicationPartitionToEcuPartitionMapping     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getApplicationPartitionToEcuPartitionMappings       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addAppOsTaskProxyToEcuTaskProxyMapping              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createAppOsTaskProxyToEcuTaskProxyMapping           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAppOsTaskProxyToEcuTaskProxyMappings             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addComManagementMapping                             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createComManagementMapping                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getComManagementMappings                            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addCryptoServiceMapping                             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createSecOcCryptoServiceMapping                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createTlsCryptoServiceMapping                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCryptoServiceMappings                            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addDataMapping                                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDataMappings                                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addDdsISignalToTopicMapping                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDdsISignalToTopicMappings                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createECUMapping                                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEcuResourceMappings                              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addJ1939ControllerApplicationToJ1939NmNodeMapping   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getJ1939ControllerApplicationToJ1939NmNodeMappings  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addMappingConstraint                                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMappingConstraints                               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addPncMapping                                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPncMappings                                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addPortElementToComResourceMapping                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createPortElementToComResourceMapping               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPortElementToComResourceMappings                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addResourceEstimation                               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getResourceEstimations                              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addResourceToApplicationPartitionMapping            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getResourceToApplicationPartitionMappings           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addRteEventSeparation                               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRteEventSeparations                              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addRteEventToOsTaskProxyMapping                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRteEventToOsTaskProxyMappings                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addSignalPathConstraint                             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSignalPathConstraints                            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addSoftwareClusterToApplicationPartitionMapping     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSoftwareClusterToApplicationPartitionMappings    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addSoftwareClusterToResourceMapping                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSoftwareClusterToResourceMappings                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addSwClusterMapping                                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwClusterMappings                                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addSwcToApplicationPartitionMapping                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createSwcToApplicationPartitionMapping              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwcToApplicationPartitionMappings                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createSwcToImplMapping                              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwImplMappings                                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createSwcToEcuMapping                               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwMappings                                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addSystemSignalGroupToComResourceMapping            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSystemSignalGroupToComResourceMappings           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addSystemSignalToComResourceMapping                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSystemSignalToComResourceMappings                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
+        # Mapping of ApplicationPartitions to EcuPartitions Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=applicationPartitionToEcuPartitionMapping.shortName, applicationPartitionToEcuPartitionMapping.variationPoint.shortLabel vh.latestBindingTime=postBuild
         self.applicationPartitionToEcuPartitionMappings: List[ApplicationPartitionToEcuPartitionMapping] = []
+
+        # Mapping of an OsTaskProxy that was created in the context of a SwComponent to an OsTaskProxy that was created in the context of an Ecu.
         self.appOsTaskProxyToEcuTaskProxyMappings: List[AppOsTaskProxyToEcuTaskProxyMapping] = []
+
+        # Mappings between Mode Management PortGroups and communication channels. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=comManagementMapping.shortName, comManagementMapping.variationPoint.shortLabel vh.latestBindingTime=systemDesignTime
         self.comManagementMappings: List[ComManagementMapping] = []
+
+        # This aggregation represents the collection of crypto service mappings in the context of the enclosing System Mapping. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=cryptoServiceMapping.shortName, cryptoServiceMapping.variationPoint.shortLabel vh.latestBindingTime=postBuild
         self.cryptoServiceMappings: List[CryptoServiceMapping] = []
+
+        # The data mappings defined. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=dataMapping, dataMapping.variationPoint.shortLabel vh.latestBindingTime=postBuild
         self.dataMappings: List[DataMapping] = []
+
+        # Collection of DdsISignalToDdsTopicMappings. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=ddsISignalToTopicMapping, ddsISignalToTopicMapping.variationPoint.shortLabel atp.Status=candidate vh.latestBindingTime=postBuild
         self.ddsISignalToTopicMappings: List[DdsCpISignalToDdsTopicMapping] = []
+
+        # Mapping of hardware related topology elements onto their counterpart definitions in the ECU Resource Template. atpVariation: The ECU Resource type might be variable. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=ecuResourceMapping.shortName, ecuResourceMapping.variationPoint.shortLabel vh.latestBindingTime=systemDesignTime
         self.ecuResourceMappings: List[ECUMapping] = []
-        self.j1939ControllerApplicationToJ1939NmNodeMappings: List = []
-        self.mappingConstraints: List = []
-        self.pncMappings: List = []
-        self.portElementToComResourceMappings: List = []
-        self.resourceEstimations: List = []
-        self.resourceToApplicationPartitionMappings: List = []
-        self.rteEventSeparations: List = []
-        self.rteEventToOsTaskProxyMappings: List = []
-        self.signalPathConstraints: List = []
-        self.softwareClusterToApplicationPartitionMappings: List = []
-        self.softwareClusterToResourceMappings: List = []
-        self.swClusterMappings: List = []
-        self.swcToApplicationPartitionMappings: List = []
+
+        # Mapping of a J1939ControllerApplication to a J1939NmNode.
+        self.j1939ControllerApplicationToJ1939NmNodeMappings: List[J1939ControllerApplicationToJ1939NmNodeMapping] = []
+
+        # Constraints that limit the mapping freedom for the mapping of SW components to ECUs. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=mappingConstraint, mappingConstraint.variationPoint.shortLabel vh.latestBindingTime=systemDesignTime
+        self.mappingConstraints: List[MappingConstraint] = []
+
+        # Mappings between Virtual Function Clusters and Partial Network Clusters. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=pncMapping, pncMapping.variationPoint.shortLabel vh.latestBindingTime=systemDesignTime
+        self.pncMappings: List[PncMapping] = []
+
+        # maps a communication resource to CP Software Clusters Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=portElementToComResourceMapping.shortName, portElementToComResourceMapping.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        self.portElementToComResourceMappings: List[PortElementToCommunicationResourceMapping] = []
+
+        # Resource estimations for this set of mappings, zero or one per ECU instance. atpVariation: Used ECUs are variable. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=resourceEstimation, resourceEstimation.variationPoint.shortLabel vh.latestBindingTime=systemDesignTime
+        self.resourceEstimations: List[EcuResourceEstimation] = []
+
+        # Maps a Software Cluster resource to an Application Partition to restrict the usage. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=resourceToApplicationPartitionMapping.shortName, resourceToApplicationPartitionMapping.variationPoint.shortLabel vh.latestBindingTime=systemDesignTime
+        self.resourceToApplicationPartitionMappings: List[CpSoftwareClusterResourceToApplicationPartitionMapping] = []
+
+        # Separation constraint that limits the mapping freedom for the mapping of RteEvents to OsTasks in the System context.
+        self.rteEventSeparations: List[RteEventInSystemSeparation] = []
+
+        # Constraint that enforces a mapping of RteEvent to a particular OsTask in the System context.
+        self.rteEventToOsTaskProxyMappings: List[RteEventInSystemToOsTaskProxyMapping] = []
+
+        # Constraints that limit the mapping freedom for the mapping of data elements to signals. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=signalPathConstraint, signalPathConstraint.variationPoint.shortLabel vh.latestBindingTime=systemDesignTime
+        self.signalPathConstraints: List[SignalPathConstraint] = []
+
+        # The mapping of ApplicationPartitions to a CpSoftwareCluster. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=softwareClusterToApplicationPartitionMapping.shortName, softwareClusterToApplicationPartitionMapping.variationPoint.shortLabel vh.latestBindingTime=systemDesignTime
+        self.softwareClusterToApplicationPartitionMappings: List[CpSoftwareClusterToApplicationPartitionMapping] = []
+
+        # maps a service resource to CP Software Clusters Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=softwareClusterToResourceMapping.shortName, softwareClusterToResourceMapping.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+        self.softwareClusterToResourceMappings: List[CpSoftwareClusterToResourceMapping] = []
+
+        # The mappings of SW cluster to ECUs. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=swClusterMapping.shortName, swClusterMapping.variationPoint.shortLabel vh.latestBindingTime=systemDesignTime
+        self.swClusterMappings: List[CpSoftwareClusterToEcuInstanceMapping] = []
+
+        # Allows to map a given SwComponentPrototype to a formally defined partition at a point in time when the corresponding EcuInstance is not yet known or defined. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=swcToApplicationPartitionMapping.shortName, swcToApplicationPartitionMapping.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        self.swcToApplicationPartitionMappings: List[SwcToApplicationPartitionMapping] = []
+
+        # The mappings of AtomicSoftwareComponent Instances to Implementations. atpVariation: Derived, because SwcToEcuMapping is variable. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=swImplMapping.shortName, swImplMapping.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
         self.swImplMappings: List[SwcToImplMapping] = []
+
+        # The mappings of SW components to ECUs. atpVariation: SWC shall be mapped to other ECUs. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=swMapping.shortName, swMapping.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
         self.swMappings: List[SwcToEcuMapping] = []
-        self.systemSignalGroupToComResourceMappings: List = []
-        self.systemSignalToComResourceMappings: List = []
 
-    def getApplicationPartitionToEcuPartitionMappings(self):
-        return self.applicationPartitionToEcuPartitionMappings
+        # Mapping of a communication resource to a SystemSignalGroup. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=systemSignalGroupToComResourceMapping.shortName, systemSignalGroupToComResourceMapping.variationPoint.shortLabel vh.latestBindingTime=systemDesignTime
+        self.systemSignalGroupToComResourceMappings: List[SystemSignalGroupToCommunicationResourceMapping] = []
 
-    def addApplicationPartitionToEcuPartitionMapping(self, value):
-        self.applicationPartitionToEcuPartitionMappings.append(value)
+        # Mapping of a communication resource to a SystemSignal. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=systemSignalToComResourceMapping.shortName, systemSignalToComResourceMapping.variationPoint.shortLabel vh.latestBindingTime=systemDesignTime
+        self.systemSignalToComResourceMappings: List[SystemSignalToCommunicationResourceMapping] = []
+
+    def addApplicationPartitionToEcuPartitionMapping(self, value: Optional[ApplicationPartitionToEcuPartitionMapping]) -> "SystemMapping":
+        """
+        Mapping of ApplicationPartitions to EcuPartitions Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=applicationPartitionToEcuPartitionMapping.shortName, applicationPartitionToEcuPartitionMapping.variationPoint.shortLabel vh.latestBindingTime=postBuild
+
+        A None value is a no-op and does not add to applicationPartitionToEcuPartitionMappings.
+        """
+        if value is not None:
+            self.applicationPartitionToEcuPartitionMappings.append(value)
         return self
 
     def createApplicationPartitionToEcuPartitionMapping(self, short_name: str) -> ApplicationPartitionToEcuPartitionMapping:
+        """
+        Mapping of ApplicationPartitions to EcuPartitions Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=applicationPartitionToEcuPartitionMapping.shortName, applicationPartitionToEcuPartitionMapping.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
         if not self.IsReferrableElementExists(short_name, ApplicationPartitionToEcuPartitionMapping):
             mapping = ApplicationPartitionToEcuPartitionMapping(self, short_name)
             self.addReferrableElement(mapping)
             self.applicationPartitionToEcuPartitionMappings.append(mapping)
         return cast(ApplicationPartitionToEcuPartitionMapping, self.getReferrableElement(short_name, ApplicationPartitionToEcuPartitionMapping))
 
-    def getAppOsTaskProxyToEcuTaskProxyMappings(self):
-        return self.appOsTaskProxyToEcuTaskProxyMappings
+    def getApplicationPartitionToEcuPartitionMappings(self) -> List[ApplicationPartitionToEcuPartitionMapping]:
+        """
+        Mapping of ApplicationPartitions to EcuPartitions Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=applicationPartitionToEcuPartitionMapping.shortName, applicationPartitionToEcuPartitionMapping.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
+        return self.applicationPartitionToEcuPartitionMappings
 
-    def addAppOsTaskProxyToEcuTaskProxyMapping(self, value):
-        self.appOsTaskProxyToEcuTaskProxyMappings.append(value)
+    def addAppOsTaskProxyToEcuTaskProxyMapping(self, value: Optional[AppOsTaskProxyToEcuTaskProxyMapping]) -> "SystemMapping":
+        """
+        Mapping of an OsTaskProxy that was created in the context of a SwComponent to an OsTaskProxy that was created in the context of an Ecu.
+
+        A None value is a no-op and does not add to appOsTaskProxyToEcuTaskProxyMappings.
+        """
+        if value is not None:
+            self.appOsTaskProxyToEcuTaskProxyMappings.append(value)
         return self
 
     def createAppOsTaskProxyToEcuTaskProxyMapping(self, short_name: str) -> AppOsTaskProxyToEcuTaskProxyMapping:
+        """
+        Mapping of an OsTaskProxy that was created in the context of a SwComponent to an OsTaskProxy that was created in the context of an Ecu.
+        """
         if not self.IsReferrableElementExists(short_name, AppOsTaskProxyToEcuTaskProxyMapping):
             mapping = AppOsTaskProxyToEcuTaskProxyMapping(self, short_name)
             self.addReferrableElement(mapping)
             self.appOsTaskProxyToEcuTaskProxyMappings.append(mapping)
         return cast(AppOsTaskProxyToEcuTaskProxyMapping, self.getReferrableElement(short_name, AppOsTaskProxyToEcuTaskProxyMapping))
 
-    def getComManagementMappings(self):
-        return self.comManagementMappings
+    def getAppOsTaskProxyToEcuTaskProxyMappings(self) -> List[AppOsTaskProxyToEcuTaskProxyMapping]:
+        """
+        Mapping of an OsTaskProxy that was created in the context of a SwComponent to an OsTaskProxy that was created in the context of an Ecu.
+        """
+        return self.appOsTaskProxyToEcuTaskProxyMappings
 
-    def addComManagementMapping(self, value):
-        self.comManagementMappings.append(value)
+    def addComManagementMapping(self, value: Optional[ComManagementMapping]) -> "SystemMapping":
+        """
+        Mappings between Mode Management PortGroups and communication channels. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=comManagementMapping.shortName, comManagementMapping.variationPoint.shortLabel vh.latestBindingTime=systemDesignTime
+
+        A None value is a no-op and does not add to comManagementMappings.
+        """
+        if value is not None:
+            self.comManagementMappings.append(value)
         return self
 
     def createComManagementMapping(self, short_name: str) -> ComManagementMapping:
+        """
+        Mappings between Mode Management PortGroups and communication channels. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=comManagementMapping.shortName, comManagementMapping.variationPoint.shortLabel vh.latestBindingTime=systemDesignTime
+        """
         if not self.IsReferrableElementExists(short_name, ComManagementMapping):
             mapping = ComManagementMapping(self, short_name)
             self.addReferrableElement(mapping)
             self.comManagementMappings.append(mapping)
         return cast(ComManagementMapping, self.getReferrableElement(short_name, ComManagementMapping))
 
-    def getCryptoServiceMappings(self):
-        return self.cryptoServiceMappings
+    def getComManagementMappings(self) -> List[ComManagementMapping]:
+        """
+        Mappings between Mode Management PortGroups and communication channels. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=comManagementMapping.shortName, comManagementMapping.variationPoint.shortLabel vh.latestBindingTime=systemDesignTime
+        """
+        return self.comManagementMappings
 
-    def addCryptoServiceMapping(self, value):
-        self.cryptoServiceMappings.append(value)
+    def addCryptoServiceMapping(self, value: Optional[CryptoServiceMapping]) -> "SystemMapping":
+        """
+        This aggregation represents the collection of crypto service mappings in the context of the enclosing System Mapping. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=cryptoServiceMapping.shortName, cryptoServiceMapping.variationPoint.shortLabel vh.latestBindingTime=postBuild
+
+        A None value is a no-op and does not add to cryptoServiceMappings.
+        """
+        if value is not None:
+            self.cryptoServiceMappings.append(value)
         return self
 
     def createSecOcCryptoServiceMapping(self, short_name: str) -> SecOcCryptoServiceMapping:
+        """
+        This aggregation represents the collection of crypto service mappings in the context of the enclosing System Mapping. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=cryptoServiceMapping.shortName, cryptoServiceMapping.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
         if not self.IsReferrableElementExists(short_name, SecOcCryptoServiceMapping):
             mapping = SecOcCryptoServiceMapping(self, short_name)
             self.addReferrableElement(mapping)
@@ -276,163 +380,360 @@ class SystemMapping(Identifiable, VariationPointCapable):
         return cast(SecOcCryptoServiceMapping, self.getReferrableElement(short_name, SecOcCryptoServiceMapping))
 
     def createTlsCryptoServiceMapping(self, short_name: str) -> TlsCryptoServiceMapping:
+        """
+        This aggregation represents the collection of crypto service mappings in the context of the enclosing System Mapping. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=cryptoServiceMapping.shortName, cryptoServiceMapping.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
         if not self.IsReferrableElementExists(short_name, TlsCryptoServiceMapping):
             mapping = TlsCryptoServiceMapping(self, short_name)
             self.addReferrableElement(mapping)
             self.cryptoServiceMappings.append(mapping)
         return cast(TlsCryptoServiceMapping, self.getReferrableElement(short_name, TlsCryptoServiceMapping))
 
-    def getDataMappings(self):
+    def getCryptoServiceMappings(self) -> List[CryptoServiceMapping]:
+        """
+        This aggregation represents the collection of crypto service mappings in the context of the enclosing System Mapping. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=cryptoServiceMapping.shortName, cryptoServiceMapping.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
+        return self.cryptoServiceMappings
+
+    def addDataMapping(self, value: Optional[DataMapping]) -> "SystemMapping":
+        """
+        The data mappings defined. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=dataMapping, dataMapping.variationPoint.shortLabel vh.latestBindingTime=postBuild
+
+        A None value is a no-op and does not add to dataMappings.
+        """
+        if value is not None:
+            self.dataMappings.append(value)
+        return self
+
+    def getDataMappings(self) -> List[DataMapping]:
+        """
+        The data mappings defined. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=dataMapping, dataMapping.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
         return self.dataMappings
 
-    def addDataMapping(self, value):
-        self.dataMappings.append(value)
+    def addDdsISignalToTopicMapping(self, value: Optional[DdsCpISignalToDdsTopicMapping]) -> "SystemMapping":
+        """
+        Collection of DdsISignalToDdsTopicMappings. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=ddsISignalToTopicMapping, ddsISignalToTopicMapping.variationPoint.shortLabel atp.Status=candidate vh.latestBindingTime=postBuild
+
+        A None value is a no-op and does not add to ddsISignalToTopicMappings.
+        """
+        if value is not None:
+            self.ddsISignalToTopicMappings.append(value)
         return self
 
     def getDdsISignalToTopicMappings(self) -> List[DdsCpISignalToDdsTopicMapping]:
+        """
+        Collection of DdsISignalToDdsTopicMappings. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=ddsISignalToTopicMapping, ddsISignalToTopicMapping.variationPoint.shortLabel atp.Status=candidate vh.latestBindingTime=postBuild
+        """
         return self.ddsISignalToTopicMappings
 
-    def addDdsISignalToTopicMapping(self, value):
-        self.ddsISignalToTopicMappings.append(value)
-        return self
-
-    def getEcuResourceMappings(self):
-        return self.ecuResourceMappings
-
     def createECUMapping(self, short_name: str) -> ECUMapping:
+        """
+        Mapping of hardware related topology elements onto their counterpart definitions in the ECU Resource Template. atpVariation: The ECU Resource type might be variable. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=ecuResourceMapping.shortName, ecuResourceMapping.variationPoint.shortLabel vh.latestBindingTime=systemDesignTime
+        """
         if not self.IsReferrableElementExists(short_name, ECUMapping):
             mapping = ECUMapping(self, short_name)
             self.addReferrableElement(mapping)
             self.ecuResourceMappings.append(mapping)
         return cast(ECUMapping, self.getReferrableElement(short_name, ECUMapping))
 
-    def getJ1939ControllerApplicationToJ1939NmNodeMappings(self):
+    def getEcuResourceMappings(self) -> List[ECUMapping]:
+        """
+        Mapping of hardware related topology elements onto their counterpart definitions in the ECU Resource Template. atpVariation: The ECU Resource type might be variable. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=ecuResourceMapping.shortName, ecuResourceMapping.variationPoint.shortLabel vh.latestBindingTime=systemDesignTime
+        """
+        return self.ecuResourceMappings
+
+    def addJ1939ControllerApplicationToJ1939NmNodeMapping(self, value: Optional[J1939ControllerApplicationToJ1939NmNodeMapping]) -> "SystemMapping":
+        """
+        Mapping of a J1939ControllerApplication to a J1939NmNode.
+
+        A None value is a no-op and does not add to j1939ControllerApplicationToJ1939NmNodeMappings.
+        """
+        if value is not None:
+            self.j1939ControllerApplicationToJ1939NmNodeMappings.append(value)
+        return self
+
+    def getJ1939ControllerApplicationToJ1939NmNodeMappings(self) -> List[J1939ControllerApplicationToJ1939NmNodeMapping]:
+        """
+        Mapping of a J1939ControllerApplication to a J1939NmNode.
+        """
         return self.j1939ControllerApplicationToJ1939NmNodeMappings
 
-    def addJ1939ControllerApplicationToJ1939NmNodeMapping(self, value):
-        self.j1939ControllerApplicationToJ1939NmNodeMappings.append(value)
+    def addMappingConstraint(self, value: Optional[MappingConstraint]) -> "SystemMapping":
+        """
+        Constraints that limit the mapping freedom for the mapping of SW components to ECUs. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=mappingConstraint, mappingConstraint.variationPoint.shortLabel vh.latestBindingTime=systemDesignTime
+
+        A None value is a no-op and does not add to mappingConstraints.
+        """
+        if value is not None:
+            self.mappingConstraints.append(value)
         return self
 
-    def getMappingConstraints(self):
+    def getMappingConstraints(self) -> List[MappingConstraint]:
+        """
+        Constraints that limit the mapping freedom for the mapping of SW components to ECUs. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=mappingConstraint, mappingConstraint.variationPoint.shortLabel vh.latestBindingTime=systemDesignTime
+        """
         return self.mappingConstraints
 
-    def addMappingConstraint(self, value):
-        self.mappingConstraints.append(value)
+    def addPncMapping(self, value: Optional[PncMapping]) -> "SystemMapping":
+        """
+        Mappings between Virtual Function Clusters and Partial Network Clusters. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=pncMapping, pncMapping.variationPoint.shortLabel vh.latestBindingTime=systemDesignTime
+
+        A None value is a no-op and does not add to pncMappings.
+        """
+        if value is not None:
+            self.pncMappings.append(value)
         return self
 
-    def getPncMappings(self):
+    def getPncMappings(self) -> List[PncMapping]:
+        """
+        Mappings between Virtual Function Clusters and Partial Network Clusters. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=pncMapping, pncMapping.variationPoint.shortLabel vh.latestBindingTime=systemDesignTime
+        """
         return self.pncMappings
 
-    def addPncMapping(self, value):
-        self.pncMappings.append(value)
+    def addPortElementToComResourceMapping(self, value: Optional[PortElementToCommunicationResourceMapping]) -> "SystemMapping":
+        """
+        maps a communication resource to CP Software Clusters Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=portElementToComResourceMapping.shortName, portElementToComResourceMapping.variationPoint.shortLabel vh.latestBindingTime=postBuild
+
+        A None value is a no-op and does not add to portElementToComResourceMappings.
+        """
+        if value is not None:
+            self.portElementToComResourceMappings.append(value)
         return self
 
-    def getPortElementToComResourceMappings(self):
+    def createPortElementToComResourceMapping(self, short_name: str) -> PortElementToCommunicationResourceMapping:
+        """
+        maps a communication resource to CP Software Clusters Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=portElementToComResourceMapping.shortName, portElementToComResourceMapping.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
+        if not self.IsReferrableElementExists(short_name, PortElementToCommunicationResourceMapping):
+            mapping = PortElementToCommunicationResourceMapping(self, short_name)
+            self.addReferrableElement(mapping)
+            self.portElementToComResourceMappings.append(mapping)
+        return cast(PortElementToCommunicationResourceMapping, self.getReferrableElement(short_name, PortElementToCommunicationResourceMapping))
+
+    def getPortElementToComResourceMappings(self) -> List[PortElementToCommunicationResourceMapping]:
+        """
+        maps a communication resource to CP Software Clusters Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=portElementToComResourceMapping.shortName, portElementToComResourceMapping.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
         return self.portElementToComResourceMappings
 
-    def addPortElementToComResourceMapping(self, value):
-        self.portElementToComResourceMappings.append(value)
+    def addResourceEstimation(self, value: Optional[EcuResourceEstimation]) -> "SystemMapping":
+        """
+        Resource estimations for this set of mappings, zero or one per ECU instance. atpVariation: Used ECUs are variable. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=resourceEstimation, resourceEstimation.variationPoint.shortLabel vh.latestBindingTime=systemDesignTime
+
+        A None value is a no-op and does not add to resourceEstimations.
+        """
+        if value is not None:
+            self.resourceEstimations.append(value)
         return self
 
-    def getResourceEstimations(self):
+    def getResourceEstimations(self) -> List[EcuResourceEstimation]:
+        """
+        Resource estimations for this set of mappings, zero or one per ECU instance. atpVariation: Used ECUs are variable. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=resourceEstimation, resourceEstimation.variationPoint.shortLabel vh.latestBindingTime=systemDesignTime
+        """
         return self.resourceEstimations
 
-    def addResourceEstimation(self, value):
-        self.resourceEstimations.append(value)
+    def addResourceToApplicationPartitionMapping(self, value: Optional[CpSoftwareClusterResourceToApplicationPartitionMapping]) -> "SystemMapping":
+        """
+        Maps a Software Cluster resource to an Application Partition to restrict the usage. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=resourceToApplicationPartitionMapping.shortName, resourceToApplicationPartitionMapping.variationPoint.shortLabel vh.latestBindingTime=systemDesignTime
+
+        A None value is a no-op and does not add to resourceToApplicationPartitionMappings.
+        """
+        if value is not None:
+            self.resourceToApplicationPartitionMappings.append(value)
         return self
 
-    def getResourceToApplicationPartitionMappings(self):
+    def getResourceToApplicationPartitionMappings(self) -> List[CpSoftwareClusterResourceToApplicationPartitionMapping]:
+        """
+        Maps a Software Cluster resource to an Application Partition to restrict the usage. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=resourceToApplicationPartitionMapping.shortName, resourceToApplicationPartitionMapping.variationPoint.shortLabel vh.latestBindingTime=systemDesignTime
+        """
         return self.resourceToApplicationPartitionMappings
 
-    def addResourceToApplicationPartitionMapping(self, value):
-        self.resourceToApplicationPartitionMappings.append(value)
+    def addRteEventSeparation(self, value: Optional[RteEventInSystemSeparation]) -> "SystemMapping":
+        """
+        Separation constraint that limits the mapping freedom for the mapping of RteEvents to OsTasks in the System context.
+
+        A None value is a no-op and does not add to rteEventSeparations.
+        """
+        if value is not None:
+            self.rteEventSeparations.append(value)
         return self
 
-    def getRteEventSeparations(self):
+    def getRteEventSeparations(self) -> List[RteEventInSystemSeparation]:
+        """
+        Separation constraint that limits the mapping freedom for the mapping of RteEvents to OsTasks in the System context.
+        """
         return self.rteEventSeparations
 
-    def addRteEventSeparation(self, value):
-        self.rteEventSeparations.append(value)
+    def addRteEventToOsTaskProxyMapping(self, value: Optional[RteEventInSystemToOsTaskProxyMapping]) -> "SystemMapping":
+        """
+        Constraint that enforces a mapping of RteEvent to a particular OsTask in the System context.
+
+        A None value is a no-op and does not add to rteEventToOsTaskProxyMappings.
+        """
+        if value is not None:
+            self.rteEventToOsTaskProxyMappings.append(value)
         return self
 
-    def getRteEventToOsTaskProxyMappings(self):
+    def getRteEventToOsTaskProxyMappings(self) -> List[RteEventInSystemToOsTaskProxyMapping]:
+        """
+        Constraint that enforces a mapping of RteEvent to a particular OsTask in the System context.
+        """
         return self.rteEventToOsTaskProxyMappings
 
-    def addRteEventToOsTaskProxyMapping(self, value):
-        self.rteEventToOsTaskProxyMappings.append(value)
+    def addSignalPathConstraint(self, value: Optional[SignalPathConstraint]) -> "SystemMapping":
+        """
+        Constraints that limit the mapping freedom for the mapping of data elements to signals. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=signalPathConstraint, signalPathConstraint.variationPoint.shortLabel vh.latestBindingTime=systemDesignTime
+
+        A None value is a no-op and does not add to signalPathConstraints.
+        """
+        if value is not None:
+            self.signalPathConstraints.append(value)
         return self
 
-    def getSignalPathConstraints(self):
+    def getSignalPathConstraints(self) -> List[SignalPathConstraint]:
+        """
+        Constraints that limit the mapping freedom for the mapping of data elements to signals. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=signalPathConstraint, signalPathConstraint.variationPoint.shortLabel vh.latestBindingTime=systemDesignTime
+        """
         return self.signalPathConstraints
 
-    def addSignalPathConstraint(self, value):
-        self.signalPathConstraints.append(value)
+    def addSoftwareClusterToApplicationPartitionMapping(self, value: Optional[CpSoftwareClusterToApplicationPartitionMapping]) -> "SystemMapping":
+        """
+        The mapping of ApplicationPartitions to a CpSoftwareCluster. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=softwareClusterToApplicationPartitionMapping.shortName, softwareClusterToApplicationPartitionMapping.variationPoint.shortLabel vh.latestBindingTime=systemDesignTime
+
+        A None value is a no-op and does not add to softwareClusterToApplicationPartitionMappings.
+        """
+        if value is not None:
+            self.softwareClusterToApplicationPartitionMappings.append(value)
         return self
 
-    def getSoftwareClusterToApplicationPartitionMappings(self):
+    def getSoftwareClusterToApplicationPartitionMappings(self) -> List[CpSoftwareClusterToApplicationPartitionMapping]:
+        """
+        The mapping of ApplicationPartitions to a CpSoftwareCluster. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=softwareClusterToApplicationPartitionMapping.shortName, softwareClusterToApplicationPartitionMapping.variationPoint.shortLabel vh.latestBindingTime=systemDesignTime
+        """
         return self.softwareClusterToApplicationPartitionMappings
 
-    def addSoftwareClusterToApplicationPartitionMapping(self, value):
-        self.softwareClusterToApplicationPartitionMappings.append(value)
+    def addSoftwareClusterToResourceMapping(self, value: Optional[CpSoftwareClusterToResourceMapping]) -> "SystemMapping":
+        """
+        maps a service resource to CP Software Clusters Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=softwareClusterToResourceMapping.shortName, softwareClusterToResourceMapping.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+
+        A None value is a no-op and does not add to softwareClusterToResourceMappings.
+        """
+        if value is not None:
+            self.softwareClusterToResourceMappings.append(value)
         return self
 
-    def getSoftwareClusterToResourceMappings(self):
+    def getSoftwareClusterToResourceMappings(self) -> List[CpSoftwareClusterToResourceMapping]:
+        """
+        maps a service resource to CP Software Clusters Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=softwareClusterToResourceMapping.shortName, softwareClusterToResourceMapping.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+        """
         return self.softwareClusterToResourceMappings
 
-    def addSoftwareClusterToResourceMapping(self, value):
-        self.softwareClusterToResourceMappings.append(value)
+    def addSwClusterMapping(self, value: Optional[CpSoftwareClusterToEcuInstanceMapping]) -> "SystemMapping":
+        """
+        The mappings of SW cluster to ECUs. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=swClusterMapping.shortName, swClusterMapping.variationPoint.shortLabel vh.latestBindingTime=systemDesignTime
+
+        A None value is a no-op and does not add to swClusterMappings.
+        """
+        if value is not None:
+            self.swClusterMappings.append(value)
         return self
 
-    def getSwClusterMappings(self):
+    def getSwClusterMappings(self) -> List[CpSoftwareClusterToEcuInstanceMapping]:
+        """
+        The mappings of SW cluster to ECUs. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=swClusterMapping.shortName, swClusterMapping.variationPoint.shortLabel vh.latestBindingTime=systemDesignTime
+        """
         return self.swClusterMappings
 
-    def addSwClusterMapping(self, value):
-        self.swClusterMappings.append(value)
+    def addSwcToApplicationPartitionMapping(self, value: Optional[SwcToApplicationPartitionMapping]) -> "SystemMapping":
+        """
+        Allows to map a given SwComponentPrototype to a formally defined partition at a point in time when the corresponding EcuInstance is not yet known or defined. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=swcToApplicationPartitionMapping.shortName, swcToApplicationPartitionMapping.variationPoint.shortLabel vh.latestBindingTime=postBuild
+
+        A None value is a no-op and does not add to swcToApplicationPartitionMappings.
+        """
+        if value is not None:
+            self.swcToApplicationPartitionMappings.append(value)
         return self
 
-    def getSwcToApplicationPartitionMappings(self):
+    def createSwcToApplicationPartitionMapping(self, short_name: str) -> SwcToApplicationPartitionMapping:
+        """
+        Allows to map a given SwComponentPrototype to a formally defined partition at a point in time when the corresponding EcuInstance is not yet known or defined. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=swcToApplicationPartitionMapping.shortName, swcToApplicationPartitionMapping.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
+        if not self.IsReferrableElementExists(short_name, SwcToApplicationPartitionMapping):
+            mapping = SwcToApplicationPartitionMapping(self, short_name)
+            self.addReferrableElement(mapping)
+            self.swcToApplicationPartitionMappings.append(mapping)
+        return cast(SwcToApplicationPartitionMapping, self.getReferrableElement(short_name, SwcToApplicationPartitionMapping))
+
+    def getSwcToApplicationPartitionMappings(self) -> List[SwcToApplicationPartitionMapping]:
+        """
+        Allows to map a given SwComponentPrototype to a formally defined partition at a point in time when the corresponding EcuInstance is not yet known or defined. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=swcToApplicationPartitionMapping.shortName, swcToApplicationPartitionMapping.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
         return self.swcToApplicationPartitionMappings
 
-    def addSwcToApplicationPartitionMappings(self, value):
-        self.swcToApplicationPartitionMappings.append(value)
-        return self
-
-    def getSwImplMappings(self):
-        return self.swImplMappings
-
     def createSwcToImplMapping(self, short_name: str) -> SwcToImplMapping:
+        """
+        The mappings of AtomicSoftwareComponent Instances to Implementations. atpVariation: Derived, because SwcToEcuMapping is variable. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=swImplMapping.shortName, swImplMapping.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+        """
         if not self.IsReferrableElementExists(short_name, SwcToImplMapping):
             mapping = SwcToImplMapping(self, short_name)
             self.addReferrableElement(mapping)
             self.swImplMappings.append(mapping)
         return cast(SwcToImplMapping, self.getReferrableElement(short_name, SwcToImplMapping))
 
-    def getSwMappings(self):
-        return self.swMappings
-
-    def getSwcToEcuMappings(self) -> List[SwcToEcuMapping]:
-        return list(sorted([a for a in self.referrableElements if isinstance(a, SwcToEcuMapping)], key=lambda o: o.short_name))
+    def getSwImplMappings(self) -> List[SwcToImplMapping]:
+        """
+        The mappings of AtomicSoftwareComponent Instances to Implementations. atpVariation: Derived, because SwcToEcuMapping is variable. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=swImplMapping.shortName, swImplMapping.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+        """
+        return self.swImplMappings
 
     def createSwcToEcuMapping(self, short_name: str) -> SwcToEcuMapping:
+        """
+        The mappings of SW components to ECUs. atpVariation: SWC shall be mapped to other ECUs. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=swMapping.shortName, swMapping.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+        """
         if not self.IsReferrableElementExists(short_name, SwcToEcuMapping):
             mapping = SwcToEcuMapping(self, short_name)
             self.addReferrableElement(mapping)
             self.swMappings.append(mapping)
         return cast(SwcToEcuMapping, self.getReferrableElement(short_name, SwcToEcuMapping))
 
-    def getSystemSignalGroupToComResourceMappings(self):
+    def getSwMappings(self) -> List[SwcToEcuMapping]:
+        """
+        The mappings of SW components to ECUs. atpVariation: SWC shall be mapped to other ECUs. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=swMapping.shortName, swMapping.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+        """
+        return self.swMappings
+
+    def addSystemSignalGroupToComResourceMapping(self, value: Optional[SystemSignalGroupToCommunicationResourceMapping]) -> "SystemMapping":
+        """
+        Mapping of a communication resource to a SystemSignalGroup. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=systemSignalGroupToComResourceMapping.shortName, systemSignalGroupToComResourceMapping.variationPoint.shortLabel vh.latestBindingTime=systemDesignTime
+
+        A None value is a no-op and does not add to systemSignalGroupToComResourceMappings.
+        """
+        if value is not None:
+            self.systemSignalGroupToComResourceMappings.append(value)
+        return self
+
+    def getSystemSignalGroupToComResourceMappings(self) -> List[SystemSignalGroupToCommunicationResourceMapping]:
+        """
+        Mapping of a communication resource to a SystemSignalGroup. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=systemSignalGroupToComResourceMapping.shortName, systemSignalGroupToComResourceMapping.variationPoint.shortLabel vh.latestBindingTime=systemDesignTime
+        """
         return self.systemSignalGroupToComResourceMappings
 
-    def addSystemSignalGroupToComResourceMapping(self, value):
-        self.systemSignalGroupToComResourceMappings.append(value)
+    def addSystemSignalToComResourceMapping(self, value: Optional[SystemSignalToCommunicationResourceMapping]) -> "SystemMapping":
+        """
+        Mapping of a communication resource to a SystemSignal. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=systemSignalToComResourceMapping.shortName, systemSignalToComResourceMapping.variationPoint.shortLabel vh.latestBindingTime=systemDesignTime
+
+        A None value is a no-op and does not add to systemSignalToComResourceMappings.
+        """
+        if value is not None:
+            self.systemSignalToComResourceMappings.append(value)
         return self
 
-    def getSystemSignalToComResourceMappings(self):
+    def getSystemSignalToComResourceMappings(self) -> List[SystemSignalToCommunicationResourceMapping]:
+        """
+        Mapping of a communication resource to a SystemSignal. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=systemSignalToComResourceMapping.shortName, systemSignalToComResourceMapping.variationPoint.shortLabel vh.latestBindingTime=systemDesignTime
+        """
         return self.systemSignalToComResourceMappings
-
-    def addSystemSignalToComResourceMapping(self, value):
-        self.systemSignalToComResourceMappings.append(value)
-        return self
 
 
 class RootSwCompositionPrototype(AtpPrototype, VariationPointCapable):
@@ -940,6 +1241,7 @@ class System(AtpStructureElement):
 
 
 __all__ = [
+    "ApplicationPartition",
     "ApplicationPartitionToEcuPartitionMapping",
     "ARElement",
     "AppOsTaskProxyToEcuTaskProxyMapping",
@@ -961,7 +1263,9 @@ __all__ = [
     "DataMapping",
     "ECUMapping",
     "Identifiable",
+    "J1939ControllerApplication",
     "J1939SharedAddressCluster",
+    "MappingScopeEnum",
     "OperationInSystemInstanceRef",
     "OsTaskPreemptabilityEnum",
     "OsTaskProxy",

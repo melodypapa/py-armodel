@@ -1,12 +1,17 @@
-"""Writer/reader round-trip tests for MacSecGlobalKayProps (Table 3.120, p.174).
+"""
+Writer/reader round-trip tests for MacSecGlobalKayProps (Table 3.120, p.174).
 
 MacSecGlobalKayProps is an ARElement consumed by ARPackage.element (serialized as
 MAC-SEC-GLOBAL-KAY-PROPS). It carries the attributes bypassEtherType (0..255,
 PositiveInteger list, container BYPASS-ETHER-TYPES/BYPASS-ETHER-TYPE) and bypassVlan
 (0..255, PositiveInteger list, container BYPASS-VLANS/BYPASS-VLAN).
+
+Reader counterpart: tests/test_armodel/parser/test_mac_sec_global_kay_props.py
 """
 
-import xml.etree.cElementTree as ET
+import os
+import tempfile
+import xml.etree.ElementTree as ET
 
 import pytest
 
@@ -82,6 +87,7 @@ class TestWriteMacSecGlobalKayProps:
         node = parent.find("MAC-SEC-GLOBAL-KAY-PROPS")
         assert node is not None
         assert node.find("SHORT-NAME").text == "GKP1"
+        assert [child.tag for child in node] == ["SHORT-NAME", "BYPASS-ETHER-TYPES", "BYPASS-VLANS"]
         ether_wrapper = node.find("BYPASS-ETHER-TYPES")
         assert ether_wrapper is not None
         assert [int(e.text) for e in ether_wrapper.findall("BYPASS-ETHER-TYPE")] == [88, 90]
@@ -96,8 +102,67 @@ class TestWriteMacSecGlobalKayProps:
 
         node = parent.find("MAC-SEC-GLOBAL-KAY-PROPS")
         assert node is not None
+        assert [child.tag for child in node] == ["SHORT-NAME"]
         assert node.find("BYPASS-ETHER-TYPES") is None
         assert node.find("BYPASS-VLANS") is None
+
+
+class TestMacSecGlobalKayPropsThroughArPackage:
+    def test_ar_package_save_load_round_trip(self):
+        """The full ARPackage ELEMENTS path: writeARPackageElement emits the props and the parser dispatch reads it back."""
+        document = AUTOSAR.getInstance()
+        document.new()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Sec")
+        props = pkg.createMacSecGlobalKayProps("GlobalKayProps")
+        props.addBypassEtherType(_pos_int(2048))
+        props.addBypassEtherType(_pos_int(34825))
+        props.addBypassVlan(_pos_int(1))
+        props.addBypassVlan(_pos_int(0))
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+
+            reloaded = AUTOSAR.getInstance()
+            reloaded.clear()
+            ARXMLParser(options={"warning": True}).load(file_path, reloaded)
+
+            loaded_pkg = reloaded.getARPackages()[0]
+            props_list = [e for e in loaded_pkg.getReferrableElements() if isinstance(e, MacSecGlobalKayProps)]
+            assert len(props_list) == 1
+            recovered = props_list[0]
+            assert recovered.getShortName() == "GlobalKayProps"
+            assert [v.getValue() for v in recovered.getBypassEtherTypes()] == [2048, 34825]
+            assert [v.getValue() for v in recovered.getBypassVlans()] == [1, 0]
+        finally:
+            os.remove(file_path)
+
+    def test_ar_package_save_load_empty_props(self):
+        """An ARElement with empty aggr lists serializes no wrappers and re-parses to empty lists."""
+        document = AUTOSAR.getInstance()
+        document.new()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Sec")
+        pkg.createMacSecGlobalKayProps("EmptyKayProps")
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+
+            reloaded = AUTOSAR.getInstance()
+            reloaded.clear()
+            ARXMLParser(options={"warning": True}).load(file_path, reloaded)
+
+            loaded_pkg = reloaded.getARPackages()[0]
+            props_list = [e for e in loaded_pkg.getReferrableElements() if isinstance(e, MacSecGlobalKayProps)]
+            assert len(props_list) == 1
+            recovered = props_list[0]
+            assert recovered.getShortName() == "EmptyKayProps"
+            assert recovered.getBypassEtherTypes() == []
+            assert recovered.getBypassVlans() == []
+        finally:
+            os.remove(file_path)
 
 
 class TestMacSecGlobalKayPropsRoundTrip:

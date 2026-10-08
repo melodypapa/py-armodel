@@ -3,7 +3,7 @@
 
 from __future__ import annotations
 
-from typing import List, Optional
+from typing import List, Optional, cast
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from abc import ABC
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -880,114 +880,6 @@ class CryptoCertificateFormatEnum(AREnum):
         )
 
 
-class MacSecConfidentialityOffsetEnum(AREnum):
-    """
-    This enum defines the MACsec capability options.
-    """
-
-    # MacSecConfidentialityOffsetEnum method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.125, p.177
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # (no methods) — enum value form serialized on MacSecCryptoAlgoConfig.confidentialityOffset
-
-    # confidentiality offset of 0. Tags: atp.EnumerationLiteralIndex=0 xml.name=CONFIDENTIALITY-OFFSET-0
-    CONFIDENTIALITY_OFFSET_0 = "CONFIDENTIALITY-OFFSET--0"
-
-    # confidentiality offset of 30. Tags: atp.EnumerationLiteralIndex=1 xml.name=CONFIDENTIALITY-OFFSET-30
-    CONFIDENTIALITY_OFFSET_30 = "CONFIDENTIALITY-OFFSET--30"
-
-    # confidentiality offset of 50. Tags: atp.EnumerationLiteralIndex=2 xml.name=CONFIDENTIALITY-OFFSET-50
-    CONFIDENTIALITY_OFFSET_50 = "CONFIDENTIALITY-OFFSET--50"
-
-    def __init__(self):
-        super().__init__(
-            [
-                MacSecConfidentialityOffsetEnum.CONFIDENTIALITY_OFFSET_0,
-                MacSecConfidentialityOffsetEnum.CONFIDENTIALITY_OFFSET_30,
-                MacSecConfidentialityOffsetEnum.CONFIDENTIALITY_OFFSET_50,
-            ]
-        )
-
-
-class MacSecCapabilityEnum(AREnum):
-    """
-    This enum defines the MACsec capability options.
-    """
-
-    # MacSecCapabilityEnum method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.126, p.177
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # (no methods) — enum value form serialized on MacSecCryptoAlgoConfig.capability
-
-    # Option that ensures integrity without confidentiality Tags: atp.EnumerationLiteralIndex=0
-    INTERGRITY_WITHOUT_CONFIDENTIALITY = "INTERGRITY-WITHOUT-CONFIDENTIALITY"
-
-    # Option that ensures confidentiality and integrity Tags: atp.EnumerationLiteralIndex=1
-    INTERGRITY_AND_CONFIDENTIALITY = "INTERGRITY-AND-CONFIDENTIALITY"
-
-    def __init__(self):
-        super().__init__(
-            [
-                MacSecCapabilityEnum.INTERGRITY_WITHOUT_CONFIDENTIALITY,
-                MacSecCapabilityEnum.INTERGRITY_AND_CONFIDENTIALITY,
-            ]
-        )
-
-
-class MacSecRoleEnum(AREnum):
-    """
-    This enum defines the MACsec Role options.
-    """
-
-    # MacSecRoleEnum method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.127, p.177
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # (no methods) — enum value form serialized on MacSecLocalKayProps.role
-
-    # Port acts in the peer role Tags: atp.EnumerationLiteralIndex=0
-    PEER = "PEER"
-
-    # Port acts in the KeyServer role Tags: atp.EnumerationLiteralIndex=1
-    KEY_SERVER = "KEY-SERVER"
-
-    def __init__(self):
-        super().__init__(
-            [
-                MacSecRoleEnum.PEER,
-                MacSecRoleEnum.KEY_SERVER,
-            ]
-        )
-
-
-class MacSecFailPermissiveModeEnum(AREnum):
-    """
-    Behavior options of the Port Access Entity in case MACsec does not succeed.
-    """
-
-    # MacSecFailPermissiveModeEnum method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.128, p.178
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # (no methods) — enum value form serialized on MacSecProps.onFailPermissiveMode
-
-    # The controlled port will never be set to enabled if the participants cannot establish and successfully use a MACsec Secure Channel. Tags: atp.EnumerationLiteralIndex=0
-    NEVER = "NEVER"
-
-    # The controlled port will be set to enabled and MACsec will not be used in the port if the timeout value (onFailPermissiveModeTimeout) is reached and the following conditions apply: - A participant belonging to the same CA was recognized and authenticated. - A secure channel could be established. - Both participants can transmit and receive MACsec protected traffic through the SC. Tags: atp.EnumerationLiteralIndex=1
-    TIMEOUT = "TIMEOUT"
-
-    def __init__(self):
-        super().__init__(
-            [
-                MacSecFailPermissiveModeEnum.NEVER,
-                MacSecFailPermissiveModeEnum.TIMEOUT,
-            ]
-        )
-
-
 class IPsecIpProtocolEnum(AREnum):
     """
     Definition of supported TcpIp protocols that are supported in Security Policy Database (SPD) entries in IPSec configurations.
@@ -1748,31 +1640,30 @@ class IPSecConfigProps(ARElement):
 
 class MacSecGlobalKayProps(ARElement):
     """
-    Configuration of the MAC Security Key Agreement Entity properties that are shared by different KaY configurations.
+    Configuration of the MAC Security Key Agreement Entity properties that are shared by different KaY configurations. Tags: atp.Status=candidate atp.recommendedPackage=MacSecGlobalKayProps
     """
 
     # MacSecGlobalKayProps method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.120, p.174
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] addBypassEtherType         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getBypassEtherTypes        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addBypassVlan              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getBypassVlans             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addBypassEtherType  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getBypassEtherTypes [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addBypassVlan       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getBypassVlans      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
-        # This attribute is used to define EtherTypes that are bypassed by MACsec. The providedEtherType will not be MACsec protected.
+        # This attribute is used to define EtherTypes that are bypassed by MACsec. The providedEtherType will not be MACsec protected. Tags: atp.Status=candidate
         self.bypassEtherTypes: List[PositiveInteger] = []
 
-        # This attribute is used to define VLAN-IDs that are bypassed by MACsec. The provided VLAN-IDs will not be MACsec protected. (VLAN-ID 0 is interpreted as no-VLAN -> Bypass untagged traffic)
+        # This attribute is used to define VLAN-IDs that are bypassed by MACsec. The provided VLAN-IDs will not be MACsec protected. (VLAN-ID 0 is interpreted as no-VLAN -> Bypass untagged traffic) Tags: atp.Status=candidate
         self.bypassVlans: List[PositiveInteger] = []
 
     def addBypassEtherType(self, value: Optional[PositiveInteger]) -> MacSecGlobalKayProps:
         """
-        This attribute is used to define EtherTypes that are bypassed by MACsec. The providedEtherType will not be MACsec protected.
+        This attribute is used to define EtherTypes that are bypassed by MACsec. The providedEtherType will not be MACsec protected. Tags: atp.Status=candidate
         A None value is a no-op and does not append to bypassEtherTypes.
         """
         if value is not None:
@@ -1780,12 +1671,12 @@ class MacSecGlobalKayProps(ARElement):
         return self
 
     def getBypassEtherTypes(self) -> List[PositiveInteger]:
-        """This attribute is used to define EtherTypes that are bypassed by MACsec. The providedEtherType will not be MACsec protected."""
+        """This attribute is used to define EtherTypes that are bypassed by MACsec. The providedEtherType will not be MACsec protected. Tags: atp.Status=candidate"""
         return self.bypassEtherTypes
 
     def addBypassVlan(self, value: Optional[PositiveInteger]) -> MacSecGlobalKayProps:
         """
-        This attribute is used to define VLAN-IDs that are bypassed by MACsec. The provided VLAN-IDs will not be MACsec protected. (VLAN-ID 0 is interpreted as no-VLAN -> Bypass untagged traffic)
+        This attribute is used to define VLAN-IDs that are bypassed by MACsec. The provided VLAN-IDs will not be MACsec protected. (VLAN-ID 0 is interpreted as no-VLAN -> Bypass untagged traffic) Tags: atp.Status=candidate
         A None value is a no-op and does not append to bypassVlans.
         """
         if value is not None:
@@ -1793,130 +1684,133 @@ class MacSecGlobalKayProps(ARElement):
         return self
 
     def getBypassVlans(self) -> List[PositiveInteger]:
-        """This attribute is used to define VLAN-IDs that are bypassed by MACsec. The provided VLAN-IDs will not be MACsec protected. (VLAN-ID 0 is interpreted as no-VLAN -> Bypass untagged traffic)"""
+        """This attribute is used to define VLAN-IDs that are bypassed by MACsec. The provided VLAN-IDs will not be MACsec protected. (VLAN-ID 0 is interpreted as no-VLAN -> Bypass untagged traffic) Tags: atp.Status=candidate"""
         return self.bypassVlans
 
 
-class MacSecCipherSuiteConfig(ARObject):
+class MacSecParticipantSet(ARElement):
     """
-    This meta-class defines the cipher suite configuration to use with MACsec. cipherSuitePriority is present in case the MKA instance acts as a Key Server to select the cipher suite to use for MACsec.
+    Collection of MACsec Kay Participants on an Ethernet Link. Tags: atp.Status=candidate atp.recommendedPackage=MacSecKayParticipantSets
     """
 
-    # MacSecCipherSuiteConfig method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.124, p.176
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getCipherSuite          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setCipherSuite          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getCipherSuitePriority  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setCipherSuitePriority  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # MacSecParticipantSet method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.121, p.174
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getEthernetClusterRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEthernetClusterRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createMacSecKayParticipant  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMkaParticipants          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
 
-        # Cipher Suite to use for MACsec.
-        self.cipherSuite: Optional[String] = None
+        # Reference to the EthernetCluster (Link) on which the KaY participants are located Tags: atp.Status=candidate
+        self.ethernetClusterRef: Optional[RefType] = None
 
-        # In case the MKA instance acts as a Key Server, the priority is used to select the Cipher Suite to use with MACsec from the supported Ciphers.
-        self.cipherSuitePriority: Optional[PositiveInteger] = None
+        # Configuration of a MKA Participant. Tags: atp.Status=candidate
+        self.mkaParticipants: List[MacSecKayParticipant] = []
 
-    def getCipherSuite(self) -> Optional[String]:
-        """Cipher Suite to use for MACsec."""
-        return self.cipherSuite
+    def getEthernetClusterRef(self) -> Optional[RefType]:
+        """Reference to the EthernetCluster (Link) on which the KaY participants are located Tags: atp.Status=candidate"""
+        return self.ethernetClusterRef
 
-    def setCipherSuite(self, value: Optional[String]) -> MacSecCipherSuiteConfig:
+    def setEthernetClusterRef(self, value: Optional[RefType]) -> MacSecParticipantSet:
         """
-        Cipher Suite to use for MACsec.
-        A None value is a no-op and does not overwrite an existing cipherSuite.
+        Reference to the EthernetCluster (Link) on which the KaY participants are located Tags: atp.Status=candidate
+        A None value is a no-op and does not overwrite an existing ethernetClusterRef.
         """
         if value is not None:
-            self.cipherSuite = value
+            self.ethernetClusterRef = value
         return self
 
-    def getCipherSuitePriority(self) -> Optional[PositiveInteger]:
-        """In case the MKA instance acts as a Key Server, the priority is used to select the Cipher Suite to use with MACsec from the supported Ciphers."""
-        return self.cipherSuitePriority
+    def createMacSecKayParticipant(self, short_name: str) -> MacSecKayParticipant:
+        """
+        Configuration of a MKA Participant. Tags: atp.Status=candidate
+        The existing element is returned when the short name already exists (no duplicate creation).
+        """
+        if not self.IsReferrableElementExists(short_name, MacSecKayParticipant):
+            participant = MacSecKayParticipant(self, short_name)
+            self.addReferrableElement(participant)
+            self.mkaParticipants.append(participant)
+        return cast(MacSecKayParticipant, self.getReferrableElement(short_name, MacSecKayParticipant))
 
-    def setCipherSuitePriority(self, value: Optional[PositiveInteger]) -> MacSecCipherSuiteConfig:
-        """
-        In case the MKA instance acts as a Key Server, the priority is used to select the Cipher Suite to use with MACsec from the supported Ciphers.
-        A None value is a no-op and does not overwrite an existing cipherSuitePriority.
-        """
-        if value is not None:
-            self.cipherSuitePriority = value
-        return self
+    def getMkaParticipants(self) -> List[MacSecKayParticipant]:
+        """Configuration of a MKA Participant. Tags: atp.Status=candidate"""
+        return self.mkaParticipants
 
 
 class MacSecCryptoAlgoConfig(ARObject):
     """
-    This meta-class defines the cryptography configuration for MACsec.
+    This meta-class defines the cryptography configuration for MACsec. Tags: atp.Status=candidate
     """
 
     # MacSecCryptoAlgoConfig method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.123, p.175
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getCapability                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setCapability                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] createCipherSuiteConfig       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getCipherSuiteConfigs         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getConfidentialityOffset      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setConfidentialityOffset      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getReplayProtection           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setReplayProtection           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getReplayProtectionWindow     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setReplayProtectionWindow     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCapability              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCapability              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addCipherSuiteConfig       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCipherSuiteConfigs      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getConfidentialityOffset   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setConfidentialityOffset   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getReplayProtection        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setReplayProtection        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getReplayProtectionWindow  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setReplayProtectionWindow  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        # This attribute defines the MACsec capability.
+        # This attribute defines the MACsec capability. Tags: atp.Status=candidate
         self.capability: Optional[MacSecCapabilityEnum] = None
 
-        # Cipher suite configuration to use with MACsec.
+        # Cipher suite configuration to use with MACsec. Tags: atp.Status=candidate
         self.cipherSuiteConfigs: List[MacSecCipherSuiteConfig] = []
 
-        # The MACsec confidentiality offset specifies the number of bytes starting from the frame header. MACsec encrypts only the bytes after the offset in a frame.
+        # The MACsec confidentiality offset specifies the number of bytes starting from the frame header. MACsec encrypts only the bytes after the offset in a frame. Tags: atp.Status=candidate
         self.confidentialityOffset: Optional[MacSecConfidentialityOffsetEnum] = None
 
-        # This attribute is used to configure the MACsec replay protection.
+        # This attribute is used to configure the MACsec replay protection. Tags: atp.Status=candidate
         self.replayProtection: Optional[Boolean] = None
 
-        # In case replay protection is active, this attribute defines the replay protection window.
+        # In case replay protection is active, this attribute defines the replay protection window. Tags: atp.Status=candidate
         self.replayProtectionWindow: Optional[PositiveInteger] = None
 
     def getCapability(self) -> Optional[MacSecCapabilityEnum]:
-        """This attribute defines the MACsec capability."""
+        """This attribute defines the MACsec capability. Tags: atp.Status=candidate"""
         return self.capability
 
     def setCapability(self, value: Optional[MacSecCapabilityEnum]) -> MacSecCryptoAlgoConfig:
         """
-        This attribute defines the MACsec capability.
+        This attribute defines the MACsec capability. Tags: atp.Status=candidate
         A None value is a no-op and does not overwrite an existing capability.
         """
         if value is not None:
             self.capability = value
         return self
 
-    def createCipherSuiteConfig(self) -> MacSecCipherSuiteConfig:
-        """Cipher suite configuration to use with MACsec."""
-        config = MacSecCipherSuiteConfig()
-        self.cipherSuiteConfigs.append(config)
-        return config
+    def addCipherSuiteConfig(self, value: Optional[MacSecCipherSuiteConfig]) -> MacSecCryptoAlgoConfig:
+        """
+        Cipher suite configuration to use with MACsec. Tags: atp.Status=candidate
+        A None value is a no-op and does not append to cipherSuiteConfigs.
+        """
+        if value is not None:
+            self.cipherSuiteConfigs.append(value)
+        return self
 
     def getCipherSuiteConfigs(self) -> List[MacSecCipherSuiteConfig]:
-        """Cipher suite configuration to use with MACsec."""
+        """Cipher suite configuration to use with MACsec. Tags: atp.Status=candidate"""
         return self.cipherSuiteConfigs
 
     def getConfidentialityOffset(self) -> Optional[MacSecConfidentialityOffsetEnum]:
-        """The MACsec confidentiality offset specifies the number of bytes starting from the frame header. MACsec encrypts only the bytes after the offset in a frame."""
+        """The MACsec confidentiality offset specifies the number of bytes starting from the frame header. MACsec encrypts only the bytes after the offset in a frame. Tags: atp.Status=candidate"""
         return self.confidentialityOffset
 
     def setConfidentialityOffset(self, value: Optional[MacSecConfidentialityOffsetEnum]) -> MacSecCryptoAlgoConfig:
         """
-        The MACsec confidentiality offset specifies the number of bytes starting from the frame header. MACsec encrypts only the bytes after the offset in a frame.
+        The MACsec confidentiality offset specifies the number of bytes starting from the frame header. MACsec encrypts only the bytes after the offset in a frame. Tags: atp.Status=candidate
         A None value is a no-op and does not overwrite an existing confidentialityOffset.
         """
         if value is not None:
@@ -1924,12 +1818,12 @@ class MacSecCryptoAlgoConfig(ARObject):
         return self
 
     def getReplayProtection(self) -> Optional[Boolean]:
-        """This attribute is used to configure the MACsec replay protection."""
+        """This attribute is used to configure the MACsec replay protection. Tags: atp.Status=candidate"""
         return self.replayProtection
 
     def setReplayProtection(self, value: Optional[Boolean]) -> MacSecCryptoAlgoConfig:
         """
-        This attribute is used to configure the MACsec replay protection.
+        This attribute is used to configure the MACsec replay protection. Tags: atp.Status=candidate
         A None value is a no-op and does not overwrite an existing replayProtection.
         """
         if value is not None:
@@ -1937,12 +1831,12 @@ class MacSecCryptoAlgoConfig(ARObject):
         return self
 
     def getReplayProtectionWindow(self) -> Optional[PositiveInteger]:
-        """In case replay protection is active, this attribute defines the replay protection window."""
+        """In case replay protection is active, this attribute defines the replay protection window. Tags: atp.Status=candidate"""
         return self.replayProtectionWindow
 
     def setReplayProtectionWindow(self, value: Optional[PositiveInteger]) -> MacSecCryptoAlgoConfig:
         """
-        In case replay protection is active, this attribute defines the replay protection window.
+        In case replay protection is active, this attribute defines the replay protection window. Tags: atp.Status=candidate
         A None value is a no-op and does not overwrite an existing replayProtectionWindow.
         """
         if value is not None:
@@ -1950,57 +1844,213 @@ class MacSecCryptoAlgoConfig(ARObject):
         return self
 
 
-class MacSecLocalKayProps(ARObject):
+class MacSecCipherSuiteConfig(ARObject):
     """
-    Configuration of the MAC Security Key Agreement Entity (KaY).
+    This meta-class defines the cipher suite configuration to use with MACsec. cipherSuitePriority is present in case the MKA instance acts as a Key Server to select the cipher suite to use for MACsec. Tags: atp.Status=candidate
     """
 
-    # MacSecLocalKayProps method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.119, p.174
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getDestinationMacAddress       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDestinationMacAddress       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getGlobalKayPropsRef          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setGlobalKayPropsRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getKeyServerPriority          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setKeyServerPriority          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] addMkaParticipantRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMkaParticipantRefs         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getRole                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setRole                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSourceMacAddress            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSourceMacAddress            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # MacSecCipherSuiteConfig method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.124, p.176
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCipherSuite          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCipherSuite          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCipherSuitePriority  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCipherSuitePriority  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        # This attribute defines the destination MAC Address that is used to calculate the ICV (Integrity Check Value).
+        # Cipher Suite to use for MACsec. Tags: atp.Status=candidate
+        self.cipherSuite: Optional[String] = None
+
+        # In case the MKA instance acts as a Key Server, the priority is used to select the Cipher Suite to use with MACsec from the supported Ciphers. Tags: atp.Status=candidate
+        self.cipherSuitePriority: Optional[PositiveInteger] = None
+
+    def getCipherSuite(self) -> Optional[String]:
+        """Cipher Suite to use for MACsec. Tags: atp.Status=candidate"""
+        return self.cipherSuite
+
+    def setCipherSuite(self, value: Optional[String]) -> MacSecCipherSuiteConfig:
+        """
+        Cipher Suite to use for MACsec. Tags: atp.Status=candidate
+        A None value is a no-op and does not overwrite an existing cipherSuite.
+        """
+        if value is not None:
+            self.cipherSuite = value
+        return self
+
+    def getCipherSuitePriority(self) -> Optional[PositiveInteger]:
+        """In case the MKA instance acts as a Key Server, the priority is used to select the Cipher Suite to use with MACsec from the supported Ciphers. Tags: atp.Status=candidate"""
+        return self.cipherSuitePriority
+
+    def setCipherSuitePriority(self, value: Optional[PositiveInteger]) -> MacSecCipherSuiteConfig:
+        """
+        In case the MKA instance acts as a Key Server, the priority is used to select the Cipher Suite to use with MACsec from the supported Ciphers. Tags: atp.Status=candidate
+        A None value is a no-op and does not overwrite an existing cipherSuitePriority.
+        """
+        if value is not None:
+            self.cipherSuitePriority = value
+        return self
+
+
+class MacSecConfidentialityOffsetEnum(AREnum):
+    """
+    This enum defines the MACsec capability options. Tags: atp.Status=candidate
+    """
+
+    # MacSecConfidentialityOffsetEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.125, p.177
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on MacSecCryptoAlgoConfig.confidentialityOffset
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # confidentiality offset of 0. Tags: atp.EnumerationLiteralIndex=0 xml.name=CONFIDENTIALITY-OFFSET-0
+    CONFIDENTIALITY_OFFSET_0 = "CONFIDENTIALITY-OFFSET--0"
+
+    # confidentiality offset of 30. Tags: atp.EnumerationLiteralIndex=1 xml.name=CONFIDENTIALITY-OFFSET-30
+    CONFIDENTIALITY_OFFSET_30 = "CONFIDENTIALITY-OFFSET--30"
+
+    # confidentiality offset of 50. Tags: atp.EnumerationLiteralIndex=2 xml.name=CONFIDENTIALITY-OFFSET-50
+    CONFIDENTIALITY_OFFSET_50 = "CONFIDENTIALITY-OFFSET--50"
+
+    def __init__(self):
+        super().__init__(
+            [
+                MacSecConfidentialityOffsetEnum.CONFIDENTIALITY_OFFSET_0,
+                MacSecConfidentialityOffsetEnum.CONFIDENTIALITY_OFFSET_30,
+                MacSecConfidentialityOffsetEnum.CONFIDENTIALITY_OFFSET_50,
+            ]
+        )
+
+
+class MacSecCapabilityEnum(AREnum):
+    """
+    This enum defines the MACsec capability options. Tags: atp.Status=candidate
+    """
+
+    # MacSecCapabilityEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.126, p.177
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on MacSecCryptoAlgoConfig.capability
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # Option that ensures confidentiality and integrity Tags: atp.EnumerationLiteralIndex=1
+    INTERGRITY_AND_CONFIDENTIALITY = "INTERGRITY-AND-CONFIDENTIALITY"
+
+    # Option that ensures integrity without confidentiality Tags: atp.EnumerationLiteralIndex=0
+    INTERGRITY_WITHOUT_CONFIDENTIALITY = "INTERGRITY-WITHOUT-CONFIDENTIALITY"
+
+    def __init__(self):
+        super().__init__(
+            [
+                MacSecCapabilityEnum.INTERGRITY_AND_CONFIDENTIALITY,
+                MacSecCapabilityEnum.INTERGRITY_WITHOUT_CONFIDENTIALITY,
+            ]
+        )
+
+
+class MacSecRoleEnum(AREnum):
+    """
+    This enum defines the MACsec Role options. Tags: atp.Status=candidate
+    """
+
+    # MacSecRoleEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.127, p.177
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # Port acts in the KeyServer role Tags: atp.EnumerationLiteralIndex=1
+    KEY_SERVER = "KEY-SERVER"
+
+    # Port acts in the peer role Tags: atp.EnumerationLiteralIndex=0
+    PEER = "PEER"
+
+    def __init__(self):
+        super().__init__(
+            [
+                MacSecRoleEnum.KEY_SERVER,
+                MacSecRoleEnum.PEER,
+            ]
+        )
+
+
+class MacSecFailPermissiveModeEnum(AREnum):
+    """
+    Behavior options of the Port Access Entity in case MACsec does not succeed. Tags: atp.Status=candidate
+    """
+
+    # MacSecFailPermissiveModeEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.128, p.178
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on MacSecProps.onFailPermissiveMode
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # The controlled port will never be set to enabled if the participants cannot establish and successfully use a MACsec Secure Channel. Tags: atp.EnumerationLiteralIndex=0
+    NEVER = "NEVER"
+
+    # The controlled port will be set to enabled and MACsec will not be used in the port if the timeout value (onFailPermissiveModeTimeout) is reached and the following conditions apply: - A participant belonging to the same CA was recognized and authenticated. - A secure channel could be established. - Both participants can transmit and receive MACsec protected traffic through the SC. Tags: atp.EnumerationLiteralIndex=1
+    TIMEOUT = "TIMEOUT"
+
+    def __init__(self):
+        super().__init__(
+            [
+                MacSecFailPermissiveModeEnum.NEVER,
+                MacSecFailPermissiveModeEnum.TIMEOUT,
+            ]
+        )
+
+
+class MacSecLocalKayProps(ARObject):
+    """
+    Configuration of the MAC Security Key Agreement Entity (KaY). Tags: atp.Status=candidate
+    """
+
+    # MacSecLocalKayProps method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.119, p.174
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDestinationMacAddress       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDestinationMacAddress       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getGlobalKayPropsRef           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setGlobalKayPropsRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getKeyServerPriority           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setKeyServerPriority           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addMkaParticipantRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMkaParticipantRefs          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getRole                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRole                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSourceMacAddress            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSourceMacAddress            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # This attribute defines the destination MAC Address that is used to calculate the ICV (Integrity Check Value). Tags: atp.Status=candidate
         self.destinationMacAddress: Optional[MacAddressString] = None
 
-        # Reference to properties that are shared between MAC Security Key Agreement Entities.
+        # Reference to properties that are shared between MAC Security Key Agreement Entities. Tags: atp.Status=candidate
         self.globalKayPropsRef: Optional[RefType] = None
 
-        # This attribute defines the key-server priority.
+        # This attribute defines the key-server priority. Tags: atp.Status=candidate
         self.keyServerPriority: Optional[PositiveInteger] = None
 
-        # Reference to MKA participant settings supported on the CouplingPort.
+        # Reference to MKA participant settings supported on the CouplingPort. Tags: atp.Status=candidate
         self.mkaParticipantRefs: List[RefType] = []
 
-        # Role of the MAC Security Key Agreement Entity
+        # Role of the MAC Security Key Agreement Entity Tags: atp.Status=candidate
         self.role: Optional[MacSecRoleEnum] = None
 
-        # This attribute defines the source MAC Address that is used to calculate the ICV (Integrity Check Value).
+        # This attribute defines the source MAC Address that is used to calculate the ICV (Integrity Check Value). Tags: atp.Status=candidate
         self.sourceMacAddress: Optional[MacAddressString] = None
 
     def getDestinationMacAddress(self) -> Optional[MacAddressString]:
-        """This attribute defines the destination MAC Address that is used to calculate the ICV (Integrity Check Value)."""
+        """This attribute defines the destination MAC Address that is used to calculate the ICV (Integrity Check Value). Tags: atp.Status=candidate"""
         return self.destinationMacAddress
 
     def setDestinationMacAddress(self, value: Optional[MacAddressString]) -> MacSecLocalKayProps:
         """
-        This attribute defines the destination MAC Address that is used to calculate the ICV (Integrity Check Value).
+        This attribute defines the destination MAC Address that is used to calculate the ICV (Integrity Check Value). Tags: atp.Status=candidate
         A None value is a no-op and does not overwrite an existing destinationMacAddress.
         """
         if value is not None:
@@ -2008,12 +2058,12 @@ class MacSecLocalKayProps(ARObject):
         return self
 
     def getGlobalKayPropsRef(self) -> Optional[RefType]:
-        """Reference to properties that are shared between MAC Security Key Agreement Entities."""
+        """Reference to properties that are shared between MAC Security Key Agreement Entities. Tags: atp.Status=candidate"""
         return self.globalKayPropsRef
 
     def setGlobalKayPropsRef(self, value: Optional[RefType]) -> MacSecLocalKayProps:
         """
-        Reference to properties that are shared between MAC Security Key Agreement Entities.
+        Reference to properties that are shared between MAC Security Key Agreement Entities. Tags: atp.Status=candidate
         A None value is a no-op and does not overwrite an existing globalKayPropsRef.
         """
         if value is not None:
@@ -2021,12 +2071,12 @@ class MacSecLocalKayProps(ARObject):
         return self
 
     def getKeyServerPriority(self) -> Optional[PositiveInteger]:
-        """This attribute defines the key-server priority."""
+        """This attribute defines the key-server priority. Tags: atp.Status=candidate"""
         return self.keyServerPriority
 
     def setKeyServerPriority(self, value: Optional[PositiveInteger]) -> MacSecLocalKayProps:
         """
-        This attribute defines the key-server priority.
+        This attribute defines the key-server priority. Tags: atp.Status=candidate
         A None value is a no-op and does not overwrite an existing keyServerPriority.
         """
         if value is not None:
@@ -2035,7 +2085,7 @@ class MacSecLocalKayProps(ARObject):
 
     def addMkaParticipantRef(self, ref: Optional[RefType]) -> MacSecLocalKayProps:
         """
-        Reference to MKA participant settings supported on the CouplingPort.
+        Reference to MKA participant settings supported on the CouplingPort. Tags: atp.Status=candidate
         A None value is a no-op and does not append to mkaParticipantRefs.
         """
         if ref is not None:
@@ -2043,16 +2093,16 @@ class MacSecLocalKayProps(ARObject):
         return self
 
     def getMkaParticipantRefs(self) -> List[RefType]:
-        """Reference to MKA participant settings supported on the CouplingPort."""
+        """Reference to MKA participant settings supported on the CouplingPort. Tags: atp.Status=candidate"""
         return self.mkaParticipantRefs
 
     def getRole(self) -> Optional[MacSecRoleEnum]:
-        """Role of the MAC Security Key Agreement Entity"""
+        """Role of the MAC Security Key Agreement Entity Tags: atp.Status=candidate"""
         return self.role
 
     def setRole(self, value: Optional[MacSecRoleEnum]) -> MacSecLocalKayProps:
         """
-        Role of the MAC Security Key Agreement Entity
+        Role of the MAC Security Key Agreement Entity Tags: atp.Status=candidate
         A None value is a no-op and does not overwrite an existing role.
         """
         if value is not None:
@@ -2060,12 +2110,12 @@ class MacSecLocalKayProps(ARObject):
         return self
 
     def getSourceMacAddress(self) -> Optional[MacAddressString]:
-        """This attribute defines the source MAC Address that is used to calculate the ICV (Integrity Check Value)."""
+        """This attribute defines the source MAC Address that is used to calculate the ICV (Integrity Check Value). Tags: atp.Status=candidate"""
         return self.sourceMacAddress
 
     def setSourceMacAddress(self, value: Optional[MacAddressString]) -> MacSecLocalKayProps:
         """
-        This attribute defines the source MAC Address that is used to calculate the ICV (Integrity Check Value).
+        This attribute defines the source MAC Address that is used to calculate the ICV (Integrity Check Value). Tags: atp.Status=candidate
         A None value is a no-op and does not overwrite an existing sourceMacAddress.
         """
         if value is not None:
@@ -2075,40 +2125,39 @@ class MacSecLocalKayProps(ARObject):
 
 class MacSecKayParticipant(Identifiable):
     """
-    This meta-class configures a MKA participant.
+    This meta-class configures a MKA participant. Tags: atp.Status=candidate atp.recommendedPackage=MacSecKayParticipants
     """
 
     # MacSecKayParticipant method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.122, p.175
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getCknRef                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setCknRef                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getCryptoAlgoConfig           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setCryptoAlgoConfig           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSakRef                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSakRef                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCknRef            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCknRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCryptoAlgoConfig  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCryptoAlgoConfig  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSakRef            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSakRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
-        # Reference to the key where the ckn (Connectivity Association key) is stored.
+        # Reference to the key where the ckn (Connectivity Association key) is stored. Tags: atp.Status=candidate
         self.cknRef: Optional[RefType] = None
 
-        # Cryptography that is used by the MKA Participant.
+        # Cryptography that is used by the MKA Participant. Tags: atp.Status=candidate
         self.cryptoAlgoConfig: Optional[MacSecCryptoAlgoConfig] = None
 
-        # Reference to the key where SAK shall be stored.
+        # Reference to the key where SAK shall be stored. Tags: atp.Status=candidate
         self.sakRef: Optional[RefType] = None
 
     def getCknRef(self) -> Optional[RefType]:
-        """Reference to the key where the ckn (Connectivity Association key) is stored."""
+        """Reference to the key where the ckn (Connectivity Association key) is stored. Tags: atp.Status=candidate"""
         return self.cknRef
 
     def setCknRef(self, value: Optional[RefType]) -> MacSecKayParticipant:
         """
-        Reference to the key where the ckn (Connectivity Association key) is stored.
+        Reference to the key where the ckn (Connectivity Association key) is stored. Tags: atp.Status=candidate
         A None value is a no-op and does not overwrite an existing cknRef.
         """
         if value is not None:
@@ -2116,12 +2165,12 @@ class MacSecKayParticipant(Identifiable):
         return self
 
     def getCryptoAlgoConfig(self) -> Optional[MacSecCryptoAlgoConfig]:
-        """Cryptography that is used by the MKA Participant."""
+        """Cryptography that is used by the MKA Participant. Tags: atp.Status=candidate"""
         return self.cryptoAlgoConfig
 
     def setCryptoAlgoConfig(self, value: Optional[MacSecCryptoAlgoConfig]) -> MacSecKayParticipant:
         """
-        Cryptography that is used by the MKA Participant.
+        Cryptography that is used by the MKA Participant. Tags: atp.Status=candidate
         A None value is a no-op and does not overwrite an existing cryptoAlgoConfig.
         """
         if value is not None:
@@ -2129,12 +2178,12 @@ class MacSecKayParticipant(Identifiable):
         return self
 
     def getSakRef(self) -> Optional[RefType]:
-        """Reference to the key where SAK shall be stored."""
+        """Reference to the key where SAK shall be stored. Tags: atp.Status=candidate"""
         return self.sakRef
 
     def setSakRef(self, value: Optional[RefType]) -> MacSecKayParticipant:
         """
-        Reference to the key where SAK shall be stored.
+        Reference to the key where SAK shall be stored. Tags: atp.Status=candidate
         A None value is a no-op and does not overwrite an existing sakRef.
         """
         if value is not None:
@@ -2144,50 +2193,49 @@ class MacSecKayParticipant(Identifiable):
 
 class MacSecProps(ARObject):
     """
-    This meta-class allows to configure MACsec (Media access control security) and the MKA (MACsec Key Agreement) for the CouplingPort (PHY).
+    This meta-class allows to configure MACsec (Media access control security) and the MKA (MACsec Key Agreement) for the CouplingPort (PHY). Tags: atp.Status=candidate
     """
 
     # MacSecProps method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.118, p.173
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getAutoStart                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setAutoStart                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMacSecKayConfig               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMacSecKayConfig               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getOnFailPermissiveMode          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setOnFailPermissiveMode          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getOnFailPermissiveModeTimeout   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setOnFailPermissiveModeTimeout   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSakRekeyTimeSpan              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSakRekeyTimeSpan              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAutoStart                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAutoStart                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMacSecKayConfig              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMacSecKayConfig              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOnFailPermissiveMode         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOnFailPermissiveMode         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOnFailPermissiveModeTimeout  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOnFailPermissiveModeTimeout  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSakRekeyTimeSpan             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSakRekeyTimeSpan             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        # This attribute defines how the Port Access Entity (PAE) is started: • true := Autostart • false := Manual Start
+        # This attribute defines how the Port Access Entity (PAE) is started: • true := Autostart • false := Manual Start Tags: atp.Status=candidate
         self.autoStart: Optional[Boolean] = None
 
-        # Properties to configure the MKA instance (KaY) for a controlled CouplingPort (PaE).
+        # Properties to configure the MKA instance (KaY) for a controlled CouplingPort (PaE). Tags: atp.Status=candidate
         self.macSecKayConfig: Optional[MacSecLocalKayProps] = None
 
-        # This attribute sets the behavior of the Port Access Entity in case MACsec does not succeed.
+        # This attribute sets the behavior of the Port Access Entity in case MACsec does not succeed. Tags: atp.Status=candidate
         self.onFailPermissiveMode: Optional[MacSecFailPermissiveModeEnum] = None
 
-        # Timeout in seconds to enable the controlled port in case onFailPermissiveMode is set to Timeout.
+        # Timeout in seconds to enable the controlled port in case onFailPermissiveMode is set to Timeout. Tags: atp.Status=candidate
         self.onFailPermissiveModeTimeout: Optional[TimeValue] = None
 
-        # Time in seconds to trigger the rekey of an in use SAK (Static Secure Association key). If set to 0, the rekey will not be triggered after a time span.
+        # Time in seconds to trigger the rekey of an in use SAK (Static Secure Association key). If set to 0, the rekey will not be triggered after a time span. Tags: atp.Status=candidate
         self.sakRekeyTimeSpan: Optional[TimeValue] = None
 
     def getAutoStart(self) -> Optional[Boolean]:
-        """This attribute defines how the Port Access Entity (PAE) is started: • true := Autostart • false := Manual Start"""
+        """This attribute defines how the Port Access Entity (PAE) is started: • true := Autostart • false := Manual Start Tags: atp.Status=candidate"""
         return self.autoStart
 
     def setAutoStart(self, value: Optional[Boolean]) -> MacSecProps:
         """
-        This attribute defines how the Port Access Entity (PAE) is started: • true := Autostart • false := Manual Start
+        This attribute defines how the Port Access Entity (PAE) is started: • true := Autostart • false := Manual Start Tags: atp.Status=candidate
         A None value is a no-op and does not overwrite an existing autoStart.
         """
         if value is not None:
@@ -2195,12 +2243,12 @@ class MacSecProps(ARObject):
         return self
 
     def getMacSecKayConfig(self) -> Optional[MacSecLocalKayProps]:
-        """Properties to configure the MKA instance (KaY) for a controlled CouplingPort (PaE)."""
+        """Properties to configure the MKA instance (KaY) for a controlled CouplingPort (PaE). Tags: atp.Status=candidate"""
         return self.macSecKayConfig
 
     def setMacSecKayConfig(self, value: Optional[MacSecLocalKayProps]) -> MacSecProps:
         """
-        Properties to configure the MKA instance (KaY) for a controlled CouplingPort (PaE).
+        Properties to configure the MKA instance (KaY) for a controlled CouplingPort (PaE). Tags: atp.Status=candidate
         A None value is a no-op and does not overwrite an existing macSecKayConfig.
         """
         if value is not None:
@@ -2208,12 +2256,12 @@ class MacSecProps(ARObject):
         return self
 
     def getOnFailPermissiveMode(self) -> Optional[MacSecFailPermissiveModeEnum]:
-        """This attribute sets the behavior of the Port Access Entity in case MACsec does not succeed."""
+        """This attribute sets the behavior of the Port Access Entity in case MACsec does not succeed. Tags: atp.Status=candidate"""
         return self.onFailPermissiveMode
 
     def setOnFailPermissiveMode(self, value: Optional[MacSecFailPermissiveModeEnum]) -> MacSecProps:
         """
-        This attribute sets the behavior of the Port Access Entity in case MACsec does not succeed.
+        This attribute sets the behavior of the Port Access Entity in case MACsec does not succeed. Tags: atp.Status=candidate
         A None value is a no-op and does not overwrite an existing onFailPermissiveMode.
         """
         if value is not None:
@@ -2221,12 +2269,12 @@ class MacSecProps(ARObject):
         return self
 
     def getOnFailPermissiveModeTimeout(self) -> Optional[TimeValue]:
-        """Timeout in seconds to enable the controlled port in case onFailPermissiveMode is set to Timeout."""
+        """Timeout in seconds to enable the controlled port in case onFailPermissiveMode is set to Timeout. Tags: atp.Status=candidate"""
         return self.onFailPermissiveModeTimeout
 
     def setOnFailPermissiveModeTimeout(self, value: Optional[TimeValue]) -> MacSecProps:
         """
-        Timeout in seconds to enable the controlled port in case onFailPermissiveMode is set to Timeout.
+        Timeout in seconds to enable the controlled port in case onFailPermissiveMode is set to Timeout. Tags: atp.Status=candidate
         A None value is a no-op and does not overwrite an existing onFailPermissiveModeTimeout.
         """
         if value is not None:
@@ -2234,12 +2282,12 @@ class MacSecProps(ARObject):
         return self
 
     def getSakRekeyTimeSpan(self) -> Optional[TimeValue]:
-        """Time in seconds to trigger the rekey of an in use SAK (Static Secure Association key). If set to 0, the rekey will not be triggered after a time span."""
+        """Time in seconds to trigger the rekey of an in use SAK (Static Secure Association key). If set to 0, the rekey will not be triggered after a time span. Tags: atp.Status=candidate"""
         return self.sakRekeyTimeSpan
 
     def setSakRekeyTimeSpan(self, value: Optional[TimeValue]) -> MacSecProps:
         """
-        Time in seconds to trigger the rekey of an in use SAK (Static Secure Association key). If set to 0, the rekey will not be triggered after a time span.
+        Time in seconds to trigger the rekey of an in use SAK (Static Secure Association key). If set to 0, the rekey will not be triggered after a time span. Tags: atp.Status=candidate
         A None value is a no-op and does not overwrite an existing sakRekeyTimeSpan.
         """
         if value is not None:

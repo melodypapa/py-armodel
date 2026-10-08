@@ -5,7 +5,8 @@ import xml.etree.ElementTree as ET
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Identifier, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
     CommConnectorPort,
     CommunicationDirectionType,
@@ -61,6 +62,12 @@ def _full_port() -> FramePort:
     return port
 
 
+def _vp(label):
+    vp = VariationPoint()
+    vp.setShortLabel(Identifier().setValue(label))
+    return vp
+
+
 class TestCommConnectorPort:
     def test_inheritance(self):
         parent = _parent()
@@ -84,6 +91,45 @@ class TestCommConnectorPort:
         tag = parent.find("FRAME-PORT")
         assert tag is not None
         assert tag.find("COMMUNICATION-DIRECTION") is None
+
+    def test_write_comm_connector_port_element_order(self, writer):
+        # XSD group COMM-CONNECTOR-PORT: COMMUNICATION-DIRECTION first,
+        # VARIATION-POINT last (xml.sequenceOffset="10000").
+        port = _full_port()
+        port.setVariationPoint(_vp("VP1"))
+        parent = ET.Element("PARENT")
+        writer.writeFramePort(parent, port)
+
+        tag = parent.find("FRAME-PORT")
+        tags = [child.tag for child in tag if child.tag != "SHORT-NAME"]
+        assert tags == ["COMMUNICATION-DIRECTION", "VARIATION-POINT"]
+        assert tag.find("VARIATION-POINT/SHORT-LABEL").text == "VP1"
+
+    def test_comm_connector_port_variation_point_round_trip(self, writer, parser):
+        port = _full_port()
+        port.setVariationPoint(_vp("VP1"))
+        parent = ET.Element("PARENT")
+        writer.writeFramePort(parent, port)
+
+        reloaded = FramePort(MockParent(), "fp")
+        parser.readFramePort(_namespaced(parent)[0], reloaded)
+
+        assert reloaded.getCommunicationDirection().getValue() == "IN"
+        assert reloaded.getVariationPoint() is not None
+        assert reloaded.getVariationPoint().getShortLabel().getValue() == "VP1"
+
+    def test_ecu_comm_port_instances_empty_wrapper_not_emitted(self, writer, parser):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanCommunicationConnector
+
+        connector = CanCommunicationConnector(_parent(), "conn")
+
+        parent = ET.Element("PARENT")
+        writer.writeCommunicationConnectorEcuCommPortInstances(parent, connector)
+        assert parent.find("ECU-COMM-PORT-INSTANCES") is None
+
+        reloaded = CanCommunicationConnector(_parent(), "conn")
+        parser.readCommunicationConnectorEcuCommPortInstances(_namespaced(parent), reloaded)
+        assert reloaded.getEcuCommPortInstances() == []
 
     def test_comm_connector_port_round_trip(self, writer, parser):
         parent = ET.Element("PARENT")
@@ -140,7 +186,7 @@ class TestCommConnectorPort:
         direction.setValue(CommunicationDirectionType.OUT)
         port.setCommunicationDirection(direction)
         processing = IPduSignalProcessingEnum()
-        processing.setValue(IPduSignalProcessingEnum.ENUM_DEFERRED)
+        processing.setValue(IPduSignalProcessingEnum.DEFERRED)
         port.setIPduSignalProcessing(processing)
         rx_security = Boolean()
         rx_security.setValue(True)
@@ -161,7 +207,7 @@ class TestCommConnectorPort:
         assert isinstance(reloaded, CommConnectorPort)
         assert reloaded.getShortName() == "ip"
         assert reloaded.getCommunicationDirection().getValue() == "OUT"
-        assert reloaded.getIPduSignalProcessing().getValue() == IPduSignalProcessingEnum.ENUM_DEFERRED
+        assert reloaded.getIPduSignalProcessing().getValue() == IPduSignalProcessingEnum.DEFERRED
         assert reloaded.getRxSecurityVerification().getValue() is True
         assert float(reloaded.getTimestampRxAcceptanceWindow().getValue()) == 0.05
         assert reloaded.getUseAuthDataFreshness().getValue() is False

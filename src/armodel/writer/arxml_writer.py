@@ -594,7 +594,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DdsCpServiceInstance,
     DdsCpTopic,
     PortElementToCommunicationResourceMapping,
-    SwcToApplicationPartitionMapping,
     Describable,
     DiagnosticAuthTransmitCertificateEvaluation,
     DiagnosticDataElement,
@@ -1043,6 +1042,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     EthernetCommunicationController,
     EthernetPriorityRegeneration,
     EthernetWakeupSleepOnDatalineConfig,
+    EthernetWakeupSleepOnDatalineConfigSet,
     DhcpServerConfiguration,
     Ipv4ArpProps,
     Ipv4AutoIpProps,
@@ -1090,6 +1090,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication impor
     MacSecGlobalKayProps,
     MacSecKayParticipant,
     MacSecLocalKayProps,
+    MacSecParticipantSet,
     MacSecProps,
     SecOcCryptoServiceMapping,
     TlsCryptoCipherSuite,
@@ -1249,6 +1250,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopol
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinPhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetPhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayPhysicalChannel
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.CddSupport import UserDefinedCluster, UserDefinedCommunicationConnector, UserDefinedCommunicationController, UserDefinedPhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import EcuInstance
 from armodel.models.M2.AUTOSARTemplates.LogAndTraceExtract import DltApplication, DltArgument, DltContext, DltEcu, DltMessage, PrivacyLevel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Dlt import DltConfig, DltLogChannel
@@ -1297,7 +1299,18 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import 
     UdpNmEcu,
     UdpNmNode,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import ApplicationPartitionToEcuPartitionMapping, EcuResourceEstimation, SwcToImplMapping
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import (
+    ApplicationPartition,
+    ApplicationPartitionToEcuPartitionMapping,
+    ComponentClustering,
+    ComponentSeparation,
+    EcuResourceEstimation,
+    J1939ControllerApplication,
+    J1939ControllerApplicationToJ1939NmNodeMapping,
+    MappingConstraint,
+    SwcToApplicationPartitionMapping,
+    SwcToImplMapping,
+)
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.PncMapping import PncMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     BufferProperties,
@@ -9929,6 +9942,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "BUS-MIRROR-CHANNEL-MAPPING-USER-DEFINED")
         self.writeBusMirrorChannelMapping(child_element, mapping)
         self.setChildElementOptionalTimeValue(child_element, "TRANSMISSION-DEADLINE", mapping.getTransmissionDeadline())
+
     def writeTDCpSoftwareClusterMapping(self, element: ET.Element, mapping: TDCpSoftwareClusterMapping):
         child_element = ET.SubElement(element, "TD-CP-SOFTWARE-CLUSTER-MAPPING")
         self.writeIdentifiable(child_element, mapping)
@@ -12099,6 +12113,12 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writePhysicalChannel(child_element, channel)
         self.setChildElementOptionalLiteral(child_element, "CHANNEL-NAME", channel.getChannelName())
 
+    def writeUserDefinedPhysicalChannel(self, element: ET.Element, channel: UserDefinedPhysicalChannel):
+        if channel is not None:
+            self.logger.debug("UserDefinedPhysicalChannel %s" % channel.getShortName())
+            child_element = ET.SubElement(element, "USER-DEFINED-PHYSICAL-CHANNEL")
+            self.writePhysicalChannel(child_element, channel)
+
     def writeCommunicationClusterPhysicalChannels(self, element: ET.Element, cluster: CommunicationCluster):
         channels = cluster.getPhysicalChannels()
         if len(channels) > 0:
@@ -12114,6 +12134,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeEthernetPhysicalChannel(child_element, channel)
                 elif isinstance(channel, FlexrayPhysicalChannel):
                     self.writeFlexrayPhysicalChannel(child_element, channel)
+                elif isinstance(channel, UserDefinedPhysicalChannel):
+                    self.writeUserDefinedPhysicalChannel(child_element, channel)
                 else:
                     self.notImplemented("Unsupported Physical Channel <%s>" % type(channel))
 
@@ -12147,6 +12169,16 @@ class ARXMLWriter(AbstractARXMLWriter):
 
             child_element = ET.SubElement(child_element, "LIN-CLUSTER-VARIANTS")
             child_element = ET.SubElement(child_element, "LIN-CLUSTER-CONDITIONAL")
+            self.writeCommunicationCluster(child_element, cluster)
+
+    def writeUserDefinedCluster(self, element: ET.Element, cluster: UserDefinedCluster):
+        if cluster is not None:
+            self.logger.debug("UserDefinedCluster %s" % cluster.getShortName())
+            child_element = ET.SubElement(element, "USER-DEFINED-CLUSTER")
+            self.writeIdentifiable(child_element, cluster)
+
+            child_element = ET.SubElement(child_element, "USER-DEFINED-CLUSTER-VARIANTS")
+            child_element = ET.SubElement(child_element, "USER-DEFINED-CLUSTER-CONDITIONAL")
             self.writeCommunicationCluster(child_element, cluster)
 
     def writeCanCluster(self, element: ET.Element, cluster: CanCluster):
@@ -12184,6 +12216,13 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalPositiveInteger(child_element, "NETWORK-ID", cast(Integer, cluster.getNetworkId()))
             self.setChildElementOptionalBooleanValue(child_element, "REQUEST-2-SUPPORT", cluster.getRequest2Support())
             self.setChildElementOptionalBooleanValue(child_element, "USES-ADDRESS-ARBITRATION", cluster.getUsesAddressArbitration())
+
+    def writeJ1939ControllerApplication(self, element: ET.Element, controller_application: J1939ControllerApplication):
+        if controller_application is not None:
+            child_element = ET.SubElement(element, "J-1939-CONTROLLER-APPLICATION")
+            self.writeIdentifiable(child_element, controller_application)
+            self.setChildElementOptionalPositiveInteger(child_element, "FUNCTION-ID", controller_application.getFunctionId())
+            self.setComponentInSystemInstanceRef(child_element, "SW-COMPONENT-PROTOTYPE-IREF", controller_application.getSwComponentPrototypeIRef())
 
     def writeUdpProps(self, element: ET.Element, props: Optional[UdpProps]):
         """Write an R23-11 <UDP-PROPS> element (Table 3.110, p.154): single optional UDP-TTL."""
@@ -12382,6 +12421,17 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalBooleanValue(element, "WAKEUP-REMOTE-ENABLED", config.getWakeupRemoteEnabled())
             self.setChildElementOptionalTimeValue(element, "WAKEUP-REPETITION-DELAY-OF-WAKEUP-REQUEST", config.getWakeupRepetitionDelayOfWakeupRequest())
             self.setChildElementOptionalPositiveInteger(element, "WAKEUP-REPETITIONS-OF-WAKEUP-REQUEST", config.getWakeupRepetitionsOfWakeupRequest())
+
+    def writeEthernetWakeupSleepOnDatalineConfigSet(self, element: ET.Element, config_set: EthernetWakeupSleepOnDatalineConfigSet):
+        if config_set is not None:
+            child_element = ET.SubElement(element, "ETHERNET-WAKEUP-SLEEP-ON-DATALINE-CONFIG-SET")
+            self.writeIdentifiable(child_element, config_set)
+            configs = config_set.getEthernetWakeupSleepOnDatalineConfigs()
+            if len(configs) > 0:
+                configs_element = ET.SubElement(child_element, "ETHERNET-WAKEUP-SLEEP-ON-DATALINE-CONFIGS")
+                for config in configs:
+                    config_element = ET.SubElement(configs_element, "ETHERNET-WAKEUP-SLEEP-ON-DATALINE-CONFIG")
+                    self.writeEthernetWakeupSleepOnDatalineConfig(config_element, config)
 
     def writeEthTcpIpIcmpProps(self, element: ET.Element, props: EthTcpIpIcmpProps):
         """Write an R23-11 <ETH-TCP-IP-ICMP-PROPS> element (Table 3.112, p.156): SHORT-NAME, ICMP-V-4-PROPS, ICMP-V-6-PROPS."""
@@ -13337,8 +13387,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeFrame(child_element, frame)
 
     def writeCommConnectorPort(self, element: ET.Element, port: CommConnectorPort):
-        self.writeIdentifiable(element, port)
+        # VARIATION-POINT is emitted after the COMM-CONNECTOR-PORT group attributes
+        # (xml.sequenceOffset="10000" in AUTOSAR_00052.xsd group COMM-CONNECTOR-PORT).
+        self.writeIdentifiable(element, port, write_variation_point=False)
         self.setChildElementOptionalLiteral(element, "COMMUNICATION-DIRECTION", port.getCommunicationDirection())
+        self.writeVariationPointCapable(element, port)
 
     def writeFramePort(self, element: ET.Element, port: FramePort):
         child_element = ET.SubElement(element, "FRAME-PORT")
@@ -13524,6 +13577,16 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalIntegerValue(cond_tag, "TIME-TRIGGERED-CAN-LEVEL", cast(Integer, controller.getTimeTriggeredCanLevel()))
         self.setChildElementOptionalIntegerValue(cond_tag, "TX-ENABLE-WINDOW-LENGTH", cast(Integer, controller.getTxEnableWindowLength()))
 
+    def writeUserDefinedCommunicationController(self, element: ET.Element, controller: UserDefinedCommunicationController):
+        if controller is not None:
+            self.logger.debug("Write UserDefinedCommunicationController %s" % controller.getShortName())
+            child_element = ET.SubElement(element, "USER-DEFINED-COMMUNICATION-CONTROLLER")
+            self.writeIdentifiable(child_element, controller)
+
+            child_element = ET.SubElement(child_element, "USER-DEFINED-COMMUNICATION-CONTROLLER-VARIANTS")
+            child_element = ET.SubElement(child_element, "USER-DEFINED-COMMUNICATION-CONTROLLER-CONDITIONAL")
+            self.writeCommunicationController(child_element, controller)
+
     def writeCouplingPortSchedulerCouplingPortStructuralElement(self, element: ET.Element, item: CouplingPortStructuralElement):
         self.writeIdentifiable(element, item)
 
@@ -13662,9 +13725,14 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setPlcaProps(self, element: ET.Element, key: str, props: Optional[PlcaProps]):
         if props is not None:
             child_element = ET.SubElement(element, key)
-            self.setChildElementOptionalPositiveInteger(child_element, "PLCA-LOCAL-NODE-ID", cast(Integer, props.getPlcaLocalNodeId()))
-            self.setChildElementOptionalPositiveInteger(child_element, "PLCA-MAX-BURST-COUNT", cast(Integer, props.getPlcaMaxBurstCount()))
-            self.setChildElementOptionalPositiveInteger(child_element, "PLCA-MAX-BURST-TIMER", cast(Integer, props.getPlcaMaxBurstTimer()))
+            self.writePlcaProps(child_element, props)
+
+    def writePlcaProps(self, element: ET.Element, props: Optional[PlcaProps]):
+        if props is not None:
+            self.writeARObject(element, props)
+            self.setChildElementOptionalPositiveInteger(element, "PLCA-LOCAL-NODE-ID", cast(Integer, props.getPlcaLocalNodeId()))
+            self.setChildElementOptionalPositiveInteger(element, "PLCA-MAX-BURST-COUNT", cast(Integer, props.getPlcaMaxBurstCount()))
+            self.setChildElementOptionalPositiveInteger(element, "PLCA-MAX-BURST-TIMER", cast(Integer, props.getPlcaMaxBurstTimer()))
 
     def writeAbstractGlobalTimeDomainProps(self, element: ET.Element, props: AbstractGlobalTimeDomainProps):
         # Populates the concrete subclass element (CAN/ETH/FR-GLOBAL-TIME-DOMAIN-PROPS) created by
@@ -13705,13 +13773,25 @@ class ARXMLWriter(AbstractARXMLWriter):
             for value in vlans:
                 self.setChildElementOptionalPositiveInteger(wrapper, "BYPASS-VLAN", cast(Integer, value))
 
+    def writeMacSecParticipantSet(self, element: ET.Element, participant_set: MacSecParticipantSet):
+        child_element = ET.SubElement(element, "MAC-SEC-PARTICIPANT-SET")
+        self.writeARElement(child_element, participant_set)
+        self.setChildElementOptionalRefType(child_element, "ETHERNET-CLUSTER-REF", participant_set.getEthernetClusterRef())
+        participants = participant_set.getMkaParticipants()
+        if len(participants) > 0:
+            wrapper = ET.SubElement(child_element, "MKA-PARTICIPANTS")
+            for participant in participants:
+                self.writeMacSecKayParticipant(wrapper, participant)
+
     def writeMacSecCipherSuiteConfig(self, element: ET.Element, config: MacSecCipherSuiteConfig):
         child_element = ET.SubElement(element, "MAC-SEC-CIPHER-SUITE-CONFIG")
+        self.writeARObject(child_element, config)
         self.setChildElementOptionalString(child_element, "CIPHER-SUITE", config.getCipherSuite())
         self.setChildElementOptionalPositiveInteger(child_element, "CIPHER-SUITE-PRIORITY", cast(Integer, config.getCipherSuitePriority()))
 
     def writeMacSecCryptoAlgoConfig(self, element: ET.Element, config: MacSecCryptoAlgoConfig):
-        child_element = ET.SubElement(element, "MAC-SEC-CRYPTO-ALGO-CONFIG")
+        child_element = ET.SubElement(element, "CRYPTO-ALGO-CONFIG")
+        self.writeARObject(child_element, config)
         self.setChildElementOptionalLiteral(child_element, "CAPABILITY", config.getCapability())
         cipher_configs = config.getCipherSuiteConfigs()
         if len(cipher_configs) > 0:
@@ -13728,40 +13808,41 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalRefType(child_element, "CKN-REF", participant.getCknRef())
         config = participant.getCryptoAlgoConfig()
         if config is not None:
-            algo_element = ET.SubElement(child_element, "CRYPTO-ALGO-CONFIG")
-            self.setChildElementOptionalLiteral(algo_element, "CAPABILITY", config.getCapability())
-            cipher_configs = config.getCipherSuiteConfigs()
-            if len(cipher_configs) > 0:
-                wrapper = ET.SubElement(algo_element, "CIPHER-SUITE-CONFIGS")
-                for cipher_config in cipher_configs:
-                    self.writeMacSecCipherSuiteConfig(wrapper, cipher_config)
-            self.setChildElementOptionalLiteral(algo_element, "CONFIDENTIALITY-OFFSET", config.getConfidentialityOffset())
-            self.setChildElementOptionalBooleanValue(algo_element, "REPLAY-PROTECTION", config.getReplayProtection())
-            self.setChildElementOptionalPositiveInteger(algo_element, "REPLAY-PROTECTION-WINDOW", cast(Integer, config.getReplayProtectionWindow()))
+            self.writeMacSecCryptoAlgoConfig(child_element, config)
         self.setChildElementOptionalRefType(child_element, "SAK-REF", participant.getSakRef())
 
     def setMacSecLocalKayProps(self, element: ET.Element, key: str, props: Optional[MacSecLocalKayProps]):
         if props is not None:
             child_element = ET.SubElement(element, key)
-            self.setChildElementOptionalMacAddressString(child_element, "DESTINATION-MAC-ADDRESS", props.getDestinationMacAddress())
-            self.setChildElementOptionalRefType(child_element, "GLOBAL-KAY-PROPS-REF", props.getGlobalKayPropsRef())
-            self.setChildElementOptionalPositiveInteger(child_element, "KEY-SERVER-PRIORITY", cast(Integer, props.getKeyServerPriority()))
+            self.writeMacSecLocalKayProps(child_element, props)
+
+    def writeMacSecLocalKayProps(self, element: ET.Element, props: Optional[MacSecLocalKayProps]):
+        if props is not None:
+            self.writeARObject(element, props)
+            self.setChildElementOptionalMacAddressString(element, "DESTINATION-MAC-ADDRESS", props.getDestinationMacAddress())
+            self.setChildElementOptionalRefType(element, "GLOBAL-KAY-PROPS-REF", props.getGlobalKayPropsRef())
+            self.setChildElementOptionalPositiveInteger(element, "KEY-SERVER-PRIORITY", cast(Integer, props.getKeyServerPriority()))
             refs = props.getMkaParticipantRefs()
             if len(refs) > 0:
-                refs_element = ET.SubElement(child_element, "MKA-PARTICIPANT-REFS")
+                refs_element = ET.SubElement(element, "MKA-PARTICIPANT-REFS")
                 for ref in refs:
                     self.setChildElementOptionalRefType(refs_element, "MKA-PARTICIPANT-REF", ref)
-            self.setChildElementOptionalLiteral(child_element, "ROLE", props.getRole())
-            self.setChildElementOptionalMacAddressString(child_element, "SOURCE-MAC-ADDRESS", props.getSourceMacAddress())
+            self.setChildElementOptionalLiteral(element, "ROLE", props.getRole())
+            self.setChildElementOptionalMacAddressString(element, "SOURCE-MAC-ADDRESS", props.getSourceMacAddress())
 
-    def setMacSecProps(self, element: ET.Element, key: str, props: MacSecProps):
+    def setMacSecProps(self, element: ET.Element, key: str, props: Optional[MacSecProps]):
         if props is not None:
             child_element = ET.SubElement(element, key)
-            self.setChildElementOptionalBooleanValue(child_element, "AUTO-START", props.getAutoStart())
-            self.setMacSecLocalKayProps(child_element, "MAC-SEC-KAY-CONFIG", props.getMacSecKayConfig())
-            self.setChildElementOptionalLiteral(child_element, "ON-FAIL-PERMISSIVE-MODE", props.getOnFailPermissiveMode())
-            self.setChildElementOptionalTimeValue(child_element, "ON-FAIL-PERMISSIVE-MODE-TIMEOUT", props.getOnFailPermissiveModeTimeout())
-            self.setChildElementOptionalTimeValue(child_element, "SAK-REKEY-TIME-SPAN", props.getSakRekeyTimeSpan())
+            self.writeMacSecProps(child_element, props)
+
+    def writeMacSecProps(self, element: ET.Element, props: Optional[MacSecProps]):
+        if props is not None:
+            self.writeARObject(element, props)
+            self.setChildElementOptionalBooleanValue(element, "AUTO-START", props.getAutoStart())
+            self.setMacSecLocalKayProps(element, "MAC-SEC-KAY-CONFIG", props.getMacSecKayConfig())
+            self.setChildElementOptionalLiteral(element, "ON-FAIL-PERMISSIVE-MODE", props.getOnFailPermissiveMode())
+            self.setChildElementOptionalTimeValue(element, "ON-FAIL-PERMISSIVE-MODE-TIMEOUT", props.getOnFailPermissiveModeTimeout())
+            self.setChildElementOptionalTimeValue(element, "SAK-REKEY-TIME-SPAN", props.getSakRekeyTimeSpan())
 
     def setCouplingPortDetails(self, element: ET.Element, key: str, details: Optional[CouplingPortDetails]):
         if details is not None:
@@ -13979,6 +14060,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeFlexrayCommunicationController(child_element, controller)
                 elif isinstance(controller, TtcanCommunicationController):
                     self.writeTtcanCommunicationController(child_element, controller)
+                elif isinstance(controller, UserDefinedCommunicationController):
+                    self.writeUserDefinedCommunicationController(child_element, controller)
                 else:
                     self.notImplemented("Unsupported Communication Controller <%s>" % type(controller))
 
@@ -14006,6 +14089,10 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeTtcanCommunicationConnector(self, element: ET.Element, connector: TtcanCommunicationConnector):
         self.logger.debug("Write TtcanCommunicationConnector %s" % connector.getShortName())
+        self.writeCommunicationConnector(element, connector)
+
+    def writeUserDefinedCommunicationConnector(self, element: ET.Element, connector: UserDefinedCommunicationConnector):
+        self.logger.debug("Write UserDefinedCommunicationConnector %s" % connector.getShortName())
         self.writeCommunicationConnector(element, connector)
 
     def writeEthernetCommunicationConnector(self, element: ET.Element, connector: EthernetCommunicationConnector):
@@ -14059,6 +14146,9 @@ class ARXMLWriter(AbstractARXMLWriter):
                 elif isinstance(connector, FlexrayCommunicationConnector):
                     child_element = ET.SubElement(connectors_tag, "FLEXRAY-COMMUNICATION-CONNECTOR")
                     self.writeFlexrayCommunicationConnector(child_element, connector)
+                elif isinstance(connector, UserDefinedCommunicationConnector):
+                    child_element = ET.SubElement(connectors_tag, "USER-DEFINED-COMMUNICATION-CONNECTOR")
+                    self.writeUserDefinedCommunicationConnector(child_element, connector)
                 else:
                     self.notImplemented("Unsupported Communication connector <%s>" % type(connector))
 
@@ -14586,6 +14676,11 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     self.notImplemented("Unsupported Data Mapping %s" % type(data_mapping))
 
+    def writeApplicationPartition(self, element: ET.Element, app_partition: ApplicationPartition):
+        if app_partition is not None:
+            child_element = ET.SubElement(element, "APPLICATION-PARTITION")
+            self.writeIdentifiable(child_element, app_partition)
+
     def writeApplicationPartitionToEcuPartitionMapping(self, element: ET.Element, mapping: ApplicationPartitionToEcuPartitionMapping):
         child_element = ET.SubElement(element, "APPLICATION-PARTITION-TO-ECU-PARTITION-MAPPING")
         self.writeIdentifiable(child_element, mapping, write_variation_point=False)
@@ -14829,6 +14924,78 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeEcuMapping(child_element, ecu_resource_mapping)
                 else:
                     self.notImplemented("Unsupported Sw Mapping %s" % type(ecu_resource_mapping))
+
+    def writeSystemMappingJ1939ControllerApplicationToJ1939NmNodeMappings(self, element: ET.Element, mapping: SystemMapping):
+        j1939_mappings = mapping.getJ1939ControllerApplicationToJ1939NmNodeMappings()
+        if len(j1939_mappings) > 0:
+            mappings_tag = ET.SubElement(element, "J-1939-CONTROLLER-APPLICATION-TO-J-1939-NM-NODE-MAPPINGS")
+            for j1939_mapping in j1939_mappings:
+                self.writeJ1939ControllerApplicationToJ1939NmNodeMapping(mappings_tag, j1939_mapping)
+
+    def writeJ1939ControllerApplicationToJ1939NmNodeMapping(self, element: ET.Element, j1939_mapping: J1939ControllerApplicationToJ1939NmNodeMapping):
+        child_element = ET.SubElement(element, "J-1939-CONTROLLER-APPLICATION-TO-J-1939-NM-NODE-MAPPING")
+        self.writeARObject(child_element, j1939_mapping)
+        self.setChildElementOptionalRefType(child_element, "J-1939-CONTROLLER-APPLICATION-REF", j1939_mapping.getJ1939ControllerApplicationRef())
+        self.setChildElementOptionalRefType(child_element, "J-1939-NM-NODE-REF", j1939_mapping.getJ1939NmNodeRef())
+
+    def writeMappingConstraint(self, element: ET.Element, mapping_constraint: MappingConstraint):
+        self.writeARObject(element, mapping_constraint)
+        self.writeDocumentationBlock(element, "INTRODUCTION", mapping_constraint.getIntroduction())
+        self.writeVariationPoint(element, mapping_constraint.getVariationPoint())
+
+    def writeComponentClustering(self, element: ET.Element, clustering: ComponentClustering):
+        self.writeMappingConstraint(element, clustering)
+        irefs = clustering.getClusteredComponentIRefs()
+        if len(irefs) > 0:
+            irefs_tag = ET.SubElement(element, "CLUSTERED-COMPONENT-IREFS")
+            for iref in irefs:
+                self.setComponentInSystemInstanceRef(irefs_tag, "CLUSTERED-COMPONENT-IREF", iref)
+        self.setChildElementOptionalLiteral(element, "MAPPING-SCOPE", clustering.getMappingScope())
+
+    def writeComponentSeparation(self, element: ET.Element, separation: ComponentSeparation):
+        self.writeMappingConstraint(element, separation)
+        self.setChildElementOptionalLiteral(element, "MAPPING-SCOPE", separation.getMappingScope())
+        irefs = separation.getSeparatedComponentIRefs()
+        if len(irefs) > 0:
+            irefs_tag = ET.SubElement(element, "SEPARATED-COMPONENT-IREFS")
+            for iref in irefs:
+                self.setComponentInSystemInstanceRef(irefs_tag, "SEPARATED-COMPONENT-IREF", iref)
+
+    def writeSystemMappingMappingConstraints(self, element: ET.Element, mapping: SystemMapping):
+        constraints = mapping.getMappingConstraints()
+        if len(constraints) > 0:
+            mappings_tag = ET.SubElement(element, "MAPPING-CONSTRAINTS")
+            for constraint in constraints:
+                if isinstance(constraint, ComponentClustering):
+                    child_element = ET.SubElement(mappings_tag, "COMPONENT-CLUSTERING")
+                    self.writeComponentClustering(child_element, constraint)
+                elif isinstance(constraint, ComponentSeparation):
+                    child_element = ET.SubElement(mappings_tag, "COMPONENT-SEPARATION")
+                    self.writeComponentSeparation(child_element, constraint)
+                else:
+                    self.notImplemented("Unsupported MappingConstraint %s" % type(constraint))
+
+    def writeSystemMappingPortElementToComResourceMappings(self, element: ET.Element, mapping: SystemMapping):
+        port_mappings = mapping.getPortElementToComResourceMappings()
+        if len(port_mappings) > 0:
+            mappings_tag = ET.SubElement(element, "PORT-ELEMENT-TO-COM-RESOURCE-MAPPINGS")
+            for port_mapping in port_mappings:
+                child_element = ET.SubElement(mappings_tag, "PORT-ELEMENT-TO-COMMUNICATION-RESOURCE-MAPPING")
+                self.writeIdentifiable(child_element, port_mapping)
+
+    def writeSystemMappingSwcToApplicationPartitionMappings(self, element: ET.Element, mapping: SystemMapping):
+        swc_mappings = mapping.getSwcToApplicationPartitionMappings()
+        if len(swc_mappings) > 0:
+            mappings_tag = ET.SubElement(element, "SWC-TO-APPLICATION-PARTITION-MAPPINGS")
+            for swc_mapping in swc_mappings:
+                self.writeSwcToApplicationPartitionMapping(mappings_tag, swc_mapping)
+
+    def writeSwcToApplicationPartitionMapping(self, element: ET.Element, mapping: SwcToApplicationPartitionMapping):
+        child_element = ET.SubElement(element, "SWC-TO-APPLICATION-PARTITION-MAPPING")
+        self.writeIdentifiable(child_element, mapping, write_variation_point=False)
+        self.setChildElementOptionalRefType(child_element, "APPLICATION-PARTITION-REF", mapping.getApplicationPartitionRef())
+        self.setComponentInSystemInstanceRef(child_element, "SW-COMPONENT-PROTOTYPE-IREF", mapping.getSwComponentPrototypeIRef())
+        self.writeVariationPointCapable(child_element, mapping)
 
     def writeSwcToImplMapping(self, element: ET.Element, mapping: SwcToImplMapping):
         if mapping is not None:
@@ -15098,7 +15265,10 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeSystemMappingDataMappings(child_element, mapping)
         self.writeSystemMappingDdsISignalToTopicMappings(child_element, mapping)
         self.writeSystemMappingEcuResourceMappings(child_element, mapping)
+        self.writeSystemMappingJ1939ControllerApplicationToJ1939NmNodeMappings(child_element, mapping)
+        self.writeSystemMappingMappingConstraints(child_element, mapping)
         self.writeSystemMappingPncMappings(child_element, mapping)
+        self.writeSystemMappingPortElementToComResourceMappings(child_element, mapping)
         self.writeSystemMappingResourceEstimations(child_element, mapping)
         self.writeSystemMappingResourceToApplicationPartitionMappings(child_element, mapping)
         self.writeSystemMappingRteEventSeparations(child_element, mapping)
@@ -15108,6 +15278,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeSystemMappingSwClusterMappings(child_element, mapping)
         self.writeSystemMappingSwImplMappings(child_element, mapping)
         self.writeSystemMappingSwMappings(child_element, mapping)
+        self.writeSystemMappingSwcToApplicationPartitionMappings(child_element, mapping)
         self.writeSystemMappingSystemSignalGroupToComResourceMappings(child_element, mapping)
         self.writeSystemMappingSystemSignalToComResourceMappings(child_element, mapping)
 
@@ -15385,8 +15556,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             mappings_tag = ET.SubElement(child_element, "SWC-TO-APPLICATION-PARTITION-MAPPINGS")
             for swc_mapping in swc_mappings:
                 if isinstance(swc_mapping, SwcToApplicationPartitionMapping):
-                    swc_element = ET.SubElement(mappings_tag, "SWC-TO-APPLICATION-PARTITION-MAPPING")
-                    self.writeIdentifiable(swc_element, swc_mapping)
+                    self.writeSwcToApplicationPartitionMapping(mappings_tag, swc_mapping)
                 else:
                     self.notImplemented("Unsupported SwcToApplicationPartitionMapping %s" % type(swc_mapping))
 
@@ -19406,6 +19576,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeAliasNameSet(element, ar_element)
         elif isinstance(ar_element, ApplicationInterface):
             self.writeApplicationInterface(element, ar_element)
+        elif isinstance(ar_element, ApplicationPartition):
+            self.writeApplicationPartition(element, ar_element)
         elif isinstance(ar_element, BuildActionManifest):
             self.writeBuildActionManifest(element, ar_element)
         elif isinstance(ar_element, CalibrationParameterValueSet):
@@ -19554,6 +19726,10 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeTtcanCluster(element, ar_element)
         elif isinstance(ar_element, J1939Cluster):
             self.writeJ1939Cluster(element, ar_element)
+        elif isinstance(ar_element, J1939ControllerApplication):
+            self.writeJ1939ControllerApplication(element, ar_element)
+        elif isinstance(ar_element, UserDefinedCluster):
+            self.writeUserDefinedCluster(element, ar_element)
         elif isinstance(ar_element, CanFrame):
             self.writeCanFrame(element, ar_element)
         elif isinstance(ar_element, Gateway):
@@ -19600,6 +19776,12 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeCouplingElement(element, ar_element)
         elif isinstance(ar_element, EthernetCluster):
             self.writeEthernetCluster(element, ar_element)
+        elif isinstance(ar_element, EthernetWakeupSleepOnDatalineConfigSet):
+            self.writeEthernetWakeupSleepOnDatalineConfigSet(element, ar_element)
+        elif isinstance(ar_element, MacSecGlobalKayProps):
+            self.writeMacSecGlobalKayProps(element, ar_element)
+        elif isinstance(ar_element, MacSecParticipantSet):
+            self.writeMacSecParticipantSet(element, ar_element)
         elif isinstance(ar_element, ISignalIPduGroup):
             self.writeISignalIPduGroup(element, ar_element)
         elif isinstance(ar_element, PdurIPduGroup):

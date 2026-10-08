@@ -301,39 +301,75 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `CommConnectorPort` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 6.1, p.303
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: placement verified per Package row (CoreTopology, leaf → CoreTopology.py — no move);
+    abstract Class → ABC + instantiation guard; Base most-derived modeled ancestor = Identifiable;
+    VARIATION-POINT is inside the XSD COMM-CONNECTOR-PORT group (sequenceOffset=10000, last) →
+    VariationPointCapable mixin is correct. Legacy 5-column checklist + stale `# Spec verified: R23-11`
+    marker found (Rule 0023) — marker removed at session start, full re-sync at the 6-column bar.
+    Writer order gap: VARIATION-POINT was emitted before COMMUNICATION-DIRECTION.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-07 (22229 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit ca22bc0a8
 
 - [ ] `IPduPort` — CommConnectorPort — R23-11 CP_TPS_SystemTemplate Table 6.3, p.304
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: placement verified per Package row (CoreCommunication, non-leaf →
+    `__init__.py` — no move); concrete Class, Base most-derived modeled ancestor =
+    `CommConnectorPort` (Table 6.1, synced ca22bc0a8). Legacy 5-column checklist +
+    stale `# Spec verified: R23-11` marker found (Rule 0023) — marker removed at
+    session start, full re-sync at the 6-column bar. XSD I-PDU-PORT group also has
+    KEY-ID (atp.Status="removed" in 4.4.0, absent from Table 6.3) — not modeled.
+    VARIATION-POINT sits in the base COMM-CONNECTOR-PORT group (sequenceOffset=10000,
+    last) — inherited via readCommConnectorPort/writeCommConnectorPort.
+  - Deviation: keyId — present in XSD group I-PDU-PORT with atp.Status="removed"
+    (atp.StatusRevisionBegin="4.4.0"), absent from Table 6.3 → deprecated
+    (atp.Status=removed), not implemented (Rule 0001.3); reader tolerance pinned by
+    tests/test_armodel/parser/test_arxml_parser_network_handlers.py::TestReadIPduPort
+    (test_readIPduPort_keyId_removed_upstream). No other deviations; referenced member
+    type IPduSignalProcessingEnum exists with XSD-verified facets (own row next).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-07 (22256 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 5809b8408
 
 - [ ] `IPduSignalProcessingEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 6.4, p.305
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: placement verified per Package row (CoreCommunication, non-leaf →
+    `__init__.py` — no move; stub-guard tuple untouched). Markdown caption/table pairing
+    is offset here: the Table 6.4 caption renders after the Enumeration content
+    (lines 7939-7949) and above the ISignalPort Class table — the Enumeration content is
+    authoritative. Note "Definition of signal processing modes."; literals deferred
+    (index=0) / immediate (index=1); XSD `I-PDU-SIGNAL-PROCESSING-ENUM--SIMPLE`
+    (AUTOSAR_00052.xsd line 137606) facets DEFERRED/IMMEDIATE in the same order, none
+    atp.Status=removed. Legacy 5-column checklist found, NO stale marker; member names
+    ENUM_DEFERRED/ENUM_IMMEDIATE violate Rule 0011 (literal → UPPER_SNAKE) — renamed to
+    DEFERRED/IMMEDIATE with consumer updates.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A: standalone AREnum, no own XML element; serialized as an attribute value on the consuming class (IPduPort.iPduSignalProcessing) and round-tripped there
+  - [x] Step 6 — Update parser & writer (Green) — N/A: same standalone-enum reason; reader/writer already consume the enum via getChildElementOptionalLiteral/setChildElementOptionalLiteral on IPduPort
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations — none open: Rule 0011 member-name to-fix (ENUM_DEFERRED/ENUM_IMMEDIATE
+    → DEFERRED/IMMEDIATE) fixed and not recorded as a deviation; facet set complete
+    (DEFERRED/IMMEDIATE, none atp.Status=removed), no spec literal dropped, no missing
+    referenced classes. audit_class.py PASS (STAMP INFO = marker deferred to batch 9b).
+    Consumer upgrade: IPduPort/CommConnectorPort writer tests and CoreTopology legacy
+    tests already used enum constants (no raw facet strings/tuples found) — updated to
+    the renamed DEFERRED/IMMEDIATE constants.
+  - [x] Step 9 — 9a passed 2026-10-08 (22259 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit e34ab3e1a
 
 - [ ] `ISignal` — ARElement — R23-11 CP_TPS_SystemTemplate Table 6.7, p.321
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py

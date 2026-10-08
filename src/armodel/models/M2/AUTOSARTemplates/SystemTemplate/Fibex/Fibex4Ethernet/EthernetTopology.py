@@ -5113,6 +5113,42 @@ class EthernetWakeupSleepOnDatalineConfig(Identifiable):
         return self
 
 
+class EthernetWakeupSleepOnDatalineConfigSet(FibexElement):
+    """
+    This meta-class is the main element that aggregates different config set regarding the ethernet wakeup and sleep on data line. Tags: atp.recommendedPackage=EthernetWakeupSleepOnDatalineConfigSets
+    """
+
+    # EthernetWakeupSleepOnDatalineConfigSet method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.116, p.159
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createEthernetWakeupSleepOnDatalineConfig [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEthernetWakeupSleepOnDatalineConfigs   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # The relationship defines a collection of EthernetWakeup SleepOnDatalineConfig configurations which are available.
+        self.ethernetWakeupSleepOnDatalineConfigs: List[EthernetWakeupSleepOnDatalineConfig] = []
+
+    def createEthernetWakeupSleepOnDatalineConfig(self, short_name: str) -> EthernetWakeupSleepOnDatalineConfig:
+        """
+        The relationship defines a collection of EthernetWakeup SleepOnDatalineConfig configurations which are available.
+        The existing element is returned when the short name already exists (no duplicate creation).
+        """
+        if not self.IsReferrableElementExists(short_name, EthernetWakeupSleepOnDatalineConfig):
+            config = EthernetWakeupSleepOnDatalineConfig(self, short_name)
+            self.addReferrableElement(config)
+            self.ethernetWakeupSleepOnDatalineConfigs.append(config)
+        return cast(EthernetWakeupSleepOnDatalineConfig, self.getReferrableElement(short_name, EthernetWakeupSleepOnDatalineConfig))
+
+    def getEthernetWakeupSleepOnDatalineConfigs(self) -> List[EthernetWakeupSleepOnDatalineConfig]:
+        """
+        The relationship defines a collection of EthernetWakeup SleepOnDatalineConfig configurations which are available.
+        """
+        return self.ethernetWakeupSleepOnDatalineConfigs
+
+
 class PlcaProps(ARObject):
     """
     This meta-class allows to configure the PLCA (Physical Layer Collision Avoidance) in case 10-BASE-T1S Ethernet is used and PLCA is enabled on the CouplingPort (PHY).
@@ -5120,15 +5156,14 @@ class PlcaProps(ARObject):
 
     # PlcaProps method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.117, p.169
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getPlcaLocalNodeId             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setPlcaLocalNodeId             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPlcaMaxBurstCount           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setPlcaMaxBurstCount           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPlcaMaxBurstTimer           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setPlcaMaxBurstTimer           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getPlcaLocalNodeId    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPlcaLocalNodeId    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPlcaMaxBurstCount  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPlcaMaxBurstCount  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPlcaMaxBurstTimer  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPlcaMaxBurstTimer  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -5143,12 +5178,15 @@ class PlcaProps(ARObject):
         self.plcaMaxBurstTimer: Optional[PositiveInteger] = None
 
     def getPlcaLocalNodeId(self) -> Optional[PositiveInteger]:
-        """This attribute defines the node ID when the PLCA mode for 10BASE-T1S is used."""
+        """
+        This attribute defines the node ID when the PLCA mode for 10BASE-T1S is used.
+        """
         return self.plcaLocalNodeId
 
     def setPlcaLocalNodeId(self, value: Optional[PositiveInteger]) -> PlcaProps:
         """
         This attribute defines the node ID when the PLCA mode for 10BASE-T1S is used.
+
         A None value is a no-op and does not overwrite an existing plcaLocalNodeId.
         """
         if value is not None:
@@ -5156,12 +5194,15 @@ class PlcaProps(ARObject):
         return self
 
     def getPlcaMaxBurstCount(self) -> Optional[PositiveInteger]:
-        """Defines maximum packets allowed to be transmitted within a TO. This configuration can be different from one ECU to another within the PLCA mixed segment."""
+        """
+        Defines maximum packets allowed to be transmitted within a TO. This configuration can be different from one ECU to another within the PLCA mixed segment.
+        """
         return self.plcaMaxBurstCount
 
     def setPlcaMaxBurstCount(self, value: Optional[PositiveInteger]) -> PlcaProps:
         """
         Defines maximum packets allowed to be transmitted within a TO. This configuration can be different from one ECU to another within the PLCA mixed segment.
+
         A None value is a no-op and does not overwrite an existing plcaMaxBurstCount.
         """
         if value is not None:
@@ -5169,12 +5210,15 @@ class PlcaProps(ARObject):
         return self
 
     def getPlcaMaxBurstTimer(self) -> Optional[PositiveInteger]:
-        """Limits the burst frames in bit time. This configuration can be different from one ECU to another within the PLCA mixed segment. For PLCA burst mode to work properly this timer should be set greater than one IPG."""
+        """
+        Limits the burst frames in bit time. This configuration can be different from one ECU to another within the PLCA mixed segment. For PLCA burst mode to work properly this timer should be set greater than one IPG.
+        """
         return self.plcaMaxBurstTimer
 
     def setPlcaMaxBurstTimer(self, value: Optional[PositiveInteger]) -> PlcaProps:
         """
         Limits the burst frames in bit time. This configuration can be different from one ECU to another within the PLCA mixed segment. For PLCA burst mode to work properly this timer should be set greater than one IPG.
+
         A None value is a no-op and does not overwrite an existing plcaMaxBurstTimer.
         """
         if value is not None:

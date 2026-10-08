@@ -424,7 +424,7 @@ def _spec_tables() -> Dict[str, Dict[str, List[str]]]:
             continue
         for path in sorted(base.glob("*.md")):
             found: Dict[str, List[str]] = {}
-            for m in re.finditer(r"^Table\s+([0-9A-Z]+\.[0-9]+):\s*(.+)$", path.read_text(encoding="utf-8", errors="replace"), re.M):
+            for m in re.finditer(r"^#{0,3}\s*Table\s+([0-9A-Z]+\.[0-9]+):\s*(.+)$", path.read_text(encoding="utf-8", errors="replace"), re.M):
                 found.setdefault(m.group(1), []).append(m.group(2).strip())
             docs[path.stem] = found
         out[corpus] = docs

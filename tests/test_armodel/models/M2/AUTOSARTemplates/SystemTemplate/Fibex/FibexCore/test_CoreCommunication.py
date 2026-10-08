@@ -7,10 +7,12 @@ import pytest
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable, Identifiable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, ByteOrderEnum, Integer, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, ByteOrderEnum, Integer, RefType, TimeValue
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
+    CommConnectorPort,
+    CommunicationDirectionType,
     ContainedIPduProps,
     DcmIPdu,
     DynamicPart,
@@ -21,6 +23,8 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommu
     GeneralPurposeIPdu,
     GeneralPurposePdu,
     IPdu,
+    IPduPort,
+    IPduSignalProcessingEnum,
     IPduTiming,
     ISignal,
     ISignalGroup,
@@ -1434,3 +1438,187 @@ class TestGeneralPurposeIPdu:
         assert ipdu.getContainedIPduProps() is None
         assert ipdu.getHasDynamicLength() is None
         assert ipdu.getLength() is None
+
+
+IPDU_PORT_CLASS_NOTE = "Connectors reception or send port on the referenced channel referenced by a PduTriggering."
+
+IPDU_PORT_CLASS_CONSTRAINTS = (
+    "[constr_3137] IPduPort.rxSecurityVerification is configurable on the receiver side: "
+    "The IPduPort.rxSecurityVerification attribute shall only be used in IPduPorts with the communicationDirection = in.\n"
+    "[constr_3138] IPduPort.rxSecurityVerification validness: "
+    "The IPduPort.rxSecurityVerification information is only valid for SecuredIPdus.\n"
+    "[constr_3337] IPduPort.useAuthDataFreshness is configurable on the receiver side: "
+    "The IPduPort.useAuthDataFreshness attribute shall only be used in IPduPorts with the communicationDirection = in.\n"
+    "[constr_3338] IPduPort.useAuthDataFreshness validness: "
+    "The IPduPort.useAuthDataFreshness information is only valid for SecuredIPdus."
+)
+
+IPDU_PORT_NOTES = {
+    "iPduSignalProcessing": "Definition of the two signal processing modes Immediate and Deferred for both Tx and Rx IPdus.",
+    "rxSecurityVerification": (
+        "This attribute defines the bypassing of signature authentication or MAC verification in the receiving ECU. "
+        "If not defined or set to true the signature authentication or MAC verification shall be performed for the SecuredIPdu. "
+        "If set to false the signature authentication or MAC verification shall not be performed for the SecuredIPdu."
+    ),
+    "timestampRxAcceptanceWindow": (
+        "This attribute is used to define the maximum allowed deviation in seconds from the expected timestamp "
+        "for which a SecuredIPdu is still deemed authentic. "
+        "Please note that this attribute is for documentation only to allow the configuration of required freshness "
+        "value manager and no upstream mapping is defined for it."
+    ),
+    "useAuthDataFreshness": (
+        "This attribute describes whether a part of AuthenticPdu contained in a SecuredIPdu shall be passed on to the "
+        "SWC that verifies and generates the Freshness. "
+        "The part of the Authentic-PDU is defined by the authData FreshnessStartPosition and authDataFreshnessLength."
+    ),
+}
+
+
+class TestIPduPort:
+    """Test cases for IPduPort (SystemTemplate Table 6.3, p.304)."""
+
+    MEMBERS = [
+        "iPduSignalProcessing",
+        "rxSecurityVerification",
+        "timestampRxAcceptanceWindow",
+        "useAuthDataFreshness",
+    ]
+
+    def test_inheritance(self):
+        assert issubclass(IPduPort, CommConnectorPort)
+        assert issubclass(IPduPort, Identifiable)
+        assert issubclass(IPduPort, VariationPointCapable)
+        assert issubclass(IPduPort, ARObject)
+
+    def test_concrete(self):
+        port = IPduPort(MockParent(), "ip")
+        assert port.getShortName() == "ip"
+
+    def test_class_docstring_note(self):
+        assert inspect.cleandoc(IPduPort.__doc__) == IPDU_PORT_CLASS_NOTE + "\n\n" + IPDU_PORT_CLASS_CONSTRAINTS
+
+    def test_init_docless(self):
+        assert IPduPort.__init__.__doc__ is None
+
+    def test_initialization_defaults(self):
+        port = IPduPort(MockParent(), "ip")
+        assert port.getIPduSignalProcessing() is None
+        assert port.getRxSecurityVerification() is None
+        assert port.getTimestampRxAcceptanceWindow() is None
+        assert port.getUseAuthDataFreshness() is None
+        assert port.getCommunicationDirection() is None
+
+    def test_member_order(self):
+        port = IPduPort(MockParent(), "ip")
+        members = [k for k in vars(port) if k in set(self.MEMBERS)]
+        assert members == self.MEMBERS
+
+    def test_get_set_ipdu_signal_processing(self):
+        port = IPduPort(MockParent(), "ip")
+        processing = IPduSignalProcessingEnum()
+        processing.setValue(IPduSignalProcessingEnum.IMMEDIATE)
+
+        assert port == port.setIPduSignalProcessing(processing)
+        assert port.getIPduSignalProcessing() is processing
+        assert port.getIPduSignalProcessing().getValue() == "IMMEDIATE"
+
+        assert port == port.setIPduSignalProcessing(None)  # None no-op
+        assert port.getIPduSignalProcessing() is processing  # unchanged
+
+    def test_get_set_rx_security_verification(self):
+        port = IPduPort(MockParent(), "ip")
+        value = Boolean().setValue(True)
+
+        assert port == port.setRxSecurityVerification(value)
+        assert port.getRxSecurityVerification() is value
+        assert port.getRxSecurityVerification().getValue() is True
+
+        assert port == port.setRxSecurityVerification(None)  # None no-op
+        assert port.getRxSecurityVerification() is value  # unchanged
+
+    def test_get_set_timestamp_rx_acceptance_window(self):
+        port = IPduPort(MockParent(), "ip")
+        value = TimeValue().setValue(0.05)
+
+        assert port == port.setTimestampRxAcceptanceWindow(value)
+        assert port.getTimestampRxAcceptanceWindow() is value
+        assert port.getTimestampRxAcceptanceWindow().getValue() == 0.05
+
+        assert port == port.setTimestampRxAcceptanceWindow(None)  # None no-op
+        assert port.getTimestampRxAcceptanceWindow() is value  # unchanged
+
+    def test_get_set_use_auth_data_freshness(self):
+        port = IPduPort(MockParent(), "ip")
+        value = Boolean().setValue(False)
+
+        assert port == port.setUseAuthDataFreshness(value)
+        assert port.getUseAuthDataFreshness() is value
+        assert port.getUseAuthDataFreshness().getValue() is False
+
+        assert port == port.setUseAuthDataFreshness(None)  # None no-op
+        assert port.getUseAuthDataFreshness() is value  # unchanged
+
+    def test_base_accessors_via_concrete_subclass(self):
+        # CommConnectorPort base level exercised through the IPduPort subclass.
+        port = IPduPort(MockParent(), "ip")
+        direction = CommunicationDirectionType()
+        direction.setValue(CommunicationDirectionType.IN)
+
+        assert port == port.setCommunicationDirection(direction)
+        assert port.getCommunicationDirection() is direction
+        assert port.getCommunicationDirection().getValue() == "IN"
+
+        assert port == port.setCommunicationDirection(None)  # None no-op
+        assert port.getCommunicationDirection() is direction  # unchanged
+
+    def test_docstrings_verbatim(self):
+        assert inspect.cleandoc(IPduPort.__doc__) == IPDU_PORT_CLASS_NOTE + "\n\n" + IPDU_PORT_CLASS_CONSTRAINTS
+        for attr, note in IPDU_PORT_NOTES.items():
+            getter = getattr(IPduPort, "get%s%s" % (attr[0].upper(), attr[1:]))
+            setter = getattr(IPduPort, "set%s%s" % (attr[0].upper(), attr[1:]))
+            assert getter.__doc__ is not None
+            assert getter.__doc__.strip() == note, attr
+            assert note in setter.__doc__, attr
+            assert "A None value is a no-op and does not overwrite an existing %s." % attr in setter.__doc__, attr
+
+    def test_type_hints(self):
+        hints = _get_type_hints(IPduPort.getIPduSignalProcessing)
+        assert hints["return"] == typing.Optional[IPduSignalProcessingEnum]
+        hints = _get_type_hints(IPduPort.setIPduSignalProcessing)
+        assert hints["value"] == typing.Optional[IPduSignalProcessingEnum]
+        hints = _get_type_hints(IPduPort.getRxSecurityVerification)
+        assert hints["return"] == typing.Optional[Boolean]
+        hints = _get_type_hints(IPduPort.setRxSecurityVerification)
+        assert hints["value"] == typing.Optional[Boolean]
+        hints = _get_type_hints(IPduPort.getTimestampRxAcceptanceWindow)
+        assert hints["return"] == typing.Optional[TimeValue]
+        hints = _get_type_hints(IPduPort.setTimestampRxAcceptanceWindow)
+        assert hints["value"] == typing.Optional[TimeValue]
+        hints = _get_type_hints(IPduPort.getUseAuthDataFreshness)
+        assert hints["return"] == typing.Optional[Boolean]
+        hints = _get_type_hints(IPduPort.setUseAuthDataFreshness)
+        assert hints["value"] == typing.Optional[Boolean]
+
+
+class TestIPduSignalProcessingEnum:
+    """Test cases for IPduSignalProcessingEnum (Table 6.4, p.305)."""
+
+    def test_member_presence_and_values(self):
+        assert IPduSignalProcessingEnum.DEFERRED == "DEFERRED"
+        assert IPduSignalProcessingEnum.IMMEDIATE == "IMMEDIATE"
+        assert list(IPduSignalProcessingEnum().getEnumValues()) == [
+            IPduSignalProcessingEnum.DEFERRED,
+            IPduSignalProcessingEnum.IMMEDIATE,
+        ]
+
+    def test_instantiability(self):
+        deferred = IPduSignalProcessingEnum()
+        assert deferred == deferred.setValue(IPduSignalProcessingEnum.DEFERRED)
+        assert deferred.getValue() == IPduSignalProcessingEnum.DEFERRED
+
+        immediate = IPduSignalProcessingEnum()
+        assert immediate == immediate.setValue(IPduSignalProcessingEnum.IMMEDIATE)
+        assert immediate.getValue() == IPduSignalProcessingEnum.IMMEDIATE
+
+    def test_class_docstring_note(self):
+        assert inspect.cleandoc(IPduSignalProcessingEnum.__doc__) == "Definition of signal processing modes."

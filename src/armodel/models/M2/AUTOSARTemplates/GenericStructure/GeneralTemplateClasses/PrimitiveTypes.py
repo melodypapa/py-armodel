@@ -3051,10 +3051,6 @@ class LinChecksumType(AREnum):
     pass
 
 
-class MappingScopeEnum(AREnum):
-    pass
-
-
 class MaximumMessageLengthType(AREnum):
     """Type of Acknowledgement."""
 

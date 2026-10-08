@@ -359,7 +359,3 @@ class BusMirrorChannelMappingUserDefined(BusMirrorChannelMapping):
         if value is not None:
             self.transmissionDeadline = value
         return self
-
-
-class EthernetWakeupSleepOnDatalineConfigSet(FibexElement):
-    pass

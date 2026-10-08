@@ -3386,18 +3386,18 @@ class IPduSignalProcessingEnum(AREnum):
 
     # IPduSignalProcessingEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.4, p.305
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on IPduPort.iPduSignalProcessing
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # The signal indications / confirmations are deferred. Tags: atp.EnumerationLiteralIndex=0
-    ENUM_DEFERRED = "DEFERRED"
+    DEFERRED = "DEFERRED"
 
     # The signal indications / confirmations are performed. Tags: atp.EnumerationLiteralIndex=1
-    ENUM_IMMEDIATE = "IMMEDIATE"
+    IMMEDIATE = "IMMEDIATE"
 
     def __init__(self):
-        super().__init__([IPduSignalProcessingEnum.ENUM_DEFERRED, IPduSignalProcessingEnum.ENUM_IMMEDIATE])
+        super().__init__([IPduSignalProcessingEnum.DEFERRED, IPduSignalProcessingEnum.IMMEDIATE])
 
 
 class IPduPort(CommConnectorPort):
@@ -3412,17 +3412,16 @@ class IPduPort(CommConnectorPort):
 
     # IPduPort method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.3, p.304
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getIPduSignalProcessing      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setIPduSignalProcessing      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getRxSecurityVerification    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setRxSecurityVerification    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTimestampRxAcceptanceWindow [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTimestampRxAcceptanceWindow [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getUseAuthDataFreshness      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setUseAuthDataFreshness      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getIPduSignalProcessing        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIPduSignalProcessing        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRxSecurityVerification      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRxSecurityVerification      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimestampRxAcceptanceWindow [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimestampRxAcceptanceWindow [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getUseAuthDataFreshness        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUseAuthDataFreshness        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)

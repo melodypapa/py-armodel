@@ -1,5 +1,8 @@
+import inspect
+
 import pytest
 
+from armodel.models import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
@@ -20,6 +23,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication impor
     MacSecGlobalKayProps,
     MacSecKayParticipant,
     MacSecLocalKayProps,
+    MacSecParticipantSet,
     MacSecProps,
     MacSecRoleEnum,
     SecOcCryptoServiceMapping,
@@ -251,8 +255,108 @@ class Test_MacSecEnums:
         assert e.getText() == MacSecConfidentialityOffsetEnum.CONFIDENTIALITY_OFFSET_50
 
 
+class TestMacSecConfidentialityOffsetEnum:
+    """Test cases for MacSecConfidentialityOffsetEnum (CP_TPS_SystemTemplate Table 3.125, p.177, R23-11)."""
+
+    def test_member_presence_and_values(self):
+        assert MacSecConfidentialityOffsetEnum.CONFIDENTIALITY_OFFSET_0 == "CONFIDENTIALITY-OFFSET--0"
+        assert MacSecConfidentialityOffsetEnum.CONFIDENTIALITY_OFFSET_30 == "CONFIDENTIALITY-OFFSET--30"
+        assert MacSecConfidentialityOffsetEnum.CONFIDENTIALITY_OFFSET_50 == "CONFIDENTIALITY-OFFSET--50"
+        assert list(MacSecConfidentialityOffsetEnum().getEnumValues()) == [
+            "CONFIDENTIALITY-OFFSET--0",
+            "CONFIDENTIALITY-OFFSET--30",
+            "CONFIDENTIALITY-OFFSET--50",
+        ]
+
+    def test_instantiability_round_trip(self):
+        offset_0 = MacSecConfidentialityOffsetEnum().setValue(MacSecConfidentialityOffsetEnum.CONFIDENTIALITY_OFFSET_0)
+        assert offset_0.getValue() == MacSecConfidentialityOffsetEnum.CONFIDENTIALITY_OFFSET_0
+
+        offset_30 = MacSecConfidentialityOffsetEnum().setValue(MacSecConfidentialityOffsetEnum.CONFIDENTIALITY_OFFSET_30)
+        assert offset_30.getValue() == MacSecConfidentialityOffsetEnum.CONFIDENTIALITY_OFFSET_30
+
+        offset_50 = MacSecConfidentialityOffsetEnum().setValue(MacSecConfidentialityOffsetEnum.CONFIDENTIALITY_OFFSET_50)
+        assert offset_50.getValue() == MacSecConfidentialityOffsetEnum.CONFIDENTIALITY_OFFSET_50
+
+    def test_class_docstring_note(self):
+        note = "This enum defines the MACsec capability options. Tags: atp.Status=candidate"
+        assert inspect.cleandoc(MacSecConfidentialityOffsetEnum.__doc__) == note
+
+
+class TestMacSecCapabilityEnum:
+    """Test cases for MacSecCapabilityEnum (CP_TPS_SystemTemplate Table 3.126, p.177, R23-11)."""
+
+    def test_member_presence_and_values(self):
+        # spec literal names per Table 3.126 (intergrityAndConfidentiality idx1, intergrityWithoutConfidentiality idx0); note the spec spells both "intergrity"
+        assert MacSecCapabilityEnum.INTERGRITY_AND_CONFIDENTIALITY == "INTERGRITY-AND-CONFIDENTIALITY"
+        assert MacSecCapabilityEnum.INTERGRITY_WITHOUT_CONFIDENTIALITY == "INTERGRITY-WITHOUT-CONFIDENTIALITY"
+        assert list(MacSecCapabilityEnum().getEnumValues()) == [
+            "INTERGRITY-AND-CONFIDENTIALITY",
+            "INTERGRITY-WITHOUT-CONFIDENTIALITY",
+        ]
+
+    def test_instantiability_round_trip(self):
+        both = MacSecCapabilityEnum().setValue(MacSecCapabilityEnum.INTERGRITY_AND_CONFIDENTIALITY)
+        assert both.getValue() == MacSecCapabilityEnum.INTERGRITY_AND_CONFIDENTIALITY
+
+        without = MacSecCapabilityEnum().setValue(MacSecCapabilityEnum.INTERGRITY_WITHOUT_CONFIDENTIALITY)
+        assert without.getValue() == MacSecCapabilityEnum.INTERGRITY_WITHOUT_CONFIDENTIALITY
+
+    def test_class_docstring_note(self):
+        note = "This enum defines the MACsec capability options. Tags: atp.Status=candidate"
+        assert inspect.cleandoc(MacSecCapabilityEnum.__doc__) == note
+
+
+class TestMacSecRoleEnum:
+    """Test cases for MacSecRoleEnum (CP_TPS_SystemTemplate Table 3.127, p.177, R23-11)."""
+
+    def test_member_presence_and_values(self):
+        # spec literal names per Table 3.127 (keyServer idx1, peer idx0)
+        assert MacSecRoleEnum.KEY_SERVER == "KEY-SERVER"
+        assert MacSecRoleEnum.PEER == "PEER"
+        assert list(MacSecRoleEnum().getEnumValues()) == [
+            "KEY-SERVER",
+            "PEER",
+        ]
+
+    def test_instantiability_round_trip(self):
+        key_server = MacSecRoleEnum().setValue(MacSecRoleEnum.KEY_SERVER)
+        assert key_server.getValue() == MacSecRoleEnum.KEY_SERVER
+
+        peer = MacSecRoleEnum().setValue(MacSecRoleEnum.PEER)
+        assert peer.getValue() == MacSecRoleEnum.PEER
+
+    def test_class_docstring_note(self):
+        note = "This enum defines the MACsec Role options. Tags: atp.Status=candidate"
+        assert inspect.cleandoc(MacSecRoleEnum.__doc__) == note
+
+
+class TestMacSecFailPermissiveModeEnum:
+    """Test cases for MacSecFailPermissiveModeEnum (CP_TPS_SystemTemplate Table 3.128, p.178, R23-11)."""
+
+    def test_member_presence_and_values(self):
+        # spec literal names per Table 3.128 (never idx0, timeout idx1)
+        assert MacSecFailPermissiveModeEnum.NEVER == "NEVER"
+        assert MacSecFailPermissiveModeEnum.TIMEOUT == "TIMEOUT"
+        assert list(MacSecFailPermissiveModeEnum().getEnumValues()) == [
+            "NEVER",
+            "TIMEOUT",
+        ]
+
+    def test_instantiability_round_trip(self):
+        never = MacSecFailPermissiveModeEnum().setValue(MacSecFailPermissiveModeEnum.NEVER)
+        assert never.getValue() == MacSecFailPermissiveModeEnum.NEVER
+
+        timeout = MacSecFailPermissiveModeEnum().setValue(MacSecFailPermissiveModeEnum.TIMEOUT)
+        assert timeout.getValue() == MacSecFailPermissiveModeEnum.TIMEOUT
+
+    def test_class_docstring_note(self):
+        note = "Behavior options of the Port Access Entity in case MACsec does not succeed. Tags: atp.Status=candidate"
+        assert inspect.cleandoc(MacSecFailPermissiveModeEnum.__doc__) == note
+
+
 class Test_MacSecLocalKayProps:
-    def test_defaults(self):
+    def test_initialization_defaults(self):
         props = MacSecLocalKayProps()
         assert props.getDestinationMacAddress() is None
         assert props.getGlobalKayPropsRef() is None
@@ -261,35 +365,123 @@ class Test_MacSecLocalKayProps:
         assert props.getRole() is None
         assert props.getSourceMacAddress() is None
 
-    def test_setters_and_getters(self):
+    def test_get_set_destination_mac_address(self):
         props = MacSecLocalKayProps()
-        props.setDestinationMacAddress(_mac("00-11-22-33-44-55"))
-        props.setGlobalKayPropsRef(_ref("/Sec/MacSecGlobalKay"))
-        props.setKeyServerPriority(_pos_int("16"))
-        props.addMkaParticipantRef(_ref("/Sec/MkaParticipant1"))
-        props.addMkaParticipantRef(_ref("/Sec/MkaParticipant2"))
+        result = props.setDestinationMacAddress(_mac("00-11-22-33-44-55"))
+
+        assert result is props
+        assert props.getDestinationMacAddress().getValue() == "00-11-22-33-44-55"
+
+        props.setDestinationMacAddress(_mac("66-77-88-99-AA-BB"))
+        assert props.getDestinationMacAddress().getValue() == "66-77-88-99-AA-BB"
+
+    def test_get_set_global_kay_props_ref(self):
+        props = MacSecLocalKayProps()
+        result = props.setGlobalKayPropsRef(_ref("/Sec/MacSecGlobalKay"))
+
+        assert result is props
+        assert props.getGlobalKayPropsRef().getValue() == "/Sec/MacSecGlobalKay"
+
+        props.setGlobalKayPropsRef(_ref("/Sec/Other"))
+        assert props.getGlobalKayPropsRef().getValue() == "/Sec/Other"
+
+    def test_get_set_key_server_priority(self):
+        props = MacSecLocalKayProps()
+        result = props.setKeyServerPriority(_pos_int("16"))
+
+        assert result is props
+        assert props.getKeyServerPriority().getValue() == 16
+
+        props.setKeyServerPriority(_pos_int("32"))
+        assert props.getKeyServerPriority().getValue() == 32
+
+    def test_add_mka_participant_refs(self):
+        props = MacSecLocalKayProps()
+        first = _ref("/Sec/MkaParticipant1")
+
+        result = props.addMkaParticipantRef(first)
+
+        assert result is props
+        assert props.getMkaParticipantRefs() == [first]
+
+        second = _ref("/Sec/MkaParticipant2")
+        props.addMkaParticipantRef(second)
+        assert props.getMkaParticipantRefs() == [first, second]
+
+    def test_get_set_role(self):
+        props = MacSecLocalKayProps()
         role = MacSecRoleEnum()
         role.setValue(MacSecRoleEnum.KEY_SERVER)
-        props.setRole(role)
-        props.setSourceMacAddress(_mac("AA-BB-CC-DD-EE-FF"))
 
-        assert props.getDestinationMacAddress().getValue() == "00-11-22-33-44-55"
-        assert props.getGlobalKayPropsRef().getValue() == "/Sec/MacSecGlobalKay"
-        assert props.getKeyServerPriority().getValue() == 16
-        assert [r.getValue() for r in props.getMkaParticipantRefs()] == ["/Sec/MkaParticipant1", "/Sec/MkaParticipant2"]
+        result = props.setRole(role)
+
+        assert result is props
         assert props.getRole().getValue() == MacSecRoleEnum.KEY_SERVER
+
+        peer = MacSecRoleEnum()
+        peer.setValue(MacSecRoleEnum.PEER)
+        props.setRole(peer)
+        assert props.getRole().getValue() == MacSecRoleEnum.PEER
+
+    def test_get_set_source_mac_address(self):
+        props = MacSecLocalKayProps()
+        result = props.setSourceMacAddress(_mac("AA-BB-CC-DD-EE-FF"))
+
+        assert result is props
         assert props.getSourceMacAddress().getValue() == "AA-BB-CC-DD-EE-FF"
+
+        props.setSourceMacAddress(_mac("11-22-33-44-55-66"))
+        assert props.getSourceMacAddress().getValue() == "11-22-33-44-55-66"
 
     def test_none_is_noop(self):
         props = MacSecLocalKayProps()
+        destination = _mac("00-11-22-33-44-55")
+        global_ref = _ref("/Sec/MacSecGlobalKay")
+        priority = _pos_int("16")
+        mka_ref = _ref("/Sec/MkaParticipant1")
+        role = MacSecRoleEnum()
+        role.setValue(MacSecRoleEnum.KEY_SERVER)
+        source = _mac("AA-BB-CC-DD-EE-FF")
+        props.setDestinationMacAddress(destination)
+        props.setGlobalKayPropsRef(global_ref)
+        props.setKeyServerPriority(priority)
+        props.addMkaParticipantRef(mka_ref)
+        props.setRole(role)
+        props.setSourceMacAddress(source)
+
         props.setDestinationMacAddress(None)
+        props.setGlobalKayPropsRef(None)
+        props.setKeyServerPriority(None)
+        props.addMkaParticipantRef(None)
         props.setRole(None)
+        props.setSourceMacAddress(None)
+
+        assert props.getDestinationMacAddress() is destination
+        assert props.getGlobalKayPropsRef() is global_ref
+        assert props.getKeyServerPriority() is priority
+        assert props.getMkaParticipantRefs() == [mka_ref]
+        assert props.getRole() is role
+        assert props.getSourceMacAddress() is source
+
+    def test_none_noop_on_fresh_instance(self):
+        props = MacSecLocalKayProps()
+        props.setDestinationMacAddress(None)
+        props.setGlobalKayPropsRef(None)
+        props.setKeyServerPriority(None)
+        props.addMkaParticipantRef(None)
+        props.setRole(None)
+        props.setSourceMacAddress(None)
+
         assert props.getDestinationMacAddress() is None
+        assert props.getGlobalKayPropsRef() is None
+        assert props.getKeyServerPriority() is None
+        assert props.getMkaParticipantRefs() == []
         assert props.getRole() is None
+        assert props.getSourceMacAddress() is None
 
 
 class Test_MacSecProps:
-    def test_defaults(self):
+    def test_initialization_defaults(self):
         props = MacSecProps()
         assert props.getAutoStart() is None
         assert props.getMacSecKayConfig() is None
@@ -297,61 +489,248 @@ class Test_MacSecProps:
         assert props.getOnFailPermissiveModeTimeout() is None
         assert props.getSakRekeyTimeSpan() is None
 
-    def test_setters_and_getters(self):
+    def test_get_set_auto_start(self):
         props = MacSecProps()
-        props.setAutoStart(_bool("true"))
+        result = props.setAutoStart(_bool("true"))
+
+        assert result is props
+        assert props.getAutoStart().getValue() is True
+
+        props.setAutoStart(_bool("false"))
+        assert props.getAutoStart().getValue() is False
+
+    def test_get_set_mac_sec_kay_config(self):
+        props = MacSecProps()
         kay = MacSecLocalKayProps()
         kay.setKeyServerPriority(_pos_int("16"))
-        props.setMacSecKayConfig(kay)
-        fail_mode = MacSecFailPermissiveModeEnum()
-        fail_mode.setValue("TIMEOUT")
-        props.setOnFailPermissiveMode(fail_mode)
-        props.setOnFailPermissiveModeTimeout(_time("30.0"))
-        props.setSakRekeyTimeSpan(_time("3600.0"))
 
-        assert props.getAutoStart().getValue() is True
+        result = props.setMacSecKayConfig(kay)
+
+        assert result is props
         assert isinstance(props.getMacSecKayConfig(), MacSecLocalKayProps)
         assert props.getMacSecKayConfig().getKeyServerPriority().getValue() == 16
-        assert props.getOnFailPermissiveMode().getValue() == "TIMEOUT"
+
+    def test_get_set_on_fail_permissive_mode(self):
+        props = MacSecProps()
+        fail_mode = MacSecFailPermissiveModeEnum()
+        fail_mode.setValue(MacSecFailPermissiveModeEnum.TIMEOUT)
+
+        result = props.setOnFailPermissiveMode(fail_mode)
+
+        assert result is props
+        assert props.getOnFailPermissiveMode().getValue() == MacSecFailPermissiveModeEnum.TIMEOUT
+
+        never = MacSecFailPermissiveModeEnum()
+        never.setValue(MacSecFailPermissiveModeEnum.NEVER)
+        props.setOnFailPermissiveMode(never)
+        assert props.getOnFailPermissiveMode().getValue() == MacSecFailPermissiveModeEnum.NEVER
+
+    def test_get_set_on_fail_permissive_mode_timeout(self):
+        props = MacSecProps()
+        result = props.setOnFailPermissiveModeTimeout(_time("30.0"))
+
+        assert result is props
         assert props.getOnFailPermissiveModeTimeout().getValue() == 30.0
+
+    def test_get_set_sak_rekey_time_span(self):
+        props = MacSecProps()
+        result = props.setSakRekeyTimeSpan(_time("3600.0"))
+
+        assert result is props
         assert props.getSakRekeyTimeSpan().getValue() == 3600.0
 
     def test_none_is_noop(self):
         props = MacSecProps()
+        auto_start = _bool("true")
+        kay = MacSecLocalKayProps()
+        fail_mode = MacSecFailPermissiveModeEnum()
+        fail_mode.setValue(MacSecFailPermissiveModeEnum.NEVER)
+        timeout = _time("30.0")
+        rekey = _time("3600.0")
+        props.setAutoStart(auto_start)
+        props.setMacSecKayConfig(kay)
+        props.setOnFailPermissiveMode(fail_mode)
+        props.setOnFailPermissiveModeTimeout(timeout)
+        props.setSakRekeyTimeSpan(rekey)
+
         props.setAutoStart(None)
+        props.setMacSecKayConfig(None)
         props.setOnFailPermissiveMode(None)
+        props.setOnFailPermissiveModeTimeout(None)
+        props.setSakRekeyTimeSpan(None)
+
+        assert props.getAutoStart() is auto_start
+        assert props.getMacSecKayConfig() is kay
+        assert props.getOnFailPermissiveMode() is fail_mode
+        assert props.getOnFailPermissiveModeTimeout() is timeout
+        assert props.getSakRekeyTimeSpan() is rekey
+
+    def test_none_noop_on_fresh_instance(self):
+        props = MacSecProps()
+        props.setAutoStart(None)
+        props.setMacSecKayConfig(None)
+        props.setOnFailPermissiveMode(None)
+        props.setOnFailPermissiveModeTimeout(None)
+        props.setSakRekeyTimeSpan(None)
+
         assert props.getAutoStart() is None
+        assert props.getMacSecKayConfig() is None
         assert props.getOnFailPermissiveMode() is None
+        assert props.getOnFailPermissiveModeTimeout() is None
+        assert props.getSakRekeyTimeSpan() is None
 
 
 class Test_MacSecGlobalKayProps:
-    def test_defaults(self):
+    def test_initialization_defaults(self):
         parent = MockParent()
         props = MacSecGlobalKayProps(parent, "test_global_kay")
+
         assert isinstance(props, ARElement)
         assert props.getBypassEtherTypes() == []
         assert props.getBypassVlans() == []
 
-    def test_add_and_get(self):
+    def test_add_bypass_ether_types(self):
         parent = MockParent()
         props = MacSecGlobalKayProps(parent, "test_global_kay")
-        props.addBypassEtherType(_pos_int("88"))
-        props.addBypassEtherType(_pos_int("90"))
-        props.addBypassVlan(_pos_int("100"))
+        first = _pos_int("88")
+
+        result = props.addBypassEtherType(first)
+
+        assert result is props
+        assert props.getBypassEtherTypes() == [first]
+
+        second = _pos_int("90")
+        props.addBypassEtherType(second)
         assert [v.getValue() for v in props.getBypassEtherTypes()] == [88, 90]
-        assert [v.getValue() for v in props.getBypassVlans()] == [100]
+
+    def test_add_bypass_vlans(self):
+        parent = MockParent()
+        props = MacSecGlobalKayProps(parent, "test_global_kay")
+        first = _pos_int("100")
+
+        result = props.addBypassVlan(first)
+
+        assert result is props
+        assert props.getBypassVlans() == [first]
+
+        second = _pos_int("200")
+        props.addBypassVlan(second)
+        assert [v.getValue() for v in props.getBypassVlans()] == [100, 200]
+
+    def test_ar_package_create_factory(self):
+        document = AUTOSAR.getInstance()
+        document.new()
+        document.setARRelease("R23-11")
+
+        pkg = document.createARPackage("Sec")
+        props = pkg.createMacSecGlobalKayProps("GKP")
+
+        assert isinstance(props, MacSecGlobalKayProps)
+        assert props.getShortName() == "GKP"
+
+        again = pkg.createMacSecGlobalKayProps("GKP")
+        assert again is props
 
     def test_none_is_noop(self):
         parent = MockParent()
         props = MacSecGlobalKayProps(parent, "test_global_kay")
+        ether_type = _pos_int("88")
+        vlan = _pos_int("100")
+        props.addBypassEtherType(ether_type)
+        props.addBypassVlan(vlan)
+
         props.addBypassEtherType(None)
         props.addBypassVlan(None)
+
+        assert props.getBypassEtherTypes() == [ether_type]
+        assert props.getBypassVlans() == [vlan]
+
+    def test_none_noop_on_fresh_instance(self):
+        parent = MockParent()
+        props = MacSecGlobalKayProps(parent, "test_global_kay")
+
+        props.addBypassEtherType(None)
+        props.addBypassVlan(None)
+
         assert props.getBypassEtherTypes() == []
         assert props.getBypassVlans() == []
 
 
+class Test_MacSecParticipantSet:
+    def test_initialization_defaults(self):
+        parent = MockParent()
+        participant_set = MacSecParticipantSet(parent, "test_participant_set")
+
+        assert isinstance(participant_set, ARElement)
+        assert participant_set.getEthernetClusterRef() is None
+        assert participant_set.getMkaParticipants() == []
+
+    def test_get_set_ethernet_cluster_ref(self):
+        parent = MockParent()
+        participant_set = MacSecParticipantSet(parent, "test_participant_set")
+
+        result = participant_set.setEthernetClusterRef(_ref("/Clusters/EthernetCluster"))
+
+        assert result is participant_set
+        assert participant_set.getEthernetClusterRef().getValue() == "/Clusters/EthernetCluster"
+
+        participant_set.setEthernetClusterRef(_ref("/Clusters/Other"))
+        assert participant_set.getEthernetClusterRef().getValue() == "/Clusters/Other"
+
+    def test_create_mka_participants(self):
+        parent = MockParent()
+        participant_set = MacSecParticipantSet(parent, "test_participant_set")
+
+        participant = participant_set.createMacSecKayParticipant("MKA1")
+
+        assert isinstance(participant, MacSecKayParticipant)
+        assert participant_set.getMkaParticipants() == [participant]
+
+        again = participant_set.createMacSecKayParticipant("MKA1")
+        assert again is participant
+        assert len(participant_set.getMkaParticipants()) == 1
+
+        second = participant_set.createMacSecKayParticipant("MKA2")
+        assert participant_set.getMkaParticipants() == [participant, second]
+
+    def test_ar_package_create_factory(self):
+        document = AUTOSAR.getInstance()
+        document.new()
+        document.setARRelease("R23-11")
+
+        pkg = document.createARPackage("Sec")
+        participant_set = pkg.createMacSecParticipantSet("MPS")
+
+        assert isinstance(participant_set, MacSecParticipantSet)
+        assert participant_set.getShortName() == "MPS"
+
+        again = pkg.createMacSecParticipantSet("MPS")
+        assert again is participant_set
+
+    def test_none_is_noop(self):
+        parent = MockParent()
+        participant_set = MacSecParticipantSet(parent, "test_participant_set")
+        cluster_ref = _ref("/Clusters/EthernetCluster")
+        participant_set.setEthernetClusterRef(cluster_ref)
+        participant = participant_set.createMacSecKayParticipant("MKA1")
+
+        participant_set.setEthernetClusterRef(None)
+
+        assert participant_set.getEthernetClusterRef() is cluster_ref
+        assert participant_set.getMkaParticipants() == [participant]
+
+    def test_none_noop_on_fresh_instance(self):
+        parent = MockParent()
+        participant_set = MacSecParticipantSet(parent, "test_participant_set")
+
+        participant_set.setEthernetClusterRef(None)
+
+        assert participant_set.getEthernetClusterRef() is None
+        assert participant_set.getMkaParticipants() == []
+
+
 class Test_MacSecCipherSuiteConfig:
-    def test_defaults(self):
+    def test_initialization_defaults(self):
         config = MacSecCipherSuiteConfig()
         assert isinstance(config, ARObject)
         assert config.getCipherSuite() is None
@@ -360,16 +739,41 @@ class Test_MacSecCipherSuiteConfig:
     def test_get_set_cipher_suite(self):
         config = MacSecCipherSuiteConfig()
         cipher_suite = _string("GCM-AES-128")
-        assert config.setCipherSuite(cipher_suite) is config
+        result = config.setCipherSuite(cipher_suite)
+
+        assert result is config
         assert config.getCipherSuite() is cipher_suite
+
+        xpn = _string("GCM-AES-XPN-256")
+        config.setCipherSuite(xpn)
+        assert config.getCipherSuite() is xpn
 
     def test_get_set_cipher_suite_priority(self):
         config = MacSecCipherSuiteConfig()
         priority = _pos_int("1")
-        assert config.setCipherSuitePriority(priority) is config
+        result = config.setCipherSuitePriority(priority)
+
+        assert result is config
         assert config.getCipherSuitePriority() is priority
 
+        lowest = _pos_int("4")
+        config.setCipherSuitePriority(lowest)
+        assert config.getCipherSuitePriority() is lowest
+
     def test_none_is_noop(self):
+        config = MacSecCipherSuiteConfig()
+        cipher_suite = _string("GCM-AES-128")
+        priority = _pos_int("1")
+        config.setCipherSuite(cipher_suite)
+        config.setCipherSuitePriority(priority)
+
+        config.setCipherSuite(None)
+        config.setCipherSuitePriority(None)
+
+        assert config.getCipherSuite() is cipher_suite
+        assert config.getCipherSuitePriority() is priority
+
+    def test_none_noop_on_fresh_instance(self):
         config = MacSecCipherSuiteConfig()
         assert config.setCipherSuite(None) is config
         assert config.setCipherSuitePriority(None) is config
@@ -378,7 +782,7 @@ class Test_MacSecCipherSuiteConfig:
 
 
 class Test_MacSecCryptoAlgoConfig:
-    def test_defaults(self):
+    def test_initialization_defaults(self):
         config = MacSecCryptoAlgoConfig()
         assert isinstance(config, ARObject)
         assert config.getCapability() is None
@@ -413,13 +817,23 @@ class Test_MacSecCryptoAlgoConfig:
         assert config.setReplayProtectionWindow(window) is config
         assert config.getReplayProtectionWindow() is window
 
-    def test_create_and_get_cipher_suite_configs(self):
+    def test_add_and_get_cipher_suite_configs(self):
         config = MacSecCryptoAlgoConfig()
-        c1 = config.createCipherSuiteConfig()
-        c2 = config.createCipherSuiteConfig()
-        assert isinstance(c1, MacSecCipherSuiteConfig)
-        assert isinstance(c2, MacSecCipherSuiteConfig)
+        c1 = MacSecCipherSuiteConfig()
+        c1.setCipherSuite(_string("GCM-AES-128"))
+        c2 = MacSecCipherSuiteConfig()
+        c2.setCipherSuite(_string("GCM-AES-256"))
+
+        assert config.addCipherSuiteConfig(c1) is config
+        assert config.addCipherSuiteConfig(c2) is config
         assert config.getCipherSuiteConfigs() == [c1, c2]
+        assert config.getCipherSuiteConfigs()[0].getCipherSuite().getValue() == "GCM-AES-128"
+        assert config.getCipherSuiteConfigs()[1].getCipherSuite().getValue() == "GCM-AES-256"
+
+    def test_add_cipher_suite_config_none_is_noop(self):
+        config = MacSecCryptoAlgoConfig()
+        assert config.addCipherSuiteConfig(None) is config
+        assert config.getCipherSuiteConfigs() == []
 
     def test_none_is_noop(self):
         config = MacSecCryptoAlgoConfig()
@@ -434,7 +848,7 @@ class Test_MacSecCryptoAlgoConfig:
 
 
 class Test_MacSecKayParticipant:
-    def test_defaults(self):
+    def test_initialization_defaults(self):
         parent = MockParent()
         participant = MacSecKayParticipant(parent, "test_kay_participant")
         assert isinstance(participant, Identifiable)
@@ -442,33 +856,73 @@ class Test_MacSecKayParticipant:
         assert participant.getCryptoAlgoConfig() is None
         assert participant.getSakRef() is None
 
-    def test_get_set_ckn(self):
+    def test_get_set_ckn_ref(self):
         parent = MockParent()
         participant = MacSecKayParticipant(parent, "test_kay_participant")
         ckn = _ref("/Sec/CryptoKeyCkn")
-        assert participant.setCknRef(ckn) is participant
+
+        result = participant.setCknRef(ckn)
+
+        assert result is participant
         assert participant.getCknRef() is ckn
+        assert participant.getCknRef().getValue() == "/Sec/CryptoKeyCkn"
+
+        participant.setCknRef(_ref("/Sec/OtherCkn"))
+        assert participant.getCknRef().getValue() == "/Sec/OtherCkn"
 
     def test_get_set_crypto_algo_config(self):
         parent = MockParent()
         participant = MacSecKayParticipant(parent, "test_kay_participant")
         config = MacSecCryptoAlgoConfig()
-        assert participant.setCryptoAlgoConfig(config) is participant
+
+        result = participant.setCryptoAlgoConfig(config)
+
+        assert result is participant
         assert participant.getCryptoAlgoConfig() is config
 
-    def test_get_set_sak(self):
+        other = MacSecCryptoAlgoConfig()
+        participant.setCryptoAlgoConfig(other)
+        assert participant.getCryptoAlgoConfig() is other
+
+    def test_get_set_sak_ref(self):
         parent = MockParent()
         participant = MacSecKayParticipant(parent, "test_kay_participant")
         sak = _ref("/Sec/CryptoKeySak")
-        assert participant.setSakRef(sak) is participant
+
+        result = participant.setSakRef(sak)
+
+        assert result is participant
         assert participant.getSakRef() is sak
+        assert participant.getSakRef().getValue() == "/Sec/CryptoKeySak"
+
+        participant.setSakRef(_ref("/Sec/OtherSak"))
+        assert participant.getSakRef().getValue() == "/Sec/OtherSak"
 
     def test_none_is_noop(self):
         parent = MockParent()
         participant = MacSecKayParticipant(parent, "test_kay_participant")
-        assert participant.setCknRef(None) is participant
-        assert participant.setCryptoAlgoConfig(None) is participant
-        assert participant.setSakRef(None) is participant
+        ckn = _ref("/Sec/CryptoKeyCkn")
+        config = MacSecCryptoAlgoConfig()
+        sak = _ref("/Sec/CryptoKeySak")
+        participant.setCknRef(ckn)
+        participant.setCryptoAlgoConfig(config)
+        participant.setSakRef(sak)
+
+        participant.setCknRef(None)
+        participant.setCryptoAlgoConfig(None)
+        participant.setSakRef(None)
+
+        assert participant.getCknRef() is ckn
+        assert participant.getCryptoAlgoConfig() is config
+        assert participant.getSakRef() is sak
+
+    def test_none_noop_on_fresh_instance(self):
+        parent = MockParent()
+        participant = MacSecKayParticipant(parent, "test_kay_participant")
+        participant.setCknRef(None)
+        participant.setCryptoAlgoConfig(None)
+        participant.setSakRef(None)
+
         assert participant.getCknRef() is None
         assert participant.getCryptoAlgoConfig() is None
         assert participant.getSakRef() is None

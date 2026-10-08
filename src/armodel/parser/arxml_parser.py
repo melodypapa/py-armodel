@@ -1241,6 +1241,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     EthernetPriorityRegeneration,
     EthernetSwitchVlanEgressTaggingEnum,
     EthernetWakeupSleepOnDatalineConfig,
+    EthernetWakeupSleepOnDatalineConfigSet,
     FlowMeteringColorModeEnum,
     GenericTp,
     GlobalTimeCouplingPortProps,
@@ -1305,6 +1306,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication impor
     MacSecGlobalKayProps,
     MacSecKayParticipant,
     MacSecLocalKayProps,
+    MacSecParticipantSet,
     MacSecProps,
     MacSecRoleEnum,
     IPsecDpdActionEnum,
@@ -1502,6 +1504,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopol
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinPhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetPhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayPhysicalChannel
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.CddSupport import UserDefinedCluster, UserDefinedCommunicationConnector, UserDefinedCommunicationController, UserDefinedPhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import EcuInstance
 from armodel.models.M2.AUTOSARTemplates.LogAndTraceExtract import DltApplication, DltArgument, DltContext, DltEcu, DltMessage, PrivacyLevel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Dlt import DltConfig, DltDefaultTraceStateEnum, DltLogChannel, LogTraceDefaultLogLevelEnum
@@ -1552,7 +1555,19 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import 
     UdpNmEcu,
     UdpNmNode,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import ApplicationPartitionToEcuPartitionMapping, EcuResourceEstimation, SwcToImplMapping
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import (
+    ApplicationPartition,
+    ApplicationPartitionToEcuPartitionMapping,
+    ComponentClustering,
+    ComponentSeparation,
+    EcuResourceEstimation,
+    J1939ControllerApplication,
+    J1939ControllerApplicationToJ1939NmNodeMapping,
+    MappingConstraint,
+    MappingScopeEnum,
+    SwcToApplicationPartitionMapping,
+    SwcToImplMapping,
+)
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.PncMapping import PncMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     BufferProperties,
@@ -10285,6 +10300,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read BusMirrorChannelMappingUserDefined <%s>" % mapping.getShortName())
         self.readBusMirrorChannelMapping(element, mapping)
         mapping.setTransmissionDeadline(self.getChildElementOptionalTimeValue(element, "TRANSMISSION-DEADLINE"))
+
     def readTDCpSoftwareClusterMapping(self, element: ET.Element, mapping: TDCpSoftwareClusterMapping):
         self.logger.debug("Read TDCpSoftwareClusterMapping <%s>" % mapping.getShortName())
         self.readIdentifiable(element, mapping)
@@ -10554,6 +10570,10 @@ class ARXMLParser(AbstractARXMLParser):
         self.readPhysicalChannelISignalTriggerings(element, channel)
         self.readPhysicalChannelManagedPhysicalChannelRefs(element, channel)
         self.readPhysicalChannelPduTriggerings(element, channel)
+
+    def readUserDefinedPhysicalChannel(self, element: ET.Element, channel: UserDefinedPhysicalChannel):
+        self.logger.debug("Read UserDefinedPhysicalChannel <%s>" % channel.getShortName())
+        self.readPhysicalChannel(element, channel)
 
     def readCanPhysicalChannel(self, element: ET.Element, channel: CanPhysicalChannel):
         self.readPhysicalChannel(element, channel)
@@ -11454,6 +11474,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "FLEXRAY-PHYSICAL-CHANNEL":
                 channel = cluster.createFlexrayPhysicalChannel(self.getShortName(child_element))
                 self.readFlexrayPhysicalChannel(child_element, channel)
+            elif tag_name == "USER-DEFINED-PHYSICAL-CHANNEL":
+                channel = cluster.createUserDefinedPhysicalChannel(self.getShortName(child_element))
+                self.readUserDefinedPhysicalChannel(child_element, channel)
             else:
                 self.notImplemented("Unsupported Physical Channel <%s>" % tag_name)
 
@@ -11489,6 +11512,13 @@ class ARXMLParser(AbstractARXMLParser):
         if child_element is not None:
             self.readCommunicationCluster(child_element, cluster)
 
+    def readUserDefinedCluster(self, element: ET.Element, cluster: UserDefinedCluster):
+        self.logger.debug("Read UserDefinedCluster <%s>" % cluster.getShortName())
+        self.readIdentifiable(element, cluster)
+        child_element = self.find(element, "USER-DEFINED-CLUSTER-VARIANTS/USER-DEFINED-CLUSTER-CONDITIONAL")
+        if child_element is not None:
+            self.readCommunicationCluster(child_element, cluster)
+
     def readCanCluster(self, element: ET.Element, cluster: CanCluster):
         self.logger.debug("Read CanCluster <%s>" % cluster.getShortName())
         self.readIdentifiable(element, cluster)
@@ -11515,6 +11545,11 @@ class ARXMLParser(AbstractARXMLParser):
             cluster.setNetworkId(self.getChildElementOptionalPositiveInteger(child_element, "NETWORK-ID"))
             cluster.setRequest2Support(self.getChildElementOptionalBooleanValue(child_element, "REQUEST-2-SUPPORT"))
             cluster.setUsesAddressArbitration(self.getChildElementOptionalBooleanValue(child_element, "USES-ADDRESS-ARBITRATION"))
+
+    def readJ1939ControllerApplication(self, element: ET.Element, controller_application: J1939ControllerApplication):
+        self.readIdentifiable(element, controller_application)
+        controller_application.setFunctionId(self.getChildElementOptionalPositiveInteger(element, "FUNCTION-ID"))
+        controller_application.setSwComponentPrototypeIRef(self.getComponentInSystemInstanceRef(cast(ET.Element, self.find(element, "SW-COMPONENT-PROTOTYPE-IREF"))))
 
     def readUdpProps(self, element: ET.Element, props: UdpProps):
         """Read an R23-11 <UDP-PROPS> element (Table 3.110, p.154): single optional UDP-TTL."""
@@ -11704,6 +11739,12 @@ class ARXMLParser(AbstractARXMLParser):
         config.setWakeupRemoteEnabled(self.getChildElementOptionalBooleanValue(element, "WAKEUP-REMOTE-ENABLED"))
         config.setWakeupRepetitionDelayOfWakeupRequest(self.getChildElementOptionalTimeValue(element, "WAKEUP-REPETITION-DELAY-OF-WAKEUP-REQUEST"))
         config.setWakeupRepetitionsOfWakeupRequest(self.getChildElementOptionalPositiveInteger(element, "WAKEUP-REPETITIONS-OF-WAKEUP-REQUEST"))
+
+    def readEthernetWakeupSleepOnDatalineConfigSet(self, element: ET.Element, config_set: EthernetWakeupSleepOnDatalineConfigSet):
+        self.readIdentifiable(element, config_set)
+        for child_element in self.findall(element, "ETHERNET-WAKEUP-SLEEP-ON-DATALINE-CONFIGS/ETHERNET-WAKEUP-SLEEP-ON-DATALINE-CONFIG"):
+            config = config_set.createEthernetWakeupSleepOnDatalineConfig(self.getShortName(child_element))
+            self.readEthernetWakeupSleepOnDatalineConfig(child_element, config)
 
     def readEthTcpIpIcmpProps(self, element: ET.Element, props: EthTcpIpIcmpProps):
         """Read an R23-11 <ETH-TCP-IP-ICMP-PROPS> element (Table 3.112, p.156): SHORT-NAME, ICMP-V-4-PROPS, ICMP-V-6-PROPS."""
@@ -16024,6 +16065,13 @@ class ARXMLParser(AbstractARXMLParser):
             controller.setTimeTriggeredCanLevel(self.getChildElementOptionalIntegerValue(child_element, "TIME-TRIGGERED-CAN-LEVEL"))
             controller.setTxEnableWindowLength(self.getChildElementOptionalIntegerValue(child_element, "TX-ENABLE-WINDOW-LENGTH"))
 
+    def readUserDefinedCommunicationController(self, element: ET.Element, controller: UserDefinedCommunicationController):
+        self.logger.debug("Read UserDefinedCommunicationController %s" % controller.getShortName())
+        self.readIdentifiable(element, controller)
+        child_element = self.find(element, "USER-DEFINED-COMMUNICATION-CONTROLLER-VARIANTS/USER-DEFINED-COMMUNICATION-CONTROLLER-CONDITIONAL")
+        if child_element is not None:
+            self.readCommunicationController(child_element, controller)
+
     def readCouplingPortSchedulerCouplingPortStructuralElement(self, element: ET.Element, item: CouplingPortStructuralElement):
         self.readIdentifiable(element, item)
 
@@ -16158,10 +16206,14 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         if child_element is not None:
             props = PlcaProps()
-            props.setPlcaLocalNodeId(self.getChildElementOptionalPositiveInteger(child_element, "PLCA-LOCAL-NODE-ID"))
-            props.setPlcaMaxBurstCount(self.getChildElementOptionalPositiveInteger(child_element, "PLCA-MAX-BURST-COUNT"))
-            props.setPlcaMaxBurstTimer(self.getChildElementOptionalPositiveInteger(child_element, "PLCA-MAX-BURST-TIMER"))
+            self.readPlcaProps(child_element, props)
         return props
+
+    def readPlcaProps(self, element: ET.Element, props: PlcaProps):
+        self.readARObject(element, props)
+        props.setPlcaLocalNodeId(self.getChildElementOptionalPositiveInteger(element, "PLCA-LOCAL-NODE-ID"))
+        props.setPlcaMaxBurstCount(self.getChildElementOptionalPositiveInteger(element, "PLCA-MAX-BURST-COUNT"))
+        props.setPlcaMaxBurstTimer(self.getChildElementOptionalPositiveInteger(element, "PLCA-MAX-BURST-TIMER"))
 
     def readAbstractGlobalTimeDomainProps(self, element: ET.Element, props: AbstractGlobalTimeDomainProps) -> AbstractGlobalTimeDomainProps:
         # VARIATION-POINT is the only element of the XSD ABSTRACT-GLOBAL-TIME-DOMAIN-PROPS group
@@ -16209,13 +16261,23 @@ class ARXMLParser(AbstractARXMLParser):
                     value.setValue(child_element.text)
                     props.addBypassVlan(value)
 
+    def readMacSecParticipantSet(self, element: ET.Element, participant_set: MacSecParticipantSet):
+        self.logger.debug("Read MacSecParticipantSet <%s>" % participant_set.getShortName())
+        self.readIdentifiable(element, participant_set)
+        participant_set.setEthernetClusterRef(self.getChildElementOptionalRefType(element, "ETHERNET-CLUSTER-REF"))
+        for child_element in self.findall(element, "MKA-PARTICIPANTS/MAC-SEC-KAY-PARTICIPANT"):
+            participant = participant_set.createMacSecKayParticipant(self.getShortName(child_element))
+            self.readMacSecKayParticipant(child_element, participant)
+
     def readMacSecCipherSuiteConfig(self, element: ET.Element, config: MacSecCipherSuiteConfig):
         self.logger.debug("Read MacSecCipherSuiteConfig")
+        self.readARObject(element, config)
         config.setCipherSuite(self.getChildElementOptionalString(element, "CIPHER-SUITE"))
         config.setCipherSuitePriority(self.getChildElementOptionalPositiveInteger(element, "CIPHER-SUITE-PRIORITY"))
 
     def readMacSecCryptoAlgoConfig(self, element: ET.Element, config: MacSecCryptoAlgoConfig):
         self.logger.debug("Read MacSecCryptoAlgoConfig")
+        self.readARObject(element, config)
         capability = self.getChildElementOptionalLiteral(element, "CAPABILITY")
         if capability is not None:
             e: ARLiteral = MacSecCapabilityEnum()
@@ -16224,7 +16286,8 @@ class ARXMLParser(AbstractARXMLParser):
         wrapper = self.find(element, "CIPHER-SUITE-CONFIGS")
         if wrapper is not None:
             for child_element in self.findall(wrapper, "MAC-SEC-CIPHER-SUITE-CONFIG"):
-                cipher_config = config.createCipherSuiteConfig()
+                cipher_config = MacSecCipherSuiteConfig()
+                config.addCipherSuiteConfig(cipher_config)
                 self.readMacSecCipherSuiteConfig(child_element, cipher_config)
         confidentiality_offset = self.getChildElementOptionalLiteral(element, "CONFIDENTIALITY-OFFSET")
         if confidentiality_offset is not None:
@@ -16249,33 +16312,41 @@ class ARXMLParser(AbstractARXMLParser):
         props = None
         if element is not None:
             props = MacSecLocalKayProps()
-            props.setDestinationMacAddress(self.getChildElementOptionalMacAddressString(element, "DESTINATION-MAC-ADDRESS"))
-            props.setGlobalKayPropsRef(self.getChildElementOptionalRefType(element, "GLOBAL-KAY-PROPS-REF"))
-            props.setKeyServerPriority(self.getChildElementOptionalPositiveInteger(element, "KEY-SERVER-PRIORITY"))
-            for ref in self.getChildElementRefTypeList(element, "MKA-PARTICIPANT-REFS/MKA-PARTICIPANT-REF"):
-                props.addMkaParticipantRef(ref)
-            role = self.getChildElementOptionalLiteral(element, "ROLE")
-            if role is not None:
-                e = MacSecRoleEnum()
-                e.setValue(role.getValue())
-                props.setRole(e)
-            props.setSourceMacAddress(self.getChildElementOptionalMacAddressString(element, "SOURCE-MAC-ADDRESS"))
+            self.readMacSecLocalKayProps(element, props)
         return props
+
+    def readMacSecLocalKayProps(self, element: ET.Element, props: MacSecLocalKayProps):
+        self.readARObject(element, props)
+        props.setDestinationMacAddress(self.getChildElementOptionalMacAddressString(element, "DESTINATION-MAC-ADDRESS"))
+        props.setGlobalKayPropsRef(self.getChildElementOptionalRefType(element, "GLOBAL-KAY-PROPS-REF"))
+        props.setKeyServerPriority(self.getChildElementOptionalPositiveInteger(element, "KEY-SERVER-PRIORITY"))
+        for ref in self.getChildElementRefTypeList(element, "MKA-PARTICIPANT-REFS/MKA-PARTICIPANT-REF"):
+            props.addMkaParticipantRef(ref)
+        role = self.getChildElementOptionalLiteral(element, "ROLE")
+        if role is not None:
+            e = MacSecRoleEnum()
+            e.setValue(role.getValue())
+            props.setRole(e)
+        props.setSourceMacAddress(self.getChildElementOptionalMacAddressString(element, "SOURCE-MAC-ADDRESS"))
 
     def getMacSecProps(self, element: ET.Element) -> Optional[MacSecProps]:
         props = None
         if element is not None:
             props = MacSecProps()
-            props.setAutoStart(self.getChildElementOptionalBooleanValue(element, "AUTO-START"))
-            props.setMacSecKayConfig(self.getMacSecLocalKayProps(cast(ET.Element, self.find(element, "MAC-SEC-KAY-CONFIG"))))
-            on_fail_permissive_mode = self.getChildElementOptionalLiteral(element, "ON-FAIL-PERMISSIVE-MODE")
-            if on_fail_permissive_mode is not None:
-                e = MacSecFailPermissiveModeEnum()
-                e.setValue(on_fail_permissive_mode.getValue())
-                props.setOnFailPermissiveMode(e)
-            props.setOnFailPermissiveModeTimeout(self.getChildElementOptionalTimeValue(element, "ON-FAIL-PERMISSIVE-MODE-TIMEOUT"))
-            props.setSakRekeyTimeSpan(self.getChildElementOptionalTimeValue(element, "SAK-REKEY-TIME-SPAN"))
+            self.readMacSecProps(element, props)
         return props
+
+    def readMacSecProps(self, element: ET.Element, props: MacSecProps):
+        self.readARObject(element, props)
+        props.setAutoStart(self.getChildElementOptionalBooleanValue(element, "AUTO-START"))
+        props.setMacSecKayConfig(self.getMacSecLocalKayProps(cast(ET.Element, self.find(element, "MAC-SEC-KAY-CONFIG"))))
+        on_fail_permissive_mode = self.getChildElementOptionalLiteral(element, "ON-FAIL-PERMISSIVE-MODE")
+        if on_fail_permissive_mode is not None:
+            e = MacSecFailPermissiveModeEnum()
+            e.setValue(on_fail_permissive_mode.getValue())
+            props.setOnFailPermissiveMode(e)
+        props.setOnFailPermissiveModeTimeout(self.getChildElementOptionalTimeValue(element, "ON-FAIL-PERMISSIVE-MODE-TIMEOUT"))
+        props.setSakRekeyTimeSpan(self.getChildElementOptionalTimeValue(element, "SAK-REKEY-TIME-SPAN"))
 
     def getCouplingPortDetails(self, element: ET.Element, key: str) -> Optional[CouplingPortDetails]:
         details = None
@@ -16616,6 +16687,8 @@ class ARXMLParser(AbstractARXMLParser):
                 self.readFlexrayCommunicationController(child_element, instance.createFlexrayCommunicationController(self.getShortName(child_element)))
             elif tag_name == "TTCAN-COMMUNICATION-CONTROLLER":
                 self.readTtcanCommunicationController(child_element, instance.createTtcanCommunicationController(self.getShortName(child_element)))
+            elif tag_name == "USER-DEFINED-COMMUNICATION-CONTROLLER":
+                self.readUserDefinedCommunicationController(child_element, instance.createUserDefinedCommunicationController(self.getShortName(child_element)))
             else:
                 self.raiseError("Unsupported Communication Controller <%s>" % tag_name)
 
@@ -16680,6 +16753,10 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read TtcanCommunicationConnector %s" % connector.getShortName())
         self.readCommunicationConnector(element, connector)
 
+    def readUserDefinedCommunicationConnector(self, element: ET.Element, connector: UserDefinedCommunicationConnector):
+        self.logger.debug("Read UserDefinedCommunicationConnector %s" % connector.getShortName())
+        self.readCommunicationConnector(element, connector)
+
     def readEthernetCommunicationConnector(self, element: ET.Element, connector: EthernetCommunicationConnector):
         self.readCommunicationConnector(element, connector)
         connector.setEthIpPropsRef(self.getChildElementOptionalRefType(element, "ETH-IP-PROPS-REF"))
@@ -16721,6 +16798,8 @@ class ARXMLParser(AbstractARXMLParser):
                 self.readLinCommunicationConnector(child_element, instance.createLinCommunicationConnector(self.getShortName(child_element)))
             elif tag_name == "FLEXRAY-COMMUNICATION-CONNECTOR":
                 self.readFlexrayCommunicationConnector(child_element, instance.createFlexrayCommunicationConnector(self.getShortName(child_element)))
+            elif tag_name == "USER-DEFINED-COMMUNICATION-CONNECTOR":
+                self.readUserDefinedCommunicationConnector(child_element, instance.createUserDefinedCommunicationConnector(self.getShortName(child_element)))
             else:
                 self.notImplemented("Unsupported Communication Connector <%s>" % tag_name)
 
@@ -18013,6 +18092,9 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported Data Mapping %s" % tag_name)
 
+    def readApplicationPartition(self, element: ET.Element, app_partition: ApplicationPartition):
+        self.readIdentifiable(element, app_partition)
+
     def readApplicationPartitionToEcuPartitionMapping(self, element: ET.Element, mapping: ApplicationPartitionToEcuPartitionMapping):
         self.readIdentifiable(element, mapping)
         for ref in self.getChildElementRefTypeList(element, "APPLICATION-PARTITION-REFS/APPLICATION-PARTITION-REF"):
@@ -18196,6 +18278,76 @@ class ARXMLParser(AbstractARXMLParser):
                 self.readEcuMapping(child_element, ecu_mapping)
             else:
                 self.notImplemented("Unsupported EcuResourceMapping <%s>" % tag_name)
+
+    def readSystemMappingJ1939ControllerApplicationToJ1939NmNodeMappings(self, element: ET.Element, mapping: SystemMapping):
+        for child_element in self.findall(element, "J-1939-CONTROLLER-APPLICATION-TO-J-1939-NM-NODE-MAPPINGS/J-1939-CONTROLLER-APPLICATION-TO-J-1939-NM-NODE-MAPPING"):
+            node_mapping = J1939ControllerApplicationToJ1939NmNodeMapping()
+            self.readJ1939ControllerApplicationToJ1939NmNodeMapping(child_element, node_mapping)
+            mapping.addJ1939ControllerApplicationToJ1939NmNodeMapping(node_mapping)
+
+    def readJ1939ControllerApplicationToJ1939NmNodeMapping(self, element: ET.Element, node_mapping: J1939ControllerApplicationToJ1939NmNodeMapping):
+        self.readARObject(element, node_mapping)
+        node_mapping.setJ1939ControllerApplicationRef(self.getChildElementOptionalRefType(element, "J-1939-CONTROLLER-APPLICATION-REF"))
+        node_mapping.setJ1939NmNodeRef(self.getChildElementOptionalRefType(element, "J-1939-NM-NODE-REF"))
+
+    def readMappingConstraint(self, element: ET.Element, mapping_constraint: MappingConstraint):
+        self.readARObject(element, mapping_constraint)
+        mapping_constraint.setIntroduction(self.getDocumentationBlock(element, "INTRODUCTION"))
+        variation_point_element = self.find(element, "VARIATION-POINT")
+        if variation_point_element is not None:
+            if isinstance(mapping_constraint, VariationPointCapable):
+                mapping_constraint.setVariationPoint(self.readVariationPoint(variation_point_element, VariationPoint()))
+            else:
+                self.logger.warning("VARIATION-POINT on non-variant element <%s> ignored" % self.getPureTagName(element.tag))
+
+    def readComponentClustering(self, element: ET.Element, clustering: ComponentClustering):
+        self.readMappingConstraint(element, clustering)
+        for child_element in self.findall(element, "CLUSTERED-COMPONENT-IREFS/CLUSTERED-COMPONENT-IREF"):
+            clustering.addClusteredComponentIRef(self.getComponentInSystemInstanceRef(child_element))
+        mapping_scope = self.getChildElementOptionalLiteral(element, "MAPPING-SCOPE")
+        if mapping_scope is not None:
+            e: ARLiteral = MappingScopeEnum()
+            e.setValue(mapping_scope.getValue())
+            clustering.setMappingScope(cast(Optional[MappingScopeEnum], e))
+
+    def readComponentSeparation(self, element: ET.Element, separation: ComponentSeparation):
+        self.readMappingConstraint(element, separation)
+        mapping_scope = self.getChildElementOptionalLiteral(element, "MAPPING-SCOPE")
+        if mapping_scope is not None:
+            e: ARLiteral = MappingScopeEnum()
+            e.setValue(mapping_scope.getValue())
+            separation.setMappingScope(cast(Optional[MappingScopeEnum], e))
+        for child_element in self.findall(element, "SEPARATED-COMPONENT-IREFS/SEPARATED-COMPONENT-IREF"):
+            separation.addSeparatedComponentIRef(self.getComponentInSystemInstanceRef(child_element))
+
+    def readSystemMappingMappingConstraints(self, element: ET.Element, mapping: SystemMapping):
+        for child_element in self.findall(element, "MAPPING-CONSTRAINTS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "COMPONENT-CLUSTERING":
+                clustering = ComponentClustering()
+                self.readComponentClustering(child_element, clustering)
+                mapping.addMappingConstraint(clustering)
+            elif tag_name == "COMPONENT-SEPARATION":
+                separation = ComponentSeparation()
+                self.readComponentSeparation(child_element, separation)
+                mapping.addMappingConstraint(separation)
+            else:
+                self.notImplemented("Unsupported MappingConstraint %s" % tag_name)
+
+    def readSystemMappingPortElementToComResourceMappings(self, element: ET.Element, mapping: SystemMapping):
+        for child_element in self.findall(element, "PORT-ELEMENT-TO-COM-RESOURCE-MAPPINGS/PORT-ELEMENT-TO-COMMUNICATION-RESOURCE-MAPPING"):
+            port_mapping = mapping.createPortElementToComResourceMapping(self.getShortName(child_element))
+            self.readIdentifiable(child_element, port_mapping)
+
+    def readSystemMappingSwcToApplicationPartitionMappings(self, element: ET.Element, mapping: SystemMapping):
+        for child_element in self.findall(element, "SWC-TO-APPLICATION-PARTITION-MAPPINGS/SWC-TO-APPLICATION-PARTITION-MAPPING"):
+            swc_mapping = mapping.createSwcToApplicationPartitionMapping(self.getShortName(child_element))
+            self.readSwcToApplicationPartitionMapping(child_element, swc_mapping)
+
+    def readSwcToApplicationPartitionMapping(self, element: ET.Element, mapping: SwcToApplicationPartitionMapping):
+        self.readIdentifiable(element, mapping)
+        mapping.setApplicationPartitionRef(self.getChildElementOptionalRefType(element, "APPLICATION-PARTITION-REF"))
+        mapping.setSwComponentPrototypeIRef(self.getComponentInSystemInstanceRef(cast(ET.Element, self.find(element, "SW-COMPONENT-PROTOTYPE-IREF"))))
 
     def readSwcToImplMapping(self, element: ET.Element, mapping: SwcToImplMapping):
         self.readIdentifiable(element, mapping)
@@ -18454,7 +18606,10 @@ class ARXMLParser(AbstractARXMLParser):
         self.readSystemMappingDataMappings(element, mapping)
         self.readSystemMappingDdsISignalToTopicMappings(element, mapping)
         self.readSystemMappingEcuResourceMappings(element, mapping)
+        self.readSystemMappingJ1939ControllerApplicationToJ1939NmNodeMappings(element, mapping)
+        self.readSystemMappingMappingConstraints(element, mapping)
         self.readSystemMappingPncMappings(element, mapping)
+        self.readSystemMappingPortElementToComResourceMappings(element, mapping)
         self.readSystemMappingResourceEstimations(element, mapping)
         self.readSystemMappingResourceToApplicationPartitionMappings(element, mapping)
         self.readSystemMappingRteEventSeparations(element, mapping)
@@ -18464,6 +18619,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readSystemMappingSwClusterMappings(element, mapping)
         self.readSystemMappingSwImplMappings(element, mapping)
         self.readSystemMappingSwMappings(element, mapping)
+        self.readSystemMappingSwcToApplicationPartitionMappings(element, mapping)
         self.readSystemMappingSystemSignalGroupToComResourceMappings(element, mapping)
         self.readSystemMappingSystemSignalToComResourceMappings(element, mapping)
 
@@ -18656,7 +18812,7 @@ class ARXMLParser(AbstractARXMLParser):
             self.readIdentifiable(child_element, scr_mapping)
         for child_element in self.findall(element, "SWC-TO-APPLICATION-PARTITION-MAPPINGS/SWC-TO-APPLICATION-PARTITION-MAPPING"):
             swc_mapping = mapping_set.createSwcToApplicationPartitionMapping(self.getShortName(child_element))
-            self.readIdentifiable(child_element, swc_mapping)
+            self.readSwcToApplicationPartitionMapping(child_element, swc_mapping)
 
     def readSystem(self, element: ET.Element, system: System):
         self.logger.debug("Read System <%s>" % system.getShortName())
@@ -18980,6 +19136,8 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "APPLICATION-INTERFACE":
                 interface = parent.createApplicationInterface(self.getShortName(child_element))
                 self.readApplicationInterface(child_element, interface)
+            elif tag_name == "APPLICATION-PARTITION":
+                self.readApplicationPartition(child_element, parent.createApplicationPartition(self.getShortName(child_element)))
             elif tag_name == "COLLECTION":
                 collection = parent.createCollection(self.getShortName(child_element))
                 self.readCollection(child_element, collection)
@@ -19170,6 +19328,10 @@ class ARXMLParser(AbstractARXMLParser):
                 self.readTtcanCluster(child_element, parent.createTtcanCluster(self.getShortName(child_element)))
             elif tag_name == "J-1939-CLUSTER":
                 self.readJ1939Cluster(child_element, parent.createJ1939Cluster(self.getShortName(child_element)))
+            elif tag_name == "J-1939-CONTROLLER-APPLICATION":
+                self.readJ1939ControllerApplication(child_element, parent.createJ1939ControllerApplication(self.getShortName(child_element)))
+            elif tag_name == "USER-DEFINED-CLUSTER":
+                self.readUserDefinedCluster(child_element, parent.createUserDefinedCluster(self.getShortName(child_element)))
             elif tag_name == "CAN-FRAME":
                 self.readCanFrame(child_element, parent.createCanFrame(self.getShortName(child_element)))
             elif tag_name == "I-SIGNAL":
@@ -19227,6 +19389,12 @@ class ARXMLParser(AbstractARXMLParser):
                 self.readCouplingElement(child_element, parent.createCouplingElement(self.getShortName(child_element)))
             elif tag_name == "ETHERNET-CLUSTER":
                 self.readEthernetCluster(child_element, parent.createEthernetCluster(self.getShortName(child_element)))
+            elif tag_name == "ETHERNET-WAKEUP-SLEEP-ON-DATALINE-CONFIG-SET":
+                self.readEthernetWakeupSleepOnDatalineConfigSet(child_element, parent.createEthernetWakeupSleepOnDatalineConfigSet(self.getShortName(child_element)))
+            elif tag_name == "MAC-SEC-GLOBAL-KAY-PROPS":
+                self.readMacSecGlobalKayProps(child_element, parent.createMacSecGlobalKayProps(self.getShortName(child_element)))
+            elif tag_name == "MAC-SEC-PARTICIPANT-SET":
+                self.readMacSecParticipantSet(child_element, parent.createMacSecParticipantSet(self.getShortName(child_element)))
             elif tag_name == "CAN-XL-PROPS":
                 can_xl_props = parent.createCanXlProps(self.getShortName(child_element))
                 self.readCanXlProps(child_element, can_xl_props)

@@ -1,14 +1,46 @@
 # This module contains AUTOSAR System Template classes for software component mapping
 # It defines mappings between software components and their implementations or partitions
 
+from abc import ABC
 from typing import List, Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, PositiveInteger, RefType
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import ComponentInSystemInstanceRef
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption import ResourceConsumption
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
+
+
+class MappingScopeEnum(AREnum):
+    """
+    Defines the scope for the mapping constraints.
+    """
+
+    # MappingScopeEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 5.10, p.204
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on ComponentClustering.mappingScope / ComponentSeparation.mappingScope
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # The mapping constraint applies to different Cores. Tags: atp.EnumerationLiteralIndex=0
+    MAPPING_SCOPE_CORE = "MAPPING-SCOPE-CORE"
+
+    # The mapping constraint applies to different Ecus. Tags: atp.EnumerationLiteralIndex=1
+    MAPPING_SCOPE_ECU = "MAPPING-SCOPE-ECU"
+
+    # The mapping constraint applies to different Partitions. Tags: atp.EnumerationLiteralIndex=2
+    MAPPING_SCOPE_PARTITION = "MAPPING-SCOPE-PARTITION"
+
+    def __init__(self):
+        super().__init__(
+            [
+                MappingScopeEnum.MAPPING_SCOPE_CORE,
+                MappingScopeEnum.MAPPING_SCOPE_ECU,
+                MappingScopeEnum.MAPPING_SCOPE_PARTITION,
+            ]
+        )
 
 
 class SwcToImplMapping(Identifiable, VariationPointCapable):
@@ -66,6 +98,76 @@ class SwcToImplMapping(Identifiable, VariationPointCapable):
         if value is not None:
             self.componentImplementationRef = value
         return self
+
+
+class SwcToApplicationPartitionMapping(Identifiable, VariationPointCapable):
+    """
+    Allows to map a given SwComponentPrototype to a formally defined partition at a point in time when the corresponding EcuInstance is not yet known or defined.
+    """
+
+    # SwcToApplicationPartitionMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 5.4, p.200
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getApplicationPartitionRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setApplicationPartitionRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwComponentPrototypeIRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwComponentPrototypeIRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent, short_name):
+        super().__init__(parent, short_name)
+
+        # Reference to an ApplicationPartition to which a SwComponentPrototype is mapped.
+        self.applicationPartitionRef: Optional[RefType] = None
+
+        # References to the software component instances that are mapped to the referenced ApplicationPartition. If the component prototype referenced is a composition, this indicates that all atomic software components within the composition are mapped to the ApplicationPartition. If there is additionally a mapping of some SwComponentPrototype INSIDE the Composition to another ApplicationPartition the inner mapping overrides the outer mapping. InstanceRef implemented by: ComponentInSystemInstanceRef
+        self.swComponentPrototypeIRef: Optional[ComponentInSystemInstanceRef] = None
+
+    def getApplicationPartitionRef(self) -> Optional[RefType]:
+        """
+        Reference to an ApplicationPartition to which a SwComponentPrototype is mapped.
+        """
+        return self.applicationPartitionRef
+
+    def setApplicationPartitionRef(self, value: Optional[RefType]) -> "SwcToApplicationPartitionMapping":
+        """
+        Reference to an ApplicationPartition to which a SwComponentPrototype is mapped.
+
+        A None value is a no-op and does not overwrite an existing applicationPartitionRef.
+        """
+        if value is not None:
+            self.applicationPartitionRef = value
+        return self
+
+    def getSwComponentPrototypeIRef(self) -> Optional[ComponentInSystemInstanceRef]:
+        """
+        References to the software component instances that are mapped to the referenced ApplicationPartition. If the component prototype referenced is a composition, this indicates that all atomic software components within the composition are mapped to the ApplicationPartition. If there is additionally a mapping of some SwComponentPrototype INSIDE the Composition to another ApplicationPartition the inner mapping overrides the outer mapping. InstanceRef implemented by: ComponentInSystemInstanceRef
+        """
+        return self.swComponentPrototypeIRef
+
+    def setSwComponentPrototypeIRef(self, value: Optional[ComponentInSystemInstanceRef]) -> "SwcToApplicationPartitionMapping":
+        """
+        References to the software component instances that are mapped to the referenced ApplicationPartition. If the component prototype referenced is a composition, this indicates that all atomic software components within the composition are mapped to the ApplicationPartition. If there is additionally a mapping of some SwComponentPrototype INSIDE the Composition to another ApplicationPartition the inner mapping overrides the outer mapping. InstanceRef implemented by: ComponentInSystemInstanceRef
+
+        A None value is a no-op and does not overwrite an existing swComponentPrototypeIRef.
+        """
+        if value is not None:
+            self.swComponentPrototypeIRef = value
+        return self
+
+
+class ApplicationPartition(ARElement):
+    """
+    ApplicationPartition to which SwComponentPrototypes are mapped at a point in time when the corresponding EcuInstance is not yet known or defined. In a later methodology step the Application Partition can be assigned to an EcuPartition. Tags: atp.recommendedPackage=ApplicationPartitions
+    """
+
+    # ApplicationPartition method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 5.5, p.201
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
 
 
 class SwcToEcuMapping(Identifiable, VariationPointCapable):
@@ -379,3 +481,268 @@ class EcuResourceEstimation(ARObject):
         References to SwcToEcuMappings that have been taken into account for the resource estimations. This way it is possible to define dfferent EcuResourceEstimations with diifferent mappings, e.g. before and after mapping an additional SW component.
         """
         return self.swCompToEcuMappingRefs
+
+
+class MappingConstraint(ARObject, VariationPointCapable, ABC):
+    """
+    Different constraints that may be used to limit the mapping of SW components to applicable ECUs, Partitions or Cores depending on the mappingScope attribute.
+    """
+
+    # MappingConstraint method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 5.8, p.202
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getIntroduction   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIntroduction   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # getVariationPoint / setVariationPoint provided by the VariationPointCapable base (mixin) — no spec row (stereotype-inherent)
+
+    def __init__(self):
+        if type(self) is MappingConstraint:
+            raise TypeError("MappingConstraint is an abstract class.")
+
+        super().__init__()
+
+        # This represents introductory documentation about the mapping constraint.
+        self.introduction: Optional[DocumentationBlock] = None
+
+    def getIntroduction(self) -> Optional[DocumentationBlock]:
+        """
+        This represents introductory documentation about the mapping constraint.
+        """
+        return self.introduction
+
+    def setIntroduction(self, value: Optional[DocumentationBlock]) -> "MappingConstraint":
+        """
+        This represents introductory documentation about the mapping constraint.
+
+        A None value is a no-op and does not overwrite an existing introduction.
+        """
+        if value is not None:
+            self.introduction = value
+        return self
+
+
+class ComponentClustering(MappingConstraint):
+    """
+    Constraint that forces the mapping of all referenced SW component instances to the same ECU, Core, Partition depending on the defined mappingScope attribute. If mappingScope is not specified then mappingScopeEcu shall be assumed.
+    """
+
+    # ComponentClustering method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 5.9, p.203
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addClusteredComponentIRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getClusteredComponentIRefs  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getMappingScope             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMappingScope             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # Reference to the components that have to be mapped together. InstanceRef implemented by: ComponentInSystemInstanceRef
+        self.clusteredComponentIRefs: List[ComponentInSystemInstanceRef] = []
+
+        # This attribute indicates whether the ComponentClustering mapping constraint applies to different ECUs, partitions or cores. If this attribute is not specified then mappingScope Ecu shall be assumed.
+        self.mappingScope: Optional[MappingScopeEnum] = None
+
+    def addClusteredComponentIRef(self, value: Optional[ComponentInSystemInstanceRef]) -> "ComponentClustering":
+        """
+        Reference to the components that have to be mapped together. InstanceRef implemented by: ComponentInSystemInstanceRef
+
+        A None value is a no-op and does not add to clusteredComponentIRefs.
+        """
+        if value is not None:
+            self.clusteredComponentIRefs.append(value)
+        return self
+
+    def getClusteredComponentIRefs(self) -> List[ComponentInSystemInstanceRef]:
+        """
+        Reference to the components that have to be mapped together. InstanceRef implemented by: ComponentInSystemInstanceRef
+        """
+        return self.clusteredComponentIRefs
+
+    def getMappingScope(self) -> Optional[MappingScopeEnum]:
+        """
+        This attribute indicates whether the ComponentClustering mapping constraint applies to different ECUs, partitions or cores. If this attribute is not specified then mappingScope Ecu shall be assumed.
+        """
+        return self.mappingScope
+
+    def setMappingScope(self, value: Optional[MappingScopeEnum]) -> "ComponentClustering":
+        """
+        This attribute indicates whether the ComponentClustering mapping constraint applies to different ECUs, partitions or cores. If this attribute is not specified then mappingScope Ecu shall be assumed.
+
+        A None value is a no-op and does not overwrite an existing mappingScope.
+        """
+        if value is not None:
+            self.mappingScope = value
+        return self
+
+
+class ComponentSeparation(MappingConstraint):
+    """
+    Constraint that forces the two referenced SW components (called A and B in the following) not to be mapped to the same ECU, Core, Partition depending on the defined mappingScope attribute. If mapping Scope is not specified then mappingScopeEcu shall be assumed. If a SW component (e.g. A) is a composition, none of the atomic SW components making up the A composition shall be mapped together with any of the atomic SW components making up the B composition. Furthermore, A and B shall be disjoint.
+    """
+
+    # ComponentSeparation method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 5.11, p.205
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getMappingScope             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMappingScope             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addSeparatedComponentIRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSeparatedComponentIRefs  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # This attribute indicates whether the Component Separation mapping constraint applies to different ECUs, partitions or cores. If this attribute is not specified then mappingScopeEcu shall be assumed.
+        self.mappingScope: Optional[MappingScopeEnum] = None
+
+        # The two components that have to be mapped to different ECUs InstanceRef implemented by: ComponentInSystemInstanceRef
+        self.separatedComponentIRefs: List[ComponentInSystemInstanceRef] = []
+
+    def getMappingScope(self) -> Optional[MappingScopeEnum]:
+        """
+        This attribute indicates whether the Component Separation mapping constraint applies to different ECUs, partitions or cores. If this attribute is not specified then mappingScopeEcu shall be assumed.
+        """
+        return self.mappingScope
+
+    def setMappingScope(self, value: Optional[MappingScopeEnum]) -> "ComponentSeparation":
+        """
+        This attribute indicates whether the Component Separation mapping constraint applies to different ECUs, partitions or cores. If this attribute is not specified then mappingScopeEcu shall be assumed.
+
+        A None value is a no-op and does not overwrite an existing mappingScope.
+        """
+        if value is not None:
+            self.mappingScope = value
+        return self
+
+    def addSeparatedComponentIRef(self, value: Optional[ComponentInSystemInstanceRef]) -> "ComponentSeparation":
+        """
+        The two components that have to be mapped to different ECUs InstanceRef implemented by: ComponentInSystemInstanceRef
+
+        A None value is a no-op and does not add to separatedComponentIRefs.
+        """
+        if value is not None:
+            self.separatedComponentIRefs.append(value)
+        return self
+
+    def getSeparatedComponentIRefs(self) -> List[ComponentInSystemInstanceRef]:
+        """
+        The two components that have to be mapped to different ECUs InstanceRef implemented by: ComponentInSystemInstanceRef
+        """
+        return self.separatedComponentIRefs
+
+
+class J1939ControllerApplicationToJ1939NmNodeMapping(ARObject):
+    """
+    This meta-class represents the ability to map a J1939ControllerApplication to a J1939NmNode. Note that this is similar but not identical to the mapping of SwComponentPrototypes to EcuInstances; for J1939 the semantics of an EcuInstance itself is basically replaced by a J1939NmNode.
+    """
+
+    # J1939ControllerApplicationToJ1939NmNodeMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 5.12, p.207
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getJ1939ControllerApplicationRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setJ1939ControllerApplicationRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getJ1939NmNodeRef                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setJ1939NmNodeRef                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # Reference to the J1939 Controller Application that is mapped to the referenced J1939NmNode.
+        self.j1939ControllerApplicationRef: Optional[RefType] = None
+
+        # J1939NmNode that is the target of the J1939ControllerApplicationTo1939NmNodeMapping.
+        self.j1939NmNodeRef: Optional[RefType] = None
+
+    def getJ1939ControllerApplicationRef(self) -> Optional[RefType]:
+        """
+        Reference to the J1939 Controller Application that is mapped to the referenced J1939NmNode.
+        """
+        return self.j1939ControllerApplicationRef
+
+    def setJ1939ControllerApplicationRef(self, value: Optional[RefType]) -> "J1939ControllerApplicationToJ1939NmNodeMapping":
+        """
+        Reference to the J1939 Controller Application that is mapped to the referenced J1939NmNode.
+
+        A None value is a no-op and does not overwrite an existing j1939ControllerApplicationRef.
+        """
+        if value is not None:
+            self.j1939ControllerApplicationRef = value
+        return self
+
+    def getJ1939NmNodeRef(self) -> Optional[RefType]:
+        """
+        J1939NmNode that is the target of the J1939ControllerApplicationTo1939NmNodeMapping.
+        """
+        return self.j1939NmNodeRef
+
+    def setJ1939NmNodeRef(self, value: Optional[RefType]) -> "J1939ControllerApplicationToJ1939NmNodeMapping":
+        """
+        J1939NmNode that is the target of the J1939ControllerApplicationTo1939NmNodeMapping.
+
+        A None value is a no-op and does not overwrite an existing j1939NmNodeRef.
+        """
+        if value is not None:
+            self.j1939NmNodeRef = value
+        return self
+
+
+class J1939ControllerApplication(ARElement):
+    """
+    This element represents a J1939 controller application. Tags: atp.recommendedPackage=J1939ControllerApplications
+
+    [constr_5493] Existence of J1939ControllerApplication.functionId: For each J1939ControllerApplication, the attribute functionId shall exist at the time when the System Description is complete.
+    """
+
+    # J1939ControllerApplication method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 5.13, p.207
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getFunctionId                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFunctionId                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwComponentPrototypeIRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwComponentPrototypeIRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This attribute represents the numerical function id of the J1939 controller application.
+        self.functionId: Optional[PositiveInteger] = None
+
+        # This represents the SwComponentPrototype (which is typically typed by a CompositionSwComponentType) that corresponds to the J1939ControllerApplication. InstanceRef implemented by: ComponentInSystemInstanceRef
+        self.swComponentPrototypeIRef: Optional[ComponentInSystemInstanceRef] = None
+
+    def getFunctionId(self) -> Optional[PositiveInteger]:
+        """
+        This attribute represents the numerical function id of the J1939 controller application.
+        """
+        return self.functionId
+
+    def setFunctionId(self, value: Optional[PositiveInteger]) -> "J1939ControllerApplication":
+        """
+        This attribute represents the numerical function id of the J1939 controller application.
+
+        A None value is a no-op and does not overwrite an existing functionId.
+        """
+        if value is not None:
+            self.functionId = value
+        return self
+
+    def getSwComponentPrototypeIRef(self) -> Optional[ComponentInSystemInstanceRef]:
+        """
+        This represents the SwComponentPrototype (which is typically typed by a CompositionSwComponentType) that corresponds to the J1939ControllerApplication. InstanceRef implemented by: ComponentInSystemInstanceRef
+        """
+        return self.swComponentPrototypeIRef
+
+    def setSwComponentPrototypeIRef(self, value: Optional[ComponentInSystemInstanceRef]) -> "J1939ControllerApplication":
+        """
+        This represents the SwComponentPrototype (which is typically typed by a CompositionSwComponentType) that corresponds to the J1939ControllerApplication. InstanceRef implemented by: ComponentInSystemInstanceRef
+
+        A None value is a no-op and does not overwrite an existing swComponentPrototypeIRef.
+        """
+        if value is not None:
+            self.swComponentPrototypeIRef = value
+        return self

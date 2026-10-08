@@ -306,6 +306,7 @@ __all__ = [
     "EcucValueCollection",
     "EndToEndProtectionSet",
     "EthernetCluster",
+    "EthernetWakeupSleepOnDatalineConfigSet",
     "FirewallRule",
     "StateDependentFirewall",
     "FlatMap",
@@ -388,7 +389,6 @@ __all__ = [
     "ARPackage",
     "PackageableElement",
     "ReferenceBase",
-    "ApplicationPartition",
     "BswCompositionTiming",
     "BswModuleTiming",
     "CpSoftwareClusterBinaryManifestDescriptor",
@@ -410,8 +410,8 @@ __all__ = [
     "IEEE1722TpRvfConnection",
     "IPSecConfigProps",
     "IPv6ExtHeaderFilterSet",
-    "J1939ControllerApplication",
     "LogAndTraceMessageCollectionSet",
+    "MacSecGlobalKayProps",
     "MacSecParticipantSet",
     "ServiceInstanceCollectionSet",
     "SocketConnectionIpduIdentifierSet",
@@ -2397,12 +2397,26 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(cluster)
         return cast(J1939Cluster, self.getReferrableElement(short_name, J1939Cluster))
 
+    def createJ1939ControllerApplication(self, short_name: str) -> J1939ControllerApplication:
+
+        if not self.IsReferrableElementExists(short_name, J1939ControllerApplication):
+            controller_application = J1939ControllerApplication(self, short_name)
+            self.addReferrableElement(controller_application)
+        return cast(J1939ControllerApplication, self.getReferrableElement(short_name, J1939ControllerApplication))
+
     def createTtcanCluster(self, short_name: str) -> TtcanCluster:
 
         if not self.IsReferrableElementExists(short_name, TtcanCluster):
             cluster = TtcanCluster(self, short_name)
             self.addReferrableElement(cluster)
         return cast(TtcanCluster, self.getReferrableElement(short_name, TtcanCluster))
+
+    def createUserDefinedCluster(self, short_name: str) -> UserDefinedCluster:
+
+        if not self.IsReferrableElementExists(short_name, UserDefinedCluster):
+            cluster = UserDefinedCluster(self, short_name)
+            self.addReferrableElement(cluster)
+        return cast(UserDefinedCluster, self.getReferrableElement(short_name, UserDefinedCluster))
 
     def createLinUnconditionalFrame(self, short_name: str) -> LinUnconditionalFrame:
 
@@ -2843,12 +2857,40 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(cluster)
         return cast(EthernetCluster, self.getReferrableElement(short_name, EthernetCluster))
 
+    def createApplicationPartition(self, short_name: str) -> ApplicationPartition:
+
+        if not self.IsReferrableElementExists(short_name, ApplicationPartition):
+            app_partition = ApplicationPartition(self, short_name)
+            self.addReferrableElement(app_partition)
+        return cast(ApplicationPartition, self.getReferrableElement(short_name, ApplicationPartition))
+
     def createCouplingElement(self, short_name: str) -> CouplingElement:
 
         if not self.IsReferrableElementExists(short_name, CouplingElement):
             coupling_element = CouplingElement(self, short_name)
             self.addReferrableElement(coupling_element)
         return cast(CouplingElement, self.getReferrableElement(short_name, CouplingElement))
+
+    def createEthernetWakeupSleepOnDatalineConfigSet(self, short_name: str) -> EthernetWakeupSleepOnDatalineConfigSet:
+
+        if not self.IsReferrableElementExists(short_name, EthernetWakeupSleepOnDatalineConfigSet):
+            config_set = EthernetWakeupSleepOnDatalineConfigSet(self, short_name)
+            self.addReferrableElement(config_set)
+        return cast(EthernetWakeupSleepOnDatalineConfigSet, self.getReferrableElement(short_name, EthernetWakeupSleepOnDatalineConfigSet))
+
+    def createMacSecGlobalKayProps(self, short_name: str) -> MacSecGlobalKayProps:
+
+        if not self.IsReferrableElementExists(short_name, MacSecGlobalKayProps):
+            props = MacSecGlobalKayProps(self, short_name)
+            self.addReferrableElement(props)
+        return cast(MacSecGlobalKayProps, self.getReferrableElement(short_name, MacSecGlobalKayProps))
+
+    def createMacSecParticipantSet(self, short_name: str) -> MacSecParticipantSet:
+
+        if not self.IsReferrableElementExists(short_name, MacSecParticipantSet):
+            participant_set = MacSecParticipantSet(self, short_name)
+            self.addReferrableElement(participant_set)
+        return cast(MacSecParticipantSet, self.getReferrableElement(short_name, MacSecParticipantSet))
 
     def createDiagnosticAging(self, short_name: str) -> DiagnosticAging:
         """
@@ -5137,10 +5179,12 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation im
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate import ClientIdDefinitionSet, CpSoftwareCluster, CpSoftwareClusterMappingSet, System  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import OsTaskProxy  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import ApplicationPartition, J1939ControllerApplication  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrame  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanXlProps, J1939Cluster  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import GenericEthernetFrame  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import CouplingElement, EthIpProps, EthTcpIpIcmpProps, EthernetCluster, EthTcpIpProps  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetWakeupSleepOnDatalineConfigSet  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ObsoleteModel import SoAdRoutingGroup  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import (  # noqa: E402
     ConsumedProvidedServiceInstanceGroup,
@@ -5184,6 +5228,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopol
     EcuInstance,
     TtcanCluster,
 )
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.CddSupport import UserDefinedCluster  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import NmConfig  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import (  # noqa: E402
     CryptoEllipticCurveProps,
@@ -5191,6 +5236,8 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication impor
     CryptoServicePrimitive,
     CryptoSignatureScheme,
     IPSecConfigProps,
+    MacSecGlobalKayProps,
+    MacSecParticipantSet,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (  # noqa: E402
     DataTransformationSet,
@@ -11574,10 +11621,6 @@ class SecurityEventDefinition(ARElement):
     pass
 
 
-class ApplicationPartition(ARElement):
-    pass
-
-
 class CpSoftwareClusterBinaryManifestDescriptor(ARElement):
     pass
 
@@ -11602,15 +11645,7 @@ class GlobalTimeDomain(ARElement):
     pass
 
 
-class J1939ControllerApplication(ARElement):
-    pass
-
-
 class LogAndTraceMessageCollectionSet(ARElement):
-    pass
-
-
-class MacSecParticipantSet(ARElement):
     pass
 
 

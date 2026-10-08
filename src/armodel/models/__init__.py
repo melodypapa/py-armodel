@@ -110,6 +110,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import * 
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication.Timing import *  # noqa: F403
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.CddSupport import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Dlt import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.LogAndTraceExtract import *  # noqa: F403
 
@@ -167,7 +168,11 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.Instance
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import *  # noqa: F403
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCpSoftwareCluster import TDCpSoftwareClusterMapping, TDCpSoftwareClusterMappingSet, TDCpSoftwareClusterResourceMapping  # noqa: F401
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCpSoftwareCluster import (
+    TDCpSoftwareClusterMapping,  # noqa: F401
+    TDCpSoftwareClusterMappingSet,  # noqa: F401
+    TDCpSoftwareClusterResourceMapping,  # noqa: F401
+)
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionTimeConstraint import ExecutionTimeConstraint, ExecutionTimeTypeEnum  # noqa: F401
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.SynchronizationPointConstraint import SynchronizationPointConstraint  # noqa: F401
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingClock import TDLETZoneClock, TimingClock, TimingClockSyncAccuracy  # noqa: F401

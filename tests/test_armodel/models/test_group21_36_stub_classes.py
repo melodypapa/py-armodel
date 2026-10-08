@@ -159,7 +159,7 @@ STUBS = [
         "AttributeTailoring",
     ),
     (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage",
+        "armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping",
         "ApplicationPartition",
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage",
         "ARElement",
@@ -370,21 +370,21 @@ STUBS = [
         "SignalPathConstraint",
     ),
     (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
+        "armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping",
         "MappingConstraint",
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
+        "armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping",
         "ARObject",
     ),
     (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
+        "armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping",
         "ComponentClustering",
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
+        "armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping",
         "MappingConstraint",
     ),
     (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
+        "armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping",
         "ComponentSeparation",
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
+        "armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping",
         "MappingConstraint",
     ),
     (
@@ -2090,9 +2090,9 @@ STUBS = [
         "Identifiable",
     ),
     (
-        "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.__init__",
+        "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology",
         "EthernetWakeupSleepOnDatalineConfigSet",
-        "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.__init__",
+        "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore",
         "FibexElement",
     ),
     (
@@ -2536,13 +2536,13 @@ STUBS = [
         "ARObject",
     ),
     (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage",
+        "armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping",
         "J1939ControllerApplication",
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage",
         "ARElement",
     ),
     (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
+        "armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping",
         "J1939ControllerApplicationToJ1939NmNodeMapping",
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
         "ARObject",
@@ -2622,16 +2622,16 @@ STUBS = [
         "ARElement",
     ),
     (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage",
+        "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology",
+        "MacMulticastConfiguration",
+        "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology",
+        "NetworkEndpointAddress",
+    ),
+    (
+        "armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication",
         "MacSecParticipantSet",
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage",
         "ARElement",
-    ),
-    (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes",
-        "MappingScopeEnum",
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes",
-        "AREnum",
     ),
     (
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes",
@@ -3061,7 +3061,7 @@ STUBS = [
         "ARElement",
     ),
     (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable",
+        "armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping",
         "SwcToApplicationPartitionMapping",
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable",
         "Identifiable",
@@ -3211,19 +3211,19 @@ STUBS = [
         "AbstractCanCommunicationConnector",
     ),
     (
-        "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology",
+        "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.CddSupport",
         "UserDefinedCluster",
         "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology",
         "CommunicationCluster",
     ),
     (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
+        "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.CddSupport",
         "UserDefinedCommunicationConnector",
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
-        "ARObject",
+        "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology",
+        "CommunicationConnector",
     ),
     (
-        "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology",
+        "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.CddSupport",
         "UserDefinedCommunicationController",
         "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology",
         "CommunicationController",
@@ -3247,7 +3247,7 @@ STUBS = [
         "Identifiable",
     ),
     (
-        "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology",
+        "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.CddSupport",
         "UserDefinedPhysicalChannel",
         "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology",
         "PhysicalChannel",

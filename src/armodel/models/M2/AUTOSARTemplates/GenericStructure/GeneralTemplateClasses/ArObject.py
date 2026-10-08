@@ -3608,10 +3608,6 @@ class IdsmTrafficLimitation(ARObject):
     pass
 
 
-class J1939ControllerApplicationToJ1939NmNodeMapping(ARObject):
-    pass
-
-
 class J1939TpConfig(ARObject):
     pass
 
@@ -3621,10 +3617,6 @@ class J1939TpConnection(ARObject):
 
 
 class J1939TpPg(ARObject):
-    pass
-
-
-class MappingConstraint(ARObject, ABC):
     pass
 
 
@@ -3699,10 +3691,6 @@ class TransformationProps(ARObject, ABC):
     pass
 
 
-class UserDefinedCommunicationConnector(ARObject):
-    pass
-
-
 class BinaryManifestItemNumericalValue(BinaryManifestItemValue):
     pass
 
@@ -3716,14 +3704,6 @@ class CanGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
 
 
 class ClientServerOperationComProps(CpSoftwareClusterCommunicationResourceProps):
-    pass
-
-
-class ComponentClustering(MappingConstraint):
-    pass
-
-
-class ComponentSeparation(MappingConstraint):
     pass
 
 

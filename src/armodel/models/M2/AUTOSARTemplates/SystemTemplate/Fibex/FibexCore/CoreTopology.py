@@ -42,6 +42,7 @@ if TYPE_CHECKING:
         ISignalTriggering,
         PduTriggering,
     )
+    from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.CddSupport import UserDefinedCommunicationConnector, UserDefinedCommunicationController, UserDefinedPhysicalChannel
 
     # Rule 0001.10 placeholders - referenced classes not yet implemented; TYPE_CHECKING imports
     # satisfy the forward annotations and are never executed at runtime.
@@ -570,6 +571,18 @@ class CommunicationCluster(FibexElement, ABC):
             self.physicalChannel.append(channel)
         return cast(TtcanPhysicalChannel, self.getReferrableElement(short_name, TtcanPhysicalChannel))
 
+    def createUserDefinedPhysicalChannel(self, short_name: str) -> UserDefinedPhysicalChannel:
+        """
+        This relationship defines which channel element belongs to which cluster. A channel shall be assigned to exactly one cluster, whereas a cluster may have one or more channels. Note: This atpSplitable property has no atp.Splitkey due to atpVariation (PropertySetPattern). Stereotypes: atpSplitable; atpVariation Tags: vh.latestBindingTime=systemDesignTime
+        """
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.CddSupport import UserDefinedPhysicalChannel
+
+        if not self.IsReferrableElementExists(short_name, UserDefinedPhysicalChannel):
+            channel = UserDefinedPhysicalChannel(self, short_name)
+            self.addReferrableElement(channel)
+            self.physicalChannel.append(channel)
+        return cast(UserDefinedPhysicalChannel, self.getReferrableElement(short_name, UserDefinedPhysicalChannel))
+
     def getProtocolName(self) -> Optional[String]:
         """
         The name of the protocol used.
@@ -927,11 +940,10 @@ class CommConnectorPort(Identifiable, VariationPointCapable, ABC):
 
     # CommConnectorPort method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.1, p.303
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getCommunicationDirection    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setCommunicationDirection    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCommunicationDirection [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCommunicationDirection [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is CommConnectorPort:
@@ -994,12 +1006,14 @@ class EcuInstance(FibexElement):
     # [x] createLinMaster                                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] createLinSlave                                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] createTtcanCommunicationController                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createUserDefinedCommunicationController              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getCommControllers                                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] createCanCommunicationConnector                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] createEthernetCommunicationConnector                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] createFlexrayCommunicationConnector                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] createLinCommunicationConnector                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] createTtcanCommunicationConnector                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createUserDefinedCommunicationConnector              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getConnectors                                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] getDltConfig                                          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setDltConfig                                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
@@ -1340,6 +1354,18 @@ class EcuInstance(FibexElement):
             self.commControllers.append(controller)
         return cast(TtcanCommunicationController, self.getReferrableElement(short_name, TtcanCommunicationController))
 
+    def createUserDefinedCommunicationController(self, short_name: str) -> UserDefinedCommunicationController:
+        """
+        CommunicationControllers of the ECU.
+        """
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.CddSupport import UserDefinedCommunicationController
+
+        if not self.IsReferrableElementExists(short_name, UserDefinedCommunicationController):
+            controller = UserDefinedCommunicationController(self, short_name)
+            self.addReferrableElement(controller)
+            self.commControllers.append(controller)
+        return cast(UserDefinedCommunicationController, self.getReferrableElement(short_name, UserDefinedCommunicationController))
+
     def getCommControllers(self) -> List[CommunicationController]:
         """
         CommunicationControllers of the ECU.
@@ -1405,6 +1431,18 @@ class EcuInstance(FibexElement):
             self.addReferrableElement(connector)
             self.connectors.append(connector)
         return cast(TtcanCommunicationConnector, self.getReferrableElement(short_name, TtcanCommunicationConnector))
+
+    def createUserDefinedCommunicationConnector(self, short_name: str) -> UserDefinedCommunicationConnector:
+        """
+        All channels controlled by a single controller.
+        """
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.CddSupport import UserDefinedCommunicationConnector
+
+        if not self.IsReferrableElementExists(short_name, UserDefinedCommunicationConnector):
+            connector = UserDefinedCommunicationConnector(self, short_name)
+            self.addReferrableElement(connector)
+            self.connectors.append(connector)
+        return cast(UserDefinedCommunicationConnector, self.getReferrableElement(short_name, UserDefinedCommunicationConnector))
 
     def getConnectors(self) -> List[CommunicationConnector]:
         """
@@ -1800,15 +1838,3 @@ class TtcanCluster(AbstractCanCluster):
         if value is not None:
             self.operationMode = value
         return self
-
-
-class UserDefinedCluster(CommunicationCluster):
-    pass
-
-
-class UserDefinedCommunicationController(CommunicationController):
-    pass
-
-
-class UserDefinedPhysicalChannel(PhysicalChannel):
-    pass
