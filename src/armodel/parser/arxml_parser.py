@@ -623,7 +623,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (
     EvaluatedVariantSet,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, CalibrationParameterValueSet, FMFeature, FMFeatureMap, FMFeatureModel, FMFeatureSelectionSet, PhysicalDimensionMappingSet, ReferenceBase
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, IdsmProperties, CalibrationParameterValueSet, FMFeature, FMFeatureMap, FMFeatureModel, FMFeatureSelectionSet, PhysicalDimensionMappingSet, ReferenceBase
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import AclObjectSet, AclOperation, AclPermission, AclRole
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import DiagnosticCustomServiceInstance, DiagnosticMapping
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
@@ -2532,6 +2532,18 @@ class ARXMLParser(AbstractARXMLParser):
         limitation.setMaxBytesInInterval(self.getChildElementOptionalPositiveInteger(element, "MAX-BYTES-IN-INTERVAL"))
         limitation.setTimeInterval(self.getChildElementOptionalFloatValue(element, "TIME-INTERVAL"))
         return limitation
+
+    def readIdsmProperties(self, element: ET.Element, idsm_properties: IdsmProperties) -> IdsmProperties:
+        self.readIdentifiable(element, idsm_properties)
+        for child_element in self.findall(element, "RATE-LIMITATION-FILTERS/IDSM-RATE-LIMITATION"):
+            limitation = IdsmRateLimitation(idsm_properties, self.getShortName(child_element))
+            self.readIdsmRateLimitation(child_element, limitation)
+            idsm_properties.addRateLimitationFilter(limitation)
+        for child_element in self.findall(element, "TRAFFIC-LIMITATION-FILTERS/IDSM-TRAFFIC-LIMITATION"):
+            limitation = IdsmTrafficLimitation(idsm_properties, self.getShortName(child_element))
+            self.readIdsmTrafficLimitation(child_element, limitation)
+            idsm_properties.addTrafficLimitationFilter(limitation)
+        return idsm_properties
 
     def getBindingTimeEnumElement(self, element: ET.Element, key: str) -> Optional[BindingTimeEnum]:
         literal = self.getChildElementOptionalLiteral(element, key)
@@ -19670,6 +19682,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "VFB-TIMING":
                 vfb_timing = parent.createVfbTiming(self.getShortName(child_element))
                 self.readVfbTiming(child_element, vfb_timing)
+            elif tag_name == "IDSM-PROPERTIES":
+                idsm_properties = parent.createIdsmProperties(self.getShortName(child_element))
+                self.readIdsmProperties(child_element, idsm_properties)
             elif tag_name == "FM-FEATURE":
                 feature = parent.createFMFeature(self.getShortName(child_element))
                 self.readFMFeature(child_element, feature)

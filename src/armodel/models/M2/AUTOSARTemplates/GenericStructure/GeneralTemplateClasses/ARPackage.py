@@ -41,6 +41,8 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     DiagnosticAuthTransmitCertificateEvaluation,
     FMAttributeDef,
+    IdsmRateLimitation,
+    IdsmTrafficLimitation,
     FMFeatureMapElement,
     FMFeatureRelation,
     FMFeatureRestriction,
@@ -2362,6 +2364,13 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(timing)
         return cast(VfbTiming, self.getReferrableElement(short_name, VfbTiming))
 
+
+    def createIdsmProperties(self, short_name: str) -> IdsmProperties:
+
+        if not self.IsReferrableElementExists(short_name, IdsmProperties):
+            idsm_properties = IdsmProperties(self, short_name)
+            self.addReferrableElement(idsm_properties)
+        return cast(IdsmProperties, self.getReferrableElement(short_name, IdsmProperties))
 
     def createFMFeature(self, short_name: str) -> FMFeature:
 
@@ -12038,6 +12047,58 @@ class IdsMapping(IdsCommonElement, ABC):
             raise TypeError("IdsMapping is an abstract class.")
 
         super().__init__(parent, short_name)
+
+
+class IdsmProperties(IdsCommonElement):
+    """
+    This meta-class provides the ability to aggregate filters for security events. Tags: atp.Status=candidate atp.recommendedPackage=IdsMPropertiess
+    """
+
+    # IdsmProperties method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf, Table B.15, p.53 (annex; pull-in — the
+    # XML parent of the queued IdsmRateLimitation/IdsmTrafficLimitation rows — not an indexed
+    # all_classes.md row)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addRateLimitationFilter       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRateLimitationFilters      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addTrafficLimitationFilter    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTrafficLimitationFilters   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This aggregation represents the collection of rate limitation filters for security events in the enclosing SecurityFilterSet. Tags: atp.Status=candidate
+        self.rateLimitationFilters: List[IdsmRateLimitation] = []
+
+        # This aggregation represents the collection of traffic limitation filters for security events in the enclosing SecurityFilterSet. Tags: atp.Status=candidate
+        self.trafficLimitationFilters: List[IdsmTrafficLimitation] = []
+
+    def addRateLimitationFilter(self, value: IdsmRateLimitation) -> IdsmProperties:
+        """
+        This aggregation represents the collection of rate limitation filters for security events in the enclosing SecurityFilterSet. Tags: atp.Status=candidate
+        """
+        self.rateLimitationFilters.append(value)
+        return self
+
+    def getRateLimitationFilters(self) -> List[IdsmRateLimitation]:
+        """
+        This aggregation represents the collection of rate limitation filters for security events in the enclosing SecurityFilterSet. Tags: atp.Status=candidate
+        """
+        return self.rateLimitationFilters
+
+    def addTrafficLimitationFilter(self, value: IdsmTrafficLimitation) -> IdsmProperties:
+        """
+        This aggregation represents the collection of traffic limitation filters for security events in the enclosing SecurityFilterSet. Tags: atp.Status=candidate
+        """
+        self.trafficLimitationFilters.append(value)
+        return self
+
+    def getTrafficLimitationFilters(self) -> List[IdsmTrafficLimitation]:
+        """
+        This aggregation represents the collection of traffic limitation filters for security events in the enclosing SecurityFilterSet. Tags: atp.Status=candidate
+        """
+        return self.trafficLimitationFilters
 
 
 class LogAndTraceMessageCollectionSet(ARElement):

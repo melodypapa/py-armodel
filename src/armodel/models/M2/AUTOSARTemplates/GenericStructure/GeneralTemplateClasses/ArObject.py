@@ -2275,6 +2275,138 @@ class FMFeatureDecomposition(ARObject):
         return self
 
 
+class IdsmSignatureSupportAp(ARObject):
+    """
+    This meta-class defines, for the Adaptive Platform, the cryptographic algorithm and key to be used by the IdsM instance for providing signature information in QSEv messages. Tags: atp.Status=candidate
+    """
+
+    # IdsmSignatureSupportAp method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf, Table B.16, p.53 (annex; pull-in —
+    # IdsmInstance.signatureSupportAp member type — not an indexed all_classes.md row)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCryptoPrimitive  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCryptoPrimitive  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getKeySlotRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setKeySlotRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # This attribute defines the cryptographic algorithm to be used for providing authentication information in QSEv messages. The content of this attribute shall comply to the "Cryptographic Primitives Verbose Specification" Tags: atp.Status=candidate
+        self.cryptoPrimitive: Optional[String] = None
+
+        # This reference denotes the cryptographic key to be used by the cryptographic algorithm for providing authentication information in QSEv messages. Tags: atp.Status=candidate
+        self.keySlotRef: Optional[RefType] = None
+
+    def getCryptoPrimitive(self) -> Optional[String]:
+        """
+        This attribute defines the cryptographic algorithm to be used for providing authentication information in QSEv messages. The content of this attribute shall comply to the "Cryptographic Primitives Verbose Specification" Tags: atp.Status=candidate
+        """
+        return self.cryptoPrimitive
+
+    def setCryptoPrimitive(self, value: Optional[String]) -> IdsmSignatureSupportAp:
+        """
+        This attribute defines the cryptographic algorithm to be used for providing authentication information in QSEv messages. The content of this attribute shall comply to the "Cryptographic Primitives Verbose Specification" Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing cryptoPrimitive.
+        """
+        if value is not None:
+            self.cryptoPrimitive = value
+        return self
+
+    def getKeySlotRef(self) -> Optional[RefType]:
+        """
+        This reference denotes the cryptographic key to be used by the cryptographic algorithm for providing authentication information in QSEv messages. Tags: atp.Status=candidate
+        """
+        return self.keySlotRef
+
+    def setKeySlotRef(self, value: Optional[RefType]) -> IdsmSignatureSupportAp:
+        """
+        This reference denotes the cryptographic key to be used by the cryptographic algorithm for providing authentication information in QSEv messages. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing keySlotRef.
+        """
+        if value is not None:
+            self.keySlotRef = value
+        return self
+
+
+class IdsmSignatureSupportCp(ARObject):
+    """
+    This meta-class defines, for the Classic Platform, the cryptographic algorithm and key to be used by the IdsM instance for providing signature information in QSEv messages. Tags: atp.Status=candidate
+    """
+
+    # IdsmSignatureSupportCp method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf, Table B.17, p.53 (annex; pull-in —
+    # IdsmInstance.signatureSupportCp member type — not an indexed all_classes.md row)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAuthenticationRef      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAuthenticationRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCryptoServiceKeyRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCryptoServiceKeyRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # This reference dennotes the cryptographic primitives for providing authentication information in QSEv messages. Tags: atp.Status=candidate
+        self.authenticationRef: Optional[RefType] = None
+
+        # This reference denotes the cryptographic key to be used by the cryptographic algorithm for providing authentication information in QSEv messages. Tags: atp.Status=candidate
+        self.cryptoServiceKeyRef: Optional[RefType] = None
+
+    def getAuthenticationRef(self) -> Optional[RefType]:
+        """
+        This reference dennotes the cryptographic primitives for providing authentication information in QSEv messages. Tags: atp.Status=candidate
+        """
+        return self.authenticationRef
+
+    def setAuthenticationRef(self, value: Optional[RefType]) -> IdsmSignatureSupportCp:
+        """
+        This reference dennotes the cryptographic primitives for providing authentication information in QSEv messages. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing authenticationRef.
+        """
+        if value is not None:
+            self.authenticationRef = value
+        return self
+
+    def getCryptoServiceKeyRef(self) -> Optional[RefType]:
+        """
+        This reference denotes the cryptographic key to be used by the cryptographic algorithm for providing authentication information in QSEv messages. Tags: atp.Status=candidate
+        """
+        return self.cryptoServiceKeyRef
+
+    def setCryptoServiceKeyRef(self, value: Optional[RefType]) -> IdsmSignatureSupportCp:
+        """
+        This reference denotes the cryptographic key to be used by the cryptographic algorithm for providing authentication information in QSEv messages. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing cryptoServiceKeyRef.
+        """
+        if value is not None:
+            self.cryptoServiceKeyRef = value
+        return self
+
+
+class SecurityEventContextData(ARObject, VariationPointCapable):
+    """
+    This meta-class represents the possibility that context data can be attached to the aggregating Security EventDefinition. If this meta-class does not exist for a SecurityEventDefinition, then no context data shall be provided for the security events of this SecurityEventDefinition. Tags: atp.Status=candidate
+    """
+
+    # SecurityEventContextData method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf, Table B.22, p.53 (annex; pull-in — the
+    # SecurityEventContextProps.contextDatas member type — not an indexed all_classes.md row)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # (the table declares no attribute rows of its own — VARIATION-POINT is the sole group
+    #  member; the variationPoint accessor pair is inherited from the VariationPointCapable
+    #  mixin and its reader/writer coverage lives in read/writeVariationPointCapable)
+
+    def __init__(self):
+        super().__init__()
+
+
 class InvertCondition(AbstractCondition):
     pass
 

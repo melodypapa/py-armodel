@@ -424,7 +424,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (
     EvaluatedVariantSet,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, FMFeature, FMFeatureMap, FMFeatureModel, FMFeatureSelectionSet, ReferenceBase
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, IdsmProperties, FMFeature, FMFeatureMap, FMFeatureModel, FMFeatureSelectionSet, ReferenceBase
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import AclObjectSet, AclOperation, AclPermission, AclRole
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import DiagnosticCustomServiceInstance, DiagnosticMapping
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
@@ -2169,6 +2169,21 @@ class ARXMLWriter(AbstractARXMLWriter):
                 for value in attribute_values:
                     self.writeFMAttributeValue(values_tag, value)
 
+
+    def writeIdsmProperties(self, element: ET.Element, idsm_properties: IdsmProperties):
+        if idsm_properties is not None:
+            child_element = ET.SubElement(element, "IDSM-PROPERTIES")
+            self.writeIdentifiable(child_element, idsm_properties)
+            rate_limitations = idsm_properties.getRateLimitationFilters()
+            if len(rate_limitations) > 0:
+                rate_tag = ET.SubElement(child_element, "RATE-LIMITATION-FILTERS")
+                for limitation in rate_limitations:
+                    self.writeIdsmRateLimitation(rate_tag, limitation)
+            traffic_limitations = idsm_properties.getTrafficLimitationFilters()
+            if len(traffic_limitations) > 0:
+                traffic_tag = ET.SubElement(child_element, "TRAFFIC-LIMITATION-FILTERS")
+                for limitation in traffic_limitations:
+                    self.writeIdsmTrafficLimitation(traffic_tag, limitation)
 
     def writeIdsmRateLimitation(self, element: ET.Element, limitation: IdsmRateLimitation):
         if limitation is not None:
@@ -20152,6 +20167,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeModeSwitchInterface(element, ar_element)
         elif isinstance(ar_element, SwcTiming):
             self.writeSwcTiming(element, ar_element)
+        elif isinstance(ar_element, IdsmProperties):
+            self.writeIdsmProperties(element, ar_element)
         elif isinstance(ar_element, VfbTiming):
             self.writeVfbTiming(element, ar_element)
         elif isinstance(ar_element, FMFeature):
