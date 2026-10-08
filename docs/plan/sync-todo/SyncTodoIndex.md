@@ -1728,7 +1728,7 @@ Status: **17/75** completed
 | `ContainerIPduHeaderTypeEnum`                            | [ ] Pending*    | N/A        |
 | `RxAcceptContainedIPduEnum`                              | [ ] Pending*    | N/A        |
 | `SecureCommunicationProps`                               | [ ] Pending*    | e744b793f0 |
-| `SecureCommunicationPropsSet`                            | [ ] Implemented | N/A        |
+| `SecureCommunicationPropsSet`                            | [ ] Pending*    | ac09333846 |
 | `SecureCommunicationFreshnessProps`                      | [ ] Implemented | N/A        |
 | `SecureCommunicationAuthenticationProps`                 | [ ] Implemented | N/A        |
 | `CryptoServiceKey`                                       | [ ] Created     | N/A        |

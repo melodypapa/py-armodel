@@ -1045,15 +1045,31 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `SecureCommunicationPropsSet` — FibexElement — R23-11 CP_TPS_SystemTemplate Table 6.45, p.370
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: own table = CP_TPS SystemTemplate Table 6.45, p.370 (body renders above the caption); Base
+    most-derived = `FibexElement` (confirmed stamped at FibexCore/__init__.py). Two spec `*` aggr rows in
+    displayed order (`authenticationProps`, `freshnessProps`) → XSD wrapper lists `AUTHENTICATION-PROPSS` /
+    `FRESHNESS-PROPSS` (group l.103127, complexType l.103159; child order = markdown order; no
+    atp.Status=removed elements; no VARIATION-POINT). Aggregated by `ARPackage.element` — factory +
+    reader + writer dispatches already real (five-place pattern complete, no identity-only dispatch to
+    upgrade). Rule 0023: legacy 5-column checklist + stale `# Spec verified: R23-11` marker removed at
+    session start (audit FAIL ROWS/STAMP/DOC = drift evidence; stamped-audit baseline refreshed). XSD
+    wrapper doc renders "SecuredIPdus." for AUTHENTICATION-PROPSS; PDF Note "Secured IPdus." wins
+    (Rule 0015).
+  - Deviation: none — both spec `*` aggr attributes have field + accessors + full reader and writer
+    coverage (wrapper-only-when-non-empty); no atp.Status=removed elements in the XSD group; no
+    VARIATION-POINT anchor (not VP-capable). Referenced member types
+    `SecureCommunicationAuthenticationProps` (Table 6.47) / `SecureCommunicationFreshnessProps`
+    (Table 6.46) exist with typed fields + reader/writer coverage and are queued rows syncing right
+    after this one — not Rule 0001.10 placeholders.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-08 (23565 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit ac0933384
 
 - [ ] `SecureCommunicationFreshnessProps` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.46, p.371
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
