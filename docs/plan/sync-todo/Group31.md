@@ -556,17 +556,32 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-08 (23332 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 036440b90
 
-- [ ] `ISignalTriggering` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 6.16, p.330
+- [x] `ISignalTriggering` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 6.16, p.330 (sync commit 96695d8a3)
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: own table = SystemTemplate TPS Table 6.16, p.330 (pdf_page.py); concrete
+    Class; Base most-derived = `Identifiable`, VP-capable per XSD group
+    I-SIGNAL-TRIGGERING (VARIATION-POINT "Applicable for:
+    PhysicalChannel.iSignalTriggering", sequenceOffset 10000) — base
+    `(Identifiable, VariationPointCapable)` kept (Rule 0020). Attrs (displayed
+    order): `iSignal` 0..1 ref → `iSignalRef`, `iSignalGroup` 0..1 ref →
+    `iSignalGroupRef`, `iSignalPort` * ref → `iSignalPortRefs` (all `RefType`).
+    XSD child order l.67499: I-SIGNAL-GROUP-REF → I-SIGNAL-PORT-REFS →
+    I-SIGNAL-REF → VARIATION-POINT. Rule 0015 clean (no XSD-only attrs). Drift
+    found at entry: legacy 5-column checklist (Rule 0023) + stale
+    `# Spec verified: R23-11` marker removed at session start;
+    `audit_stamped_classes.py --write-baseline` diff = 1 deletion
+    (ISignalTriggering leaves the known-failing list).
+  - Deviation: none. Referenced types (`RefType`, `ISignal`, `ISignalGroup`,
+    `ISignalPort`) all exist — no Rule 0001.10 placeholders.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-08 (23348 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 96695d8a3
 
 - [ ] `Pdu` — ARElement — R23-11 CP_TPS_SystemTemplate Table 6.17, p.340
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
