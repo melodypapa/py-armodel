@@ -748,6 +748,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     FMAttributeDef,
     FMFeatureRelation,
     FMFeatureRestriction,
+    FMFeatureSelection,
     BinaryManifestMetaDataField,
     CpSoftwareClusterResource,
     DdsCpConsumedServiceInstance,
@@ -774,6 +775,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultidimensionalTime import MultidimensionalTime
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    FMFeatureSelectionState,
     ARLiteral,
     AclScopeEnum,
     AlignmentType,
@@ -2422,6 +2424,24 @@ class ARXMLParser(AbstractARXMLParser):
         if restriction_element is not None:
             relation.setRestriction(self.readFMConditionByFeaturesAndAttributes(restriction_element, FMConditionByFeaturesAndAttributes()))
         return relation
+
+    def readFMFeatureSelection(self, element: ET.Element, selection: FMFeatureSelection) -> FMFeatureSelection:
+        self.readIdentifiable(element, selection)
+        selection.setFeatureRef(self.getChildElementOptionalRefType(element, "FEATURE-REF"))
+        state_literal = self.getChildElementOptionalLiteral(element, "STATE")
+        if state_literal is not None:
+            selection.setState(FMFeatureSelectionState().setValue(state_literal.getValue()))
+        selection.setMinimumSelectedBindingTime(self.getBindingTimeEnumElement(element, "MINIMUM-SELECTED-BINDING-TIME"))
+        selection.setMaximumSelectedBindingTime(self.getBindingTimeEnumElement(element, "MAXIMUM-SELECTED-BINDING-TIME"))
+        for child_element in self.findall(element, "ATTRIBUTE-VALUES/FM-ATTRIBUTE-VALUE"):
+            selection.addAttributeValue(self.readFMAttributeValue(child_element, FMAttributeValue()))
+        return selection
+
+    def getBindingTimeEnumElement(self, element: ET.Element, key: str) -> Optional[BindingTimeEnum]:
+        literal = self.getChildElementOptionalLiteral(element, key)
+        if literal is not None:
+            return BindingTimeEnum().setValue(literal.getValue())
+        return None
 
     def readPostBuildVariantCondition(self, element: ET.Element, condition: PostBuildVariantCondition) -> PostBuildVariantCondition:
         self.readARObject(element, condition)

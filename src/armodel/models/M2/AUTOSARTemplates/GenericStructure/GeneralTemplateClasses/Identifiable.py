@@ -7,6 +7,7 @@ from __future__ import annotations
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
+    FMAttributeValue,
     DdsCpServiceInstanceEvent,
     DdsCpServiceInstanceOperation,
     DdsDeadline,
@@ -27,11 +28,13 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticParameter,
     RoleBasedResourceDependency,
 )
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Enumerations import BindingTimeEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AnyVersionString,
     Boolean,
     CategoryString,
     DiagnosticDebounceBehaviorEnum,
+    FMFeatureSelectionState,
     Identifier,
     Limit,
     Numerical,
@@ -1571,7 +1574,119 @@ class FMFeatureRestriction(Identifiable):
 
 
 class FMFeatureSelection(Identifiable):
-    pass
+    """
+    A FMFeatureSelection represents the state of a particular FMFeature within a FMFeatureSelectionSet.
+    """
+
+    # FMFeatureSelection method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf, Table 5.2, p.40
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addAttributeValue              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAttributeValues             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getFeatureRef                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFeatureRef                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaximumSelectedBindingTime  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaximumSelectedBindingTime  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMinimumSelectedBindingTime  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMinimumSelectedBindingTime  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getState                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setState                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This defines a value for the attribute that is referred to in the role definition. Note that a FMFeatureSelection cannot include two FMAttributeValues that refer to the same FMAttributeDef in the role definition. Tags: xml.sequenceOffset=50
+        self.attributeValues: List[FMAttributeValue] = []
+
+        # The FMFeature whose state is defined by this FMFeature Selection. Tags: xml.sequenceOffset=10
+        self.featureRef: Optional[RefType] = None
+
+        # Defines an upper bound for the binding time of the variation points that are associated with the FMFeature, and refines its maximumIntendedBindingTime. This attribute is meant as a hint for the development process. Tags: xml.sequenceOffset=40
+        self.maximumSelectedBindingTime: Optional[BindingTimeEnum] = None
+
+        # Defines a lower bound for the binding time of the variation points that are associated with the FMFeature, and refines its minimumIntendedBindingTime. This attribute is meant as a hint for the development process. Tags: xml.sequenceOffset=30
+        self.minimumSelectedBindingTime: Optional[BindingTimeEnum] = None
+
+        # Defines how the FMFeature that is described by this FMFeatureSelection contributes to the FMFeature SelectionSet. A FMFeature may have the state selected, deselected or undecided. Tags: xml.sequenceOffset=20
+        self.state: Optional[FMFeatureSelectionState] = None
+
+    def addAttributeValue(self, value: FMAttributeValue) -> FMFeatureSelection:
+        """
+        This defines a value for the attribute that is referred to in the role definition. Note that a FMFeatureSelection cannot include two FMAttributeValues that refer to the same FMAttributeDef in the role definition. Tags: xml.sequenceOffset=50
+        """
+        self.attributeValues.append(value)
+        return self
+
+    def getAttributeValues(self) -> List[FMAttributeValue]:
+        """
+        This defines a value for the attribute that is referred to in the role definition. Note that a FMFeatureSelection cannot include two FMAttributeValues that refer to the same FMAttributeDef in the role definition. Tags: xml.sequenceOffset=50
+        """
+        return self.attributeValues
+
+    def getFeatureRef(self) -> Optional[RefType]:
+        """
+        The FMFeature whose state is defined by this FMFeature Selection. Tags: xml.sequenceOffset=10
+        """
+        return self.featureRef
+
+    def setFeatureRef(self, value: Optional[RefType]) -> FMFeatureSelection:
+        """
+        The FMFeature whose state is defined by this FMFeature Selection. Tags: xml.sequenceOffset=10
+
+        A None value is a no-op and does not overwrite an existing featureRef.
+        """
+        if value is not None:
+            self.featureRef = value
+        return self
+
+    def getMaximumSelectedBindingTime(self) -> Optional[BindingTimeEnum]:
+        """
+        Defines an upper bound for the binding time of the variation points that are associated with the FMFeature, and refines its maximumIntendedBindingTime. This attribute is meant as a hint for the development process. Tags: xml.sequenceOffset=40
+        """
+        return self.maximumSelectedBindingTime
+
+    def setMaximumSelectedBindingTime(self, value: Optional[BindingTimeEnum]) -> FMFeatureSelection:
+        """
+        Defines an upper bound for the binding time of the variation points that are associated with the FMFeature, and refines its maximumIntendedBindingTime. This attribute is meant as a hint for the development process. Tags: xml.sequenceOffset=40
+
+        A None value is a no-op and does not overwrite an existing maximumSelectedBindingTime.
+        """
+        if value is not None:
+            self.maximumSelectedBindingTime = value
+        return self
+
+    def getMinimumSelectedBindingTime(self) -> Optional[BindingTimeEnum]:
+        """
+        Defines a lower bound for the binding time of the variation points that are associated with the FMFeature, and refines its minimumIntendedBindingTime. This attribute is meant as a hint for the development process. Tags: xml.sequenceOffset=30
+        """
+        return self.minimumSelectedBindingTime
+
+    def setMinimumSelectedBindingTime(self, value: Optional[BindingTimeEnum]) -> FMFeatureSelection:
+        """
+        Defines a lower bound for the binding time of the variation points that are associated with the FMFeature, and refines its minimumIntendedBindingTime. This attribute is meant as a hint for the development process. Tags: xml.sequenceOffset=30
+
+        A None value is a no-op and does not overwrite an existing minimumSelectedBindingTime.
+        """
+        if value is not None:
+            self.minimumSelectedBindingTime = value
+        return self
+
+    def getState(self) -> Optional[FMFeatureSelectionState]:
+        """
+        Defines how the FMFeature that is described by this FMFeatureSelection contributes to the FMFeature SelectionSet. A FMFeature may have the state selected, deselected or undecided. Tags: xml.sequenceOffset=20
+        """
+        return self.state
+
+    def setState(self, value: Optional[FMFeatureSelectionState]) -> FMFeatureSelection:
+        """
+        Defines how the FMFeature that is described by this FMFeatureSelection contributes to the FMFeature SelectionSet. A FMFeature may have the state selected, deselected or undecided. Tags: xml.sequenceOffset=20
+
+        A None value is a no-op and does not overwrite an existing state.
+        """
+        if value is not None:
+            self.state = value
+        return self
 
 
 class IdsmRateLimitation(Identifiable):

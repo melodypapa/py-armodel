@@ -589,6 +589,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     FMAttributeDef,
     FMFeatureRelation,
     FMFeatureRestriction,
+    FMFeatureSelection,
     BinaryManifestMetaDataField,
     CpSoftwareClusterResource,
     CpSoftwareClusterToResourceMapping,
@@ -2147,6 +2148,21 @@ class ARXMLWriter(AbstractARXMLWriter):
                 for ref in refs:
                     self.setChildElementOptionalRefType(refs_tag, "FEATURE-REF", ref)
             self.writeFMConditionByFeaturesAndAttributes(child_element, relation.getRestriction(), key="RESTRICTION")
+
+
+    def writeFMFeatureSelection(self, element: ET.Element, selection: FMFeatureSelection):
+        if selection is not None:
+            child_element = ET.SubElement(element, "FM-FEATURE-SELECTION")
+            self.writeIdentifiable(child_element, selection)
+            self.setChildElementOptionalRefType(child_element, "FEATURE-REF", selection.getFeatureRef())
+            self.setChildElementOptionalLiteral(child_element, "STATE", selection.getState())
+            self.setChildElementOptionalLiteral(child_element, "MINIMUM-SELECTED-BINDING-TIME", selection.getMinimumSelectedBindingTime())
+            self.setChildElementOptionalLiteral(child_element, "MAXIMUM-SELECTED-BINDING-TIME", selection.getMaximumSelectedBindingTime())
+            attribute_values = selection.getAttributeValues()
+            if len(attribute_values) > 0:
+                values_tag = ET.SubElement(child_element, "ATTRIBUTE-VALUES")
+                for value in attribute_values:
+                    self.writeFMAttributeValue(values_tag, value)
 
     def writePostBuildVariantCondition(self, element: ET.Element, condition: PostBuildVariantCondition):
         child_element = ET.SubElement(element, "POST-BUILD-VARIANT-CONDITION")
