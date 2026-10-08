@@ -64,7 +64,7 @@ def _full_port() -> IPduPort:
     direction.setValue(CommunicationDirectionType.IN)
     port.setCommunicationDirection(direction)
     processing = IPduSignalProcessingEnum()
-    processing.setValue(IPduSignalProcessingEnum.ENUM_DEFERRED)
+    processing.setValue(IPduSignalProcessingEnum.DEFERRED)
     port.setIPduSignalProcessing(processing)
     port.setRxSecurityVerification(Boolean().setValue(True))
     port.setTimestampRxAcceptanceWindow(TimeValue().setValue(0.05))
@@ -158,7 +158,7 @@ class TestWriteIPduPort:
         direction.setValue(CommunicationDirectionType.OUT)
         port.setCommunicationDirection(direction)
         processing = IPduSignalProcessingEnum()
-        processing.setValue(IPduSignalProcessingEnum.ENUM_IMMEDIATE)
+        processing.setValue(IPduSignalProcessingEnum.IMMEDIATE)
         port.setIPduSignalProcessing(processing)
 
         parent = ET.Element("PARENT")

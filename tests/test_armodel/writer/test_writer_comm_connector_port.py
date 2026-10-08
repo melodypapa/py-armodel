@@ -186,7 +186,7 @@ class TestCommConnectorPort:
         direction.setValue(CommunicationDirectionType.OUT)
         port.setCommunicationDirection(direction)
         processing = IPduSignalProcessingEnum()
-        processing.setValue(IPduSignalProcessingEnum.ENUM_DEFERRED)
+        processing.setValue(IPduSignalProcessingEnum.DEFERRED)
         port.setIPduSignalProcessing(processing)
         rx_security = Boolean()
         rx_security.setValue(True)
@@ -207,7 +207,7 @@ class TestCommConnectorPort:
         assert isinstance(reloaded, CommConnectorPort)
         assert reloaded.getShortName() == "ip"
         assert reloaded.getCommunicationDirection().getValue() == "OUT"
-        assert reloaded.getIPduSignalProcessing().getValue() == IPduSignalProcessingEnum.ENUM_DEFERRED
+        assert reloaded.getIPduSignalProcessing().getValue() == IPduSignalProcessingEnum.DEFERRED
         assert reloaded.getRxSecurityVerification().getValue() is True
         assert float(reloaded.getTimestampRxAcceptanceWindow().getValue()) == 0.05
         assert reloaded.getUseAuthDataFreshness().getValue() is False

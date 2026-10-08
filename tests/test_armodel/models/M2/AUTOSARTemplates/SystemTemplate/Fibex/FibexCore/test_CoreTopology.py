@@ -338,10 +338,10 @@ class Test_FibexCoreTopology:
         """Test IPduSignalProcessingEnum enum functionality."""
         enum = IPduSignalProcessingEnum()
         assert enum is not None
-        assert IPduSignalProcessingEnum.ENUM_DEFERRED in enum.getEnumValues()
-        assert IPduSignalProcessingEnum.ENUM_IMMEDIATE in enum.getEnumValues()
-        assert IPduSignalProcessingEnum.ENUM_DEFERRED == "DEFERRED"
-        assert IPduSignalProcessingEnum.ENUM_IMMEDIATE == "IMMEDIATE"
+        assert IPduSignalProcessingEnum.DEFERRED in enum.getEnumValues()
+        assert IPduSignalProcessingEnum.IMMEDIATE in enum.getEnumValues()
+        assert IPduSignalProcessingEnum.DEFERRED == "DEFERRED"
+        assert IPduSignalProcessingEnum.IMMEDIATE == "IMMEDIATE"
 
     def test_CommunicationController_methods(self):
         """Test CommunicationController concrete implementation methods."""
@@ -392,7 +392,7 @@ class Test_FibexCoreTopology:
 
         # Test setter/getter methods with method chaining - with actual values
         processing = IPduSignalProcessingEnum()
-        processing.setValue(IPduSignalProcessingEnum.ENUM_IMMEDIATE)
+        processing.setValue(IPduSignalProcessingEnum.IMMEDIATE)
         assert port == port.setIPduSignalProcessing(processing)
         assert port.getIPduSignalProcessing() == processing
 

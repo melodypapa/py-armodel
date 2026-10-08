@@ -345,15 +345,31 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `IPduSignalProcessingEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 6.4, p.305
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: placement verified per Package row (CoreCommunication, non-leaf →
+    `__init__.py` — no move; stub-guard tuple untouched). Markdown caption/table pairing
+    is offset here: the Table 6.4 caption renders after the Enumeration content
+    (lines 7939-7949) and above the ISignalPort Class table — the Enumeration content is
+    authoritative. Note "Definition of signal processing modes."; literals deferred
+    (index=0) / immediate (index=1); XSD `I-PDU-SIGNAL-PROCESSING-ENUM--SIMPLE`
+    (AUTOSAR_00052.xsd line 137606) facets DEFERRED/IMMEDIATE in the same order, none
+    atp.Status=removed. Legacy 5-column checklist found, NO stale marker; member names
+    ENUM_DEFERRED/ENUM_IMMEDIATE violate Rule 0011 (literal → UPPER_SNAKE) — renamed to
+    DEFERRED/IMMEDIATE with consumer updates.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A: standalone AREnum, no own XML element; serialized as an attribute value on the consuming class (IPduPort.iPduSignalProcessing) and round-tripped there
+  - [x] Step 6 — Update parser & writer (Green) — N/A: same standalone-enum reason; reader/writer already consume the enum via getChildElementOptionalLiteral/setChildElementOptionalLiteral on IPduPort
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations — none open: Rule 0011 member-name to-fix (ENUM_DEFERRED/ENUM_IMMEDIATE
+    → DEFERRED/IMMEDIATE) fixed and not recorded as a deviation; facet set complete
+    (DEFERRED/IMMEDIATE, none atp.Status=removed), no spec literal dropped, no missing
+    referenced classes. audit_class.py PASS (STAMP INFO = marker deferred to batch 9b).
+    Consumer upgrade: IPduPort/CommConnectorPort writer tests and CoreTopology legacy
+    tests already used enum constants (no raw facet strings/tuples found) — updated to
+    the renamed DEFERRED/IMMEDIATE constants.
+  - [x] Step 9 — 9a passed 2026-10-08 (22259 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 05f4aee8e
 
 - [ ] `ISignal` — ARElement — R23-11 CP_TPS_SystemTemplate Table 6.7, p.321
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py

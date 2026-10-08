@@ -3386,18 +3386,18 @@ class IPduSignalProcessingEnum(AREnum):
 
     # IPduSignalProcessingEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.4, p.305
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on IPduPort.iPduSignalProcessing
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # The signal indications / confirmations are deferred. Tags: atp.EnumerationLiteralIndex=0
-    ENUM_DEFERRED = "DEFERRED"
+    DEFERRED = "DEFERRED"
 
     # The signal indications / confirmations are performed. Tags: atp.EnumerationLiteralIndex=1
-    ENUM_IMMEDIATE = "IMMEDIATE"
+    IMMEDIATE = "IMMEDIATE"
 
     def __init__(self):
-        super().__init__([IPduSignalProcessingEnum.ENUM_DEFERRED, IPduSignalProcessingEnum.ENUM_IMMEDIATE])
+        super().__init__([IPduSignalProcessingEnum.DEFERRED, IPduSignalProcessingEnum.IMMEDIATE])
 
 
 class IPduPort(CommConnectorPort):

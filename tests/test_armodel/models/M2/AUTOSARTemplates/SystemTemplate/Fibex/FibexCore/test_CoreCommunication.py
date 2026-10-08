@@ -1516,7 +1516,7 @@ class TestIPduPort:
     def test_get_set_ipdu_signal_processing(self):
         port = IPduPort(MockParent(), "ip")
         processing = IPduSignalProcessingEnum()
-        processing.setValue(IPduSignalProcessingEnum.ENUM_IMMEDIATE)
+        processing.setValue(IPduSignalProcessingEnum.IMMEDIATE)
 
         assert port == port.setIPduSignalProcessing(processing)
         assert port.getIPduSignalProcessing() is processing
@@ -1598,3 +1598,27 @@ class TestIPduPort:
         assert hints["return"] == typing.Optional[Boolean]
         hints = _get_type_hints(IPduPort.setUseAuthDataFreshness)
         assert hints["value"] == typing.Optional[Boolean]
+
+
+class TestIPduSignalProcessingEnum:
+    """Test cases for IPduSignalProcessingEnum (Table 6.4, p.305)."""
+
+    def test_member_presence_and_values(self):
+        assert IPduSignalProcessingEnum.DEFERRED == "DEFERRED"
+        assert IPduSignalProcessingEnum.IMMEDIATE == "IMMEDIATE"
+        assert list(IPduSignalProcessingEnum().getEnumValues()) == [
+            IPduSignalProcessingEnum.DEFERRED,
+            IPduSignalProcessingEnum.IMMEDIATE,
+        ]
+
+    def test_instantiability(self):
+        deferred = IPduSignalProcessingEnum()
+        assert deferred == deferred.setValue(IPduSignalProcessingEnum.DEFERRED)
+        assert deferred.getValue() == IPduSignalProcessingEnum.DEFERRED
+
+        immediate = IPduSignalProcessingEnum()
+        assert immediate == immediate.setValue(IPduSignalProcessingEnum.IMMEDIATE)
+        assert immediate.getValue() == IPduSignalProcessingEnum.IMMEDIATE
+
+    def test_class_docstring_note(self):
+        assert inspect.cleandoc(IPduSignalProcessingEnum.__doc__) == "Definition of signal processing modes."
