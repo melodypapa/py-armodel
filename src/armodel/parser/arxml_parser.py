@@ -1627,6 +1627,9 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import
     IEEE1722TpCrfConnection,
     IEEE1722TpCrfPullEnum,
     IEEE1722TpCrfTypeEnum,
+    J1939TpConfig,
+    J1939TpConnection,
+    J1939TpNode,
     LinTpConfig,
     LinTpConnection,
     LinTpNode,
@@ -14547,6 +14550,47 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, address)
         address.setTpAddress(self.getChildElementOptionalIntegerValue(element, "TP-ADDRESS"))
 
+    def readJ1939TpConnection(self, element: ET.Element, connection: J1939TpConnection):
+        self.readARObject(element, connection)
+
+    def readJ1939TpConfigTpAddresses(self, element: ET.Element, config: J1939TpConfig):
+        for child_element in self.findall(element, "TP-ADDRESSS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "TP-ADDRESS":
+                address = config.createTpAddress(self.getShortName(child_element))
+                self.readTpAddress(child_element, address)
+            else:
+                self.notImplemented("Unsupported TpAddress <%s>" % tag_name)
+
+    def readJ1939TpConfigTpConnections(self, element: ET.Element, config: J1939TpConfig):
+        for child_element in self.findall(element, "TP-CONNECTIONS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "J-1939-TP-CONNECTION":
+                connection = J1939TpConnection()
+                self.readJ1939TpConnection(child_element, connection)
+                config.addTpConnection(connection)
+            else:
+                self.notImplemented("Unsupported TpConnection <%s>" % tag_name)
+
+    def readJ1939TpNode(self, element: ET.Element, tp_node: J1939TpNode):
+        self.readIdentifiable(element, tp_node)
+
+    def readJ1939TpConfigTpNodes(self, element: ET.Element, config: J1939TpConfig):
+        for child_element in self.findall(element, "TP-NODES/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "J-1939-TP-NODE":
+                tp_node = config.createJ1939TpNode(self.getShortName(child_element))
+                self.readJ1939TpNode(child_element, tp_node)
+            else:
+                self.notImplemented("Unsupported TpNode <%s>" % tag_name)
+
+    def readJ1939TpConfig(self, element: ET.Element, config: J1939TpConfig):
+        self.logger.debug("Read J1939TpConfig <%s>" % config.getShortName())
+        self.readTpConfig(element, config)
+        self.readJ1939TpConfigTpAddresses(element, config)
+        self.readJ1939TpConfigTpConnections(element, config)
+        self.readJ1939TpConfigTpNodes(element, config)
+
     def readLinTpConfigTpAddresses(self, element: ET.Element, config: LinTpConfig):
         for child_element in self.findall(element, "TP-ADDRESSS/*"):
             tag_name = self.getTagName(child_element)
@@ -19311,6 +19355,8 @@ class ARXMLParser(AbstractARXMLParser):
                 self.readEthTpConfig(child_element, parent.createEthTpConfig(self.getShortName(child_element)))
             elif tag_name == "SOMEIP-TP-CONFIG":
                 self.readSomeipTpConfig(child_element, parent.createSomeipTpConfig(self.getShortName(child_element)))
+            elif tag_name == "J-1939-TP-CONFIG":
+                self.readJ1939TpConfig(child_element, parent.createJ1939TpConfig(self.getShortName(child_element)))
             elif tag_name == "IEEE-1722-TP-CONFIG":
                 self.readIEEE1722TpConfig(child_element, parent.createIEEE1722TpConfig(self.getShortName(child_element)))
             elif tag_name == "IEEE-1722-TP-CRF-CONNECTION":

@@ -3608,10 +3608,6 @@ class IdsmTrafficLimitation(ARObject):
     pass
 
 
-class J1939TpConfig(ARObject):
-    pass
-
-
 class J1939TpConnection(ARObject):
     pass
 

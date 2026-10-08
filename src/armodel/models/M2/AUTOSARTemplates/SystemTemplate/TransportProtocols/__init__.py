@@ -11,6 +11,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection impo
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import AbstractDoIpLogicAddressProps, DoIpLogicTargetAddressProps, DoIpLogicTesterAddressProps
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
+    J1939TpNode,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
@@ -23,7 +24,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     TimeValue,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import FibexElement
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject, J1939TpConnection
 
 
 class TpConfig(FibexElement, ABC):
@@ -3217,6 +3218,88 @@ class SomeipTpChannel(Identifiable):
         if value is not None:
             self.separationTime = value
         return self
+
+
+class J1939TpConfig(TpConfig):
+    """
+    This element defines exactly one J1939 TP Configuration. One J1939TpConfig element shall be created for each J1939 Network in the System. Tags: atp.recommendedPackage=TpConfigs
+
+    [constr_9264] Existence of J1939TpConfig.tpAddress: For each J1939TpConfig, at least one TpAddress shall be aggregated in the role tpAddress at the time when the System Description is complete.
+    [constr_9265] Existence of J1939TpConfig.tpConnection: For each J1939TpConfig, at least one J1939TpConnection shall be aggregated in the role tpConnection at the time when the System Description is complete.
+    [constr_9266] Existence of J1939TpConfig.tpNode: For each J1939TpConfig, at least one J1939TpNode shall be aggregated in the role tpNode at the time when the System Description is complete.
+    """
+
+    # J1939TpConfig method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.267, p.624
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createTpAddress       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTpAddresses        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addTpConnection       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTpConnections      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createJ1939TpNode     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTpNodes            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # (Base = ARObject, CollectableElement, FibexElement, Identifiable, MultilanguageReferrable,
+    # PackageableElement, Referrable, TpConfig; XSD group J-1939-TP-CONFIG carries no VARIATION-POINT)
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Collection of TP Adresses. atpVariation: Derived, because EcuInstance can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=tpAddress.shortName, tpAddress.variation Point.shortLabel vh.latestBindingTime=postBuild
+        self.tpAddresses: List[TpAddress] = []
+
+        # Configuration of J1939 TP connections. atpVariation: Derived, because TpNode can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=tpConnection, tpConnection.variation Point.shortLabel vh.latestBindingTime=postBuild
+        self.tpConnections: List[J1939TpConnection] = []
+
+        # Senders and receivers of J1939 TP messages. atpVariation: Derived, because EcuInstance can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=tpNode.shortName, tpNode.variation Point.shortLabel vh.latestBindingTime=postBuild
+        self.tpNodes: List[J1939TpNode] = []
+
+    def createTpAddress(self, short_name: str) -> TpAddress:
+        """
+        Collection of TP Adresses. atpVariation: Derived, because EcuInstance can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=tpAddress.shortName, tpAddress.variation Point.shortLabel vh.latestBindingTime=postBuild
+        """
+        if not self.IsReferrableElementExists(short_name, TpAddress):
+            address = TpAddress(self, short_name)
+            self.addReferrableElement(address)
+            self.tpAddresses.append(address)
+        return cast(TpAddress, self.getReferrableElement(short_name, TpAddress))
+
+    def getTpAddresses(self) -> List[TpAddress]:
+        """
+        Collection of TP Adresses. atpVariation: Derived, because EcuInstance can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=tpAddress.shortName, tpAddress.variation Point.shortLabel vh.latestBindingTime=postBuild
+        """
+        return self.tpAddresses
+
+    def addTpConnection(self, value: Optional[J1939TpConnection]) -> J1939TpConfig:
+        """
+        Configuration of J1939 TP connections. atpVariation: Derived, because TpNode can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=tpConnection, tpConnection.variation Point.shortLabel vh.latestBindingTime=postBuild
+        A None value is a no-op and is not appended to tpConnections.
+        """
+        if value is not None:
+            self.tpConnections.append(value)
+        return self
+
+    def getTpConnections(self) -> List[J1939TpConnection]:
+        """
+        Configuration of J1939 TP connections. atpVariation: Derived, because TpNode can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=tpConnection, tpConnection.variation Point.shortLabel vh.latestBindingTime=postBuild
+        """
+        return self.tpConnections
+
+    def createJ1939TpNode(self, short_name: str) -> J1939TpNode:
+        """
+        Senders and receivers of J1939 TP messages. atpVariation: Derived, because EcuInstance can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=tpNode.shortName, tpNode.variation Point.shortLabel vh.latestBindingTime=postBuild
+        """
+        if not self.IsReferrableElementExists(short_name, J1939TpNode):
+            node = J1939TpNode(self, short_name)
+            self.addReferrableElement(node)
+            self.tpNodes.append(node)
+        return cast(J1939TpNode, self.getReferrableElement(short_name, J1939TpNode))
+
+    def getTpNodes(self) -> List[J1939TpNode]:
+        """
+        Senders and receivers of J1939 TP messages. atpVariation: Derived, because EcuInstance can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=tpNode.shortName, tpNode.variation Point.shortLabel vh.latestBindingTime=postBuild
+        """
+        return self.tpNodes
 
 
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols.IEEE1722Tp import (  # noqa: E402

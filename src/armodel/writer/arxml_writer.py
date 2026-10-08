@@ -1361,6 +1361,9 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import
     IEEE1722TpConnection,
     IEEE1722TpAvConnection,
     IEEE1722TpCrfConnection,
+    J1939TpConfig,
+    J1939TpConnection,
+    J1939TpNode,
     LinTpConfig,
     LinTpConnection,
     LinTpNode,
@@ -10566,6 +10569,54 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalIntegerValue(child_element, "TP-ADDRESS", address.getTpAddress())
             self.writeVariationPointCapable(child_element, address)
 
+    def writeJ1939TpConnection(self, element: ET.Element, connection: J1939TpConnection):
+        if connection is not None:
+            child_element = ET.SubElement(element, "J-1939-TP-CONNECTION")
+            self.writeARObject(child_element, connection)
+
+    def writeJ1939TpConfigTpAddresses(self, element: ET.Element, config: J1939TpConfig):
+        addresses = config.getTpAddresses()
+        if len(addresses) > 0:
+            child_element = ET.SubElement(element, "TP-ADDRESSS")
+            for address in addresses:
+                if isinstance(address, TpAddress):
+                    self.writeTpAddress(child_element, address)
+                else:
+                    self.notImplemented("Unsupported TpAddress <%s>" % type(address))
+
+    def writeJ1939TpConfigTpConnections(self, element: ET.Element, config: J1939TpConfig):
+        connections = config.getTpConnections()
+        if len(connections) > 0:
+            child_element = ET.SubElement(element, "TP-CONNECTIONS")
+            for connection in connections:
+                if isinstance(connection, J1939TpConnection):
+                    self.writeJ1939TpConnection(child_element, connection)
+                else:
+                    self.notImplemented("Unsupported TpConnection <%s>" % type(connection))
+
+    def writeJ1939TpNode(self, element: ET.Element, tp_node: J1939TpNode):
+        if tp_node is not None:
+            child_element = ET.SubElement(element, "J-1939-TP-NODE")
+            self.writeIdentifiable(child_element, tp_node)
+
+    def writeJ1939TpConfigTpNodes(self, element: ET.Element, config: J1939TpConfig):
+        tp_nodes = config.getTpNodes()
+        if len(tp_nodes) > 0:
+            child_element = ET.SubElement(element, "TP-NODES")
+            for tp_node in tp_nodes:
+                if isinstance(tp_node, J1939TpNode):
+                    self.writeJ1939TpNode(child_element, tp_node)
+                else:
+                    self.notImplemented("Unsupported TpNode <%s>" % type(tp_node))
+
+    def writeJ1939TpConfig(self, element: ET.Element, config: J1939TpConfig):
+        self.logger.debug("Write J1939TpConfig <%s>" % config.getShortName())
+        child_element = ET.SubElement(element, "J-1939-TP-CONFIG")
+        self.writeTpConfig(child_element, config)
+        self.writeJ1939TpConfigTpAddresses(child_element, config)
+        self.writeJ1939TpConfigTpConnections(child_element, config)
+        self.writeJ1939TpConfigTpNodes(child_element, config)
+
     def writeLinTpConfigTpAddresses(self, element: ET.Element, config: LinTpConfig):
         addresses = config.getTpAddresses()
         if len(addresses) > 0:
@@ -19733,6 +19784,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeEthTpConfig(element, ar_element)
         elif isinstance(ar_element, SomeipTpConfig):
             self.writeSomeipTpConfig(element, ar_element)
+        elif isinstance(ar_element, J1939TpConfig):
+            self.writeJ1939TpConfig(element, ar_element)
         elif isinstance(ar_element, IEEE1722TpCrfConnection):
             self.writeIEEE1722TpCrfConnection(element, ar_element)
         elif isinstance(ar_element, IEEE1722TpConfig):

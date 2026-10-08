@@ -667,15 +667,34 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `J1939TpConfig` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.267, p.624
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note: Step 1 finding — rehoused from the ArObject.py stub to TransportProtocols/__init__.py (spec
+    Package row = SystemTemplate::TransportProtocols, Rule 0007); base is most-derived TpConfig (spec
+    Base row + XSD group chain …→ FIBEX-ELEMENT → TP-CONFIG → J-1939-TP-CONFIG), not the ARObject
+    hint. 3 attrs in displayed order (tpAddress `*` aggr TpAddress → tpAddresses + createTpAddress,
+    tpConnection `*` aggr J1939TpConnection → tpConnections + addTpConnection, tpNode `*` aggr
+    J1939TpNode → tpNodes + createJ1939TpNode); XSD wrappers TP-ADDRESSS (item TP-ADDRESS, same as
+    LinTpConfig) / TP-CONNECTIONS (item J-1939-TP-CONNECTION) / TP-NODES (item J-1939-TP-NODE);
+    the J-1939-TP-CONFIG group carries NO VARIATION-POINT → no mixin. Class Note + Tags:
+    atp.recommendedPackage=TpConfigs + constr_9264/9265/9266 from the markdown. Aggregated by
+    ARPackage.element → ARPackage.createJ1939TpConfig + J-1939-TP-CONFIG dispatch.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
+    - Note: no code-shape deviations — field↔spec verified both directions (3 `*` aggr attrs, List
+      quota shapes, dedicated typed list fields, verbatim Notes incl. the "TP Adresses" spelling and
+      the "variation Point" spacing). Rule 0001.10 pending: child readers/writers cover the base
+      levels only in this commit — readJ1939TpConnection/writeJ1939TpConnection cover the ARObject
+      level (J1939TpConnection is still the ArObject.py stub; TpConnection level lands with its own
+      row), readJ1939TpNode/writeJ1939TpNode cover the Identifiable level (J1939TpNode still the
+      Identifiable.py stub; CONNECTOR-REF/TP-ADDRESS-REF/VARIATION-POINT land with its own row);
+      interim imports from those stub modules are dropped as the child rows rehouse. TP-ADDRESSS
+      items are the fully-synced TpAddress (full value round-trip asserted).
 
 - [ ] `J1939TpConnection` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.268, p.625
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py

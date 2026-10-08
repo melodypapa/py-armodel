@@ -2523,6 +2523,13 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(element)
         return cast(SomeipTpConfig, self.getReferrableElement(short_name, SomeipTpConfig))
 
+    def createJ1939TpConfig(self, short_name: str) -> J1939TpConfig:
+
+        if not self.IsReferrableElementExists(short_name, J1939TpConfig):
+            element = J1939TpConfig(self, short_name)
+            self.addReferrableElement(element)
+        return cast(J1939TpConfig, self.getReferrableElement(short_name, J1939TpConfig))
+
     def createIEEE1722TpConfig(self, short_name: str) -> IEEE1722TpConfig:
 
         if not self.IsReferrableElementExists(short_name, IEEE1722TpConfig):
@@ -5266,6 +5273,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import
     SomeipTpConfig,
     FlexrayArTpConfig,
     FlexrayTpConfig,
+    J1939TpConfig,
     IEEE1722TpConfig,
     IEEE1722TpConnection,
     IEEE1722TpAvConnection,
