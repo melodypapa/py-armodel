@@ -11,10 +11,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | Status | Classes | Percent |
 | --- | --- | --- |
 | [x] Done | 852 | 44.8% |
-| [x] Deferred | 32 | 1.7% |
+| [x] Deferred | 33 | 1.7% |
 | [x] Retired | 0 | 0.0% |
 | [ ] Deferred | 829 | 43.6% |
-| [ ] Implemented | 41 | 2.2% |
+| [ ] Implemented | 40 | 2.1% |
 | [ ] Created | 148 | 7.8% |
 | [ ] Pending | 0 | 0.0% |
 
@@ -1055,7 +1055,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `IPSecConfig`                                           | [x] Done    | d75eb10bff                               | Group16          |
 | `IPSecConfigProps`                                      | [ ] Deferred| N/A                                      | Group32          |
 | `IPSecRule`                                             | [ ] Deferred| N/A                                      | Group32          |
-| `IPdu`                                                  | [ ] Implemented| N/A                                      | Group31          |
+| `IPdu`                                                  | [x] Deferred| 6d2c23610d                               | Group31          |
 | `IPduMapping`                                           | [x] Done    | 9c8e10b37f                               | Group6           |
 | `IPduPort`                                              | [ ] Deferred| 5809b8408f                               | Group31          |
 | `IPduSignalProcessingEnum`                              | [ ] Deferred| e34ab3e1ad                               | Group31          |

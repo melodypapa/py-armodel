@@ -610,17 +610,38 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-08 (23363 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit b51f649ba
 
-- [ ] `IPdu` — Pdu — R23-11 CP_TPS_SystemTemplate Table 6.18, p.341
+- [x] `IPdu` — Pdu — R23-11 CP_TPS_SystemTemplate Table 6.18, p.341 (sync commit 6d2c23610)
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note (Step 1): own table = SystemTemplate TPS Table 6.18, p.341 (pdf_page.py:
+    AUTOSAR_CP_TPS_SystemTemplate.pdf); abstract Class; Package row
+    `...Fibex::FibexCore::CoreCommunication` matches src home (Rule 0007 — non-leaf
+    `__init__.py`); Base most-derived = `Pdu` (synced b51f649ba) — src base already
+    correct; exactly ONE own attribute row `containedIPduProps`
+    (ContainedIPduProps 0..1 aggr) — no page-split continuation, no Tags/
+    Stereotypes tail, no constr rows; XSD group I-PDU (AUTOSAR_00052.xsd l.66381)
+    = single child CONTAINED-I-PDU-PROPS (minOccurs=0 maxOccurs=1), sequenced
+    AFTER the PDU group in every concrete complexType (e.g. DCM-I-PDU l.28532) —
+    reader/writer order already conforms; VP-capable via the PACKAGEABLE-ELEMENT
+    ancestor group (VARIATION-POINT) — handled by read/writeIdentifiable at the
+    base level; member type ContainedIPduProps + its two enums already
+    synced/stamped (Group5, 206cf295) — no Rule 0001.10 placeholders. Legacy
+    5-column checklist + stale `# Spec verified: R23-11` marker found at entry
+    (Rule 0023 removal + audit_stamped_classes baseline refresh). No deviations
+    for IPdu itself.
+  - Note (Step 8, cross-class observation for the queued `NPdu` row, NOT touched
+    this session): `readNPdu` dispatches through `readIPdu` (so it reads the
+    I-PDU group) while `writeNPdu` calls `writePdu` only — a read/write asymmetry
+    to resolve in NPdu's own sync (its Base = IPdu ⇒ writer should dispatch via
+    `writeIPdu`).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-08 (23377 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 6d2c23610
 
 - [ ] `ISignalIPdu` — IPdu — R23-11 CP_TPS_SystemTemplate Table 6.19, p.342
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
