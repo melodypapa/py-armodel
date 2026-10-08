@@ -163,7 +163,9 @@ class FlexrayNmScheduleVariant(AREnum):
 
     # FlexrayNmScheduleVariant method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.310, p.680
-    # (no methods)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — serialized as value form on FlexrayNmClusterCoupling.nmScheduleVariant
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # NM-Vote and NM Data transmitted within one PDU in static segment. The NM-Vote has to be realized as separate bit within the PDU. Tags: atp.EnumerationLiteralIndex=0
     SCHEDULE_VARIANT_1 = "SCHEDULE-VARIANT-1"

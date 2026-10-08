@@ -1484,15 +1484,23 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `FlexrayNmScheduleVariant` — AREnum — R23-11 CP_TPS_SystemTemplate Table 6.310, p.680
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note: Step 1 finding — spec Package row = SystemTemplate::NetworkManagement, so the
+    PrimitiveTypes.py hint is wrong; the class lives in NetworkManagement.py (already there;
+    no PrimitiveTypes.py stub exists, no stub-registry tuple). 7 literals scheduleVariant1-7
+    in displayed order == XSD `FLEXRAY-NM-SCHEDULE-VARIANT--SIMPLE` facet order ==
+    EnumerationLiteralIndex 0-6; values = exact facets SCHEDULE-VARIANT-1..7. Drift re-sync of
+    a pre-existing implementation (literals/comments/docstring already verbatim): only the
+    legacy checklist block lacked the Columns header + __init__ row. Round-trips as value form
+    on FlexrayNmClusterCoupling.nmScheduleVariant (parser L14271 / writer L10157).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A: standalone enum
+  - [x] Step 6 — Update parser & writer (Green) — N/A: standalone enum
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; Steps 5/6 N/A (standalone enum, round-trips as value form on <consumer>.<attr>); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `CanNmEcu` — BusspecificNmEcu — R23-11 CP_TPS_SystemTemplate Table 6.312, p.683
   - module: M2/AUTOSARTemplates/SystemTemplate/NetworkManagement.py
