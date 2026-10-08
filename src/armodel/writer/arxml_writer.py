@@ -587,6 +587,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     FMAttributeDef,
+    FMFeatureRelation,
     FMFeatureRestriction,
     BinaryManifestMetaDataField,
     CpSoftwareClusterResource,
@@ -2134,6 +2135,18 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "FM-FEATURE-RESTRICTION")
             self.writeIdentifiable(child_element, restriction)
             self.writeFMConditionByFeaturesAndAttributes(child_element, restriction.getRestriction(), key="RESTRICTION")
+
+
+    def writeFMFeatureRelation(self, element: ET.Element, relation: FMFeatureRelation):
+        if relation is not None:
+            child_element = ET.SubElement(element, "FM-FEATURE-RELATION")
+            self.writeIdentifiable(child_element, relation)
+            refs = relation.getFeatureRefs()
+            if len(refs) > 0:
+                refs_tag = ET.SubElement(child_element, "FEATURE-REFS")
+                for ref in refs:
+                    self.setChildElementOptionalRefType(refs_tag, "FEATURE-REF", ref)
+            self.writeFMConditionByFeaturesAndAttributes(child_element, relation.getRestriction(), key="RESTRICTION")
 
     def writePostBuildVariantCondition(self, element: ET.Element, condition: PostBuildVariantCondition):
         child_element = ET.SubElement(element, "POST-BUILD-VARIANT-CONDITION")

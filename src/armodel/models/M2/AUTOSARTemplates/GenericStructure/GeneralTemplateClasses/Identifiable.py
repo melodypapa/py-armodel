@@ -1483,7 +1483,56 @@ class FMFeatureMapElement(Identifiable):
 
 
 class FMFeatureRelation(Identifiable):
-    pass
+    """
+    Defines relations for FMFeatures, for example dependencies on other FMFeatures, or conflicts with other FMFeatures. A FMFeature can only be part of a FMFeatureSelectionSet if all its relations are fulfilled.
+    """
+
+    # FMFeatureRelation method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf, Table 4.6, p.34
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addFeatureRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFeatureRefs    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getRestriction    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRestriction    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # The FMFeature that is targeted by this FMFeature Relation.
+        self.featureRefs: List[RefType] = []
+
+        # If given, the condition shall evaluate to true, in order for the FMFeatureRelation to be active.
+        self.restriction: Optional[FMConditionByFeaturesAndAttributes] = None
+
+    def addFeatureRef(self, ref: RefType) -> FMFeatureRelation:
+        """
+        The FMFeature that is targeted by this FMFeature Relation.
+        """
+        self.featureRefs.append(ref)
+        return self
+
+    def getFeatureRefs(self) -> List[RefType]:
+        """
+        The FMFeature that is targeted by this FMFeature Relation.
+        """
+        return self.featureRefs
+
+    def getRestriction(self) -> Optional[FMConditionByFeaturesAndAttributes]:
+        """
+        If given, the condition shall evaluate to true, in order for the FMFeatureRelation to be active.
+        """
+        return self.restriction
+
+    def setRestriction(self, value: Optional[FMConditionByFeaturesAndAttributes]) -> FMFeatureRelation:
+        """
+        If given, the condition shall evaluate to true, in order for the FMFeatureRelation to be active.
+
+        A None value is a no-op and does not overwrite an existing restriction.
+        """
+        if value is not None:
+            self.restriction = value
+        return self
 
 
 class FMFeatureRestriction(Identifiable):

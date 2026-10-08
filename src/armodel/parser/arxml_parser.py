@@ -746,6 +746,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Enumerations import BindingTimeEnum, XmlSpaceEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     FMAttributeDef,
+    FMFeatureRelation,
     FMFeatureRestriction,
     BinaryManifestMetaDataField,
     CpSoftwareClusterResource,
@@ -2412,6 +2413,15 @@ class ARXMLParser(AbstractARXMLParser):
         if restriction_element is not None:
             restriction.setRestriction(self.readFMConditionByFeaturesAndAttributes(restriction_element, FMConditionByFeaturesAndAttributes()))
         return restriction
+
+    def readFMFeatureRelation(self, element: ET.Element, relation: FMFeatureRelation) -> FMFeatureRelation:
+        self.readIdentifiable(element, relation)
+        for ref in self.getChildElementRefTypeList(element, "FEATURE-REFS/FEATURE-REF"):
+            relation.addFeatureRef(ref)
+        restriction_element = self.find(element, "RESTRICTION")
+        if restriction_element is not None:
+            relation.setRestriction(self.readFMConditionByFeaturesAndAttributes(restriction_element, FMConditionByFeaturesAndAttributes()))
+        return relation
 
     def readPostBuildVariantCondition(self, element: ET.Element, condition: PostBuildVariantCondition) -> PostBuildVariantCondition:
         self.readARObject(element, condition)
