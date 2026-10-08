@@ -609,7 +609,13 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ShortNameFragment,
     SingleLanguageReferrable,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement, CalibrationParameterValueSet, CryptoServiceKey, PhysicalDimensionMappingSet
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+    CalibrationParameterValueSet,
+    CryptoServiceKey,
+    CryptoServiceQueue,
+    PhysicalDimensionMappingSet,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultidimensionalTime import MultidimensionalTime
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
@@ -15179,6 +15185,12 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalString(child_element, "KEY-STORAGE-TYPE", key.getKeyStorageType())
         self.setChildElementOptionalPositiveInteger(child_element, "LENGTH", cast(Integer, key.getLength()))
 
+    def writeCryptoServiceQueue(self, element: ET.Element, queue: CryptoServiceQueue):
+        self.logger.debug("writeCryptoServiceQueue %s" % queue.getShortName())
+        child_element = ET.SubElement(element, "CRYPTO-SERVICE-QUEUE")
+        self.writeIdentifiable(child_element, queue)
+        self.setChildElementOptionalPositiveInteger(child_element, "QUEUE-SIZE", cast(Integer, queue.getQueueSize()))
+
     def writeSecOcCryptoServiceMapping(self, element: ET.Element, mapping: SecOcCryptoServiceMapping):
         self.writeIdentifiable(element, mapping)
         self.setChildElementOptionalRefType(element, "AUTHENTICATION-REF", mapping.getAuthenticationRef())
@@ -20026,6 +20038,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeCryptoServicePrimitive(element, ar_element)
         elif isinstance(ar_element, CryptoServiceKey):
             self.writeCryptoServiceKey(element, ar_element)
+        elif isinstance(ar_element, CryptoServiceQueue):
+            self.writeCryptoServiceQueue(element, ar_element)
         elif isinstance(ar_element, SoAdRoutingGroup):
             self.writeSoAdRoutingGroup(element, ar_element)
         elif isinstance(ar_element, CanXlProps):

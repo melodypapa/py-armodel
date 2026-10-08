@@ -2231,6 +2231,13 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(key)
         return cast(CryptoServiceKey, self.getReferrableElement(short_name, CryptoServiceKey))
 
+    def createCryptoServiceQueue(self, short_name: str) -> CryptoServiceQueue:
+
+        if not self.IsReferrableElementExists(short_name, CryptoServiceQueue):
+            queue = CryptoServiceQueue(self, short_name)
+            self.addReferrableElement(queue)
+        return cast(CryptoServiceQueue, self.getReferrableElement(short_name, CryptoServiceQueue))
+
     def createIPSecConfigProps(self, short_name: str) -> IPSecConfigProps:
 
         if not self.IsReferrableElementExists(short_name, IPSecConfigProps):
@@ -11764,7 +11771,39 @@ class CryptoServiceKey(ARElement):
 
 
 class CryptoServiceQueue(ARElement):
-    pass
+    """
+    This meta-class has the ability to represent a crypto queue. Tags: atp.recommendedPackage=CryptoServiceQueues
+
+    [constr_5058] Value range for CryptoServiceQueue.queueSize: If the CryptoServiceQueue.queueSize is defined it shall have a value which is equal or greater than 1.
+    """
+
+    # CryptoServiceQueue method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.53, p.381
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getQueueSize   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setQueueSize   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Defines the queue size of the CryptoServiceQueue.
+        self.queueSize: Optional[PositiveInteger] = None
+
+    def getQueueSize(self) -> Optional[PositiveInteger]:
+        """
+        Defines the queue size of the CryptoServiceQueue.
+        """
+        return self.queueSize
+
+    def setQueueSize(self, value: Optional[PositiveInteger]) -> CryptoServiceQueue:
+        """
+        Defines the queue size of the CryptoServiceQueue.
+        A None value is a no-op and does not overwrite an existing queueSize.
+        """
+        if value is not None:
+            self.queueSize = value
+        return self
 
 
 class GeneralPurposeConnection(ARElement):
