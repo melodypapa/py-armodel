@@ -11,7 +11,6 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection impo
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import AbstractDoIpLogicAddressProps, DoIpLogicTargetAddressProps, DoIpLogicTesterAddressProps
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
-    SomeipTpChannel,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
@@ -3141,6 +3140,82 @@ class SomeipTpConnection(ARObject):
         """
         if value is not None:
             self.transportPduRef = value
+        return self
+
+
+class SomeipTpChannel(Identifiable):
+    """
+    This element is used to assign properties to SomeipTpConnections that are referencing this SomeipTp Channel.
+    """
+
+    # SomeipTpChannel method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.266, p.620
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBurstSize          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBurstSize          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRxTimeoutTime      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRxTimeoutTime      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSeparationTime     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSeparationTime     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # (Base = ARObject, Identifiable, MultilanguageReferrable, Referrable; XSD group
+    # SOMEIP-TP-CHANNEL carries no VARIATION-POINT)
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Specifies the number of segments that shall be transmitted in a burst ignoring separationTime. SeparationTime will then only be applied between bursts. If not configured, SeparationTime will be applied between all frames.
+        self.burstSize: Optional[PositiveInteger] = None
+
+        # Timer to monitor the successful reception. It is started when the first NPdu is received, restarted after reception of intermediate NPdus, and is stopped when the last NPdu has been received.
+        self.rxTimeoutTime: Optional[TimeValue] = None
+
+        # Sets the duration of the minimum time in seconds the SOME/IP TP module shall wait between the transmissions of NPdus.
+        self.separationTime: Optional[TimeValue] = None
+
+    def getBurstSize(self) -> Optional[PositiveInteger]:
+        """
+        Specifies the number of segments that shall be transmitted in a burst ignoring separationTime. SeparationTime will then only be applied between bursts. If not configured, SeparationTime will be applied between all frames.
+        """
+        return self.burstSize
+
+    def setBurstSize(self, value: Optional[PositiveInteger]) -> SomeipTpChannel:
+        """
+        Specifies the number of segments that shall be transmitted in a burst ignoring separationTime. SeparationTime will then only be applied between bursts. If not configured, SeparationTime will be applied between all frames.
+        A None value is a no-op and does not overwrite an existing burstSize.
+        """
+        if value is not None:
+            self.burstSize = value
+        return self
+
+    def getRxTimeoutTime(self) -> Optional[TimeValue]:
+        """
+        Timer to monitor the successful reception. It is started when the first NPdu is received, restarted after reception of intermediate NPdus, and is stopped when the last NPdu has been received.
+        """
+        return self.rxTimeoutTime
+
+    def setRxTimeoutTime(self, value: Optional[TimeValue]) -> SomeipTpChannel:
+        """
+        Timer to monitor the successful reception. It is started when the first NPdu is received, restarted after reception of intermediate NPdus, and is stopped when the last NPdu has been received.
+        A None value is a no-op and does not overwrite an existing rxTimeoutTime.
+        """
+        if value is not None:
+            self.rxTimeoutTime = value
+        return self
+
+    def getSeparationTime(self) -> Optional[TimeValue]:
+        """
+        Sets the duration of the minimum time in seconds the SOME/IP TP module shall wait between the transmissions of NPdus.
+        """
+        return self.separationTime
+
+    def setSeparationTime(self, value: Optional[TimeValue]) -> SomeipTpChannel:
+        """
+        Sets the duration of the minimum time in seconds the SOME/IP TP module shall wait between the transmissions of NPdus.
+        A None value is a no-op and does not overwrite an existing separationTime.
+        """
+        if value is not None:
+            self.separationTime = value
         return self
 
 

@@ -14841,6 +14841,9 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readSomeipTpChannel(self, element: ET.Element, channel: SomeipTpChannel):
         self.readIdentifiable(element, channel)
+        channel.setBurstSize(self.getChildElementOptionalPositiveInteger(element, "BURST-SIZE"))
+        channel.setRxTimeoutTime(self.getChildElementOptionalTimeValue(element, "RX-TIMEOUT-TIME"))
+        channel.setSeparationTime(self.getChildElementOptionalTimeValue(element, "SEPARATION-TIME"))
 
     def readSomeipTpConfigTpChannels(self, element: ET.Element, config: SomeipTpConfig):
         for child_element in self.findall(element, "TP-CHANNELS/*"):

@@ -641,15 +641,29 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `SomeipTpChannel` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 6.266, p.620
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note: rehoused from the Identifiable.py stub to TransportProtocols/__init__.py (spec Package row =
+    SystemTemplate::TransportProtocols, Rule 0007). Base row most-derived = Identifiable (hint
+    confirmed); the XSD complexType groups (AR-OBJECT/REFERRABLE/MULTILANGUAGE-REFERRABLE/IDENTIFIABLE
+    + SOMEIP-TP-CHANNEL) carry NO VARIATION-POINT, so unlike the CanTp/LinTp/FlexrayTp siblings no
+    VariationPointCapable mixin. All 3 spec attrs modeled in displayed order (burstSize
+    PositiveInteger, rxTimeoutTime TimeValue, separationTime TimeValue; all 0..1 attr =
+    Optional[...]); XSD element order BURST-SIZE/RX-TIMEOUT-TIME/SEPARATION-TIME matches the
+    displayed order; no XSD-only extras, no table constraints.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
+    - Note: no deviations — field↔spec verified both directions (3 attrs, Optional quota shapes match
+      Mult. 0..1, verbatim Notes; the class Note's "SomeipTp Channel" spacing is the markdown's own
+      rendering and is kept verbatim); no XSD-only extras, no atp.Status markers, no table constraints.
+      Reader/writer pre-existed at base level; extended with the three typed elements
+      (BURST-SIZE positive-integer form, RX-TIMEOUT-TIME/SEPARATION-TIME time-value form).
+      Stub-registry tuple removed.
 
 - [ ] `J1939TpConfig` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.267, p.624
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py

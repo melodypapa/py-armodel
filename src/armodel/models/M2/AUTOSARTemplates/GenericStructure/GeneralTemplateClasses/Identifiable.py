@@ -2226,10 +2226,6 @@ class SOMEIPTransformationProps(Identifiable):
     pass
 
 
-class SomeipTpChannel(Identifiable):
-    pass
-
-
 class UserDefinedGlobalTimeSlave(Identifiable):
     pass
 

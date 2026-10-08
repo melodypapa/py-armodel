@@ -10911,6 +10911,9 @@ class ARXMLWriter(AbstractARXMLWriter):
         if channel is not None:
             child_element = ET.SubElement(element, "SOMEIP-TP-CHANNEL")
             self.writeIdentifiable(child_element, channel)
+            self.setChildElementOptionalPositiveInteger(child_element, "BURST-SIZE", cast(Integer, channel.getBurstSize()))
+            self.setChildElementOptionalTimeValue(child_element, "RX-TIMEOUT-TIME", channel.getRxTimeoutTime())
+            self.setChildElementOptionalTimeValue(child_element, "SEPARATION-TIME", channel.getSeparationTime())
 
     def writeSomeipTpConfigTpChannels(self, element: ET.Element, config: SomeipTpConfig):
         channels = config.getTpChannels()
