@@ -775,6 +775,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticStartRoutine,
     DiagnosticStopRoutine,
     GlobalTimeCanMaster,
+    GlobalTimeCanSlave,
     GlobalTimeGateway,
     GlobalTimeMaster,
     GlobalTimeSlave,
@@ -802,6 +803,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DdsDurabilityKindEnum,
     FrArTpAckType,
     GlobalTimeCrcSupportEnum,
+    GlobalTimeCrcValidationEnum,
     GlobalTimeIcvSupportEnum,
     GlobalTimeIcvVerificationEnum,
     GlobalTimePortRoleEnum,
@@ -16363,6 +16365,19 @@ class ARXMLParser(AbstractARXMLParser):
             master.setCrcSecured(crc_secured)
         master.setSyncConfirmationTimeout(self.getChildElementOptionalTimeValue(element, "SYNC-CONFIRMATION-TIMEOUT"))
         return master
+
+    def readGlobalTimeCanSlave(self, element: ET.Element, slave: GlobalTimeCanSlave) -> GlobalTimeCanSlave:
+        # The XSD GLOBAL-TIME-CAN-SLAVE group (AUTOSAR_00052.xsd l.64256) follows the
+        # GLOBAL-TIME-SLAVE group: CRC-VALIDATED then SEQUENCE-COUNTER-JUMP-WIDTH.
+        # readGlobalTimeSlave transitively owns the Identifiable level.
+        self.readGlobalTimeSlave(element, slave)
+        literal = self.getChildElementOptionalLiteral(element, "CRC-VALIDATED")
+        if literal is not None:
+            crc_validated = GlobalTimeCrcValidationEnum()
+            crc_validated.setValue(literal.getValue())
+            slave.setCrcValidated(crc_validated)
+        slave.setSequenceCounterJumpWidth(self.getChildElementOptionalPositiveInteger(element, "SEQUENCE-COUNTER-JUMP-WIDTH"))
+        return slave
 
     def readEthGlobalTimeManagedCouplingPort(self, element: ET.Element, port: EthGlobalTimeManagedCouplingPort) -> EthGlobalTimeManagedCouplingPort:
         self.readARObject(element, port)

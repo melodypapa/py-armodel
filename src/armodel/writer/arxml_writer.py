@@ -618,6 +618,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticStartRoutine,
     DiagnosticStopRoutine,
     GlobalTimeCanMaster,
+    GlobalTimeCanSlave,
     GlobalTimeGateway,
     GlobalTimeMaster,
     GlobalTimeSlave,
@@ -13864,6 +13865,14 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeGlobalTimeMaster(element, master)
         self.setChildElementOptionalLiteral(element, "CRC-SECURED", master.getCrcSecured())
         self.setChildElementOptionalTimeValue(element, "SYNC-CONFIRMATION-TIMEOUT", master.getSyncConfirmationTimeout())
+
+    def writeGlobalTimeCanSlave(self, element: ET.Element, slave: GlobalTimeCanSlave):
+        # Populates the GLOBAL-TIME-CAN-SLAVE element created by the caller; the XSD
+        # GLOBAL-TIME-CAN-SLAVE group (AUTOSAR_00052.xsd l.64256) follows the
+        # GLOBAL-TIME-SLAVE group: CRC-VALIDATED then SEQUENCE-COUNTER-JUMP-WIDTH.
+        self.writeGlobalTimeSlave(element, slave)
+        self.setChildElementOptionalLiteral(element, "CRC-VALIDATED", slave.getCrcValidated())
+        self.setChildElementOptionalPositiveInteger(element, "SEQUENCE-COUNTER-JUMP-WIDTH", cast(Integer, slave.getSequenceCounterJumpWidth()))
 
     def writeEthGlobalTimeManagedCouplingPort(self, element: ET.Element, port: EthGlobalTimeManagedCouplingPort):
         child_element = ET.SubElement(element, "ETH-GLOBAL-TIME-MANAGED-COUPLING-PORT")

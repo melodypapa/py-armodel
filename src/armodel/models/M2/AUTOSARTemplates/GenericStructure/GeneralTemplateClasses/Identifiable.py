@@ -34,6 +34,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     CategoryString,
     DiagnosticDebounceBehaviorEnum,
     GlobalTimeCrcSupportEnum,
+    GlobalTimeCrcValidationEnum,
     GlobalTimeIcvSupportEnum,
     GlobalTimeIcvVerificationEnum,
     Identifier,
@@ -2342,10 +2343,6 @@ class DdsCpQosProfile(Identifiable):
         return self
 
 
-class GlobalTimeCanSlave(Identifiable):
-    pass
-
-
 class GlobalTimeEthSlave(Identifiable):
     pass
 
@@ -2717,6 +2714,70 @@ class GlobalTimeSlave(Identifiable, VariationPointCapable, ABC):
         """
         if value is not None:
             self.timeLeapPastThreshold = value
+        return self
+
+
+class GlobalTimeCanSlave(GlobalTimeSlave):
+    """
+    This represents the specialization of the GlobalTimeSlave for the CAN communication.
+    """
+
+    # GlobalTimeCanSlave method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.9, p.864
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCrcValidated               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCrcValidated               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSequenceCounterJumpWidth   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSequenceCounterJumpWidth   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # Re-parented from the Identifiable stub base to GlobalTimeSlave per the Table 9.9 Base row
+    # (most-derived base GlobalTimeSlave); the class definition moved below GlobalTimeSlave so
+    # the Python name resolves. The reader/writer call the Table 9.5 base helpers
+    # (readGlobalTimeSlave / writeGlobalTimeSlave, which transitively own the Identifiable
+    # level) exactly once; the XSD GLOBAL-TIME-CAN-SLAVE group (AUTOSAR_00052.xsd l.64256)
+    # element order is CRC-VALIDATED then SEQUENCE-COUNTER-JUMP-WIDTH. Aggregator dispatch
+    # (GlobalTimeDomain.slave) is pending — GlobalTimeDomain is a later-wave class.
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Definition of whether or not validation of the CRC is supported.
+        self.crcValidated: Optional[GlobalTimeCrcValidationEnum] = None
+
+        # Specifies the maximum allowed gap of the sequence counter between two SYNC resp. two OFS messages.
+        self.sequenceCounterJumpWidth: Optional[PositiveInteger] = None
+
+    def getCrcValidated(self) -> Optional[GlobalTimeCrcValidationEnum]:
+        """
+        Definition of whether or not validation of the CRC is supported.
+        """
+        return self.crcValidated
+
+    def setCrcValidated(self, value: Optional[GlobalTimeCrcValidationEnum]) -> GlobalTimeCanSlave:
+        """
+        Definition of whether or not validation of the CRC is supported.
+
+        A None value is a no-op and does not overwrite an existing crcValidated.
+        """
+        if value is not None:
+            self.crcValidated = value
+        return self
+
+    def getSequenceCounterJumpWidth(self) -> Optional[PositiveInteger]:
+        """
+        Specifies the maximum allowed gap of the sequence counter between two SYNC resp. two OFS messages.
+        """
+        return self.sequenceCounterJumpWidth
+
+    def setSequenceCounterJumpWidth(self, value: Optional[PositiveInteger]) -> GlobalTimeCanSlave:
+        """
+        Specifies the maximum allowed gap of the sequence counter between two SYNC resp. two OFS messages.
+
+        A None value is a no-op and does not overwrite an existing sequenceCounterJumpWidth.
+        """
+        if value is not None:
+            self.sequenceCounterJumpWidth = value
         return self
 
 
