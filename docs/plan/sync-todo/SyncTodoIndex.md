@@ -1707,7 +1707,7 @@ Status: **2/75** completed
 | `ISignal`                                                | [x] Done*       | e260b39286 |
 | `DataTypePolicyEnum`                                     | [ ] Implemented | N/A        |
 | `ISignalTypeEnum`                                        | [x] Done*       | 3bf0b50440 |
-| `ISignalProps`                                           | [ ] Implemented | N/A        |
+| `ISignalProps`                                           | [ ] Pending*    | 724ee746c9 |
 | `ISignalGroup`                                           | [ ] Implemented | N/A        |
 | `SystemSignalGroup`                                      | [ ] Implemented | N/A        |
 | `ISignalToIPduMapping`                                   | [ ] Implemented | N/A        |

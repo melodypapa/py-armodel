@@ -456,15 +456,23 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `ISignalProps` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.10, p.323
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: single attribute `handleOutOfRange` (HandleOutOfRangeEnum, 0..1, attr);
+    Base `ARObject` (concrete, `__init__(self)`); aggregated by `ISignal.iSignalProps`. XSD group
+    `I-SIGNAL-PROPS` (AUTOSAR_00052.xsd line 67362) = one child `HANDLE-OUT-OF-RANGE` +
+    `AR:AR-OBJECT` group; no `atp.Status="removed"` elements. Legacy model already matches the
+    spec contract; entry audit FAIL = legacy 5-col checklist + stale `# Spec verified:` marker
+    (removed per Rule 0023) + missing base reader/writer helper calls + `__init__` docstring.
+  - Step 8: no open deviations. All member types exist and are content-synced (HandleOutOfRangeEnum
+    audits PASS, marker batch-deferred like this class); no Rule 0001.10 placeholders.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-08 (23282 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 724ee746c
 
 - [ ] `ISignalGroup` — ARElement — R23-11 CP_TPS_SystemTemplate Table 6.12, p.324
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py

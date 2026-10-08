@@ -13,8 +13,8 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | [x] Done | 852 | 44.8% |
 | [x] Deferred | 27 | 1.4% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 828 | 43.5% |
-| [ ] Implemented | 47 | 2.5% |
+| [ ] Deferred | 829 | 43.6% |
+| [ ] Implemented | 46 | 2.4% |
 | [ ] Created | 148 | 7.8% |
 | [ ] Pending | 0 | 0.0% |
 
@@ -1073,7 +1073,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `ISignalIPduGroup`                                      | [x] Done    | 4658ff431a                               | Group15          |
 | `ISignalMapping`                                        | [x] Done    | ba0f1a12a8                               | Group17          |
 | `ISignalPort`                                           | [x] Done    | 7a508bea29                               | Group15          |
-| `ISignalProps`                                          | [ ] Implemented| N/A                                      | Group31          |
+| `ISignalProps`                                          | [ ] Deferred| 724ee746c9                               | Group31          |
 | `ISignalToIPduMapping`                                  | [ ] Implemented| N/A                                      | Group31          |
 | `ISignalTriggering`                                     | [ ] Implemented| N/A                                      | Group31          |
 | `ISignalTypeEnum`                                       | [x] Deferred| 3bf0b50440                               | Group31          |
