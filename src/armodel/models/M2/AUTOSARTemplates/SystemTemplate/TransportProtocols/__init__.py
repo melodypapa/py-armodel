@@ -24,7 +24,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     TimeValue,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import FibexElement
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject, J1939TpConnection
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject, J1939TpPg
 
 
 class TpConfig(FibexElement, ABC):
@@ -3300,6 +3300,244 @@ class J1939TpConfig(TpConfig):
         Senders and receivers of J1939 TP messages. atpVariation: Derived, because EcuInstance can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=tpNode.shortName, tpNode.variation Point.shortLabel vh.latestBindingTime=postBuild
         """
         return self.tpNodes
+
+
+class J1939TpConnection(TpConnection, VariationPointCapable):
+    """
+    A J1939TpConnection represents an internal path for the transmission or reception of a Pdu via J1939Tp and describes the sender and the receiver of this particular communication. The J1939Tp module routes a Pdu (J1939 PGN) through the connection.
+
+    [constr_9267] Existence of J1939TpConnection.broadcast: For each J1939TpConnection, the attribute broadcast shall exist at the time when the System Description is complete.
+    [constr_9268] Existence of J1939TpConnection.dataPdu: For each J1939TpConnection, the reference to NPdu in the role dataPdu shall exist at the time when the System Description is complete.
+    [constr_9269] Existence of J1939TpConnection.flowControlPdu: For each J1939TpConnection, at least one reference to NPdu in the role flowControlPdu shall exist at the time when the System Description is complete.
+    """
+
+    # J1939TpConnection method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.268, p.625
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBroadcast              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBroadcast              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getBufferRatio            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBufferRatio            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCancellation           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCancellation           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDataPduRef             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataPduRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDynamicBs              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDynamicBs              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addFlowControlPduRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFlowControlPduRefs     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getMaxBs                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxBs                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxExpBs               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxExpBs               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addReceiverRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getReceiverRefs           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getRetry                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRetry                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addTpPg                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTpPgs                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getTransmitterRef         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTransmitterRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # (Base = ARObject, TpConnection; XSD group J-1939-TP-CONNECTION carries VARIATION-POINT —
+    # getVariationPoint/setVariationPoint provided by the VariationPointCapable base (mixin), no
+    # spec rows; XSD-only DIRECT-PDU-REF and TP-SDU-REFS carry atp.Status="removed", absent from
+    # the PDF table — not modeled)
+
+    def __init__(self):
+        super().__init__()
+
+        # BAM (Broadcast Announce Message) is a broadcast protocol. If this attribute is set to true broadcast is used. Since address FF is the only broadcast address, there's no reason to configure it.
+        self.broadcast: Optional[Boolean] = None
+
+        # Defines usage of available data for dynamic block size calculation when protocol retry is enabled. This attribute describes in percent of available buffer that shall be used for retry.
+        self.bufferRatio: Optional[PositiveInteger] = None
+
+        # Enable support for Tx/Rx cancellation.
+        self.cancellation: Optional[Boolean] = None
+
+        # Data Message (TP .DT) used by CMDT and BAM. The DataNPdu has a fixed length of 8 bytes.
+        self.dataPduRef: Optional[RefType] = None
+
+        # Enable support for dynamic block size calculation.
+        self.dynamicBs: Optional[Boolean] = None
+
+        # Reference to the Command NPdus (TP .CM) that are used in the CMDT (Connection Mode Data Transfer) in both directions. BAM uses one TP.CM (Transport Protocol Command). The flowControlNPdu has a fixed length of 8 bytes. Please note that the role name "flowControlIPdu" is misleading and is kept for backward compatibilty reasons.
+        self.flowControlPduRefs: List[RefType] = []
+
+        # Set maximum block size (number of packets in TP.CM_ CTS).
+        self.maxBs: Optional[PositiveInteger] = None
+
+        # Set maximum for expected block size (maximum number of packets in TP.CM_RTS).
+        self.maxExpBs: Optional[PositiveInteger] = None
+
+        # The target of the TP connection.
+        self.receiverRefs: List[RefType] = []
+
+        # Enable support for protocol retry.
+        self.retry: Optional[Boolean] = None
+
+        # J1939 messages (parameter groups, PGs) that can be transferred via this connection.
+        self.tpPgs: List[J1939TpPg] = []
+
+        # The source of the TP connection.
+        self.transmitterRef: Optional[RefType] = None
+
+    def getBroadcast(self) -> Optional[Boolean]:
+        """BAM (Broadcast Announce Message) is a broadcast protocol. If this attribute is set to true broadcast is used. Since address FF is the only broadcast address, there's no reason to configure it."""
+        return self.broadcast
+
+    def setBroadcast(self, value: Optional[Boolean]) -> J1939TpConnection:
+        """
+        BAM (Broadcast Announce Message) is a broadcast protocol. If this attribute is set to true broadcast is used. Since address FF is the only broadcast address, there's no reason to configure it.
+        A None value is a no-op and does not overwrite an existing broadcast.
+        """
+        if value is not None:
+            self.broadcast = value
+        return self
+
+    def getBufferRatio(self) -> Optional[PositiveInteger]:
+        """Defines usage of available data for dynamic block size calculation when protocol retry is enabled. This attribute describes in percent of available buffer that shall be used for retry."""
+        return self.bufferRatio
+
+    def setBufferRatio(self, value: Optional[PositiveInteger]) -> J1939TpConnection:
+        """
+        Defines usage of available data for dynamic block size calculation when protocol retry is enabled. This attribute describes in percent of available buffer that shall be used for retry.
+        A None value is a no-op and does not overwrite an existing bufferRatio.
+        """
+        if value is not None:
+            self.bufferRatio = value
+        return self
+
+    def getCancellation(self) -> Optional[Boolean]:
+        """Enable support for Tx/Rx cancellation."""
+        return self.cancellation
+
+    def setCancellation(self, value: Optional[Boolean]) -> J1939TpConnection:
+        """
+        Enable support for Tx/Rx cancellation.
+        A None value is a no-op and does not overwrite an existing cancellation.
+        """
+        if value is not None:
+            self.cancellation = value
+        return self
+
+    def getDataPduRef(self) -> Optional[RefType]:
+        """Data Message (TP .DT) used by CMDT and BAM. The DataNPdu has a fixed length of 8 bytes."""
+        return self.dataPduRef
+
+    def setDataPduRef(self, value: Optional[RefType]) -> J1939TpConnection:
+        """
+        Data Message (TP .DT) used by CMDT and BAM. The DataNPdu has a fixed length of 8 bytes.
+        A None value is a no-op and does not overwrite an existing dataPduRef.
+        """
+        if value is not None:
+            self.dataPduRef = value
+        return self
+
+    def getDynamicBs(self) -> Optional[Boolean]:
+        """Enable support for dynamic block size calculation."""
+        return self.dynamicBs
+
+    def setDynamicBs(self, value: Optional[Boolean]) -> J1939TpConnection:
+        """
+        Enable support for dynamic block size calculation.
+        A None value is a no-op and does not overwrite an existing dynamicBs.
+        """
+        if value is not None:
+            self.dynamicBs = value
+        return self
+
+    def addFlowControlPduRef(self, value: Optional[RefType]) -> J1939TpConnection:
+        """
+        Reference to the Command NPdus (TP .CM) that are used in the CMDT (Connection Mode Data Transfer) in both directions. BAM uses one TP.CM (Transport Protocol Command). The flowControlNPdu has a fixed length of 8 bytes. Please note that the role name "flowControlIPdu" is misleading and is kept for backward compatibilty reasons.
+        A None value is a no-op and is not appended to flowControlPduRefs.
+        """
+        if value is not None:
+            self.flowControlPduRefs.append(value)
+        return self
+
+    def getFlowControlPduRefs(self) -> List[RefType]:
+        """Reference to the Command NPdus (TP .CM) that are used in the CMDT (Connection Mode Data Transfer) in both directions. BAM uses one TP.CM (Transport Protocol Command). The flowControlNPdu has a fixed length of 8 bytes. Please note that the role name "flowControlIPdu" is misleading and is kept for backward compatibilty reasons."""
+        return self.flowControlPduRefs
+
+    def getMaxBs(self) -> Optional[PositiveInteger]:
+        """Set maximum block size (number of packets in TP.CM_ CTS)."""
+        return self.maxBs
+
+    def setMaxBs(self, value: Optional[PositiveInteger]) -> J1939TpConnection:
+        """
+        Set maximum block size (number of packets in TP.CM_ CTS).
+        A None value is a no-op and does not overwrite an existing maxBs.
+        """
+        if value is not None:
+            self.maxBs = value
+        return self
+
+    def getMaxExpBs(self) -> Optional[PositiveInteger]:
+        """Set maximum for expected block size (maximum number of packets in TP.CM_RTS)."""
+        return self.maxExpBs
+
+    def setMaxExpBs(self, value: Optional[PositiveInteger]) -> J1939TpConnection:
+        """
+        Set maximum for expected block size (maximum number of packets in TP.CM_RTS).
+        A None value is a no-op and does not overwrite an existing maxExpBs.
+        """
+        if value is not None:
+            self.maxExpBs = value
+        return self
+
+    def addReceiverRef(self, value: Optional[RefType]) -> J1939TpConnection:
+        """
+        The target of the TP connection.
+        A None value is a no-op and is not appended to receiverRefs.
+        """
+        if value is not None:
+            self.receiverRefs.append(value)
+        return self
+
+    def getReceiverRefs(self) -> List[RefType]:
+        """The target of the TP connection."""
+        return self.receiverRefs
+
+    def getRetry(self) -> Optional[Boolean]:
+        """Enable support for protocol retry."""
+        return self.retry
+
+    def setRetry(self, value: Optional[Boolean]) -> J1939TpConnection:
+        """
+        Enable support for protocol retry.
+        A None value is a no-op and does not overwrite an existing retry.
+        """
+        if value is not None:
+            self.retry = value
+        return self
+
+    def addTpPg(self, value: Optional[J1939TpPg]) -> J1939TpConnection:
+        """
+        J1939 messages (parameter groups, PGs) that can be transferred via this connection.
+        A None value is a no-op and is not appended to tpPgs.
+        """
+        if value is not None:
+            self.tpPgs.append(value)
+        return self
+
+    def getTpPgs(self) -> List[J1939TpPg]:
+        """J1939 messages (parameter groups, PGs) that can be transferred via this connection."""
+        return self.tpPgs
+
+    def getTransmitterRef(self) -> Optional[RefType]:
+        """The source of the TP connection."""
+        return self.transmitterRef
+
+    def setTransmitterRef(self, value: Optional[RefType]) -> J1939TpConnection:
+        """
+        The source of the TP connection.
+        A None value is a no-op and does not overwrite an existing transmitterRef.
+        """
+        if value is not None:
+            self.transmitterRef = value
+        return self
 
 
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols.IEEE1722Tp import (  # noqa: E402

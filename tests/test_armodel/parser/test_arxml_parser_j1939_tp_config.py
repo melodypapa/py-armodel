@@ -53,7 +53,7 @@ class TestReadJ1939TpConfig:
                 </TP-ADDRESSS>
                 <TP-CONNECTIONS>
                     <J-1939-TP-CONNECTION>
-                        <SHORT-NAME>Connection1</SHORT-NAME>
+                        <BROADCAST>true</BROADCAST>
                     </J-1939-TP-CONNECTION>
                 </TP-CONNECTIONS>
                 <TP-NODES>
@@ -76,6 +76,8 @@ class TestReadJ1939TpConfig:
         connections = config.getTpConnections()
         assert len(connections) == 1
         assert isinstance(connections[0], J1939TpConnection)
+        assert connections[0].getBroadcast() is not None
+        assert connections[0].getBroadcast().getValue() is True
 
         nodes = config.getTpNodes()
         assert len(nodes) == 1

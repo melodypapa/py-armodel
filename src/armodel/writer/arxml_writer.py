@@ -1364,6 +1364,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import
     J1939TpConfig,
     J1939TpConnection,
     J1939TpNode,
+    J1939TpPg,
     LinTpConfig,
     LinTpConnection,
     LinTpNode,
@@ -10469,7 +10470,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "IDENT")
             self.writeReferrable(child_element, ident)
 
-    def writeTpConnectionReceiverRefs(self, element: ET.Element, connection: Union[CanTpConnection, FlexrayTpConnection, LinTpConnection]):
+    def writeTpConnectionReceiverRefs(self, element: ET.Element, connection: Union[CanTpConnection, FlexrayTpConnection, J1939TpConnection, LinTpConnection]):
         refs = connection.getReceiverRefs()
         if len(refs) > 0:
             child_element = ET.SubElement(element, "RECEIVER-REFS")
@@ -10572,7 +10573,34 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeJ1939TpConnection(self, element: ET.Element, connection: J1939TpConnection):
         if connection is not None:
             child_element = ET.SubElement(element, "J-1939-TP-CONNECTION")
-            self.writeARObject(child_element, connection)
+            self.writeTpConnection(child_element, connection)
+            self.setChildElementOptionalBooleanValue(child_element, "BROADCAST", connection.getBroadcast())
+            self.setChildElementOptionalPositiveInteger(child_element, "BUFFER-RATIO", connection.getBufferRatio())
+            self.setChildElementOptionalBooleanValue(child_element, "CANCELLATION", connection.getCancellation())
+            self.setChildElementOptionalRefType(child_element, "DATA-PDU-REF", connection.getDataPduRef())
+            self.setChildElementOptionalBooleanValue(child_element, "DYNAMIC-BS", connection.getDynamicBs())
+            flow_control_pdu_refs = connection.getFlowControlPduRefs()
+            if len(flow_control_pdu_refs) > 0:
+                flow_control_pdu_refs_element = ET.SubElement(child_element, "FLOW-CONTROL-PDU-REFS")
+                for ref in flow_control_pdu_refs:
+                    self.setChildElementOptionalRefType(flow_control_pdu_refs_element, "FLOW-CONTROL-PDU-REF", ref)
+            self.setChildElementOptionalPositiveInteger(child_element, "MAX-BS", connection.getMaxBs())
+            self.setChildElementOptionalPositiveInteger(child_element, "MAX-EXP-BS", connection.getMaxExpBs())
+            self.writeTpConnectionReceiverRefs(child_element, connection)
+            self.setChildElementOptionalBooleanValue(child_element, "RETRY", connection.getRetry())
+            self.writeJ1939TpConnectionTpPgs(child_element, connection)
+            self.setChildElementOptionalRefType(child_element, "TRANSMITTER-REF", connection.getTransmitterRef())
+            self.writeVariationPointCapable(child_element, connection)
+
+    def writeJ1939TpConnectionTpPgs(self, element: ET.Element, connection: J1939TpConnection):
+        tp_pgs = connection.getTpPgs()
+        if len(tp_pgs) > 0:
+            child_element = ET.SubElement(element, "TP-PGS")
+            for tp_pg in tp_pgs:
+                if isinstance(tp_pg, J1939TpPg):
+                    self.writeJ1939TpPg(child_element, tp_pg)
+                else:
+                    self.notImplemented("Unsupported TpPg <%s>" % type(tp_pg))
 
     def writeJ1939TpConfigTpAddresses(self, element: ET.Element, config: J1939TpConfig):
         addresses = config.getTpAddresses()
@@ -10598,6 +10626,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         if tp_node is not None:
             child_element = ET.SubElement(element, "J-1939-TP-NODE")
             self.writeIdentifiable(child_element, tp_node)
+
+    def writeJ1939TpPg(self, element: ET.Element, tp_pg: J1939TpPg):
+        if tp_pg is not None:
+            child_element = ET.SubElement(element, "J-1939-TP-PG")
+            self.writeARObject(child_element, tp_pg)
 
     def writeJ1939TpConfigTpNodes(self, element: ET.Element, config: J1939TpConfig):
         tp_nodes = config.getTpNodes()

@@ -1630,6 +1630,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import
     J1939TpConfig,
     J1939TpConnection,
     J1939TpNode,
+    J1939TpPg,
     LinTpConfig,
     LinTpConnection,
     LinTpNode,
@@ -14462,7 +14463,7 @@ class ARXMLParser(AbstractARXMLParser):
             ident = connection.createTpConnectionIdent(self.getShortName(child_element))
             self.readReferrable(child_element, ident)
 
-    def readTpConnectionReceiverRefs(self, element: ET.Element, connection: Union[CanTpConnection, FlexrayTpConnection, LinTpConnection]):
+    def readTpConnectionReceiverRefs(self, element: ET.Element, connection: Union[CanTpConnection, FlexrayTpConnection, J1939TpConnection, LinTpConnection]):
         for ref in self.getChildElementRefTypeList(element, "RECEIVER-REFS/RECEIVER-REF"):
             connection.addReceiverRef(ref)
 
@@ -14551,7 +14552,31 @@ class ARXMLParser(AbstractARXMLParser):
         address.setTpAddress(self.getChildElementOptionalIntegerValue(element, "TP-ADDRESS"))
 
     def readJ1939TpConnection(self, element: ET.Element, connection: J1939TpConnection):
-        self.readARObject(element, connection)
+        self.readTpConnection(element, connection)
+        connection.setBroadcast(self.getChildElementOptionalBooleanValue(element, "BROADCAST"))
+        connection.setBufferRatio(self.getChildElementOptionalPositiveInteger(element, "BUFFER-RATIO"))
+        connection.setCancellation(self.getChildElementOptionalBooleanValue(element, "CANCELLATION"))
+        connection.setDataPduRef(self.getChildElementOptionalRefType(element, "DATA-PDU-REF"))
+        connection.setDynamicBs(self.getChildElementOptionalBooleanValue(element, "DYNAMIC-BS"))
+        for ref in self.getChildElementRefTypeList(element, "FLOW-CONTROL-PDU-REFS/FLOW-CONTROL-PDU-REF"):
+            connection.addFlowControlPduRef(ref)
+        connection.setMaxBs(self.getChildElementOptionalPositiveInteger(element, "MAX-BS"))
+        connection.setMaxExpBs(self.getChildElementOptionalPositiveInteger(element, "MAX-EXP-BS"))
+        self.readTpConnectionReceiverRefs(element, connection)
+        connection.setRetry(self.getChildElementOptionalBooleanValue(element, "RETRY"))
+        self.readJ1939TpConnectionTpPgs(element, connection)
+        connection.setTransmitterRef(self.getChildElementOptionalRefType(element, "TRANSMITTER-REF"))
+        self.readVariationPointCapable(element, connection)
+
+    def readJ1939TpConnectionTpPgs(self, element: ET.Element, connection: J1939TpConnection):
+        for child_element in self.findall(element, "TP-PGS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "J-1939-TP-PG":
+                tp_pg = J1939TpPg()
+                self.readJ1939TpPg(child_element, tp_pg)
+                connection.addTpPg(tp_pg)
+            else:
+                self.notImplemented("Unsupported TpPg <%s>" % tag_name)
 
     def readJ1939TpConfigTpAddresses(self, element: ET.Element, config: J1939TpConfig):
         for child_element in self.findall(element, "TP-ADDRESSS/*"):
@@ -14574,6 +14599,9 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readJ1939TpNode(self, element: ET.Element, tp_node: J1939TpNode):
         self.readIdentifiable(element, tp_node)
+
+    def readJ1939TpPg(self, element: ET.Element, tp_pg: J1939TpPg):
+        self.readARObject(element, tp_pg)
 
     def readJ1939TpConfigTpNodes(self, element: ET.Element, config: J1939TpConfig):
         for child_element in self.findall(element, "TP-NODES/*"):

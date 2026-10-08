@@ -698,15 +698,39 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `J1939TpConnection` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.268, p.625
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note: Step 1 finding — rehoused from the ArObject.py stub to TransportProtocols/__init__.py (spec
+    Package row = SystemTemplate::TransportProtocols, Rule 0007); base is most-derived TpConnection
+    (spec Base row `ARObject, TpConnection` + XSD complexType groups AR-OBJECT/TP-CONNECTION/
+    J-1939-TP-CONNECTION), not the ARObject hint — like CanTpConnection. XSD group J-1939-TP-CONNECTION
+    carries VARIATION-POINT → VariationPointCapable mixin (CanTpConnection/LinTpConnection precedent),
+    read/writeVariationPointCapable called last. 12 attrs in displayed order (broadcast, bufferRatio,
+    cancellation, dataPdu 0..1 ref → dataPduRef, dynamicBs, flowControlPdu 0..2 ref → flowControlPduRefs
+    List, maxBs, maxExpBs, receiver `*` ref → receiverRefs via the shared readTpConnectionReceiverRefs/
+    writeTpConnectionReceiverRefs helper (Union extended), retry, tpPg `*` aggr → tpPgs, transmitter
+    0..1 ref → transmitterRef). XSD-only DIRECT-PDU-REF and TP-SDU-REFS carry atp.Status="removed" and
+    are absent from the PDF table — NOT modeled (Rule 0015). No SHORT-NAME on the element (ARObject
+    base, like CanTpConnection); inherited IDENT (TpConnectionIdent) round-trips via read/writeTpConnection.
+    Writer element order per XSD: BROADCAST … TRANSMITTER-REF, VARIATION-POINT last.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
+    - Note: no code-shape deviations — field↔spec verified both directions (12 attrs, Optional/List
+      quota shapes match the Mult. column incl. the bounded-many 0..2 flowControlPduRefs, dedicated
+      typed list fields, verbatim Notes incl. the "TP .DT"/"TP .CM" spacing, "TP.CM_ CTS" spacing and
+      the "compatibilty" spec typo). Accepted: XSD-only DIRECT-PDU-REF and TP-SDU-REFS carry
+      atp.Status="removed" and are absent from the PDF table — not modeled per Rule 0015 (no fields,
+      no deviation rows). Rule 0001.10 pending: readJ1939TpPg/writeJ1939TpPg cover the ARObject base
+      level only in this commit (J1939TpPg is still the ArObject.py stub; DIRECT-PDU-REF/PGN/
+      REQUESTABLE/SDU-REFS land with its own row); the interim ArObject import is dropped then.
+      receiverRefs share readTpConnectionReceiverRefs/writeTpConnectionReceiverRefs (Union extended,
+      FlexrayTpConnection precedent). Class-1 config tests strengthened: the connection item now
+      asserts BROADCAST through the config-level round-trip.
 
 - [ ] `J1939TpPg` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.269, p.626
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
