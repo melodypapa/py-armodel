@@ -563,6 +563,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     FMAttributeValue,
+    FMFeatureDecomposition,
     AbstractGlobalTimeDomainProps,
     CalibrationParameterValue,
     RoleBasedResourceDependency,
@@ -2386,6 +2387,15 @@ class ARXMLParser(AbstractARXMLParser):
         value.setDefinitionRef(self.getChildElementOptionalRefType(element, "DEFINITION-REF"))
         value.setValue(self.getChildElementOptionalNumericalValue(element, "VALUE"))
         return value
+
+    def readFMFeatureDecomposition(self, element: ET.Element, decomposition: FMFeatureDecomposition) -> FMFeatureDecomposition:
+        self.readARObject(element, decomposition)
+        decomposition.setCategory(self.getChildElementOptionalCategoryString(element, "CATEGORY"))
+        for ref in self.getChildElementRefTypeList(element, "FEATURE-REFS/FEATURE-REF"):
+            decomposition.addFeatureRef(ref)
+        decomposition.setMax(self.getChildElementOptionalPositiveInteger(element, "MAX"))
+        decomposition.setMin(self.getChildElementOptionalPositiveInteger(element, "MIN"))
+        return decomposition
 
     def readPostBuildVariantCondition(self, element: ET.Element, condition: PostBuildVariantCondition) -> PostBuildVariantCondition:
         self.readARObject(element, condition)

@@ -542,6 +542,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     FMAttributeValue,
+    FMFeatureDecomposition,
     AbstractGlobalTimeDomainProps,
     CalibrationParameterValue,
     RoleBasedResourceDependency,
@@ -2101,6 +2102,20 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeARObject(child_element, value)
             self.setChildElementOptionalRefType(child_element, "DEFINITION-REF", value.getDefinitionRef())
             self.setChildElementOptionalNumericalValue(child_element, "VALUE", value.getValue())
+
+
+    def writeFMFeatureDecomposition(self, element: ET.Element, decomposition: FMFeatureDecomposition):
+        if decomposition is not None:
+            child_element = ET.SubElement(element, "FM-FEATURE-DECOMPOSITION")
+            self.writeARObject(child_element, decomposition)
+            self.setChildElementOptionalCategoryString(child_element, "CATEGORY", decomposition.getCategory())
+            refs = decomposition.getFeatureRefs()
+            if len(refs) > 0:
+                refs_tag = ET.SubElement(child_element, "FEATURE-REFS")
+                for ref in refs:
+                    self.setChildElementOptionalRefType(refs_tag, "FEATURE-REF", ref)
+            self.setChildElementOptionalPositiveInteger(child_element, "MAX", decomposition.getMax())
+            self.setChildElementOptionalPositiveInteger(child_element, "MIN", decomposition.getMin())
 
     def writePostBuildVariantCondition(self, element: ET.Element, condition: PostBuildVariantCondition):
         child_element = ET.SubElement(element, "POST-BUILD-VARIANT-CONDITION")

@@ -2181,7 +2181,98 @@ class FMAttributeValue(ARObject):
 
 
 class FMFeatureDecomposition(ARObject):
-    pass
+    """
+    A FMFeatureDecomposition describes dependencies between a list of features and their parent feature (i.e., the FMFeature that aggregates the FMFeatureDecomposition). The kind of dependency is defined by the attribute category.
+    """
+
+    # FMFeatureDecomposition method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf, Table 4.4, p.28
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCategory       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCategory       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addFeatureRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFeatureRefs    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getMax            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMax            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMin            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMin            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # The category of a FMFeatureDecomposition defines the type of dependency that is defined by the FMFeature Decomposition. There are four different categories: MANDATORYFEATURE, OPTIONALFEATURE, ALTERNATIVEFEATURE, and MULTIPLEFEATURE.
+        self.category: Optional[CategoryString] = None
+
+        # The features that are affected by the dependency defined by the FMFeatureDecomposition.
+        self.featureRefs: List[RefType] = []
+
+        # For a dependency of category MULTIPLEFEATURE, this defines the maximum number of features allowed.
+        self.max: Optional[PositiveInteger] = None
+
+        # For a dependency of category MULTIPLEFEATURE, this defines the minimum number of features allowed.
+        self.min: Optional[PositiveInteger] = None
+
+    def getCategory(self) -> Optional[CategoryString]:
+        """
+        The category of a FMFeatureDecomposition defines the type of dependency that is defined by the FMFeature Decomposition. There are four different categories: MANDATORYFEATURE, OPTIONALFEATURE, ALTERNATIVEFEATURE, and MULTIPLEFEATURE.
+        """
+        return self.category
+
+    def setCategory(self, value: Optional[CategoryString]) -> FMFeatureDecomposition:
+        """
+        The category of a FMFeatureDecomposition defines the type of dependency that is defined by the FMFeature Decomposition. There are four different categories: MANDATORYFEATURE, OPTIONALFEATURE, ALTERNATIVEFEATURE, and MULTIPLEFEATURE.
+
+        A None value is a no-op and does not overwrite an existing category.
+        """
+        if value is not None:
+            self.category = value
+        return self
+
+    def addFeatureRef(self, ref: RefType) -> FMFeatureDecomposition:
+        """
+        The features that are affected by the dependency defined by the FMFeatureDecomposition.
+        """
+        self.featureRefs.append(ref)
+        return self
+
+    def getFeatureRefs(self) -> List[RefType]:
+        """
+        The features that are affected by the dependency defined by the FMFeatureDecomposition.
+        """
+        return self.featureRefs
+
+    def getMax(self) -> Optional[PositiveInteger]:
+        """
+        For a dependency of category MULTIPLEFEATURE, this defines the maximum number of features allowed.
+        """
+        return self.max
+
+    def setMax(self, value: Optional[PositiveInteger]) -> FMFeatureDecomposition:
+        """
+        For a dependency of category MULTIPLEFEATURE, this defines the maximum number of features allowed.
+
+        A None value is a no-op and does not overwrite an existing max.
+        """
+        if value is not None:
+            self.max = value
+        return self
+
+    def getMin(self) -> Optional[PositiveInteger]:
+        """
+        For a dependency of category MULTIPLEFEATURE, this defines the minimum number of features allowed.
+        """
+        return self.min
+
+    def setMin(self, value: Optional[PositiveInteger]) -> FMFeatureDecomposition:
+        """
+        For a dependency of category MULTIPLEFEATURE, this defines the minimum number of features allowed.
+
+        A None value is a no-op and does not overwrite an existing min.
+        """
+        if value is not None:
+            self.min = value
+        return self
 
 
 class InvertCondition(AbstractCondition):
