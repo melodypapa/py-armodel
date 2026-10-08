@@ -371,17 +371,43 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
     the renamed DEFERRED/IMMEDIATE constants.
   - [x] Step 9 — 9a passed 2026-10-08 (22259 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit e34ab3e1a
 
-- [ ] `ISignal` — ARElement — R23-11 CP_TPS_SystemTemplate Table 6.7, p.321
+- [x] `ISignal` — ARElement — R23-11 CP_TPS_SystemTemplate Table 6.7, p.321
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-08 (23269 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit e260b3928
+  - Step 1 finding: page-split render — Package/Note/Base/Aggregated + rows dataTransformation..iSignalType
+    (lines 8311-8322) appear BEFORE the caption at line 8328; rows length..transformationISignalProps
+    (lines 8330-8336) after. Displayed member order = concatenation: dataTransformation, dataTypePolicy,
+    initValue, iSignalProps, iSignalType, length, networkRepresentationProps, systemSignal,
+    timeoutSubstitutionValue, transformationISignalProps — matches the legacy member order, no reorder.
+  - Step 1 finding: Base chain lists ARElement and FibexElement (same-depth siblings under
+    PackageableElement; UploadableDesignElement/UploadablePackageElement not in codebase) — kept
+    `FibexElement` per Rule 0001.2 role-matching branch (FIBEX-ELEMENT/AR-ELEMENT/COLLECTABLE-ELEMENT
+    XSD groups are empty sequences; 14 sibling classes already derive FibexElement).
+  - Step 1 finding: XSD I-SIGNAL group child order puts I-SIGNAL-PROPS (3rd) BEFORE I-SIGNAL-TYPE (4th);
+    the legacy writer emits I-SIGNAL-TYPE first — writer child order to fix in Step 6.
+  - Rule 0023: stale `# Spec verified: R23-11` marker (5-column legacy checklist) removed at session
+    start; stamped-audit ratchet drained (`ISignal` line gone from stamped_audit_baseline.txt).
+  - Step 6 fix (in-step, not a deviation): writer emitted I-SIGNAL-TYPE before I-SIGNAL-PROPS —
+    reordered to the XSD I-SIGNAL group sequence (DATA-TRANSFORMATIONS, DATA-TYPE-POLICY, I-SIGNAL-PROPS,
+    I-SIGNAL-TYPE, INIT-VALUE, LENGTH, NETWORK-REPRESENTATION-PROPS, SYSTEM-SIGNAL-REF,
+    TIMEOUT-SUBSTITUTION-VALUE, TRANSFORMATION-I-SIGNAL-PROPSS); reader reordered symmetrically.
+    Both ARPackage dispatches were already full-level readISignal/writeISignal — no identity-only
+    placeholders to upgrade.
+  - Step 8: no open deviations. All member types exist (DataTypePolicyEnum, ISignalProps,
+    ISignalTypeEnum, UnlimitedInteger, ValueSpecification + Text/Numerical subtypes, SwDataDefProps,
+    TransformationISignalProps + EndToEnd/SOMEIP/UserDefined subtypes, RefType); no missing classes,
+    no placeholders. Test migration: legacy misplaced `FibexCore/test_ISignal.py` (Test_FibexCoreISignal
+    + Test_DataTypePolicyEnum) split — TestISignal now at the mirrored CoreCommunication home;
+    Test_DataTypePolicyEnum moved to its own mirrored home `SystemTemplate/test_DataTypePolicyEnum.py`
+    (DataTypePolicyEnum is a separate queued row — its checklist stays that row's business).
 
 - [ ] `DataTypePolicyEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 6.8, p.322
   - note: already `# Spec verified: R23-11` on main (earlier enum-XSD wave) — no sync work needed; row flip rides the batch 9b pass

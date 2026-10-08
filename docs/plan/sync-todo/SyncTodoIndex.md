@@ -1673,7 +1673,7 @@ Status: **0/75** completed
 
 ## Group31
 
-Status: **0/75** completed
+Status: **1/75** completed
 
 | Class Name                                               | Status          | Commit ID  |
 | -------------------------------------------------------- | --------------- | ---------- |
@@ -1704,7 +1704,7 @@ Status: **0/75** completed
 | `CommConnectorPort`                                      | [ ] Pending*    | ca22bc0a86 |
 | `IPduPort`                                               | [ ] Pending*    | 5809b8408f |
 | `IPduSignalProcessingEnum`                               | [ ] Pending*    | e34ab3e1ad |
-| `ISignal`                                                | [ ] Implemented | N/A        |
+| `ISignal`                                                | [x] Done*       | e260b39286 |
 | `DataTypePolicyEnum`                                     | [ ] Implemented | N/A        |
 | `ISignalTypeEnum`                                        | [ ] Implemented | N/A        |
 | `ISignalProps`                                           | [ ] Implemented | N/A        |
