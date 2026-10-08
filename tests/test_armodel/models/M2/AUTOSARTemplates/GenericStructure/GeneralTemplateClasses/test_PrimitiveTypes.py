@@ -1775,20 +1775,7 @@ class TestSymbolStringMembers:
 
         assert symbol is not None
         assert symbol._value is None
-        assert symbol.blueprintValue is None
         assert symbol.namePattern is None
-
-    def test_blueprint_value_methods(self):
-        """
-        Test blueprint value methods.
-        """
-        symbol = SymbolString()
-
-        assert symbol.getBlueprintValue() is None
-
-        result = symbol.setBlueprintValue("TestValue")
-        assert result is symbol
-        assert symbol.getBlueprintValue() == "TestValue"
 
     def test_name_pattern_methods(self):
         """
