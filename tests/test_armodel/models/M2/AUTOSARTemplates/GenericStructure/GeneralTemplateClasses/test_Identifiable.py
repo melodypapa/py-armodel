@@ -34,6 +34,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     RoleBasedResourceDependency,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    BinaryManifestAddressableObject,
     BinaryManifestItem,
     BinaryManifestResource,
     CpSoftwareClusterResource,
@@ -61,6 +62,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     SingleLanguageReferrable,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    Address,
     AnyVersionString,
     Boolean,
     CategoryString,
@@ -70,6 +72,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     PositiveInteger,
     RefType,
     String,
+    SymbolString,
     TimeValue,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
@@ -3128,3 +3131,132 @@ class TestBinaryManifestResource:
         assert inspect.cleandoc(BinaryManifestResource.getItems.__doc__) == self.ITEM_NOTE
         assert inspect.cleandoc(BinaryManifestResource.getResourceRef.__doc__) == self.RESOURCE_NOTE
         assert inspect.cleandoc(BinaryManifestResource.setResourceRef.__doc__) == (self.RESOURCE_NOTE + "\n\nA None value is a no-op and does not overwrite an existing resourceRef.")
+
+
+class TestBinaryManifestAddressableObject:
+    """
+    Test class for BinaryManifestAddressableObject functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 11.24, p.921
+    (abstract; subclasses BinaryManifestItem and BinaryManifestMetaDataField — exercised through
+    a local concrete subclass per the abstract-class test convention.)
+    """
+
+    CLASS_NOTE = "This meta-class acts as an abstract base class for addressable objects in the context of the binary manifest of a CP software cluster."
+    ADDRESS_NOTE = "This attribute specifies the address of the enclosing addressable object."
+    SYMBOL_NOTE = "This attribute specifies the symbol of the addressable object."
+
+    def _create_object(self) -> BinaryManifestAddressableObject:
+        class ConcreteBinaryManifestAddressableObject(BinaryManifestAddressableObject):
+            pass
+
+        return ConcreteBinaryManifestAddressableObject(AUTOSAR.getInstance(), "Addressable1")
+
+    def test_cannot_instantiate_abstract(self):
+        """
+        BinaryManifestAddressableObject is abstract per Table 11.24 and cannot be instantiated directly.
+        """
+        with pytest.raises(TypeError):
+            BinaryManifestAddressableObject(AUTOSAR.getInstance(), "Addressable1")
+
+    def test_is_identifiable_subclass(self):
+        """
+        Test that BinaryManifestAddressableObject derives from Identifiable per the Table 11.24
+        Base row (ARObject, Identifiable, MultilanguageReferrable, Referrable — most-derived
+        Identifiable).
+        """
+        import abc
+
+        assert issubclass(BinaryManifestAddressableObject, Identifiable)
+        assert issubclass(BinaryManifestAddressableObject, ARObject)
+        assert issubclass(BinaryManifestAddressableObject, abc.ABC)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(BinaryManifestAddressableObject.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert BinaryManifestAddressableObject.__init__.__doc__ is None
+
+    def test_member_order_follows_spec_rows(self):
+        """
+        Test that the accessors follow the Table 11.24 displayed row order (getter first per attribute).
+        """
+        methods = [name for name, value in BinaryManifestAddressableObject.__dict__.items() if callable(value) and not name.startswith("_")]
+        assert methods == [
+            "getAddress",
+            "setAddress",
+            "getSymbol",
+            "setSymbol",
+        ]
+
+    def test_initialization_defaults(self):
+        """
+        Test that a concrete subclass initializes all Table 11.24 attributes to their defaults.
+        """
+        obj = self._create_object()
+
+        assert obj.getShortName() == "Addressable1"
+        assert obj.getChecksum() is None
+        assert obj.getAddress() is None
+        assert obj.getSymbol() is None
+
+    def test_annotations_are_spec_typed(self):
+        """
+        Test that the accessors carry the Table 11.24 Type column types (Address 0..1, SymbolString 0..1).
+        """
+        hints = typing.get_type_hints(BinaryManifestAddressableObject.getAddress)
+        assert hints.get("return") == typing.Optional[Address]
+        hints = typing.get_type_hints(BinaryManifestAddressableObject.setAddress)
+        assert hints.get("value") == typing.Optional[Address]
+        assert hints.get("return") is BinaryManifestAddressableObject
+
+        hints = typing.get_type_hints(BinaryManifestAddressableObject.getSymbol)
+        assert hints.get("return") == typing.Optional[SymbolString]
+        hints = typing.get_type_hints(BinaryManifestAddressableObject.setSymbol)
+        assert hints.get("value") == typing.Optional[SymbolString]
+        assert hints.get("return") is BinaryManifestAddressableObject
+
+    def test_get_set_address(self):
+        """
+        Test setAddress and getAddress round-trip and None no-op.
+        """
+        obj = self._create_object()
+
+        address = Address().setValue("0x0000A000")
+        result = obj.setAddress(address)
+        assert result is obj
+        assert obj.getAddress() is address
+        assert obj.getAddress().getValue() == "0x0000A000"
+
+        obj.setAddress(None)
+        assert obj.getAddress() is address
+
+    def test_get_set_symbol(self):
+        """
+        Test setSymbol and getSymbol round-trip and None no-op.
+        """
+        obj = self._create_object()
+
+        symbol = SymbolString().setValue("HandleSymbol")
+        result = obj.setSymbol(symbol)
+        assert result is obj
+        assert obj.getSymbol() is symbol
+        assert obj.getSymbol().getValue() == "HandleSymbol"
+
+        obj.setSymbol(None)
+        assert obj.getSymbol() is symbol
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter/setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        assert inspect.cleandoc(BinaryManifestAddressableObject.getAddress.__doc__) == self.ADDRESS_NOTE
+        assert inspect.cleandoc(BinaryManifestAddressableObject.setAddress.__doc__) == (self.ADDRESS_NOTE + "\n\nA None value is a no-op and does not overwrite an existing address.")
+        assert inspect.cleandoc(BinaryManifestAddressableObject.getSymbol.__doc__) == self.SYMBOL_NOTE
+        assert inspect.cleandoc(BinaryManifestAddressableObject.setSymbol.__doc__) == (self.SYMBOL_NOTE + "\n\nA None value is a no-op and does not overwrite an existing symbol.")

@@ -593,6 +593,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.ViewMapSet import ViewM
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import Collection
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    BinaryManifestAddressableObject,
     BinaryManifestMetaDataField,
     BinaryManifestResource,
     CpSoftwareClusterResource,
@@ -13920,6 +13921,15 @@ class ARXMLWriter(AbstractARXMLWriter):
                 item_element = ET.SubElement(items_tag, "BINARY-MANIFEST-ITEM")
                 self.writeIdentifiable(item_element, item)
         self.setChildElementOptionalRefType(element, "RESOURCE-REF", resource.getResourceRef())
+
+    def writeBinaryManifestAddressableObject(self, element: ET.Element, obj: BinaryManifestAddressableObject):
+        # Populates the concrete subclass element (BINARY-MANIFEST-ITEM /
+        # BINARY-MANIFEST-META-DATA-FIELD) created by the caller; the XSD
+        # BINARY-MANIFEST-ADDRESSABLE-OBJECT group (AUTOSAR_00052.xsd l.8552) orders ADDRESS then
+        # SYMBOL after the Identifiable level.
+        self.writeIdentifiable(element, obj)
+        self.setChildElementOptionalAddress(element, "ADDRESS", obj.getAddress())
+        self.setChildElementOptionalSymbolString(element, "SYMBOL", obj.getSymbol())
 
     def setGlobalTimeProps(self, element: ET.Element, key: str, props: Optional[GlobalTimeCouplingPortProps]):
         if props is not None:

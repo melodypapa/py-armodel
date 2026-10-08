@@ -752,6 +752,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Enumerations import BindingTimeEnum, XmlSpaceEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    BinaryManifestAddressableObject,
     BinaryManifestMetaDataField,
     BinaryManifestResource,
     CpSoftwareClusterResource,
@@ -16425,6 +16426,15 @@ class ARXMLParser(AbstractARXMLParser):
             self.readIdentifiable(child_element, item)
         resource.setResourceRef(self.getChildElementOptionalRefType(element, "RESOURCE-REF"))
         return resource
+
+    def readBinaryManifestAddressableObject(self, element: ET.Element, obj: BinaryManifestAddressableObject) -> BinaryManifestAddressableObject:
+        # The XSD BINARY-MANIFEST-ADDRESSABLE-OBJECT group (AUTOSAR_00052.xsd l.8552) orders ADDRESS
+        # then SYMBOL after the Identifiable level; it is shared by the concrete subclass elements
+        # (BINARY-MANIFEST-ITEM / BINARY-MANIFEST-META-DATA-FIELD).
+        self.readIdentifiable(element, obj)
+        obj.setAddress(self.getChildElementOptionalAddress(element, "ADDRESS"))
+        obj.setSymbol(self.getChildElementOptionalSymbolString(element, "SYMBOL"))
+        return obj
 
     def getGlobalTimeProps(self, element: ET.Element, key: str) -> Optional[GlobalTimeCouplingPortProps]:
         props = None

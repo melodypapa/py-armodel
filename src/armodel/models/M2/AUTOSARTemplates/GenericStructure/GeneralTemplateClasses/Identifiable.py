@@ -28,6 +28,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     RoleBasedResourceDependency,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    Address,
     AnyVersionString,
     Boolean,
     CategoryString,
@@ -37,6 +38,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     PositiveInteger,
     RefType,
     String,
+    SymbolString,
     TimeValue,
     VerbatimString,
 )
@@ -1457,7 +1459,71 @@ class BinaryManifestItemDefinition(Identifiable):
 
 
 class BinaryManifestAddressableObject(Identifiable, ABC):
-    pass
+    """
+    This meta-class acts as an abstract base class for addressable objects in the context of the binary manifest of a CP software cluster.
+    """
+
+    # BinaryManifestAddressableObject method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 11.24, p.921
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAddress  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAddress  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSymbol   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSymbol   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # The XSD BINARY-MANIFEST-ADDRESSABLE-OBJECT group (AUTOSAR_00052.xsd l.8552) orders ADDRESS,
+    # SYMBOL after the Identifiable level. The reusable readBinaryManifestAddressableObject /
+    # writeBinaryManifestAddressableObject helpers own that group for the concrete subclass element
+    # (BINARY-MANIFEST-ITEM / BINARY-MANIFEST-META-DATA-FIELD); the subclass dispatch is pending —
+    # BinaryManifestItem is an unsynced later-wave stub and the BinaryManifestMetaDataField
+    # aggregator (CpSoftwareClusterBinaryManifestDescriptor.metaDataField) is a later-wave class.
+    # The address attribute's spec Type Address is a referenced primitive implemented from
+    # AUTOSAR_FO_TPS_GenericStructureTemplate.pdf Table 4.40, p.107 (Rule 0001.10).
+
+    def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is BinaryManifestAddressableObject:
+            raise TypeError("BinaryManifestAddressableObject is an abstract class.")
+
+        super().__init__(parent, short_name)
+
+        # This attribute specifies the address of the enclosing addressable object.
+        self.address: Optional[Address] = None
+
+        # This attribute specifies the symbol of the addressable object.
+        self.symbol: Optional[SymbolString] = None
+
+    def getAddress(self) -> Optional[Address]:
+        """
+        This attribute specifies the address of the enclosing addressable object.
+        """
+        return self.address
+
+    def setAddress(self, value: Optional[Address]) -> BinaryManifestAddressableObject:
+        """
+        This attribute specifies the address of the enclosing addressable object.
+
+        A None value is a no-op and does not overwrite an existing address.
+        """
+        if value is not None:
+            self.address = value
+        return self
+
+    def getSymbol(self) -> Optional[SymbolString]:
+        """
+        This attribute specifies the symbol of the addressable object.
+        """
+        return self.symbol
+
+    def setSymbol(self, value: Optional[SymbolString]) -> BinaryManifestAddressableObject:
+        """
+        This attribute specifies the symbol of the addressable object.
+
+        A None value is a no-op and does not overwrite an existing symbol.
+        """
+        if value is not None:
+            self.symbol = value
+        return self
 
 
 class BinaryManifestMetaDataField(BinaryManifestAddressableObject):
