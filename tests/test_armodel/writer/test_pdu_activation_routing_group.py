@@ -11,8 +11,8 @@ import pytest
 
 from armodel.models import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, RefType
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import PduActivationRoutingGroup
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import EventGroupControlTypeEnum, PduActivationRoutingGroup
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 
@@ -45,8 +45,7 @@ class MockParent(ARObject):
 
 def _new_group(short_name="Group1"):
     group = PduActivationRoutingGroup(MockParent(), short_name)
-    control_type = ARLiteral().setValue("activateAndTriggerUnicast")
-    group.setEventGroupControlType(control_type)
+    group.setEventGroupControlType(EventGroupControlTypeEnum().setValue(EventGroupControlTypeEnum.ACTIVATION_AND_TRIGGER_UNICAST))
     ref_tcp_1 = RefType()
     ref_tcp_1.setValue("/SoCon/IPduTcp1")
     ref_tcp_2 = RefType()
@@ -65,7 +64,7 @@ class TestWritePduActivationRoutingGroup:
         writer.setPduActivationRoutingGroup(parent, _new_group())
         node = parent.find("PDU-ACTIVATION-ROUTING-GROUP")
         assert node is not None
-        assert node.find("EVENT-GROUP-CONTROL-TYPE").text == "activateAndTriggerUnicast"
+        assert node.find("EVENT-GROUP-CONTROL-TYPE").text == "ACTIVATION-AND-TRIGGER-UNICAST"
         tcp_refs = node.findall("I-PDU-IDENTIFIER-TCP-REFS/I-PDU-IDENTIFIER-TCP-REF")
         assert len(tcp_refs) == 2
         assert tcp_refs[0].text == "/SoCon/IPduTcp1"
@@ -94,7 +93,7 @@ class TestPduActivationRoutingGroupRoundTrip:
         parsed = parser.getPduActivationRoutingGroup(root[0][0])
         assert isinstance(parsed, PduActivationRoutingGroup)
         assert parsed.getShortName() == "Group1"
-        assert parsed.getEventGroupControlType().getValue() == "activateAndTriggerUnicast"
+        assert parsed.getEventGroupControlType().getValue() == EventGroupControlTypeEnum.ACTIVATION_AND_TRIGGER_UNICAST
         tcp_refs = parsed.getIPduIdentifierTcpRefs()
         assert len(tcp_refs) == 2
         assert tcp_refs[0].getValue() == "/SoCon/IPduTcp1"

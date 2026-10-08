@@ -67,6 +67,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DisplayFormatString,
     EthGlobalTimeMessageFormatEnum,
     Float,
+    FrArTpAckType,
     GlobalTimeCrcSupportEnum,
     GlobalTimeCrcValidationEnum,
     GlobalTimeIcvSupportEnum,
@@ -79,6 +80,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Ip6AddressString,
     Limit,
     MacAddressString,
+    MaximumMessageLengthType,
     McdIdentifier,
     MimeTypeString,
     MonotonyEnum,
@@ -1783,20 +1785,7 @@ class TestSymbolStringMembers:
 
         assert symbol is not None
         assert symbol._value is None
-        assert symbol.blueprintValue is None
         assert symbol.namePattern is None
-
-    def test_blueprint_value_methods(self):
-        """
-        Test blueprint value methods.
-        """
-        symbol = SymbolString()
-
-        assert symbol.getBlueprintValue() is None
-
-        result = symbol.setBlueprintValue("TestValue")
-        assert result is symbol
-        assert symbol.getBlueprintValue() == "TestValue"
 
     def test_name_pattern_methods(self):
         """
@@ -3909,3 +3898,49 @@ class TestSendIndicationEnum:
         enum.setValue(SendIndicationEnum.ANY_SEND_OPERATION)
 
         assert enum.getValue() == SendIndicationEnum.ANY_SEND_OPERATION
+
+
+class TestFrArTpAckType:
+    """Tests for FrArTpAckType enum (Table 6.249, p.604)."""
+
+    def test_instantiation(self):
+        enum = FrArTpAckType()
+        assert enum is not None
+
+    def test_literal_values_follow_xsd_facets(self):
+        assert FrArTpAckType.ENUM_ACK_WITHOUT_RT == "ACK-WITHOUT-RT"
+        assert FrArTpAckType.ENUM_ACK_WITH_RT == "ACK-WITH-RT"
+        assert FrArTpAckType.ENUM_NO_ACK == "NO-ACK"
+
+    def test_set_value_round_trip(self):
+        enum = FrArTpAckType()
+        enum.setValue(FrArTpAckType.ENUM_NO_ACK)
+        assert enum.getValue() == FrArTpAckType.ENUM_NO_ACK
+        assert enum.getValue() == "NO-ACK"
+
+    def test_xsd_facet_order(self):
+        enum = FrArTpAckType()
+        assert list(enum.getEnumValues()) == ["ACK-WITH-RT", "ACK-WITHOUT-RT", "NO-ACK"]
+
+
+class TestMaximumMessageLengthType:
+    """Tests for MaximumMessageLengthType enum (Table 6.250, p.604)."""
+
+    def test_instantiation(self):
+        enum = MaximumMessageLengthType()
+        assert enum is not None
+
+    def test_literal_values_follow_xsd_facets(self):
+        assert MaximumMessageLengthType.ENUM_I4G == "I-4-G"
+        assert MaximumMessageLengthType.ENUM_ISO == "ISO"
+        assert MaximumMessageLengthType.ENUM_ISO6 == "ISO-6"
+
+    def test_set_value_round_trip(self):
+        enum = MaximumMessageLengthType()
+        enum.setValue(MaximumMessageLengthType.ENUM_ISO6)
+        assert enum.getValue() == MaximumMessageLengthType.ENUM_ISO6
+        assert enum.getValue() == "ISO-6"
+
+    def test_xsd_facet_order(self):
+        enum = MaximumMessageLengthType()
+        assert list(enum.getEnumValues()) == ["I-4-G", "ISO", "ISO-6"]

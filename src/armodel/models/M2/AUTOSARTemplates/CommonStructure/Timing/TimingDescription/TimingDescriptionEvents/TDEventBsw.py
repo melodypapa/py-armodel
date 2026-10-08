@@ -12,6 +12,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     AREnum,
     RefType,
 )
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription import (
     TimingDescriptionEvent,
 )
@@ -26,11 +27,11 @@ class TDEventBsw(TimingDescriptionEvent, ABC):
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table D.56, p.251
     # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getBswModuleDescriptionRef        [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setBswModuleDescriptionRef        [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getBswModuleDescriptionRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBswModuleDescriptionRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
-    def __init__(self, parent, short_name):
+    def __init__(self, parent: ARObject, short_name: str):
         if type(self) is TDEventBsw:
             raise TypeError("TDEventBsw is an abstract class.")
         super().__init__(parent, short_name)
@@ -39,11 +40,17 @@ class TDEventBsw(TimingDescriptionEvent, ABC):
         self.bswModuleDescriptionRef: Optional[RefType] = None
 
     def getBswModuleDescriptionRef(self) -> Optional[RefType]:
-        """The scope of this timing event."""
+        """
+        The scope of this timing event.
+        """
         return self.bswModuleDescriptionRef
 
     def setBswModuleDescriptionRef(self, value: Optional[RefType]) -> "TDEventBsw":
-        """The scope of this timing event. A None value is a no-op and does not overwrite an existing bswModuleDescriptionRef."""
+        """
+        The scope of this timing event.
+
+        A None value is a no-op and does not overwrite an existing bswModuleDescriptionRef.
+        """
         if value is not None:
             self.bswModuleDescriptionRef = value
         return self
@@ -56,10 +63,9 @@ class TDEventBswModuleTypeEnum(AREnum):
 
     # TDEventBswModuleTypeEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.45, p.76
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on TDEventBswModule.tdEventBswModuleType
-    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # A point in time where the associated BswModuleEntry has been called. Tags: atp.EnumerationLiteralIndex=0
     BSW_M_ENTRY_CALLED = "BSW-M-ENTRY-CALLED"
@@ -68,9 +74,6 @@ class TDEventBswModuleTypeEnum(AREnum):
     BSW_M_ENTRY_CALL_RETURNED = "BSW-M-ENTRY-CALL-RETURNED"
 
     def __init__(self):
-        """
-        Initializes the TDEventBswModuleTypeEnum with valid values.
-        """
         super().__init__(
             (
                 TDEventBswModuleTypeEnum.BSW_M_ENTRY_CALLED,
@@ -86,10 +89,9 @@ class TDEventBswModeDeclarationTypeEnum(AREnum):
 
     # TDEventBswModeDeclarationTypeEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.47, p.77
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on TDEventBswModeDeclaration.tdEventBswModeDeclarationType
-    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # A point in time where the associated ModeDeclarationGroupPrototype has been requested. Tags: atp.EnumerationLiteralIndex=0
     MODE_DECLARATION_REQUESTED = "MODE-DECLARATION-REQUESTED"
@@ -101,9 +103,6 @@ class TDEventBswModeDeclarationTypeEnum(AREnum):
     MODE_DECLARATION_SWITCH_INITIATED = "MODE-DECLARATION-SWITCH-INITIATED"
 
     def __init__(self):
-        """
-        Initializes the TDEventBswModeDeclarationTypeEnum with valid values.
-        """
         super().__init__(
             (
                 TDEventBswModeDeclarationTypeEnum.MODE_DECLARATION_REQUESTED,
@@ -120,15 +119,14 @@ class TDEventBswModule(TDEventBsw):
 
     # TDEventBswModule method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.44, p.75
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getBswModuleEntryRef          [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setBswModuleEntryRef          [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getTdEventBswModuleType       [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setTdEventBswModuleType       [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBswModuleEntryRef          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBswModuleEntryRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTdEventBswModuleType       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTdEventBswModuleType       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
-    def __init__(self, parent, short_name):
+    def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
         # The scope of this timing event.
@@ -138,21 +136,33 @@ class TDEventBswModule(TDEventBsw):
         self.tdEventBswModuleType: Optional[TDEventBswModuleTypeEnum] = None
 
     def getBswModuleEntryRef(self) -> Optional[RefType]:
-        """The scope of this timing event."""
+        """
+        The scope of this timing event.
+        """
         return self.bswModuleEntryRef
 
     def setBswModuleEntryRef(self, value: Optional[RefType]) -> "TDEventBswModule":
-        """The scope of this timing event. A None value is a no-op and does not overwrite an existing bswModuleEntryRef."""
+        """
+        The scope of this timing event.
+
+        A None value is a no-op and does not overwrite an existing bswModuleEntryRef.
+        """
         if value is not None:
             self.bswModuleEntryRef = value
         return self
 
     def getTdEventBswModuleType(self) -> Optional[TDEventBswModuleTypeEnum]:
-        """The specific type of this timing event."""
+        """
+        The specific type of this timing event.
+        """
         return self.tdEventBswModuleType
 
     def setTdEventBswModuleType(self, value: Optional[TDEventBswModuleTypeEnum]) -> "TDEventBswModule":
-        """The specific type of this timing event. A None value is a no-op and does not overwrite an existing tdEventBswModuleType."""
+        """
+        The specific type of this timing event.
+
+        A None value is a no-op and does not overwrite an existing tdEventBswModuleType.
+        """
         if value is not None:
             self.tdEventBswModuleType = value
         return self
@@ -165,19 +175,18 @@ class TDEventBswModeDeclaration(TDEventBsw):
 
     # TDEventBswModeDeclaration method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.46, p.77
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getEntryModeDeclarationRef            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setEntryModeDeclarationRef            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getExitModeDeclarationRef             [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setExitModeDeclarationRef             [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getModeDeclarationRef                 [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setModeDeclarationRef                 [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getTdEventBswModeDeclarationType      [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setTdEventBswModeDeclarationType      [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getEntryModeDeclarationRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEntryModeDeclarationRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getExitModeDeclarationRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setExitModeDeclarationRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getModeDeclarationRef         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setModeDeclarationRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTdEventBswModeDeclarationType  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTdEventBswModeDeclarationType  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
-    def __init__(self, parent, short_name):
+    def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
         # Optional parameter which refines the scope of the TDEventBswModeDeclaration. If the parameter is set, the event occurs only if the mode declaration group prototype instance shall enter into the referenced ModeDeclaration.
@@ -193,41 +202,65 @@ class TDEventBswModeDeclaration(TDEventBsw):
         self.tdEventBswModeDeclarationType: Optional[TDEventBswModeDeclarationTypeEnum] = None
 
     def getEntryModeDeclarationRef(self) -> Optional[RefType]:
-        """Optional parameter which refines the scope of the TDEventBswModeDeclaration. If the parameter is set, the event occurs only if the mode declaration group prototype instance shall enter into the referenced ModeDeclaration."""
+        """
+        Optional parameter which refines the scope of the TDEventBswModeDeclaration. If the parameter is set, the event occurs only if the mode declaration group prototype instance shall enter into the referenced ModeDeclaration.
+        """
         return self.entryModeDeclarationRef
 
     def setEntryModeDeclarationRef(self, value: Optional[RefType]) -> "TDEventBswModeDeclaration":
-        """Optional parameter which refines the scope of the TDEventBswModeDeclaration. If the parameter is set, the event occurs only if the mode declaration group prototype instance shall enter into the referenced ModeDeclaration. A None value is a no-op and does not overwrite an existing entryModeDeclarationRef."""
+        """
+        Optional parameter which refines the scope of the TDEventBswModeDeclaration. If the parameter is set, the event occurs only if the mode declaration group prototype instance shall enter into the referenced ModeDeclaration.
+
+        A None value is a no-op and does not overwrite an existing entryModeDeclarationRef.
+        """
         if value is not None:
             self.entryModeDeclarationRef = value
         return self
 
     def getExitModeDeclarationRef(self) -> Optional[RefType]:
-        """Optional parameter which refines the scope of the TDEventBswModeDeclaration. If the parameter is set, the event occurs only if the mode declaration group prototype instance shall exit from the referenced ModeDeclaration."""
+        """
+        Optional parameter which refines the scope of the TDEventBswModeDeclaration. If the parameter is set, the event occurs only if the mode declaration group prototype instance shall exit from the referenced ModeDeclaration.
+        """
         return self.exitModeDeclarationRef
 
     def setExitModeDeclarationRef(self, value: Optional[RefType]) -> "TDEventBswModeDeclaration":
-        """Optional parameter which refines the scope of the TDEventBswModeDeclaration. If the parameter is set, the event occurs only if the mode declaration group prototype instance shall exit from the referenced ModeDeclaration. A None value is a no-op and does not overwrite an existing exitModeDeclarationRef."""
+        """
+        Optional parameter which refines the scope of the TDEventBswModeDeclaration. If the parameter is set, the event occurs only if the mode declaration group prototype instance shall exit from the referenced ModeDeclaration.
+
+        A None value is a no-op and does not overwrite an existing exitModeDeclarationRef.
+        """
         if value is not None:
             self.exitModeDeclarationRef = value
         return self
 
     def getModeDeclarationRef(self) -> Optional[RefType]:
-        """The scope of this timing event."""
+        """
+        The scope of this timing event.
+        """
         return self.modeDeclarationRef
 
     def setModeDeclarationRef(self, value: Optional[RefType]) -> "TDEventBswModeDeclaration":
-        """The scope of this timing event. A None value is a no-op and does not overwrite an existing modeDeclarationRef."""
+        """
+        The scope of this timing event.
+
+        A None value is a no-op and does not overwrite an existing modeDeclarationRef.
+        """
         if value is not None:
             self.modeDeclarationRef = value
         return self
 
     def getTdEventBswModeDeclarationType(self) -> Optional[TDEventBswModeDeclarationTypeEnum]:
-        """The specific type of this timing event."""
+        """
+        The specific type of this timing event.
+        """
         return self.tdEventBswModeDeclarationType
 
     def setTdEventBswModeDeclarationType(self, value: Optional[TDEventBswModeDeclarationTypeEnum]) -> "TDEventBswModeDeclaration":
-        """The specific type of this timing event. A None value is a no-op and does not overwrite an existing tdEventBswModeDeclarationType."""
+        """
+        The specific type of this timing event.
+
+        A None value is a no-op and does not overwrite an existing tdEventBswModeDeclarationType.
+        """
         if value is not None:
             self.tdEventBswModeDeclarationType = value
         return self

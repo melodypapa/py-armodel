@@ -23,6 +23,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     RefType,
     String,
     TimeValue,
+    UriString,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import FibexElement
@@ -3498,23 +3499,22 @@ class ApplicationEndpoint(Identifiable):
 
     # ApplicationEndpoint method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.124, p.458
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] createConsumedServiceInstance        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getConsumedServiceInstances          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getMaxNumberOfConnections            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMaxNumberOfConnections            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getNetworkEndpointRef                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setNetworkEndpointRef                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPriority                          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setPriority                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] createProvidedServiceInstance        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getProvidedServiceInstances          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getTlsCryptoMappingRef               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTlsCryptoMappingRef               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTpConfiguration                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTpConfiguration                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createConsumedServiceInstance        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getConsumedServiceInstances          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getMaxNumberOfConnections            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxNumberOfConnections            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNetworkEndpointRef                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNetworkEndpointRef                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPriority                          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPriority                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createProvidedServiceInstance        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getProvidedServiceInstances          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getTlsCryptoMappingRef               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTlsCryptoMappingRef               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTpConfiguration                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTpConfiguration                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -3531,7 +3531,7 @@ class ApplicationEndpoint(Identifiable):
         # Defines the frame priority where values from 0 (best effort) to 7 (highest) are allowed.
         self.priority: Optional[PositiveInteger] = None
 
-        # Provided service instances.
+        # Provided service instances. Tags: atp.Status=obsolete
         self.providedServiceInstances: List[ProvidedServiceInstance] = []
 
         # This reference identifies the applicable TlsCryptoServiceMapping that adds the ability for TLS-based encryption on the enclosing ApplicationEndpoint.
@@ -3594,7 +3594,7 @@ class ApplicationEndpoint(Identifiable):
         return self
 
     def createProvidedServiceInstance(self, short_name: str) -> ProvidedServiceInstance:
-        """Provided service instances."""
+        """Provided service instances. Tags: atp.Status=obsolete"""
         from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import ProvidedServiceInstance
 
         if not self.IsReferrableElementExists(short_name, ProvidedServiceInstance):
@@ -3604,7 +3604,7 @@ class ApplicationEndpoint(Identifiable):
         return cast(ProvidedServiceInstance, self.getReferrableElement(short_name, ProvidedServiceInstance))
 
     def getProvidedServiceInstances(self) -> List[ProvidedServiceInstance]:
-        """Provided service instances."""
+        """Provided service instances. Tags: atp.Status=obsolete"""
         return self.providedServiceInstances
 
     def getTlsCryptoMappingRef(self) -> Optional[RefType]:
@@ -4108,27 +4108,26 @@ class Ipv6Configuration(NetworkEndpointAddress):
 
     # Ipv6Configuration method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.139, p.466
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getAssignmentPriority        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setAssignmentPriority        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getDefaultRouter             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDefaultRouter             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getDnsServerAddresses        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addDnsServerAddress          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getEnableAnycast             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setEnableAnycast             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getHopCount                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setHopCount                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getIpAddressKeepBehavior     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setIpAddressKeepBehavior     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getIpAddressPrefixLength     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setIpAddressPrefixLength     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getIpv6Address               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setIpv6Address               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getIpv6AddressSource         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setIpv6AddressSource         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAssignmentPriority        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAssignmentPriority        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDefaultRouter             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDefaultRouter             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addDnsServerAddress          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDnsServerAddresses        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getEnableAnycast             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEnableAnycast             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getHopCount                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setHopCount                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIpAddressKeepBehavior     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIpAddressKeepBehavior     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIpAddressPrefixLength     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIpAddressPrefixLength     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIpv6Address               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIpv6Address               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIpv6AddressSource         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIpv6AddressSource         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -4139,7 +4138,7 @@ class Ipv6Configuration(NetworkEndpointAddress):
         # IP address of the default router.
         self.defaultRouter: Optional[Ip6AddressString] = None
 
-        # IP addresses of pre configured DNS servers.
+        # IP addresses of pre configured DNS servers. Tags: xml.namePlural=DNS-SERVER-ADDRESSES
         self.dnsServerAddresses: List[Ip6AddressString] = []
 
         # This attribute is used to enable anycast addressing (i.e. to one of multiple receivers).
@@ -4186,18 +4185,18 @@ class Ipv6Configuration(NetworkEndpointAddress):
             self.defaultRouter = value
         return self
 
-    def getDnsServerAddresses(self) -> List[Ip6AddressString]:
-        """IP addresses of pre configured DNS servers."""
-        return self.dnsServerAddresses
-
     def addDnsServerAddress(self, value: Optional[Ip6AddressString]) -> Ipv6Configuration:
         """
-        IP addresses of pre configured DNS servers.
+        IP addresses of pre configured DNS servers. Tags: xml.namePlural=DNS-SERVER-ADDRESSES
         A None value is a no-op and does not append to dnsServerAddresses.
         """
         if value is not None:
             self.dnsServerAddresses.append(value)
         return self
+
+    def getDnsServerAddresses(self) -> List[Ip6AddressString]:
+        """IP addresses of pre configured DNS servers. Tags: xml.namePlural=DNS-SERVER-ADDRESSES"""
+        return self.dnsServerAddresses
 
     def getEnableAnycast(self) -> Optional[Boolean]:
         """This attribute is used to enable anycast addressing (i.e. to one of multiple receivers)."""
@@ -4575,13 +4574,12 @@ class InfrastructureServices(ARObject):
 
     # InfrastructureServices method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.144, p.469
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getDoIpEntity                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDoIpEntity                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTimeSynchronization       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTimeSynchronization       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDoIpEntity               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDoIpEntity               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeSynchronization      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeSynchronization      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -4809,19 +4807,20 @@ class TimeSyncTechnologyEnum(AREnum):
 
     # TimeSyncTechnologyEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.149, p.471
-    # Spec verified: R23-11
-    # (no methods) — enum value form serialized on consuming attribute
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on TimeSyncClientConfiguration.timeSyncTechnology / TimeSyncServerConfiguration.timeSyncTechnology
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
-    # Ethernet AVB compliant IEEE802.1AS Precision Time Protocol Tags: atp.EnumerationLiteralIndex=0
+    # Ethernet AVB compliant IEEE802.1AS Precision Time Protocol Tags: atp.EnumerationLiteralIndex=0 xml.name=AVB-IEEE-802-1-AS
     AVB_IEEE802_1AS = "AVB--IEEE-802--1-AS"
 
-    # Network Time Protocol (NTP) Tags: atp.EnumerationLiteralIndex=1
+    # Network Time Protocol (NTP) Tags: atp.EnumerationLiteralIndex=1 xml.name=NTP-RFC-958
     NTP_RFC958 = "NTP--RFC-958"
 
-    # Precision Time Protocol (PTP) IEEE 1588-2002 Tags: atp.EnumerationLiteralIndex=2
+    # Precision Time Protocol (PTP) IEEE 1588-2002 Tags: atp.EnumerationLiteralIndex=2 xml.name=PTP-IEEE-1588-2002
     PTP_IEEE1588_2002 = "PTP--IEEE-1588--2002"
 
-    # Precision Time Protocol (PTP) IEEE 1588-2008 Tags: atp.EnumerationLiteralIndex=3
+    # Precision Time Protocol (PTP) IEEE 1588-2008 Tags: atp.EnumerationLiteralIndex=3 xml.name=PTP-IEEE-1588-2008
     PTP_IEEE1588_2008 = "PTP--IEEE-1588--2008"
 
     def __init__(self):
@@ -4842,8 +4841,9 @@ class DoIpEntityRoleEnum(AREnum):
 
     # DoIpEntityRoleEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.151, p.471
-    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on DoIpEntity.doIpEntityRole
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # Network node is a DoIP gateway that accepts external connections. Tags: atp.EnumerationLiteralIndex=0
     EDGE_NODE = "EDGE-NODE"
@@ -7709,20 +7709,332 @@ class EthTcpIpIcmpProps(ARElement):
         return self
 
 
+class RequestMethodEnum(AREnum):
+    """
+    Available request methods for HTTPs.
+    """
+
+    # RequestMethodEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate, RequestMethodEnum, AUTOSAR_00052.xsd line 141655 (XSD-only; no own table in repo corpus; member of HttpTp.requestMethod, Table 6.132, p.461)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on HttpTp.requestMethod
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # The request method CONNECT establishes a tunnel to the server identified by the target resource. Tags: atp.EnumerationLiteralIndex=0 mmt.qualifiedName=RequestMethodEnum.connect
+    CONNECT = "CONNECT"
+
+    # The request method DELETE deletes the specified resource. Tags: atp.EnumerationLiteralIndex=1 mmt.qualifiedName=RequestMethodEnum.delete
+    DELETE = "DELETE"
+
+    # The request method GET requests a representation of the specified resource. Tags: atp.EnumerationLiteralIndex=2 mmt.qualifiedName=RequestMethodEnum.get
+    GET = "GET"
+
+    # The request method HEAD asks for a response identical to that of a GET request, but without the response body. Tags: atp.EnumerationLiteralIndex=3 mmt.qualifiedName=RequestMethodEnum.head
+    HEAD = "HEAD"
+
+    # The request method OPTIONS is used to describe the communication options for the target resource. Tags: atp.EnumerationLiteralIndex=4 mmt.qualifiedName=RequestMethodEnum.options
+    OPTIONS = "OPTIONS"
+
+    # The request method POST is used to submit an entity to the specified resource. Tags: atp.EnumerationLiteralIndex=5 mmt.qualifiedName=RequestMethodEnum.post
+    POST = "POST"
+
+    # The request method PUT replaces all current representations of the target resource with the request payload. Tags: atp.EnumerationLiteralIndex=6 mmt.qualifiedName=RequestMethodEnum.put
+    PUT = "PUT"
+
+    # The request method TRACE performs a message loopback test along the path to the target resource. Tags: atp.EnumerationLiteralIndex=7 mmt.qualifiedName=RequestMethodEnum.trace
+    TRACE = "TRACE"
+
+    def __init__(self):
+        super().__init__(
+            [
+                RequestMethodEnum.CONNECT,
+                RequestMethodEnum.DELETE,
+                RequestMethodEnum.GET,
+                RequestMethodEnum.HEAD,
+                RequestMethodEnum.OPTIONS,
+                RequestMethodEnum.POST,
+                RequestMethodEnum.PUT,
+                RequestMethodEnum.TRACE,
+            ]
+        )
+
+
 class HttpTp(TransportProtocolConfiguration):
-    pass
+    """
+    Http over TCP as transport protocol.
+    """
+
+    # HttpTp method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.132, p.461
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getContentType      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setContentType      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getProtocolVersion  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setProtocolVersion  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRequestMethod    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRequestMethod    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpTpConfig      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpTpConfig      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getUri              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUri              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # Descriptor for the transported content.
+        self.contentType: Optional[String] = None
+
+        # HTTP Protocol version (e.g. 1.1)
+        self.protocolVersion: Optional[String] = None
+
+        # HTTP request method to be used.
+        self.requestMethod: Optional[RequestMethodEnum] = None
+
+        # TcpTp Configuration.
+        self.tcpTpConfig: Optional[TcpTp] = None
+
+        # URI to be called.
+        self.uri: Optional[UriString] = None
+
+    def getContentType(self) -> Optional[String]:
+        """
+        Descriptor for the transported content.
+        """
+        return self.contentType
+
+    def setContentType(self, value: Optional[String]) -> HttpTp:
+        """
+        Descriptor for the transported content.
+        A None value is a no-op and does not overwrite an existing contentType.
+        """
+        if value is not None:
+            self.contentType = value
+        return self
+
+    def getProtocolVersion(self) -> Optional[String]:
+        """
+        HTTP Protocol version (e.g. 1.1)
+        """
+        return self.protocolVersion
+
+    def setProtocolVersion(self, value: Optional[String]) -> HttpTp:
+        """
+        HTTP Protocol version (e.g. 1.1)
+        A None value is a no-op and does not overwrite an existing protocolVersion.
+        """
+        if value is not None:
+            self.protocolVersion = value
+        return self
+
+    def getRequestMethod(self) -> Optional[RequestMethodEnum]:
+        """
+        HTTP request method to be used.
+        """
+        return self.requestMethod
+
+    def setRequestMethod(self, value: Optional[RequestMethodEnum]) -> HttpTp:
+        """
+        HTTP request method to be used.
+        A None value is a no-op and does not overwrite an existing requestMethod.
+        """
+        if value is not None:
+            self.requestMethod = value
+        return self
+
+    def getTcpTpConfig(self) -> Optional[TcpTp]:
+        """
+        TcpTp Configuration.
+        """
+        return self.tcpTpConfig
+
+    def setTcpTpConfig(self, value: Optional[TcpTp]) -> HttpTp:
+        """
+        TcpTp Configuration.
+        A None value is a no-op and does not overwrite an existing tcpTpConfig.
+        """
+        if value is not None:
+            self.tcpTpConfig = value
+        return self
+
+    def getUri(self) -> Optional[UriString]:
+        """
+        URI to be called.
+        """
+        return self.uri
+
+    def setUri(self, value: Optional[UriString]) -> HttpTp:
+        """
+        URI to be called.
+        A None value is a no-op and does not overwrite an existing uri.
+        """
+        if value is not None:
+            self.uri = value
+        return self
 
 
 class Ieee1722Tp(TransportProtocolConfiguration):
-    pass
+    """
+    Content Model for IEEE 1722 configuration. Tags: atp.Status=obsolete
+    """
+
+    # Ieee1722Tp method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.131, p.461
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getRelativeRepresentationTime     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRelativeRepresentationTime     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getStreamIdentifier               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setStreamIdentifier               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSubType                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSubType                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVersion                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setVersion                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # Defines the time when content shall be presented (in seconds). The actual absolute time is creation time plus relative presentation time. Tags: atp.Status=obsolete
+        self.relativeRepresentationTime: Optional[TimeValue] = None
+
+        # IEEE 1722 stream identifier Tags: atp.Status=obsolete
+        self.streamIdentifier: Optional[PositiveInteger] = None
+
+        # Protocol type. Tags: atp.Status=obsolete
+        self.subType: Optional[PositiveInteger] = None
+
+        # Revision of Ieee1722 standard Tags: atp.Status=obsolete
+        self.version: Optional[PositiveInteger] = None
+
+    def getRelativeRepresentationTime(self) -> Optional[TimeValue]:
+        """Defines the time when content shall be presented (in seconds). The actual absolute time is creation time plus relative presentation time. Tags: atp.Status=obsolete"""
+        return self.relativeRepresentationTime
+
+    def setRelativeRepresentationTime(self, value: Optional[TimeValue]) -> Ieee1722Tp:
+        """Defines the time when content shall be presented (in seconds). The actual absolute time is creation time plus relative presentation time. Tags: atp.Status=obsolete
+        A None value is a no-op and does not overwrite an existing relativeRepresentationTime.
+        """
+        if value is not None:
+            self.relativeRepresentationTime = value
+        return self
+
+    def getStreamIdentifier(self) -> Optional[PositiveInteger]:
+        """IEEE 1722 stream identifier Tags: atp.Status=obsolete"""
+        return self.streamIdentifier
+
+    def setStreamIdentifier(self, value: Optional[PositiveInteger]) -> Ieee1722Tp:
+        """IEEE 1722 stream identifier Tags: atp.Status=obsolete
+        A None value is a no-op and does not overwrite an existing streamIdentifier.
+        """
+        if value is not None:
+            self.streamIdentifier = value
+        return self
+
+    def getSubType(self) -> Optional[PositiveInteger]:
+        """Protocol type. Tags: atp.Status=obsolete"""
+        return self.subType
+
+    def setSubType(self, value: Optional[PositiveInteger]) -> Ieee1722Tp:
+        """Protocol type. Tags: atp.Status=obsolete
+        A None value is a no-op and does not overwrite an existing subType.
+        """
+        if value is not None:
+            self.subType = value
+        return self
+
+    def getVersion(self) -> Optional[PositiveInteger]:
+        """Revision of Ieee1722 standard Tags: atp.Status=obsolete"""
+        return self.version
+
+    def setVersion(self, value: Optional[PositiveInteger]) -> Ieee1722Tp:
+        """Revision of Ieee1722 standard Tags: atp.Status=obsolete
+        A None value is a no-op and does not overwrite an existing version.
+        """
+        if value is not None:
+            self.version = value
+        return self
 
 
 class MacMulticastConfiguration(NetworkEndpointAddress):
-    pass
+    """
+    References a per cluster globally defined MAC-Multicast-Group.
+    """
+
+    # MacMulticastConfiguration method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.141, p.467
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getMacMulticastGroupRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMacMulticastGroupRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # Reference to a macMulticastGroup.
+        self.macMulticastGroupRef: Optional[RefType] = None
+
+    def getMacMulticastGroupRef(self) -> Optional[RefType]:
+        """
+        Reference to a macMulticastGroup.
+        """
+        return self.macMulticastGroupRef
+
+    def setMacMulticastGroupRef(self, value: Optional[RefType]) -> MacMulticastConfiguration:
+        """
+        Reference to a macMulticastGroup.
+        A None value is a no-op and does not overwrite an existing macMulticastGroupRef.
+        """
+        if value is not None:
+            self.macMulticastGroupRef = value
+        return self
 
 
 class RtpTp(TransportProtocolConfiguration):
-    pass
+    """
+    RTP over UDP or over TCP as transport protocol.
+    """
+
+    # RtpTp method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.130, p.460
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getSsrc           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSsrc           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpUdpConfig   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpUdpConfig   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # Synchronization source identifier uniquely identifies the source of a stream. The synchronization sources within the same RTP session will be unique.
+        self.ssrc: Optional[PositiveInteger] = None
+
+        # Tcp or Udp Configuration.
+        self.tcpUdpConfig: Optional[TcpUdpConfig] = None
+
+    def getSsrc(self) -> Optional[PositiveInteger]:
+        """Synchronization source identifier uniquely identifies the source of a stream. The synchronization sources within the same RTP session will be unique."""
+        return self.ssrc
+
+    def setSsrc(self, value: Optional[PositiveInteger]) -> RtpTp:
+        """Synchronization source identifier uniquely identifies the source of a stream. The synchronization sources within the same RTP session will be unique.
+        A None value is a no-op and does not overwrite an existing ssrc.
+        """
+        if value is not None:
+            self.ssrc = value
+        return self
+
+    def getTcpUdpConfig(self) -> Optional[TcpUdpConfig]:
+        """Tcp or Udp Configuration."""
+        return self.tcpUdpConfig
+
+    def setTcpUdpConfig(self, value: Optional[TcpUdpConfig]) -> RtpTp:
+        """Tcp or Udp Configuration.
+        A None value is a no-op and does not overwrite an existing tcpUdpConfig.
+        """
+        if value is not None:
+            self.tcpUdpConfig = value
+        return self
 
 
 # Runtime import breaking the EthernetTopology <-> ServiceInstances cycle: InitialSdDelayConfig and RequestResponseDelay

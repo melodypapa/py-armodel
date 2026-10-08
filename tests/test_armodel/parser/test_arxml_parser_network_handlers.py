@@ -367,6 +367,112 @@ class TestLinClusterHandlers:
     def test_getApplicationEntry_none_element_returns_none(self, parser):
         assert parser.getApplicationEntry(None, "APPLICATION-ENTRY") is None
 
+    def test_getConditionalChangeNad_all_attrs(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import ConditionalChangeNad
+
+        element = _snip(
+            "<POSITION-IN-TABLE>1</POSITION-IN-TABLE>"
+            "<ASSIGNED-CONTROLLER-REF DEST='LIN-SLAVE'>/cluster/slave</ASSIGNED-CONTROLLER-REF>"
+            "<BYTE>1</BYTE><ID>2</ID><INVERT>3</INVERT><MASK>4</MASK><NEW-NAD>5</NEW-NAD>",
+            root_tag="CONDITIONAL-CHANGE-NAD",
+        )
+        entry = parser.getConditionalChangeNad(element)
+        assert entry is not None
+        assert isinstance(entry, ConditionalChangeNad)
+        assert entry.getPositionInTable().getValue() == 1
+        assert entry.getAssignedControllerRef().getValue() == "/cluster/slave"
+        assert entry.getByte().getValue() == 1
+        assert entry.getId().getValue() == 2
+        assert entry.getInvert().getValue() == 3
+        assert entry.getMask().getValue() == 4
+        assert entry.getNewNad().getValue() == 5
+
+    def test_getConditionalChangeNad_absent_elements(self, parser):
+        element = _snip("<SHORT-NAME>e</SHORT-NAME>", root_tag="CONDITIONAL-CHANGE-NAD")
+        entry = parser.getConditionalChangeNad(element)
+        assert entry is not None
+        assert entry.getByte() is None
+        assert entry.getId() is None
+        assert entry.getInvert() is None
+        assert entry.getMask() is None
+        assert entry.getNewNad() is None
+
+    def test_getConditionalChangeNad_none_element_returns_none(self, parser):
+        assert parser.getConditionalChangeNad(None) is None
+
+    def test_getSaveConfigurationEntry_reads_inherited_refs(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import SaveConfigurationEntry
+
+        element = _snip(
+            "<POSITION-IN-TABLE>3</POSITION-IN-TABLE>"
+            "<ASSIGNED-CONTROLLER-REF DEST='LIN-SLAVE'>/cluster/slave</ASSIGNED-CONTROLLER-REF>"
+            "<ASSIGNED-LIN-SLAVE-CONFIG-REF DEST='LIN-SLAVE-CONFIG-IDENT'>/cluster/ident</ASSIGNED-LIN-SLAVE-CONFIG-REF>",
+            root_tag="SAVE-CONFIGURATION-ENTRY",
+        )
+        entry = parser.getSaveConfigurationEntry(element)
+        assert entry is not None
+        assert isinstance(entry, SaveConfigurationEntry)
+        assert entry.getPositionInTable().getValue() == 3
+        assert entry.getAssignedControllerRef().getValue() == "/cluster/slave"
+        assert entry.getAssignedLinSlaveConfigRef().getValue() == "/cluster/ident"
+
+    def test_getSaveConfigurationEntry_empty_element(self, parser):
+        element = _snip("<SHORT-NAME>e</SHORT-NAME>", root_tag="SAVE-CONFIGURATION-ENTRY")
+        entry = parser.getSaveConfigurationEntry(element)
+        assert entry is not None
+        assert entry.getAssignedControllerRef() is None
+        assert entry.getAssignedLinSlaveConfigRef() is None
+
+    def test_getSaveConfigurationEntry_none_element_returns_none(self, parser):
+        assert parser.getSaveConfigurationEntry(None) is None
+
+    def test_getDataDumpEntry_reads_byte_values(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import DataDumpEntry
+
+        element = _snip(
+            "<POSITION-IN-TABLE>2</POSITION-IN-TABLE>"
+            "<ASSIGNED-CONTROLLER-REF DEST='LIN-SLAVE'>/cluster/slave</ASSIGNED-CONTROLLER-REF>"
+            "<BYTE-VALUES><BYTE-VALUE>8</BYTE-VALUE><BYTE-VALUE>9</BYTE-VALUE></BYTE-VALUES>",
+            root_tag="DATA-DUMP-ENTRY",
+        )
+        entry = parser.getDataDumpEntry(element)
+        assert entry is not None
+        assert isinstance(entry, DataDumpEntry)
+        assert entry.getPositionInTable().getValue() == 2
+        assert entry.getAssignedControllerRef().getValue() == "/cluster/slave"
+        assert [v.getValue() for v in entry.getByteValues()] == [8, 9]
+
+    def test_getDataDumpEntry_absent_byte_values(self, parser):
+        element = _snip("<SHORT-NAME>e</SHORT-NAME>", root_tag="DATA-DUMP-ENTRY")
+        entry = parser.getDataDumpEntry(element)
+        assert entry is not None
+        assert entry.getByteValues() == []
+
+    def test_getDataDumpEntry_none_element_returns_none(self, parser):
+        assert parser.getDataDumpEntry(None) is None
+
+    def test_getFreeFormat_reads_byte_values(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import FreeFormat
+
+        element = _snip(
+            "<DELAY>0.02</DELAY>" "<BYTE-VALUES><BYTE-VALUE>1</BYTE-VALUE><BYTE-VALUE>2</BYTE-VALUE></BYTE-VALUES>",
+            root_tag="FREE-FORMAT",
+        )
+        entry = parser.getFreeFormat(element)
+        assert entry is not None
+        assert isinstance(entry, FreeFormat)
+        assert entry.getDelay().getValue() == 0.02
+        assert [v.getValue() for v in entry.getByteValues()] == [1, 2]
+
+    def test_getFreeFormat_absent_byte_values(self, parser):
+        element = _snip("<SHORT-NAME>e</SHORT-NAME>", root_tag="FREE-FORMAT")
+        entry = parser.getFreeFormat(element)
+        assert entry is not None
+        assert entry.getByteValues() == []
+
+    def test_getFreeFormat_none_element_returns_none(self, parser):
+        assert parser.getFreeFormat(None) is None
+
 
 class TestFlexrayClusterHandlers:
     def test_readFlexrayCluster_sets_short_name(self, parser):
@@ -855,6 +961,22 @@ class TestEthernetClusterHandlers:
         )
         parser.readNetworkEndPointNetworkEndPointAddress(element, endpoint)
         assert len(endpoint.getNetworkEndpointAddresses()) == 1
+
+    def test_getInfrastructureServices_full(self, parser):
+        element = _snip(
+            '<INFRASTRUCTURE-SERVICES S="555" T="2024-01-01T00:00:00Z">'
+            "<DO-IP-ENTITY><DO-IP-ENTITY-ROLE>GATEWAY</DO-IP-ENTITY-ROLE></DO-IP-ENTITY>"
+            "<TIME-SYNCHRONIZATION><TIME-SYNC-CLIENT><TIME-SYNC-TECHNOLOGY>PTP--IEEE-1588--2008</TIME-SYNC-TECHNOLOGY></TIME-SYNC-CLIENT></TIME-SYNCHRONIZATION>"
+            "</INFRASTRUCTURE-SERVICES>",
+            root_tag="ROOT",
+        )
+        services = parser.getInfrastructureServices(element, "INFRASTRUCTURE-SERVICES")
+        assert services is not None
+        assert services.getChecksum().getValue() == "555"
+        assert services.getTimestamp().getValue() == "2024-01-01T00:00:00Z"
+        assert services.getDoIpEntity().getDoIpEntityRole().getValue() == "GATEWAY"
+        client = services.getTimeSynchronization().getTimeSyncClient()
+        assert client.getTimeSyncTechnology().getValue() == "PTP--IEEE-1588--2008"
 
     def test_getDoIpEntity_sets_role(self, parser):
         element = _snip(
@@ -1490,6 +1612,22 @@ class TestFrameAndPduHandlers:
         parser.readCanFrameTriggering(element, triggering)
         assert triggering.getIdentifier() is not None
         assert triggering.getIdentifier().getValue() == 100
+
+    def test_readCanFrameTriggering_sets_rxIdentifierRange(self, parser):
+        from armodel.models import CanCluster, CanFrameTriggering, CanPhysicalChannel
+
+        cluster = CanCluster(parent=_autosar_root(), short_name="c")
+        channel = CanPhysicalChannel(parent=cluster, short_name="ch")
+        triggering = CanFrameTriggering(parent=channel, short_name="ft")
+        element = _snip(
+            "<SHORT-NAME>ft</SHORT-NAME>" "<RX-IDENTIFIER-RANGE><LOWER-CAN-ID>256</LOWER-CAN-ID><UPPER-CAN-ID>511</UPPER-CAN-ID></RX-IDENTIFIER-RANGE>",
+            root_tag="CAN-FRAME-TRIGGERING",
+        )
+        parser.readCanFrameTriggering(element, triggering)
+        range_obj = triggering.getRxIdentifierRange()
+        assert range_obj is not None
+        assert range_obj.getLowerCanId().getValue() == 256
+        assert range_obj.getUpperCanId().getValue() == 511
 
     def test_readPduTriggering_sets_ipduRef(self, parser):
         from armodel.models import CanCluster, CanPhysicalChannel, PduTriggering

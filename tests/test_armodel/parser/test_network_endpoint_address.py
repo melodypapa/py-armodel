@@ -9,7 +9,14 @@ import pytest
 
 from armodel.models import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Ip4AddressString
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import IpAddressKeepEnum, Ipv4AddressSourceEnum, Ipv4Configuration, NetworkEndpoint, NetworkEndpointAddress
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
+    IpAddressKeepEnum,
+    Ipv4AddressSourceEnum,
+    Ipv4Configuration,
+    MacMulticastConfiguration,
+    NetworkEndpoint,
+    NetworkEndpointAddress,
+)
 from armodel.parser.arxml_parser import ARXMLParser
 
 NS = "http://autosar.org/schema/r4.0"
@@ -94,3 +101,38 @@ def test_read_ipv4_configuration_empty_optional_attributes(parser):
     assert address.getIpv4AddressSource() is None
     assert address.getNetworkMask() is None
     assert address.getTtl() is None
+
+
+def test_read_mac_multicast_configuration(parser):
+    root = _snip(
+        "<NETWORK-ENDPOINT-ADDRESSES>"
+        '<MAC-MULTICAST-CONFIGURATION S="99" T="2024-01-01T00:00:00Z">'
+        '<MAC-MULTICAST-GROUP-REF DEST="MAC-MULTICAST-GROUP">/EthernetCluster/McastGroup</MAC-MULTICAST-GROUP-REF>'
+        "</MAC-MULTICAST-CONFIGURATION>"
+        "</NETWORK-ENDPOINT-ADDRESSES>"
+    )
+    endpoint = NetworkEndpoint(parent=AUTOSAR.getInstance(), short_name="Ep1")
+    parser.readNetworkEndPointNetworkEndPointAddress(root, endpoint)
+
+    addresses = endpoint.getNetworkEndpointAddresses()
+    assert len(addresses) == 1
+    address = addresses[0]
+    assert isinstance(address, MacMulticastConfiguration)
+    assert isinstance(address, NetworkEndpointAddress)
+    ref = address.getMacMulticastGroupRef()
+    assert ref is not None
+    assert ref.getValue() == "/EthernetCluster/McastGroup"
+    assert ref.getDest() == "MAC-MULTICAST-GROUP"
+    assert address.getChecksum().getValue() == "99"
+    assert address.getTimestamp().getValue() == "2024-01-01T00:00:00Z"
+
+
+def test_read_mac_multicast_configuration_empty(parser):
+    root = _snip("<NETWORK-ENDPOINT-ADDRESSES><MAC-MULTICAST-CONFIGURATION/></NETWORK-ENDPOINT-ADDRESSES>")
+    endpoint = NetworkEndpoint(parent=AUTOSAR.getInstance(), short_name="Ep1")
+    parser.readNetworkEndPointNetworkEndPointAddress(root, endpoint)
+
+    addresses = endpoint.getNetworkEndpointAddresses()
+    assert len(addresses) == 1
+    assert isinstance(addresses[0], MacMulticastConfiguration)
+    assert addresses[0].getMacMulticastGroupRef() is None

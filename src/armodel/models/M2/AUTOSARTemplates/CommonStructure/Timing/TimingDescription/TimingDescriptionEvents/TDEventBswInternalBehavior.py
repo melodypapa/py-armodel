@@ -9,6 +9,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     AREnum,
     RefType,
 )
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription import (
     TimingDescriptionEvent,
 )
@@ -21,10 +22,9 @@ class TDEventBswInternalBehaviorTypeEnum(AREnum):
 
     # TDEventBswInternalBehaviorTypeEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.43, p.74
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on TDEventBswInternalBehavior.tdEventBswInternalBehaviorType
-    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # A point in time where the associated BswModuleEntity has been activated, which means that it has entered the state "to be started". Tags: atp.EnumerationLiteralIndex=0
     BSW_MODULE_ENTITY_ACTIVATED = "BSW-MODULE-ENTITY-ACTIVATED"
@@ -36,9 +36,6 @@ class TDEventBswInternalBehaviorTypeEnum(AREnum):
     BSW_MODULE_ENTITY_TERMINATED = "BSW-MODULE-ENTITY-TERMINATED"
 
     def __init__(self):
-        """
-        Initializes the TDEventBswInternalBehaviorTypeEnum with valid values.
-        """
         super().__init__(
             (
                 TDEventBswInternalBehaviorTypeEnum.BSW_MODULE_ENTITY_ACTIVATED,
@@ -55,15 +52,14 @@ class TDEventBswInternalBehavior(TimingDescriptionEvent):
 
     # TDEventBswInternalBehavior method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.42, p.73
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getBswModuleEntityRef              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setBswModuleEntityRef              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getTdEventBswInternalBehaviorType  [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setTdEventBswInternalBehaviorType  [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBswModuleEntityRef         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBswModuleEntityRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTdEventBswInternalBehaviorType  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTdEventBswInternalBehaviorType  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
-    def __init__(self, parent, short_name):
+    def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
         # The scope of this timing event.
@@ -73,21 +69,33 @@ class TDEventBswInternalBehavior(TimingDescriptionEvent):
         self.tdEventBswInternalBehaviorType: Optional[TDEventBswInternalBehaviorTypeEnum] = None
 
     def getBswModuleEntityRef(self) -> Optional[RefType]:
-        """The scope of this timing event."""
+        """
+        The scope of this timing event.
+        """
         return self.bswModuleEntityRef
 
     def setBswModuleEntityRef(self, value: Optional[RefType]) -> "TDEventBswInternalBehavior":
-        """The scope of this timing event. A None value is a no-op and does not overwrite an existing bswModuleEntityRef."""
+        """
+        The scope of this timing event.
+
+        A None value is a no-op and does not overwrite an existing bswModuleEntityRef.
+        """
         if value is not None:
             self.bswModuleEntityRef = value
         return self
 
     def getTdEventBswInternalBehaviorType(self) -> Optional[TDEventBswInternalBehaviorTypeEnum]:
-        """The specific type of this timing event."""
+        """
+        The specific type of this timing event.
+        """
         return self.tdEventBswInternalBehaviorType
 
     def setTdEventBswInternalBehaviorType(self, value: Optional[TDEventBswInternalBehaviorTypeEnum]) -> "TDEventBswInternalBehavior":
-        """The specific type of this timing event. A None value is a no-op and does not overwrite an existing tdEventBswInternalBehaviorType."""
+        """
+        The specific type of this timing event.
+
+        A None value is a no-op and does not overwrite an existing tdEventBswInternalBehaviorType.
+        """
         if value is not None:
             self.tdEventBswInternalBehaviorType = value
         return self

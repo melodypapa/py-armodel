@@ -878,10 +878,10 @@ Status: **23/55** completed
 
 | Class Name                           | Status       | Commit ID |
 | ------------------------------------ | ------------ | --------- |
-| `Identifier`                         | [x] Done     | N/A       |
-| `LLongName`                          | [x] Done     | N/A       |
-| `MixedContentForLongName`            | [x] Done     | N/A       |
-| `Referrable`                         | [x] Done     | N/A       |
+| `Identifier`                         | [x] Done*    | N/A       |
+| `LLongName`                          | [x] Done*    | N/A       |
+| `MixedContentForLongName`            | [x] Done*    | N/A       |
+| `Referrable`                         | [x] Done*    | N/A       |
 | `ReferrableSubtypesEnum`             | [ ] Pending* | N/A       |
 | `SdgDef`                             | [ ] Pending* | N/A       |
 | `SdgElementWithGid`                  | [ ] Pending* | N/A       |
@@ -912,27 +912,27 @@ Status: **23/55** completed
 | `VerbatimStringPlain`                | [ ] Pending* | N/A       |
 | `CseCodeType`                        | [ ] Pending* | N/A       |
 | `EvaluatedVariantSet`                | [ ] Pending* | N/A       |
-| `PredefinedVariant`                  | [x] Done     | N/A       |
-| `DocumentationBlock`                 | [x] Done     | N/A       |
-| `MultiLanguageVerbatim`              | [x] Done     | N/A       |
+| `PredefinedVariant`                  | [x] Done*    | N/A       |
+| `DocumentationBlock`                 | [x] Done*    | N/A       |
+| `MultiLanguageVerbatim`              | [x] Done*    | N/A       |
 | `List`                               | [x] Done*    | N/A       |
-| `LabeledList`                        | [x] Done     | N/A       |
-| `LabeledItem`                        | [x] Done     | N/A       |
-| `IndentSample`                       | [x] Done     | N/A       |
-| `ItemLabelPosEnum`                   | [x] Done     | N/A       |
-| `DefList`                            | [x] Done     | N/A       |
-| `DefItem`                            | [x] Done     | N/A       |
-| `MlFormula`                          | [x] Done     | N/A       |
-| `Note`                               | [x] Done     | N/A       |
-| `NoteTypeEnum`                       | [x] Done     | N/A       |
-| `Traceable`                          | [x] Done     | N/A       |
-| `EmphasisText`                       | [x] Done     | N/A       |
-| `IndexEntry`                         | [x] Done     | N/A       |
-| `Superscript`                        | [x] Done     | N/A       |
-| `Tt`                                 | [x] Done     | N/A       |
+| `LabeledList`                        | [x] Done*    | N/A       |
+| `LabeledItem`                        | [x] Done*    | N/A       |
+| `IndentSample`                       | [x] Done*    | N/A       |
+| `ItemLabelPosEnum`                   | [x] Done*    | N/A       |
+| `DefList`                            | [x] Done*    | N/A       |
+| `DefItem`                            | [x] Done*    | N/A       |
+| `MlFormula`                          | [x] Done*    | N/A       |
+| `Note`                               | [x] Done*    | N/A       |
+| `NoteTypeEnum`                       | [x] Done*    | N/A       |
+| `Traceable`                          | [x] Done*    | N/A       |
+| `EmphasisText`                       | [x] Done*    | N/A       |
+| `IndexEntry`                         | [x] Done*    | N/A       |
+| `Superscript`                        | [x] Done*    | N/A       |
+| `Tt`                                 | [x] Done*    | N/A       |
 | `EEnumFont`                          | [ ] Pending* | N/A       |
 | `EEnum`                              | [ ] Pending* | N/A       |
-| `DocumentationContext`               | [x] Done     | N/A       |
+| `DocumentationContext`               | [x] Done*    | N/A       |
 
 ## Group22
 
@@ -1755,85 +1755,84 @@ Status: **0/75** completed
 
 ## Group32
 
-Status: **0/75** completed
+Status: **0/74** completed
 
-| Class Name                             | Status          | Commit ID |
-| -------------------------------------- | --------------- | --------- |
-| `ConditionalChangeNad`                 | [ ] Implemented | N/A       |
-| `SaveConfigurationEntry`               | [ ] Implemented | N/A       |
-| `DataDumpEntry`                        | [ ] Implemented | N/A       |
-| `FreeFormat`                           | [ ] Implemented | N/A       |
-| `CanFrame`                             | [ ] Implemented | N/A       |
-| `CanFrameTriggering`                   | [ ] Implemented | N/A       |
-| `CanAddressingModeType`                | [ ] Implemented | N/A       |
-| `RxIdentifierRange`                    | [ ] Implemented | N/A       |
-| `CanFrameRxBehaviorEnum`               | [ ] Implemented | N/A       |
-| `CanFrameTxBehaviorEnum`               | [ ] Implemented | N/A       |
-| `TtcanAbsolutelyScheduledTiming`       | [ ] Implemented | N/A       |
-| `TtcanTriggerType`                     | [ ] Implemented | N/A       |
-| `SoAdConfig`                           | [ ] Implemented | N/A       |
-| `SocketAddress`                        | [ ] Implemented | N/A       |
-| `UdpChecksumCalculationEnum`           | [ ] Implemented | N/A       |
-| `IPv6ExtHeaderFilterSet`               | [ ] Created     | N/A       |
-| `ApplicationEndpoint`                  | [ ] Implemented | N/A       |
-| `RtpTp`                                | [ ] Created     | N/A       |
-| `Ieee1722Tp`                           | [ ] Created     | N/A       |
-| `HttpTp`                               | [ ] Created     | N/A       |
-| `Ipv6Configuration`                    | [ ] Implemented | N/A       |
-| `MacMulticastConfiguration`            | [ ] Created     | N/A       |
-| `InfrastructureServices`               | [ ] Implemented | N/A       |
-| `TimeSyncTechnologyEnum`               | [ ] Implemented | N/A       |
-| `DoIpEntityRoleEnum`                   | [ ] Implemented | N/A       |
-| `DdsCpServiceInstance`                 | [ ] Created     | N/A       |
-| `DdsCpProvidedServiceInstance`         | [ ] Pending*    | N/A       |
-| `DdsCpConsumedServiceInstance`         | [ ] Created     | N/A       |
-| `DdsCpServiceInstanceEvent`            | [ ] Pending*    | N/A       |
-| `DdsCpServiceInstanceOperation`        | [ ] Pending*    | N/A       |
-| `ServiceInstanceCollectionSet`         | [ ] Created     | N/A       |
-| `AbstractServiceInstance`              | [ ] Implemented | N/A       |
-| `ProvidedServiceInstance`              | [ ] Implemented | N/A       |
-| `PduActivationRoutingGroup`            | [ ] Implemented | N/A       |
-| `EventGroupControlTypeEnum`            | [ ] Implemented | N/A       |
-| `SoConIPduIdentifier`                  | [ ] Created     | N/A       |
-| `SocketConnectionIpduIdentifierSet`    | [ ] Created     | N/A       |
-| `EventHandler`                         | [ ] Implemented | N/A       |
-| `ConsumedServiceInstance`              | [ ] Implemented | N/A       |
-| `ConsumedEventGroup`                   | [ ] Implemented | N/A       |
-| `SomeipSdServerServiceInstanceConfig`  | [ ] Created     | N/A       |
-| `SomeipSdServerEventGroupTimingConfig` | [ ] Implemented | N/A       |
-| `SomeipSdClientEventGroupTimingConfig` | [ ] Implemented | N/A       |
-| `DdsCpConfig`                          | [ ] Created     | N/A       |
-| `DdsCpDomain`                          | [ ] Created     | N/A       |
-| `DdsCpTopic`                           | [ ] Pending*    | N/A       |
-| `DdsCpPartition`                       | [ ] Created     | N/A       |
-| `DdsCpQosProfile`                      | [ ] Pending*    | N/A       |
-| `DdsTopicData`                         | [ ] Pending*    | N/A       |
-| `DdsDurability`                        | [ ] Pending*    | N/A       |
-| `DdsDurabilityKindEnum`                | [ ] Pending*    | N/A       |
-| `DdsDurabilityService`                 | [ ] Pending*    | N/A       |
-| `DdsDurabilityServiceHistoryKindEnum`  | [ ] Pending*    | N/A       |
-| `DdsDeadline`                          | [ ] Pending*    | N/A       |
-| `DdsLatencyBudget`                     | [ ] Pending*    | N/A       |
-| `DdsOwnership`                         | [ ] Pending*    | N/A       |
-| `DdsOwnershipKindEnum`                 | [ ] Pending*    | N/A       |
-| `DdsOwnershipStrength`                 | [ ] Pending*    | N/A       |
-| `DdsLiveliness`                        | [ ] Pending*    | N/A       |
-| `DdsLivenessKindEnum`                  | [ ] Pending*    | N/A       |
-| `DdsReliability`                       | [ ] Pending*    | N/A       |
-| `DdsReliabilityKindEnum`               | [ ] Pending*    | N/A       |
-| `DdsTransportPriority`                 | [ ] Pending*    | N/A       |
-| `DdsLifespan`                          | [ ] Pending*    | N/A       |
-| `DdsDestinationOrder`                  | [ ] Pending*    | N/A       |
-| `DdsDestinationOrderKindEnum`          | [ ] Pending*    | N/A       |
-| `DdsHistory`                           | [ ] Pending*    | N/A       |
-| `DdsHistoryKindEnum`                   | [ ] Pending*    | N/A       |
-| `DdsResourceLimits`                    | [ ] Created     | N/A       |
-| `StaticSocketConnection`               | [ ] Implemented | N/A       |
-| `IPSecRule`                            | [ ] Pending*    | N/A       |
-| `IPSecConfigProps`                     | [ ] Pending*    | N/A       |
-| `IPsecIpProtocolEnum`                  | [ ] Pending*    | N/A       |
-| `IPsecPolicyEnum`                      | [ ] Pending*    | N/A       |
-| `IPsecModeEnum`                        | [ ] Pending*    | N/A       |
+| Class Name                             | Status       | Commit ID  |
+| -------------------------------------- | ------------ | ---------- |
+| `ConditionalChangeNad`                 | [ ] Pending* | N/A        |
+| `SaveConfigurationEntry`               | [ ] Pending* | N/A        |
+| `DataDumpEntry`                        | [ ] Pending* | N/A        |
+| `FreeFormat`                           | [ ] Pending* | N/A        |
+| `CanFrame`                             | [ ] Pending* | N/A        |
+| `CanFrameTriggering`                   | [ ] Pending* | N/A        |
+| `CanAddressingModeType`                | [ ] Pending* | N/A        |
+| `RxIdentifierRange`                    | [ ] Pending* | N/A        |
+| `CanFrameRxBehaviorEnum`               | [ ] Pending* | N/A        |
+| `CanFrameTxBehaviorEnum`               | [ ] Pending* | N/A        |
+| `TtcanAbsolutelyScheduledTiming`       | [ ] Pending* | N/A        |
+| `TtcanTriggerType`                     | [ ] Pending* | N/A        |
+| `SoAdConfig`                           | [ ] Pending* | N/A        |
+| `SocketAddress`                        | [ ] Pending* | N/A        |
+| `UdpChecksumCalculationEnum`           | [ ] Pending* | N/A        |
+| `IPv6ExtHeaderFilterSet`               | [ ] Pending* | N/A        |
+| `ApplicationEndpoint`                  | [ ] Pending* | N/A        |
+| `RtpTp`                                | [ ] Pending* | N/A        |
+| `Ieee1722Tp`                           | [ ] Pending* | N/A        |
+| `HttpTp`                               | [ ] Pending* | N/A        |
+| `Ipv6Configuration`                    | [ ] Pending* | N/A        |
+| `MacMulticastConfiguration`            | [ ] Pending* | N/A        |
+| `InfrastructureServices`               | [ ] Pending* | N/A        |
+| `TimeSyncTechnologyEnum`               | [ ] Pending* | N/A        |
+| `DoIpEntityRoleEnum`                   | [ ] Pending* | N/A        |
+| `DdsCpServiceInstance`                 | [ ] Pending* | N/A        |
+| `DdsCpProvidedServiceInstance`         | [ ] Pending* | N/A        |
+| `DdsCpConsumedServiceInstance`         | [ ] Pending* | N/A        |
+| `DdsCpServiceInstanceEvent`            | [ ] Pending* | N/A        |
+| `DdsCpServiceInstanceOperation`        | [ ] Pending* | N/A        |
+| `ServiceInstanceCollectionSet`         | [ ] Pending* | N/A        |
+| `AbstractServiceInstance`              | [ ] Pending* | N/A        |
+| `ProvidedServiceInstance`              | [ ] Pending* | N/A        |
+| `PduActivationRoutingGroup`            | [ ] Pending* | 5cb5ddacc2 |
+| `EventGroupControlTypeEnum`            | [ ] Pending* | N/A        |
+| `SoConIPduIdentifier`                  | [ ] Pending* | N/A        |
+| `SocketConnectionIpduIdentifierSet`    | [ ] Pending* | N/A        |
+| `EventHandler`                         | [ ] Pending* | N/A        |
+| `ConsumedServiceInstance`              | [ ] Pending* | N/A        |
+| `ConsumedEventGroup`                   | [ ] Pending* | N/A        |
+| `SomeipSdServerServiceInstanceConfig`  | [ ] Pending* | N/A        |
+| `SomeipSdServerEventGroupTimingConfig` | [ ] Pending* | N/A        |
+| `SomeipSdClientEventGroupTimingConfig` | [ ] Pending* | N/A        |
+| `DdsCpConfig`                          | [ ] Pending* | N/A        |
+| `DdsCpTopic`                           | [ ] Pending* | N/A        |
+| `DdsCpPartition`                       | [ ] Pending* | N/A        |
+| `DdsCpQosProfile`                      | [ ] Pending* | N/A        |
+| `DdsTopicData`                         | [ ] Pending* | N/A        |
+| `DdsDurability`                        | [ ] Pending* | N/A        |
+| `DdsDurabilityKindEnum`                | [ ] Pending* | N/A        |
+| `DdsDurabilityService`                 | [ ] Pending* | N/A        |
+| `DdsDurabilityServiceHistoryKindEnum`  | [ ] Pending* | N/A        |
+| `DdsDeadline`                          | [ ] Pending* | N/A        |
+| `DdsLatencyBudget`                     | [ ] Pending* | N/A        |
+| `DdsOwnership`                         | [ ] Pending* | N/A        |
+| `DdsOwnershipKindEnum`                 | [ ] Pending* | N/A        |
+| `DdsOwnershipStrength`                 | [ ] Pending* | N/A        |
+| `DdsLiveliness`                        | [ ] Pending* | N/A        |
+| `DdsLivenessKindEnum`                  | [ ] Pending* | N/A        |
+| `DdsReliability`                       | [ ] Pending* | N/A        |
+| `DdsReliabilityKindEnum`               | [ ] Pending* | N/A        |
+| `DdsTransportPriority`                 | [ ] Pending* | N/A        |
+| `DdsLifespan`                          | [ ] Pending* | N/A        |
+| `DdsDestinationOrder`                  | [ ] Pending* | N/A        |
+| `DdsDestinationOrderKindEnum`          | [ ] Pending* | N/A        |
+| `DdsHistory`                           | [ ] Pending* | N/A        |
+| `DdsHistoryKindEnum`                   | [ ] Pending* | N/A        |
+| `DdsResourceLimits`                    | [ ] Pending* | N/A        |
+| `StaticSocketConnection`               | [ ] Pending* | N/A        |
+| `IPSecRule`                            | [ ] Pending* | N/A        |
+| `IPSecConfigProps`                     | [ ] Pending* | N/A        |
+| `IPsecIpProtocolEnum`                  | [ ] Pending* | N/A        |
+| `IPsecPolicyEnum`                      | [ ] Pending* | N/A        |
+| `IPsecModeEnum`                        | [ ] Pending* | N/A        |
 
 ## Group33
 
@@ -2003,83 +2002,83 @@ Status: **0/75** completed
 
 Status: **0/75** completed
 
-| Class Name                             | Status          | Commit ID |
-| -------------------------------------- | --------------- | --------- |
-| `BinaryManifestMetaDataField`          | [ ] Created     | N/A       |
-| `VfbTiming`                            | [ ] Created     | N/A       |
-| `SwcTiming`                            | [ ] Implemented | N/A       |
-| `SystemTiming`                         | [ ] Created     | N/A       |
-| `BswModuleTiming`                      | [ ] Created     | N/A       |
-| `BswCompositionTiming`                 | [ ] Created     | N/A       |
-| `EcuTiming`                            | [ ] Created     | N/A       |
-| `TimingCondition`                      | [ ] Implemented | N/A       |
-| `TimingConditionFormula`               | [ ] Implemented | N/A       |
-| `TimingExtensionResource`              | [ ] Implemented | N/A       |
-| `TimingModeInstance`                   | [ ] Implemented | N/A       |
-| `ModeInBswInstanceRef`                 | [ ] Implemented | N/A       |
-| `TDEventVfbReference`                  | [ ] Implemented | N/A       |
-| `TDEventVfbPort`                       | [ ] Implemented | N/A       |
-| `TDEventVariableDataPrototype`         | [ ] Implemented | N/A       |
-| `TDEventVariableDataPrototypeTypeEnum` | [ ] Implemented | N/A       |
-| `TDEventOperation`                     | [ ] Implemented | N/A       |
-| `TDEventOperationTypeEnum`             | [ ] Implemented | N/A       |
-| `TDEventModeDeclaration`               | [ ] Implemented | N/A       |
-| `TDEventModeDeclarationTypeEnum`       | [ ] Implemented | N/A       |
-| `TDEventTrigger`                       | [ ] Implemented | N/A       |
-| `TDEventTriggerTypeEnum`               | [ ] Implemented | N/A       |
-| `TDEventSwc`                           | [ ] Implemented | N/A       |
-| `TDEventSwcInternalBehavior`           | [ ] Implemented | N/A       |
-| `TDEventSwcInternalBehaviorTypeEnum`   | [ ] Implemented | N/A       |
-| `TDEventSwcInternalBehaviorReference`  | [ ] Implemented | N/A       |
-| `TDEventCom`                           | [ ] Implemented | N/A       |
-| `TDEventISignal`                       | [ ] Implemented | N/A       |
-| `TDEventISignalTypeEnum`               | [ ] Implemented | N/A       |
-| `TDEventIPdu`                          | [ ] Implemented | N/A       |
-| `TDEventIPduTypeEnum`                  | [ ] Implemented | N/A       |
-| `TDEventFrame`                         | [ ] Implemented | N/A       |
-| `TDEventFrameTypeEnum`                 | [ ] Implemented | N/A       |
-| `TDEventFrameEthernet`                 | [ ] Implemented | N/A       |
-| `TDEventFrameEthernetTypeEnum`         | [ ] Implemented | N/A       |
-| `TDHeaderIdRange`                      | [ ] Implemented | N/A       |
-| `TDEventCycleStart`                    | [ ] Implemented | N/A       |
-| `TDEventFrClusterCycleStart`           | [ ] Implemented | N/A       |
-| `TDEventTTCanCycleStart`               | [ ] Implemented | N/A       |
-| `TDEventBswInternalBehavior`           | [ ] Implemented | N/A       |
-| `TDEventBswInternalBehaviorTypeEnum`   | [ ] Implemented | N/A       |
-| `TDEventBswModule`                     | [ ] Implemented | N/A       |
-| `TDEventBswModuleTypeEnum`             | [ ] Implemented | N/A       |
-| `TDEventBswModeDeclaration`            | [ ] Implemented | N/A       |
-| `TDEventBswModeDeclarationTypeEnum`    | [ ] Implemented | N/A       |
-| `TDEventComplex`                       | [ ] Implemented | N/A       |
-| `TDEventSLLETPort`                     | [ ] Implemented | N/A       |
-| `TDEventOccurrenceExpression`          | [ ] Implemented | N/A       |
-| `TDEventOccurrenceExpressionFormula`   | [ ] Implemented | N/A       |
-| `AutosarVariableInstance`              | [ ] Implemented | N/A       |
-| `SynchronizationTypeEnum`              | [ ] Implemented | N/A       |
-| `EventOccurrenceKindEnum`              | [ ] Implemented | N/A       |
-| `LatencyTimingConstraint`              | [ ] Implemented | N/A       |
-| `LatencyConstraintTypeEnum`            | [ ] Implemented | N/A       |
-| `EventTriggeringConstraint`            | [ ] Implemented | N/A       |
-| `PeriodicEventTriggering`              | [ ] Implemented | N/A       |
-| `SporadicEventTriggering`              | [ ] Implemented | N/A       |
-| `ConcretePatternEventTriggering`       | [ ] Implemented | N/A       |
-| `BurstPatternEventTriggering`          | [ ] Implemented | N/A       |
-| `ArbitraryEventTriggering`             | [ ] Implemented | N/A       |
-| `ConfidenceInterval`                   | [ ] Implemented | N/A       |
-| `AgeConstraint`                        | [ ] Implemented | N/A       |
-| `ExecutionOrderConstraint`             | [ ] Implemented | N/A       |
-| `ExecutionOrderConstraintTypeEnum`     | [ ] Implemented | N/A       |
-| `EOCExecutableEntityRefAbstract`       | [ ] Implemented | N/A       |
-| `EOCExecutableEntityRefGroup`          | [ ] Implemented | N/A       |
-| `EOCExecutableEntityRef`               | [ ] Implemented | N/A       |
-| `EOCEventRef`                          | [ ] Implemented | N/A       |
-| `ExecutionTimeConstraint`              | [ ] Implemented | N/A       |
-| `ExecutionTimeTypeEnum`                | [ ] Implemented | N/A       |
-| `SynchronizationPointConstraint`       | [ ] Implemented | N/A       |
-| `LetDataExchangeParadigmEnum`          | [ ] Implemented | N/A       |
-| `TDCpSoftwareClusterMappingSet`        | [ ] Created     | N/A       |
-| `TDCpSoftwareClusterMapping`           | [ ] Created     | N/A       |
-| `TDCpSoftwareClusterResourceMapping`   | [ ] Created     | N/A       |
+| Class Name                             | Status       | Commit ID |
+| -------------------------------------- | ------------ | --------- |
+| `BinaryManifestMetaDataField`          | [ ] Pending* | N/A       |
+| `VfbTiming`                            | [ ] Pending* | N/A       |
+| `SwcTiming`                            | [ ] Pending* | N/A       |
+| `SystemTiming`                         | [ ] Pending* | N/A       |
+| `BswModuleTiming`                      | [ ] Pending* | N/A       |
+| `BswCompositionTiming`                 | [ ] Pending* | N/A       |
+| `EcuTiming`                            | [ ] Pending* | N/A       |
+| `TimingCondition`                      | [ ] Pending* | N/A       |
+| `TimingConditionFormula`               | [ ] Pending* | N/A       |
+| `TimingExtensionResource`              | [ ] Pending* | N/A       |
+| `TimingModeInstance`                   | [ ] Pending* | N/A       |
+| `ModeInBswInstanceRef`                 | [ ] Pending* | N/A       |
+| `TDEventVfbReference`                  | [ ] Pending* | N/A       |
+| `TDEventVfbPort`                       | [ ] Pending* | N/A       |
+| `TDEventVariableDataPrototype`         | [ ] Pending* | N/A       |
+| `TDEventVariableDataPrototypeTypeEnum` | [ ] Pending* | N/A       |
+| `TDEventOperation`                     | [ ] Pending* | N/A       |
+| `TDEventOperationTypeEnum`             | [ ] Pending* | N/A       |
+| `TDEventModeDeclaration`               | [ ] Pending* | N/A       |
+| `TDEventModeDeclarationTypeEnum`       | [ ] Pending* | N/A       |
+| `TDEventTrigger`                       | [ ] Pending* | N/A       |
+| `TDEventTriggerTypeEnum`               | [ ] Pending* | N/A       |
+| `TDEventSwc`                           | [ ] Pending* | N/A       |
+| `TDEventSwcInternalBehavior`           | [ ] Pending* | N/A       |
+| `TDEventSwcInternalBehaviorTypeEnum`   | [ ] Pending* | N/A       |
+| `TDEventSwcInternalBehaviorReference`  | [ ] Pending* | N/A       |
+| `TDEventCom`                           | [ ] Pending* | N/A       |
+| `TDEventISignal`                       | [ ] Pending* | N/A       |
+| `TDEventISignalTypeEnum`               | [ ] Pending* | N/A       |
+| `TDEventIPdu`                          | [ ] Pending* | N/A       |
+| `TDEventIPduTypeEnum`                  | [ ] Pending* | N/A       |
+| `TDEventFrame`                         | [ ] Pending* | N/A       |
+| `TDEventFrameTypeEnum`                 | [ ] Pending* | N/A       |
+| `TDEventFrameEthernet`                 | [ ] Pending* | N/A       |
+| `TDEventFrameEthernetTypeEnum`         | [ ] Pending* | N/A       |
+| `TDHeaderIdRange`                      | [ ] Pending* | N/A       |
+| `TDEventCycleStart`                    | [ ] Pending* | N/A       |
+| `TDEventFrClusterCycleStart`           | [ ] Pending* | N/A       |
+| `TDEventTTCanCycleStart`               | [ ] Pending* | N/A       |
+| `TDEventBswInternalBehavior`           | [ ] Pending* | N/A       |
+| `TDEventBswInternalBehaviorTypeEnum`   | [ ] Pending* | N/A       |
+| `TDEventBswModule`                     | [ ] Pending* | N/A       |
+| `TDEventBswModuleTypeEnum`             | [ ] Pending* | N/A       |
+| `TDEventBswModeDeclaration`            | [ ] Pending* | N/A       |
+| `TDEventBswModeDeclarationTypeEnum`    | [ ] Pending* | N/A       |
+| `TDEventComplex`                       | [ ] Pending* | N/A       |
+| `TDEventSLLETPort`                     | [ ] Pending* | N/A       |
+| `TDEventOccurrenceExpression`          | [ ] Pending* | N/A       |
+| `TDEventOccurrenceExpressionFormula`   | [ ] Pending* | N/A       |
+| `AutosarVariableInstance`              | [ ] Pending* | N/A       |
+| `SynchronizationTypeEnum`              | [ ] Pending* | N/A       |
+| `EventOccurrenceKindEnum`              | [ ] Pending* | N/A       |
+| `LatencyTimingConstraint`              | [ ] Pending* | N/A       |
+| `LatencyConstraintTypeEnum`            | [ ] Pending* | N/A       |
+| `EventTriggeringConstraint`            | [ ] Pending* | N/A       |
+| `PeriodicEventTriggering`              | [ ] Pending* | N/A       |
+| `SporadicEventTriggering`              | [ ] Pending* | N/A       |
+| `ConcretePatternEventTriggering`       | [ ] Pending* | N/A       |
+| `BurstPatternEventTriggering`          | [ ] Pending* | N/A       |
+| `ArbitraryEventTriggering`             | [ ] Pending* | N/A       |
+| `ConfidenceInterval`                   | [ ] Pending* | N/A       |
+| `AgeConstraint`                        | [ ] Pending* | N/A       |
+| `ExecutionOrderConstraint`             | [ ] Pending* | N/A       |
+| `ExecutionOrderConstraintTypeEnum`     | [ ] Pending* | N/A       |
+| `EOCExecutableEntityRefAbstract`       | [ ] Pending* | N/A       |
+| `EOCExecutableEntityRefGroup`          | [ ] Pending* | N/A       |
+| `EOCExecutableEntityRef`               | [ ] Pending* | N/A       |
+| `EOCEventRef`                          | [ ] Pending* | N/A       |
+| `ExecutionTimeConstraint`              | [ ] Pending* | N/A       |
+| `ExecutionTimeTypeEnum`                | [ ] Pending* | N/A       |
+| `SynchronizationPointConstraint`       | [ ] Pending* | N/A       |
+| `LetDataExchangeParadigmEnum`          | [ ] Pending* | N/A       |
+| `TDCpSoftwareClusterMappingSet`        | [ ] Pending* | N/A       |
+| `TDCpSoftwareClusterMapping`           | [ ] Pending* | N/A       |
+| `TDCpSoftwareClusterResourceMapping`   | [ ] Pending* | N/A       |
 
 ## Group36
 

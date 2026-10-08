@@ -4,8 +4,18 @@ import typing
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, Boolean, PositiveInteger, RefType, String, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Referrable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    AnyServiceInstanceId,
+    AnyVersionString,
+    ARLiteral,
+    Boolean,
+    PositiveInteger,
+    RefType,
+    String,
+    TimeValue,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import SocketConnectionBundle
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
@@ -29,11 +39,14 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Serv
     EventHandler,
     InitialSdDelayConfig,
     PduActivationRoutingGroup,
+    PduCollectionSemanticsEnum,
+    PduCollectionTriggerEnum,
     ProvidedServiceInstance,
     RequestResponseDelay,
     ServiceVersionAcceptanceKindEnum,
     SoAdConfig,
     SocketAddress,
+    SoConIPduIdentifier,
     SomeipSdClientEventGroupTimingConfig,
     SomeipSdClientServiceInstanceConfig,
     SomeipSdServerEventGroupTimingConfig,
@@ -467,17 +480,6 @@ class Test_Fibex4EthernetServiceInstances:
         assert "local_unicast_ref1" in instance.getLocalUnicastAddressRefs()
         assert instance == instance.addLocalUnicastAddressRef("local_unicast_ref1")  # Test method chaining
 
-        instance.addAllowedServiceConsumerRef("network_endpoint_ref1")
-        assert "network_endpoint_ref1" in instance.getAllowedServiceConsumerRefs()
-        assert instance == instance.addAllowedServiceConsumerRef("network_endpoint_ref1")  # Test method chaining
-        assert instance == instance.setAllowedServiceConsumerRefs(["network_endpoint_ref2"])
-        assert instance.getAllowedServiceConsumerRefs() == ["network_endpoint_ref2"]
-        assert instance == instance.setAllowedServiceConsumerRefs(None)  # None no-op
-        assert instance.getAllowedServiceConsumerRefs() == ["network_endpoint_ref2"]
-
-        instance.setLocalUnicastAddressRefs(["local_unicast_ref2"])
-        assert "local_unicast_ref2" in instance.getLocalUnicastAddressRefs()
-
         instance.addRemoteMulticastSubscriptionAddressRef("remote_multicast_ref1")
         assert "remote_multicast_ref1" in instance.getRemoteMulticastSubscriptionAddressRefs()
         assert instance == instance.addRemoteMulticastSubscriptionAddressRef("remote_multicast_ref1")  # Test method chaining
@@ -490,13 +492,6 @@ class Test_Fibex4EthernetServiceInstances:
         event_handler = instance.createEventHandler("test_event_handler")
         assert isinstance(event_handler, EventHandler)
         assert len(instance.getEventHandlers()) == 1
-
-        # Test autoAvailable attribute (Boolean, 0..1)
-        assert instance == instance.setAutoAvailable(None)  # None no-op
-        assert instance.getAutoAvailable() is None
-        instance.setAutoAvailable(True)
-        assert instance.getAutoAvailable() is True
-        assert instance == instance.setAutoAvailable(True)  # Test method chaining
 
     def test_ApplicationEndpoint(self):
         """Test ApplicationEndpoint class functionality."""
@@ -561,138 +556,56 @@ class Test_Fibex4EthernetServiceInstances:
         assert isinstance(provided_instance, ProvidedServiceInstance)
         assert len(endpoint.getProvidedServiceInstances()) == 1
 
-    def test_SocketAddress(self):
-        """Test SocketAddress class functionality."""
-        parent = MockParent()
-        address = SocketAddress(parent, "test_socket_address")
 
-        assert isinstance(address, Identifiable)
+class TestSoAdConfig:
+    """Test cases for SoAdConfig (Table 6.117)."""
 
-        # Test default values
-        assert address.getAllowedIPv6ExtHeadersRef() is None
-        assert address.getAllowedTcpOptionsRef() is None
-        assert address.getApplicationEndpoint() is None
-        assert address.getConnectorRef() is None
-        assert address.getDifferentiatedServiceField() is None
-        assert address.getFlowLabel() is None
-        assert address.getMulticastConnectorRefs() == []
-        assert address.getPathMtuDiscoveryEnabled() is None
-        assert address.getPduCollectionMaxBufferSize() is None
-        assert address.getPduCollectionTimeout() is None
-        assert address.getStaticSocketConnections() == []
-        assert address.getUdpChecksumHandling() is None
+    def _config(self):
+        return SoAdConfig()
 
-        # Test setter/getter methods with method chaining - with None
-        assert address == address.setAllowedIPv6ExtHeadersRef(None)  # Test method chaining with None
-        assert address.getAllowedIPv6ExtHeadersRef() is None  # Should remain None
-
-        assert address == address.setAllowedTcpOptionsRef(None)  # Test method chaining with None
-        assert address.getAllowedTcpOptionsRef() is None  # Should remain None
-
-        assert address == address.setConnectorRef(None)  # Test method chaining with None
-        assert address.getConnectorRef() is None  # Should remain None
-
-        assert address == address.setDifferentiatedServiceField(None)  # Test method chaining with None
-        assert address.getDifferentiatedServiceField() is None  # Should remain None
-
-        assert address == address.setFlowLabel(None)  # Test method chaining with None
-        assert address.getFlowLabel() is None  # Should remain None
-
-        assert address == address.setPathMtuDiscoveryEnabled(None)  # Test method chaining with None
-        assert address.getPathMtuDiscoveryEnabled() is None  # Should remain None
-
-        assert address == address.setPduCollectionMaxBufferSize(None)  # Test method chaining with None
-        assert address.getPduCollectionMaxBufferSize() is None  # Should remain None
-
-        assert address == address.setPduCollectionTimeout(None)  # Test method chaining with None
-        assert address.getPduCollectionTimeout() is None  # Should remain None
-
-        assert address == address.setUdpChecksumHandling(None)  # Test method chaining with None
-        assert address.getUdpChecksumHandling() is None  # Should remain None
-
-        # Test setter/getter methods with method chaining - with actual values
-        address.setAllowedIPv6ExtHeadersRef("ipv6_ext_ref")
-        assert address.getAllowedIPv6ExtHeadersRef() == "ipv6_ext_ref"
-        assert address == address.setAllowedIPv6ExtHeadersRef("ipv6_ext_ref")  # Test method chaining
-
-        address.setAllowedTcpOptionsRef("tcp_options_ref")
-        assert address.getAllowedTcpOptionsRef() == "tcp_options_ref"
-        assert address == address.setAllowedTcpOptionsRef("tcp_options_ref")  # Test method chaining
-
-        address.setConnectorRef("connector_ref")
-        assert address.getConnectorRef() == "connector_ref"
-        assert address == address.setConnectorRef("connector_ref")  # Test method chaining
-
-        address.setDifferentiatedServiceField(46)
-        assert address.getDifferentiatedServiceField() == 46
-        assert address == address.setDifferentiatedServiceField(46)  # Test method chaining
-
-        address.setFlowLabel(12345)
-        assert address.getFlowLabel() == 12345
-        assert address == address.setFlowLabel(12345)  # Test method chaining
-
-        address.setPathMtuDiscoveryEnabled(True)
-        assert address.getPathMtuDiscoveryEnabled() is True
-        assert address == address.setPathMtuDiscoveryEnabled(True)  # Test method chaining
-
-        address.setPduCollectionMaxBufferSize(1024)
-        assert address.getPduCollectionMaxBufferSize() == 1024
-        assert address == address.setPduCollectionMaxBufferSize(1024)  # Test method chaining
-
-        address.setPduCollectionTimeout(5000)
-        assert address.getPduCollectionTimeout() == 5000
-        assert address == address.setPduCollectionTimeout(5000)  # Test method chaining
-
-        address.setUdpChecksumHandling("udp_checksum")
-        assert address.getUdpChecksumHandling() == "udp_checksum"
-        assert address == address.setUdpChecksumHandling("udp_checksum")  # Test method chaining
-
-        # Test add methods
-        address.addMulticastConnectorRef("multicast_connector_ref")
-        assert "multicast_connector_ref" in address.getMulticastConnectorRefs()
-        assert address == address.addMulticastConnectorRef("multicast_connector_ref")  # Test method chaining
-
-        address.addStaticSocketConnection("static_connection")
-        assert "static_connection" in address.getStaticSocketConnections()
-        assert address == address.addStaticSocketConnection("static_connection")  # Test method chaining
-
-        # Test create method for application endpoint
-        app_endpoint = address.createApplicationEndpoint("test_app_endpoint")
-        assert isinstance(app_endpoint, ApplicationEndpoint)
-        assert address.getApplicationEndpoint() == app_endpoint
-
-    def test_SoAdConfig(self):
-        """
-        Test SoAdConfig class functionality (Table 6.117).
-        """
-        config = SoAdConfig()
+    def test_initialization(self):
+        """Test __init__ defaults for all fields."""
+        config = self._config()
 
         assert isinstance(config, ARObject)
-
-        # Test default values
         assert config.getConnections() == []
         assert config.getConnectionBundles() == []
         assert config.getSocketAddresses() == []
 
-        # Test addConnection (connection * aggr, obsolete; SocketConnection is a Describable value type — not Referrable)
+    def test_add_get_connections(self):
+        """Test add/get connections append, chaining and None no-op (SocketConnection is a Describable value type — not Referrable)."""
+        config = self._config()
         connection = SocketConnection()
-        result = config.addConnection(connection)
+
+        assert config.addConnection(connection) is config
         assert config.getConnections() == [connection]
-        assert result == config  # method chaining
 
-        # Test createSocketConnectionBundle (connectionBundle * aggr, obsolete)
-        bundle = config.createSocketConnectionBundle("test_bundle")
+        config.addConnection(None)
+        assert config.getConnections() == [connection]
+
+    def test_create_get_connectionBundles(self):
+        """Test create/get connectionBundles append and duplicate returns existing."""
+        config = self._config()
+        bundle = config.createSocketConnectionBundle("BUNDLE1")
+        bundle2 = config.createSocketConnectionBundle("BUNDLE2")
+
         assert isinstance(bundle, SocketConnectionBundle)
-        assert len(config.getConnectionBundles()) == 1
+        assert config.createSocketConnectionBundle("BUNDLE1") is bundle
+        assert bundle2 is not bundle
+        assert config.getConnectionBundles() == [bundle, bundle2]
+        assert config.getConnectionBundles()[0].getShortName() == "BUNDLE1"
 
-        config.createSocketConnectionBundle("test_bundle2")
-        assert len(config.getConnectionBundles()) == 2
+    def test_create_get_socketAddresses(self):
+        """Test create/get socketAddresses append and duplicate returns existing."""
+        config = self._config()
+        address = config.createSocketAddress("SA1")
+        address2 = config.createSocketAddress("SA2")
 
-        # Test createSocketAddress (socketAddress * aggr)
-        socket_addr = config.createSocketAddress("test_socket_addr")
-        assert isinstance(socket_addr, SocketAddress)
-        assert len(config.getSocketAddresses()) == 1
-        assert config.getSocketAddresses()[0].getShortName() == "test_socket_addr"
+        assert isinstance(address, SocketAddress)
+        assert config.createSocketAddress("SA1") is address
+        assert address2 is not address
+        assert config.getSocketAddresses() == [address, address2]
+        assert config.getSocketAddresses()[0].getShortName() == "SA1"
 
 
 class TestSomeipSdClientServiceInstanceConfig:
@@ -873,15 +786,88 @@ def _ref(value):
 
 
 class TestConsumedEventGroup:
+    """Spec-sync tests for ConsumedEventGroup (R23-11 CP_TPS_SystemTemplate, Table 6.168, p.505)."""
+
+    MEMBERS = [
+        "applicationEndpointRef",
+        "autoRequire",
+        "eventGroupIdentifier",
+        "eventMulticastAddressRefs",
+        "pduActivationRoutingGroups",
+        "priority",
+        "routingGroupRefs",
+        "sdClientConfig",
+        "sdClientTimerConfigRef",
+    ]
+
+    APPLICATION_ENDPOINT_REF_NOTE = "Defines the application endpoint where the events of the event group are received in case of multicast reception. Tags: atp.Status=obsolete"
+    AUTO_REQUIRE_NOTE = (
+        "Defines that this ConsumedEventGroup shall be requested (subscribed) as soon as the corresponding ConsumedServiceInstance is requested. "
+        "This could be at ECU start, if ConsumedServiceInstance.autoRequire is set to TRUE or as soon as the ConsumedServiceInstance is requested by the application, "
+        "if ConsumedServiceInstance.autoRequire is set to FALSE."
+    )
+    EVENT_GROUP_IDENTIFIER_NOTE = "EventGroup ID. Shall be unique within one system to allow service discovery."
+    EVENT_MULTICAST_ADDRESS_NOTE = (
+        "This reference defines the multicast address or a multicast address resource where the events of the event group are received. "
+        "If the multicast address is determined via configuration and not at runtime via service discovery this reference points to the multicast address over which the events will be received. "
+        "If the multicast address is determined at runtime via service discovery this reference shall be used to define the necessary local multicast address resources, i.e. RAM space in the TcpIp module in which the multicast address is stored at runtime. "
+        "Please note that in this case the referenced address may be defined as ANY UDP port and ANY IP address since the multicast address will be received at runtime. "
+        "If several multicast addresses are considered to be used the ConsumedEventGroup shall point to different ApplicationEndpoint objects to reserve the necessary resources in the configuration. "
+        "Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=eventMulticastAddress.applicationEndpoint, eventMulticastAddress.variationPoint.shortLabel vh.latestBindingTime=postBuild"
+    )
+    PDU_ACTIVATION_ROUTING_GROUP_NOTE = "The ServiceDiscovery module is able to activate and deactivate the PDU routing for receiving events."
+    PRIORITY_NOTE = "Defines the frame priority where values from 0 (best effort) to 7 (highest) are allowed."
+    ROUTING_GROUP_NOTE = "The ServiceDiscovery module is able to activate and deactivate the PDU routing for receiving events. Tags: atp.Status=obsolete"
+    SD_CLIENT_CONFIG_NOTE = (
+        "The readiness to receive events is defined by the Service Discovery of the ConsumedEventGroup. "
+        "The Event Handler shall know about this announcement to decide about the submission of events. "
+        "Therefore the Event Handler may be configured with Service-Discovery Client attributes. Tags: atp.Status=obsolete"
+    )
+    SD_CLIENT_TIMER_CONFIG_NOTE = (
+        "Client Timing configuration settings that are EventGroup specific. "
+        "Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=sdClientTimerConfig.someipSdClientEventGroupTimingConfig, "
+        "sdClientTimerConfig.variationPoint.shortLabel vh.latestBindingTime=postBuild"
+    )
+
     def _group(self):
         return ConsumedEventGroup(MockParent(), "ceg")
 
-    def test_initialization(self):
-        """Test __init__ defaults for all fields (Table 6.168)."""
+    def test_inheritance(self):
         group = self._group()
 
         assert isinstance(group, Identifiable)
-        assert group.getShortName() == "ceg"
+
+    def test_rule_0015_removed_instance_identifier(self):
+        """instanceIdentifier is atp.Status=removed in the XSD group and absent from Table 6.168 - not modeled (Rule 0015)."""
+        group = self._group()
+
+        assert not hasattr(group, "instanceIdentifier")
+        assert not hasattr(group, "getInstanceIdentifier")
+
+    def test_init_parameter_annotations(self):
+        annotations = typing.get_type_hints(ConsumedEventGroup.__init__)
+
+        assert annotations["parent"] is ARObject
+        assert annotations["short_name"] is str
+
+    def test_member_annotations_match_getter_returns(self):
+        optional_hints = {
+            "getApplicationEndpointRef": RefType,
+            "getAutoRequire": Boolean,
+            "getEventGroupIdentifier": PositiveInteger,
+            "getPriority": PositiveInteger,
+            "getSdClientConfig": SdClientConfig,
+            "getSdClientTimerConfigRef": RefType,
+        }
+        for getter, expected in optional_hints.items():
+            assert typing.get_type_hints(getattr(ConsumedEventGroup, getter))["return"] == typing.Optional[expected]
+        assert typing.get_type_hints(ConsumedEventGroup.getEventMulticastAddressRefs)["return"] == typing.List[RefType]
+        assert typing.get_type_hints(ConsumedEventGroup.getPduActivationRoutingGroups)["return"] == typing.List[PduActivationRoutingGroup]
+        assert typing.get_type_hints(ConsumedEventGroup.getRoutingGroupRefs)["return"] == typing.List[RefType]
+
+    def test_initialization_defaults(self):
+        group = self._group()
+
         assert group.getApplicationEndpointRef() is None
         assert group.getAutoRequire() is None
         assert group.getEventGroupIdentifier() is None
@@ -892,19 +878,24 @@ class TestConsumedEventGroup:
         assert group.getSdClientConfig() is None
         assert group.getSdClientTimerConfigRef() is None
 
-    def test_get_set_applicationEndpointRef(self):
-        """Test get/set applicationEndpointRef with chaining and None no-op."""
+    def test_member_order(self):
+        group = self._group()
+
+        members = [k for k in vars(group) if k in set(self.MEMBERS)]
+        assert members == self.MEMBERS
+
+    def test_get_set_application_endpoint_ref(self):
         group = self._group()
         ref = _ref("/Ethernet/ApplicationEndpoint/AE1")
 
         assert group.setApplicationEndpointRef(ref) is group
         assert group.getApplicationEndpointRef() is ref
+        assert group.getApplicationEndpointRef().getValue() == "/Ethernet/ApplicationEndpoint/AE1"
 
         group.setApplicationEndpointRef(None)
         assert group.getApplicationEndpointRef() is ref
 
-    def test_get_set_autoRequire(self):
-        """Test get/set autoRequire with chaining and None no-op."""
+    def test_get_set_auto_require(self):
         group = self._group()
         value = Boolean().setValue("true")
 
@@ -915,8 +906,7 @@ class TestConsumedEventGroup:
         group.setAutoRequire(None)
         assert group.getAutoRequire() is value
 
-    def test_get_set_eventGroupIdentifier(self):
-        """Test get/set eventGroupIdentifier with chaining and None no-op."""
+    def test_get_set_event_group_identifier(self):
         group = self._group()
 
         assert group.setEventGroupIdentifier(PositiveInteger().setValue("42")) is group
@@ -925,8 +915,7 @@ class TestConsumedEventGroup:
         group.setEventGroupIdentifier(None)
         assert group.getEventGroupIdentifier().getValue() == 42
 
-    def test_add_get_eventMulticastAddressRefs(self):
-        """Test add/get eventMulticastAddressRefs append order and None no-op."""
+    def test_add_get_event_multicast_address_refs(self):
         group = self._group()
         ref1 = _ref("/Ethernet/ApplicationEndpoint/MC1")
         ref2 = _ref("/Ethernet/ApplicationEndpoint/MC2")
@@ -938,11 +927,10 @@ class TestConsumedEventGroup:
         group.addEventMulticastAddressRef(None)
         assert group.getEventMulticastAddressRefs() == [ref1, ref2]
 
-    def test_add_get_pduActivationRoutingGroups(self):
-        """Test add/get pduActivationRoutingGroups (placeholder child type) and None no-op."""
+    def test_add_get_pdu_activation_routing_groups(self):
         group = self._group()
-        routing_group1 = MockParent()
-        routing_group2 = MockParent()
+        routing_group1 = PduActivationRoutingGroup(group, "parg1")
+        routing_group2 = PduActivationRoutingGroup(group, "parg2")
 
         assert group.addPduActivationRoutingGroup(routing_group1) is group
         group.addPduActivationRoutingGroup(routing_group2)
@@ -952,7 +940,6 @@ class TestConsumedEventGroup:
         assert group.getPduActivationRoutingGroups() == [routing_group1, routing_group2]
 
     def test_get_set_priority(self):
-        """Test get/set priority with chaining and None no-op."""
         group = self._group()
 
         assert group.setPriority(PositiveInteger().setValue("5")) is group
@@ -961,8 +948,7 @@ class TestConsumedEventGroup:
         group.setPriority(None)
         assert group.getPriority().getValue() == 5
 
-    def test_add_get_routingGroupRefs(self):
-        """Test add/get routingGroupRefs append order and None no-op."""
+    def test_add_get_routing_group_refs(self):
         group = self._group()
         ref1 = _ref("/SoAd/RoutingGroup/RG1")
         ref2 = _ref("/SoAd/RoutingGroup/RG2")
@@ -974,8 +960,7 @@ class TestConsumedEventGroup:
         group.addRoutingGroupRef(None)
         assert group.getRoutingGroupRefs() == [ref1, ref2]
 
-    def test_get_set_sdClientConfig(self):
-        """Test get/set sdClientConfig with chaining and None no-op."""
+    def test_get_set_sd_client_config(self):
         group = self._group()
         config = SdClientConfig()
 
@@ -985,8 +970,7 @@ class TestConsumedEventGroup:
         group.setSdClientConfig(None)
         assert group.getSdClientConfig() is config
 
-    def test_get_set_sdClientTimerConfigRef(self):
-        """Test get/set sdClientTimerConfigRef with chaining and None no-op."""
+    def test_get_set_sd_client_timer_config_ref(self):
         group = self._group()
         ref = _ref("/SomeipSdTimingConfigs/Timing1")
 
@@ -996,17 +980,150 @@ class TestConsumedEventGroup:
         group.setSdClientTimerConfigRef(None)
         assert group.getSdClientTimerConfigRef() is ref
 
+    def test_class_docstring_note(self):
+        expected = "This element represents an event-group to which the service consumer wants to subscribe."
+        assert inspect.cleandoc(ConsumedEventGroup.__doc__) == expected
+
+    def test_notes_verbatim(self):
+        scalar_setters = {
+            self.APPLICATION_ENDPOINT_REF_NOTE: "applicationEndpointRef",
+            self.AUTO_REQUIRE_NOTE: "autoRequire",
+            self.EVENT_GROUP_IDENTIFIER_NOTE: "eventGroupIdentifier",
+            self.PRIORITY_NOTE: "priority",
+            self.SD_CLIENT_CONFIG_NOTE: "sdClientConfig",
+            self.SD_CLIENT_TIMER_CONFIG_NOTE: "sdClientTimerConfigRef",
+        }
+        list_adds = {
+            self.EVENT_MULTICAST_ADDRESS_NOTE: "eventMulticastAddressRefs",
+            self.PDU_ACTIVATION_ROUTING_GROUP_NOTE: "pduActivationRoutingGroups",
+            self.ROUTING_GROUP_NOTE: "routingGroupRefs",
+        }
+        accessors = {
+            self.APPLICATION_ENDPOINT_REF_NOTE: ("getApplicationEndpointRef", "setApplicationEndpointRef"),
+            self.AUTO_REQUIRE_NOTE: ("getAutoRequire", "setAutoRequire"),
+            self.EVENT_GROUP_IDENTIFIER_NOTE: ("getEventGroupIdentifier", "setEventGroupIdentifier"),
+            self.EVENT_MULTICAST_ADDRESS_NOTE: ("addEventMulticastAddressRef", "getEventMulticastAddressRefs"),
+            self.PDU_ACTIVATION_ROUTING_GROUP_NOTE: ("addPduActivationRoutingGroup", "getPduActivationRoutingGroups"),
+            self.PRIORITY_NOTE: ("getPriority", "setPriority"),
+            self.ROUTING_GROUP_NOTE: ("addRoutingGroupRef", "getRoutingGroupRefs"),
+            self.SD_CLIENT_CONFIG_NOTE: ("getSdClientConfig", "setSdClientConfig"),
+            self.SD_CLIENT_TIMER_CONFIG_NOTE: ("getSdClientTimerConfigRef", "setSdClientTimerConfigRef"),
+        }
+        for note, (getter, setter) in accessors.items():
+            assert inspect.cleandoc(getattr(ConsumedEventGroup, getter).__doc__).split("\nA None value")[0] == note
+            assert inspect.cleandoc(getattr(ConsumedEventGroup, setter).__doc__).split("\nA None value")[0] == note
+            assert note in inspect.getsource(ConsumedEventGroup.__init__)
+        for note, field in list_adds.items():
+            assert ("A None value is a no-op and does not append to %s." % field) in inspect.cleandoc(getattr(ConsumedEventGroup, accessors[note][0]).__doc__)
+        for note, field in scalar_setters.items():
+            assert ("A None value is a no-op and does not overwrite an existing %s." % field) in inspect.cleandoc(getattr(ConsumedEventGroup, accessors[note][1]).__doc__)
+
 
 class TestConsumedServiceInstance:
+    """Spec-sync tests for ConsumedServiceInstance (R23-11 CP_TPS_SystemTemplate, Table 6.167, p.501)."""
+
+    MEMBERS = [
+        "allowedServiceProviderRefs",
+        "autoRequire",
+        "blocklistedVersions",
+        "consumedEventGroups",
+        "eventMulticastSubscriptionAddressRef",
+        "instanceIdentifier",
+        "localUnicastAddressRefs",
+        "minorVersion",
+        "providedServiceInstanceRef",
+        "remoteUnicastAddressRefs",
+        "sdClientConfig",
+        "sdClientTimerConfigRef",
+        "serviceIdentifier",
+        "versionDrivenFindBehavior",
+    ]
+
+    ALLOWED_SERVICE_PROVIDER_NOTE = (
+        "NetworkEndpoint on which the ProvidedServiceInstance that is communicating with this ConsumedServiceInstance is allowed to be located "
+        "so that the ACL check in the ServiceDiscovery is successful and the connection is allowed to be established. "
+        "Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=allowedServiceProvider.networkEndpoint, "
+        "allowedServiceProvider.variationPoint.shortLabel atp.Status=draft vh.latestBindingTime=postBuild"
+    )
+    AUTO_REQUIRE_NOTE = "Defines that this ConsumedServiceInstance shall be required (searched for) by the service discovery at ECU start."
+    BLOCKLISTED_VERSION_NOTE = "Collection of blocklisted versions Tags: atp.Status=draft"
+    CONSUMED_EVENT_GROUP_NOTE = (
+        "Selection of event-groups the consumer wants to subscribe for. "
+        "Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=consumedEventGroup.shortName, "
+        "consumedEventGroup.variationPoint.shortLabel vh.latestBindingTime=postBuild"
+    )
+    EVENT_MULTICAST_SUBSCRIPTION_ADDRESS_NOTE = (
+        "Multicast Address that is used by the client to subscribe to the server: This enables the multicast subscription feature. "
+        "Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=eventMulticastSubscriptionAddress.applicationEndpoint, "
+        "eventMulticastSubscriptionAddress.variationPoint.shortLabel vh.latestBindingTime=postBuild"
+    )
+    INSTANCE_IDENTIFIER_NOTE = "This attribute represents the ability to describe the required service instance ID."
+    LOCAL_UNICAST_ADDRESS_NOTE = (
+        "The local address over which the CSI is consumed (udp, tcp or both). "
+        "Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=localUnicastAddress.applicationEndpoint, "
+        "localUnicastAddress.variationPoint.shortLabel vh.latestBindingTime=postBuild"
+    )
+    MINOR_VERSION_NOTE = "Minor Version of the ServiceInterface. Value can be set to a number that represents the Minor Version of the searched service or to ANY."
+    PROVIDED_SERVICE_INSTANCE_NOTE = "Reference to a providedServiceInstance to get the instanceIdentifier information from the ProvidedServiceInstance. Tags: atp.Status=obsolete"
+    REMOTE_UNICAST_ADDRESS_NOTE = (
+        "This reference defines the remote address where the service provider is located. "
+        "This reference shall ONLY be used if the remote address is determined from the configuration and not at runtime from the Service Discovery. "
+        "Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=remoteUnicastAddress.applicationEndpoint, "
+        "remoteUnicastAddress.variationPoint.shortLabel vh.latestBindingTime=postBuild"
+    )
+    SD_CLIENT_CONFIG_NOTE = "Service Discovery Client configuration. Tags: atp.Status=obsolete"
+    SD_CLIENT_TIMER_CONFIG_NOTE = (
+        "Client specific configuration settings relevant for the SOME/IP service discovery. "
+        "Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=sdClientTimerConfig.someipSdClientServiceInstanceConfig, "
+        "sdClientTimerConfig.variationPoint.shortLabel vh.latestBindingTime=postBuild"
+    )
+    SERVICE_IDENTIFIER_NOTE = "This attribute represents the ability to describe the SOME/IP service ID that is searched."
+    VERSION_DRIVEN_FIND_BEHAVIOR_NOTE = "Defines the service discovery find behavior. Tags: atp.Status=draft"
+
     def _instance(self):
         return ConsumedServiceInstance(MockParent(), "csi")
 
-    def test_initialization(self):
-        """Test __init__ defaults for all fields (Table 6.167)."""
+    def test_inheritance(self):
         instance = self._instance()
 
         assert isinstance(instance, AbstractServiceInstance)
-        assert instance.getShortName() == "csi"
+
+    def test_rule_0015_removed_blacklisted_version(self):
+        """blacklistedVersion is atp.Status=removed in the XSD and absent from Table 6.167 - only blocklistedVersion is modeled (Rule 0015)."""
+        instance = self._instance()
+
+        assert not hasattr(instance, "blacklistedVersions")
+        assert not hasattr(instance, "addBlacklistedVersion")
+
+    def test_init_parameter_annotations(self):
+        annotations = typing.get_type_hints(ConsumedServiceInstance.__init__)
+
+        assert annotations["parent"] is ARObject
+        assert annotations["short_name"] is str
+
+    def test_member_annotations_match_getter_returns(self):
+        optional_hints = {
+            "getAutoRequire": Boolean,
+            "getEventMulticastSubscriptionAddressRef": RefType,
+            "getInstanceIdentifier": AnyServiceInstanceId,
+            "getMinorVersion": AnyVersionString,
+            "getProvidedServiceInstanceRef": RefType,
+            "getSdClientConfig": SdClientConfig,
+            "getSdClientTimerConfigRef": RefType,
+            "getServiceIdentifier": PositiveInteger,
+            "getVersionDrivenFindBehavior": ServiceVersionAcceptanceKindEnum,
+        }
+        for getter, expected in optional_hints.items():
+            assert typing.get_type_hints(getattr(ConsumedServiceInstance, getter))["return"] == typing.Optional[expected]
+        assert typing.get_type_hints(ConsumedServiceInstance.getAllowedServiceProviderRefs)["return"] == typing.List[RefType]
+        assert typing.get_type_hints(ConsumedServiceInstance.getBlocklistedVersions)["return"] == typing.List[SomeipServiceVersion]
+        assert typing.get_type_hints(ConsumedServiceInstance.getConsumedEventGroups)["return"] == typing.List[ConsumedEventGroup]
+        assert typing.get_type_hints(ConsumedServiceInstance.getLocalUnicastAddressRefs)["return"] == typing.List[RefType]
+        assert typing.get_type_hints(ConsumedServiceInstance.getRemoteUnicastAddressRefs)["return"] == typing.List[RefType]
+
+    def test_initialization_defaults(self):
+        instance = self._instance()
+
         assert instance.getAllowedServiceProviderRefs() == []
         assert instance.getAutoRequire() is None
         assert instance.getBlocklistedVersions() == []
@@ -1022,11 +1139,28 @@ class TestConsumedServiceInstance:
         assert instance.getServiceIdentifier() is None
         assert instance.getVersionDrivenFindBehavior() is None
 
-    def test_add_get_allowedServiceProviderRefs(self):
-        """Test add/get allowedServiceProviderRefs append order and None no-op."""
+    def test_member_order(self):
         instance = self._instance()
-        ref1 = _ref("/Ethernet/NetworkEndpoint/NE1")
-        ref2 = _ref("/Ethernet/NetworkEndpoint/NE2")
+
+        members = [k for k in vars(instance) if k in set(self.MEMBERS)]
+        assert members == self.MEMBERS
+
+    def test_create_consumed_event_group(self):
+        instance = self._instance()
+
+        group = instance.createConsumedEventGroup("CEG1")
+        assert isinstance(group, ConsumedEventGroup)
+        assert group.getShortName() == "CEG1"
+        assert instance.getConsumedEventGroups() == [group]
+
+        again = instance.createConsumedEventGroup("CEG1")
+        assert again is group
+        assert len(instance.getConsumedEventGroups()) == 1
+
+    def test_get_set_allowed_service_provider_refs(self):
+        instance = self._instance()
+        ref1 = _ref("/Ether/NetworkEndpoint/NE1")
+        ref2 = _ref("/Ether/NetworkEndpoint/NE2")
 
         assert instance.addAllowedServiceProviderRef(ref1) is instance
         instance.addAllowedServiceProviderRef(ref2)
@@ -1035,49 +1169,30 @@ class TestConsumedServiceInstance:
         instance.addAllowedServiceProviderRef(None)
         assert instance.getAllowedServiceProviderRefs() == [ref1, ref2]
 
-    def test_get_set_autoRequire(self):
-        """Test get/set autoRequire with chaining and None no-op."""
+    def test_get_set_auto_require(self):
         instance = self._instance()
         value = Boolean().setValue("true")
 
         assert instance.setAutoRequire(value) is instance
         assert instance.getAutoRequire() is value
-        assert instance.getAutoRequire().getValue() is True
 
         instance.setAutoRequire(None)
         assert instance.getAutoRequire() is value
 
-    def test_add_get_blocklistedVersions(self):
-        """Test add/get blocklistedVersions append order and None no-op."""
+    def test_add_get_blocklisted_versions(self):
         instance = self._instance()
-        version1 = SomeipServiceVersion()
-        version1.setMajorVersion(PositiveInteger().setValue("1"))
-        version1.setMinorVersion(PositiveInteger().setValue("0"))
-        version2 = SomeipServiceVersion()
-        version2.setMajorVersion(PositiveInteger().setValue("2"))
-        version2.setMinorVersion(PositiveInteger().setValue("5"))
+        version = SomeipServiceVersion()
+        version.setMajorVersion(PositiveInteger().setValue("1"))
 
-        assert instance.addBlocklistedVersion(version1) is instance
-        instance.addBlocklistedVersion(version2)
-        assert instance.getBlocklistedVersions() == [version1, version2]
+        assert instance.addBlocklistedVersion(version) is instance
+        assert instance.getBlocklistedVersions() == [version]
 
         instance.addBlocklistedVersion(None)
-        assert instance.getBlocklistedVersions() == [version1, version2]
+        assert instance.getBlocklistedVersions() == [version]
 
-    def test_create_get_consumedEventGroups(self):
-        """Test create/get consumedEventGroups: appended, duplicate returns existing."""
+    def test_get_set_event_multicast_subscription_address_ref(self):
         instance = self._instance()
-
-        group = instance.createConsumedEventGroup("CEG1")
-        assert isinstance(group, ConsumedEventGroup)
-        assert instance.createConsumedEventGroup("CEG1") is group
-        assert instance.getConsumedEventGroups() == [group]
-        assert len(instance.getConsumedEventGroups()) == 1
-
-    def test_get_set_eventMulticastSubscriptionAddressRef(self):
-        """Test get/set eventMulticastSubscriptionAddressRef with chaining and None no-op."""
-        instance = self._instance()
-        ref = _ref("/Ethernet/ApplicationEndpoint/MC1")
+        ref = _ref("/Ether/ApplicationEndpoint/MC1")
 
         assert instance.setEventMulticastSubscriptionAddressRef(ref) is instance
         assert instance.getEventMulticastSubscriptionAddressRef() is ref
@@ -1085,23 +1200,20 @@ class TestConsumedServiceInstance:
         instance.setEventMulticastSubscriptionAddressRef(None)
         assert instance.getEventMulticastSubscriptionAddressRef() is ref
 
-    def test_get_set_instanceIdentifier(self):
-        """Test get/set instanceIdentifier with chaining and None no-op."""
+    def test_get_set_instance_identifier(self):
         instance = self._instance()
-        value = String().setValue("123")
+        identifier = AnyServiceInstanceId().setValue("123")
 
-        assert instance.setInstanceIdentifier(value) is instance
-        assert instance.getInstanceIdentifier() is value
-        assert instance.getInstanceIdentifier().getValue() == "123"
+        assert instance.setInstanceIdentifier(identifier) is instance
+        assert instance.getInstanceIdentifier() is identifier
 
         instance.setInstanceIdentifier(None)
-        assert instance.getInstanceIdentifier() is value
+        assert instance.getInstanceIdentifier() is identifier
 
-    def test_add_get_localUnicastAddressRefs(self):
-        """Test add/get localUnicastAddressRefs append order and None no-op."""
+    def test_add_get_local_unicast_address_refs(self):
         instance = self._instance()
-        ref1 = _ref("/Ethernet/ApplicationEndpoint/LU1")
-        ref2 = _ref("/Ethernet/ApplicationEndpoint/LU2")
+        ref1 = _ref("/Ether/ApplicationEndpoint/LU1")
+        ref2 = _ref("/Ether/ApplicationEndpoint/LU2")
 
         assert instance.addLocalUnicastAddressRef(ref1) is instance
         instance.addLocalUnicastAddressRef(ref2)
@@ -1110,20 +1222,17 @@ class TestConsumedServiceInstance:
         instance.addLocalUnicastAddressRef(None)
         assert instance.getLocalUnicastAddressRefs() == [ref1, ref2]
 
-    def test_get_set_minorVersion(self):
-        """Test get/set minorVersion with chaining and None no-op."""
+    def test_get_set_minor_version(self):
         instance = self._instance()
-        value = String().setValue("ANY")
+        version = AnyVersionString().setValue("ANY")
 
-        assert instance.setMinorVersion(value) is instance
-        assert instance.getMinorVersion() is value
-        assert instance.getMinorVersion().getValue() == "ANY"
+        assert instance.setMinorVersion(version) is instance
+        assert instance.getMinorVersion() is version
 
         instance.setMinorVersion(None)
-        assert instance.getMinorVersion() is value
+        assert instance.getMinorVersion() is version
 
-    def test_get_set_providedServiceInstanceRef(self):
-        """Test get/set providedServiceInstanceRef with chaining and None no-op."""
+    def test_get_set_provided_service_instance_ref(self):
         instance = self._instance()
         ref = _ref("/Ether/Provider/PSI1")
 
@@ -1133,11 +1242,10 @@ class TestConsumedServiceInstance:
         instance.setProvidedServiceInstanceRef(None)
         assert instance.getProvidedServiceInstanceRef() is ref
 
-    def test_add_get_remoteUnicastAddressRefs(self):
-        """Test add/get remoteUnicastAddressRefs append order and None no-op."""
+    def test_add_get_remote_unicast_address_refs(self):
         instance = self._instance()
-        ref1 = _ref("/Ethernet/ApplicationEndpoint/RU1")
-        ref2 = _ref("/Ethernet/ApplicationEndpoint/RU2")
+        ref1 = _ref("/Ether/ApplicationEndpoint/RU1")
+        ref2 = _ref("/Ether/ApplicationEndpoint/RU2")
 
         assert instance.addRemoteUnicastAddressRef(ref1) is instance
         instance.addRemoteUnicastAddressRef(ref2)
@@ -1146,8 +1254,7 @@ class TestConsumedServiceInstance:
         instance.addRemoteUnicastAddressRef(None)
         assert instance.getRemoteUnicastAddressRefs() == [ref1, ref2]
 
-    def test_get_set_sdClientConfig(self):
-        """Test get/set sdClientConfig with chaining and None no-op."""
+    def test_get_set_sd_client_config(self):
         instance = self._instance()
         config = SdClientConfig()
 
@@ -1157,8 +1264,7 @@ class TestConsumedServiceInstance:
         instance.setSdClientConfig(None)
         assert instance.getSdClientConfig() is config
 
-    def test_get_set_sdClientTimerConfigRef(self):
-        """Test get/set sdClientTimerConfigRef with chaining and None no-op."""
+    def test_get_set_sd_client_timer_config_ref(self):
         instance = self._instance()
         ref = _ref("/SomeipSdTimingConfigs/InstanceTiming1")
 
@@ -1168,8 +1274,7 @@ class TestConsumedServiceInstance:
         instance.setSdClientTimerConfigRef(None)
         assert instance.getSdClientTimerConfigRef() is ref
 
-    def test_get_set_serviceIdentifier(self):
-        """Test get/set serviceIdentifier with chaining and None no-op."""
+    def test_get_set_service_identifier(self):
         instance = self._instance()
 
         assert instance.setServiceIdentifier(PositiveInteger().setValue("50")) is instance
@@ -1178,18 +1283,42 @@ class TestConsumedServiceInstance:
         instance.setServiceIdentifier(None)
         assert instance.getServiceIdentifier().getValue() == 50
 
-    def test_get_set_versionDrivenFindBehavior(self):
-        """Test get/set versionDrivenFindBehavior with chaining and None no-op."""
+    def test_get_set_version_driven_find_behavior(self):
         instance = self._instance()
-        value = ARLiteral()
-        value.setValue(ServiceVersionAcceptanceKindEnum.MINIMUM_MINOR_VERSION)
+        behavior = ServiceVersionAcceptanceKindEnum().setValue(ServiceVersionAcceptanceKindEnum.MINIMUM_MINOR_VERSION)
 
-        assert instance.setVersionDrivenFindBehavior(value) is instance
-        assert instance.getVersionDrivenFindBehavior() is value
+        assert instance.setVersionDrivenFindBehavior(behavior) is instance
+        assert instance.getVersionDrivenFindBehavior() is behavior
         assert instance.getVersionDrivenFindBehavior().getValue() == ServiceVersionAcceptanceKindEnum.MINIMUM_MINOR_VERSION
 
         instance.setVersionDrivenFindBehavior(None)
-        assert instance.getVersionDrivenFindBehavior() is value
+        assert instance.getVersionDrivenFindBehavior() is behavior
+
+    def test_class_docstring_note(self):
+        expected = "Service instances that are consumed by the ECU that is connected via the ApplicationEndpoint to a CommunicationConnector."
+        assert inspect.cleandoc(ConsumedServiceInstance.__doc__) == expected
+
+    def test_notes_verbatim(self):
+        accessors = {
+            self.ALLOWED_SERVICE_PROVIDER_NOTE: ("addAllowedServiceProviderRef", "getAllowedServiceProviderRefs"),
+            self.AUTO_REQUIRE_NOTE: ("getAutoRequire", "setAutoRequire"),
+            self.BLOCKLISTED_VERSION_NOTE: ("addBlocklistedVersion", "getBlocklistedVersions"),
+            self.CONSUMED_EVENT_GROUP_NOTE: ("createConsumedEventGroup", "getConsumedEventGroups"),
+            self.EVENT_MULTICAST_SUBSCRIPTION_ADDRESS_NOTE: ("getEventMulticastSubscriptionAddressRef", "setEventMulticastSubscriptionAddressRef"),
+            self.INSTANCE_IDENTIFIER_NOTE: ("getInstanceIdentifier", "setInstanceIdentifier"),
+            self.LOCAL_UNICAST_ADDRESS_NOTE: ("addLocalUnicastAddressRef", "getLocalUnicastAddressRefs"),
+            self.MINOR_VERSION_NOTE: ("getMinorVersion", "setMinorVersion"),
+            self.PROVIDED_SERVICE_INSTANCE_NOTE: ("getProvidedServiceInstanceRef", "setProvidedServiceInstanceRef"),
+            self.REMOTE_UNICAST_ADDRESS_NOTE: ("addRemoteUnicastAddressRef", "getRemoteUnicastAddressRefs"),
+            self.SD_CLIENT_CONFIG_NOTE: ("getSdClientConfig", "setSdClientConfig"),
+            self.SD_CLIENT_TIMER_CONFIG_NOTE: ("getSdClientTimerConfigRef", "setSdClientTimerConfigRef"),
+            self.SERVICE_IDENTIFIER_NOTE: ("getServiceIdentifier", "setServiceIdentifier"),
+            self.VERSION_DRIVEN_FIND_BEHAVIOR_NOTE: ("getVersionDrivenFindBehavior", "setVersionDrivenFindBehavior"),
+        }
+        for note, (first, second) in accessors.items():
+            assert inspect.cleandoc(getattr(ConsumedServiceInstance, first).__doc__).split("\nA None value")[0] == note
+            assert inspect.cleandoc(getattr(ConsumedServiceInstance, second).__doc__).split("\nA None value")[0] == note
+            assert note in inspect.getsource(ConsumedServiceInstance.__init__)
 
 
 class TestAbstractServiceInstance:
@@ -1268,6 +1397,59 @@ class TestAbstractServiceInstance:
 
         instance.addRoutingGroupRef(None)
         assert instance.getRoutingGroupRefs() == [ref1, ref2]
+
+    def test_class_docstring_note(self):
+        """
+        Table 6.158 renders no Note row; the docstring is the XSD ABSTRACT-SERVICE-INSTANCE
+        group documentation verbatim (recorded reconciliation).
+        """
+        expected = "Provided and Consumed Ethernet Service Instances that are available at the ApplicationEndpoint."
+        assert inspect.cleandoc(AbstractServiceInstance.__doc__) == expected
+
+    def test_member_order(self):
+        """
+        Fields follow the markdown displayed row order (Table 6.158).
+        """
+        instance = self._instance()
+        members = ["capabilityRecords", "majorVersion", "methodActivationRoutingGroup", "routingGroupRefs"]
+        assert [k for k in vars(instance) if k in set(members)] == members
+
+    def test_capability_record_note_verbatim(self):
+        """
+        capabilityRecord Note carries the Stereotypes/Tags tail verbatim at every level (Rule 0012.2.5.3).
+        """
+        expected = (
+            "A sequence of records to store arbitrary name/value pairs conveying additional information about the named service. "
+            "Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=capabilityRecord, capabilityRecord.variationPoint.shortLabel "
+            "vh.latestBindingTime=postBuild"
+        )
+        assert inspect.cleandoc(AbstractServiceInstance.getCapabilityRecords.__doc__) == expected
+        assert inspect.cleandoc(AbstractServiceInstance.addCapabilityRecord.__doc__) == expected + "\nA None value is a no-op and does not append to capabilityRecords."
+        assert expected in inspect.getsource(AbstractServiceInstance.__init__)
+
+    def test_method_activation_routing_group_note_verbatim(self):
+        """
+        methodActivationRoutingGroup Note carries the Stereotypes/Tags tail verbatim at every level.
+        """
+        expected = (
+            "The ServiceDiscovery module is able to activate and deactivate the PDU routing for ClientServerOperations (SOME/IP methods). "
+            "Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=methodActivationRoutingGroup.shortName, "
+            "methodActivationRoutingGroup.variationPoint.shortLabel vh.latestBindingTime=postBuild"
+        )
+        assert inspect.cleandoc(AbstractServiceInstance.getMethodActivationRoutingGroup.__doc__) == expected
+        assert (
+            inspect.cleandoc(AbstractServiceInstance.setMethodActivationRoutingGroup.__doc__) == expected + "\nA None value is a no-op and does not overwrite an existing methodActivationRoutingGroup."
+        )
+        assert expected in inspect.getsource(AbstractServiceInstance.__init__)
+
+    def test_routing_group_refs_note_verbatim(self):
+        """
+        routingGroup Note carries the atp.Status=obsolete tail verbatim at every level.
+        """
+        expected = "The ServiceDiscovery module is able to activate and deactivate the PDU routing from and to TCP/IP-sockets. Tags: atp.Status=obsolete"
+        assert inspect.cleandoc(AbstractServiceInstance.getRoutingGroupRefs.__doc__) == expected
+        assert inspect.cleandoc(AbstractServiceInstance.addRoutingGroupRef.__doc__) == expected + "\nA None value is a no-op and does not append to routingGroupRefs."
+        assert expected in inspect.getsource(AbstractServiceInstance.__init__)
 
 
 class TestApplicationEndpoint:
@@ -1508,18 +1690,17 @@ class TestSocketAddress:
         address.setPduCollectionTimeout(None)
         assert address.getPduCollectionTimeout() is value
 
-    def test_add_get_staticSocketConnections(self):
-        """Test add/get staticSocketConnections (placeholder child type) and None no-op."""
+    def test_create_get_staticSocketConnections(self):
+        """Test create/get staticSocketConnections append, duplicate returns existing, and None-registry safety."""
         address = self._address()
-        connection1 = MockParent()
-        connection2 = MockParent()
+        connection1 = address.createStaticSocketConnection("SSC1")
+        connection2 = address.createStaticSocketConnection("SSC2")
 
-        assert address.addStaticSocketConnection(connection1) is address
-        assert address.addStaticSocketConnection(connection2) is address
+        assert isinstance(connection1, StaticSocketConnection)
+        assert isinstance(connection2, StaticSocketConnection)
         assert address.getStaticSocketConnections() == [connection1, connection2]
-
-        address.addStaticSocketConnection(None)
-        assert address.getStaticSocketConnections() == [connection1, connection2]
+        assert address.createStaticSocketConnection("SSC1") is connection1
+        assert connection1.getShortName() == "SSC1"
 
     def test_get_set_udpChecksumHandling(self):
         """Test get/set udpChecksumHandling with chaining and None no-op."""
@@ -1560,61 +1741,104 @@ class TestServiceVersionAcceptanceKindEnum:
 
 
 class TestPduActivationRoutingGroup:
-    """
-    Test cases for PduActivationRoutingGroup (Table 6.161).
-    """
+    """Spec-sync tests for PduActivationRoutingGroup (R23-11 CP_TPS_SystemTemplate, Table 6.161, p.489)."""
 
-    def test_initialization(self):
-        """
-        Test initialization and Identifiable base.
-        """
-        parent = MockParent()
-        group = PduActivationRoutingGroup(parent, "Group1")
+    MEMBERS = [
+        "eventGroupControlType",
+        "iPduIdentifierTcpRefs",
+        "iPduIdentifierUdpRefs",
+    ]
+
+    EVENT_GROUP_CONTROL_TYPE_NOTE = (
+        "This attribute defines the type of a RoutingGroup. There are RoutingGroups that activate the data path for unicast or multicast events of an event group. "
+        "And there are RoutingGroups that activate the data path for initial events that are triggered, namely events that are sent out on the server side after a client got subscribed. "
+        "Please note that this attribute is only valid for event communication (Sender Receiver communication) and shall be omitted in MethodActivationRoutingGroups."
+    )
+    IPDU_IDENTIFIER_TCP_NOTE = "PduIdentifiers assigned for transmission over Tcp in case that the referencing PduActivationRoutingGroup is activated."
+    IPDU_IDENTIFIER_UDP_NOTE = "PduIdentifiers assigned for transmission over Udp in case that the referencing PduActivationRoutingGroup is activated."
+
+    def _group(self, short_name="Group1"):
+        return PduActivationRoutingGroup(MockParent(), short_name)
+
+    def test_inheritance(self):
+        group = self._group()
 
         assert isinstance(group, Identifiable)
-        assert group.getShortName() == "Group1"
+        assert isinstance(group, VariationPointCapable)
+
+    def test_init_parameter_annotations(self):
+        annotations = typing.get_type_hints(PduActivationRoutingGroup.__init__)
+
+        assert annotations["parent"] is ARObject
+        assert annotations["short_name"] is str
+
+    def test_member_annotations_match_getter_returns(self):
+        assert typing.get_type_hints(PduActivationRoutingGroup.getEventGroupControlType)["return"] == typing.Optional[EventGroupControlTypeEnum]
+        assert typing.get_type_hints(PduActivationRoutingGroup.getIPduIdentifierTcpRefs)["return"] == typing.List[RefType]
+        assert typing.get_type_hints(PduActivationRoutingGroup.getIPduIdentifierUdpRefs)["return"] == typing.List[RefType]
+
+    def test_initialization_defaults(self):
+        group = self._group()
+
         assert group.getEventGroupControlType() is None
         assert group.getIPduIdentifierTcpRefs() == []
         assert group.getIPduIdentifierUdpRefs() == []
 
-    def test_event_group_control_type(self):
-        """
-        Test eventGroupControlType round-trip and None no-op.
-        """
-        parent = MockParent()
-        group = PduActivationRoutingGroup(parent, "Group1")
+    def test_member_order(self):
+        group = self._group()
+
+        members = [k for k in vars(group) if k in set(self.MEMBERS)]
+        assert members == self.MEMBERS
+
+    def test_get_set_event_group_control_type(self):
+        group = self._group()
         control_type = EventGroupControlTypeEnum().setValue(EventGroupControlTypeEnum.ACTIVATION_AND_TRIGGER_UNICAST)
 
-        result = group.setEventGroupControlType(control_type)
+        assert group.setEventGroupControlType(control_type) is group
         assert group.getEventGroupControlType() is control_type
-        assert result == group  # method chaining
+        assert group.getEventGroupControlType().getValue() == "ACTIVATION-AND-TRIGGER-UNICAST"
 
-        # None no-op
-        result = group.setEventGroupControlType(None)
+        group.setEventGroupControlType(None)
         assert group.getEventGroupControlType() is control_type
 
-    def test_ipdu_identifier_refs(self):
-        """
-        Test iPduIdentifierTcp/Udp ref lists, append semantics and None no-op.
-        """
-        parent = MockParent()
-        group = PduActivationRoutingGroup(parent, "Group1")
-        ref_tcp = RefType()
-        ref_udp = RefType()
+    def test_add_get_ipdu_identifier_tcp_refs(self):
+        group = self._group()
+        ref1 = _ref("/SoCon/IPduTcp1")
+        ref2 = _ref("/SoCon/IPduTcp2")
 
-        result = group.addIPduIdentifierTcpRef(ref_tcp)
-        assert group.getIPduIdentifierTcpRefs() == [ref_tcp]
-        assert result == group  # method chaining
+        assert group.addIPduIdentifierTcpRef(ref1) is group
+        group.addIPduIdentifierTcpRef(ref2)
+        assert group.getIPduIdentifierTcpRefs() == [ref1, ref2]
 
         group.addIPduIdentifierTcpRef(None)
-        assert group.getIPduIdentifierTcpRefs() == [ref_tcp]
+        assert group.getIPduIdentifierTcpRefs() == [ref1, ref2]
 
-        result = group.addIPduIdentifierUdpRef(ref_udp)
-        assert group.getIPduIdentifierUdpRefs() == [ref_udp]
-        assert result == group  # method chaining
+    def test_add_get_ipdu_identifier_udp_refs(self):
+        group = self._group()
+        ref1 = _ref("/SoCon/IPduUdp1")
+        ref2 = _ref("/SoCon/IPduUdp2")
+
+        assert group.addIPduIdentifierUdpRef(ref1) is group
+        group.addIPduIdentifierUdpRef(ref2)
+        assert group.getIPduIdentifierUdpRefs() == [ref1, ref2]
 
         group.addIPduIdentifierUdpRef(None)
-        assert group.getIPduIdentifierUdpRefs() == [ref_udp]
+        assert group.getIPduIdentifierUdpRefs() == [ref1, ref2]
+
+    def test_class_docstring_note(self):
+        expected = "Group of Pdus that can be activated or deactivated for transmission over a socket connection."
+        assert inspect.cleandoc(PduActivationRoutingGroup.__doc__) == expected
+
+    def test_notes_verbatim(self):
+        accessors = {
+            self.EVENT_GROUP_CONTROL_TYPE_NOTE: ("getEventGroupControlType", "setEventGroupControlType"),
+            self.IPDU_IDENTIFIER_TCP_NOTE: ("addIPduIdentifierTcpRef", "getIPduIdentifierTcpRefs"),
+            self.IPDU_IDENTIFIER_UDP_NOTE: ("addIPduIdentifierUdpRef", "getIPduIdentifierUdpRefs"),
+        }
+        for note, (first, second) in accessors.items():
+            assert inspect.cleandoc(getattr(PduActivationRoutingGroup, first).__doc__).split("\nA None value")[0] == note
+            assert inspect.cleandoc(getattr(PduActivationRoutingGroup, second).__doc__).split("\nA None value")[0] == note
+            assert note in inspect.getsource(PduActivationRoutingGroup.__init__)
 
 
 class TestStaticSocketConnection:
@@ -1708,13 +1932,13 @@ class TestUdpChecksumCalculationEnum:
 
     def test_member_presence_and_values(self):
         """
-        Test that both spec literals exist with their index order.
+        Test that both spec literals exist with the XSD facet order (DISABLED first).
         """
         assert UdpChecksumCalculationEnum.UDP_CHECKSUM_ENABLED == "UDP-CHECKSUM-ENABLED"
         assert UdpChecksumCalculationEnum.UDP_CHECKSUM_DISABLED == "UDP-CHECKSUM-DISABLED"
         assert list(UdpChecksumCalculationEnum().getEnumValues()) == [
-            UdpChecksumCalculationEnum.UDP_CHECKSUM_ENABLED,
             UdpChecksumCalculationEnum.UDP_CHECKSUM_DISABLED,
+            UdpChecksumCalculationEnum.UDP_CHECKSUM_ENABLED,
         ]
 
     def test_instantiability(self):
@@ -1755,6 +1979,12 @@ class TestEventGroupControlTypeEnum:
         result = enum.setValue(EventGroupControlTypeEnum.ACTIVATION_MULTICAST)
         assert result == enum  # method chaining
         assert enum.getValue() == EventGroupControlTypeEnum.ACTIVATION_MULTICAST
+
+    def test_class_docstring_note(self):
+        """
+        Class docstring is the spec Note verbatim (Table 6.162).
+        """
+        assert inspect.cleandoc(EventGroupControlTypeEnum.__doc__) == "Types of a RoutingGroups for the event communication."
 
 
 class TestTcpRoleEnum:
@@ -1876,6 +2106,84 @@ class TestEventHandler:
         handler = self._new_handler()
         assert not hasattr(handler, "applicationEndpointRef")
 
+    def test_class_docstring_note(self):
+        """
+        Class docstring is the spec Note verbatim (Table 6.166).
+        """
+        assert inspect.cleandoc(EventHandler.__doc__) == "This element represents an event group as part of the Provided Service Instance."
+
+    def test_member_order(self):
+        """
+        Fields follow the markdown displayed row order (Table 6.166).
+        """
+        handler = self._new_handler()
+        members = [
+            "consumedEventGroupRefs",
+            "eventGroupIdentifier",
+            "eventMulticastAddressRef",
+            "multicastThreshold",
+            "pduActivationRoutingGroups",
+            "routingGroupRefs",
+            "sdServerConfig",
+            "sdServerEgTimingConfigRef",
+        ]
+        assert [k for k in vars(handler) if k in set(members)] == members
+
+    def test_consumed_event_group_refs_note_verbatim(self):
+        """
+        consumedEventGroup Note carries the atp.Status=obsolete tail verbatim at every level (Rule 0012.2.5.3).
+        """
+        expected = "All consumers of the event are referenced here. Tags: atp.Status=obsolete"
+        assert inspect.cleandoc(EventHandler.getConsumedEventGroupRefs.__doc__) == expected
+        assert inspect.cleandoc(EventHandler.addConsumedEventGroupRef.__doc__) == expected + "\nA None value is a no-op and does not append to consumedEventGroupRefs."
+        assert "All consumers of the event are referenced here. Tags: atp.Status=obsolete" in inspect.getsource(EventHandler.__init__)
+
+    def test_routing_group_refs_note_verbatim(self):
+        """
+        routingGroup Note carries the atp.Status=obsolete tail verbatim at every level.
+        """
+        expected = "The ServiceDiscovery module is able to activate and deactivate the PDU routing for events. Tags: atp.Status=obsolete"
+        assert inspect.cleandoc(EventHandler.getRoutingGroupRefs.__doc__) == expected
+        assert inspect.cleandoc(EventHandler.addRoutingGroupRef.__doc__) == expected + "\nA None value is a no-op and does not append to routingGroupRefs."
+        assert expected in inspect.getsource(EventHandler.__init__)
+
+    def test_sd_server_config_note_verbatim(self):
+        """
+        sdServerConfig Note carries the atp.Status=obsolete tail verbatim at every level.
+        """
+        expected = "Server configuration parameter for Service-Discovery. Tags: atp.Status=obsolete"
+        assert inspect.cleandoc(EventHandler.getSdServerConfig.__doc__) == expected
+        assert inspect.cleandoc(EventHandler.setSdServerConfig.__doc__) == expected + "\nA None value is a no-op and does not overwrite an existing sdServerConfig."
+        assert expected in inspect.getsource(EventHandler.__init__)
+
+    def test_sd_server_eg_timing_config_note_verbatim(self):
+        """
+        sdServerEgTimingConfig Note carries the Stereotypes/Tags tail verbatim at every level.
+        """
+        expected = (
+            "Server Timing configuration settings that are EventGroup specific. "
+            "Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=sdServerEgTimingConfig.someipSdServerEventGroupTimingConfig, "
+            "sdServerEgTimingConfig.variationPoint.shortLabel vh.latestBindingTime=postBuild"
+        )
+        assert inspect.cleandoc(EventHandler.getSdServerEgTimingConfigRef.__doc__) == expected
+        assert inspect.cleandoc(EventHandler.setSdServerEgTimingConfigRef.__doc__) == expected + "\nA None value is a no-op and does not overwrite an existing sdServerEgTimingConfigRef."
+        assert expected in inspect.getsource(EventHandler.__init__)
+
+    def test_event_multicast_address_note_verbatim(self):
+        """
+        eventMulticastAddress Note carries the Stereotypes/Tags tail verbatim at every level.
+        """
+        expected = (
+            "Multicast Address that is used for event communication in the IP-Multicast case. "
+            "It is the destination address to which the server sends the multicast event messages if the mulicastThreshold is exceeded. "
+            "This address is transmitted in the SD-SubscribeEventGroupAck Message to client (answer to SD-SubscribeEventGroup). "
+            "Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=eventMulticastAddress.applicationEndpoint, "
+            "eventMulticastAddress.variationPoint.shortLabel vh.latestBindingTime=postBuild"
+        )
+        assert inspect.cleandoc(EventHandler.getEventMulticastAddressRef.__doc__) == expected
+        assert inspect.cleandoc(EventHandler.setEventMulticastAddressRef.__doc__) == expected + "\nA None value is a no-op and does not overwrite an existing eventMulticastAddressRef."
+        assert expected in inspect.getsource(EventHandler.__init__)
+
 
 class Test_ConsumedProvidedServiceInstanceGroup:
     """Test cases for ConsumedProvidedServiceInstanceGroup (Table 6.174, p.523)."""
@@ -1945,3 +2253,217 @@ class Test_ConsumedProvidedServiceInstanceGroup:
 
         group.addProvidedServiceInstanceRef(None)
         assert group.getProvidedServiceInstanceRefs() == [ref]
+
+
+class TestProvidedServiceInstanceSpec:
+    """
+    Spec-sync tests for ProvidedServiceInstance (R23-11 CP_TPS_SystemTemplate, Table 6.160, p.489).
+    """
+
+    MEMBERS = [
+        "eventHandlers",
+        "instanceIdentifier",
+        "loadBalancingPriority",
+        "loadBalancingWeight",
+        "localUnicastAddressRefs",
+        "minorVersion",
+        "priority",
+        "remoteMulticastSubscriptionAddressRefs",
+        "remoteUnicastAddressRefs",
+        "sdServerConfig",
+        "sdServerTimerConfigRef",
+        "serviceIdentifier",
+    ]
+
+    def _instance(self):
+        return ProvidedServiceInstance(MockParent(), "psi")
+
+    def test_rule_0015_removals(self):
+        """
+        allowedServiceConsumer and autoAvailable exist only in the XSD group
+        (atp.Status=draft) and are absent from Table 6.160 — not modeled (Rule 0015).
+        """
+        instance = self._instance()
+        assert not hasattr(instance, "allowedServiceConsumerRefs")
+        assert not hasattr(instance, "autoAvailable")
+        assert not hasattr(instance, "getAllowedServiceConsumerRefs")
+        assert not hasattr(instance, "getAutoAvailable")
+        assert not hasattr(instance, "setLocalUnicastAddressRefs")
+        assert not hasattr(instance, "setRemoteMulticastSubscriptionAddressRefs")
+        assert not hasattr(instance, "setRemoteUnicastAddressRefs")
+
+    def test_class_docstring_note(self):
+        expected = "Service instances that are provided by the ECU that is connected via the ApplicationEndpoint " "to a CommunicationConnector."
+        assert inspect.cleandoc(ProvidedServiceInstance.__doc__) == expected
+
+    def test_member_order(self):
+        instance = self._instance()
+        assert [k for k in vars(instance) if k in set(self.MEMBERS)] == self.MEMBERS
+
+    def test_accessors_are_typed(self):
+        optional_hints = {
+            "getInstanceIdentifier": PositiveInteger,
+            "getLoadBalancingPriority": PositiveInteger,
+            "getLoadBalancingWeight": PositiveInteger,
+            "getMinorVersion": PositiveInteger,
+            "getPriority": PositiveInteger,
+            "getSdServerTimerConfigRef": RefType,
+            "getServiceIdentifier": PositiveInteger,
+        }
+        for getter, expected in optional_hints.items():
+            assert typing.get_type_hints(getattr(ProvidedServiceInstance, getter))["return"] == typing.Optional[expected]
+        assert typing.get_type_hints(ProvidedServiceInstance.getEventHandlers)["return"] == typing.List[EventHandler]
+
+    def test_event_handler_note_verbatim(self):
+        expected = (
+            "Collection of event groups provided by the Provided ServiceInstance "
+            "Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=eventHandler.shortName, "
+            "eventHandler.variationPoint.shortLabel vh.latestBindingTime=postBuild"
+        )
+        assert inspect.cleandoc(ProvidedServiceInstance.getEventHandlers.__doc__) == expected
+        assert inspect.cleandoc(ProvidedServiceInstance.createEventHandler.__doc__) == expected
+        assert expected in inspect.getsource(ProvidedServiceInstance.__init__)
+
+    def test_sd_server_config_note_verbatim(self):
+        expected = "Service Discovery Server configuration. Tags: atp.Status=obsolete"
+        assert inspect.cleandoc(ProvidedServiceInstance.getSdServerConfig.__doc__) == expected
+        assert inspect.cleandoc(ProvidedServiceInstance.setSdServerConfig.__doc__) == expected + "\nA None value is a no-op and does not overwrite an existing sdServerConfig."
+        assert expected in inspect.getsource(ProvidedServiceInstance.__init__)
+
+    def test_sd_server_timer_config_note_verbatim(self):
+        expected = (
+            "Server specific configuration settings relevant for the SOME/IP service discovery. "
+            "Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=sdServerTimerConfig.someipSdServerServiceInstanceConfig, "
+            "sdServerTimerConfig.variationPoint.shortLabel vh.latestBindingTime=postBuild"
+        )
+        assert inspect.cleandoc(ProvidedServiceInstance.getSdServerTimerConfigRef.__doc__) == expected
+        assert inspect.cleandoc(ProvidedServiceInstance.setSdServerTimerConfigRef.__doc__) == expected + "\nA None value is a no-op and does not overwrite an existing sdServerTimerConfigRef."
+        assert expected in inspect.getsource(ProvidedServiceInstance.__init__)
+
+    def test_remote_multicast_subscription_address_note_verbatim(self):
+        expected = (
+            "This reference defines the remote multicast subscribed addresses of service consumers. "
+            "This reference shall ONLY be used if the remote address of the clients is determined from the configuration and not at runtime. "
+            "Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=remoteMulticastSubscriptionAddress.applicationEndpoint, "
+            "remoteMulticastSubscriptionAddress.variationPoint.shortLabel vh.latestBindingTime=postBuild"
+        )
+        assert inspect.cleandoc(ProvidedServiceInstance.getRemoteMulticastSubscriptionAddressRefs.__doc__) == expected
+        assert expected in inspect.getsource(ProvidedServiceInstance.__init__)
+
+
+class TestSoConIPduIdentifier:
+    """Test cases for SoConIPduIdentifier (R23-11 CP_TPS_SystemTemplate, Table 6.163, p.490)."""
+
+    MEMBERS = [
+        "headerId",
+        "pduCollectionPduTimeout",
+        "pduCollectionSemantics",
+        "pduCollectionTrigger",
+        "pduTriggeringRef",
+    ]
+
+    def _new_identifier(self):
+        return SoConIPduIdentifier(MockParent(), "so_con_ipdu_identifier")
+
+    def test_inheritance(self):
+        identifier = self._new_identifier()
+
+        assert isinstance(identifier, Referrable)
+        assert isinstance(identifier, SoConIPduIdentifier)
+
+    def test_init_parameter_annotations(self):
+        annotations = typing.get_type_hints(SoConIPduIdentifier.__init__)
+
+        assert annotations["parent"] is ARObject
+        assert annotations["short_name"] is str
+
+    def test_member_annotations_match_getter_returns(self):
+        hints = {
+            "getHeaderId": PositiveInteger,
+            "getPduCollectionPduTimeout": TimeValue,
+            "getPduCollectionSemantics": PduCollectionSemanticsEnum,
+            "getPduCollectionTrigger": PduCollectionTriggerEnum,
+            "getPduTriggeringRef": RefType,
+        }
+        for getter, expected in hints.items():
+            assert typing.get_type_hints(getattr(SoConIPduIdentifier, getter))["return"] == typing.Optional[expected]
+
+    def test_initialization_defaults(self):
+        identifier = self._new_identifier()
+
+        assert identifier.getHeaderId() is None
+        assert identifier.getPduCollectionPduTimeout() is None
+        assert identifier.getPduCollectionSemantics() is None
+        assert identifier.getPduCollectionTrigger() is None
+        assert identifier.getPduTriggeringRef() is None
+
+    def test_member_order(self):
+        identifier = self._new_identifier()
+
+        members = [k for k in vars(identifier) if k in set(self.MEMBERS)]
+        assert members == self.MEMBERS
+
+    def test_get_set_header_id(self):
+        identifier = self._new_identifier()
+        header_id = PositiveInteger()
+        header_id.setValue("4")
+
+        assert identifier.setHeaderId(header_id) is identifier
+        assert identifier.getHeaderId() is header_id
+
+        identifier.setHeaderId(None)
+        assert identifier.getHeaderId() is header_id
+
+    def test_get_set_pdu_collection_pdu_timeout(self):
+        identifier = self._new_identifier()
+        timeout = TimeValue()
+        timeout.setValue("0.5")
+
+        assert identifier.setPduCollectionPduTimeout(timeout) is identifier
+        assert identifier.getPduCollectionPduTimeout() is timeout
+
+        identifier.setPduCollectionPduTimeout(None)
+        assert identifier.getPduCollectionPduTimeout() is timeout
+
+    def test_get_set_pdu_collection_semantics(self):
+        identifier = self._new_identifier()
+        semantics = PduCollectionSemanticsEnum().setValue(PduCollectionSemanticsEnum.QUEUED)
+
+        assert identifier.setPduCollectionSemantics(semantics) is identifier
+        assert identifier.getPduCollectionSemantics() is semantics
+        assert identifier.getPduCollectionSemantics().getValue() == PduCollectionSemanticsEnum.QUEUED
+
+        identifier.setPduCollectionSemantics(None)
+        assert identifier.getPduCollectionSemantics() is semantics
+
+    def test_get_set_pdu_collection_trigger(self):
+        identifier = self._new_identifier()
+        trigger = PduCollectionTriggerEnum().setValue(PduCollectionTriggerEnum.ALWAYS)
+
+        assert identifier.setPduCollectionTrigger(trigger) is identifier
+        assert identifier.getPduCollectionTrigger() is trigger
+        assert identifier.getPduCollectionTrigger().getValue() == PduCollectionTriggerEnum.ALWAYS
+
+        identifier.setPduCollectionTrigger(None)
+        assert identifier.getPduCollectionTrigger() is trigger
+
+    def test_get_set_pdu_triggering_ref(self):
+        identifier = self._new_identifier()
+        ref = RefType()
+        ref.setValue("/PduTriggerings/pt1")
+
+        assert identifier.setPduTriggeringRef(ref) is identifier
+        assert identifier.getPduTriggeringRef() is ref
+        assert identifier.getPduTriggeringRef().getValue() == "/PduTriggerings/pt1"
+
+        identifier.setPduTriggeringRef(None)
+        assert identifier.getPduTriggeringRef() is ref
+
+    def test_class_docstring_note(self):
+        expected = "Identification of Pdu content on a socket connection. This Identifier is required in case that multiple " "Pdus are transmitted over the same socket connection."
+        assert inspect.cleandoc(SoConIPduIdentifier.__doc__) == expected
+
+    def test_rehoused_to_spec_package(self):
+        module = inspect.getmodule(SoConIPduIdentifier).__name__
+
+        assert module == "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances"

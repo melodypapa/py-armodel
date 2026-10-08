@@ -361,25 +361,5 @@ class BusMirrorChannelMappingUserDefined(BusMirrorChannelMapping):
         return self
 
 
-class EthTpConfig(FibexElement):
-    pass
-
-
 class EthernetWakeupSleepOnDatalineConfigSet(FibexElement):
-    pass
-
-
-class FlexrayArTpConfig(FibexElement):
-    pass
-
-
-class FlexrayTpConfig(FibexElement):
-    pass
-
-
-class ServiceInstanceCollectionSet(FibexElement):
-    pass
-
-
-class SomeipTpConfig(FibexElement):
     pass

@@ -7,6 +7,7 @@ from abc import ABC
 from typing import Optional
 
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription import TimingDescriptionEvent
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
     Boolean,
@@ -24,10 +25,9 @@ class TDEventVariableDataPrototypeTypeEnum(AREnum):
 
     # TDEventVariableDataPrototypeTypeEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.18, p.54
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on TDEventVariableDataPrototype.tdEventVariableDataPrototypeType
-    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # A point in time where the referenced variable data prototype has been successfully transmitted and is available in the related communication buffer (of the RTE) for the receiving SWC. Tags: atp.EnumerationLiteralIndex=0
     VARIABLE_DATA_PROTOTYPE_RECEIVED = "VARIABLE-DATA-PROTOTYPE-RECEIVED"
@@ -36,9 +36,6 @@ class TDEventVariableDataPrototypeTypeEnum(AREnum):
     VARIABLE_DATA_PROTOTYPE_SENT = "VARIABLE-DATA-PROTOTYPE-SENT"
 
     def __init__(self):
-        """
-        Initializes the TDEventVariableDataPrototypeTypeEnum with valid values.
-        """
         super().__init__(
             (
                 TDEventVariableDataPrototypeTypeEnum.VARIABLE_DATA_PROTOTYPE_RECEIVED,
@@ -54,10 +51,9 @@ class TDEventOperationTypeEnum(AREnum):
 
     # TDEventOperationTypeEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.20, p.56
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on TDEventOperation.tdEventOperationType
-    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # A point in time where the referenced operation is called by the client SWC. Tags: atp.EnumerationLiteralIndex=0
     OPERATION_CALLED = "OPERATION-CALLED"
@@ -72,9 +68,6 @@ class TDEventOperationTypeEnum(AREnum):
     OPERATION_CALL_RESPONSE_SENT = "OPERATION-CALL-RESPONSE-SENT"
 
     def __init__(self):
-        """
-        Initializes the TDEventOperationTypeEnum with valid values.
-        """
         super().__init__(
             (
                 TDEventOperationTypeEnum.OPERATION_CALLED,
@@ -92,10 +85,9 @@ class TDEventModeDeclarationTypeEnum(AREnum):
 
     # TDEventModeDeclarationTypeEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.22, p.57
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on TDEventModeDeclaration.tdEventModeDeclarationType
-    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # A point in time where the switch to the associated ModeDeclarationGroupPrototype has been completed. Tags: atp.EnumerationLiteralIndex=0
     MODE_DECLARATION_SWITCH_COMPLETED = "MODE-DECLARATION-SWITCH-COMPLETED"
@@ -104,9 +96,6 @@ class TDEventModeDeclarationTypeEnum(AREnum):
     MODE_DECLARATION_SWITCH_INITIATED = "MODE-DECLARATION-SWITCH-INITIATED"
 
     def __init__(self):
-        """
-        Initializes the TDEventModeDeclarationTypeEnum with valid values.
-        """
         super().__init__(
             (
                 TDEventModeDeclarationTypeEnum.MODE_DECLARATION_SWITCH_COMPLETED,
@@ -122,10 +111,9 @@ class TDEventTriggerTypeEnum(AREnum):
 
     # TDEventTriggerTypeEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.24, p.59
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on TDEventTrigger.tdEventTriggerType
-    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # A point in time where the referenced trigger has been successfully released and is activating runnable entities of the receiving SW-C. Tags: atp.EnumerationLiteralIndex=0
     TRIGGER_ACTIVATED = "TRIGGER-ACTIVATED"
@@ -134,9 +122,6 @@ class TDEventTriggerTypeEnum(AREnum):
     TRIGGER_RELEASED = "TRIGGER-RELEASED"
 
     def __init__(self):
-        """
-        Initializes the TDEventTriggerTypeEnum with valid values.
-        """
         super().__init__(
             (
                 TDEventTriggerTypeEnum.TRIGGER_ACTIVATED,
@@ -190,11 +175,17 @@ class TDEventVfb(TimingDescriptionEvent):
         self.componentIRef: Optional[ComponentInCompositionInstanceRef] = None
 
     def getComponentIRef(self) -> Optional[ComponentInCompositionInstanceRef]:
-        """The context for the scope of this timing event. InstanceRef implemented by: ComponentInCompositionInstanceRef."""
+        """
+        The context for the scope of this timing event. InstanceRef implemented by: ComponentInCompositionInstanceRef.
+        """
         return self.componentIRef
 
     def setComponentIRef(self, value: Optional[ComponentInCompositionInstanceRef]) -> "TDEventVfb":
-        """The context for the scope of this timing event. InstanceRef implemented by: ComponentInCompositionInstanceRef. A None value is a no-op and does not overwrite an existing componentIRef."""
+        """
+        The context for the scope of this timing event. InstanceRef implemented by: ComponentInCompositionInstanceRef.
+
+        A None value is a no-op and does not overwrite an existing componentIRef.
+        """
         if value is not None:
             self.componentIRef = value
         return self
@@ -207,24 +198,29 @@ class TDEventVfbReference(TDEventVfb):
 
     # TDEventVfbReference method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.15, p.52
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getReferencedTDEventVfbRef    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setReferencedTDEventVfbRef    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getReferencedTDEventVfbRef      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setReferencedTDEventVfbRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
-    def __init__(self, parent, short_name):
+    def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
         # The referenced timing description event.
         self.referencedTDEventVfbRef: Optional[RefType] = None
 
     def getReferencedTDEventVfbRef(self) -> Optional[RefType]:
-        """The referenced timing description event."""
+        """
+        The referenced timing description event.
+        """
         return self.referencedTDEventVfbRef
 
     def setReferencedTDEventVfbRef(self, value: Optional[RefType]) -> "TDEventVfbReference":
-        """The referenced timing description event. A None value is a no-op and does not overwrite an existing referencedTDEventVfbRef."""
+        """
+        The referenced timing description event.
+
+        A None value is a no-op and does not overwrite an existing referencedTDEventVfbRef.
+        """
         if value is not None:
             self.referencedTDEventVfbRef = value
         return self
@@ -237,17 +233,16 @@ class TDEventVfbPort(TDEventVfb, ABC):
 
     # TDEventVfbPort method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.16, p.52
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getIsExternal                   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setIsExternal                   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getPortPrototypeBlueprintRef    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setPortPrototypeBlueprintRef    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getPortRef                      [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setPortRef                      [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getIsExternal                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIsExternal                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPortRef                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPortRef                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPortPrototypeBlueprintRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPortPrototypeBlueprintRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
-    def __init__(self, parent, short_name):
+    def __init__(self, parent: ARObject, short_name: str):
         if type(self) is TDEventVfbPort:
             raise TypeError("TDEventVfbPort is an abstract class.")
 
@@ -263,33 +258,51 @@ class TDEventVfbPort(TDEventVfb, ABC):
         self.portPrototypeBlueprintRef: Optional[RefType] = None
 
     def getIsExternal(self) -> Optional[Boolean]:
-        """This attribute is used to refer to external events that are related to hardware I/O, like physical sensors and actuators, at Virtual Functional Bus (VFB) level."""
+        """
+        This attribute is used to refer to external events that are related to hardware I/O, like physical sensors and actuators, at Virtual Functional Bus (VFB) level.
+        """
         return self.isExternal
 
     def setIsExternal(self, value: Optional[Boolean]) -> "TDEventVfbPort":
-        """This attribute is used to refer to external events that are related to hardware I/O, like physical sensors and actuators, at Virtual Functional Bus (VFB) level. A None value is a no-op and does not overwrite an existing isExternal."""
+        """
+        This attribute is used to refer to external events that are related to hardware I/O, like physical sensors and actuators, at Virtual Functional Bus (VFB) level.
+
+        A None value is a no-op and does not overwrite an existing isExternal.
+        """
         if value is not None:
             self.isExternal = value
         return self
 
-    def getPortPrototypeBlueprintRef(self) -> Optional[RefType]:
-        """port on which the TimingEvent shall apply (in the context of an AUTOSAR blueprint)"""
-        return self.portPrototypeBlueprintRef
-
-    def setPortPrototypeBlueprintRef(self, value: Optional[RefType]) -> "TDEventVfbPort":
-        """port on which the TimingEvent shall apply (in the context of an AUTOSAR blueprint). A None value is a no-op and does not overwrite an existing portPrototypeBlueprintRef."""
-        if value is not None:
-            self.portPrototypeBlueprintRef = value
-        return self
-
     def getPortRef(self) -> Optional[RefType]:
-        """port on which the TimingEvent shall apply"""
+        """
+        port on which the TimingEvent shall apply
+        """
         return self.portRef
 
     def setPortRef(self, value: Optional[RefType]) -> "TDEventVfbPort":
-        """port on which the TimingEvent shall apply. A None value is a no-op and does not overwrite an existing portRef."""
+        """
+        port on which the TimingEvent shall apply
+
+        A None value is a no-op and does not overwrite an existing portRef.
+        """
         if value is not None:
             self.portRef = value
+        return self
+
+    def getPortPrototypeBlueprintRef(self) -> Optional[RefType]:
+        """
+        port on which the TimingEvent shall apply (in the context of an AUTOSAR blueprint)
+        """
+        return self.portPrototypeBlueprintRef
+
+    def setPortPrototypeBlueprintRef(self, value: Optional[RefType]) -> "TDEventVfbPort":
+        """
+        port on which the TimingEvent shall apply (in the context of an AUTOSAR blueprint)
+
+        A None value is a no-op and does not overwrite an existing portPrototypeBlueprintRef.
+        """
+        if value is not None:
+            self.portPrototypeBlueprintRef = value
         return self
 
 
@@ -300,15 +313,14 @@ class TDEventVariableDataPrototype(TDEventVfbPort):
 
     # TDEventVariableDataPrototype method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.17, p.54
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getDataElementRef                   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setDataElementRef                   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getTdEventVariableDataPrototypeType [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setTdEventVariableDataPrototypeType [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDataElementRef               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataElementRef               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTdEventVariableDataPrototypeType  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTdEventVariableDataPrototypeType  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
-    def __init__(self, parent, short_name):
+    def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
         # The referenced VariableDataPrototype
@@ -318,21 +330,33 @@ class TDEventVariableDataPrototype(TDEventVfbPort):
         self.tdEventVariableDataPrototypeType: Optional[TDEventVariableDataPrototypeTypeEnum] = None
 
     def getDataElementRef(self) -> Optional[RefType]:
-        """The referenced VariableDataPrototype"""
+        """
+        The referenced VariableDataPrototype
+        """
         return self.dataElementRef
 
     def setDataElementRef(self, value: Optional[RefType]) -> "TDEventVariableDataPrototype":
-        """The referenced VariableDataPrototype. A None value is a no-op and does not overwrite an existing dataElementRef."""
+        """
+        The referenced VariableDataPrototype.
+
+        A None value is a no-op and does not overwrite an existing dataElementRef.
+        """
         if value is not None:
             self.dataElementRef = value
         return self
 
     def getTdEventVariableDataPrototypeType(self) -> Optional[TDEventVariableDataPrototypeTypeEnum]:
-        """The specific type of this timing event."""
+        """
+        The specific type of this timing event.
+        """
         return self.tdEventVariableDataPrototypeType
 
     def setTdEventVariableDataPrototypeType(self, value: Optional[TDEventVariableDataPrototypeTypeEnum]) -> "TDEventVariableDataPrototype":
-        """The specific type of this timing event. A None value is a no-op and does not overwrite an existing tdEventVariableDataPrototypeType."""
+        """
+        The specific type of this timing event.
+
+        A None value is a no-op and does not overwrite an existing tdEventVariableDataPrototypeType.
+        """
         if value is not None:
             self.tdEventVariableDataPrototypeType = value
         return self
@@ -345,15 +369,14 @@ class TDEventOperation(TDEventVfbPort):
 
     # TDEventOperation method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.19, p.55
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getOperationRef              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setOperationRef              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getTdEventOperationType      [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setTdEventOperationType      [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getOperationRef                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOperationRef                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTdEventOperationType         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTdEventOperationType         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
-    def __init__(self, parent, short_name):
+    def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
         # The referenced operation.
@@ -363,21 +386,33 @@ class TDEventOperation(TDEventVfbPort):
         self.tdEventOperationType: Optional[TDEventOperationTypeEnum] = None
 
     def getOperationRef(self) -> Optional[RefType]:
-        """The referenced operation."""
+        """
+        The referenced operation.
+        """
         return self.operationRef
 
     def setOperationRef(self, value: Optional[RefType]) -> "TDEventOperation":
-        """The referenced operation. A None value is a no-op and does not overwrite an existing operationRef."""
+        """
+        The referenced operation.
+
+        A None value is a no-op and does not overwrite an existing operationRef.
+        """
         if value is not None:
             self.operationRef = value
         return self
 
     def getTdEventOperationType(self) -> Optional[TDEventOperationTypeEnum]:
-        """The specific type of this timing event."""
+        """
+        The specific type of this timing event.
+        """
         return self.tdEventOperationType
 
     def setTdEventOperationType(self, value: Optional[TDEventOperationTypeEnum]) -> "TDEventOperation":
-        """The specific type of this timing event. A None value is a no-op and does not overwrite an existing tdEventOperationType."""
+        """
+        The specific type of this timing event.
+
+        A None value is a no-op and does not overwrite an existing tdEventOperationType.
+        """
         if value is not None:
             self.tdEventOperationType = value
         return self
@@ -390,19 +425,18 @@ class TDEventModeDeclaration(TDEventVfbPort):
 
     # TDEventModeDeclaration method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.21, p.57
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getEntryModeDeclarationRef        [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setEntryModeDeclarationRef        [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getExitModeDeclarationRef         [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setExitModeDeclarationRef         [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getModeDeclarationRef             [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setModeDeclarationRef             [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getTdEventModeDeclarationType     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setTdEventModeDeclarationType     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getEntryModeDeclarationRef      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEntryModeDeclarationRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getExitModeDeclarationRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setExitModeDeclarationRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getModeDeclarationRef           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setModeDeclarationRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTdEventModeDeclarationType   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTdEventModeDeclarationType   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
-    def __init__(self, parent, short_name):
+    def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
         # Optional parameter which refines the scope of the TDEventModeDeclaration. If the parameter is set, the event occurs only if the mode declaration group prototype instance shall enter into the referenced ModeDeclaration.
@@ -418,41 +452,65 @@ class TDEventModeDeclaration(TDEventVfbPort):
         self.tdEventModeDeclarationType: Optional[TDEventModeDeclarationTypeEnum] = None
 
     def getEntryModeDeclarationRef(self) -> Optional[RefType]:
-        """Optional parameter which refines the scope of the TDEventModeDeclaration. If the parameter is set, the event occurs only if the mode declaration group prototype instance shall enter into the referenced ModeDeclaration."""
+        """
+        Optional parameter which refines the scope of the TDEventModeDeclaration. If the parameter is set, the event occurs only if the mode declaration group prototype instance shall enter into the referenced ModeDeclaration.
+        """
         return self.entryModeDeclarationRef
 
     def setEntryModeDeclarationRef(self, value: Optional[RefType]) -> "TDEventModeDeclaration":
-        """Optional parameter which refines the scope of the TDEventModeDeclaration. If the parameter is set, the event occurs only if the mode declaration group prototype instance shall enter into the referenced ModeDeclaration. A None value is a no-op and does not overwrite an existing entryModeDeclarationRef."""
+        """
+        Optional parameter which refines the scope of the TDEventModeDeclaration. If the parameter is set, the event occurs only if the mode declaration group prototype instance shall enter into the referenced ModeDeclaration.
+
+        A None value is a no-op and does not overwrite an existing entryModeDeclarationRef.
+        """
         if value is not None:
             self.entryModeDeclarationRef = value
         return self
 
     def getExitModeDeclarationRef(self) -> Optional[RefType]:
-        """Optional parameter which refines the scope of the TDEventModeDeclaration. If the parameter is set, the event occurs only if the mode declaration group prototype instance shall exit from the referenced ModeDeclaration."""
+        """
+        Optional parameter which refines the scope of the TDEventModeDeclaration. If the parameter is set, the event occurs only if the mode declaration group prototype instance shall exit from the referenced ModeDeclaration.
+        """
         return self.exitModeDeclarationRef
 
     def setExitModeDeclarationRef(self, value: Optional[RefType]) -> "TDEventModeDeclaration":
-        """Optional parameter which refines the scope of the TDEventModeDeclaration. If the parameter is set, the event occurs only if the mode declaration group prototype instance shall exit from the referenced ModeDeclaration. A None value is a no-op and does not overwrite an existing exitModeDeclarationRef."""
+        """
+        Optional parameter which refines the scope of the TDEventModeDeclaration. If the parameter is set, the event occurs only if the mode declaration group prototype instance shall exit from the referenced ModeDeclaration.
+
+        A None value is a no-op and does not overwrite an existing exitModeDeclarationRef.
+        """
         if value is not None:
             self.exitModeDeclarationRef = value
         return self
 
     def getModeDeclarationRef(self) -> Optional[RefType]:
-        """The referenced mode declaration group prototype."""
+        """
+        The referenced mode declaration group prototype.
+        """
         return self.modeDeclarationRef
 
     def setModeDeclarationRef(self, value: Optional[RefType]) -> "TDEventModeDeclaration":
-        """The referenced mode declaration group prototype. A None value is a no-op and does not overwrite an existing modeDeclarationRef."""
+        """
+        The referenced mode declaration group prototype.
+
+        A None value is a no-op and does not overwrite an existing modeDeclarationRef.
+        """
         if value is not None:
             self.modeDeclarationRef = value
         return self
 
     def getTdEventModeDeclarationType(self) -> Optional[TDEventModeDeclarationTypeEnum]:
-        """The specific type of this timing event."""
+        """
+        The specific type of this timing event.
+        """
         return self.tdEventModeDeclarationType
 
     def setTdEventModeDeclarationType(self, value: Optional[TDEventModeDeclarationTypeEnum]) -> "TDEventModeDeclaration":
-        """The specific type of this timing event. A None value is a no-op and does not overwrite an existing tdEventModeDeclarationType."""
+        """
+        The specific type of this timing event.
+
+        A None value is a no-op and does not overwrite an existing tdEventModeDeclarationType.
+        """
         if value is not None:
             self.tdEventModeDeclarationType = value
         return self
@@ -465,39 +523,50 @@ class TDEventTrigger(TDEventVfbPort):
 
     # TDEventTrigger method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.23, p.58
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getTdEventTriggerType     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setTdEventTriggerType     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getTriggerRef             [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setTriggerRef             [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTdEventTriggerType           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTdEventTriggerType           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTriggerRef                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTriggerRef                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
-    def __init__(self, parent, short_name):
+    def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
-
-        # The trigger which is provided (released) or required (activate) in the given context.
-        self.triggerRef: Optional[RefType] = None
 
         # The specific type of this timing event.
         self.tdEventTriggerType: Optional[TDEventTriggerTypeEnum] = None
 
-    def getTriggerRef(self) -> Optional[RefType]:
-        """The trigger which is provided (released) or required (activate) in the given context."""
-        return self.triggerRef
-
-    def setTriggerRef(self, value: Optional[RefType]) -> "TDEventTrigger":
-        """The trigger which is provided (released) or required (activate) in the given context. A None value is a no-op and does not overwrite an existing triggerRef."""
-        if value is not None:
-            self.triggerRef = value
-        return self
+        # The trigger which is provided (released) or required (activate) in the given context.
+        self.triggerRef: Optional[RefType] = None
 
     def getTdEventTriggerType(self) -> Optional[TDEventTriggerTypeEnum]:
-        """The specific type of this timing event."""
+        """
+        The specific type of this timing event.
+        """
         return self.tdEventTriggerType
 
     def setTdEventTriggerType(self, value: Optional[TDEventTriggerTypeEnum]) -> "TDEventTrigger":
-        """The specific type of this timing event. A None value is a no-op and does not overwrite an existing tdEventTriggerType."""
+        """
+        The specific type of this timing event.
+
+        A None value is a no-op and does not overwrite an existing tdEventTriggerType.
+        """
         if value is not None:
             self.tdEventTriggerType = value
+        return self
+
+    def getTriggerRef(self) -> Optional[RefType]:
+        """
+        The trigger which is provided (released) or required (activate) in the given context.
+        """
+        return self.triggerRef
+
+    def setTriggerRef(self, value: Optional[RefType]) -> "TDEventTrigger":
+        """
+        The trigger which is provided (released) or required (activate) in the given context.
+
+        A None value is a no-op and does not overwrite an existing triggerRef.
+        """
+        if value is not None:
+            self.triggerRef = value
         return self

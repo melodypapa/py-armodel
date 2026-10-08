@@ -11,8 +11,10 @@ import pytest
 from armodel.models import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
+    DateTime,
     Ip6AddressString,
     PositiveInteger,
+    String,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
     IpAddressKeepEnum,
@@ -46,6 +48,8 @@ def parser():
 
 def _new_configuration():
     configuration = Ipv6Configuration()
+    configuration.setChecksum(String().setValue("4321"))
+    configuration.setTimestamp(DateTime().setValue("2024-01-01T00:00:00Z"))
     configuration.setAssignmentPriority(PositiveInteger().setValue(1))
     configuration.setDefaultRouter(Ip6AddressString().setValue("fe80::1"))
     configuration.addDnsServerAddress(Ip6AddressString().setValue("2001:db8::53"))
@@ -92,6 +96,8 @@ class TestIpv6ConfigurationRoundTrip:
         root = ET.fromstring("<AUTOSAR xmlns='%s'>%s</AUTOSAR>" % (NS, inner))
         parsed = parser.getIpv6Configuration(root[0][0])
         assert isinstance(parsed, Ipv6Configuration)
+        assert parsed.getChecksum().getValue() == "4321"
+        assert parsed.getTimestamp().getValue() == "2024-01-01T00:00:00Z"
         assert parsed.getAssignmentPriority().getValue() == 1
         assert parsed.getDefaultRouter().getValue() == "fe80::1"
         dns_addresses = parsed.getDnsServerAddresses()

@@ -355,6 +355,7 @@ __all__ = [
     "SecuredIPdu",
     "SenderReceiverInterface",
     "SensorActuatorSwComponentType",
+    "ServiceInstanceCollectionSet",
     "ServiceProxySwComponentType",
     "ServiceSwComponentType",
     "SignalServiceTranslationPropsSet",
@@ -362,6 +363,8 @@ __all__ = [
     "SomeipSdClientEventGroupTimingConfig",
     "SomeipSdClientServiceInstanceConfig",
     "SomeipSdServerEventGroupTimingConfig",
+    "SomeipSdServerServiceInstanceConfig",
+    "SocketConnectionIpduIdentifierSet",
     "SwAddrMethod",
     "SwBaseType",
     "SwComponentType",
@@ -410,6 +413,7 @@ __all__ = [
     "J1939ControllerApplication",
     "LogAndTraceMessageCollectionSet",
     "MacSecParticipantSet",
+    "ServiceInstanceCollectionSet",
     "SocketConnectionIpduIdentifierSet",
     "TransformationPropsSet",
     "VfbTiming",
@@ -2330,6 +2334,48 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(timing)
         return cast(SwcTiming, self.getReferrableElement(short_name, SwcTiming))
 
+    def createVfbTiming(self, short_name: str) -> VfbTiming:
+
+        if not self.IsReferrableElementExists(short_name, VfbTiming):
+            timing = VfbTiming(self, short_name)
+            self.addReferrableElement(timing)
+        return cast(VfbTiming, self.getReferrableElement(short_name, VfbTiming))
+
+    def createSystemTiming(self, short_name: str) -> SystemTiming:
+
+        if not self.IsReferrableElementExists(short_name, SystemTiming):
+            timing = SystemTiming(self, short_name)
+            self.addReferrableElement(timing)
+        return cast(SystemTiming, self.getReferrableElement(short_name, SystemTiming))
+
+    def createBswModuleTiming(self, short_name: str) -> BswModuleTiming:
+
+        if not self.IsReferrableElementExists(short_name, BswModuleTiming):
+            timing = BswModuleTiming(self, short_name)
+            self.addReferrableElement(timing)
+        return cast(BswModuleTiming, self.getReferrableElement(short_name, BswModuleTiming))
+
+    def createBswCompositionTiming(self, short_name: str) -> BswCompositionTiming:
+
+        if not self.IsReferrableElementExists(short_name, BswCompositionTiming):
+            timing = BswCompositionTiming(self, short_name)
+            self.addReferrableElement(timing)
+        return cast(BswCompositionTiming, self.getReferrableElement(short_name, BswCompositionTiming))
+
+    def createEcuTiming(self, short_name: str) -> EcuTiming:
+
+        if not self.IsReferrableElementExists(short_name, EcuTiming):
+            timing = EcuTiming(self, short_name)
+            self.addReferrableElement(timing)
+        return cast(EcuTiming, self.getReferrableElement(short_name, EcuTiming))
+
+    def createTDCpSoftwareClusterMappingSet(self, short_name: str) -> TDCpSoftwareClusterMappingSet:
+
+        if not self.IsReferrableElementExists(short_name, TDCpSoftwareClusterMappingSet):
+            mapping_set = TDCpSoftwareClusterMappingSet(self, short_name)
+            self.addReferrableElement(mapping_set)
+        return cast(TDCpSoftwareClusterMappingSet, self.getReferrableElement(short_name, TDCpSoftwareClusterMappingSet))
+
     def createLinCluster(self, short_name: str) -> LinCluster:
 
         if not self.IsReferrableElementExists(short_name, LinCluster):
@@ -2420,6 +2466,48 @@ class ARPackage(CollectableElement, VariationPointCapable):
             element = LinTpConfig(self, short_name)
             self.addReferrableElement(element)
         return cast(LinTpConfig, self.getReferrableElement(short_name, LinTpConfig))
+
+    def createFlexrayTpConfig(self, short_name: str) -> FlexrayTpConfig:
+
+        if not self.IsReferrableElementExists(short_name, FlexrayTpConfig):
+            element = FlexrayTpConfig(self, short_name)
+            self.addReferrableElement(element)
+        return cast(FlexrayTpConfig, self.getReferrableElement(short_name, FlexrayTpConfig))
+
+    def createFlexrayArTpConfig(self, short_name: str) -> FlexrayArTpConfig:
+
+        if not self.IsReferrableElementExists(short_name, FlexrayArTpConfig):
+            element = FlexrayArTpConfig(self, short_name)
+            self.addReferrableElement(element)
+        return cast(FlexrayArTpConfig, self.getReferrableElement(short_name, FlexrayArTpConfig))
+
+    def createEthTpConfig(self, short_name: str) -> EthTpConfig:
+
+        if not self.IsReferrableElementExists(short_name, EthTpConfig):
+            element = EthTpConfig(self, short_name)
+            self.addReferrableElement(element)
+        return cast(EthTpConfig, self.getReferrableElement(short_name, EthTpConfig))
+
+    def createSomeipTpConfig(self, short_name: str) -> SomeipTpConfig:
+
+        if not self.IsReferrableElementExists(short_name, SomeipTpConfig):
+            element = SomeipTpConfig(self, short_name)
+            self.addReferrableElement(element)
+        return cast(SomeipTpConfig, self.getReferrableElement(short_name, SomeipTpConfig))
+
+    def createIEEE1722TpConfig(self, short_name: str) -> IEEE1722TpConfig:
+
+        if not self.IsReferrableElementExists(short_name, IEEE1722TpConfig):
+            element = IEEE1722TpConfig(self, short_name)
+            self.addReferrableElement(element)
+        return cast(IEEE1722TpConfig, self.getReferrableElement(short_name, IEEE1722TpConfig))
+
+    def createIEEE1722TpCrfConnection(self, short_name: str) -> IEEE1722TpCrfConnection:
+
+        if not self.IsReferrableElementExists(short_name, IEEE1722TpCrfConnection):
+            element = IEEE1722TpCrfConnection(self, short_name)
+            self.addReferrableElement(element)
+        return cast(IEEE1722TpCrfConnection, self.getReferrableElement(short_name, IEEE1722TpCrfConnection))
 
     def createCanFrame(self, short_name: str) -> CanFrame:
         """
@@ -4366,6 +4454,19 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(tcp_option_filter_set)
         return cast(TcpOptionFilterSet, self.getReferrableElement(short_name, TcpOptionFilterSet))
 
+    def createIPv6ExtHeaderFilterSet(self, short_name: str) -> IPv6ExtHeaderFilterSet:
+
+        if not self.IsReferrableElementExists(short_name, IPv6ExtHeaderFilterSet):
+            ipv6_ext_header_filter_set = IPv6ExtHeaderFilterSet(self, short_name)
+            self.addReferrableElement(ipv6_ext_header_filter_set)
+        return cast(IPv6ExtHeaderFilterSet, self.getReferrableElement(short_name, IPv6ExtHeaderFilterSet))
+
+    def createDdsConfig(self, short_name: str) -> DdsCpConfig:
+        if not self.IsReferrableElementExists(short_name, DdsCpConfig):
+            config = DdsCpConfig(self, short_name)
+            self.addReferrableElement(config)
+        return cast(DdsCpConfig, self.getReferrableElement(short_name, DdsCpConfig))
+
     def createCanXlProps(self, short_name: str) -> CanXlProps:
 
         if not self.IsReferrableElementExists(short_name, CanXlProps):
@@ -4379,6 +4480,27 @@ class ARPackage(CollectableElement, VariationPointCapable):
             config = SomeipSdClientServiceInstanceConfig(self, short_name)
             self.addReferrableElement(config)
         return cast(SomeipSdClientServiceInstanceConfig, self.getReferrableElement(short_name, SomeipSdClientServiceInstanceConfig))
+
+    def createServiceInstanceCollectionSet(self, short_name: str) -> ServiceInstanceCollectionSet:
+
+        if not self.IsReferrableElementExists(short_name, ServiceInstanceCollectionSet):
+            collection_set = ServiceInstanceCollectionSet(self, short_name)
+            self.addReferrableElement(collection_set)
+        return cast(ServiceInstanceCollectionSet, self.getReferrableElement(short_name, ServiceInstanceCollectionSet))
+
+    def createSocketConnectionIpduIdentifierSet(self, short_name: str) -> SocketConnectionIpduIdentifierSet:
+
+        if not self.IsReferrableElementExists(short_name, SocketConnectionIpduIdentifierSet):
+            identifier_set = SocketConnectionIpduIdentifierSet(self, short_name)
+            self.addReferrableElement(identifier_set)
+        return cast(SocketConnectionIpduIdentifierSet, self.getReferrableElement(short_name, SocketConnectionIpduIdentifierSet))
+
+    def createSomeipSdServerServiceInstanceConfig(self, short_name: str) -> SomeipSdServerServiceInstanceConfig:
+
+        if not self.IsReferrableElementExists(short_name, SomeipSdServerServiceInstanceConfig):
+            config = SomeipSdServerServiceInstanceConfig(self, short_name)
+            self.addReferrableElement(config)
+        return cast(SomeipSdServerServiceInstanceConfig, self.getReferrableElement(short_name, SomeipSdServerServiceInstanceConfig))
 
     def createSomeipSdClientEventGroupTimingConfig(self, short_name: str) -> SomeipSdClientEventGroupTimingConfig:
 
@@ -4937,7 +5059,8 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.SignalServiceTranslation
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortPrototypeBlueprint import PortPrototypeBlueprint  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.Keyword import KeywordSet  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping  # noqa: E402
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import SwcTiming  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import BswCompositionTiming, BswModuleTiming, EcuTiming, SwcTiming, SystemTiming, VfbTiming  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCpSoftwareCluster import TDCpSoftwareClusterMappingSet  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticAuthenticationClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticCustomServiceClass, DiagnosticServiceInstance, DiagnosticSessionControlClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticEcuResetClass  # noqa: E402
@@ -5024,7 +5147,12 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Serv
     SomeipSdClientEventGroupTimingConfig,
     SomeipSdClientServiceInstanceConfig,
     SomeipSdServerEventGroupTimingConfig,
+    SomeipSdServerServiceInstanceConfig,
+    ServiceInstanceCollectionSet,
+    SocketConnectionIpduIdentifierSet,
 )
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.IPv6HeaderFilterList import IPv6ExtHeaderFilterSet  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Dds import DdsCpConfig  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.TcpOptionFilterSet import TcpOptionFilterSet  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayCommunication import FlexrayFrame  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayCluster  # noqa: E402
@@ -5073,6 +5201,14 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import
     CanTpConfig,
     DoIpTpConfig,
     LinTpConfig,
+    EthTpConfig,
+    SomeipTpConfig,
+    FlexrayArTpConfig,
+    FlexrayTpConfig,
+    IEEE1722TpConfig,
+    IEEE1722TpConnection,
+    IEEE1722TpAvConnection,
+    IEEE1722TpCrfConnection,
 )
 from armodel.models.M2.MSR.AsamHdo.AdminData import AdminData  # noqa: E402
 from armodel.models.M2.MSR.AsamHdo.ComputationMethod import CompuMethod  # noqa: E402
@@ -11442,14 +11578,6 @@ class ApplicationPartition(ARElement):
     pass
 
 
-class BswCompositionTiming(ARElement):
-    pass
-
-
-class BswModuleTiming(ARElement):
-    pass
-
-
 class CpSoftwareClusterBinaryManifestDescriptor(ARElement):
     pass
 
@@ -11466,27 +11594,11 @@ class CryptoServiceQueue(ARElement):
     pass
 
 
-class DdsCpConfig(ARElement):
-    pass
-
-
-class EcuTiming(ARElement):
-    pass
-
-
 class GeneralPurposeConnection(ARElement):
     pass
 
 
 class GlobalTimeDomain(ARElement):
-    pass
-
-
-class IEEE1722TpConnection(ARElement, ABC):
-    pass
-
-
-class IPv6ExtHeaderFilterSet(ARElement):
     pass
 
 
@@ -11502,15 +11614,7 @@ class MacSecParticipantSet(ARElement):
     pass
 
 
-class SocketConnectionIpduIdentifierSet(ARElement):
-    pass
-
-
 class TransformationPropsSet(ARElement):
-    pass
-
-
-class VfbTiming(ARElement):
     pass
 
 
@@ -11518,15 +11622,7 @@ class IEEE1722TpAcfConnection(IEEE1722TpConnection):
     pass
 
 
-class IEEE1722TpAvConnection(IEEE1722TpConnection, ABC):
-    pass
-
-
 class IEEE1722TpAafConnection(IEEE1722TpAvConnection):
-    pass
-
-
-class IEEE1722TpCrfConnection(IEEE1722TpAvConnection):
     pass
 
 
