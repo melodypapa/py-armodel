@@ -544,6 +544,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     AbstractGlobalTimeDomainProps,
     CanGlobalTimeDomainProps,
     CalibrationParameterValue,
+    CpSoftwareClusterCommunicationResourceProps,
     EthGlobalTimeDomainProps,
     EthGlobalTimeManagedCouplingPort,
     EthTSynCrcFlags,
@@ -13878,6 +13879,13 @@ class ARXMLWriter(AbstractARXMLWriter):
                 wrapper = ET.SubElement(element, wrapper_key)
                 for value in data_id_lists:
                     self.setChildElementOptionalPositiveInteger(wrapper, item_key, cast(Integer, value))
+
+    def writeCpSoftwareClusterCommunicationResourceProps(self, element: ET.Element, props: CpSoftwareClusterCommunicationResourceProps):
+        # Populates the concrete subclass element (CLIENT-SERVER-OPERATION-COM-PROPS /
+        # DATA-COM-PROPS) created by the caller; the XSD CP-SOFTWARE-CLUSTER-COMMUNICATION-RESOURCE-PROPS
+        # group (AUTOSAR_00052.xsd l.24290) has an empty sequence, so the helper owns the
+        # ARObject level only.
+        self.writeARObject(element, props)
 
     def setGlobalTimeProps(self, element: ET.Element, key: str, props: Optional[GlobalTimeCouplingPortProps]):
         if props is not None:

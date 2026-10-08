@@ -2492,7 +2492,28 @@ class BusMirrorLinPidToCanIdMapping(ARObject):
 
 
 class CpSoftwareClusterCommunicationResourceProps(ARObject, ABC):
-    pass
+    """
+    Communication properties for cross cluster communication.
+    """
+
+    # CpSoftwareClusterCommunicationResourceProps method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 11.9, p.902
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    #
+    # Table 11.9 declares no Attribute rows and the XSD CP-SOFTWARE-CLUSTER-COMMUNICATION-RESOURCE-PROPS
+    # group (AUTOSAR_00052.xsd l.24290) has an empty sequence; the reusable
+    # readCpSoftwareClusterCommunicationResourceProps / writeCpSoftwareClusterCommunicationResourceProps
+    # helpers own the ARObject level of the concrete subclass element (CLIENT-SERVER-OPERATION-COM-PROPS /
+    # DATA-COM-PROPS) and are called by the ClientServerOperationComProps / DataComProps readers/writers.
+    # Aggregator dispatch (CpSoftwareClusterCommunicationResource.communicationResourceProps) is
+    # pending — CpSoftwareClusterCommunicationResource is an unsynced later-wave class.
+
+    def __init__(self):
+        if type(self) is CpSoftwareClusterCommunicationResourceProps:
+            raise TypeError("CpSoftwareClusterCommunicationResourceProps is an abstract class.")
+
+        super().__init__()
 
 
 class DdsCpProvidedServiceInstance(ARObject):

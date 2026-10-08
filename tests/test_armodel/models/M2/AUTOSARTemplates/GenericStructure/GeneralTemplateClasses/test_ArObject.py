@@ -17,6 +17,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     BusMirrorLinPidToCanIdMapping,
     CalibrationParameterValue,
     CanGlobalTimeDomainProps,
+    CpSoftwareClusterCommunicationResourceProps,
     DdsCpProvidedServiceInstance,
     DdsCpServiceInstanceEvent,
     DdsCpServiceInstanceOperation,
@@ -6033,3 +6034,58 @@ class TestFrGlobalTimeDomainProps:
         assert inspect.cleandoc(FrGlobalTimeDomainProps.getOfsDataIDLists.__doc__) == self.OFS_DATA_ID_LIST_NOTE
         assert inspect.cleandoc(FrGlobalTimeDomainProps.addSyncDataIDList.__doc__) == (self.SYNC_DATA_ID_LIST_NOTE + "\n\nA None value is a no-op and does not append to syncDataIDLists.")
         assert inspect.cleandoc(FrGlobalTimeDomainProps.getSyncDataIDLists.__doc__) == self.SYNC_DATA_ID_LIST_NOTE
+
+
+class TestCpSoftwareClusterCommunicationResourceProps:
+    """
+    Test class for CpSoftwareClusterCommunicationResourceProps functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 11.9, p.902
+    """
+
+    CLASS_NOTE = "Communication properties for cross cluster communication."
+
+    def _create_object(self) -> CpSoftwareClusterCommunicationResourceProps:
+        class ConcreteComProps(CpSoftwareClusterCommunicationResourceProps):
+            pass
+
+        return ConcreteComProps()
+
+    def test_cannot_instantiate_abstract(self):
+        """
+        Test that the abstract Table 11.9 class cannot be instantiated directly.
+        """
+        with pytest.raises(TypeError):
+            CpSoftwareClusterCommunicationResourceProps()
+
+    def test_concrete_subclass_initialization(self):
+        """
+        Test that a concrete subclass initializes the inherited ARObject state to its defaults
+        (Table 11.9 declares no Attribute rows of its own).
+        """
+        obj = self._create_object()
+
+        assert obj.getChecksum() is None
+        assert obj.getTimestamp() is None
+
+    def test_is_ar_object_subclass(self):
+        """
+        Test that CpSoftwareClusterCommunicationResourceProps derives from ARObject per the
+        Table 11.9 Base row (ARObject — most-derived, the class is abstract).
+        """
+        import abc
+
+        assert issubclass(CpSoftwareClusterCommunicationResourceProps, ARObject)
+        assert issubclass(CpSoftwareClusterCommunicationResourceProps, abc.ABC)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(CpSoftwareClusterCommunicationResourceProps.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert CpSoftwareClusterCommunicationResourceProps.__init__.__doc__ is None

@@ -565,6 +565,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     AbstractGlobalTimeDomainProps,
     CanGlobalTimeDomainProps,
     CalibrationParameterValue,
+    CpSoftwareClusterCommunicationResourceProps,
     EthGlobalTimeDomainProps,
     EthGlobalTimeManagedCouplingPort,
     EthTSynCrcFlags,
@@ -16373,6 +16374,14 @@ class ARXMLParser(AbstractARXMLParser):
                         value = PositiveInteger()
                         value.setValue(child_element.text)
                         add_data_id_list(value)
+        return props
+
+    def readCpSoftwareClusterCommunicationResourceProps(self, element: ET.Element, props: CpSoftwareClusterCommunicationResourceProps) -> CpSoftwareClusterCommunicationResourceProps:
+        # The XSD CP-SOFTWARE-CLUSTER-COMMUNICATION-RESOURCE-PROPS group (AUTOSAR_00052.xsd l.24290)
+        # has an empty sequence and Table 11.9 declares no Attribute rows, so the helper owns the
+        # ARObject level of the concrete subclass element (CLIENT-SERVER-OPERATION-COM-PROPS /
+        # DATA-COM-PROPS).
+        self.readARObject(element, props)
         return props
 
     def getGlobalTimeProps(self, element: ET.Element, key: str) -> Optional[GlobalTimeCouplingPortProps]:
