@@ -40,8 +40,12 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Limit,
     Numerical,
     PositiveInteger,
+    Boolean,
     RefType,
+    SecurityEventContextDataSourceEnum,
+    SecurityEventReportingModeEnum,
     String,
+    TimeValue,
     VerbatimString,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
@@ -50,6 +54,8 @@ from typing import Dict, List, Optional, TYPE_CHECKING, Union, cast
 
 if TYPE_CHECKING:
     from armodel.models.M2.AUTOSARTemplates.FeatureModelTemplate import FMConditionByFeaturesAndAttributes, FMConditionByFeaturesAndSwSystemconsts
+    from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import FunctionGroupStateInFunctionGroupSetInstanceRef
+    from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import SecurityEventContextData
     from armodel.models.M2.MSR.AsamHdo.AdminData import AdminData
     from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName, MultiLanguageOverviewParagraph
     from armodel.models.M2.MSR.Documentation.TextModel.SingleLanguageData import SingleLanguageLongName
@@ -684,10 +690,6 @@ class AbstractClassTailoring(DataFormatElementReference):
     pass
 
 
-class AbstractSecurityEventFilter(Identifiable, ABC):
-    pass
-
-
 class DataFormatElementScope(DataFormatElementReference, ABC):
     pass
 
@@ -697,10 +699,6 @@ class AttributeTailoring(DataFormatElementScope, ABC):
 
 
 class AggregationTailoring(AttributeTailoring):
-    pass
-
-
-class BlockState(Identifiable):
     pass
 
 
@@ -1718,6 +1716,375 @@ class FMFeatureRestriction(Identifiable):
         return self
 
 
+class AbstractSecurityEventFilter(Identifiable, ABC):
+    """
+    This meta-class acts as a base class for security event filters. Tags: atp.Status=candidate
+    """
+
+    # AbstractSecurityEventFilter method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf, Table 4.4, p.21
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is AbstractSecurityEventFilter:
+            raise TypeError("AbstractSecurityEventFilter is an abstract class.")
+
+        super().__init__(parent, short_name)
+
+
+class SecurityEventStateFilter(AbstractSecurityEventFilter):
+    """
+    This meta-class represents the configuration of a state filter for security events. The referenced states represent a block list, i.e. the security events are dropped if the referenced state is the active state in the relevant state machine (which depends on the platform). Tags: atp.Status=candidate
+    """
+
+    # SecurityEventStateFilter method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf, Table 4.5, p.23
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addBlockIfStateActiveApIref  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getBlockIfStateActiveApIrefs [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addBlockIfStateActiveCpRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getBlockIfStateActiveCpRefs  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # For the AP, this reference defines the machine states of the block list. That means, if a security event (mapped to the filter chain to which the SecurityEventStateFilter belongs to) is reported when the referenced state is active, the security event is dropped. Tags: atp.Status=candidate
+        self.blockIfStateActiveApIrefs: List[FunctionGroupStateInFunctionGroupSetInstanceRef] = []
+
+        # For the CP, this reference defines the states of the block list. That means, if a security event (mapped to the filter chain to which the SecurityEventStateFilter belongs to) is reported when the currently active state is referenced in this list, the security event is dropped. Tags: atp.Status=candidate
+        self.blockIfStateActiveCpRefs: List[RefType] = []
+
+    def addBlockIfStateActiveApIref(self, value: FunctionGroupStateInFunctionGroupSetInstanceRef) -> SecurityEventStateFilter:
+        """
+        For the AP, this reference defines the machine states of the block list. That means, if a security event (mapped to the filter chain to which the SecurityEventStateFilter belongs to) is reported when the referenced state is active, the security event is dropped. Tags: atp.Status=candidate
+        """
+        self.blockIfStateActiveApIrefs.append(value)
+        return self
+
+    def getBlockIfStateActiveApIrefs(self) -> List[FunctionGroupStateInFunctionGroupSetInstanceRef]:
+        """
+        For the AP, this reference defines the machine states of the block list. That means, if a security event (mapped to the filter chain to which the SecurityEventStateFilter belongs to) is reported when the referenced state is active, the security event is dropped. Tags: atp.Status=candidate
+        """
+        return self.blockIfStateActiveApIrefs
+
+    def addBlockIfStateActiveCpRef(self, ref: RefType) -> SecurityEventStateFilter:
+        """
+        For the CP, this reference defines the states of the block list. That means, if a security event (mapped to the filter chain to which the SecurityEventStateFilter belongs to) is reported when the currently active state is referenced in this list, the security event is dropped. Tags: atp.Status=candidate
+        """
+        self.blockIfStateActiveCpRefs.append(ref)
+        return self
+
+    def getBlockIfStateActiveCpRefs(self) -> List[RefType]:
+        """
+        For the CP, this reference defines the states of the block list. That means, if a security event (mapped to the filter chain to which the SecurityEventStateFilter belongs to) is reported when the currently active state is referenced in this list, the security event is dropped. Tags: atp.Status=candidate
+        """
+        return self.blockIfStateActiveCpRefs
+
+
+class BlockState(Identifiable):
+    """
+    This meta-class defines a block state that is part of the collection of block states belonging to a specific IdsmInstance. The IdsM shall discard any reported security event that is mapped to a filter chain containing a SecurityEventStateFilter that references the block state which is currently active. Tags: atp.Status=candidate
+    """
+
+    # BlockState method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf, Table 4.20, p.52
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # (the table declares no attribute rows — BLOCK-STATE is an empty XSD group)
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+
+class SecurityEventOneEveryNFilter(AbstractSecurityEventFilter):
+    """
+    This meta-class represents the configuration of a sampling (i.e. every n-th event is sampled) filter for security events. Tags: atp.Status=candidate
+    """
+
+    # SecurityEventOneEveryNFilter method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf, Table 4.6, p.24
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getN         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setN         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This attribute represents the configuration of the sampling filter, i.e. it configures the parameter "n" that controls how many events (n-1) shall be dropped after a sampled event until a new sample is created. Tags: atp.Status=candidate
+        self.n: Optional[PositiveInteger] = None
+
+    def getN(self) -> Optional[PositiveInteger]:
+        """
+        This attribute represents the configuration of the sampling filter, i.e. it configures the parameter "n" that controls how many events (n-1) shall be dropped after a sampled event until a new sample is created. Tags: atp.Status=candidate
+        """
+        return self.n
+
+    def setN(self, value: Optional[PositiveInteger]) -> SecurityEventOneEveryNFilter:
+        """
+        This attribute represents the configuration of the sampling filter, i.e. it configures the parameter "n" that controls how many events (n-1) shall be dropped after a sampled event until a new sample is created. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing n.
+        """
+        if value is not None:
+            self.n = value
+        return self
+
+
+class SecurityEventAggregationFilter(AbstractSecurityEventFilter):
+    """
+    This meta-class represents the aggregation filter that aggregates all security events occurring within configured time frame into one (i.e. the last reported) security event. Tags: atp.Status=candidate
+    """
+
+    # SecurityEventAggregationFilter method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf, Table 4.7, p.25
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getContextDataSource         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setContextDataSource         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMinimumIntervalLength     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMinimumIntervalLength     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This attributes defines whether the context data of the first or last time-aggregated security event shall be used for the resulting qualified security event.
+        self.contextDataSource: Optional[SecurityEventContextDataSourceEnum] = None
+
+        # This attribute represents the configuration of the minimum time window in seconds for the aggregation filter. Tags: atp.Status=candidate
+        self.minimumIntervalLength: Optional[TimeValue] = None
+
+    def getContextDataSource(self) -> Optional[SecurityEventContextDataSourceEnum]:
+        """
+        This attributes defines whether the context data of the first or last time-aggregated security event shall be used for the resulting qualified security event.
+        """
+        return self.contextDataSource
+
+    def setContextDataSource(self, value: Optional[SecurityEventContextDataSourceEnum]) -> SecurityEventAggregationFilter:
+        """
+        This attributes defines whether the context data of the first or last time-aggregated security event shall be used for the resulting qualified security event.
+
+        A None value is a no-op and does not overwrite an existing contextDataSource.
+        """
+        if value is not None:
+            self.contextDataSource = value
+        return self
+
+    def getMinimumIntervalLength(self) -> Optional[TimeValue]:
+        """
+        This attribute represents the configuration of the minimum time window in seconds for the aggregation filter. Tags: atp.Status=candidate
+        """
+        return self.minimumIntervalLength
+
+    def setMinimumIntervalLength(self, value: Optional[TimeValue]) -> SecurityEventAggregationFilter:
+        """
+        This attribute represents the configuration of the minimum time window in seconds for the aggregation filter. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing minimumIntervalLength.
+        """
+        if value is not None:
+            self.minimumIntervalLength = value
+        return self
+
+
+class SecurityEventThresholdFilter(AbstractSecurityEventFilter):
+    """
+    This meta-class represents the threshold filter that drops (repeatedly at each beginning of a configurable time interval) a configurable number of security events . All subsequently arriving security events (within the configured time interval) pass the filter. Tags: atp.Status=candidate
+    """
+
+    # SecurityEventThresholdFilter method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf, Table 4.9, p.26
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getIntervalLength         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIntervalLength         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getThresholdNumber        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setThresholdNumber        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This attribute configures the time interval in seconds for one threshold filter operation. Tags: atp.Status=candidate
+        self.intervalLength: Optional[TimeValue] = None
+
+        # This attribute configures the threshold number, i.e. how many security events in the configured time frame are dropped before subsequent events start to pass the filter. Tags: atp.Status=candidate
+        self.thresholdNumber: Optional[PositiveInteger] = None
+
+    def getIntervalLength(self) -> Optional[TimeValue]:
+        """
+        This attribute configures the time interval in seconds for one threshold filter operation. Tags: atp.Status=candidate
+        """
+        return self.intervalLength
+
+    def setIntervalLength(self, value: Optional[TimeValue]) -> SecurityEventThresholdFilter:
+        """
+        This attribute configures the time interval in seconds for one threshold filter operation. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing intervalLength.
+        """
+        if value is not None:
+            self.intervalLength = value
+        return self
+
+    def getThresholdNumber(self) -> Optional[PositiveInteger]:
+        """
+        This attribute configures the threshold number, i.e. how many security events in the configured time frame are dropped before subsequent events start to pass the filter. Tags: atp.Status=candidate
+        """
+        return self.thresholdNumber
+
+    def setThresholdNumber(self, value: Optional[PositiveInteger]) -> SecurityEventThresholdFilter:
+        """
+        This attribute configures the threshold number, i.e. how many security events in the configured time frame are dropped before subsequent events start to pass the filter. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing thresholdNumber.
+        """
+        if value is not None:
+            self.thresholdNumber = value
+        return self
+
+
+class SecurityEventContextProps(Identifiable):
+    """
+    This meta-class specifies the SecurityEventDefinition to be mapped to an IdsmInstance and adds mapping-dependent properties of this security event valid only for this specific mapping. Tags: atp.Status=candidate
+    """
+
+    # SecurityEventContextProps method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf, Table 4.13, p.34
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getContextData              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setContextData              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDefaultReportingMode     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDefaultReportingMode     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPersistentStorage        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPersistentStorage        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSecurityEventRef         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSecurityEventRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSensorInstanceId         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSensorInstanceId         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSeverity                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSeverity                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This aggregation represents the definition of optional context data for security events. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=contextData, contextData.variationPoint.shortLabel atp.Status=candidate
+        self.contextData: Optional[SecurityEventContextData] = None
+
+        # This attribute defines the default reporting mode for the referenced security event. Tags: atp.Status=candidate
+        self.defaultReportingMode: Optional[SecurityEventReportingModeEnum] = None
+
+        # This attribute controls whether qualified reportings of the referenced security event shall be stored persistently by the mapped IdsmInstance or not. Tags: atp.Status=candidate
+        self.persistentStorage: Optional[Boolean] = None
+
+        # This reference defines the security event that is mapped and enriched by SecurityEventMappingProps with mapping dependent properties. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=securityEvent.securityEventDefinition, securityEvent.variationPoint.shortLabel atp.Status=candidate
+        self.securityEventRef: Optional[RefType] = None
+
+        # This attribute defines the ID of the security sensor that detects the referenced security event. Tags: atp.Status=candidate
+        self.sensorInstanceId: Optional[PositiveInteger] = None
+
+        # This attribute defines how critical/severe the referenced security event is. Please note that currently, the severity level meanings of specific integer values is not specified by AUTOSAR but left to the party responsible for the security event definition. Tags: atp.Status=candidate
+        self.severity: Optional[PositiveInteger] = None
+
+    def getContextData(self) -> Optional[SecurityEventContextData]:
+        """
+        This aggregation represents the definition of optional context data for security events. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=contextData, contextData.variationPoint.shortLabel atp.Status=candidate
+        """
+        return self.contextData
+
+    def setContextData(self, value: Optional[SecurityEventContextData]) -> SecurityEventContextProps:
+        """
+        This aggregation represents the definition of optional context data for security events. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=contextData, contextData.variationPoint.shortLabel atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing contextData.
+        """
+        if value is not None:
+            self.contextData = value
+        return self
+
+    def getDefaultReportingMode(self) -> Optional[SecurityEventReportingModeEnum]:
+        """
+        This attribute defines the default reporting mode for the referenced security event. Tags: atp.Status=candidate
+        """
+        return self.defaultReportingMode
+
+    def setDefaultReportingMode(self, value: Optional[SecurityEventReportingModeEnum]) -> SecurityEventContextProps:
+        """
+        This attribute defines the default reporting mode for the referenced security event. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing defaultReportingMode.
+        """
+        if value is not None:
+            self.defaultReportingMode = value
+        return self
+
+    def getPersistentStorage(self) -> Optional[Boolean]:
+        """
+        This attribute controls whether qualified reportings of the referenced security event shall be stored persistently by the mapped IdsmInstance or not. Tags: atp.Status=candidate
+        """
+        return self.persistentStorage
+
+    def setPersistentStorage(self, value: Optional[Boolean]) -> SecurityEventContextProps:
+        """
+        This attribute controls whether qualified reportings of the referenced security event shall be stored persistently by the mapped IdsmInstance or not. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing persistentStorage.
+        """
+        if value is not None:
+            self.persistentStorage = value
+        return self
+
+    def getSecurityEventRef(self) -> Optional[RefType]:
+        """
+        This reference defines the security event that is mapped and enriched by SecurityEventMappingProps with mapping dependent properties. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=securityEvent.securityEventDefinition, securityEvent.variationPoint.shortLabel atp.Status=candidate
+        """
+        return self.securityEventRef
+
+    def setSecurityEventRef(self, value: Optional[RefType]) -> SecurityEventContextProps:
+        """
+        This reference defines the security event that is mapped and enriched by SecurityEventMappingProps with mapping dependent properties. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=securityEvent.securityEventDefinition, securityEvent.variationPoint.shortLabel atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing securityEventRef.
+        """
+        if value is not None:
+            self.securityEventRef = value
+        return self
+
+    def getSensorInstanceId(self) -> Optional[PositiveInteger]:
+        """
+        This attribute defines the ID of the security sensor that detects the referenced security event. Tags: atp.Status=candidate
+        """
+        return self.sensorInstanceId
+
+    def setSensorInstanceId(self, value: Optional[PositiveInteger]) -> SecurityEventContextProps:
+        """
+        This attribute defines the ID of the security sensor that detects the referenced security event. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing sensorInstanceId.
+        """
+        if value is not None:
+            self.sensorInstanceId = value
+        return self
+
+    def getSeverity(self) -> Optional[PositiveInteger]:
+        """
+        This attribute defines how critical/severe the referenced security event is. Please note that currently, the severity level meanings of specific integer values is not specified by AUTOSAR but left to the party responsible for the security event definition. Tags: atp.Status=candidate
+        """
+        return self.severity
+
+    def setSeverity(self, value: Optional[PositiveInteger]) -> SecurityEventContextProps:
+        """
+        This attribute defines how critical/severe the referenced security event is. Please note that currently, the severity level meanings of specific integer values is not specified by AUTOSAR but left to the party responsible for the security event definition. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing severity.
+        """
+        if value is not None:
+            self.severity = value
+        return self
+
+
 class IdsmRateLimitation(Identifiable):
     """
     This meta-class represents the configuration of a rate limitation filter for security events. This means that security events are dropped if the number of events (of any type) processed within a configurable time window is greater than a configurable threshold. Tags: atp.Status=candidate
@@ -1955,14 +2322,6 @@ class ReferenceTailoring(AttributeTailoring):
 
 
 class SdgTailoring(DataFormatElementScope):
-    pass
-
-
-class SecurityEventOneEveryNFilter(AbstractSecurityEventFilter):
-    pass
-
-
-class SecurityEventThresholdFilter(AbstractSecurityEventFilter):
     pass
 
 

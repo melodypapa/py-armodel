@@ -424,7 +424,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (
     EvaluatedVariantSet,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, LogAndTraceMessageCollectionSet, PostBuildVariantCriterionValueSet, IdsmProperties, FMFeature, FMFeatureMap, FMFeatureModel, FMFeatureSelectionSet, ReferenceBase
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, SecurityEventContextMapping, SecurityEventFilterChain, SecurityEventDefinition, SecurityEventContextMappingFunctionalCluster, SecurityEventContextMappingCommConnector, SecurityEventContextMappingBswModule, SecurityEventContextMappingApplication, IdsmInstance, IdsDesign, LogAndTraceMessageCollectionSet, PostBuildVariantCriterionValueSet, IdsmProperties, FMFeature, FMFeatureMap, FMFeatureModel, FMFeatureSelectionSet, ReferenceBase
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import AclObjectSet, AclOperation, AclPermission, AclRole
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import DiagnosticCustomServiceInstance, DiagnosticMapping
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
@@ -590,6 +590,11 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     FMAttributeDef,
+    SecurityEventAggregationFilter,
+    SecurityEventContextProps,
+    SecurityEventOneEveryNFilter,
+    SecurityEventStateFilter,
+    SecurityEventThresholdFilter,
     IdsmRateLimitation,
     IdsmTrafficLimitation,
     FMFeatureMapAssertion,
@@ -635,6 +640,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Limit,
     RefType,
     Integer,
+    SecurityEventReportingModeEnum,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.LifeCycles import LifeCycleInfo, LifeCycleInfoSet, LifeCyclePeriod
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (
@@ -2192,6 +2198,174 @@ class ARXMLWriter(AbstractARXMLWriter):
                 messages_tag = ET.SubElement(child_element, "DLT-MESSAGES")
                 for message in messages:
                     self.writeDltMessage(messages_tag, message)
+
+    def writeSecurityEventStateFilter(self, element: ET.Element, state_filter: SecurityEventStateFilter, key: str = "SECURITY-EVENT-STATE-FILTER"):
+        if state_filter is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeIdentifiable(child_element, state_filter)
+            irefs = state_filter.getBlockIfStateActiveApIrefs()
+            if len(irefs) > 0:
+                irefs_tag = ET.SubElement(child_element, "BLOCK-IF-STATE-ACTIVE-AP-IREFS")
+                for iref in irefs:
+                    iref_element = ET.SubElement(irefs_tag, "BLOCK-IF-STATE-ACTIVE-AP-IREF")
+                    self.setChildElementOptionalRefType(iref_element, "CONTEXT-MODE-DECLARATION-GROUP-PROTOTYPE-REF", iref.getContextModeDeclarationGroupPrototypeRef())
+                    self.setChildElementOptionalRefType(iref_element, "TARGET-MODE-DECLARATION-REF", iref.getTargetModeDeclarationRef())
+            refs = state_filter.getBlockIfStateActiveCpRefs()
+            if len(refs) > 0:
+                refs_tag = ET.SubElement(child_element, "BLOCK-IF-STATE-ACTIVE-CP-REFS")
+                for ref in refs:
+                    self.setChildElementOptionalRefType(refs_tag, "BLOCK-IF-STATE-ACTIVE-CP-REF", ref)
+
+    def writeSecurityEventOneEveryNFilter(self, element: ET.Element, one_every_n_filter: SecurityEventOneEveryNFilter, key: str = "SECURITY-EVENT-ONE-EVERY-N-FILTER"):
+        if one_every_n_filter is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeIdentifiable(child_element, one_every_n_filter)
+            self.setChildElementOptionalPositiveInteger(child_element, "N", one_every_n_filter.getN())
+
+    def writeSecurityEventAggregationFilter(self, element: ET.Element, aggregation_filter: SecurityEventAggregationFilter, key: str = "SECURITY-EVENT-AGGREGATION-FILTER"):
+        if aggregation_filter is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeIdentifiable(child_element, aggregation_filter)
+            self.setChildElementOptionalLiteral(child_element, "CONTEXT-DATA-SOURCE", aggregation_filter.getContextDataSource())
+            self.setChildElementOptionalTimeValue(child_element, "MINIMUM-INTERVAL-LENGTH", aggregation_filter.getMinimumIntervalLength())
+
+    def writeSecurityEventThresholdFilter(self, element: ET.Element, threshold_filter: SecurityEventThresholdFilter, key: str = "SECURITY-EVENT-THRESHOLD-FILTER"):
+        if threshold_filter is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeIdentifiable(child_element, threshold_filter)
+            self.setChildElementOptionalTimeValue(child_element, "INTERVAL-LENGTH", threshold_filter.getIntervalLength())
+            self.setChildElementOptionalPositiveInteger(child_element, "THRESHOLD-NUMBER", threshold_filter.getThresholdNumber())
+
+    def writeSecurityEventContextProps(self, element: ET.Element, props: SecurityEventContextProps):
+        if props is not None:
+            child_element = ET.SubElement(element, "SECURITY-EVENT-CONTEXT-PROPS")
+            self.writeIdentifiable(child_element, props)
+            context_data = props.getContextData()
+            if context_data is not None:
+                datas_tag = ET.SubElement(child_element, "CONTEXT-DATAS")
+                self.writeSecurityEventContextData(datas_tag, context_data)
+            self.setChildElementOptionalLiteral(child_element, "DEFAULT-REPORTING-MODE", props.getDefaultReportingMode())
+            self.setChildElementOptionalLiteral(child_element, "PERSISTENT-STORAGE", props.getPersistentStorage())
+            security_event_ref = props.getSecurityEventRef()
+            if security_event_ref is not None:
+                events_tag = ET.SubElement(child_element, "SECURITY-EVENTS")
+                conditional = ET.SubElement(events_tag, "SECURITY-EVENT-DEFINITION-REF-CONDITIONAL")
+                self.setChildElementOptionalRefType(conditional, "SECURITY-EVENT-DEFINITION-REF", security_event_ref)
+            self.setChildElementOptionalPositiveInteger(child_element, "SENSOR-INSTANCE-ID", props.getSensorInstanceId())
+            self.setChildElementOptionalPositiveInteger(child_element, "SEVERITY", props.getSeverity())
+            self.writeVariationPointCapable(child_element, props)
+
+    def writeSecurityEventContextMappingContents(self, element: ET.Element, mapping: SecurityEventContextMapping):
+        filter_chain_ref = mapping.getFilterChainRef()
+        if filter_chain_ref is not None:
+            chains_tag = ET.SubElement(element, "FILTER-CHAINS")
+            conditional = ET.SubElement(chains_tag, "SECURITY-EVENT-FILTER-CHAIN-REF-CONDITIONAL")
+            self.setChildElementOptionalRefType(conditional, "SECURITY-EVENT-FILTER-CHAIN-REF", filter_chain_ref)
+        idsm_instance_ref = mapping.getIdsmInstanceRef()
+        if idsm_instance_ref is not None:
+            instances_tag = ET.SubElement(element, "IDSM-INSTANCES")
+            conditional = ET.SubElement(instances_tag, "IDSM-INSTANCE-REF-CONDITIONAL")
+            self.setChildElementOptionalRefType(conditional, "IDSM-INSTANCE-REF", idsm_instance_ref)
+        mapped_security_events = mapping.getMappedSecurityEvents()
+        if len(mapped_security_events) > 0:
+            events_tag = ET.SubElement(element, "MAPPED-SECURITY-EVENTS")
+            for props in mapped_security_events:
+                self.writeSecurityEventContextProps(events_tag, props)
+
+    def writeSecurityEventContextMappingBswModule(self, element: ET.Element, mapping: SecurityEventContextMappingBswModule):
+        if mapping is not None:
+            child_element = ET.SubElement(element, "SECURITY-EVENT-CONTEXT-MAPPING-BSW-MODULE")
+            self.writeIdentifiable(child_element, mapping)
+            self.writeSecurityEventContextMappingContents(child_element, mapping)
+            self.setChildElementOptionalStringValue(child_element, "AFFECTED-BSW-MODULE", mapping.getAffectedBswModule())
+
+    def writeSecurityEventContextMappingFunctionalCluster(self, element: ET.Element, mapping: SecurityEventContextMappingFunctionalCluster):
+        if mapping is not None:
+            child_element = ET.SubElement(element, "SECURITY-EVENT-CONTEXT-MAPPING-FUNCTIONAL-CLUSTER")
+            self.writeIdentifiable(child_element, mapping)
+            self.writeSecurityEventContextMappingContents(child_element, mapping)
+            self.setChildElementOptionalStringValue(child_element, "AFFECTED-FUNCTIONAL-CLUSTER", mapping.getAffectedFunctionalCluster())
+
+    def writeSecurityEventContextMappingCommConnector(self, element: ET.Element, mapping: SecurityEventContextMappingCommConnector):
+        if mapping is not None:
+            child_element = ET.SubElement(element, "SECURITY-EVENT-CONTEXT-MAPPING-COMM-CONNECTOR")
+            self.writeIdentifiable(child_element, mapping)
+            self.writeSecurityEventContextMappingContents(child_element, mapping)
+            communication_connector_ref = mapping.getCommunicationConnectorRef()
+            if communication_connector_ref is not None:
+                connectors_tag = ET.SubElement(child_element, "COMM-CONNECTORS")
+                conditional = ET.SubElement(connectors_tag, "COMMUNICATION-CONNECTOR-REF-CONDITIONAL")
+                self.setChildElementOptionalRefType(conditional, "COMMUNICATION-CONNECTOR-REF", communication_connector_ref)
+
+    def writeSecurityEventContextMappingApplication(self, element: ET.Element, mapping: SecurityEventContextMappingApplication):
+        if mapping is not None:
+            child_element = ET.SubElement(element, "SECURITY-EVENT-CONTEXT-MAPPING-APPLICATION")
+            self.writeIdentifiable(child_element, mapping)
+            self.writeSecurityEventContextMappingContents(child_element, mapping)
+            self.setChildElementOptionalStringValue(child_element, "AFFECTED-APPLICATION", mapping.getAffectedApplication())
+
+    def writeSecurityEventDefinition(self, element: ET.Element, definition: SecurityEventDefinition):
+        if definition is not None:
+            child_element = ET.SubElement(element, "SECURITY-EVENT-DEFINITION")
+            self.writeIdentifiable(child_element, definition)
+            event_symbol_name = definition.getEventSymbolName()
+            if event_symbol_name is not None:
+                symbol_element = ET.SubElement(child_element, "EVENT-SYMBOL-NAME")
+                self.writeSymbolProps(symbol_element, event_symbol_name)
+            self.setChildElementOptionalPositiveInteger(child_element, "ID", definition.getId())
+
+    def writeSecurityEventFilterChain(self, element: ET.Element, filter_chain: SecurityEventFilterChain):
+        if filter_chain is not None:
+            child_element = ET.SubElement(element, "SECURITY-EVENT-FILTER-CHAIN")
+            self.writeIdentifiable(child_element, filter_chain)
+            self.writeSecurityEventAggregationFilter(child_element, filter_chain.getAggregation(), key="AGGREGATION")
+            self.writeSecurityEventOneEveryNFilter(child_element, filter_chain.getOneEveryN(), key="ONE-EVERY-N")
+            self.writeSecurityEventStateFilter(child_element, filter_chain.getState(), key="STATE")
+            self.writeSecurityEventThresholdFilter(child_element, filter_chain.getThreshold(), key="THRESHOLD")
+
+    def writeIdsDesign(self, element: ET.Element, ids_design: IdsDesign):
+        if ids_design is not None:
+            child_element = ET.SubElement(element, "IDS-DESIGN")
+            self.writeIdentifiable(child_element, ids_design)
+            refs = ids_design.getElementRefs()
+            if len(refs) > 0:
+                refs_tag = ET.SubElement(child_element, "ELEMENTS")
+                for ref in refs:
+                    conditional = ET.SubElement(refs_tag, "IDS-COMMON-ELEMENT-REF-CONDITIONAL")
+                    self.setChildElementOptionalRefType(conditional, "IDS-COMMON-ELEMENT-REF", ref)
+
+    def writeIdsmInstance(self, element: ET.Element, idsm_instance: IdsmInstance):
+        if idsm_instance is not None:
+            child_element = ET.SubElement(element, "IDSM-INSTANCE")
+            self.writeIdentifiable(child_element, idsm_instance)
+            block_states = idsm_instance.getBlockStates()
+            if len(block_states) > 0:
+                states_tag = ET.SubElement(child_element, "BLOCK-STATES")
+                for block_state in block_states:
+                    state_element = ET.SubElement(states_tag, "BLOCK-STATE")
+                    self.writeIdentifiable(state_element, block_state)
+            ecu_instance_ref = idsm_instance.getEcuInstanceRef()
+            if ecu_instance_ref is not None:
+                instances_tag = ET.SubElement(child_element, "ECU-INSTANCES")
+                conditional = ET.SubElement(instances_tag, "ECU-INSTANCE-REF-CONDITIONAL")
+                self.setChildElementOptionalRefType(conditional, "ECU-INSTANCE-REF", ecu_instance_ref)
+            self.setChildElementOptionalPositiveInteger(child_element, "IDSM-INSTANCE-ID", idsm_instance.getIdsmInstanceId())
+            self.setChildElementOptionalRefType(child_element, "IDSM-MODULE-INSTANTIATION-REF", idsm_instance.getIdsmModuleInstantiationRef())
+            rate_limitation_filter_refs = idsm_instance.getRateLimitationFilterRefs()
+            if len(rate_limitation_filter_refs) > 0:
+                filters_tag = ET.SubElement(child_element, "RATE-LIMITATION-FILTERS")
+                for ref in rate_limitation_filter_refs:
+                    conditional = ET.SubElement(filters_tag, "IDSM-RATE-LIMITATION-REF-CONDITIONAL")
+                    self.setChildElementOptionalRefType(conditional, "IDSM-RATE-LIMITATION-REF", ref)
+            self.writeIdsmSignatureSupportAp(child_element, idsm_instance.getSignatureSupportAp(), key="SIGNATURE-SUPPORT-AP")
+            self.writeIdsmSignatureSupportCp(child_element, idsm_instance.getSignatureSupportCp(), key="SIGNATURE-SUPPORT-CP")
+            self.setChildElementOptionalStringValue(child_element, "TIMESTAMP-FORMAT", idsm_instance.getTimestampFormat())
+            traffic_limitation_filter_refs = idsm_instance.getTrafficLimitationFilterRefs()
+            if len(traffic_limitation_filter_refs) > 0:
+                filters_tag = ET.SubElement(child_element, "TRAFFIC-LIMITATION-FILTERS")
+                for ref in traffic_limitation_filter_refs:
+                    conditional = ET.SubElement(filters_tag, "IDSM-TRAFFIC-LIMITATION-REF-CONDITIONAL")
+                    self.setChildElementOptionalRefType(conditional, "IDSM-TRAFFIC-LIMITATION-REF", ref)
 
     def writeIdsmSignatureSupportAp(self, element: ET.Element, signature_support: IdsmSignatureSupportAp, key: str = "SIGNATURE-SUPPORT-AP"):
         if signature_support is not None:
@@ -20216,6 +20390,22 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writePostBuildVariantCriterionValueSet(element, ar_element)
         elif isinstance(ar_element, LogAndTraceMessageCollectionSet):
             self.writeLogAndTraceMessageCollectionSet(element, ar_element)
+        elif isinstance(ar_element, IdsDesign):
+            self.writeIdsDesign(element, ar_element)
+        elif isinstance(ar_element, SecurityEventContextMappingBswModule):
+            self.writeSecurityEventContextMappingBswModule(element, ar_element)
+        elif isinstance(ar_element, SecurityEventContextMappingFunctionalCluster):
+            self.writeSecurityEventContextMappingFunctionalCluster(element, ar_element)
+        elif isinstance(ar_element, SecurityEventContextMappingCommConnector):
+            self.writeSecurityEventContextMappingCommConnector(element, ar_element)
+        elif isinstance(ar_element, SecurityEventContextMappingApplication):
+            self.writeSecurityEventContextMappingApplication(element, ar_element)
+        elif isinstance(ar_element, SecurityEventDefinition):
+            self.writeSecurityEventDefinition(element, ar_element)
+        elif isinstance(ar_element, SecurityEventFilterChain):
+            self.writeSecurityEventFilterChain(element, ar_element)
+        elif isinstance(ar_element, IdsmInstance):
+            self.writeIdsmInstance(element, ar_element)
         elif isinstance(ar_element, VfbTiming):
             self.writeVfbTiming(element, ar_element)
         elif isinstance(ar_element, FMFeature):

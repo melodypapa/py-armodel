@@ -2365,6 +2365,62 @@ class ARPackage(CollectableElement, VariationPointCapable):
         return cast(VfbTiming, self.getReferrableElement(short_name, VfbTiming))
 
 
+
+    def createIdsDesign(self, short_name: str) -> IdsDesign:
+
+        if not self.IsReferrableElementExists(short_name, IdsDesign):
+            ids_design = IdsDesign(self, short_name)
+            self.addReferrableElement(ids_design)
+        return cast(IdsDesign, self.getReferrableElement(short_name, IdsDesign))
+
+    def createSecurityEventDefinition(self, short_name: str) -> SecurityEventDefinition:
+
+        if not self.IsReferrableElementExists(short_name, SecurityEventDefinition):
+            definition = SecurityEventDefinition(self, short_name)
+            self.addReferrableElement(definition)
+        return cast(SecurityEventDefinition, self.getReferrableElement(short_name, SecurityEventDefinition))
+
+    def createSecurityEventFilterChain(self, short_name: str) -> SecurityEventFilterChain:
+
+        if not self.IsReferrableElementExists(short_name, SecurityEventFilterChain):
+            filter_chain = SecurityEventFilterChain(self, short_name)
+            self.addReferrableElement(filter_chain)
+        return cast(SecurityEventFilterChain, self.getReferrableElement(short_name, SecurityEventFilterChain))
+
+    def createIdsmInstance(self, short_name: str) -> IdsmInstance:
+
+        if not self.IsReferrableElementExists(short_name, IdsmInstance):
+            idsm_instance = IdsmInstance(self, short_name)
+            self.addReferrableElement(idsm_instance)
+        return cast(IdsmInstance, self.getReferrableElement(short_name, IdsmInstance))
+
+    def createSecurityEventContextMappingBswModule(self, short_name: str) -> SecurityEventContextMappingBswModule:
+
+        if not self.IsReferrableElementExists(short_name, SecurityEventContextMappingBswModule):
+            mapping = SecurityEventContextMappingBswModule(self, short_name)
+            self.addReferrableElement(mapping)
+        return cast(SecurityEventContextMappingBswModule, self.getReferrableElement(short_name, SecurityEventContextMappingBswModule))
+
+    def createSecurityEventContextMappingFunctionalCluster(self, short_name: str) -> SecurityEventContextMappingFunctionalCluster:
+
+        if not self.IsReferrableElementExists(short_name, SecurityEventContextMappingFunctionalCluster):
+            mapping = SecurityEventContextMappingFunctionalCluster(self, short_name)
+            self.addReferrableElement(mapping)
+        return cast(SecurityEventContextMappingFunctionalCluster, self.getReferrableElement(short_name, SecurityEventContextMappingFunctionalCluster))
+
+    def createSecurityEventContextMappingCommConnector(self, short_name: str) -> SecurityEventContextMappingCommConnector:
+
+        if not self.IsReferrableElementExists(short_name, SecurityEventContextMappingCommConnector):
+            mapping = SecurityEventContextMappingCommConnector(self, short_name)
+            self.addReferrableElement(mapping)
+        return cast(SecurityEventContextMappingCommConnector, self.getReferrableElement(short_name, SecurityEventContextMappingCommConnector))
+
+    def createSecurityEventContextMappingApplication(self, short_name: str) -> SecurityEventContextMappingApplication:
+
+        if not self.IsReferrableElementExists(short_name, SecurityEventContextMappingApplication):
+            mapping = SecurityEventContextMappingApplication(self, short_name)
+            self.addReferrableElement(mapping)
+        return cast(SecurityEventContextMappingApplication, self.getReferrableElement(short_name, SecurityEventContextMappingApplication))
     def createLogAndTraceMessageCollectionSet(self, short_name: str) -> LogAndTraceMessageCollectionSet:
 
         if not self.IsReferrableElementExists(short_name, LogAndTraceMessageCollectionSet):
@@ -11905,10 +11961,6 @@ class FMFeatureSelectionSet(ARElement):
         return self.selections
 
 
-class IdsDesign(ARElement):
-    pass
-
-
 class LifeCycleStateDefinitionGroup(ARElement):
     """
     This meta class represents the ability to define the states and properties of one particular life cycle. Tags: atp.recommendedPackage=LifeCycleStateDefintionGroups
@@ -12013,22 +12065,6 @@ class PostBuildVariantCriterionValueSet(ARElement):
         This is one particular value of a post build variant criterion.
         """
         return self.postBuildVariantCriterionValues
-
-
-class SecurityEventContextMappingApplication(ARElement):
-    pass
-
-
-class SecurityEventContextMappingBswModule(ARElement):
-    pass
-
-
-class SecurityEventContextMappingFunctionalCluster(ARElement):
-    pass
-
-
-class SecurityEventDefinition(ARElement):
-    pass
 
 
 class CpSoftwareClusterBinaryManifestDescriptor(ARElement):
@@ -12142,6 +12178,597 @@ class IdsmProperties(IdsCommonElement):
         This aggregation represents the collection of traffic limitation filters for security events in the enclosing SecurityFilterSet. Tags: atp.Status=candidate
         """
         return self.trafficLimitationFilters
+
+
+class SecurityEventDefinition(IdsCommonElement):
+    """
+    This meta-class defines a security-related event as part of the intrusion detection system. Tags: atp.Status=candidate atp.recommendedPackage=SecurityEventDefinitions
+    """
+
+    # SecurityEventDefinition method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf, Table 4.2, p.17
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getEventSymbolName     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEventSymbolName     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getId                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setId                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This aggregation defines optionally an alternative Event Name for the SecurityEventDefinition in case there is a collision of shortNames. Stereotypes: atpSplitable Tags: atp.Splitkey=eventSymbolName.shortName atp.Status=candidate
+        self.eventSymbolName: Optional[SymbolProps] = None
+
+        # This attribute represents the numerical identification of the defined security event. The identification shall be unique within the scope of the IDS. Tags: atp.Status=candidate
+        self.id: Optional[PositiveInteger] = None
+
+    def getEventSymbolName(self) -> Optional[SymbolProps]:
+        """
+        This aggregation defines optionally an alternative Event Name for the SecurityEventDefinition in case there is a collision of shortNames. Stereotypes: atpSplitable Tags: atp.Splitkey=eventSymbolName.shortName atp.Status=candidate
+        """
+        return self.eventSymbolName
+
+    def setEventSymbolName(self, value: Optional[SymbolProps]) -> SecurityEventDefinition:
+        """
+        This aggregation defines optionally an alternative Event Name for the SecurityEventDefinition in case there is a collision of shortNames. Stereotypes: atpSplitable Tags: atp.Splitkey=eventSymbolName.shortName atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing eventSymbolName.
+        """
+        if value is not None:
+            self.eventSymbolName = value
+        return self
+
+    def getId(self) -> Optional[PositiveInteger]:
+        """
+        This attribute represents the numerical identification of the defined security event. The identification shall be unique within the scope of the IDS. Tags: atp.Status=candidate
+        """
+        return self.id
+
+    def setId(self, value: Optional[PositiveInteger]) -> SecurityEventDefinition:
+        """
+        This attribute represents the numerical identification of the defined security event. The identification shall be unique within the scope of the IDS. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing id.
+        """
+        if value is not None:
+            self.id = value
+        return self
+
+
+class SecurityEventFilterChain(IdsCommonElement):
+    """
+    This meta-class represents a configurable chain of filters used to qualify security events. The different filters of this filter chain are applied in the follow order: SecurityEventStateFilter, SecurityEventOneEvery NFilter, SecurityEventAggregationFilter and SecurityEventThresholdFilter. Tags: atp.Status=candidate
+    """
+
+    # SecurityEventFilterChain method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf, Table 4.3, p.21
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAggregation        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAggregation        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOneEveryN          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOneEveryN          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getState              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setState              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getThreshold          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setThreshold          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This aggregation represents the aggregation filter in the filter chain. Tags: atp.Status=candidate
+        self.aggregation: Optional[SecurityEventAggregationFilter] = None
+
+        # This aggregation represents the sampling filter in the filter chain. Tags: atp.Status=candidate
+        self.oneEveryN: Optional[SecurityEventOneEveryNFilter] = None
+
+        # This aggregation represents the state filter in the event chain. Tags: atp.Status=candidate
+        self.state: Optional[SecurityEventStateFilter] = None
+
+        # This aggregation represents the threshold filter in the filter chain. Tags: atp.Status=candidate
+        self.threshold: Optional[SecurityEventThresholdFilter] = None
+
+    def getAggregation(self) -> Optional[SecurityEventAggregationFilter]:
+        """
+        This aggregation represents the aggregation filter in the filter chain. Tags: atp.Status=candidate
+        """
+        return self.aggregation
+
+    def setAggregation(self, value: Optional[SecurityEventAggregationFilter]) -> SecurityEventFilterChain:
+        """
+        This aggregation represents the aggregation filter in the filter chain. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing aggregation.
+        """
+        if value is not None:
+            self.aggregation = value
+        return self
+
+    def getOneEveryN(self) -> Optional[SecurityEventOneEveryNFilter]:
+        """
+        This aggregation represents the sampling filter in the filter chain. Tags: atp.Status=candidate
+        """
+        return self.oneEveryN
+
+    def setOneEveryN(self, value: Optional[SecurityEventOneEveryNFilter]) -> SecurityEventFilterChain:
+        """
+        This aggregation represents the sampling filter in the filter chain. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing oneEveryN.
+        """
+        if value is not None:
+            self.oneEveryN = value
+        return self
+
+    def getState(self) -> Optional[SecurityEventStateFilter]:
+        """
+        This aggregation represents the state filter in the event chain. Tags: atp.Status=candidate
+        """
+        return self.state
+
+    def setState(self, value: Optional[SecurityEventStateFilter]) -> SecurityEventFilterChain:
+        """
+        This aggregation represents the state filter in the event chain. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing state.
+        """
+        if value is not None:
+            self.state = value
+        return self
+
+    def getThreshold(self) -> Optional[SecurityEventThresholdFilter]:
+        """
+        This aggregation represents the threshold filter in the filter chain. Tags: atp.Status=candidate
+        """
+        return self.threshold
+
+    def setThreshold(self, value: Optional[SecurityEventThresholdFilter]) -> SecurityEventFilterChain:
+        """
+        This aggregation represents the threshold filter in the filter chain. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing threshold.
+        """
+        if value is not None:
+            self.threshold = value
+        return self
+
+
+class SecurityEventContextMapping(IdsMapping, ABC):
+    """
+    This meta-class represents the ability to create an association between a collection of security events, an IdsM instance which handles the security events and the filter chains applicable to the security events. Tags: atp.Status=candidate
+    """
+
+    # SecurityEventContextMapping method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf, Table 4.12, p.33
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getFilterChainRef            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFilterChainRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIdsmInstanceRef           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIdsmInstanceRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addMappedSecurityEvent       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMappedSecurityEvents      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is SecurityEventContextMapping:
+            raise TypeError("SecurityEventContextMapping is an abstract class.")
+
+        super().__init__(parent, short_name)
+
+        # This reference defines the filter chain to be applied to each of the referenced security events (depending on the reporting mode). Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=filterChain.securityEventFilterChain, filterChain.variationPoint.shortLabel atp.Status=candidate
+        self.filterChainRef: Optional[RefType] = None
+
+        # This reference defines the IdsmInstance onto which the security events are mapped. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=idsmInstance.idsmInstance, idsmInstance.variationPoint.shortLabel atp.Status=candidate
+        self.idsmInstanceRef: Optional[RefType] = None
+
+        # This aggregation represents (through further references) the SecurityEventDefinitions to be mapped to an IdsmInstance with additional mapping-dependent properties. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=mappedSecurityEvent.securityEventContextProps, mappedSecurityEvent.variationPoint.shortLabel atp.Status=candidate
+        self.mappedSecurityEvents: List[SecurityEventContextProps] = []
+
+    def getFilterChainRef(self) -> Optional[RefType]:
+        """
+        This reference defines the filter chain to be applied to each of the referenced security events (depending on the reporting mode). Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=filterChain.securityEventFilterChain, filterChain.variationPoint.shortLabel atp.Status=candidate
+        """
+        return self.filterChainRef
+
+    def setFilterChainRef(self, value: Optional[RefType]) -> SecurityEventContextMapping:
+        """
+        This reference defines the filter chain to be applied to each of the referenced security events (depending on the reporting mode). Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=filterChain.securityEventFilterChain, filterChain.variationPoint.shortLabel atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing filterChainRef.
+        """
+        if value is not None:
+            self.filterChainRef = value
+        return self
+
+    def getIdsmInstanceRef(self) -> Optional[RefType]:
+        """
+        This reference defines the IdsmInstance onto which the security events are mapped. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=idsmInstance.idsmInstance, idsmInstance.variationPoint.shortLabel atp.Status=candidate
+        """
+        return self.idsmInstanceRef
+
+    def setIdsmInstanceRef(self, value: Optional[RefType]) -> SecurityEventContextMapping:
+        """
+        This reference defines the IdsmInstance onto which the security events are mapped. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=idsmInstance.idsmInstance, idsmInstance.variationPoint.shortLabel atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing idsmInstanceRef.
+        """
+        if value is not None:
+            self.idsmInstanceRef = value
+        return self
+
+    def addMappedSecurityEvent(self, value: SecurityEventContextProps) -> SecurityEventContextMapping:
+        """
+        This aggregation represents (through further references) the SecurityEventDefinitions to be mapped to an IdsmInstance with additional mapping-dependent properties. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=mappedSecurityEvent.securityEventContextProps, mappedSecurityEvent.variationPoint.shortLabel atp.Status=candidate
+        """
+        self.mappedSecurityEvents.append(value)
+        return self
+
+    def getMappedSecurityEvents(self) -> List[SecurityEventContextProps]:
+        """
+        This aggregation represents (through further references) the SecurityEventDefinitions to be mapped to an IdsmInstance with additional mapping-dependent properties. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=mappedSecurityEvent.securityEventContextProps, mappedSecurityEvent.variationPoint.shortLabel atp.Status=candidate
+        """
+        return self.mappedSecurityEvents
+
+
+class SecurityEventContextMappingBswModule(SecurityEventContextMapping):
+    """
+    This meta-class qualifies the context mapping to security events reported by a BSW module. Tags: atp.Status=candidate
+    """
+
+    # SecurityEventContextMappingBswModule method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf, Table 4.15, p.38
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAffectedBswModule      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAffectedBswModule      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This attribute identifies the BSW module the security events originate from. Tags: atp.Status=candidate
+        self.affectedBswModule: Optional[String] = None
+
+    def getAffectedBswModule(self) -> Optional[String]:
+        """
+        This attribute identifies the BSW module the security events originate from. Tags: atp.Status=candidate
+        """
+        return self.affectedBswModule
+
+    def setAffectedBswModule(self, value: Optional[String]) -> SecurityEventContextMappingBswModule:
+        """
+        This attribute identifies the BSW module the security events originate from. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing affectedBswModule.
+        """
+        if value is not None:
+            self.affectedBswModule = value
+        return self
+
+
+class SecurityEventContextMappingFunctionalCluster(SecurityEventContextMapping):
+    """
+    This meta-class qualifies the context mapping to security events reported by a functional cluster. Tags: atp.Status=candidate
+    """
+
+    # SecurityEventContextMappingFunctionalCluster method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf, Table 4.16, p.39
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAffectedFunctionalCluster  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAffectedFunctionalCluster  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This attribute identifies the functional cluster the security events originate from. Tags: atp.Status=candidate
+        self.affectedFunctionalCluster: Optional[String] = None
+
+    def getAffectedFunctionalCluster(self) -> Optional[String]:
+        """
+        This attribute identifies the functional cluster the security events originate from. Tags: atp.Status=candidate
+        """
+        return self.affectedFunctionalCluster
+
+    def setAffectedFunctionalCluster(self, value: Optional[String]) -> SecurityEventContextMappingFunctionalCluster:
+        """
+        This attribute identifies the functional cluster the security events originate from. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing affectedFunctionalCluster.
+        """
+        if value is not None:
+            self.affectedFunctionalCluster = value
+        return self
+
+
+class SecurityEventContextMappingCommConnector(SecurityEventContextMapping):
+    """
+    This meta-class qualifies the context mapping to security events reported on a communication connector. Tags: atp.Status=candidate
+    """
+
+    # SecurityEventContextMappingCommConnector method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf, Table 4.17, p.41
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCommunicationConnectorRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCommunicationConnectorRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        self.communicationConnectorRef: Optional[RefType] = None
+
+    def getCommunicationConnectorRef(self) -> Optional[RefType]:
+        return self.communicationConnectorRef
+
+    def setCommunicationConnectorRef(self, value: Optional[RefType]) -> SecurityEventContextMappingCommConnector:
+        """
+        A None value is a no-op and does not overwrite an existing communicationConnectorRef.
+        """
+        if value is not None:
+            self.communicationConnectorRef = value
+        return self
+
+
+class SecurityEventContextMappingApplication(SecurityEventContextMapping):
+    """
+    This meta-class qualifies the context mapping to security events reported by an application (Adaptive Platform execution context). Tags: atp.Status=candidate
+    """
+
+    # SecurityEventContextMappingApplication method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf, Table 4.18, p.42
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAffectedApplication    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAffectedApplication    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This attribute identifies the application the security events originate from. Tags: atp.Status=candidate
+        self.affectedApplication: Optional[String] = None
+
+    def getAffectedApplication(self) -> Optional[String]:
+        """
+        This attribute identifies the application the security events originate from. Tags: atp.Status=candidate
+        """
+        return self.affectedApplication
+
+    def setAffectedApplication(self, value: Optional[String]) -> SecurityEventContextMappingApplication:
+        """
+        This attribute identifies the application the security events originate from. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing affectedApplication.
+        """
+        if value is not None:
+            self.affectedApplication = value
+        return self
+
+
+class IdsDesign(ARElement):
+    """
+    This meta-class represents the root element of a SecurityExtract file for IDS development. It defines the scope of an IDS to be designed and implemented by referencing all SecurityExtract meta-classes that need to be included into the IDS development process. Tags: atp.Status=candidate atp.recommendedPackage=IdsDesigns
+    """
+
+    # IdsDesign method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf, Table 4.1, p.16
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addElementRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getElementRefs    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This reference includes an element with IDS related definitions into the IdsDesign. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=element.idsCommonElement, element.variationPoint.shortLabel atp.Status=candidate vh.latestBindingTime=systemDesignTime
+        self.elementRefs: List[RefType] = []
+
+    def addElementRef(self, ref: RefType) -> IdsDesign:
+        """
+        This reference includes an element with IDS related definitions into the IdsDesign. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=element.idsCommonElement, element.variationPoint.shortLabel atp.Status=candidate vh.latestBindingTime=systemDesignTime
+        """
+        self.elementRefs.append(ref)
+        return self
+
+    def getElementRefs(self) -> List[RefType]:
+        """
+        This reference includes an element with IDS related definitions into the IdsDesign. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=element.idsCommonElement, element.variationPoint.shortLabel atp.Status=candidate vh.latestBindingTime=systemDesignTime
+        """
+        return self.elementRefs
+
+
+class IdsmInstance(IdsCommonElement):
+    """
+    This meta-class provides the ability to create a relation between an EcuInstance and a specific class of filters for security events that apply for all security events reported on the referenced EcuInstance. Tags: atp.Status=candidate atp.recommendedPackage=IdsmInstanceToEcuInstanceMappings
+    """
+
+    # IdsmInstance method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf, Table 4.19, p.45
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addBlockState                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getBlockStates                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getEcuInstanceRef               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEcuInstanceRef               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIdsmInstanceId               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIdsmInstanceId               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIdsmModuleInstantiationRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIdsmModuleInstantiationRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addRateLimitationFilterRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRateLimitationFilterRefs     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getSignatureSupportAp           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSignatureSupportAp           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSignatureSupportCp           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSignatureSupportCp           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimestampFormat              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimestampFormat              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addTrafficLimitationFilterRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTrafficLimitationFilterRefs  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This reference defines the BlockState in the collection BlockStateSet. Tags: atp.Status=candidate
+        self.blockStates: List[BlockState] = []
+
+        # This reference identifies the EcuInstance whose security events (of any type) shall be limited by the specific class of filters. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=ecuInstance.ecuInstance, ecuInstance.variationPoint.shortLabel atp.Status=candidate
+        self.ecuInstanceRef: Optional[RefType] = None
+
+        # This attribute is used to provide a source identification in the context of reporting security events.. Tags: atp.Status=candidate
+        self.idsmInstanceId: Optional[PositiveInteger] = None
+
+        # This reference identifies the meta-class that defines the attributes for the IdsM configuration on a specific machine. Stereotypes: atpSplitable Tags: atp.Splitkey=idsmModuleInstantiation atp.Status=candidate
+        self.idsmModuleInstantiationRef: Optional[RefType] = None
+
+        # This reference identifies the applicable rate limitation filter for all security events on the related EcuInstance. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=rateLimitationFilter.idsmRateLimitation, rateLimitationFilter.variationPoint.shortLabel atp.Status=candidate
+        self.rateLimitationFilterRefs: List[RefType] = []
+
+        # The existence of this aggregation specifies that the IdsM shall add a signature to the QSEv messages it sends onto the network. The cryptographic algorithm and key to be used for this signature is further specified by the aggregated meta-class. Tags: atp.Status=candidate
+        self.signatureSupportAp: Optional[IdsmSignatureSupportAp] = None
+
+        # The existence of this aggregation specifies that the IdsM shall add a signature to the QSEv messages it sends onto the network. The cryptographic algorithm and key to be used for this signature is further specified by the aggregated meta-class. Tags: atp.Status=candidate
+        self.signatureSupportCp: Optional[IdsmSignatureSupportCp] = None
+
+        # The existence of this attribute specifies that the IdsM shall add a timestamp to the QSEv messages it sends onto the network. I.e., if this attribute does not exist, no timestamp shall be added to the QSEv messages. The content of this attribute further specifies the format to be used for the timestamp. Tags: atp.Status=candidate
+        self.timestampFormat: Optional[String] = None
+
+        # This reference identifies the applicable traffic limitation filter for all security events on the related EcuInstance. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=trafficLimitationFilter.idsmTrafficLimitation, trafficLimitationFilter.variationPoint.shortLabel atp.Status=candidate
+        self.trafficLimitationFilterRefs: List[RefType] = []
+
+    def addBlockState(self, value: BlockState) -> IdsmInstance:
+        """
+        This reference defines the BlockState in the collection BlockStateSet. Tags: atp.Status=candidate
+        """
+        self.blockStates.append(value)
+        return self
+
+    def getBlockStates(self) -> List[BlockState]:
+        """
+        This reference defines the BlockState in the collection BlockStateSet. Tags: atp.Status=candidate
+        """
+        return self.blockStates
+
+    def getEcuInstanceRef(self) -> Optional[RefType]:
+        """
+        This reference identifies the EcuInstance whose security events (of any type) shall be limited by the specific class of filters. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=ecuInstance.ecuInstance, ecuInstance.variationPoint.shortLabel atp.Status=candidate
+        """
+        return self.ecuInstanceRef
+
+    def setEcuInstanceRef(self, value: Optional[RefType]) -> IdsmInstance:
+        """
+        This reference identifies the EcuInstance whose security events (of any type) shall be limited by the specific class of filters. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=ecuInstance.ecuInstance, ecuInstance.variationPoint.shortLabel atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing ecuInstanceRef.
+        """
+        if value is not None:
+            self.ecuInstanceRef = value
+        return self
+
+    def getIdsmInstanceId(self) -> Optional[PositiveInteger]:
+        """
+        This attribute is used to provide a source identification in the context of reporting security events.. Tags: atp.Status=candidate
+        """
+        return self.idsmInstanceId
+
+    def setIdsmInstanceId(self, value: Optional[PositiveInteger]) -> IdsmInstance:
+        """
+        This attribute is used to provide a source identification in the context of reporting security events.. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing idsmInstanceId.
+        """
+        if value is not None:
+            self.idsmInstanceId = value
+        return self
+
+    def getIdsmModuleInstantiationRef(self) -> Optional[RefType]:
+        """
+        This reference identifies the meta-class that defines the attributes for the IdsM configuration on a specific machine. Stereotypes: atpSplitable Tags: atp.Splitkey=idsmModuleInstantiation atp.Status=candidate
+        """
+        return self.idsmModuleInstantiationRef
+
+    def setIdsmModuleInstantiationRef(self, value: Optional[RefType]) -> IdsmInstance:
+        """
+        This reference identifies the meta-class that defines the attributes for the IdsM configuration on a specific machine. Stereotypes: atpSplitable Tags: atp.Splitkey=idsmModuleInstantiation atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing idsmModuleInstantiationRef.
+        """
+        if value is not None:
+            self.idsmModuleInstantiationRef = value
+        return self
+
+    def addRateLimitationFilterRef(self, ref: RefType) -> IdsmInstance:
+        """
+        This reference identifies the applicable rate limitation filter for all security events on the related EcuInstance. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=rateLimitationFilter.idsmRateLimitation, rateLimitationFilter.variationPoint.shortLabel atp.Status=candidate
+        """
+        self.rateLimitationFilterRefs.append(ref)
+        return self
+
+    def getRateLimitationFilterRefs(self) -> List[RefType]:
+        """
+        This reference identifies the applicable rate limitation filter for all security events on the related EcuInstance. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=rateLimitationFilter.idsmRateLimitation, rateLimitationFilter.variationPoint.shortLabel atp.Status=candidate
+        """
+        return self.rateLimitationFilterRefs
+
+    def getSignatureSupportAp(self) -> Optional[IdsmSignatureSupportAp]:
+        """
+        The existence of this aggregation specifies that the IdsM shall add a signature to the QSEv messages it sends onto the network. The cryptographic algorithm and key to be used for this signature is further specified by the aggregated meta-class. Tags: atp.Status=candidate
+        """
+        return self.signatureSupportAp
+
+    def setSignatureSupportAp(self, value: Optional[IdsmSignatureSupportAp]) -> IdsmInstance:
+        """
+        The existence of this aggregation specifies that the IdsM shall add a signature to the QSEv messages it sends onto the network. The cryptographic algorithm and key to be used for this signature is further specified by the aggregated meta-class. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing signatureSupportAp.
+        """
+        if value is not None:
+            self.signatureSupportAp = value
+        return self
+
+    def getSignatureSupportCp(self) -> Optional[IdsmSignatureSupportCp]:
+        """
+        The existence of this aggregation specifies that the IdsM shall add a signature to the QSEv messages it sends onto the network. The cryptographic algorithm and key to be used for this signature is further specified by the aggregated meta-class. Tags: atp.Status=candidate
+        """
+        return self.signatureSupportCp
+
+    def setSignatureSupportCp(self, value: Optional[IdsmSignatureSupportCp]) -> IdsmInstance:
+        """
+        The existence of this aggregation specifies that the IdsM shall add a signature to the QSEv messages it sends onto the network. The cryptographic algorithm and key to be used for this signature is further specified by the aggregated meta-class. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing signatureSupportCp.
+        """
+        if value is not None:
+            self.signatureSupportCp = value
+        return self
+
+    def getTimestampFormat(self) -> Optional[String]:
+        """
+        The existence of this attribute specifies that the IdsM shall add a timestamp to the QSEv messages it sends onto the network. I.e., if this attribute does not exist, no timestamp shall be added to the QSEv messages. The content of this attribute further specifies the format to be used for the timestamp. Tags: atp.Status=candidate
+        """
+        return self.timestampFormat
+
+    def setTimestampFormat(self, value: Optional[String]) -> IdsmInstance:
+        """
+        The existence of this attribute specifies that the IdsM shall add a timestamp to the QSEv messages it sends onto the network. I.e., if this attribute does not exist, no timestamp shall be added to the QSEv messages. The content of this attribute further specifies the format to be used for the timestamp. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing timestampFormat.
+        """
+        if value is not None:
+            self.timestampFormat = value
+        return self
+
+    def addTrafficLimitationFilterRef(self, ref: RefType) -> IdsmInstance:
+        """
+        This reference identifies the applicable traffic limitation filter for all security events on the related EcuInstance. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=trafficLimitationFilter.idsmTrafficLimitation, trafficLimitationFilter.variationPoint.shortLabel atp.Status=candidate
+        """
+        self.trafficLimitationFilterRefs.append(ref)
+        return self
+
+    def getTrafficLimitationFilterRefs(self) -> List[RefType]:
+        """
+        This reference identifies the applicable traffic limitation filter for all security events on the related EcuInstance. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=trafficLimitationFilter.idsmTrafficLimitation, trafficLimitationFilter.variationPoint.shortLabel atp.Status=candidate
+        """
+        return self.trafficLimitationFilterRefs
 
 
 class LogAndTraceMessageCollectionSet(ARElement):
