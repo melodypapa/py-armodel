@@ -1326,15 +1326,39 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `IEEE1722TpAcfLin` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.296, p.667
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note: Step 1 finding — spec Package row = ...IEEE1722Tp::IEEE1722TpAcf confirms the family home
+    `TransportProtocols/IEEE1722Tp/IEEE1722TpAcf.py` (ArObject.py hint stale; stub already rehoused
+    and rebased there, Rule 0007). Base row most-derived = IEEE1722TpAcfBus (ARObject hint is the
+    full chain); concrete (XSD IEEE-1722-TP-ACF-LIN abstract="false") — no TypeError guard. 3 attrs
+    in displayed order (= XSD group element order): baseFrequency (PositiveInteger 0..1 attr),
+    frameSyncEnabled (Boolean 0..1 attr; markdown line-split "frameSync Enabled" resolved via XSD
+    mmt.qualifiedName), timestampInterval (PositiveInteger 0..1 attr; markdown "timestamp Interval"
+    wrap). No VARIATION-POINT in the LIN group (inherited via the ACF-BUS group → mixin on the
+    base); no XSD-only extras, no atp.Status="removed". Section-text blocks constr_3756
+    (Consistend aggregation of IEEE1722TpAcfLinPart), TPS_SYST_03105/03106, constr_3757/3753 and the
+    floating "LIN basic software does not support id range reception" paragraph all render before
+    Figure 6.91 — outside the Table 6.296 rows, not appended (AcfCanPart constr_3760 precedent).
+    Aggregated by IEEE1722TpAcfConnection.acfTransportedBus only → no ARPackage factory; the
+    ACF-TRANSPORTED-BUSS choice dispatch from the AcfConnection wave now flows into the real class.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
+    - Note: no code-shape deviations — field↔spec verified both directions (3 attrs, Optional quota
+      shapes match Mult. 0..1, verbatim Notes; the markdown's line-split renderings "frameSync Enabled"
+      / "timestamp Interval" resolved via the XSD mmt.qualifiedName). Section-text blocks
+      constr_3756/constr_3757/3753 + TPS_SYST_03105/03106 render outside the Table 6.296 rows — not
+      appended (AcfCanPart constr_3760 precedent). Rule 0001.10 pending: IEEE1722TpAcfLinPart is
+      still the Group33 stub — readIEEE1722TpAcfLinPart/writeIEEE1722TpAcfLinPart cover the
+      IEEE1722TpAcfBusPart base level only (identity serialization; the ACF-PARTS choice dispatch
+      and the ACF-TRANSPORTED-BUSS connection dispatch now flow into the real AcfLin class);
+      LIN-IDENTIFIER/SDU-REF land with its own row (Table 6.297, AcfCan/AcfCanPart commit pairing
+      precedent).
 
 - [ ] `IEEE1722TpAcfLinPart` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 6.297, p.667
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py

@@ -355,7 +355,82 @@ class IEEE1722TpAcfCan(IEEE1722TpAcfBus):
 
 
 class IEEE1722TpAcfLin(IEEE1722TpAcfBus):
-    pass
+    """
+    ACF IEEE1722Tp bus used for LIN transport. Tags: atp.Status=candidate atp.recommendedPackage=IEEE1722TpConnections
+    """
+
+    # IEEE1722TpAcfLin method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.296, p.667
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBaseFrequency        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBaseFrequency        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFrameSyncEnabled     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFrameSyncEnabled     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimestampInterval    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimestampInterval    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # (Base = ARObject, IEEE1722TpAcfBus, Identifiable, MultilanguageReferrable, Referrable — most-derived
+    # base IEEE1722TpAcfBus; concrete (XSD abstract="false"); no VARIATION-POINT in the XSD
+    # IEEE-1722-TP-ACF-LIN group — getVariationPoint/setVariationPoint provided by the
+    # VariationPointCapable base (mixin), no spec rows; aggregated by
+    # IEEE1722TpAcfConnection.acfTransportedBus only)
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # CRF base frequency in Hz.
+        self.baseFrequency: Optional[PositiveInteger] = None
+
+        # Defines whether the "fs" (frame sync) shall be enabled.
+        self.frameSyncEnabled: Optional[Boolean] = None
+
+        # CRF timestamp interval as multiple of the baseFrequency.
+        self.timestampInterval: Optional[PositiveInteger] = None
+
+    def getBaseFrequency(self) -> Optional[PositiveInteger]:
+        """
+        CRF base frequency in Hz.
+        """
+        return self.baseFrequency
+
+    def setBaseFrequency(self, value: Optional[PositiveInteger]) -> IEEE1722TpAcfLin:
+        """
+        CRF base frequency in Hz.
+        A None value is a no-op and does not overwrite an existing baseFrequency.
+        """
+        if value is not None:
+            self.baseFrequency = value
+        return self
+
+    def getFrameSyncEnabled(self) -> Optional[Boolean]:
+        """
+        Defines whether the "fs" (frame sync) shall be enabled.
+        """
+        return self.frameSyncEnabled
+
+    def setFrameSyncEnabled(self, value: Optional[Boolean]) -> IEEE1722TpAcfLin:
+        """
+        Defines whether the "fs" (frame sync) shall be enabled.
+        A None value is a no-op and does not overwrite an existing frameSyncEnabled.
+        """
+        if value is not None:
+            self.frameSyncEnabled = value
+        return self
+
+    def getTimestampInterval(self) -> Optional[PositiveInteger]:
+        """
+        CRF timestamp interval as multiple of the baseFrequency.
+        """
+        return self.timestampInterval
+
+    def setTimestampInterval(self, value: Optional[PositiveInteger]) -> IEEE1722TpAcfLin:
+        """
+        CRF timestamp interval as multiple of the baseFrequency.
+        A None value is a no-op and does not overwrite an existing timestampInterval.
+        """
+        if value is not None:
+            self.timestampInterval = value
+        return self
 
 
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import (  # noqa: E402

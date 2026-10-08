@@ -15133,6 +15133,9 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readIEEE1722TpAcfLin(self, element: ET.Element, bus: IEEE1722TpAcfLin):
         self.readIEEE1722TpAcfBus(element, bus)
+        bus.setBaseFrequency(self.getChildElementOptionalPositiveInteger(element, "BASE-FREQUENCY"))
+        bus.setFrameSyncEnabled(self.getChildElementOptionalBooleanValue(element, "FRAME-SYNC-ENABLED"))
+        bus.setTimestampInterval(self.getChildElementOptionalPositiveInteger(element, "TIMESTAMP-INTERVAL"))
 
     def readIEEE1722TpAcfConnection(self, element: ET.Element, connection: IEEE1722TpAcfConnection):
         self.readIEEE1722TpConnection(element, connection)

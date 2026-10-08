@@ -11223,6 +11223,9 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeIEEE1722TpAcfLin(self, element: ET.Element, bus: IEEE1722TpAcfLin):
         child_element = ET.SubElement(element, "IEEE-1722-TP-ACF-LIN")
         self.writeIEEE1722TpAcfBus(child_element, bus)
+        self.setChildElementOptionalPositiveInteger(child_element, "BASE-FREQUENCY", cast(Integer, bus.getBaseFrequency()))
+        self.setChildElementOptionalBooleanValue(child_element, "FRAME-SYNC-ENABLED", bus.getFrameSyncEnabled())
+        self.setChildElementOptionalPositiveInteger(child_element, "TIMESTAMP-INTERVAL", cast(Integer, bus.getTimestampInterval()))
 
     def writeIEEE1722TpAcfConnection(self, element: ET.Element, connection: IEEE1722TpAcfConnection):
         self.logger.debug("Write IEEE1722TpAcfConnection <%s>" % connection.getShortName())
