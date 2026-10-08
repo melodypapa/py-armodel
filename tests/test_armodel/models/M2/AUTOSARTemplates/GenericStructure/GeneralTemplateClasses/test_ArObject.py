@@ -53,6 +53,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticTroubleCodeObd,
     DiagnosticTroubleCodeProps,
     DiagnosticTroubleCodeUds,
+    EthGlobalTimeDomainProps,
     EthGlobalTimeManagedCouplingPort,
     EthTSynCrcFlags,
     EthTSynSubTlvConfig,
@@ -89,8 +90,10 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticTypeOfFreezeFrameRecordNumerationEnum,
     DiagnosticUdsSeverityEnum,
     DiagnosticWwhObdDtcClassEnum,
+    EthGlobalTimeMessageFormatEnum,
     Float,
     GlobalTimePortRoleEnum,
+    MacAddressString,
     NameToken,
     PositiveInteger,
     RefType,
@@ -5620,3 +5623,291 @@ class TestCanGlobalTimeDomainProps:
         assert inspect.cleandoc(CanGlobalTimeDomainProps.getOfsDataIDLists.__doc__) == self.OFS_DATA_ID_LIST_NOTE
         assert inspect.cleandoc(CanGlobalTimeDomainProps.addSyncDataIDList.__doc__) == (self.SYNC_DATA_ID_LIST_NOTE + "\n\nA None value is a no-op and does not append to syncDataIDLists.")
         assert inspect.cleandoc(CanGlobalTimeDomainProps.getSyncDataIDLists.__doc__) == self.SYNC_DATA_ID_LIST_NOTE
+
+
+class TestEthGlobalTimeDomainProps:
+    """
+    Test class for EthGlobalTimeDomainProps functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.14, p.867
+    """
+
+    CLASS_NOTE = "Enables the definition of Ethernet Global Time specific properties."
+    CLASS_CONSTRAINT = "[constr_9311] Existence of EthGlobalTimeDomainProps.messageCompliance: For each EthGlobalTimeDomainProps, the attribute messageCompliance shall exist at the time when the System Description is complete."
+    CRC_FLAGS_NOTE = "Defines the fields of the message which shall be taken into account for CRC calculation and verification."
+    DESTINATION_PHYSICAL_ADDRESS_NOTE = "Defines the MAC multicast address the Ethernet time sync messages are communicated on."
+    FUP_DATA_ID_LIST_NOTE = "The DataIDList for FUP messages to calculate CRC."
+    MANAGED_COUPLING_PORT_NOTE = "Collection of CouplingPorts which are managed in the scope of this Ethernet GlobalTimeDomain."
+    MESSAGE_COMPLIANCE_NOTE = "Defines the compliance of the Ethernet time sync messages to specific standards."
+    VLAN_PRIORITY_NOTE = "Defines which VLAN priority shall be assigned to a time sync message in case the message is sent using a VLAN tag."
+
+    def _create_object(self) -> EthGlobalTimeDomainProps:
+        return EthGlobalTimeDomainProps()
+
+    def test_initialization(self):
+        """
+        Test that a new EthGlobalTimeDomainProps initializes all attributes to their defaults.
+        """
+        obj = self._create_object()
+
+        assert obj.getChecksum() is None
+        assert obj.getTimestamp() is None
+        assert obj.getVariationPoint() is None
+        assert obj.getCrcFlags() is None
+        assert obj.getDestinationPhysicalAddress() is None
+        assert obj.getFupDataIDLists() == []
+        assert obj.getManagedCouplingPorts() == []
+        assert obj.getMessageCompliance() is None
+        assert obj.getVlanPriority() is None
+
+    def test_is_abstract_global_time_domain_props_subclass(self):
+        """
+        Test that EthGlobalTimeDomainProps derives from AbstractGlobalTimeDomainProps per the
+        Table 9.14 Base row (ARObject, AbstractGlobalTimeDomainProps — most-derived
+        AbstractGlobalTimeDomainProps).
+        """
+        assert issubclass(EthGlobalTimeDomainProps, AbstractGlobalTimeDomainProps)
+        assert issubclass(EthGlobalTimeDomainProps, VariationPointCapable)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim plus the class-level constr_9311 row.
+        """
+        assert inspect.cleandoc(EthGlobalTimeDomainProps.__doc__) == (self.CLASS_NOTE + "\n\n" + self.CLASS_CONSTRAINT)
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert EthGlobalTimeDomainProps.__init__.__doc__ is None
+
+    def test_member_order_follows_spec_rows(self):
+        """
+        Test that the accessors follow the Table 9.14 displayed row order (getter first for scalars,
+        mutator first for lists).
+        """
+        methods = [name for name, value in EthGlobalTimeDomainProps.__dict__.items() if callable(value) and not name.startswith("_")]
+        assert methods == [
+            "getCrcFlags",
+            "setCrcFlags",
+            "getDestinationPhysicalAddress",
+            "setDestinationPhysicalAddress",
+            "addFupDataIDList",
+            "getFupDataIDLists",
+            "addManagedCouplingPort",
+            "getManagedCouplingPorts",
+            "getMessageCompliance",
+            "setMessageCompliance",
+            "getVlanPriority",
+            "setVlanPriority",
+        ]
+
+    def test_annotations_are_spec_typed(self):
+        """
+        Test that the accessors carry the spec types (Table 9.14 Type column).
+        """
+        hints = typing.get_type_hints(EthGlobalTimeDomainProps.getCrcFlags)
+        assert hints.get("return") == typing.Optional[EthTSynCrcFlags]
+        hints = typing.get_type_hints(EthGlobalTimeDomainProps.setCrcFlags)
+        assert hints.get("value") == typing.Optional[EthTSynCrcFlags]
+        assert hints.get("return") is EthGlobalTimeDomainProps
+
+        hints = typing.get_type_hints(EthGlobalTimeDomainProps.getDestinationPhysicalAddress)
+        assert hints.get("return") == typing.Optional[MacAddressString]
+        hints = typing.get_type_hints(EthGlobalTimeDomainProps.setDestinationPhysicalAddress)
+        assert hints.get("value") == typing.Optional[MacAddressString]
+        assert hints.get("return") is EthGlobalTimeDomainProps
+
+        hints = typing.get_type_hints(EthGlobalTimeDomainProps.addFupDataIDList)
+        assert hints.get("value") == typing.Optional[PositiveInteger]
+        assert hints.get("return") is EthGlobalTimeDomainProps
+        hints = typing.get_type_hints(EthGlobalTimeDomainProps.getFupDataIDLists)
+        assert hints.get("return") == typing.List[PositiveInteger]
+
+        hints = typing.get_type_hints(EthGlobalTimeDomainProps.addManagedCouplingPort)
+        assert hints.get("value") == typing.Optional[EthGlobalTimeManagedCouplingPort]
+        assert hints.get("return") is EthGlobalTimeDomainProps
+        hints = typing.get_type_hints(EthGlobalTimeDomainProps.getManagedCouplingPorts)
+        assert hints.get("return") == typing.List[EthGlobalTimeManagedCouplingPort]
+
+        hints = typing.get_type_hints(EthGlobalTimeDomainProps.getMessageCompliance)
+        assert hints.get("return") == typing.Optional[EthGlobalTimeMessageFormatEnum]
+        hints = typing.get_type_hints(EthGlobalTimeDomainProps.setMessageCompliance)
+        assert hints.get("value") == typing.Optional[EthGlobalTimeMessageFormatEnum]
+        assert hints.get("return") is EthGlobalTimeDomainProps
+
+        hints = typing.get_type_hints(EthGlobalTimeDomainProps.getVlanPriority)
+        assert hints.get("return") == typing.Optional[PositiveInteger]
+        hints = typing.get_type_hints(EthGlobalTimeDomainProps.setVlanPriority)
+        assert hints.get("value") == typing.Optional[PositiveInteger]
+        assert hints.get("return") is EthGlobalTimeDomainProps
+
+    def test_get_set_crc_flags(self):
+        """
+        Test setCrcFlags and getCrcFlags round-trip and None no-op.
+        """
+        obj = self._create_object()
+
+        flags = EthTSynCrcFlags()
+        flags.setCrcSequenceId(Boolean().setValue("true"))
+
+        result = obj.setCrcFlags(None)
+        assert result is obj
+        assert obj.getCrcFlags() is None
+
+        result = obj.setCrcFlags(flags)
+        assert result is obj
+        assert obj.getCrcFlags() is flags
+
+        obj.setCrcFlags(None)
+        assert obj.getCrcFlags() is flags
+
+    def test_get_set_destination_physical_address(self):
+        """
+        Test setDestinationPhysicalAddress and getDestinationPhysicalAddress round-trip and None no-op.
+        """
+        obj = self._create_object()
+
+        address = MacAddressString().setValue("01:80:C2:00:00:0E")
+
+        result = obj.setDestinationPhysicalAddress(None)
+        assert result is obj
+        assert obj.getDestinationPhysicalAddress() is None
+
+        result = obj.setDestinationPhysicalAddress(address)
+        assert result is obj
+        assert obj.getDestinationPhysicalAddress() is address
+        assert obj.getDestinationPhysicalAddress().getValue() == "01:80:C2:00:00:0E"
+
+        obj.setDestinationPhysicalAddress(None)
+        assert obj.getDestinationPhysicalAddress() is address
+
+    def test_add_get_fup_data_id_lists(self):
+        """
+        Test addFupDataIDList and getFupDataIDLists append, round-trip and None no-op.
+        """
+        obj = self._create_object()
+
+        first = PositiveInteger().setValue("1")
+        second = PositiveInteger().setValue("2")
+
+        result = obj.addFupDataIDList(None)
+        assert result is obj
+        assert obj.getFupDataIDLists() == []
+
+        result = obj.addFupDataIDList(first)
+        assert result is obj
+        result = obj.addFupDataIDList(second)
+        assert result is obj
+
+        data_id_lists = obj.getFupDataIDLists()
+        assert len(data_id_lists) == 2
+        assert data_id_lists[0] is first
+        assert data_id_lists[1] is second
+        assert data_id_lists[0].getValue() == 1
+        assert data_id_lists[1].getValue() == 2
+
+    def test_add_get_managed_coupling_ports(self):
+        """
+        Test addManagedCouplingPort and getManagedCouplingPorts append, round-trip and None no-op.
+        """
+        obj = self._create_object()
+
+        first = EthGlobalTimeManagedCouplingPort()
+        first.setCouplingPortRef(RefType().setValue("/CouplingPort/First"))
+        second = EthGlobalTimeManagedCouplingPort()
+        second.setCouplingPortRef(RefType().setValue("/CouplingPort/Second"))
+
+        result = obj.addManagedCouplingPort(None)
+        assert result is obj
+        assert obj.getManagedCouplingPorts() == []
+
+        result = obj.addManagedCouplingPort(first)
+        assert result is obj
+        result = obj.addManagedCouplingPort(second)
+        assert result is obj
+
+        ports = obj.getManagedCouplingPorts()
+        assert len(ports) == 2
+        assert ports[0] is first
+        assert ports[1] is second
+        assert ports[0].getCouplingPortRef().getValue() == "/CouplingPort/First"
+        assert ports[1].getCouplingPortRef().getValue() == "/CouplingPort/Second"
+
+    def test_get_set_message_compliance(self):
+        """
+        Test setMessageCompliance and getMessageCompliance round-trip and None no-op.
+        """
+        obj = self._create_object()
+
+        compliance = EthGlobalTimeMessageFormatEnum().setValue(EthGlobalTimeMessageFormatEnum.IEEE802_1AS)
+
+        result = obj.setMessageCompliance(None)
+        assert result is obj
+        assert obj.getMessageCompliance() is None
+
+        result = obj.setMessageCompliance(compliance)
+        assert result is obj
+        assert obj.getMessageCompliance() is compliance
+        assert obj.getMessageCompliance().getValue() == EthGlobalTimeMessageFormatEnum.IEEE802_1AS
+
+        obj.setMessageCompliance(None)
+        assert obj.getMessageCompliance() is compliance
+
+    def test_get_set_vlan_priority(self):
+        """
+        Test setVlanPriority and getVlanPriority round-trip and None no-op.
+        """
+        obj = self._create_object()
+
+        priority = PositiveInteger().setValue("5")
+
+        result = obj.setVlanPriority(None)
+        assert result is obj
+        assert obj.getVlanPriority() is None
+
+        result = obj.setVlanPriority(priority)
+        assert result is obj
+        assert obj.getVlanPriority() is priority
+        assert obj.getVlanPriority().getValue() == 5
+
+        obj.setVlanPriority(None)
+        assert obj.getVlanPriority() is priority
+
+    def test_variation_point_base_accessors(self):
+        """
+        Exercise the inherited VariationPointCapable accessors: chaining, round-trip, None no-op.
+        """
+        obj = self._create_object()
+
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
+
+        variation_point = VariationPoint()
+        assert obj.setVariationPoint(variation_point) is obj
+        assert obj.getVariationPoint() is variation_point
+
+        obj.setVariationPoint(None)
+        assert obj.getVariationPoint() is variation_point
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter/setter/adder docstrings carry the spec Note verbatim (setter/adder + None-no-op sentence).
+        """
+        assert inspect.cleandoc(EthGlobalTimeDomainProps.getCrcFlags.__doc__) == self.CRC_FLAGS_NOTE
+        assert inspect.cleandoc(EthGlobalTimeDomainProps.setCrcFlags.__doc__) == (self.CRC_FLAGS_NOTE + "\n\nA None value is a no-op and does not overwrite an existing crcFlags.")
+        assert inspect.cleandoc(EthGlobalTimeDomainProps.getDestinationPhysicalAddress.__doc__) == self.DESTINATION_PHYSICAL_ADDRESS_NOTE
+        assert inspect.cleandoc(EthGlobalTimeDomainProps.setDestinationPhysicalAddress.__doc__) == (
+            self.DESTINATION_PHYSICAL_ADDRESS_NOTE + "\n\nA None value is a no-op and does not overwrite an existing destinationPhysicalAddress."
+        )
+        assert inspect.cleandoc(EthGlobalTimeDomainProps.addFupDataIDList.__doc__) == (self.FUP_DATA_ID_LIST_NOTE + "\n\nA None value is a no-op and does not append to fupDataIDLists.")
+        assert inspect.cleandoc(EthGlobalTimeDomainProps.getFupDataIDLists.__doc__) == self.FUP_DATA_ID_LIST_NOTE
+        assert inspect.cleandoc(EthGlobalTimeDomainProps.addManagedCouplingPort.__doc__) == (
+            self.MANAGED_COUPLING_PORT_NOTE + "\n\nA None value is a no-op and does not append to managedCouplingPorts."
+        )
+        assert inspect.cleandoc(EthGlobalTimeDomainProps.getManagedCouplingPorts.__doc__) == self.MANAGED_COUPLING_PORT_NOTE
+        assert inspect.cleandoc(EthGlobalTimeDomainProps.getMessageCompliance.__doc__) == self.MESSAGE_COMPLIANCE_NOTE
+        assert inspect.cleandoc(EthGlobalTimeDomainProps.setMessageCompliance.__doc__) == (
+            self.MESSAGE_COMPLIANCE_NOTE + "\n\nA None value is a no-op and does not overwrite an existing messageCompliance."
+        )
+        assert inspect.cleandoc(EthGlobalTimeDomainProps.getVlanPriority.__doc__) == self.VLAN_PRIORITY_NOTE
+        assert inspect.cleandoc(EthGlobalTimeDomainProps.setVlanPriority.__doc__) == (self.VLAN_PRIORITY_NOTE + "\n\nA None value is a no-op and does not overwrite an existing vlanPriority.")

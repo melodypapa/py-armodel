@@ -565,6 +565,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     AbstractGlobalTimeDomainProps,
     CanGlobalTimeDomainProps,
     CalibrationParameterValue,
+    EthGlobalTimeDomainProps,
     EthGlobalTimeManagedCouplingPort,
     EthTSynCrcFlags,
     EthTSynSubTlvConfig,
@@ -789,6 +790,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     FrArTpAckType,
     GlobalTimeIcvVerificationEnum,
     GlobalTimePortRoleEnum,
+    EthGlobalTimeMessageFormatEnum,
     MaximumMessageLengthType,
     DdsDurabilityServiceHistoryKindEnum,
     DdsDestinationOrderKindEnum,
@@ -16319,6 +16321,40 @@ class ARXMLParser(AbstractARXMLParser):
         flags.setCrcSequenceId(self.getChildElementOptionalBooleanValue(element, "CRC-SEQUENCE-ID"))
         flags.setCrcSourcePortIdentity(self.getChildElementOptionalBooleanValue(element, "CRC-SOURCE-PORT-IDENTITY"))
         return flags
+
+    def readEthGlobalTimeDomainProps(self, element: ET.Element, props: EthGlobalTimeDomainProps) -> EthGlobalTimeDomainProps:
+        # The XSD ETH-GLOBAL-TIME-DOMAIN-PROPS group (AUTOSAR_00052.xsd l.55564) follows the
+        # ABSTRACT-GLOBAL-TIME-DOMAIN-PROPS group: the ordered fupDataIDList attribute is wrapped
+        # in a <FUP-DATA-ID-LISTS> element holding 0..16 <FUP-DATA-ID-LIST> items and the
+        # managedCouplingPort aggregation in a <MANAGED-COUPLING-PORTS> wrapper whose items
+        # dispatch to readEthGlobalTimeManagedCouplingPort (CRC-FLAGS to readEthTSynCrcFlags).
+        self.readAbstractGlobalTimeDomainProps(element, props)
+        crc_flags_element = self.find(element, "CRC-FLAGS")
+        if crc_flags_element is not None:
+            crc_flags = EthTSynCrcFlags()
+            self.readEthTSynCrcFlags(crc_flags_element, crc_flags)
+            props.setCrcFlags(crc_flags)
+        props.setDestinationPhysicalAddress(self.getChildElementOptionalMacAddressString(element, "DESTINATION-PHYSICAL-ADDRESS"))
+        wrapper = self.find(element, "FUP-DATA-ID-LISTS")
+        if wrapper is not None:
+            for child_element in self.findall(wrapper, "FUP-DATA-ID-LIST"):
+                if child_element.text is not None:
+                    value = PositiveInteger()
+                    value.setValue(child_element.text)
+                    props.addFupDataIDList(value)
+        wrapper = self.find(element, "MANAGED-COUPLING-PORTS")
+        if wrapper is not None:
+            for child_element in self.findall(wrapper, "ETH-GLOBAL-TIME-MANAGED-COUPLING-PORT"):
+                port = EthGlobalTimeManagedCouplingPort()
+                self.readEthGlobalTimeManagedCouplingPort(child_element, port)
+                props.addManagedCouplingPort(port)
+        literal = self.getChildElementOptionalLiteral(element, "MESSAGE-COMPLIANCE")
+        if literal is not None:
+            message_compliance = EthGlobalTimeMessageFormatEnum()
+            message_compliance.setValue(literal.getValue())
+            props.setMessageCompliance(message_compliance)
+        props.setVlanPriority(self.getChildElementOptionalPositiveInteger(element, "VLAN-PRIORITY"))
+        return props
 
     def getGlobalTimeProps(self, element: ET.Element, key: str) -> Optional[GlobalTimeCouplingPortProps]:
         props = None

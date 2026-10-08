@@ -544,6 +544,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     AbstractGlobalTimeDomainProps,
     CanGlobalTimeDomainProps,
     CalibrationParameterValue,
+    EthGlobalTimeDomainProps,
     EthGlobalTimeManagedCouplingPort,
     EthTSynCrcFlags,
     EthTSynSubTlvConfig,
@@ -13827,6 +13828,40 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalBooleanValue(child_element, "CRC-PRECISE-ORIGIN-TIMESTAMP", flags.getCrcPreciseOriginTimestamp())
         self.setChildElementOptionalBooleanValue(child_element, "CRC-SEQUENCE-ID", flags.getCrcSequenceId())
         self.setChildElementOptionalBooleanValue(child_element, "CRC-SOURCE-PORT-IDENTITY", flags.getCrcSourcePortIdentity())
+
+    def writeEthGlobalTimeDomainProps(self, element: ET.Element, props: EthGlobalTimeDomainProps):
+        # Populates the ETH-GLOBAL-TIME-DOMAIN-PROPS element created by the caller; the XSD
+        # ETH-GLOBAL-TIME-DOMAIN-PROPS group (AUTOSAR_00052.xsd l.55564) follows the
+        # ABSTRACT-GLOBAL-TIME-DOMAIN-PROPS group and wraps the ordered fupDataIDList attribute in a
+        # <FUP-DATA-ID-LISTS> element and the managedCouplingPort aggregation in a
+        # <MANAGED-COUPLING-PORTS> wrapper, each emitted only when non-empty. The aggregated
+        # EthTSynCrcFlags rides in the <CRC-FLAGS> element named by the group (not the type's own
+        # tag), so it is emitted here and populated field by field; the ports dispatch to
+        # writeEthGlobalTimeManagedCouplingPort.
+        self.writeAbstractGlobalTimeDomainProps(element, props)
+        crc_flags = props.getCrcFlags()
+        if crc_flags is not None:
+            crc_flags_element = ET.SubElement(element, "CRC-FLAGS")
+            self.writeARObject(crc_flags_element, crc_flags)
+            self.setChildElementOptionalBooleanValue(crc_flags_element, "CRC-CORRECTION-FIELD", crc_flags.getCrcCorrectionField())
+            self.setChildElementOptionalBooleanValue(crc_flags_element, "CRC-DOMAIN-NUMBER", crc_flags.getCrcDomainNumber())
+            self.setChildElementOptionalBooleanValue(crc_flags_element, "CRC-MESSAGE-LENGTH", crc_flags.getCrcMessageLength())
+            self.setChildElementOptionalBooleanValue(crc_flags_element, "CRC-PRECISE-ORIGIN-TIMESTAMP", crc_flags.getCrcPreciseOriginTimestamp())
+            self.setChildElementOptionalBooleanValue(crc_flags_element, "CRC-SEQUENCE-ID", crc_flags.getCrcSequenceId())
+            self.setChildElementOptionalBooleanValue(crc_flags_element, "CRC-SOURCE-PORT-IDENTITY", crc_flags.getCrcSourcePortIdentity())
+        self.setChildElementOptionalMacAddressString(element, "DESTINATION-PHYSICAL-ADDRESS", props.getDestinationPhysicalAddress())
+        fup_data_id_lists = props.getFupDataIDLists()
+        if len(fup_data_id_lists) > 0:
+            wrapper = ET.SubElement(element, "FUP-DATA-ID-LISTS")
+            for value in fup_data_id_lists:
+                self.setChildElementOptionalPositiveInteger(wrapper, "FUP-DATA-ID-LIST", cast(Integer, value))
+        managed_coupling_ports = props.getManagedCouplingPorts()
+        if len(managed_coupling_ports) > 0:
+            wrapper = ET.SubElement(element, "MANAGED-COUPLING-PORTS")
+            for port in managed_coupling_ports:
+                self.writeEthGlobalTimeManagedCouplingPort(wrapper, port)
+        self.setChildElementOptionalLiteral(element, "MESSAGE-COMPLIANCE", props.getMessageCompliance())
+        self.setChildElementOptionalPositiveInteger(element, "VLAN-PRIORITY", cast(Integer, props.getVlanPriority()))
 
     def setGlobalTimeProps(self, element: ET.Element, key: str, props: Optional[GlobalTimeCouplingPortProps]):
         if props is not None:

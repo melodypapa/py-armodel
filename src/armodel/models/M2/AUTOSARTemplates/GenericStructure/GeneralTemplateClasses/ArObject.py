@@ -4206,7 +4206,155 @@ class DataComProps(CpSoftwareClusterCommunicationResourceProps):
 
 
 class EthGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
-    pass
+    """
+    Enables the definition of Ethernet Global Time specific properties.
+
+    [constr_9311] Existence of EthGlobalTimeDomainProps.messageCompliance: For each EthGlobalTimeDomainProps, the attribute messageCompliance shall exist at the time when the System Description is complete.
+    """
+
+    # EthGlobalTimeDomainProps method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.14, p.867
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCrcFlags                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCrcFlags                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDestinationPhysicalAddress [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDestinationPhysicalAddress [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addFupDataIDList              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFupDataIDLists             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addManagedCouplingPort        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getManagedCouplingPorts       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getMessageCompliance          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMessageCompliance          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVlanPriority               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setVlanPriority               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # getVariationPoint / setVariationPoint provided by the VariationPointCapable base (mixin) — no spec row (stereotype-inherent)
+    # The fupDataIDList attribute is an ordered 0..16 wrapper list: the XSD ETH-GLOBAL-TIME-DOMAIN-PROPS
+    # group (AUTOSAR_00052.xsd l.55564) wraps <FUP-DATA-ID-LIST> items in a <FUP-DATA-ID-LISTS> wrapper
+    # emitted only when non-empty; managedCouplingPort is a 0..* aggregation wrapped in
+    # <MANAGED-COUPLING-PORTS>. crcFlags rides in the <CRC-FLAGS> element named by the group (not the
+    # ETH-T-SYN-CRC-FLAGS type tag). Aggregator dispatch (GlobalTimeDomain.globalTimeDomainProperty)
+    # is pending — GlobalTimeDomain is a later-wave class; the reader/writer call the base
+    # readAbstractGlobalTimeDomainProps / writeAbstractGlobalTimeDomainProps helpers (VARIATION-POINT
+    # precedes the own elements).
+
+    def __init__(self):
+        super().__init__()
+
+        # Defines the fields of the message which shall be taken into account for CRC calculation and verification.
+        self.crcFlags: Optional[EthTSynCrcFlags] = None
+
+        # Defines the MAC multicast address the Ethernet time sync messages are communicated on.
+        self.destinationPhysicalAddress: Optional[MacAddressString] = None
+
+        # The DataIDList for FUP messages to calculate CRC.
+        self.fupDataIDLists: List[PositiveInteger] = []
+
+        # Collection of CouplingPorts which are managed in the scope of this Ethernet GlobalTimeDomain.
+        self.managedCouplingPorts: List[EthGlobalTimeManagedCouplingPort] = []
+
+        # Defines the compliance of the Ethernet time sync messages to specific standards.
+        self.messageCompliance: Optional[EthGlobalTimeMessageFormatEnum] = None
+
+        # Defines which VLAN priority shall be assigned to a time sync message in case the message is sent using a VLAN tag.
+        self.vlanPriority: Optional[PositiveInteger] = None
+
+    def getCrcFlags(self) -> Optional[EthTSynCrcFlags]:
+        """
+        Defines the fields of the message which shall be taken into account for CRC calculation and verification.
+        """
+        return self.crcFlags
+
+    def setCrcFlags(self, value: Optional[EthTSynCrcFlags]) -> EthGlobalTimeDomainProps:
+        """
+        Defines the fields of the message which shall be taken into account for CRC calculation and verification.
+
+        A None value is a no-op and does not overwrite an existing crcFlags.
+        """
+        if value is not None:
+            self.crcFlags = value
+        return self
+
+    def getDestinationPhysicalAddress(self) -> Optional[MacAddressString]:
+        """
+        Defines the MAC multicast address the Ethernet time sync messages are communicated on.
+        """
+        return self.destinationPhysicalAddress
+
+    def setDestinationPhysicalAddress(self, value: Optional[MacAddressString]) -> EthGlobalTimeDomainProps:
+        """
+        Defines the MAC multicast address the Ethernet time sync messages are communicated on.
+
+        A None value is a no-op and does not overwrite an existing destinationPhysicalAddress.
+        """
+        if value is not None:
+            self.destinationPhysicalAddress = value
+        return self
+
+    def addFupDataIDList(self, value: Optional[PositiveInteger]) -> EthGlobalTimeDomainProps:
+        """
+        The DataIDList for FUP messages to calculate CRC.
+
+        A None value is a no-op and does not append to fupDataIDLists.
+        """
+        if value is not None:
+            self.fupDataIDLists.append(value)
+        return self
+
+    def getFupDataIDLists(self) -> List[PositiveInteger]:
+        """
+        The DataIDList for FUP messages to calculate CRC.
+        """
+        return self.fupDataIDLists
+
+    def addManagedCouplingPort(self, value: Optional[EthGlobalTimeManagedCouplingPort]) -> EthGlobalTimeDomainProps:
+        """
+        Collection of CouplingPorts which are managed in the scope of this Ethernet GlobalTimeDomain.
+
+        A None value is a no-op and does not append to managedCouplingPorts.
+        """
+        if value is not None:
+            self.managedCouplingPorts.append(value)
+        return self
+
+    def getManagedCouplingPorts(self) -> List[EthGlobalTimeManagedCouplingPort]:
+        """
+        Collection of CouplingPorts which are managed in the scope of this Ethernet GlobalTimeDomain.
+        """
+        return self.managedCouplingPorts
+
+    def getMessageCompliance(self) -> Optional[EthGlobalTimeMessageFormatEnum]:
+        """
+        Defines the compliance of the Ethernet time sync messages to specific standards.
+        """
+        return self.messageCompliance
+
+    def setMessageCompliance(self, value: Optional[EthGlobalTimeMessageFormatEnum]) -> EthGlobalTimeDomainProps:
+        """
+        Defines the compliance of the Ethernet time sync messages to specific standards.
+
+        A None value is a no-op and does not overwrite an existing messageCompliance.
+        """
+        if value is not None:
+            self.messageCompliance = value
+        return self
+
+    def getVlanPriority(self) -> Optional[PositiveInteger]:
+        """
+        Defines which VLAN priority shall be assigned to a time sync message in case the message is sent using a VLAN tag.
+        """
+        return self.vlanPriority
+
+    def setVlanPriority(self, value: Optional[PositiveInteger]) -> EthGlobalTimeDomainProps:
+        """
+        Defines which VLAN priority shall be assigned to a time sync message in case the message is sent using a VLAN tag.
+
+        A None value is a no-op and does not overwrite an existing vlanPriority.
+        """
+        if value is not None:
+            self.vlanPriority = value
+        return self
 
 
 class FrGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
@@ -4242,9 +4390,11 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticTypeOfFreezeFrameRecordNumerationEnum,
     DiagnosticUdsSeverityEnum,
     DiagnosticWwhObdDtcClassEnum,
+    EthGlobalTimeMessageFormatEnum,
     Float,
     GlobalTimePortRoleEnum,
     Identifier,
+    MacAddressString,
     NameToken,
     PositiveInteger,
     RefType,
