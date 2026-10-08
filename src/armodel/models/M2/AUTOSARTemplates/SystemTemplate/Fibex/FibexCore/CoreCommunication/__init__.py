@@ -468,21 +468,22 @@ class ContainedIPduProps(ARObject):
 class ISignalGroup(FibexElement):
     """
     SignalGroup of the Interaction Layer. The RTE supports a "signal fan-out" where the same System Signal Group is sent in different SignalIPdus to multiple receivers. An ISignalGroup refers to a set of ISignals that shall always be kept together. A ISignalGroup represents a COM Signal Group. Therefore it is recommended to put the ISignalGroup in the same Package as ISignals (see atp.recommendedPackage) Tags: atp.recommendedPackage=ISignalGroup
+
+    [constr_9225] Existence of ISignalGroup.systemSignalGroup: For each ISignalGroup, the reference to SystemSignalGroup in the role systemSignalGroup shall exist at the time when the System Description is complete.
     """
 
     # ISignalGroup method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.12, p.324
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getComBasedSignalGroupTransformationRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setComBasedSignalGroupTransformationRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getISignalRefs               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addISignalRef                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSystemSignalGroupRef      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSystemSignalGroupRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTransformationISignalProps [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addTransformationISignalProps [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getComBasedSignalGroupTransformationRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setComBasedSignalGroupTransformationRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getISignalRefs                            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addISignalRef                             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSystemSignalGroupRef                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSystemSignalGroupRef                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTransformationISignalProps             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addTransformationISignalProps             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
@@ -520,11 +521,13 @@ class ISignalGroup(FibexElement):
         """
         return self.iSignalRefs
 
-    def addISignalRef(self, value: RefType) -> ISignalGroup:
+    def addISignalRef(self, value: Optional[RefType]) -> ISignalGroup:
         """
         Reference to a set of ISignals that shall always be kept together.
+        A None value is a no-op and is not appended to iSignalRefs.
         """
-        self.iSignalRefs.append(value)
+        if value is not None:
+            self.iSignalRefs.append(value)
         return self
 
     def getSystemSignalGroupRef(self) -> Optional[RefType]:
@@ -548,11 +551,13 @@ class ISignalGroup(FibexElement):
         """
         return self.transformationISignalProps
 
-    def addTransformationISignalProps(self, value: TransformationISignalProps) -> ISignalGroup:
+    def addTransformationISignalProps(self, value: Optional[TransformationISignalProps]) -> ISignalGroup:
         """
         A transformer chain consists of an ordered list of transformers. The ISignalGroup specific configuration properties for each transformer are defined in the TransformationISignalProps class. The transformer configuration properties that are common for all ISignal Groups are described in the TransformationTechnology class. Stereotypes: atpSplitable Tags: atp.Splitkey=transformationISignalProps
+        A None value is a no-op and is not appended to transformationISignalProps.
         """
-        self.transformationISignalProps.append(value)
+        if value is not None:
+            self.transformationISignalProps.append(value)
         return self
 
 

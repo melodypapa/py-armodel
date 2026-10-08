@@ -129,7 +129,6 @@ HwPortMapping
 IPSecConfig
 IPdu
 IPduTiming
-ISignalGroup
 ISignalIPdu
 ISignalToIPduMapping
 ISignalTriggering
