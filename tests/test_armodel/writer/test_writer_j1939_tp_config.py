@@ -5,7 +5,7 @@ import xml.etree.cElementTree as ET
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Integer
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Integer, RefType
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import J1939TpConfig, J1939TpConnection
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
@@ -51,13 +51,20 @@ def _int(value):
     return integer
 
 
+def _ref(value):
+    ref = RefType()
+    ref.setValue(value)
+    return ref
+
+
 def _fill_config(config: J1939TpConfig) -> J1939TpConfig:
     address = config.createTpAddress("TpAddress1")
     address.setTpAddress(_int(2047))
     connection = J1939TpConnection()
     connection.setBroadcast(Boolean().setValue(True))
     config.addTpConnection(connection)
-    config.createJ1939TpNode("Node1")
+    node = config.createJ1939TpNode("Node1")
+    node.setTpAddressRef(_ref("/TpConfigs/J1939TpConfig1/TpAddress1"))
     return config
 
 
@@ -109,3 +116,5 @@ class TestWriteJ1939TpConfig:
         nodes = reloaded.getTpNodes()
         assert len(nodes) == 1
         assert nodes[0].getShortName() == "Node1"
+        assert nodes[0].getTpAddressRef() is not None
+        assert nodes[0].getTpAddressRef().getValue() == "/TpConfigs/J1939TpConfig1/TpAddress1"

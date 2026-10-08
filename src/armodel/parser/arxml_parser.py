@@ -14599,6 +14599,9 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readJ1939TpNode(self, element: ET.Element, tp_node: J1939TpNode):
         self.readIdentifiable(element, tp_node)
+        tp_node.setConnectorRef(self.getChildElementOptionalRefType(element, "CONNECTOR-REF"))
+        tp_node.setTpAddressRef(self.getChildElementOptionalRefType(element, "TP-ADDRESS-REF"))
+        self.readVariationPointCapable(element, tp_node)
 
     def readJ1939TpPg(self, element: ET.Element, tp_pg: J1939TpPg):
         self.readARObject(element, tp_pg)

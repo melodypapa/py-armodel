@@ -2542,12 +2542,6 @@ STUBS = [
         "IPdu",
     ),
     (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable",
-        "J1939TpNode",
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable",
-        "Identifiable",
-    ),
-    (
         "armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure.__init__",
         "LifeCycleState",
         "armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure.__init__",

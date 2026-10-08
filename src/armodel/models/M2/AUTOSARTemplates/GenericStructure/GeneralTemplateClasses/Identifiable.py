@@ -2214,10 +2214,6 @@ class IEEE1722TpAcfLinPart(Identifiable):
     pass
 
 
-class J1939TpNode(Identifiable):
-    pass
-
-
 class PortElementToCommunicationResourceMapping(Identifiable):
     pass
 

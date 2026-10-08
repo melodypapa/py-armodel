@@ -766,15 +766,33 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `J1939TpNode` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 6.270, p.626
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note: Step 1 finding — rehoused from the Identifiable.py stub to TransportProtocols/__init__.py
+    (spec Package row = SystemTemplate::TransportProtocols, Rule 0007); base most-derived = Identifiable
+    (hint confirmed; XSD complexType groups AR-OBJECT/REFERRABLE/MULTILANGUAGE-REFERRABLE/IDENTIFIABLE
+    + J-1939-TP-NODE). XSD group J-1939-TP-NODE carries VARIATION-POINT → VariationPointCapable mixin
+    (FlexrayTpNode precedent — its XSD group FLEXRAY-TP-NODE also carries VARIATION-POINT and
+    read/writeVariationPointCapable are called), read/writeVariationPointCapable called last.
+    Both spec attrs modeled in displayed order (connector 0..1 ref → connectorRef, tpAddress 0..1 ref
+    → tpAddressRef); writer element order CONNECTOR-REF, TP-ADDRESS-REF, VARIATION-POINT. Aggregated
+    by J1939TpConfig.tpNode only → no ARPackage factory/dispatch; the Class-1 wrapper dispatcher
+    readJ1939TpConfigTpNodes/writeJ1939TpConfigTpNodes stays and the interim base-level
+    readJ1939TpNode/writeJ1939TpNode are fleshed out in this row.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
+    - Note: no deviations — field↔spec verified both directions (2 attrs, Optional[RefType] quota
+      shapes match Mult. 0..1, verbatim Notes); no XSD-only extras, no atp.Status markers, no table
+      constraints. VARIATION-POINT handled via the VariationPointCapable mixin with
+      read/writeVariationPointCapable called last (FlexrayTpNode precedent). Class-1 config tests
+      strengthened: the TP-NODES item now asserts TP-ADDRESS-REF through the config-level round-trip.
+      The last interim stub import (J1939TpNode from Identifiable.py) is dropped; all four J1939 TP
+      classes now live in TransportProtocols/__init__.py.
 
 - [ ] `TpConnection` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.272, p.633
   - module: M2/AUTOSARTemplates/SystemTemplate/DiagnosticConnection.py

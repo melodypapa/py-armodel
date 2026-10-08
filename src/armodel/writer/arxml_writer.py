@@ -10626,6 +10626,9 @@ class ARXMLWriter(AbstractARXMLWriter):
         if tp_node is not None:
             child_element = ET.SubElement(element, "J-1939-TP-NODE")
             self.writeIdentifiable(child_element, tp_node)
+            self.setChildElementOptionalRefType(child_element, "CONNECTOR-REF", tp_node.getConnectorRef())
+            self.setChildElementOptionalRefType(child_element, "TP-ADDRESS-REF", tp_node.getTpAddressRef())
+            self.writeVariationPointCapable(child_element, tp_node)
 
     def writeJ1939TpPg(self, element: ET.Element, tp_pg: J1939TpPg):
         if tp_pg is not None:

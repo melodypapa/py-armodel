@@ -11,7 +11,6 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection impo
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import AbstractDoIpLogicAddressProps, DoIpLogicTargetAddressProps, DoIpLogicTesterAddressProps
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
-    J1939TpNode,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
@@ -3629,6 +3628,59 @@ class J1939TpPg(ARObject):
     def getSduRefs(self) -> List[RefType]:
         """Reference to IPdus that are segmented by the Transport Protocol. If more than one IPdu is referenced, the IPdus are used when the same PGN is received in parallel via different transport protocols (BAM, CMDT, direct) on the same J1939TpConnection."""
         return self.sduRefs
+
+
+class J1939TpNode(Identifiable, VariationPointCapable):
+    """
+    TP Node (Sender or Receiver) provides the TP Address and the connection to the Topology description.
+    """
+
+    # J1939TpNode method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.270, p.626
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getConnectorRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setConnectorRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTpAddressRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTpAddressRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # (Base = ARObject, Identifiable, MultilanguageReferrable, Referrable; XSD group J-1939-TP-NODE
+    # carries VARIATION-POINT — getVariationPoint/setVariationPoint provided by the
+    # VariationPointCapable base (mixin), no spec rows)
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Association to a CommunicationConnector in the topology description. In a System Description this reference is mandatory. In an ECU Extract this reference is optional (references to ECUs that are not part of the ECU Extract shall be avoided).
+        self.connectorRef: Optional[RefType] = None
+
+        # Reference to the TP Address that is used by the TpNode. This reference is optional only when no TP is sent and only BAM is received.
+        self.tpAddressRef: Optional[RefType] = None
+
+    def getConnectorRef(self) -> Optional[RefType]:
+        """Association to a CommunicationConnector in the topology description. In a System Description this reference is mandatory. In an ECU Extract this reference is optional (references to ECUs that are not part of the ECU Extract shall be avoided)."""
+        return self.connectorRef
+
+    def setConnectorRef(self, value: Optional[RefType]) -> J1939TpNode:
+        """
+        Association to a CommunicationConnector in the topology description. In a System Description this reference is mandatory. In an ECU Extract this reference is optional (references to ECUs that are not part of the ECU Extract shall be avoided).
+        A None value is a no-op and does not overwrite an existing connectorRef.
+        """
+        if value is not None:
+            self.connectorRef = value
+        return self
+
+    def getTpAddressRef(self) -> Optional[RefType]:
+        """Reference to the TP Address that is used by the TpNode. This reference is optional only when no TP is sent and only BAM is received."""
+        return self.tpAddressRef
+
+    def setTpAddressRef(self, value: Optional[RefType]) -> J1939TpNode:
+        """
+        Reference to the TP Address that is used by the TpNode. This reference is optional only when no TP is sent and only BAM is received.
+        A None value is a no-op and does not overwrite an existing tpAddressRef.
+        """
+        if value is not None:
+            self.tpAddressRef = value
+        return self
 
 
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols.IEEE1722Tp import (  # noqa: E402

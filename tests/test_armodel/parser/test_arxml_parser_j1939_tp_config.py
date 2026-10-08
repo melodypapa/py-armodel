@@ -59,6 +59,7 @@ class TestReadJ1939TpConfig:
                 <TP-NODES>
                     <J-1939-TP-NODE>
                         <SHORT-NAME>Node1</SHORT-NAME>
+                        <TP-ADDRESS-REF DEST="TP-ADDRESS">/TpConfigs/J1939TpConfig1/TpAddress1</TP-ADDRESS-REF>
                     </J-1939-TP-NODE>
                 </TP-NODES>
             """,
@@ -83,6 +84,8 @@ class TestReadJ1939TpConfig:
         assert len(nodes) == 1
         assert isinstance(nodes[0], J1939TpNode)
         assert nodes[0].getShortName() == "Node1"
+        assert nodes[0].getTpAddressRef() is not None
+        assert nodes[0].getTpAddressRef().getValue() == "/TpConfigs/J1939TpConfig1/TpAddress1"
 
     def test_read_j1939_tp_config_empty(self, parser):
         element = _snip(
