@@ -2424,13 +2424,12 @@ class SystemSignalGroup(ARElement):
 
     # SystemSignalGroup method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.13, p.324
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getSystemSignalRefs           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addSystemSignalRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTransformingSystemSignalRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTransformingSystemSignalRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getSystemSignalRefs           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addSystemSignalRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTransformingSystemSignalRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTransformingSystemSignalRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -2447,11 +2446,13 @@ class SystemSignalGroup(ARElement):
         """
         return self.systemSignalRefs
 
-    def addSystemSignalRef(self, value: RefType) -> SystemSignalGroup:
+    def addSystemSignalRef(self, value: Optional[RefType]) -> SystemSignalGroup:
         """
         Reference to a set of SystemSignals that shall always be kept together.
+        A None value is a no-op and does not extend the systemSignalRefs.
         """
-        self.systemSignalRefs.append(value)
+        if value is not None:
+            self.systemSignalRefs.append(value)
         return self
 
     def getTransformingSystemSignalRef(self) -> Optional[RefType]:
