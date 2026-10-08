@@ -1395,15 +1395,21 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `BusspecificNmEcu` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.301, p.675
   - module: M2/AUTOSARTemplates/SystemTemplate/NetworkManagement.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note: drift re-sync of a pre-existing implementation — legacy 5-column checklist + stale
+    `# Spec verified: R23-11` marker removed at session start (Rule 0023/0012.3); the entry-gate
+    audit FAIL was the red state. Table 6.301 has ZERO attribute rows (abstract class per the
+    PDF; XSD group BUSSPECIFIC-NM-ECU L14056 is `<xsd:sequence/>`); Base row ARObject confirms
+    the module hint; subclass dispatch (CanNmEcu/FlexrayNmEcu/J1939NmEcu/UdpNmEcu via the NmEcu
+    BUS-DEPENDENT-NM-ECUS branch) pre-exists and stays. Mirrored test_BusspecificNmEcu.py added.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A: abstract class with an empty XSD group (no own XML-bearing attributes)
+  - [x] Step 6 — Update parser & writer (Green) — N/A: abstract class with an empty XSD group (no own XML-bearing attributes)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `NmCoordinator` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.302, p.675
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
