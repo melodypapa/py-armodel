@@ -603,8 +603,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticRoutineSubfunction,
     DiagnosticStartRoutine,
     DiagnosticStopRoutine,
-    IEEE1722TpAcfCanPart,
-    IEEE1722TpAcfLinPart,
     Identifiable,
     MultilanguageReferrable,
     Referrable,
@@ -1383,8 +1381,11 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import
 )
 
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols.IEEE1722Tp.IEEE1722TpAcf import (
+    IEEE1722TpAcfBusPart,
     IEEE1722TpAcfCan,
+    IEEE1722TpAcfCanPart,
     IEEE1722TpAcfLin,
+    IEEE1722TpAcfLinPart,
 )
 from armodel.models.M2.MSR.AsamHdo.AdminData import AdminData, DocRevision, Modification
 from armodel.models.M2.MSR.AsamHdo.BaseTypes import BaseTypeDirectDefinition, SwBaseType
@@ -11182,13 +11183,21 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalPositiveInteger(element, "BUS-ID", cast(Integer, bus.getBusId()))
         self.writeVariationPointCapable(element, bus)
 
+    def writeIEEE1722TpAcfBusPart(self, element: ET.Element, part: IEEE1722TpAcfBusPart):
+        self.writeIdentifiable(element, part, write_variation_point=False)
+        collection_trigger = part.getCollectionTrigger()
+        if collection_trigger is not None:
+            collection_trigger_element = ET.SubElement(element, "COLLECTION-TRIGGER")
+            collection_trigger_element.text = collection_trigger.getValue()
+        self.writeVariationPointCapable(element, part)
+
     def writeIEEE1722TpAcfCanPart(self, element: ET.Element, part: IEEE1722TpAcfCanPart):
         child_element = ET.SubElement(element, "IEEE-1722-TP-ACF-CAN-PART")
-        self.writeIdentifiable(child_element, part)
+        self.writeIEEE1722TpAcfBusPart(child_element, part)
 
     def writeIEEE1722TpAcfLinPart(self, element: ET.Element, part: IEEE1722TpAcfLinPart):
         child_element = ET.SubElement(element, "IEEE-1722-TP-ACF-LIN-PART")
-        self.writeIdentifiable(child_element, part)
+        self.writeIEEE1722TpAcfBusPart(child_element, part)
 
     def writeIEEE1722TpAcfCan(self, element: ET.Element, bus: IEEE1722TpAcfCan):
         child_element = ET.SubElement(element, "IEEE-1722-TP-ACF-CAN")

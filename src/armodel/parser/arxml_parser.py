@@ -760,8 +760,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticRoutineSubfunction,
     DiagnosticStartRoutine,
     DiagnosticStopRoutine,
-    IEEE1722TpAcfCanPart,
-    IEEE1722TpAcfLinPart,
     Identifiable,
     MultilanguageReferrable,
     Referrable,
@@ -1658,8 +1656,11 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import
 )
 
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols.IEEE1722Tp.IEEE1722TpAcf import (
+    IEEE1722TpAcfBusPart,
     IEEE1722TpAcfCan,
+    IEEE1722TpAcfCanPart,
     IEEE1722TpAcfLin,
+    IEEE1722TpAcfLinPart,
 )
 from armodel.models.M2.MSR.AsamHdo.AdminData import AdminData, DocRevision, Modification
 from armodel.models.M2.MSR.AsamHdo.BaseTypes import BaseTypeDirectDefinition, SwBaseType
@@ -15091,11 +15092,20 @@ class ARXMLParser(AbstractARXMLParser):
         bus.setBusId(self.getChildElementOptionalPositiveInteger(element, "BUS-ID"))
         self.readVariationPointCapable(element, bus)
 
-    def readIEEE1722TpAcfCanPart(self, element: ET.Element, part: IEEE1722TpAcfCanPart):
+    def readIEEE1722TpAcfBusPart(self, element: ET.Element, part: IEEE1722TpAcfBusPart):
         self.readIdentifiable(element, part)
+        collection_trigger_literal = self.getChildElementOptionalLiteral(element, "COLLECTION-TRIGGER")
+        if collection_trigger_literal is not None:
+            collection_trigger = PduCollectionTriggerEnum()
+            collection_trigger.setValue(collection_trigger_literal.getValue())
+            part.setCollectionTrigger(collection_trigger)
+        self.readVariationPointCapable(element, part)
+
+    def readIEEE1722TpAcfCanPart(self, element: ET.Element, part: IEEE1722TpAcfCanPart):
+        self.readIEEE1722TpAcfBusPart(element, part)
 
     def readIEEE1722TpAcfLinPart(self, element: ET.Element, part: IEEE1722TpAcfLinPart):
-        self.readIdentifiable(element, part)
+        self.readIEEE1722TpAcfBusPart(element, part)
 
     def readIEEE1722TpAcfCan(self, element: ET.Element, bus: IEEE1722TpAcfCan):
         self.readIEEE1722TpAcfBus(element, bus)

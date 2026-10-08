@@ -3592,10 +3592,6 @@ class GlobalTimeSlave(ARObject, ABC):
     pass
 
 
-class IEEE1722TpAcfBusPart(ARObject, ABC):
-    pass
-
-
 class IdsmInstance(ARObject):
     pass
 

@@ -5,15 +5,8 @@ from __future__ import annotations
 
 from typing import List, Optional, cast
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-    IEEE1722TpAcfBusPart,
-)
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
-    Identifiable,
-    IEEE1722TpAcfCanPart,
-    IEEE1722TpAcfLinPart,
-)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 
@@ -55,7 +48,7 @@ class IEEE1722TpAcfBus(Identifiable, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, IEEE1722TpAcfCanPart):
             part = IEEE1722TpAcfCanPart(self, short_name)
             self.addReferrableElement(part)
-            self.acfParts.append(cast(IEEE1722TpAcfBusPart, part))
+            self.acfParts.append(part)
         return cast(IEEE1722TpAcfCanPart, self.getReferrableElement(short_name, IEEE1722TpAcfCanPart))
 
     def createIEEE1722TpAcfLinPart(self, short_name: str) -> IEEE1722TpAcfLinPart:
@@ -65,7 +58,7 @@ class IEEE1722TpAcfBus(Identifiable, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, IEEE1722TpAcfLinPart):
             part = IEEE1722TpAcfLinPart(self, short_name)
             self.addReferrableElement(part)
-            self.acfParts.append(cast(IEEE1722TpAcfBusPart, part))
+            self.acfParts.append(part)
         return cast(IEEE1722TpAcfLinPart, self.getReferrableElement(short_name, IEEE1722TpAcfLinPart))
 
     def getAcfParts(self) -> List[IEEE1722TpAcfBusPart]:
@@ -90,9 +83,62 @@ class IEEE1722TpAcfBus(Identifiable, VariationPointCapable):
         return self
 
 
+class IEEE1722TpAcfBusPart(Identifiable, VariationPointCapable):
+    """
+    Definition of one IEEE1722Tp ACF part transported over the IEEE1722Tp channel. Tags: atp.Status=candidate
+    """
+
+    # IEEE1722TpAcfBusPart method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.292, p.658
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCollectionTrigger  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCollectionTrigger  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # (Abstract; Base = ARObject, Identifiable, MultilanguageReferrable, Referrable; XSD group
+    # IEEE-1722-TP-ACF-BUS-PART carries VARIATION-POINT — getVariationPoint/setVariationPoint provided
+    # by the VariationPointCapable base (mixin), no spec rows)
+
+    def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is IEEE1722TpAcfBusPart:
+            raise TypeError("IEEE1722TpAcfBusPart is an abstract class.")
+
+        super().__init__(parent, short_name)
+
+        # Defines whether putting this AcfPart to the IEEE1722Tp ACF message triggers immediate sending of the IEEE1722Tp ACF message.
+        self.collectionTrigger: Optional[PduCollectionTriggerEnum] = None
+
+    def getCollectionTrigger(self) -> Optional[PduCollectionTriggerEnum]:
+        """
+        Defines whether putting this AcfPart to the IEEE1722Tp ACF message triggers immediate sending of the IEEE1722Tp ACF message.
+        """
+        return self.collectionTrigger
+
+    def setCollectionTrigger(self, value: Optional[PduCollectionTriggerEnum]) -> IEEE1722TpAcfBusPart:
+        """
+        Defines whether putting this AcfPart to the IEEE1722Tp ACF message triggers immediate sending of the IEEE1722Tp ACF message.
+        A None value is a no-op and does not overwrite an existing collectionTrigger.
+        """
+        if value is not None:
+            self.collectionTrigger = value
+        return self
+
+
+class IEEE1722TpAcfCanPart(IEEE1722TpAcfBusPart):
+    pass
+
+
+class IEEE1722TpAcfLinPart(IEEE1722TpAcfBusPart):
+    pass
+
+
 class IEEE1722TpAcfCan(IEEE1722TpAcfBus):
     pass
 
 
 class IEEE1722TpAcfLin(IEEE1722TpAcfBus):
     pass
+
+
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import (  # noqa: E402
+    PduCollectionTriggerEnum as PduCollectionTriggerEnum,
+)

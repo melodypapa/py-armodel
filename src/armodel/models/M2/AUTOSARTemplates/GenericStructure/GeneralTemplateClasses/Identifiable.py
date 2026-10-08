@@ -2202,14 +2202,6 @@ class GlobalTimeMaster(Identifiable, ABC):
     pass
 
 
-class IEEE1722TpAcfCanPart(Identifiable):
-    pass
-
-
-class IEEE1722TpAcfLinPart(Identifiable):
-    pass
-
-
 class PortElementToCommunicationResourceMapping(Identifiable):
     pass
 

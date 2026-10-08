@@ -1209,15 +1209,46 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `IEEE1722TpAcfBusPart` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.292, p.658
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note: Step 1 finding — module hint overridden — spec Package row = ...IEEE1722Tp::IEEE1722TpAcf ->
+    `TransportProtocols/IEEE1722Tp/IEEE1722TpAcf.py` with the Bus sibling (Rule 0007). Abstract
+    (markdown "(abstract)"; XSD has group IEEE-1722-TP-ACF-BUS-PART only, no concrete complexType —
+    CanPart/LinPart reference it) → TypeError guard. Base row most-derived = Identifiable, NOT the
+    ARObject hint (table Base row `ARObject, Identifiable, MultilanguageReferrable, Referrable`;
+    XSD complexType chain for CanPart confirms AR-OBJECT/REFERRABLE/MULTILANGUAGE-REFERRABLE/
+    IDENTIFIABLE + IEEE-1722-TP-ACF-BUS-PART — AcfLin rebase precedent). VARIATION-POINT present in
+    the group ("Applicable for: IEEE1722TpAcfBus.acfPart") → VariationPointCapable mixin (Rule 0020).
+    Single attr: collectionTrigger PduCollectionTriggerEnum 0..1 attr → COLLECTION-TRIGGER value
+    form (AafConnection enum precedent); the enum is already synced/stamped (ServiceInstances.py,
+    Table 6.41, ALWAYS/NEVER = XSD PDU-COLLECTION-TRIGGER-ENUM--SIMPLE facets). XSD element order
+    COLLECTION-TRIGGER then VARIATION-POINT; no XSD-only extras, no atp.Status="removed", no table
+    constraints. Aggregated by IEEE1722TpAcfBus.acfPart only → no ARPackage factory/dispatch.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
+    - Note: no code-shape deviations — field↔spec verified both directions (1 attr, Optional[PduCollectionTriggerEnum]
+      quota shape matches Mult. 0..1, verbatim Note; the collectionTrigger markdown row carries no
+      Tags:/Stereotypes: tail — copied as rendered). Base hint ARObject overridden to Identifiable
+      (see Step 1 note; the ArObject.py `IEEE1722TpAcfBusPart(ARObject, ABC)` stub removed, its
+      stub-registry tuple dropped). PduCollectionTriggerEnum reused from the already-synced
+      ServiceInstances.py enum (Table 6.41, `# Spec verified: R23-11`, ALWAYS/NEVER = XSD
+      PDU-COLLECTION-TRIGGER-ENUM--SIMPLE facets) — imported at the module bottom per Rule 0001.8,
+      no ride-along sync needed. Stub accommodation in this commit: IEEE1722TpAcfCanPart/
+      IEEE1722TpAcfLinPart rebased Identifiable → IEEE1722TpAcfBusPart (their spec Base rows include
+      IEEE1722TpAcfBusPart) and rehoused from Identifiable.py into IEEE1722TpAcf.py; the interim
+      cast(IEEE1722TpAcfBusPart, ...) from the Bus commit dropped (the parts now genuinely subclass
+      BusPart); stub-registry tuples moved accordingly; parser/writer/test imports updated. Writer
+      VARIATION-POINT placement: writeIdentifiable(..., write_variation_point=False) +
+      writeVariationPointCapable last (XSD sequenceOffset 10000); reader VP via readIdentifiable +
+      readVariationPointCapable (family convention). Abstract class — no ARPackage factory/dispatch
+      (aggregated by IEEE1722TpAcfBus.acfPart only); owns reusable
+      readIEEE1722TpAcfBusPart/writeIEEE1722TpAcfBusPart helpers called by the CanPart/LinPart
+      helpers (Rule 0001.7).
 
 - [ ] `IEEE1722TpAcfCan` — IEEE1722TpAcfBus — R23-11 CP_TPS_SystemTemplate Table 6.293, p.661
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
