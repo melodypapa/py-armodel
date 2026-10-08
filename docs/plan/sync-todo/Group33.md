@@ -1168,15 +1168,44 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `IEEE1722TpAcfBus` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 6.291, p.657
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note: Step 1 finding — module hint overridden — spec Package row = ...IEEE1722Tp::IEEE1722TpAcf ->
+    new `TransportProtocols/IEEE1722Tp/IEEE1722TpAcf.py` (leaf package, Rule 0007; no Acf subpackage
+    exists on disk despite the AcfConnection wave note). Abstract (markdown "(abstract)"; XSD has group
+    IEEE-1722-TP-ACF-BUS only, no concrete complexType — subtypes Can/Lin reference it) → TypeError
+    guard. Base row most-derived = Identifiable (hint confirmed); XSD complexType chain
+    AR-OBJECT/REFERRABLE/MULTILANGUAGE-REFERRABLE/IDENTIFIABLE + IEEE-1722-TP-ACF-BUS. VARIATION-POINT
+    present in the group ("Applicable for: IEEE1722TpAcfConnection.acfTransportedBus") →
+    VariationPointCapable mixin (Rule 0020). 2 attrs in displayed order (= XSD element order
+    ACF-PARTS/BUS-ID/VARIATION-POINT): acfPart `*` aggr IEEE1722TpAcfBusPart → acfParts, wrapper
+    ACF-PARTS with a choice of IEEE-1722-TP-ACF-CAN-PART / IEEE-1722-TP-ACF-LIN-PART items (identity
+    CanPart/LinPart readers per the AcfConnection identity precedent, Rule 0001.10 pending);
+    busId PositiveInteger 0..1 attr → BUS-ID. No XSD-only extras, no atp.Status="removed".
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
+    - Note: no code-shape deviations — field↔spec verified both directions (2 attrs, List/Optional
+      quota shapes match the Mult. column, dedicated typed list field for acfParts, verbatim Notes
+      incl. the markdown's "variation Point" spacing). Rule 0001.10 pending: CanPart/LinPart are
+      still Group33 stubs — readIEEE1722TpAcfCanPart/writeIEEE1722TpAcfCanPart (and Lin twins) cover
+      the Identifiable base level only (identity serialization); their fields land with their own
+      rows (Tables 6.294/6.297), and the factories' acfParts.append carries an interim
+      cast(IEEE1722TpAcfBusPart, ...) because the stub hierarchy does not yet express the XSD
+      IEEE-1722-TP-ACF-CAN-PART ⊂ IEEE-1722-TP-ACF-BUS-PART chain (dropped when those rows rebase).
+      Stub accommodation in this commit: IEEE1722TpAcfCan/IEEE1722TpAcfLin rehoused from
+      Identifiable.py into IEEE1722TpAcf.py (their spec home) — a Identifiable.py bottom-import
+      cycle-breaker is impossible here because the Can/Lin stub class bases reference IEEE1722TpAcfBus
+      eagerly (J1939-TP consolidation precedent); stub-registry tuples moved accordingly, parser/
+      writer/test imports updated. acfParts is typed against the still-stub IEEE1722TpAcfBusPart
+      (ArObject.py) via interim import — dropped in its own row's commit. Writer VARIATION-POINT
+      placement: writeIdentifiable(..., write_variation_point=False) + writeVariationPointCapable
+      last (XSD sequenceOffset 10000); reader VP handled by readIdentifiable +
+      readVariationPointCapable (family convention).
 
 - [ ] `IEEE1722TpAcfBusPart` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.292, p.658
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py

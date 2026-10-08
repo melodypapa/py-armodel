@@ -2202,10 +2202,6 @@ class GlobalTimeMaster(Identifiable, ABC):
     pass
 
 
-class IEEE1722TpAcfBus(Identifiable, ABC):
-    pass
-
-
 class IEEE1722TpAcfCanPart(Identifiable):
     pass
 
@@ -2379,14 +2375,6 @@ class GlobalTimeEthMaster(GlobalTimeMaster):
 
 
 class GlobalTimeFrMaster(GlobalTimeMaster):
-    pass
-
-
-class IEEE1722TpAcfCan(IEEE1722TpAcfBus):
-    pass
-
-
-class IEEE1722TpAcfLin(IEEE1722TpAcfBus):
     pass
 
 

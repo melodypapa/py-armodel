@@ -5,6 +5,7 @@ import xml.etree.cElementTree as ET
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import IEEE1722TpAcfCanPart
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     PositiveInteger,
@@ -70,7 +71,8 @@ def _bool(value):
 
 
 def _fill_connection(connection: IEEE1722TpAcfConnection) -> IEEE1722TpAcfConnection:
-    connection.createIEEE1722TpAcfCan("CanBus")
+    can_bus = connection.createIEEE1722TpAcfCan("CanBus")
+    can_bus.createIEEE1722TpAcfCanPart("CanPart1")
     connection.createIEEE1722TpAcfLin("LinBus")
     connection.setCollectionThreshold(_pos_int(900))
     connection.setCollectionTimeout(_time(0.01))
@@ -129,6 +131,10 @@ class TestWriteIEEE1722TpAcfConnection:
         buses = reloaded.getAcfTransportedBuses()
         assert len(buses) == 2
         assert buses[0].getShortName() == "CanBus"
+        can_parts = buses[0].getAcfParts()
+        assert len(can_parts) == 1
+        assert isinstance(can_parts[0], IEEE1722TpAcfCanPart)
+        assert can_parts[0].getShortName() == "CanPart1"
         assert buses[1].getShortName() == "LinBus"
         assert reloaded.getCollectionThreshold().getValue() == 900
         assert reloaded.getCollectionTimeout().getValue() == 0.01

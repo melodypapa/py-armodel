@@ -2,11 +2,6 @@ import typing
 from inspect import cleandoc
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
-    IEEE1722TpAcfBus,
-    IEEE1722TpAcfCan,
-    IEEE1722TpAcfLin,
-)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     PositiveInteger,
@@ -15,6 +10,11 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols.IEEE1722Tp import (
     IEEE1722TpAcfConnection,
     IEEE1722TpConnection,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols.IEEE1722Tp.IEEE1722TpAcf import (
+    IEEE1722TpAcfBus,
+    IEEE1722TpAcfCan,
+    IEEE1722TpAcfLin,
 )
 
 

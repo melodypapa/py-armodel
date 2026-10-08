@@ -760,8 +760,8 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticRoutineSubfunction,
     DiagnosticStartRoutine,
     DiagnosticStopRoutine,
-    IEEE1722TpAcfCan,
-    IEEE1722TpAcfLin,
+    IEEE1722TpAcfCanPart,
+    IEEE1722TpAcfLinPart,
     Identifiable,
     MultilanguageReferrable,
     Referrable,
@@ -1625,6 +1625,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import
     FlexrayTpPduPool,
     IEEE1722TpConfig,
     IEEE1722TpConnection,
+    IEEE1722TpAcfBus,
     IEEE1722TpAcfConnection,
     IEEE1722TpAvConnection,
     IEEE1722TpAafConnection,
@@ -1654,6 +1655,11 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import
     TpAckType,
     TpAddress,
     TpConfig,
+)
+
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols.IEEE1722Tp.IEEE1722TpAcf import (
+    IEEE1722TpAcfCan,
+    IEEE1722TpAcfLin,
 )
 from armodel.models.M2.MSR.AsamHdo.AdminData import AdminData, DocRevision, Modification
 from armodel.models.M2.MSR.AsamHdo.BaseTypes import BaseTypeDirectDefinition, SwBaseType
@@ -15072,11 +15078,30 @@ class ARXMLParser(AbstractARXMLParser):
             connection.setRvfPixelFormat(rvf_pixel_format)
         connection.setRvfTotalLines(self.getChildElementOptionalPositiveInteger(element, "RVF-TOTAL-LINES"))
 
-    def readIEEE1722TpAcfCan(self, element: ET.Element, bus: IEEE1722TpAcfCan):
+    def readIEEE1722TpAcfBus(self, element: ET.Element, bus: IEEE1722TpAcfBus):
         self.readIdentifiable(element, bus)
+        for child_element in self.findall(element, "ACF-PARTS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "IEEE-1722-TP-ACF-CAN-PART":
+                self.readIEEE1722TpAcfCanPart(child_element, bus.createIEEE1722TpAcfCanPart(self.getShortName(child_element)))
+            elif tag_name == "IEEE-1722-TP-ACF-LIN-PART":
+                self.readIEEE1722TpAcfLinPart(child_element, bus.createIEEE1722TpAcfLinPart(self.getShortName(child_element)))
+            else:
+                self.notImplemented("Unsupported ACF Bus Part <%s>" % tag_name)
+        bus.setBusId(self.getChildElementOptionalPositiveInteger(element, "BUS-ID"))
+        self.readVariationPointCapable(element, bus)
+
+    def readIEEE1722TpAcfCanPart(self, element: ET.Element, part: IEEE1722TpAcfCanPart):
+        self.readIdentifiable(element, part)
+
+    def readIEEE1722TpAcfLinPart(self, element: ET.Element, part: IEEE1722TpAcfLinPart):
+        self.readIdentifiable(element, part)
+
+    def readIEEE1722TpAcfCan(self, element: ET.Element, bus: IEEE1722TpAcfCan):
+        self.readIEEE1722TpAcfBus(element, bus)
 
     def readIEEE1722TpAcfLin(self, element: ET.Element, bus: IEEE1722TpAcfLin):
-        self.readIdentifiable(element, bus)
+        self.readIEEE1722TpAcfBus(element, bus)
 
     def readIEEE1722TpAcfConnection(self, element: ET.Element, connection: IEEE1722TpAcfConnection):
         self.readIEEE1722TpConnection(element, connection)
