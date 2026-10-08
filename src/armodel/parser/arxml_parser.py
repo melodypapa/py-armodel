@@ -17070,13 +17070,13 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, signal)
         signal.setDataTransformationRef(self.getChildElementOptionalRefType(element, "DATA-TRANSFORMATIONS/DATA-TRANSFORMATION-REF-CONDITIONAL/DATA-TRANSFORMATION-REF"))
         signal.setDataTypePolicy(cast(Optional[DataTypePolicyEnum], self.getChildElementOptionalLiteral(element, "DATA-TYPE-POLICY")))
+        self.readISignalProps(element, signal)
         signal.setISignalType(cast(Optional[ISignalTypeEnum], self.getChildElementOptionalLiteral(element, "I-SIGNAL-TYPE")))
         signal.setInitValue(self.getInitValue(element))
         signal.setLength(cast(Optional[UnlimitedInteger], self.getChildElementOptionalNumericalValue(element, "LENGTH")))
         signal.setNetworkRepresentationProps(self.getSwDataDefProps(element, "NETWORK-REPRESENTATION-PROPS"))
         signal.setSystemSignalRef(self.getChildElementOptionalRefType(element, "SYSTEM-SIGNAL-REF"))
         signal.setTimeoutSubstitutionValue(self.getChildValueSpecification(element, "TIMEOUT-SUBSTITUTION-VALUE"))
-        self.readISignalProps(element, signal)
         self.readISignalTransformationISignalProps(element, signal)
 
     def readISignalProps(self, element: ET.Element, signal: ISignal):

@@ -15902,13 +15902,13 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeIdentifiable(child_element, signal)
         self.writeISignalDataTransformation(child_element, signal)
         self.setChildElementOptionalLiteral(child_element, "DATA-TYPE-POLICY", signal.getDataTypePolicy())
+        self.writeISignalProps(child_element, signal)
         self.setChildElementOptionalLiteral(child_element, "I-SIGNAL-TYPE", signal.getISignalType())
         self.setChildValueSpecification(child_element, "INIT-VALUE", signal.getInitValue())
         self.setChildElementOptionalNumericalValue(child_element, "LENGTH", signal.getLength())
         self.setSwDataDefProps(child_element, "NETWORK-REPRESENTATION-PROPS", signal.getNetworkRepresentationProps())
         self.setChildElementOptionalRefType(child_element, "SYSTEM-SIGNAL-REF", signal.getSystemSignalRef())
         self.setChildValueSpecification(child_element, "TIMEOUT-SUBSTITUTION-VALUE", signal.getTimeoutSubstitutionValue())
-        self.writeISignalProps(child_element, signal)
         self.writeISignalTransformationISignalProps(child_element, signal)
 
     def writeISignalProps(self, element: ET.Element, signal: ISignal):
