@@ -1734,7 +1734,7 @@ Status: **17/75** completed
 | `CryptoServiceKey`                                       | [ ] Pending*    | 7f0ee10676 |
 | `CryptoServiceKeyGenerationEnum`                         | [ ] Pending*    | 0ad977989f |
 | `CryptoServiceQueue`                                     | [ ] Pending*    | eeb832d638 |
-| `GeneralPurposeConnection`                               | [ ] Created     | N/A        |
+| `GeneralPurposeConnection`                               | [ ] Pending*    | a8e970f876 |
 | `RelativeTolerance`                                      | [ ] Implemented | N/A        |
 | `AbsoluteTolerance`                                      | [ ] Implemented | N/A        |
 | `Frame`                                                  | [ ] Implemented | N/A        |

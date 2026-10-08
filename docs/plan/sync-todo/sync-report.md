@@ -13,9 +13,9 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | [x] Done | 852 | 44.8% |
 | [x] Deferred | 42 | 2.2% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 836 | 44.0% |
+| [ ] Deferred | 837 | 44.0% |
 | [ ] Implemented | 29 | 1.5% |
-| [ ] Created | 143 | 7.5% |
+| [ ] Created | 142 | 7.5% |
 | [ ] Pending | 0 | 0.0% |
 
 | Class Name                                              | Status      | Commit ID                                | Groups           |
@@ -980,7 +980,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `Gateway`                                               | [x] Done    | a00d99f993                               | Group17          |
 | `GeneralAnnotation`                                     | [x] Done    | ab2daa7785                               | Group3           |
 | `GeneralParameter`                                      | [x] Done    | b622d5b424                               | Group9           |
-| `GeneralPurposeConnection`                              | [ ] Created | N/A                                      | Group31          |
+| `GeneralPurposeConnection`                              | [ ] Deferred| a8e970f876                               | Group31          |
 | `GeneralPurposeIPdu`                                    | [x] Done    | 75683a2ede                               | Group5           |
 | `GeneralPurposePdu`                                     | [x] Done    | 75683a2ede                               | Group5           |
 | `GenericEthernetFrame`                                  | [x] Done    | 675a97e967                               | Group6           |
