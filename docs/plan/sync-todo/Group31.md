@@ -643,17 +643,60 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-08 (23377 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 6d2c23610
 
-- [ ] `ISignalIPdu` — IPdu — R23-11 CP_TPS_SystemTemplate Table 6.19, p.342
+- [x] `ISignalIPdu` — IPdu — R23-11 CP_TPS_SystemTemplate Table 6.19, p.342 (sync commit e9cdc0506)
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note (Step 1): own table = CP_TPS_SystemTemplate Table 6.19, p.342 (pdf_page.py;
+    page-split rendering: body rows above the caption, directly under Table 6.18's
+    body — identified by Class row `ISignalIPdu`); concrete Class; Package row
+    `...Fibex::FibexCore::CoreCommunication` matches src home (Rule 0007 — non-leaf
+    `__init__.py`); Base most-derived = `IPdu` (synced 6d2c23610) — src base already
+    correct; Class Note tail `Tags: atp.recommendedPackage=Pdus` kept verbatim.
+    Exactly 3 own attribute rows in displayed order: `iPduTimingSpecification`
+    (IPduTiming 0..1 aggr → get/set shape — IPduTiming Base = ARObject, Describable,
+    not Referrable, Rule 0001.6), `iSignalToPduMapping` (ISignalToIPduMapping `*`
+    aggr, singular spec name → plural list + plural getter; Identifiable child →
+    `createXxx(short_name)`), `unusedBitPattern` (Integer 0..1 attr). No page-split
+    continuation, no constr rows in the table. XSD group I-SIGNAL-I-PDU
+    (AUTOSAR_00052.xsd l.66972) child order: I-PDU-TIMING-SPECIFICATIONS (wrapper →
+    I-PDU-TIMING), I-SIGNAL-TO-PDU-MAPPINGS (wrapper → I-SIGNAL-TO-I-PDU-MAPPING),
+    PDU-COUNTERS (atp.Status="removed" — deprecated, NOT modeled), PDU-REPLICATIONS
+    (atp.Status="removed" — deprecated, NOT modeled), UNUSED-BIT-PATTERN — reader/
+    writer order conforms; Rule 0015: XSD appinfo `pureMM.maxOccurs="-1"` on
+    I-PDU-TIMING-SPECIFICATIONS (atpVariation resolved upper-mult increase) vs PDF
+    Mult 0..1 → PDF wins, single Optional. Not VP-capable (no VARIATION-POINT in own
+    group, absent from vp_anchors.txt). Entry audit FAIL (Rule 0023 legacy 5-col
+    checklist) + stale `# Spec verified: R23-11` marker removed at session start,
+    baseline refreshed (one-line diff). Legacy drift to fix: reader/writer call
+    `readIdentifiable`/`writeIdentifiable` directly + read LENGTH inline (Base is
+    IPdu → must dispatch `readIPdu`/`writeIPdu` exactly once per side, Rule 0025);
+    factory `createISignalToPduMappings` plural → rename singular
+    `createISignalToPduMapping` (Rule 0001.5, NmPdu `createISignalToIPduMapping`
+    precedent); legacy test sets bare `int` for `unusedBitPattern` → typed
+    `Integer().setValue(...)` (Rule 0006).
+  - Deviation: `deprecated (atp.Status="removed"), not implemented` — XSD group
+    I-SIGNAL-I-PDU also declares PDU-COUNTERS/SIGNAL-I-PDU-COUNTER and
+    PDU-REPLICATIONS/SIGNAL-I-PDU-REPLICATION wrappers, both tagged
+    `atp.Status="removed"` (AUTOSAR_00052.xsd ll.67010/67025) and absent from the
+    Table 6.19 Attribute column → not modeled (Rule 0001.3/0015).
+  - Deviation: none otherwise — fixed in-pass: factory `createISignalToPduMappings`
+    renamed singular `createISignalToPduMapping` (Rule 0001.5; parser + 2 legacy
+    test call sites updated, mutator-before-getter source order per Rule 0001.11);
+    reader/writer re-dispatched `readIdentifiable`/`writeIdentifiable` →
+    `readIPdu`/`writeIPdu` exactly once per side (Rule 0025) and the inline
+    generic-typed LENGTH read/write dropped (owned by readPdu/writePdu, typed
+    UnlimitedInteger); shared `readISignalToPduMappings`/`writeISignalToPduMappings`
+    reused unchanged. No referenced-but-missing classes (IPduTiming stamped;
+    ISignalToIPduMapping synced 036440b90; Integer/TimeValue/UnlimitedInteger/
+    RefType all exist) — no Rule 0001.10 placeholders.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-08 (23392 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit e9cdc0506
 
 - [ ] `NmPdu` — Pdu — R23-11 CP_TPS_SystemTemplate Table 6.20, p.343
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
