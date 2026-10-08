@@ -3596,10 +3596,6 @@ class IEEE1722TpAcfBusPart(ARObject, ABC):
     pass
 
 
-class IEEE1722TpAcfLin(ARObject):
-    pass
-
-
 class IdsmInstance(ARObject):
     pass
 

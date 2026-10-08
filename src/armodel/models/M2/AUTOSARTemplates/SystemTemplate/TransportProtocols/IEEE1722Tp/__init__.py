@@ -4,11 +4,17 @@
 from __future__ import annotations
 
 from abc import ABC
-from typing import List, Optional
+from typing import List, Optional, cast
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    IEEE1722TpAcfBus,
+    IEEE1722TpAcfCan,
+    IEEE1722TpAcfLin,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    Boolean,
     MacAddressString,
     PositiveInteger,
     RefType,
@@ -247,6 +253,113 @@ class IEEE1722TpAvConnection(IEEE1722TpConnection, ABC):
         Reference to the upper layer Sdu used for the transport of the payload of the IEEE1722Tp. Tags: atp.Status=candidate
         """
         return self.sduRefs
+
+
+class IEEE1722TpAcfConnection(IEEE1722TpConnection):
+    """
+    ACF IEEE1722Tp connection. Tags: atp.Status=candidate atp.recommendedPackage=IEEE1722TpConnections
+    """
+
+    # IEEE1722TpAcfConnection method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.290, p.657
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createIEEE1722TpAcfCan    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createIEEE1722TpAcfLin    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAcfTransportedBuses    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getCollectionThreshold    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCollectionThreshold    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCollectionTimeout      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCollectionTimeout      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMixedBusTypeCollection [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMixedBusTypeCollection [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # (Base row: ARElement, ARObject, CollectableElement, IEEE1722TpConnection, Identifiable, MultilanguageReferrable, PackageableElement, Referrable)
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Definition of the transported busses over this ACF connection. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=acfTransportedBus.shortName, acf TransportedBus.variationPoint.shortLabel atp.Status=candidate vh.latestBindingTime=postBuild
+        self.acfTransportedBuses: List[IEEE1722TpAcfBus] = []
+
+        # Defines the size threshold in bytes which, when exceeded, triggers the sending of the IEEE1722Tp ACF message, even when the maxium IEEE1722Tp ACF message size has not been reached yet.
+        self.collectionThreshold: Optional[PositiveInteger] = None
+
+        # When this timeout expires the IEEE1722Tp ACF message is triggered for sending. The respective timer is started when the first Pdu is put into the IEEE1722Tp ACF message. Defined in seconds.
+        self.collectionTimeout: Optional[TimeValue] = None
+
+        # Defines if this ACF-stream is allowed to collect ACF-messages of different bus kinds (i.e. whether it is allowed to collect CAN and LIN ACF-messages in one ACF-stream message).
+        self.mixedBusTypeCollection: Optional[Boolean] = None
+
+    def createIEEE1722TpAcfCan(self, short_name: str) -> IEEE1722TpAcfCan:
+        """
+        Definition of the transported busses over this ACF connection. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=acfTransportedBus.shortName, acf TransportedBus.variationPoint.shortLabel atp.Status=candidate vh.latestBindingTime=postBuild
+        """
+        if not self.IsReferrableElementExists(short_name, IEEE1722TpAcfCan):
+            bus = IEEE1722TpAcfCan(self, short_name)
+            self.addReferrableElement(bus)
+            self.acfTransportedBuses.append(bus)
+        return cast(IEEE1722TpAcfCan, self.getReferrableElement(short_name, IEEE1722TpAcfCan))
+
+    def createIEEE1722TpAcfLin(self, short_name: str) -> IEEE1722TpAcfLin:
+        """
+        Definition of the transported busses over this ACF connection. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=acfTransportedBus.shortName, acf TransportedBus.variationPoint.shortLabel atp.Status=candidate vh.latestBindingTime=postBuild
+        """
+        if not self.IsReferrableElementExists(short_name, IEEE1722TpAcfLin):
+            bus = IEEE1722TpAcfLin(self, short_name)
+            self.addReferrableElement(bus)
+            self.acfTransportedBuses.append(bus)
+        return cast(IEEE1722TpAcfLin, self.getReferrableElement(short_name, IEEE1722TpAcfLin))
+
+    def getAcfTransportedBuses(self) -> List[IEEE1722TpAcfBus]:
+        """
+        Definition of the transported busses over this ACF connection. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=acfTransportedBus.shortName, acf TransportedBus.variationPoint.shortLabel atp.Status=candidate vh.latestBindingTime=postBuild
+        """
+        return self.acfTransportedBuses
+
+    def getCollectionThreshold(self) -> Optional[PositiveInteger]:
+        """
+        Defines the size threshold in bytes which, when exceeded, triggers the sending of the IEEE1722Tp ACF message, even when the maxium IEEE1722Tp ACF message size has not been reached yet.
+        """
+        return self.collectionThreshold
+
+    def setCollectionThreshold(self, value: Optional[PositiveInteger]) -> IEEE1722TpAcfConnection:
+        """
+        Defines the size threshold in bytes which, when exceeded, triggers the sending of the IEEE1722Tp ACF message, even when the maxium IEEE1722Tp ACF message size has not been reached yet.
+        A None value is a no-op and does not overwrite an existing collectionThreshold.
+        """
+        if value is not None:
+            self.collectionThreshold = value
+        return self
+
+    def getCollectionTimeout(self) -> Optional[TimeValue]:
+        """
+        When this timeout expires the IEEE1722Tp ACF message is triggered for sending. The respective timer is started when the first Pdu is put into the IEEE1722Tp ACF message. Defined in seconds.
+        """
+        return self.collectionTimeout
+
+    def setCollectionTimeout(self, value: Optional[TimeValue]) -> IEEE1722TpAcfConnection:
+        """
+        When this timeout expires the IEEE1722Tp ACF message is triggered for sending. The respective timer is started when the first Pdu is put into the IEEE1722Tp ACF message. Defined in seconds.
+        A None value is a no-op and does not overwrite an existing collectionTimeout.
+        """
+        if value is not None:
+            self.collectionTimeout = value
+        return self
+
+    def getMixedBusTypeCollection(self) -> Optional[Boolean]:
+        """
+        Defines if this ACF-stream is allowed to collect ACF-messages of different bus kinds (i.e. whether it is allowed to collect CAN and LIN ACF-messages in one ACF-stream message).
+        """
+        return self.mixedBusTypeCollection
+
+    def setMixedBusTypeCollection(self, value: Optional[Boolean]) -> IEEE1722TpAcfConnection:
+        """
+        Defines if this ACF-stream is allowed to collect ACF-messages of different bus kinds (i.e. whether it is allowed to collect CAN and LIN ACF-messages in one ACF-stream message).
+        A None value is a no-op and does not overwrite an existing mixedBusTypeCollection.
+        """
+        if value is not None:
+            self.mixedBusTypeCollection = value
+        return self
 
 
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols.IEEE1722Tp.IEEE1722TpAv import (  # noqa: E402

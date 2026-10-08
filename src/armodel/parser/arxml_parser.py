@@ -760,6 +760,8 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticRoutineSubfunction,
     DiagnosticStartRoutine,
     DiagnosticStopRoutine,
+    IEEE1722TpAcfCan,
+    IEEE1722TpAcfLin,
     Identifiable,
     MultilanguageReferrable,
     Referrable,
@@ -1623,6 +1625,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import
     FlexrayTpPduPool,
     IEEE1722TpConfig,
     IEEE1722TpConnection,
+    IEEE1722TpAcfConnection,
     IEEE1722TpAvConnection,
     IEEE1722TpAafConnection,
     IEEE1722TpAafAes3DataTypeEnum,
@@ -15069,6 +15072,26 @@ class ARXMLParser(AbstractARXMLParser):
             connection.setRvfPixelFormat(rvf_pixel_format)
         connection.setRvfTotalLines(self.getChildElementOptionalPositiveInteger(element, "RVF-TOTAL-LINES"))
 
+    def readIEEE1722TpAcfCan(self, element: ET.Element, bus: IEEE1722TpAcfCan):
+        self.readIdentifiable(element, bus)
+
+    def readIEEE1722TpAcfLin(self, element: ET.Element, bus: IEEE1722TpAcfLin):
+        self.readIdentifiable(element, bus)
+
+    def readIEEE1722TpAcfConnection(self, element: ET.Element, connection: IEEE1722TpAcfConnection):
+        self.readIEEE1722TpConnection(element, connection)
+        for child_element in self.findall(element, "ACF-TRANSPORTED-BUSS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "IEEE-1722-TP-ACF-CAN":
+                self.readIEEE1722TpAcfCan(child_element, connection.createIEEE1722TpAcfCan(self.getShortName(child_element)))
+            elif tag_name == "IEEE-1722-TP-ACF-LIN":
+                self.readIEEE1722TpAcfLin(child_element, connection.createIEEE1722TpAcfLin(self.getShortName(child_element)))
+            else:
+                self.notImplemented("Unsupported ACF Transported Bus <%s>" % tag_name)
+        connection.setCollectionThreshold(self.getChildElementOptionalPositiveInteger(element, "COLLECTION-THRESHOLD"))
+        connection.setCollectionTimeout(self.getChildElementOptionalTimeValue(element, "COLLECTION-TIMEOUT"))
+        connection.setMixedBusTypeCollection(self.getChildElementOptionalBooleanValue(element, "MIXED-BUS-TYPE-COLLECTION"))
+
     def readCanFrame(self, element: ET.Element, frame: CanFrame):
         self.logger.debug("Read CanFrame <%s>" % frame.getShortName())
         self.readFrame(element, frame)
@@ -19476,6 +19499,8 @@ class ARXMLParser(AbstractARXMLParser):
                 self.readIEEE1722TpIidcConnection(child_element, parent.createIEEE1722TpIidcConnection(self.getShortName(child_element)))
             elif tag_name == "IEEE-1722-TP-RVF-CONNECTION":
                 self.readIEEE1722TpRvfConnection(child_element, parent.createIEEE1722TpRvfConnection(self.getShortName(child_element)))
+            elif tag_name == "IEEE-1722-TP-ACF-CONNECTION":
+                self.readIEEE1722TpAcfConnection(child_element, parent.createIEEE1722TpAcfConnection(self.getShortName(child_element)))
             elif tag_name == "CLIENT-ID-DEFINITION-SET":
                 id_definition_set = parent.createClientIdDefinitionSet(self.getShortName(child_element))
                 self.readClientIdDefinitionSet(child_element, id_definition_set)

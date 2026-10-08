@@ -1127,15 +1127,44 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `IEEE1722TpAcfConnection` — IEEE1722TpConnection — R23-11 CP_TPS_SystemTemplate Table 6.290, p.657
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note: Step 1 finding — module hint ARPackage.py overridden — spec Package row =
+    ...TransportProtocols::IEEE1722Tp (NOT ::IEEE1722TpAcf — that subpackage holds only
+    Bus/BusPart/Can/CanPart/Lin/LinPart, Tables 6.291-6.297) -> `TransportProtocols/IEEE1722Tp/__init__.py`,
+    mirroring the Config/Connection/AvConnection siblings (Rule 0007); ARPackage.py stub rehoused.
+    Base row most-derived = IEEE1722TpConnection (XSD complexType chain ... IEEE-1722-TP-CONNECTION
+    -> IEEE-1722-TP-ACF-CONNECTION; XSD abstract="false" — concrete, no TypeError guard); the group
+    carries NO VARIATION-POINT -> no mixin. 4 attrs in displayed order (acfTransportedBus `*` aggr
+    IEEE1722TpAcfBus, collectionThreshold PositiveInteger 0..1, collectionTimeout TimeValue 0..1,
+    mixedBusTypeCollection Boolean 0..1); XSD group element order matches displayed order; the wrapper
+    element is ACF-TRANSPORTED-BUSS (XSD spelling, sic) with a choice of IEEE-1722-TP-ACF-CAN /
+    IEEE-1722-TP-ACF-LIN items. Markdown caption was rendered as a `## Table 6.290:` heading
+    (conversion artifact) — normalized to plain form (Table 6.269/6.278 precedent).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
+    - Note: no code-shape deviations — field↔spec verified both directions (4 attrs, List/Optional
+      quota shapes match the Mult. column, verbatim Notes incl. the "acf TransportedBus" spacing and
+      the "maxium" spec typo; no table-constraint rows in Table 6.290). Reader calls the base
+      readIEEE1722TpConnection exactly once; writer the base writeIEEE1722TpConnection (Rule 0025).
+      acfTransportedBus dispatch follows the PhysicalChannel FRAME-TRIGGERINGS polymorphic-aggr
+      precedent: per-subtype factories createIEEE1722TpAcfCan/createIEEE1722TpAcfLin + tag dispatch
+      ACF-TRANSPORTED-BUSS (XSD spelling, sic) with isinstance on the writer side. Rule 0001.10
+      pending: the transported-bus children are still Group33 stubs (Tables 6.291-6.297) — the child
+      readers/writers cover the Identifiable base level only (identity serialization); their fields
+      land with their own rows. Stub accommodation in this commit: IEEE1722TpAcfLin rehoused from the
+      ArObject.py stub to Identifiable.py and rebased ARObject -> IEEE1722TpAcfBus (its XSD
+      complexType groups AR-OBJECT/REFERRABLE/MULTILANGUAGE-REFERRABLE/IDENTIFIABLE +
+      IEEE-1722-TP-ACF-BUS; the dispatch needs a (parent, short_name)-constructible Identifiable-based
+      stub — the ARObject stub could not be created by the reader); the Table 6.296 row still owns its
+      full sync. ARPackage.py IEEE1722TpAcfConnection stub rehoused to the IEEE1722Tp package
+      (bottom-import + TransportProtocols re-export wired); stub-batch tuples updated accordingly
+      (AcfConnection tuple removed, AcfLin tuple moved/rebased).
 
 - [ ] `IEEE1722TpAcfBus` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 6.291, p.657
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py

@@ -3686,6 +3686,7 @@ class J1939TpNode(Identifiable, VariationPointCapable):
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols.IEEE1722Tp import (  # noqa: E402
     IEEE1722TpConfig as IEEE1722TpConfig,
     IEEE1722TpConnection as IEEE1722TpConnection,
+    IEEE1722TpAcfConnection as IEEE1722TpAcfConnection,
     IEEE1722TpAvConnection as IEEE1722TpAvConnection,
     IEEE1722TpAafConnection as IEEE1722TpAafConnection,
     IEEE1722TpIidcConnection as IEEE1722TpIidcConnection,

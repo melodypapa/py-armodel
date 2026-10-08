@@ -603,6 +603,8 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticRoutineSubfunction,
     DiagnosticStartRoutine,
     DiagnosticStopRoutine,
+    IEEE1722TpAcfCan,
+    IEEE1722TpAcfLin,
     Identifiable,
     MultilanguageReferrable,
     Referrable,
@@ -1359,6 +1361,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import
     FlexrayTpPduPool,
     IEEE1722TpConfig,
     IEEE1722TpConnection,
+    IEEE1722TpAcfConnection,
     IEEE1722TpAvConnection,
     IEEE1722TpAafConnection,
     IEEE1722TpCrfConnection,
@@ -11158,6 +11161,32 @@ class ARXMLWriter(AbstractARXMLWriter):
             rvf_pixel_format_element.text = rvf_pixel_format.getValue()
         self.setChildElementOptionalPositiveInteger(child_element, "RVF-TOTAL-LINES", cast(Integer, connection.getRvfTotalLines()))
 
+    def writeIEEE1722TpAcfCan(self, element: ET.Element, bus: IEEE1722TpAcfCan):
+        child_element = ET.SubElement(element, "IEEE-1722-TP-ACF-CAN")
+        self.writeIdentifiable(child_element, bus)
+
+    def writeIEEE1722TpAcfLin(self, element: ET.Element, bus: IEEE1722TpAcfLin):
+        child_element = ET.SubElement(element, "IEEE-1722-TP-ACF-LIN")
+        self.writeIdentifiable(child_element, bus)
+
+    def writeIEEE1722TpAcfConnection(self, element: ET.Element, connection: IEEE1722TpAcfConnection):
+        self.logger.debug("Write IEEE1722TpAcfConnection <%s>" % connection.getShortName())
+        child_element = ET.SubElement(element, "IEEE-1722-TP-ACF-CONNECTION")
+        self.writeIEEE1722TpConnection(child_element, connection)
+        buses = connection.getAcfTransportedBuses()
+        if len(buses) > 0:
+            buses_element = ET.SubElement(child_element, "ACF-TRANSPORTED-BUSS")
+            for bus in buses:
+                if isinstance(bus, IEEE1722TpAcfCan):
+                    self.writeIEEE1722TpAcfCan(buses_element, bus)
+                elif isinstance(bus, IEEE1722TpAcfLin):
+                    self.writeIEEE1722TpAcfLin(buses_element, bus)
+                else:
+                    self.notImplemented("Unsupported ACF Transported Bus <%s>" % type(bus))
+        self.setChildElementOptionalPositiveInteger(child_element, "COLLECTION-THRESHOLD", cast(Integer, connection.getCollectionThreshold()))
+        self.setChildElementOptionalTimeValue(child_element, "COLLECTION-TIMEOUT", connection.getCollectionTimeout())
+        self.setChildElementOptionalBooleanValue(child_element, "MIXED-BUS-TYPE-COLLECTION", connection.getMixedBusTypeCollection())
+
     def writeFrameTriggering(self, element: ET.Element, triggering: FrameTriggering):
         self.writeIdentifiable(element, triggering)
         ref_list = triggering.getFramePortRefs()
@@ -19903,6 +19932,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeIEEE1722TpIidcConnection(element, ar_element)
         elif isinstance(ar_element, IEEE1722TpRvfConnection):
             self.writeIEEE1722TpRvfConnection(element, ar_element)
+        elif isinstance(ar_element, IEEE1722TpAcfConnection):
+            self.writeIEEE1722TpAcfConnection(element, ar_element)
         elif isinstance(ar_element, IEEE1722TpConfig):
             self.writeIEEE1722TpConfig(element, ar_element)
         elif isinstance(ar_element, LinCluster):

@@ -2565,6 +2565,13 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(element)
         return cast(IEEE1722TpRvfConnection, self.getReferrableElement(short_name, IEEE1722TpRvfConnection))
 
+    def createIEEE1722TpAcfConnection(self, short_name: str) -> IEEE1722TpAcfConnection:
+
+        if not self.IsReferrableElementExists(short_name, IEEE1722TpAcfConnection):
+            element = IEEE1722TpAcfConnection(self, short_name)
+            self.addReferrableElement(element)
+        return cast(IEEE1722TpAcfConnection, self.getReferrableElement(short_name, IEEE1722TpAcfConnection))
+
     def createCanFrame(self, short_name: str) -> CanFrame:
         """
         Creates a new CAN Frame with the given short name,
@@ -5297,6 +5304,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import
     J1939TpConfig,
     IEEE1722TpConfig,
     IEEE1722TpConnection,
+    IEEE1722TpAcfConnection,
     IEEE1722TpAvConnection,
     IEEE1722TpCrfConnection,
     IEEE1722TpAafConnection,
@@ -11696,8 +11704,4 @@ class LogAndTraceMessageCollectionSet(ARElement):
 
 
 class TransformationPropsSet(ARElement):
-    pass
-
-
-class IEEE1722TpAcfConnection(IEEE1722TpConnection):
     pass

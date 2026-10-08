@@ -2386,5 +2386,9 @@ class IEEE1722TpAcfCan(IEEE1722TpAcfBus):
     pass
 
 
+class IEEE1722TpAcfLin(IEEE1722TpAcfBus):
+    pass
+
+
 class UserDefinedGlobalTimeMaster(GlobalTimeMaster):
     pass
