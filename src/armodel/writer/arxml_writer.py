@@ -10381,6 +10381,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setSecureCommunicationProps(self, element: ET.Element, key: str, props: Optional[SecureCommunicationProps]):
         if props is not None:
             child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, props)
             self.setChildElementOptionalPositiveInteger(child_element, "AUTH-DATA-FRESHNESS-LENGTH", cast(Integer, props.getAuthDataFreshnessLength()))
             self.setChildElementOptionalPositiveInteger(child_element, "AUTH-DATA-FRESHNESS-START-POSITION", cast(Integer, props.getAuthDataFreshnessStartPosition()))  # noqa E501
             self.setChildElementOptionalPositiveInteger(child_element, "AUTHENTICATION-BUILD-ATTEMPTS", cast(Integer, props.getAuthenticationBuildAttempts()))

@@ -776,40 +776,38 @@ class IPdu(Pdu, ABC):
 class SecureCommunicationProps(ARObject):
     """
     This meta-class contains configuration settings that are specific for an individual SecuredIPdu.
+
+    [constr_9205] Existence of SecureCommunicationProps.dataId: For each SecureCommunicationProps, the attribute dataId shall exist at the time when the System Description is complete.
     """
 
     # SecureCommunicationProps method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.44, p.369
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getAuthDataFreshnessLength             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setAuthDataFreshnessLength             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getAuthDataFreshnessStartPosition      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setAuthDataFreshnessStartPosition      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getAuthenticationBuildAttempts         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setAuthenticationBuildAttempts         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getAuthenticationRetries               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setAuthenticationRetries               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getDataId                              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDataId                              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getFreshnessValueId                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setFreshnessValueId                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMessageLinkLength                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMessageLinkLength                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMessageLinkPosition                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMessageLinkPosition                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSecondaryFreshnessValueId           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSecondaryFreshnessValueId           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSecuredAreaLength                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSecuredAreaLength                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSecuredAreaOffset                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSecuredAreaOffset                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAuthDataFreshnessLength        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAuthDataFreshnessLength        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAuthDataFreshnessStartPosition [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAuthDataFreshnessStartPosition [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAuthenticationBuildAttempts    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAuthenticationBuildAttempts    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAuthenticationRetries          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAuthenticationRetries          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDataId                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataId                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFreshnessValueId               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFreshnessValueId               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMessageLinkLength              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMessageLinkLength              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMessageLinkPosition            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMessageLinkPosition            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSecondaryFreshnessValueId      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSecondaryFreshnessValueId      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSecuredAreaLength              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSecuredAreaLength              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSecuredAreaOffset              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSecuredAreaOffset              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
-        """
-        Initializes the SecureCommunicationProps.
-        """
         super().__init__()
 
         # This attribute defines the length in bits of the authentic PDU data that is passed to the SWC that verifies and generates the Freshness.

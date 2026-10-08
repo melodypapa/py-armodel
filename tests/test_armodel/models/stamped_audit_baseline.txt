@@ -226,7 +226,6 @@ SdgContents
 SectionInitializationPolicyType
 SecureCommunicationAuthenticationProps
 SecureCommunicationFreshnessProps
-SecureCommunicationProps
 SecureCommunicationPropsSet
 ServiceDependency
 ServiceVersionAcceptanceKindEnum
