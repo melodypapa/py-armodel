@@ -544,6 +544,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     AbstractGlobalTimeDomainProps,
     CanGlobalTimeDomainProps,
     CalibrationParameterValue,
+    ClientServerOperationComProps,
     CpSoftwareClusterCommunicationResourceProps,
     DataComProps,
     EthGlobalTimeDomainProps,
@@ -13895,6 +13896,13 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeCpSoftwareClusterCommunicationResourceProps(element, props)
         self.setChildElementOptionalLiteral(element, "DATA-CONSISTENCY-POLICY", props.getDataConsistencyPolicy())
         self.setChildElementOptionalLiteral(element, "SEND-INDICATION", props.getSendIndication())
+
+    def writeClientServerOperationComProps(self, element: ET.Element, props: ClientServerOperationComProps):
+        # Populates the CLIENT-SERVER-OPERATION-COM-PROPS element created by the caller; the XSD
+        # CLIENT-SERVER-OPERATION-COM-PROPS group (AUTOSAR_00052.xsd l.17582) follows the (empty)
+        # CP-SOFTWARE-CLUSTER-COMMUNICATION-RESOURCE-PROPS group: QUEUE-LENGTH.
+        self.writeCpSoftwareClusterCommunicationResourceProps(element, props)
+        self.setChildElementOptionalPositiveInteger(element, "QUEUE-LENGTH", cast(Integer, props.getQueueLength()))
 
     def setGlobalTimeProps(self, element: ET.Element, key: str, props: Optional[GlobalTimeCouplingPortProps]):
         if props is not None:

@@ -4219,7 +4219,45 @@ class CanGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
 
 
 class ClientServerOperationComProps(CpSoftwareClusterCommunicationResourceProps):
-    pass
+    """
+    Defines additional attributes for the implementation of Client Server communication between software clusters
+    """
+
+    # ClientServerOperationComProps method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 11.12, p.903
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getQueueLength     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setQueueLength     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # The XSD CLIENT-SERVER-OPERATION-COM-PROPS group (AUTOSAR_00052.xsd l.17582) follows the (empty)
+    # CP-SOFTWARE-CLUSTER-COMMUNICATION-RESOURCE-PROPS group; the reader/writer call the base
+    # readCpSoftwareClusterCommunicationResourceProps / writeCpSoftwareClusterCommunicationResourceProps
+    # helpers exactly once (ARObject level). Aggregator dispatch
+    # (CpSoftwareClusterCommunicationResource.communicationResourceProps) is pending —
+    # CpSoftwareClusterCommunicationResource is an unsynced later-wave class.
+
+    def __init__(self):
+        super().__init__()
+
+        # Length of call request queue on the server side. The queue is implemented by the SwCluC. The value shall be greater or equal to 1. Setting the value of queueLength to 1 implies that incoming requests are rejected while another request that arrived earlier is being processed.
+        self.queueLength: Optional[PositiveInteger] = None
+
+    def getQueueLength(self) -> Optional[PositiveInteger]:
+        """
+        Length of call request queue on the server side. The queue is implemented by the SwCluC. The value shall be greater or equal to 1. Setting the value of queueLength to 1 implies that incoming requests are rejected while another request that arrived earlier is being processed.
+        """
+        return self.queueLength
+
+    def setQueueLength(self, value: Optional[PositiveInteger]) -> ClientServerOperationComProps:
+        """
+        Length of call request queue on the server side. The queue is implemented by the SwCluC. The value shall be greater or equal to 1. Setting the value of queueLength to 1 implies that incoming requests are rejected while another request that arrived earlier is being processed.
+
+        A None value is a no-op and does not overwrite an existing queueLength.
+        """
+        if value is not None:
+            self.queueLength = value
+        return self
 
 
 class DataComProps(CpSoftwareClusterCommunicationResourceProps):

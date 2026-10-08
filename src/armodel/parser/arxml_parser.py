@@ -565,6 +565,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     AbstractGlobalTimeDomainProps,
     CanGlobalTimeDomainProps,
     CalibrationParameterValue,
+    ClientServerOperationComProps,
     CpSoftwareClusterCommunicationResourceProps,
     DataComProps,
     EthGlobalTimeDomainProps,
@@ -16402,6 +16403,13 @@ class ARXMLParser(AbstractARXMLParser):
             send_indication = SendIndicationEnum()
             send_indication.setValue(literal.getValue())
             props.setSendIndication(send_indication)
+        return props
+
+    def readClientServerOperationComProps(self, element: ET.Element, props: ClientServerOperationComProps) -> ClientServerOperationComProps:
+        # The XSD CLIENT-SERVER-OPERATION-COM-PROPS group (AUTOSAR_00052.xsd l.17582) follows the
+        # (empty) CP-SOFTWARE-CLUSTER-COMMUNICATION-RESOURCE-PROPS group: QUEUE-LENGTH.
+        self.readCpSoftwareClusterCommunicationResourceProps(element, props)
+        props.setQueueLength(self.getChildElementOptionalPositiveInteger(element, "QUEUE-LENGTH"))
         return props
 
     def getGlobalTimeProps(self, element: ET.Element, key: str) -> Optional[GlobalTimeCouplingPortProps]:

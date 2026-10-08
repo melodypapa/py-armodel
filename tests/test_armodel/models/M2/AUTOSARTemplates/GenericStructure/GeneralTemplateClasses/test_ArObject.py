@@ -17,6 +17,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     BusMirrorLinPidToCanIdMapping,
     CalibrationParameterValue,
     CanGlobalTimeDomainProps,
+    ClientServerOperationComProps,
     CpSoftwareClusterCommunicationResourceProps,
     DataComProps,
     DdsCpProvidedServiceInstance,
@@ -6220,3 +6221,96 @@ class TestDataComProps:
         )
         assert inspect.cleandoc(DataComProps.getSendIndication.__doc__) == self.SEND_INDICATION_NOTE
         assert inspect.cleandoc(DataComProps.setSendIndication.__doc__) == (self.SEND_INDICATION_NOTE + "\n\nA None value is a no-op and does not overwrite an existing sendIndication.")
+
+
+class TestClientServerOperationComProps:
+    """
+    Test class for ClientServerOperationComProps functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 11.12, p.903
+    """
+
+    CLASS_NOTE = "Defines additional attributes for the implementation of Client Server communication between software clusters"
+    QUEUE_LENGTH_NOTE = "Length of call request queue on the server side. The queue is implemented by the SwCluC. The value shall be greater or equal to 1. Setting the value of queueLength to 1 implies that incoming requests are rejected while another request that arrived earlier is being processed."
+
+    def _create_object(self) -> ClientServerOperationComProps:
+        return ClientServerOperationComProps()
+
+    def test_initialization(self):
+        """
+        Test that a new ClientServerOperationComProps initializes all attributes to their defaults.
+        """
+        obj = self._create_object()
+
+        assert obj.getChecksum() is None
+        assert obj.getTimestamp() is None
+        assert obj.getQueueLength() is None
+
+    def test_is_cp_software_cluster_communication_resource_props_subclass(self):
+        """
+        Test that ClientServerOperationComProps derives from CpSoftwareClusterCommunicationResourceProps
+        per the Table 11.12 Base row (ARObject, CpSoftwareClusterCommunicationResourceProps —
+        most-derived CpSoftwareClusterCommunicationResourceProps).
+        """
+        assert issubclass(ClientServerOperationComProps, CpSoftwareClusterCommunicationResourceProps)
+        assert issubclass(ClientServerOperationComProps, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim (the Table 11.12 Note carries no
+        trailing period).
+        """
+        assert inspect.cleandoc(ClientServerOperationComProps.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert ClientServerOperationComProps.__init__.__doc__ is None
+
+    def test_member_order_follows_spec_rows(self):
+        """
+        Test that the accessors follow the Table 11.12 displayed row order (getter first per attribute).
+        """
+        methods = [name for name, value in ClientServerOperationComProps.__dict__.items() if callable(value) and not name.startswith("_")]
+        assert methods == [
+            "getQueueLength",
+            "setQueueLength",
+        ]
+
+    def test_annotations_are_spec_typed(self):
+        """
+        Test that the accessors carry the spec PositiveInteger type (Table 11.12 Type column).
+        """
+        hints = typing.get_type_hints(ClientServerOperationComProps.getQueueLength)
+        assert hints.get("return") == typing.Optional[PositiveInteger]
+        hints = typing.get_type_hints(ClientServerOperationComProps.setQueueLength)
+        assert hints.get("value") == typing.Optional[PositiveInteger]
+        assert hints.get("return") is ClientServerOperationComProps
+
+    def test_get_set_queue_length(self):
+        """
+        Test setQueueLength and getQueueLength round-trip and None no-op.
+        """
+        obj = self._create_object()
+
+        queue_length = PositiveInteger().setValue("3")
+
+        result = obj.setQueueLength(None)
+        assert result is obj
+        assert obj.getQueueLength() is None
+
+        result = obj.setQueueLength(queue_length)
+        assert result is obj
+        assert obj.getQueueLength() is queue_length
+        assert obj.getQueueLength().getValue() == 3
+
+        obj.setQueueLength(None)
+        assert obj.getQueueLength() is queue_length
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter/setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        assert inspect.cleandoc(ClientServerOperationComProps.getQueueLength.__doc__) == self.QUEUE_LENGTH_NOTE
+        assert inspect.cleandoc(ClientServerOperationComProps.setQueueLength.__doc__) == (self.QUEUE_LENGTH_NOTE + "\n\nA None value is a no-op and does not overwrite an existing queueLength.")
