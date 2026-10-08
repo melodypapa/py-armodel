@@ -158,7 +158,41 @@ class IEEE1722TpAcfLinPart(IEEE1722TpAcfBusPart):
 
 
 class IEEE1722TpAcfCan(IEEE1722TpAcfBus):
-    pass
+    """
+    ACF IEEE1722Tp bus used for CAN transport. Tags: atp.Status=candidate atp.recommendedPackage=IEEE1722TpConnections
+    """
+
+    # IEEE1722TpAcfCan method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.293, p.661
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getMessageType  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMessageType  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # (Base = ARObject, IEEE1722TpAcfBus, Identifiable, MultilanguageReferrable, Referrable — most-derived
+    # base IEEE1722TpAcfBus; concrete (XSD abstract="false"); XSD group IEEE-1722-TP-ACF-BUS carries
+    # VARIATION-POINT — getVariationPoint/setVariationPoint provided by the VariationPointCapable base
+    # (mixin), no spec rows; aggregated by IEEE1722TpAcfConnection.acfTransportedBus only)
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Definition of the ACF CAN stream message type.
+        self.messageType: Optional[IEEE1722TpAcfCanMessageTypeEnum] = None
+
+    def getMessageType(self) -> Optional[IEEE1722TpAcfCanMessageTypeEnum]:
+        """
+        Definition of the ACF CAN stream message type.
+        """
+        return self.messageType
+
+    def setMessageType(self, value: Optional[IEEE1722TpAcfCanMessageTypeEnum]) -> IEEE1722TpAcfCan:
+        """
+        Definition of the ACF CAN stream message type.
+        A None value is a no-op and does not overwrite an existing messageType.
+        """
+        if value is not None:
+            self.messageType = value
+        return self
 
 
 class IEEE1722TpAcfLin(IEEE1722TpAcfBus):

@@ -11202,6 +11202,10 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeIEEE1722TpAcfCan(self, element: ET.Element, bus: IEEE1722TpAcfCan):
         child_element = ET.SubElement(element, "IEEE-1722-TP-ACF-CAN")
         self.writeIEEE1722TpAcfBus(child_element, bus)
+        message_type = bus.getMessageType()
+        if message_type is not None:
+            message_type_element = ET.SubElement(child_element, "MESSAGE-TYPE")
+            message_type_element.text = message_type.getValue()
 
     def writeIEEE1722TpAcfLin(self, element: ET.Element, bus: IEEE1722TpAcfLin):
         child_element = ET.SubElement(element, "IEEE-1722-TP-ACF-LIN")

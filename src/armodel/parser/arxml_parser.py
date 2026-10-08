@@ -1658,6 +1658,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols.IEEE1722Tp.IEEE1722TpAcf import (
     IEEE1722TpAcfBusPart,
     IEEE1722TpAcfCan,
+    IEEE1722TpAcfCanMessageTypeEnum,
     IEEE1722TpAcfCanPart,
     IEEE1722TpAcfLin,
     IEEE1722TpAcfLinPart,
@@ -15109,6 +15110,11 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readIEEE1722TpAcfCan(self, element: ET.Element, bus: IEEE1722TpAcfCan):
         self.readIEEE1722TpAcfBus(element, bus)
+        message_type_literal = self.getChildElementOptionalLiteral(element, "MESSAGE-TYPE")
+        if message_type_literal is not None:
+            message_type = IEEE1722TpAcfCanMessageTypeEnum()
+            message_type.setValue(message_type_literal.getValue())
+            bus.setMessageType(message_type)
 
     def readIEEE1722TpAcfLin(self, element: ET.Element, bus: IEEE1722TpAcfLin):
         self.readIEEE1722TpAcfBus(element, bus)

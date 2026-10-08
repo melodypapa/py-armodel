@@ -1252,15 +1252,27 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `IEEE1722TpAcfCan` — IEEE1722TpAcfBus — R23-11 CP_TPS_SystemTemplate Table 6.293, p.661
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note: Step 1 finding — module hint overridden — spec Package row = ...IEEE1722Tp::IEEE1722TpAcf ->
+    `TransportProtocols/IEEE1722Tp/IEEE1722TpAcf.py` with the family (stub already rebased there in the
+    Bus wave, Rule 0007). Base row most-derived = IEEE1722TpAcfBus (hint chain confirmed); concrete
+    (XSD complexType IEEE-1722-TP-ACF-CAN abstract="false") — no TypeError guard. Single spec attr:
+    messageType (IEEE1722TpAcfCanMessageTypeEnum 0..1 attr → MESSAGE-TYPE value form, AafConnection
+    enum precedent; line-split rendering "IEEE1722TpAcfCan MessageTypeEnum" resolved to the XSD
+    mmt.qualifiedName). XSD element order = the ACF-BUS group (ACF-PARTS/BUS-ID/VARIATION-POINT) then
+    MESSAGE-TYPE last — the reader/writer emit it after the base helper (sequenceOffset order). No
+    VARIATION-POINT in the CAN group itself (inherited via the ACF-BUS group → mixin on the base); no
+    XSD-only extras, no atp.Status="removed" on the attribute. Aggregated by
+    IEEE1722TpAcfConnection.acfTransportedBus only → no ARPackage factory/dispatch; the
+    ACF-TRANSPORTED-BUSS dispatch from b19071285 now flows into the real class.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `IEEE1722TpAcfCanPart` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 6.294, p.661
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
