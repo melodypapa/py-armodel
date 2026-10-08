@@ -7,7 +7,7 @@ exercised through its real call path, readBusMirrorChannelMapping's
 SOURCE-CHANNEL / TARGET-CHANNEL branches.
 """
 
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import BusMirrorChannelMapping
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.BusMirror import BusMirrorChannelMapping
 from tests.test_armodel.parser._helpers import _snip
 
 

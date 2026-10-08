@@ -8,8 +8,7 @@ MIRRORING-PROTOCOL, SOURCE-CHANNEL, TARGET-CHANNEL, TARGET-PDU-TRIGGERINGS.
 import xml.etree.ElementTree as ET
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.BusMirror import BusMirrorChannel, MirroringProtocolEnum
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import BusMirrorChannelMapping
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.BusMirror import BusMirrorChannel, BusMirrorChannelMapping, MirroringProtocolEnum
 from armodel.writer.arxml_writer import ARXMLWriter
 
 

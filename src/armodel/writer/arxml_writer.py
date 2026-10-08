@@ -1224,8 +1224,8 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopolo
     TtcanPhysicalChannel,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanClusterBusOffRecovery, J1939Cluster
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.BusMirror import BusMirrorChannel
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import (
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.BusMirror import (
+    BusMirrorChannel,
     BusMirrorChannelMapping,
     BusMirrorChannelMappingCan,
     BusMirrorChannelMappingFlexray,

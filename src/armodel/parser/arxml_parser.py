@@ -1325,13 +1325,14 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication impor
     TlsVersionEnum,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanControllerConfiguration, CanXlProps
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.BusMirror import BusMirrorChannel, MirroringProtocolEnum
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import (
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.BusMirror import (
+    BusMirrorChannel,
     BusMirrorChannelMapping,
     BusMirrorChannelMappingCan,
     BusMirrorChannelMappingFlexray,
     BusMirrorChannelMappingIp,
     BusMirrorChannelMappingUserDefined,
+    MirroringProtocolEnum,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import BusMirrorCanIdRangeMapping, BusMirrorCanIdToCanIdMapping, BusMirrorLinPidToCanIdMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import CommunicationDirectionType
@@ -10288,7 +10289,11 @@ class ARXMLParser(AbstractARXMLParser):
     def readBusMirrorChannelMapping(self, element: ET.Element, mapping: BusMirrorChannelMapping):
         self.logger.debug("Read BusMirrorChannelMapping <%s>" % mapping.getShortName())
         self.readIdentifiable(element, mapping)
-        mapping.setMirroringProtocol(cast(Optional[MirroringProtocolEnum], self.getChildElementOptionalLiteral(element, "MIRRORING-PROTOCOL")))
+        mirroring_protocol_literal = self.getChildElementOptionalLiteral(element, "MIRRORING-PROTOCOL")
+        if mirroring_protocol_literal is not None:
+            mirroring_protocol = MirroringProtocolEnum()
+            mirroring_protocol.setValue(mirroring_protocol_literal.getValue())
+            mapping.setMirroringProtocol(mirroring_protocol)
         mapping.setSourceChannel(self.getBusMirrorChannel(element, "SOURCE-CHANNEL"))
         mapping.setTargetChannel(self.getBusMirrorChannel(element, "TARGET-CHANNEL"))
         for child_element in self.findall(element, "TARGET-PDU-TRIGGERINGS/PDU-TRIGGERING-REF-CONDITIONAL"):

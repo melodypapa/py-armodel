@@ -273,36 +273,6 @@ STUBS = [
         "ARObject",
     ),
     (
-        "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.__init__",
-        "BusMirrorChannelMapping",
-        "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.__init__",
-        "FibexElement",
-    ),
-    (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
-        "BusMirrorChannelMappingCan",
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
-        "ARObject",
-    ),
-    (
-        "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.__init__",
-        "BusMirrorChannelMappingFlexray",
-        "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.__init__",
-        "BusMirrorChannelMapping",
-    ),
-    (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
-        "BusMirrorChannelMappingIp",
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
-        "ARObject",
-    ),
-    (
-        "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.__init__",
-        "BusMirrorChannelMappingUserDefined",
-        "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.__init__",
-        "BusMirrorChannelMapping",
-    ),
-    (
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
         "BusMirrorLinPidToCanIdMapping",
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",

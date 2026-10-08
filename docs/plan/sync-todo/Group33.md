@@ -1602,15 +1602,49 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `BusMirrorChannelMapping` — FibexElement — R23-11 CP_TPS_SystemTemplate Table 6.325, p.697
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note: drift re-sync of a pre-existing implementation (6-column checklist, NO marker — unreviewed,
+    Rule 0012.1 full workflow; the entry audit was mechanically green, the field-to-spec cross-check
+    both directions was done in this pass). Step 1 finding — spec Package row =
+    SystemTemplate::BusMirror, so the FibexCore hint is stale: the abstract class rehouses to
+    SystemTemplate/BusMirror.py, and the four concrete subtypes move in the SAME commit (their
+    Package row is BusMirror too; splitting the family would create a FibexCore↔BusMirror import
+    cycle — a split abstract-in-BusMirror/subtypes-in-FibexCore is unresolvable without
+    bottom-of-module hacks; the subtype rows are Group34 and will note the early rehousing).
+    Base row most-derived = FibexElement (hint confirmed; chain ARObject → Referrable →
+    MultilanguageReferrable → Identifiable → CollectableElement → PackageableElement → FibexElement).
+    4 attrs in displayed order == XSD group element order (MIRRORING-PROTOCOL / SOURCE-CHANNEL /
+    TARGET-CHANNEL / TARGET-PDU-TRIGGERINGS); mirroringProtocol is typed by MirroringProtocolEnum —
+    synced FIRST per the order adjustment (see that row). No VARIATION-POINT in the group → no
+    mixin (the atpVariation on targetPduTriggering is attribute-level → TARGET-PDU-TRIGGERINGS/
+    PDU-TRIGGERING-REF-CONDITIONAL wrapper, already modeled as targetPduTriggeringRefs). Abstract
+    XML-bearing base owns readBusMirrorChannelMapping/writeBusMirrorChannelMapping; all four subtype
+    helpers call them exactly once (Rule 0025 verified both sides). Section-text constraints
+    constr_5384/3464 render outside the Table 6.325 row group — not appended (AcfCanPart precedent).
+    Known defect fixed in Step 6: MIRRORING-PROTOCOL was read via getChildElementOptionalLiteral +
+    cast (materializes plain ARLiteral — Rule 0013.2 anti-pair, J1939NmNode precedent) → the reader
+    now constructs MirroringProtocolEnum (CanTpConnection precedent).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
+    - Note: no code-shape deviations — field↔spec verified both directions (4 attrs, Optional/List
+      quota shapes match the Mult. column, dedicated typed list field for targetPduTriggeringRefs,
+      verbatim Notes incl. the "target PduTriggering" wrap-space rendering and the mirroringProtocol
+      Note's missing trailing period, both the spec's own). Step 4 wipe: every Note of the abstract
+      class was diffed verbatim against the markdown this pass (character-identical → rewrite is a
+      no-op); the four subtype docstrings belong to the pending Group34 rows and were not touched
+      beyond the rehousing. Rule 0001.10 pending (reported): BusMirrorCanIdRangeMapping/
+      BusMirrorCanIdToCanIdMapping/BusMirrorLinPidToCanIdMapping are still the ArObject.py legacy
+      implementations — Group34 rows; the Can-mapping reader/writer cover their full field sets
+      already (verified green through the CAN dispatch round-trip tests). The subtype rehousing
+      landed early in this commit (see Step 1 note); their stale stub-registry tuples were removed
+      with it. tests/.../Fibex/FibexCore/test_FibexCore.py (BusMirror-only content) was split into
+      the per-class files under tests/.../SystemTemplate/BusMirror/.
 
 - [ ] `MirroringProtocolEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 6.326, p.697
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
