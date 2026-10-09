@@ -27,23 +27,27 @@ class ApplicationInterface(PortInterface):
 
     # ApplicationInterface method parity checklist:
     # Spec: AUTOSAR_FO_TPS_AbstractPlatformSpecification.pdf, Table 3.7, p.28
-    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getAttributes               [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
-    # [x] addAttribute                [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
-    # [x] getCommands                 [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
-    # [x] addCommand                  [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
-    # [x] getIndications              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] addIndication               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] __init__         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAttributes    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAttributes    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addAttribute     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCommands      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCommands      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addCommand       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getIndications   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIndications   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addIndication    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
         # This represents the set of attributes defined in the context of an Abstract Platform ApplicationInterface. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=attribute.shortName, attribute.variation Point.shortLabel atp.Status=draft vh.latestBindingTime=blueprintDerivationTime
         self.attributes: List[Field] = []
+
         # This represents the collection of commands or function calls (with optional data arguments) defined in the context of an ApplicationInterface. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=command.shortName, command.variation Point.shortLabel atp.Status=draft vh.latestBindingTime=blueprintDerivationTime
         self.commands: List[ClientServerOperation] = []
+
         # This represents the collection of indication or events (with optional data argument) defined in the context of an ApplicationInterface. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=indication.shortName, indication.variation Point.shortLabel atp.Status=draft vh.latestBindingTime=blueprintDerivationTime
         self.indications: List[VariableDataPrototype] = []
 

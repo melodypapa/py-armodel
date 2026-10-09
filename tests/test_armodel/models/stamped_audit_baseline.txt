@@ -13,7 +13,6 @@ AnyInstanceRef
 AnyServiceInstanceId
 AnyVersionString
 ApplicationCompositeElementInPortInterfaceInstanceRef
-ApplicationInterface
 ArgumentDirectionEnum
 ArrayValueSpecification
 AsamRecordLayoutSemantics
@@ -258,7 +257,6 @@ SwServiceArg
 SwServiceImplPolicyEnum
 SwSystemconstDependentFormula
 SwSystemconstValue
-SwSystemconstantValueSet
 SwcInternalBehavior
 SystemSignalGroup
 TDEventBsw

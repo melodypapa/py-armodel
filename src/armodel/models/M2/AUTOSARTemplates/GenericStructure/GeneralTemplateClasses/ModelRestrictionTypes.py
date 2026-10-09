@@ -199,7 +199,22 @@ class AbstractValueRestriction(ARObject, ABC):
 
 
 class ValueRestrictionWithSeverity(AbstractValueRestriction):
-    pass
+    """
+    This meta-class represents the ability to restrict the value of an element with a severity. Tags: atp.Recommendation=FOR_STANDARDIZATION
+    """
+
+    # ValueRestrictionWithSeverity method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 6.8, p.87
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # (the table declares no attribute rows of its own; the severity element is covered by the
+    #  own reader/writer pair via the RESTRICTION-WITH-SEVERITY branch of the tailoring readers)
+
+    def __init__(self):
+        if type(self) is ValueRestrictionWithSeverity:
+            raise TypeError("ValueRestrictionWithSeverity is an abstract class.")
+
+        super().__init__()
 
 
 class AbstractVariationRestriction(ARObject, ABC):
@@ -276,4 +291,18 @@ class AbstractVariationRestriction(ARObject, ABC):
 
 
 class VariationRestrictionWithSeverity(AbstractVariationRestriction):
-    pass
+    """
+    This meta-class represents the ability to restrict the variation of an element with a severity. Tags: atp.Recommendation=FOR_STANDARDIZATION
+    """
+
+    # VariationRestrictionWithSeverity method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 6.12, p.88
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # (no own attribute rows; validBindingTime is inherited from AbstractVariationRestriction)
+
+    def __init__(self):
+        if type(self) is VariationRestrictionWithSeverity:
+            raise TypeError("VariationRestrictionWithSeverity is an abstract class.")
+
+        super().__init__()

@@ -558,10 +558,24 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest imp
     BuildActionInvocator,
     BuildEngineeringObject,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef, FunctionGroupStateInFunctionGroupSetInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import AtpMixedString
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    MultiplicityRestrictionWithSeverity,
+    AggregationCondition,
+    Baseline,
+    DataFormatTailoring,
+    InvertCondition,
+    PrimitiveAttributeCondition,
+    ReferenceCondition,
+    SpecificationScope,
+    TextualCondition,
+    FMAttributeValue,
+    IdsmSignatureSupportAp,
+    IdsmSignatureSupportCp,
+    SecurityEventContextData,
+    FMFeatureDecomposition,
     AbstractGlobalTimeDomainProps,
     CalibrationParameterValue,
     RoleBasedResourceDependency,
@@ -617,11 +631,35 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     AbstractValueRestriction,
     AbstractVariationRestriction,
     FullBindingTimeEnum,
+    VariationRestrictionWithSeverity,
+    ValueRestrictionWithSeverity,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (
     EvaluatedVariantSet,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, CalibrationParameterValueSet, PhysicalDimensionMappingSet, ReferenceBase
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARPackage,
+    DataExchangePoint,
+    SecurityEventContextMapping,
+    SecurityEventFilterChain,
+    SecurityEventDefinition,
+    SecurityEventContextMappingFunctionalCluster,
+    SecurityEventContextMappingCommConnector,
+    SecurityEventContextMappingBswModule,
+    SecurityEventContextMappingApplication,
+    IdsmInstance,
+    IdsDesign,
+    LogAndTraceMessageCollectionSet,
+    PostBuildVariantCriterionValueSet,
+    IdsmProperties,
+    CalibrationParameterValueSet,
+    FMFeature,
+    FMFeatureMap,
+    FMFeatureModel,
+    FMFeatureSelectionSet,
+    PhysicalDimensionMappingSet,
+    ReferenceBase,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import AclObjectSet, AclOperation, AclPermission, AclRole
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import DiagnosticCustomServiceInstance, DiagnosticMapping
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
@@ -743,6 +781,29 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Enumerations import BindingTimeEnum, XmlSpaceEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    FMAttributeDef,
+    AggregationTailoring,
+    ClassContentConditional,
+    ConstraintTailoring,
+    ConcreteClassTailoring,
+    DocumentElementScope,
+    PrimitiveAttributeTailoring,
+    ReferenceTailoring,
+    SpecificationDocumentScope,
+    SecurityEventAggregationFilter,
+    SecurityEventContextProps,
+    SecurityEventOneEveryNFilter,
+    SecurityEventStateFilter,
+    SecurityEventThresholdFilter,
+    BlockState,
+    IdsmRateLimitation,
+    IdsmTrafficLimitation,
+    FMFeatureMapAssertion,
+    FMFeatureMapCondition,
+    FMFeatureMapElement,
+    FMFeatureRelation,
+    FMFeatureRestriction,
+    FMFeatureSelection,
     BinaryManifestMetaDataField,
     CpSoftwareClusterResource,
     DdsCpConsumedServiceInstance,
@@ -765,10 +826,13 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Referrable,
     ShortNameFragment,
     SingleLanguageReferrable,
+    AbstractClassTailoring,
+    SdgTailoring,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultidimensionalTime import MultidimensionalTime
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    FMFeatureSelectionState,
     ARLiteral,
     AclScopeEnum,
     AlignmentType,
@@ -844,6 +908,10 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     VerbatimString,
     VerbatimStringPlain,
     ViewTokens,
+    SecurityEventReportingModeEnum,
+    DataExchangePointKind,
+    SecurityEventContextDataSourceEnum,
+    DefaultValueApplicationStrategyEnum,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.LifeCycles import LifeCycleInfo, LifeCycleInfoSet, LifeCyclePeriod
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (
@@ -2379,6 +2447,571 @@ class ARXMLParser(AbstractARXMLParser):
         if isinstance(formula, FMFormulaByFeaturesAndAttributes):
             self.readFMFormulaByFeaturesAndAttributes(element, formula)
         return formula
+
+    def readFMAttributeValue(self, element: ET.Element, value: FMAttributeValue) -> FMAttributeValue:
+        self.readARObject(element, value)
+        value.setDefinitionRef(self.getChildElementOptionalRefType(element, "DEFINITION-REF"))
+        value.setValue(self.getChildElementOptionalNumericalValue(element, "VALUE"))
+        return value
+
+    def readFMFeatureDecomposition(self, element: ET.Element, decomposition: FMFeatureDecomposition) -> FMFeatureDecomposition:
+        self.readARObject(element, decomposition)
+        decomposition.setCategory(self.getChildElementOptionalCategoryString(element, "CATEGORY"))
+        for ref in self.getChildElementRefTypeList(element, "FEATURE-REFS/FEATURE-REF"):
+            decomposition.addFeatureRef(ref)
+        decomposition.setMax(self.getChildElementOptionalPositiveInteger(element, "MAX"))
+        decomposition.setMin(self.getChildElementOptionalPositiveInteger(element, "MIN"))
+        return decomposition
+
+    def readFMAttributeDef(self, element: ET.Element, attribute_def: FMAttributeDef) -> FMAttributeDef:
+        self.readIdentifiable(element, attribute_def)
+        attribute_def.setDefaultValue(self.getChildElementOptionalNumericalValue(element, "DEFAULT-VALUE"))
+        attribute_def.setMax(self.getChildLimitElement(element, "MAX"))
+        attribute_def.setMin(self.getChildLimitElement(element, "MIN"))
+        return attribute_def
+
+    def readFMFeatureRestriction(self, element: ET.Element, restriction: FMFeatureRestriction) -> FMFeatureRestriction:
+        self.readIdentifiable(element, restriction)
+        restriction_element = self.find(element, "RESTRICTION")
+        if restriction_element is not None:
+            restriction.setRestriction(self.readFMConditionByFeaturesAndAttributes(restriction_element, FMConditionByFeaturesAndAttributes()))
+        return restriction
+
+    def readFMFeatureRelation(self, element: ET.Element, relation: FMFeatureRelation) -> FMFeatureRelation:
+        self.readIdentifiable(element, relation)
+        for ref in self.getChildElementRefTypeList(element, "FEATURE-REFS/FEATURE-REF"):
+            relation.addFeatureRef(ref)
+        restriction_element = self.find(element, "RESTRICTION")
+        if restriction_element is not None:
+            relation.setRestriction(self.readFMConditionByFeaturesAndAttributes(restriction_element, FMConditionByFeaturesAndAttributes()))
+        return relation
+
+    def readFMFeatureSelection(self, element: ET.Element, selection: FMFeatureSelection) -> FMFeatureSelection:
+        self.readIdentifiable(element, selection)
+        selection.setFeatureRef(self.getChildElementOptionalRefType(element, "FEATURE-REF"))
+        state_literal = self.getChildElementOptionalLiteral(element, "STATE")
+        if state_literal is not None:
+            selection.setState(FMFeatureSelectionState().setValue(state_literal.getValue()))
+        selection.setMinimumSelectedBindingTime(self.getBindingTimeEnumElement(element, "MINIMUM-SELECTED-BINDING-TIME"))
+        selection.setMaximumSelectedBindingTime(self.getBindingTimeEnumElement(element, "MAXIMUM-SELECTED-BINDING-TIME"))
+        for child_element in self.findall(element, "ATTRIBUTE-VALUES/FM-ATTRIBUTE-VALUE"):
+            selection.addAttributeValue(self.readFMAttributeValue(child_element, FMAttributeValue()))
+        return selection
+
+    def readFMFeatureMapCondition(self, element: ET.Element, condition: FMFeatureMapCondition) -> FMFeatureMapCondition:
+        self.readIdentifiable(element, condition)
+        cond_element = self.find(element, "FM-COND")
+        if cond_element is not None:
+            condition.setFmCond(self.readFMConditionByFeaturesAndAttributes(cond_element, FMConditionByFeaturesAndAttributes()))
+        return condition
+
+    def readFMFeatureMapAssertion(self, element: ET.Element, assertion: FMFeatureMapAssertion) -> FMFeatureMapAssertion:
+        self.readIdentifiable(element, assertion)
+        cond_element = self.find(element, "FM-SYSCOND")
+        if cond_element is not None:
+            assertion.setFmSyscond(self.readFMConditionByFeaturesAndSwSystemconsts(cond_element, FMConditionByFeaturesAndSwSystemconsts()))
+        return assertion
+
+    def readFMFeatureMapElement(self, element: ET.Element, map_element: FMFeatureMapElement) -> FMFeatureMapElement:
+        self.readIdentifiable(element, map_element)
+        for child_element in self.findall(element, "ASSERTIONS/FM-FEATURE-MAP-ASSERTION"):
+            assertion = FMFeatureMapAssertion(map_element, self.getShortName(child_element))
+            self.readFMFeatureMapAssertion(child_element, assertion)
+            map_element.addAssertion(assertion)
+        for child_element in self.findall(element, "CONDITIONS/FM-FEATURE-MAP-CONDITION"):
+            condition = FMFeatureMapCondition(map_element, self.getShortName(child_element))
+            self.readFMFeatureMapCondition(child_element, condition)
+            map_element.addCondition(condition)
+        for ref in self.getChildElementRefTypeList(element, "POST-BUILD-VARIANT-CRITERION-VALUE-SET-REFS/POST-BUILD-VARIANT-CRITERION-VALUE-SET-REF"):
+            map_element.addPostBuildVariantCriterionValueSetRef(ref)
+        for ref in self.getChildElementRefTypeList(element, "SW-SYSTEMCONSTANT-VALUE-SET-REFS/SW-SYSTEMCONSTANT-VALUE-SET-REF"):
+            map_element.addSwSystemconstantValueSetRef(ref)
+        return map_element
+
+    def readFMFeature(self, element: ET.Element, feature: FMFeature) -> FMFeature:
+        self.readIdentifiable(element, feature)
+        for child_element in self.findall(element, "ATTRIBUTE-DEFS/FM-ATTRIBUTE-DEF"):
+            attribute_def = FMAttributeDef(feature, self.getShortName(child_element))
+            self.readFMAttributeDef(child_element, attribute_def)
+            feature.addAttributeDef(attribute_def)
+        for child_element in self.findall(element, "DECOMPOSITIONS/FM-FEATURE-DECOMPOSITION"):
+            decomposition = FMFeatureDecomposition()
+            self.readFMFeatureDecomposition(child_element, decomposition)
+            feature.addDecomposition(decomposition)
+        feature.setMaximumIntendedBindingTime(self.getBindingTimeEnumElement(element, "MAXIMUM-INTENDED-BINDING-TIME"))
+        feature.setMinimumIntendedBindingTime(self.getBindingTimeEnumElement(element, "MINIMUM-INTENDED-BINDING-TIME"))
+        for child_element in self.findall(element, "RELATIONS/FM-FEATURE-RELATION"):
+            relation = FMFeatureRelation(feature, self.getShortName(child_element))
+            self.readFMFeatureRelation(child_element, relation)
+            feature.addRelation(relation)
+        for child_element in self.findall(element, "RESTRICTIONS/FM-FEATURE-RESTRICTION"):
+            restriction = FMFeatureRestriction(feature, self.getShortName(child_element))
+            self.readFMFeatureRestriction(child_element, restriction)
+            feature.addRestriction(restriction)
+        return feature
+
+    def readFMFeatureModel(self, element: ET.Element, feature_model: FMFeatureModel) -> FMFeatureModel:
+        self.readIdentifiable(element, feature_model)
+        for ref in self.getChildElementRefTypeList(element, "FEATURE-REFS/FEATURE-REF"):
+            feature_model.addFeatureRef(ref)
+        feature_model.setRootRef(self.getChildElementOptionalRefType(element, "ROOT-REF"))
+        return feature_model
+
+    def readFMFeatureSelectionSet(self, element: ET.Element, selection_set: FMFeatureSelectionSet) -> FMFeatureSelectionSet:
+        self.readIdentifiable(element, selection_set)
+        for ref in self.getChildElementRefTypeList(element, "FEATURE-MODEL-REFS/FEATURE-MODEL-REF"):
+            selection_set.addFeatureModelRef(ref)
+        for ref in self.getChildElementRefTypeList(element, "INCLUDE-REFS/INCLUDE-REF"):
+            selection_set.addIncludeRef(ref)
+        for child_element in self.findall(element, "SELECTIONS/FM-FEATURE-SELECTION"):
+            selection = FMFeatureSelection(selection_set, self.getShortName(child_element))
+            self.readFMFeatureSelection(child_element, selection)
+            selection_set.addSelection(selection)
+        return selection_set
+
+    def readFMFeatureMap(self, element: ET.Element, feature_map: FMFeatureMap) -> FMFeatureMap:
+        self.readIdentifiable(element, feature_map)
+        for child_element in self.findall(element, "MAPPINGS/FM-FEATURE-MAP-ELEMENT"):
+            map_element = FMFeatureMapElement(feature_map, self.getShortName(child_element))
+            self.readFMFeatureMapElement(child_element, map_element)
+            feature_map.addMapping(map_element)
+        return feature_map
+
+    def readIdsmRateLimitation(self, element: ET.Element, limitation: IdsmRateLimitation) -> IdsmRateLimitation:
+        self.readIdentifiable(element, limitation)
+        limitation.setMaxEventsInInterval(self.getChildElementOptionalPositiveInteger(element, "MAX-EVENTS-IN-INTERVAL"))
+        limitation.setTimeInterval(self.getChildElementOptionalFloatValue(element, "TIME-INTERVAL"))
+        return limitation
+
+    def readIdsmTrafficLimitation(self, element: ET.Element, limitation: IdsmTrafficLimitation) -> IdsmTrafficLimitation:
+        self.readIdentifiable(element, limitation)
+        limitation.setMaxBytesInInterval(self.getChildElementOptionalPositiveInteger(element, "MAX-BYTES-IN-INTERVAL"))
+        limitation.setTimeInterval(self.getChildElementOptionalFloatValue(element, "TIME-INTERVAL"))
+        return limitation
+
+    def readPostBuildVariantCriterionValueSet(self, element: ET.Element, value_set: PostBuildVariantCriterionValueSet) -> PostBuildVariantCriterionValueSet:
+        self.readIdentifiable(element, value_set)
+        for child_element in self.findall(element, "POST-BUILD-VARIANT-CRITERION-VALUES/POST-BUILD-VARIANT-CRITERION-VALUE"):
+            value = PostBuildVariantCriterionValue()
+            self.readPostBuildVariantCriterionValue(child_element, value)
+            value_set.addPostBuildVariantCriterionValue(value)
+        return value_set
+
+    def readLogAndTraceMessageCollectionSet(self, element: ET.Element, collection_set: LogAndTraceMessageCollectionSet) -> LogAndTraceMessageCollectionSet:
+        self.readIdentifiable(element, collection_set)
+        for child_element in self.findall(element, "DLT-MESSAGES/DLT-MESSAGE"):
+            message = DltMessage(collection_set, self.getShortName(child_element))
+            self.readDltMessage(child_element, message)
+            collection_set.addDltMessage(message)
+        return collection_set
+
+    def readSecurityEventStateFilter(self, element: ET.Element, state_filter: SecurityEventStateFilter) -> SecurityEventStateFilter:
+        self.readIdentifiable(element, state_filter)
+        for child_element in self.findall(element, "BLOCK-IF-STATE-ACTIVE-AP-IREFS/BLOCK-IF-STATE-ACTIVE-AP-IREF"):
+            iref = FunctionGroupStateInFunctionGroupSetInstanceRef()
+            iref.setContextModeDeclarationGroupPrototypeRef(self.getChildElementOptionalRefType(child_element, "CONTEXT-MODE-DECLARATION-GROUP-PROTOTYPE-REF"))
+            iref.setTargetModeDeclarationRef(self.getChildElementOptionalRefType(child_element, "TARGET-MODE-DECLARATION-REF"))
+            state_filter.addBlockIfStateActiveApIref(iref)
+        for ref in self.getChildElementRefTypeList(element, "BLOCK-IF-STATE-ACTIVE-CP-REFS/BLOCK-IF-STATE-ACTIVE-CP-REF"):
+            state_filter.addBlockIfStateActiveCpRef(ref)
+        return state_filter
+
+    def readSecurityEventOneEveryNFilter(self, element: ET.Element, one_every_n_filter: SecurityEventOneEveryNFilter) -> SecurityEventOneEveryNFilter:
+        self.readIdentifiable(element, one_every_n_filter)
+        one_every_n_filter.setN(self.getChildElementOptionalPositiveInteger(element, "N"))
+        return one_every_n_filter
+
+    def readSecurityEventAggregationFilter(self, element: ET.Element, aggregation_filter: SecurityEventAggregationFilter) -> SecurityEventAggregationFilter:
+        self.readIdentifiable(element, aggregation_filter)
+        context_data_source = self.getChildElementOptionalLiteral(element, "CONTEXT-DATA-SOURCE")
+        if context_data_source is not None:
+            aggregation_filter.setContextDataSource(SecurityEventContextDataSourceEnum().setValue(context_data_source.getValue()))
+        aggregation_filter.setMinimumIntervalLength(self.getChildElementOptionalTimeValue(element, "MINIMUM-INTERVAL-LENGTH"))
+        return aggregation_filter
+
+    def readSecurityEventThresholdFilter(self, element: ET.Element, threshold_filter: SecurityEventThresholdFilter) -> SecurityEventThresholdFilter:
+        self.readIdentifiable(element, threshold_filter)
+        threshold_filter.setIntervalLength(self.getChildElementOptionalTimeValue(element, "INTERVAL-LENGTH"))
+        threshold_filter.setThresholdNumber(self.getChildElementOptionalPositiveInteger(element, "THRESHOLD-NUMBER"))
+        return threshold_filter
+
+    def readSecurityEventContextProps(self, element: ET.Element, props: SecurityEventContextProps) -> SecurityEventContextProps:
+        self.readIdentifiable(element, props)
+        context_data_elements = self.findall(element, "CONTEXT-DATAS/SECURITY-EVENT-CONTEXT-DATA")
+        if len(context_data_elements) > 0:
+            props.setContextData(self.readSecurityEventContextData(context_data_elements[0], SecurityEventContextData()))
+        default_reporting_mode = self.getChildElementOptionalLiteral(element, "DEFAULT-REPORTING-MODE")
+        if default_reporting_mode is not None:
+            props.setDefaultReportingMode(SecurityEventReportingModeEnum().setValue(default_reporting_mode.getValue()))
+        persistent_storage = self.getChildElementOptionalLiteral(element, "PERSISTENT-STORAGE")
+        if persistent_storage is not None:
+            boolean = Boolean()
+            boolean.setValue(persistent_storage.getValue())
+            props.setPersistentStorage(boolean)
+        security_event_elements = self.findall(element, "SECURITY-EVENTS/SECURITY-EVENT-DEFINITION-REF-CONDITIONAL")
+        if len(security_event_elements) > 0:
+            props.setSecurityEventRef(self.getChildElementOptionalRefType(security_event_elements[0], "SECURITY-EVENT-DEFINITION-REF"))
+        props.setSensorInstanceId(self.getChildElementOptionalPositiveInteger(element, "SENSOR-INSTANCE-ID"))
+        props.setSeverity(self.getChildElementOptionalPositiveInteger(element, "SEVERITY"))
+        self.readVariationPointCapable(element, props)
+        return props
+
+    def readSecurityEventContextMappingContents(self, element: ET.Element, mapping: SecurityEventContextMapping) -> SecurityEventContextMapping:
+        filter_chain_elements = self.findall(element, "FILTER-CHAINS/SECURITY-EVENT-FILTER-CHAIN-REF-CONDITIONAL")
+        if len(filter_chain_elements) > 0:
+            mapping.setFilterChainRef(self.getChildElementOptionalRefType(filter_chain_elements[0], "SECURITY-EVENT-FILTER-CHAIN-REF"))
+        idsm_instance_elements = self.findall(element, "IDSM-INSTANCES/IDSM-INSTANCE-REF-CONDITIONAL")
+        if len(idsm_instance_elements) > 0:
+            mapping.setIdsmInstanceRef(self.getChildElementOptionalRefType(idsm_instance_elements[0], "IDSM-INSTANCE-REF"))
+        for child_element in self.findall(element, "MAPPED-SECURITY-EVENTS/SECURITY-EVENT-CONTEXT-PROPS"):
+            props = SecurityEventContextProps(mapping, self.getShortName(child_element))
+            self.readSecurityEventContextProps(child_element, props)
+            mapping.addMappedSecurityEvent(props)
+        return mapping
+
+    def readSecurityEventContextMappingBswModule(self, element: ET.Element, mapping: SecurityEventContextMappingBswModule) -> SecurityEventContextMappingBswModule:
+        self.readIdentifiable(element, mapping)
+        self.readSecurityEventContextMappingContents(element, mapping)
+        mapping.setAffectedBswModule(self.getChildElementOptionalString(element, "AFFECTED-BSW-MODULE"))
+        return mapping
+
+    def readSecurityEventContextMappingFunctionalCluster(self, element: ET.Element, mapping: SecurityEventContextMappingFunctionalCluster) -> SecurityEventContextMappingFunctionalCluster:
+        self.readIdentifiable(element, mapping)
+        self.readSecurityEventContextMappingContents(element, mapping)
+        mapping.setAffectedFunctionalCluster(self.getChildElementOptionalString(element, "AFFECTED-FUNCTIONAL-CLUSTER"))
+        return mapping
+
+    def readSecurityEventContextMappingCommConnector(self, element: ET.Element, mapping: SecurityEventContextMappingCommConnector) -> SecurityEventContextMappingCommConnector:
+        self.readIdentifiable(element, mapping)
+        self.readSecurityEventContextMappingContents(element, mapping)
+        comm_connector_elements = self.findall(element, "COMM-CONNECTORS/COMMUNICATION-CONNECTOR-REF-CONDITIONAL")
+        if len(comm_connector_elements) > 0:
+            mapping.setCommunicationConnectorRef(self.getChildElementOptionalRefType(comm_connector_elements[0], "COMMUNICATION-CONNECTOR-REF"))
+        return mapping
+
+    def readSecurityEventContextMappingApplication(self, element: ET.Element, mapping: SecurityEventContextMappingApplication) -> SecurityEventContextMappingApplication:
+        self.readIdentifiable(element, mapping)
+        self.readSecurityEventContextMappingContents(element, mapping)
+        mapping.setAffectedApplication(self.getChildElementOptionalString(element, "AFFECTED-APPLICATION"))
+        return mapping
+
+    def readSecurityEventDefinition(self, element: ET.Element, definition: SecurityEventDefinition) -> SecurityEventDefinition:
+        self.readIdentifiable(element, definition)
+        event_symbol_name = self.find(element, "EVENT-SYMBOL-NAME")
+        if event_symbol_name is not None:
+            definition.setEventSymbolName(self.readSymbolProps(event_symbol_name, SymbolProps(definition, self.getShortName(event_symbol_name))))
+        definition.setId(self.getChildElementOptionalPositiveInteger(element, "ID"))
+        return definition
+
+    def readSecurityEventFilterChain(self, element: ET.Element, filter_chain: SecurityEventFilterChain) -> SecurityEventFilterChain:
+        self.readIdentifiable(element, filter_chain)
+        aggregation = self.find(element, "AGGREGATION")
+        if aggregation is not None:
+            filter_chain.setAggregation(self.readSecurityEventAggregationFilter(aggregation, SecurityEventAggregationFilter(filter_chain, self.getShortName(aggregation))))
+        one_every_n = self.find(element, "ONE-EVERY-N")
+        if one_every_n is not None:
+            filter_chain.setOneEveryN(self.readSecurityEventOneEveryNFilter(one_every_n, SecurityEventOneEveryNFilter(filter_chain, self.getShortName(one_every_n))))
+        state = self.find(element, "STATE")
+        if state is not None:
+            filter_chain.setState(self.readSecurityEventStateFilter(state, SecurityEventStateFilter(filter_chain, self.getShortName(state))))
+        threshold = self.find(element, "THRESHOLD")
+        if threshold is not None:
+            filter_chain.setThreshold(self.readSecurityEventThresholdFilter(threshold, SecurityEventThresholdFilter(filter_chain, self.getShortName(threshold))))
+        return filter_chain
+
+    def readIdsDesign(self, element: ET.Element, ids_design: IdsDesign) -> IdsDesign:
+        self.readIdentifiable(element, ids_design)
+        for child_element in self.findall(element, "ELEMENTS/IDS-COMMON-ELEMENT-REF-CONDITIONAL"):
+            element_ref = self.getChildElementOptionalRefType(child_element, "IDS-COMMON-ELEMENT-REF")
+            if element_ref is not None:
+                ids_design.addElementRef(element_ref)
+        return ids_design
+
+    def readIdsmInstance(self, element: ET.Element, idsm_instance: IdsmInstance) -> IdsmInstance:
+        self.readIdentifiable(element, idsm_instance)
+        for child_element in self.findall(element, "BLOCK-STATES/BLOCK-STATE"):
+            block_state = BlockState(idsm_instance, self.getShortName(child_element))
+            self.readIdentifiable(child_element, block_state)
+            idsm_instance.addBlockState(block_state)
+        ecu_instance_elements = self.findall(element, "ECU-INSTANCES/ECU-INSTANCE-REF-CONDITIONAL")
+        if len(ecu_instance_elements) > 0:
+            idsm_instance.setEcuInstanceRef(self.getChildElementOptionalRefType(ecu_instance_elements[0], "ECU-INSTANCE-REF"))
+        idsm_instance.setIdsmInstanceId(self.getChildElementOptionalPositiveInteger(element, "IDSM-INSTANCE-ID"))
+        idsm_instance.setIdsmModuleInstantiationRef(self.getChildElementOptionalRefType(element, "IDSM-MODULE-INSTANTIATION-REF"))
+        for child_element in self.findall(element, "RATE-LIMITATION-FILTERS/IDSM-RATE-LIMITATION-REF-CONDITIONAL"):
+            rate_limitation_ref = self.getChildElementOptionalRefType(child_element, "IDSM-RATE-LIMITATION-REF")
+            if rate_limitation_ref is not None:
+                idsm_instance.addRateLimitationFilterRef(rate_limitation_ref)
+        signature_support_ap = self.find(element, "SIGNATURE-SUPPORT-AP")
+        if signature_support_ap is not None:
+            idsm_instance.setSignatureSupportAp(self.readIdsmSignatureSupportAp(signature_support_ap, IdsmSignatureSupportAp()))
+        signature_support_cp = self.find(element, "SIGNATURE-SUPPORT-CP")
+        if signature_support_cp is not None:
+            idsm_instance.setSignatureSupportCp(self.readIdsmSignatureSupportCp(signature_support_cp, IdsmSignatureSupportCp()))
+        idsm_instance.setTimestampFormat(self.getChildElementOptionalString(element, "TIMESTAMP-FORMAT"))
+        for child_element in self.findall(element, "TRAFFIC-LIMITATION-FILTERS/IDSM-TRAFFIC-LIMITATION-REF-CONDITIONAL"):
+            traffic_limitation_ref = self.getChildElementOptionalRefType(child_element, "IDSM-TRAFFIC-LIMITATION-REF")
+            if traffic_limitation_ref is not None:
+                idsm_instance.addTrafficLimitationFilterRef(traffic_limitation_ref)
+        return idsm_instance
+
+    def readConditionByTag(self, element: ET.Element) -> Optional[Any]:
+        tag_name = self.getTagName(element)
+        condition: Any = None
+        if tag_name == "AGGREGATION-CONDITION":
+            condition = AggregationCondition()
+            self.readAggregationCondition(element, condition)
+            return condition
+        if tag_name == "INVERT-CONDITION":
+            condition = InvertCondition()
+            self.readInvertCondition(element, condition)
+            return condition
+        if tag_name == "PRIMITIVE-ATTRIBUTE-CONDITION":
+            condition = PrimitiveAttributeCondition()
+            self.readPrimitiveAttributeCondition(element, condition)
+            return condition
+        if tag_name == "REFERENCE-CONDITION":
+            condition = ReferenceCondition()
+            self.readReferenceCondition(element, condition)
+            return condition
+        if tag_name == "TEXTUAL-CONDITION":
+            condition = TextualCondition()
+            self.readTextualCondition(element, condition)
+            return condition
+        return None
+
+    def readAggregationCondition(self, element: ET.Element, condition: AggregationCondition) -> AggregationCondition:
+        self.readARObject(element, condition)
+        condition.setAggregationRef(self.getChildElementOptionalRefType(element, "AGGREGATION-REF"))
+        return condition
+
+    def readPrimitiveAttributeCondition(self, element: ET.Element, condition: PrimitiveAttributeCondition) -> PrimitiveAttributeCondition:
+        self.readARObject(element, condition)
+        condition.setAttributeRef(self.getChildElementOptionalRefType(element, "ATTRIBUTE-REF"))
+        return condition
+
+    def readReferenceCondition(self, element: ET.Element, condition: ReferenceCondition) -> ReferenceCondition:
+        self.readARObject(element, condition)
+        condition.setReferenceRef(self.getChildElementOptionalRefType(element, "REFERENCE-REF"))
+        return condition
+
+    def readTextualCondition(self, element: ET.Element, condition: TextualCondition) -> TextualCondition:
+        self.readARObject(element, condition)
+        return condition
+
+    def readInvertCondition(self, element: ET.Element, condition: InvertCondition) -> InvertCondition:
+        self.readARObject(element, condition)
+        for child_element in self.findall(element, "CONDITIONS/*"):
+            condition.setCondition(self.readConditionByTag(child_element))
+        return condition
+
+    def readBaseline(self, element: ET.Element, baseline: Baseline) -> Baseline:
+        self.readARObject(element, baseline)
+        for child_element in self.findall(element, "STANDARD-REVISIONS/STANDARD-REVISION"):
+            value = String()
+            value.setValue(child_element.text if child_element.text else "")
+            baseline.addStandardRevision(value)
+        for ref in self.getChildElementRefTypeList(element, "CUSTOM-SPECIFICATION-REFS/CUSTOM-SPECIFICATION-REF"):
+            baseline.addCustomSpecificationRef(ref)
+        for ref in self.getChildElementRefTypeList(element, "CUSTOM-SDG-DEF-REFS/CUSTOM-SDG-DEF-REF"):
+            baseline.addCustomSdgDefRef(ref)
+        return baseline
+
+    def readSpecificationScope(self, element: ET.Element, specification_scope: SpecificationScope) -> SpecificationScope:
+        self.readARObject(element, specification_scope)
+        for child_element in self.findall(element, "SPECIFICATION-DOCUMENT-SCOPES/SPECIFICATION-DOCUMENT-SCOPE"):
+            scope = SpecificationDocumentScope(specification_scope, self.getShortName(child_element))
+            self.readSpecificationDocumentScope(child_element, scope)
+            specification_scope.addSpecificationDocumentScope(scope)
+        return specification_scope
+
+    def readSpecificationDocumentScope(self, element: ET.Element, scope: SpecificationDocumentScope) -> SpecificationDocumentScope:
+        self.readIdentifiable(element, scope)
+        scope.setCustomDocumentationRef(self.getChildElementOptionalRefType(element, "CUSTOM-DOCUMENTATION-REF"))
+        for child_element in self.findall(element, "DOCUMENT-ELEMENT-SCOPES/DOCUMENT-ELEMENT-SCOPE"):
+            element_scope = DocumentElementScope(scope, self.getShortName(child_element))
+            self.readDocumentElementScope(child_element, element_scope)
+            scope.addDocumentElementScope(element_scope)
+        return scope
+
+    def readDocumentElementScope(self, element: ET.Element, scope: DocumentElementScope) -> DocumentElementScope:
+        self.readIdentifiable(element, scope)
+        scope.setCustomDocumentElementRef(self.getChildElementOptionalRefType(element, "CUSTOM-DOCUMENT-ELEMENT-REF"))
+        for ref in self.getChildElementRefTypeList(element, "TAILORING-REFS/TAILORING-REF"):
+            scope.addTailoringRef(ref)
+        return scope
+
+    def readClassTailoringContents(self, element: ET.Element, class_tailoring: Any) -> Any:
+        multiplicity_restriction = self.find(element, "MULTIPLICITY-RESTRICTION")
+        if multiplicity_restriction is not None:
+            class_tailoring.setMultiplicityRestriction(self.readMultiplicityRestrictionWithSeverity(multiplicity_restriction, MultiplicityRestrictionWithSeverity()))
+        variation_restriction = self.find(element, "VARIATION-RESTRICTION")
+        if variation_restriction is not None:
+            class_tailoring.setVariationRestriction(self.readVariationRestrictionWithSeverity(variation_restriction, VariationRestrictionWithSeverity()))
+        for child_element in self.findall(element, "CLASS-CONTENTS/CLASS-CONTENT-CONDITIONAL"):
+            content = ClassContentConditional(class_tailoring, self.getShortName(child_element))
+            self.readClassContentConditional(child_element, content)
+            class_tailoring.addClassContent(content)
+        return class_tailoring
+
+    def readMultiplicityRestrictionWithSeverity(self, element: ET.Element, restriction: MultiplicityRestrictionWithSeverity) -> MultiplicityRestrictionWithSeverity:
+        self.readARObject(element, restriction)
+        return restriction
+
+    def readVariationRestrictionWithSeverity(self, element: ET.Element, restriction: VariationRestrictionWithSeverity) -> VariationRestrictionWithSeverity:
+        self.readARObject(element, restriction)
+        valid_binding_time = self.getChildElementOptionalLiteral(element, "VALID-BINDING-TIME")
+        if valid_binding_time is not None:
+            valid_binding_times = [FullBindingTimeEnum().setValue(valid_binding_time.getValue())]
+            restriction.setValidBindingTimes(valid_binding_times)
+        return restriction
+
+    def readClassContentConditional(self, element: ET.Element, content: ClassContentConditional) -> ClassContentConditional:
+        self.readIdentifiable(element, content)
+        for child_element in self.findall(element, "CONDITIONS/*"):
+            content.setCondition(self.readConditionByTag(child_element))
+        for child_element in self.findall(element, "ATTRIBUTE-TAILORINGS/*"):
+            tag_name = self.getTagName(child_element)
+            tailoring: Any = None
+            if tag_name == "PRIMITIVE-ATTRIBUTE-TAILORING":
+                tailoring = PrimitiveAttributeTailoring(content, self.getShortName(child_element))
+                self.readPrimitiveAttributeTailoring(child_element, tailoring)
+            elif tag_name == "AGGREGATION-TAILORING":
+                tailoring = AggregationTailoring(content, self.getShortName(child_element))
+                self.readAggregationTailoring(child_element, tailoring)
+            elif tag_name == "REFERENCE-TAILORING":
+                tailoring = ReferenceTailoring(content, self.getShortName(child_element))
+                self.readReferenceTailoring(child_element, tailoring)
+            if tailoring is not None:
+                self.readIdentifiable(child_element, tailoring)
+                content.addAttributeTailoring(tailoring)
+        for child_element in self.findall(element, "CONSTRAINT-TAILORINGS/CONSTRAINT-TAILORING"):
+            tailoring = ConstraintTailoring(content, self.getShortName(child_element))
+            self.readIdentifiable(child_element, tailoring)
+            content.addConstraintTailoring(tailoring)
+        for child_element in self.findall(element, "SDG-TAILORINGS/SDG-TAILORING"):
+            tailoring = SdgTailoring(content, self.getShortName(child_element))
+            self.readIdentifiable(child_element, tailoring)
+            content.addSdgTailoring(tailoring)
+        return content
+
+    def readPrimitiveAttributeTailoring(self, element: ET.Element, tailoring: PrimitiveAttributeTailoring) -> PrimitiveAttributeTailoring:
+        self.readIdentifiable(element, tailoring)
+        default_value_handling = self.getChildElementOptionalLiteral(element, "DEFAULT-VALUE-HANDLING")
+        if default_value_handling is not None:
+            tailoring.setDefaultValueHandling(DefaultValueApplicationStrategyEnum().setValue(default_value_handling.getValue()))
+        for child_element in self.findall(element, "SUB-ATTRIBUTE-TAILORINGS/PRIMITIVE-ATTRIBUTE-TAILORING"):
+            sub_tailoring = PrimitiveAttributeTailoring(tailoring, self.getShortName(child_element))
+            self.readPrimitiveAttributeTailoring(child_element, sub_tailoring)
+            tailoring.addSubAttributeTailoring(sub_tailoring)
+        value_restriction_element = self.find(element, "VALUE-RESTRICTION")
+        if value_restriction_element is not None:
+            tailoring.setValueRestriction(self.readValueRestrictionWithSeverity(value_restriction_element, ValueRestrictionWithSeverity()))
+        return tailoring
+
+    def readValueRestrictionWithSeverity(self, element: ET.Element, restriction: ValueRestrictionWithSeverity) -> ValueRestrictionWithSeverity:
+        self.readARObject(element, restriction)
+        return restriction
+
+    def readAggregationTailoring(self, element: ET.Element, tailoring: AggregationTailoring) -> AggregationTailoring:
+        self.readIdentifiable(element, tailoring)
+        for child_element in self.findall(element, "TYPE-TAILORINGS/*"):
+            tag_name = self.getTagName(child_element)
+            class_tailoring: Any
+            if tag_name == "ABSTRACT-CLASS-TAILORING":
+                class_tailoring = AbstractClassTailoring(tailoring, self.getShortName(child_element))
+            elif tag_name == "CONCRETE-CLASS-TAILORING":
+                class_tailoring = ConcreteClassTailoring(tailoring, self.getShortName(child_element))
+            else:
+                continue
+            self.readClassTailoringContents(child_element, class_tailoring)
+            tailoring.addTypeTailoring(class_tailoring)
+        return tailoring
+
+    def readReferenceTailoring(self, element: ET.Element, tailoring: ReferenceTailoring) -> ReferenceTailoring:
+        self.readIdentifiable(element, tailoring)
+        for child_element in self.findall(element, "TYPE-TAILORINGS/*"):
+            tag_name = self.getTagName(child_element)
+            class_tailoring: Any
+            if tag_name == "ABSTRACT-CLASS-TAILORING":
+                class_tailoring = AbstractClassTailoring(tailoring, self.getShortName(child_element))
+            elif tag_name == "CONCRETE-CLASS-TAILORING":
+                class_tailoring = ConcreteClassTailoring(tailoring, self.getShortName(child_element))
+            else:
+                continue
+            self.readClassTailoringContents(child_element, class_tailoring)
+            tailoring.addTypeTailoring(class_tailoring)
+        return tailoring
+
+    def readDataExchangePoint(self, element: ET.Element, data_exchange_point: DataExchangePoint) -> DataExchangePoint:
+        self.readIdentifiable(element, data_exchange_point)
+        kind = self.getChildElementOptionalLiteral(element, "KIND")
+        if kind is not None:
+            data_exchange_point.setKind(DataExchangePointKind().setValue(kind.getValue()))
+        referenced_baseline = self.find(element, "REFERENCED-BASELINE")
+        if referenced_baseline is not None:
+            data_exchange_point.setReferencedBaseline(self.readBaseline(referenced_baseline, Baseline()))
+        specification_scope = self.find(element, "SPECIFICATION-SCOPE")
+        if specification_scope is not None:
+            data_exchange_point.setSpecificationScope(self.readSpecificationScope(specification_scope, SpecificationScope()))
+        data_format_tailoring = self.find(element, "DATA-FORMAT-TAILORING")
+        if data_format_tailoring is not None:
+            data_exchange_point.setDataFormatTailoring(self.readDataFormatTailoring(data_format_tailoring, DataFormatTailoring()))
+        return data_exchange_point
+
+    def readDataFormatTailoring(self, element: ET.Element, tailoring: DataFormatTailoring) -> DataFormatTailoring:
+        self.readARObject(element, tailoring)
+        for child_element in self.findall(element, "CLASS-TAILORINGS/*"):
+            tag_name = self.getTagName(child_element)
+            class_tailoring: Any
+            if tag_name == "ABSTRACT-CLASS-TAILORING":
+                class_tailoring = AbstractClassTailoring(tailoring, self.getShortName(child_element))
+            elif tag_name == "CONCRETE-CLASS-TAILORING":
+                class_tailoring = ConcreteClassTailoring(tailoring, self.getShortName(child_element))
+            else:
+                continue
+            self.readClassTailoringContents(child_element, class_tailoring)
+            tailoring.addClassTailoring(class_tailoring)
+        for child_element in self.findall(element, "CONSTRAINT-TAILORINGS/CONSTRAINT-TAILORING"):
+            constraint_tailoring = ConstraintTailoring(tailoring, self.getShortName(child_element))
+            self.readIdentifiable(child_element, constraint_tailoring)
+            tailoring.addConstraintTailoring(constraint_tailoring)
+        return tailoring
+
+    def readIdsmSignatureSupportAp(self, element: ET.Element, signature_support: IdsmSignatureSupportAp) -> IdsmSignatureSupportAp:
+        self.readARObject(element, signature_support)
+        signature_support.setCryptoPrimitive(self.getChildElementOptionalString(element, "CRYPTO-PRIMITIVE"))
+        signature_support.setKeySlotRef(self.getChildElementOptionalRefType(element, "KEY-SLOT-REF"))
+        return signature_support
+
+    def readIdsmSignatureSupportCp(self, element: ET.Element, signature_support: IdsmSignatureSupportCp) -> IdsmSignatureSupportCp:
+        self.readARObject(element, signature_support)
+        signature_support.setAuthenticationRef(self.getChildElementOptionalRefType(element, "AUTHENTICATION-REF"))
+        signature_support.setCryptoServiceKeyRef(self.getChildElementOptionalRefType(element, "CRYPTO-SERVICE-KEY-REF"))
+        return signature_support
+
+    def readSecurityEventContextData(self, element: ET.Element, context_data: SecurityEventContextData) -> SecurityEventContextData:
+        self.readARObject(element, context_data)
+        self.readVariationPointCapable(element, context_data)
+        return context_data
+
+    def readIdsmProperties(self, element: ET.Element, idsm_properties: IdsmProperties) -> IdsmProperties:
+        self.readIdentifiable(element, idsm_properties)
+        for child_element in self.findall(element, "RATE-LIMITATION-FILTERS/IDSM-RATE-LIMITATION"):
+            rate_limitation = IdsmRateLimitation(idsm_properties, self.getShortName(child_element))
+            self.readIdsmRateLimitation(child_element, rate_limitation)
+            idsm_properties.addRateLimitationFilter(rate_limitation)
+        for child_element in self.findall(element, "TRAFFIC-LIMITATION-FILTERS/IDSM-TRAFFIC-LIMITATION"):
+            traffic_limitation = IdsmTrafficLimitation(idsm_properties, self.getShortName(child_element))
+            self.readIdsmTrafficLimitation(child_element, traffic_limitation)
+            idsm_properties.addTrafficLimitationFilter(traffic_limitation)
+        return idsm_properties
+
+    def getBindingTimeEnumElement(self, element: ET.Element, key: str) -> Optional[BindingTimeEnum]:
+        literal = self.getChildElementOptionalLiteral(element, key)
+        if literal is not None:
+            return BindingTimeEnum().setValue(literal.getValue())
+        return None
 
     def readPostBuildVariantCondition(self, element: ET.Element, condition: PostBuildVariantCondition) -> PostBuildVariantCondition:
         self.readARObject(element, condition)
@@ -19511,6 +20144,54 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "VFB-TIMING":
                 vfb_timing = parent.createVfbTiming(self.getShortName(child_element))
                 self.readVfbTiming(child_element, vfb_timing)
+            elif tag_name == "IDSM-PROPERTIES":
+                idsm_properties = parent.createIdsmProperties(self.getShortName(child_element))
+                self.readIdsmProperties(child_element, idsm_properties)
+            elif tag_name == "DATA-EXCHANGE-POINT":
+                data_exchange_point = parent.createDataExchangePoint(self.getShortName(child_element))
+                self.readDataExchangePoint(child_element, data_exchange_point)
+            elif tag_name == "IDS-DESIGN":
+                ids_design = parent.createIdsDesign(self.getShortName(child_element))
+                self.readIdsDesign(child_element, ids_design)
+            elif tag_name == "SECURITY-EVENT-DEFINITION":
+                definition = parent.createSecurityEventDefinition(self.getShortName(child_element))
+                self.readSecurityEventDefinition(child_element, definition)
+            elif tag_name == "SECURITY-EVENT-FILTER-CHAIN":
+                filter_chain = parent.createSecurityEventFilterChain(self.getShortName(child_element))
+                self.readSecurityEventFilterChain(child_element, filter_chain)
+            elif tag_name == "IDSM-INSTANCE":
+                idsm_instance = parent.createIdsmInstance(self.getShortName(child_element))
+                self.readIdsmInstance(child_element, idsm_instance)
+            elif tag_name == "SECURITY-EVENT-CONTEXT-MAPPING-BSW-MODULE":
+                sec_mapping = parent.createSecurityEventContextMappingBswModule(self.getShortName(child_element))
+                self.readSecurityEventContextMappingBswModule(child_element, sec_mapping)
+            elif tag_name == "SECURITY-EVENT-CONTEXT-MAPPING-FUNCTIONAL-CLUSTER":
+                fc_mapping = parent.createSecurityEventContextMappingFunctionalCluster(self.getShortName(child_element))
+                self.readSecurityEventContextMappingFunctionalCluster(child_element, fc_mapping)
+            elif tag_name == "SECURITY-EVENT-CONTEXT-MAPPING-COMM-CONNECTOR":
+                cc_mapping = parent.createSecurityEventContextMappingCommConnector(self.getShortName(child_element))
+                self.readSecurityEventContextMappingCommConnector(child_element, cc_mapping)
+            elif tag_name == "SECURITY-EVENT-CONTEXT-MAPPING-APPLICATION":
+                app_mapping = parent.createSecurityEventContextMappingApplication(self.getShortName(child_element))
+                self.readSecurityEventContextMappingApplication(child_element, app_mapping)
+            elif tag_name == "POST-BUILD-VARIANT-CRITERION-VALUE-SET":
+                value_set = parent.createPostBuildVariantCriterionValueSet(self.getShortName(child_element))
+                self.readPostBuildVariantCriterionValueSet(child_element, value_set)
+            elif tag_name == "LOG-AND-TRACE-MESSAGE-COLLECTION-SET":
+                collection_set = parent.createLogAndTraceMessageCollectionSet(self.getShortName(child_element))
+                self.readLogAndTraceMessageCollectionSet(child_element, collection_set)
+            elif tag_name == "FM-FEATURE":
+                feature = parent.createFMFeature(self.getShortName(child_element))
+                self.readFMFeature(child_element, feature)
+            elif tag_name == "FM-FEATURE-MODEL":
+                feature_model = parent.createFMFeatureModel(self.getShortName(child_element))
+                self.readFMFeatureModel(child_element, feature_model)
+            elif tag_name == "FM-FEATURE-SELECTION-SET":
+                selection_set = parent.createFMFeatureSelectionSet(self.getShortName(child_element))
+                self.readFMFeatureSelectionSet(child_element, selection_set)
+            elif tag_name == "FM-FEATURE-MAP":
+                feature_map = parent.createFMFeatureMap(self.getShortName(child_element))
+                self.readFMFeatureMap(child_element, feature_map)
             elif tag_name == "SYSTEM-TIMING":
                 system_timing = parent.createSystemTiming(self.getShortName(child_element))
                 self.readSystemTiming(child_element, system_timing)
