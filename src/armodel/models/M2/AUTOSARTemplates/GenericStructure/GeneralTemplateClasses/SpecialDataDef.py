@@ -71,6 +71,7 @@ class SdgAttribute(Identifiable, AbstractMultiplicityRestriction, ABC):
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.27, p.100
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # Spec verified: R23-11
 
     def __init__(self, parent, short_name: str):
         if type(self) is SdgAttribute:
