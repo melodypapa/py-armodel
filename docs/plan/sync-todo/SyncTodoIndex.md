@@ -879,7 +879,7 @@ Status: **28/55** completed
 | Class Name                           | Status       | Commit ID  |
 | ------------------------------------ | ------------ | ---------- |
 | `Identifier`                         | [x] Done     | 6336d00e15 |
-| `LLongName`                          | [x] Done*    | N/A        |
+| `LLongName`                          | [x] Done     | c09bc8067d |
 | `MixedContentForLongName`            | [x] Done*    | N/A        |
 | `Referrable`                         | [x] Done*    | N/A        |
 | `ReferrableSubtypesEnum`             | [x] Done     | a097cb3d4f |

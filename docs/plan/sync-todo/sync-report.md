@@ -10,8 +10,8 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 858 | 45.1% |
-| [x] Deferred | 24 | 1.3% |
+| [x] Done | 859 | 45.2% |
+| [x] Deferred | 23 | 1.2% |
 | [x] Retired | 0 | 0.0% |
 | [ ] Deferred | 861 | 45.3% |
 | [ ] Implemented | 38 | 2.0% |
@@ -1165,7 +1165,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `KeywordSet`                                            | [x] Done    | a6a1d31ccc                               | Group7           |
 | `LEnum`                                                 | [x] Done    | 4566d4d4f7                               | Group22          |
 | `LGraphic`                                              | [x] Done    | e4b1acf6c9                               | Group3           |
-| `LLongName`                                             | [x] Deferred| N/A                                      | Group21          |
+| `LLongName`                                             | [x] Done    | c09bc8067d                               | Group21          |
 | `LOverviewParagraph`                                    | [x] Done    | 764ef1c589                               | Group9           |
 | `LParagraph`                                            | [x] Done    | 7fa4a01f74                               | Group3           |
 | `LPlainText`                                            | [x] Done    | 1de91de480                               | Group9           |
