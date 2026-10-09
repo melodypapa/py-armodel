@@ -26,10 +26,10 @@ class SdgElementWithGid(ARObject, ABC):
 
     # SdgElementWithGid method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.25, p.99
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] getGid    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setGid    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # Spec verified: R23-11
 
     # Class-level default — the ONLY initialization (VariationPointCapable mixin
     # pattern): the repo's Referrable.__init__ calls ARObject.__init__ directly
@@ -69,9 +69,9 @@ class SdgAttribute(Identifiable, AbstractMultiplicityRestriction, ABC):
 
     # SdgAttribute method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.27, p.100
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # Spec verified: R23-11
 
     def __init__(self, parent, short_name: str):
         if type(self) is SdgAttribute:
@@ -87,6 +87,7 @@ class SdgClass(SdgElementWithGid, Identifiable):
 
     # SdgClass method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.26, p.100
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
     # [x] addAttribute          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
@@ -97,7 +98,6 @@ class SdgClass(SdgElementWithGid, Identifiable):
     # [x] setExtendsMetaClass   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] addSdgConstraintRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getSdgConstraintRefs  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # Spec verified: R23-11
 
     def __init__(self, parent, short_name: str):
         super().__init__(parent, short_name)
