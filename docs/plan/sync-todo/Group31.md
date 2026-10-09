@@ -1474,7 +1474,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-10 (24820 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit db8b2fb95
 
 - [ ] `LinEventTriggeredFrame` — LinFrame — R23-11 CP_TPS_SystemTemplate Table 6.92, p.430
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Lin/LinCommunication.py
@@ -1486,7 +1486,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-10 (24820 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit db8b2fb95
 
 - [ ] `ScheduleTableEntry` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.96, p.433
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Lin/LinCommunication.py
