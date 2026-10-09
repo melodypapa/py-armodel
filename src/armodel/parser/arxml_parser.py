@@ -778,6 +778,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     GlobalTimeCanSlave,
     GlobalTimeEthMaster,
     GlobalTimeEthSlave,
+    GlobalTimeFrMaster,
     GlobalTimeGateway,
     GlobalTimeMaster,
     GlobalTimeSlave,
@@ -16394,6 +16395,17 @@ class ARXMLParser(AbstractARXMLParser):
             crc_validated.setValue(literal.getValue())
             slave.setCrcValidated(crc_validated)
         return slave
+
+    def readGlobalTimeFrMaster(self, element: ET.Element, master: GlobalTimeFrMaster) -> GlobalTimeFrMaster:
+        # The XSD GLOBAL-TIME-FR-MASTER group (AUTOSAR_00052.xsd l.64775) follows the
+        # GLOBAL-TIME-MASTER group and carries only the CRC-SECURED element.
+        self.readGlobalTimeMaster(element, master)
+        literal = self.getChildElementOptionalLiteral(element, "CRC-SECURED")
+        if literal is not None:
+            crc_secured = GlobalTimeCrcSupportEnum()
+            crc_secured.setValue(literal.getValue())
+            master.setCrcSecured(crc_secured)
+        return master
 
     def readGlobalTimeEthMaster(self, element: ET.Element, master: GlobalTimeEthMaster) -> GlobalTimeEthMaster:
         # The XSD GLOBAL-TIME-ETH-MASTER group (AUTOSAR_00052.xsd l.64689) follows the

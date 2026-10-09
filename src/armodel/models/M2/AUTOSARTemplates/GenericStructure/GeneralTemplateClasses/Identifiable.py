@@ -3142,7 +3142,43 @@ class GlobalTimeEthMaster(GlobalTimeMaster):
 
 
 class GlobalTimeFrMaster(GlobalTimeMaster):
-    pass
+    """
+    This represents the specialization of the GlobalTimeMaster for Flexray communication.
+    """
+
+    # GlobalTimeFrMaster method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.20, p.877
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCrcSecured   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCrcSecured   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # The reader/writer call the Table 9.4 base helpers (readGlobalTimeMaster /
+    # writeGlobalTimeMaster) exactly once; the XSD GLOBAL-TIME-FR-MASTER group
+    # (AUTOSAR_00052.xsd l.64775) carries only the CRC-SECURED element. Aggregator dispatch
+    # (GlobalTimeDomain.globalTimeMaster) is pending — GlobalTimeDomain is a later-wave class.
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Definition of whether or not CRC is supported. This is only relevant for selected bus systems.
+        self.crcSecured: Optional[GlobalTimeCrcSupportEnum] = None
+
+    def getCrcSecured(self) -> Optional[GlobalTimeCrcSupportEnum]:
+        """
+        Definition of whether or not CRC is supported. This is only relevant for selected bus systems.
+        """
+        return self.crcSecured
+
+    def setCrcSecured(self, value: Optional[GlobalTimeCrcSupportEnum]) -> GlobalTimeFrMaster:
+        """
+        Definition of whether or not CRC is supported. This is only relevant for selected bus systems.
+
+        A None value is a no-op and does not overwrite an existing crcSecured.
+        """
+        if value is not None:
+            self.crcSecured = value
+        return self
 
 
 class IEEE1722TpAcfCan(IEEE1722TpAcfBus):
