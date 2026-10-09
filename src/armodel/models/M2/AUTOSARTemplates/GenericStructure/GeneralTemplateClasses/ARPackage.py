@@ -2862,6 +2862,13 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(element)
         return cast(SignalServiceTranslationPropsSet, self.getReferrableElement(short_name, SignalServiceTranslationPropsSet))
 
+    def createTransformationPropsSet(self, short_name: str) -> TransformationPropsSet:
+
+        if not self.IsReferrableElementExists(short_name, TransformationPropsSet):
+            element = TransformationPropsSet(self, short_name)
+            self.addReferrableElement(element)
+        return cast(TransformationPropsSet, self.getReferrableElement(short_name, TransformationPropsSet))
+
     def createISignalIPdu(self, short_name: str) -> ISignalIPdu:
 
         if not self.IsReferrableElementExists(short_name, ISignalIPdu):
@@ -5406,6 +5413,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.EnvironmentalCondition
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.MeasurementAndCalibration.InterpolationRoutineMappingSet import InterpolationRoutineMappingSet  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import SwcImplementation  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate import ClientIdDefinitionSet, CpSoftwareCluster, CpSoftwareClusterMappingSet, System  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import SOMEIPTransformationProps, TransformationProps, UserDefinedTransformationProps  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import OsTaskProxy  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import ApplicationPartition, J1939ControllerApplication  # noqa: E402
@@ -13141,4 +13149,54 @@ class LogAndTraceMessageCollectionSet(ARElement):
 
 
 class TransformationPropsSet(ARElement):
-    pass
+    """
+    Collection of TransformationProps. Tags: atp.recommendedPackage=TransformationPropsSets
+    """
+
+    # TransformationPropsSet method parity checklist:
+    # Spec: R23-11/AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.14, p.782
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createSOMEIPTransformationProps       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createUserDefinedTransformationProps  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTransformationProps                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    #
+    # Table 7.14 models the single `*` aggr row transformationProps -> TransformationProps
+    # (abstract). Per Rule 0001.6 an abstract aggregated Identifiable child gets one
+    # createXxx factory per concrete subtype; the XSD TRANSFORMATION-PROPSS wrapper
+    # (AUTOSAR_00052.xsd l.125546) carries a third choice member AP-SOMEIP-TRANSFORMATION-PROPS
+    # whose class belongs to the AdaptivePlatform corpus (upstream AUTOSAR_AP_TPS_SystemDesign,
+    # no CP_TPS table, no codebase class) — the reader records it via notImplemented, the
+    # writer dispatches on the implemented subtypes only.
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Transformer specific configuration properties.
+        self.transformationProps: List[TransformationProps] = []
+
+    def createSOMEIPTransformationProps(self, short_name: str) -> SOMEIPTransformationProps:
+        """
+        Transformer specific configuration properties.
+        """
+        if not self.IsReferrableElementExists(short_name, SOMEIPTransformationProps):
+            element = SOMEIPTransformationProps(self, short_name)
+            self.addReferrableElement(element)
+            self.transformationProps.append(element)
+        return cast(SOMEIPTransformationProps, self.getReferrableElement(short_name, SOMEIPTransformationProps))
+
+    def createUserDefinedTransformationProps(self, short_name: str) -> UserDefinedTransformationProps:
+        """
+        Transformer specific configuration properties.
+        """
+        if not self.IsReferrableElementExists(short_name, UserDefinedTransformationProps):
+            element = UserDefinedTransformationProps(self, short_name)
+            self.addReferrableElement(element)
+            self.transformationProps.append(element)
+        return cast(UserDefinedTransformationProps, self.getReferrableElement(short_name, UserDefinedTransformationProps))
+
+    def getTransformationProps(self) -> List[TransformationProps]:
+        """
+        Transformer specific configuration properties.
+        """
+        return self.transformationProps

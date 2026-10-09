@@ -674,6 +674,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     FMFeatureSelectionSet,
     PhysicalDimensionMappingSet,
     ReferenceBase,
+    TransformationPropsSet,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import AclObjectSet, AclOperation, AclPermission, AclRole
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import DiagnosticCustomServiceInstance, DiagnosticMapping
@@ -17214,6 +17215,21 @@ class ARXMLParser(AbstractARXMLParser):
         props.setRateCorrectionsPerMeasurementDuration(self.getChildElementOptionalPositiveInteger(element, "RATE-CORRECTIONS-PER-MEASUREMENT-DURATION"))
         return props
 
+    def readTransformationPropsSet(self, element: ET.Element, props_set: TransformationPropsSet) -> TransformationPropsSet:
+        self.logger.debug("Read TransformationPropsSet <%s>" % props_set.getShortName())
+        self.readIdentifiable(element, props_set)
+        wrapper_element = self.find(element, "TRANSFORMATION-PROPSS")
+        if wrapper_element is not None:
+            for child_element in self.findall(wrapper_element, "*"):
+                tag_name = self.getPureTagName(child_element.tag)
+                if tag_name == "SOMEIP-TRANSFORMATION-PROPS":
+                    self.readSOMEIPTransformationProps(child_element, props_set.createSOMEIPTransformationProps(self.getShortName(child_element)))
+                elif tag_name == "USER-DEFINED-TRANSFORMATION-PROPS":
+                    self.readUserDefinedTransformationProps(child_element, props_set.createUserDefinedTransformationProps(self.getShortName(child_element)))
+                else:
+                    self.notImplemented("Unsupported Element type of TransformationPropsSet <%s>" % tag_name)
+        return props_set
+
     def readTransformationProps(self, element: ET.Element, props: TransformationProps) -> TransformationProps:
         # The XSD TRANSFORMATION-PROPS group (AUTOSAR_00052.xsd l.125529) has an empty sequence,
         # so the helper owns the Identifiable level of the concrete subclass element
@@ -20746,6 +20762,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "SIGNAL-SERVICE-TRANSLATION-PROPS-SET":
                 props_set = parent.createSignalServiceTranslationPropsSet(self.getShortName(child_element))
                 self.readSignalServiceTranslationPropsSet(child_element, props_set)
+            elif tag_name == "TRANSFORMATION-PROPS-SET":
+                transformation_props_set = parent.createTransformationPropsSet(self.getShortName(child_element))
+                self.readTransformationPropsSet(child_element, transformation_props_set)
             elif tag_name == "ECUC-VALUE-COLLECTION":
                 self.readEcucValueCollection(child_element, parent.createEcucValueCollection(self.getShortName(child_element)))
             elif tag_name == "ETH-IP-PROPS":

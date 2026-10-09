@@ -446,6 +446,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     FMFeatureModel,
     FMFeatureSelectionSet,
     ReferenceBase,
+    TransformationPropsSet,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import AclObjectSet, AclOperation, AclPermission, AclRole
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import DiagnosticCustomServiceInstance, DiagnosticMapping
@@ -14791,6 +14792,21 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalTimeValue(child_element, "RATE-CORRECTION-MEASUREMENT-DURATION", props.getRateCorrectionMeasurementDuration())
         self.setChildElementOptionalPositiveInteger(child_element, "RATE-CORRECTIONS-PER-MEASUREMENT-DURATION", cast(Integer, props.getRateCorrectionsPerMeasurementDuration()))
 
+    def writeTransformationPropsSet(self, element: ET.Element, props_set: TransformationPropsSet):
+        self.logger.debug("TransformationPropsSet %s" % props_set.getShortName())
+        child_element = ET.SubElement(element, "TRANSFORMATION-PROPS-SET")
+        self.writeIdentifiable(child_element, props_set)
+        props_list = props_set.getTransformationProps()
+        if len(props_list) > 0:
+            wrapper_element = ET.SubElement(child_element, "TRANSFORMATION-PROPSS")
+            for props in props_list:
+                if isinstance(props, SOMEIPTransformationProps):
+                    self.writeSOMEIPTransformationProps(ET.SubElement(wrapper_element, "SOMEIP-TRANSFORMATION-PROPS"), props)
+                elif isinstance(props, UserDefinedTransformationProps):
+                    self.writeUserDefinedTransformationProps(ET.SubElement(wrapper_element, "USER-DEFINED-TRANSFORMATION-PROPS"), props)
+                else:
+                    self.notImplemented("Unsupported TransformationProps subtype <%s>" % type(props).__name__)
+
     def writeTransformationProps(self, element: ET.Element, props: TransformationProps):
         # Populates the concrete subclass element (AP-SOMEIP-/SOMEIP-/USER-DEFINED-
         # TRANSFORMATION-PROPS) created by the caller; the XSD TRANSFORMATION-PROPS group
@@ -21176,6 +21192,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeSystemSignal(element, ar_element)
         elif isinstance(ar_element, SignalServiceTranslationPropsSet):
             self.writeSignalServiceTranslationPropsSet(element, ar_element)
+        elif isinstance(ar_element, TransformationPropsSet):
+            self.writeTransformationPropsSet(element, ar_element)
         elif isinstance(ar_element, ParameterInterface):
             self.writeParameterInterface(element, ar_element)
         elif isinstance(ar_element, NvDataInterface):
