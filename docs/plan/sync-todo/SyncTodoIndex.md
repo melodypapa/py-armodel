@@ -874,65 +874,65 @@ Status: **29/29** completed
 
 ## Group21
 
-Status: **23/55** completed
+Status: **25/55** completed
 
-| Class Name                           | Status       | Commit ID |
-| ------------------------------------ | ------------ | --------- |
-| `Identifier`                         | [x] Done*    | N/A       |
-| `LLongName`                          | [x] Done*    | N/A       |
-| `MixedContentForLongName`            | [x] Done*    | N/A       |
-| `Referrable`                         | [x] Done*    | N/A       |
-| `ReferrableSubtypesEnum`             | [ ] Pending* | N/A       |
-| `SdgDef`                             | [ ] Pending* | N/A       |
-| `SdgElementWithGid`                  | [ ] Pending* | N/A       |
-| `SdgClass`                           | [ ] Pending* | N/A       |
-| `SdgAttribute`                       | [ ] Pending* | N/A       |
-| `SdgAbstractPrimitiveAttribute`      | [ ] Pending* | N/A       |
-| `SdgPrimitiveAttribute`              | [ ] Pending* | N/A       |
-| `SdgPrimitiveAttributeWithVariation` | [ ] Pending* | N/A       |
-| `SdgAggregationWithVariation`        | [ ] Pending* | N/A       |
-| `SdgReference`                       | [ ] Pending* | N/A       |
-| `SdgAbstractForeignReference`        | [ ] Pending* | N/A       |
-| `SdgForeignReference`                | [ ] Pending* | N/A       |
-| `SdgForeignReferenceWithVariation`   | [ ] Pending* | N/A       |
-| `AbstractValueRestriction`           | [ ] Pending* | N/A       |
-| `AbstractVariationRestriction`       | [ ] Pending* | N/A       |
-| `FullBindingTimeEnum`                | [ ] Pending* | N/A       |
-| `CIdentifier`                        | [ ] Pending* | N/A       |
-| `CategoryString`                     | [ ] Pending* | N/A       |
-| `DateTime`                           | [ ] Pending* | N/A       |
-| `DiagRequirementIdString`            | [ ] Pending* | N/A       |
-| `Ip4AddressString`                   | [ ] Pending* | N/A       |
-| `Ip6AddressString`                   | [ ] Pending* | N/A       |
-| `McdIdentifier`                      | [ ] Pending* | N/A       |
-| `RegularExpression`                  | [ ] Pending* | N/A       |
-| `RevisionLabelString`                | [ ] Pending* | N/A       |
-| `SymbolString`                       | [ ] Pending* | N/A       |
-| `UriString`                          | [ ] Pending* | N/A       |
-| `VerbatimStringPlain`                | [ ] Pending* | N/A       |
-| `CseCodeType`                        | [ ] Pending* | N/A       |
-| `EvaluatedVariantSet`                | [ ] Pending* | N/A       |
-| `PredefinedVariant`                  | [x] Done*    | N/A       |
-| `DocumentationBlock`                 | [x] Done*    | N/A       |
-| `MultiLanguageVerbatim`              | [x] Done*    | N/A       |
-| `List`                               | [x] Done*    | N/A       |
-| `LabeledList`                        | [x] Done*    | N/A       |
-| `LabeledItem`                        | [x] Done*    | N/A       |
-| `IndentSample`                       | [x] Done*    | N/A       |
-| `ItemLabelPosEnum`                   | [x] Done*    | N/A       |
-| `DefList`                            | [x] Done*    | N/A       |
-| `DefItem`                            | [x] Done*    | N/A       |
-| `MlFormula`                          | [x] Done*    | N/A       |
-| `Note`                               | [x] Done*    | N/A       |
-| `NoteTypeEnum`                       | [x] Done*    | N/A       |
-| `Traceable`                          | [x] Done*    | N/A       |
-| `EmphasisText`                       | [x] Done*    | N/A       |
-| `IndexEntry`                         | [x] Done*    | N/A       |
-| `Superscript`                        | [x] Done*    | N/A       |
-| `Tt`                                 | [x] Done*    | N/A       |
-| `EEnumFont`                          | [ ] Pending* | N/A       |
-| `EEnum`                              | [ ] Pending* | N/A       |
-| `DocumentationContext`               | [x] Done*    | N/A       |
+| Class Name                           | Status       | Commit ID  |
+| ------------------------------------ | ------------ | ---------- |
+| `Identifier`                         | [x] Done*    | N/A        |
+| `LLongName`                          | [x] Done*    | N/A        |
+| `MixedContentForLongName`            | [x] Done*    | N/A        |
+| `Referrable`                         | [x] Done*    | N/A        |
+| `ReferrableSubtypesEnum`             | [x] Done     | a097cb3d4f |
+| `SdgDef`                             | [x] Done     | c7d3958065 |
+| `SdgElementWithGid`                  | [ ] Pending* | N/A        |
+| `SdgClass`                           | [ ] Pending* | N/A        |
+| `SdgAttribute`                       | [ ] Pending* | N/A        |
+| `SdgAbstractPrimitiveAttribute`      | [ ] Pending* | N/A        |
+| `SdgPrimitiveAttribute`              | [ ] Pending* | N/A        |
+| `SdgPrimitiveAttributeWithVariation` | [ ] Pending* | N/A        |
+| `SdgAggregationWithVariation`        | [ ] Pending* | N/A        |
+| `SdgReference`                       | [ ] Pending* | N/A        |
+| `SdgAbstractForeignReference`        | [ ] Pending* | N/A        |
+| `SdgForeignReference`                | [ ] Pending* | N/A        |
+| `SdgForeignReferenceWithVariation`   | [ ] Pending* | N/A        |
+| `AbstractValueRestriction`           | [ ] Pending* | N/A        |
+| `AbstractVariationRestriction`       | [ ] Pending* | N/A        |
+| `FullBindingTimeEnum`                | [ ] Pending* | N/A        |
+| `CIdentifier`                        | [ ] Pending* | N/A        |
+| `CategoryString`                     | [ ] Pending* | N/A        |
+| `DateTime`                           | [ ] Pending* | N/A        |
+| `DiagRequirementIdString`            | [ ] Pending* | N/A        |
+| `Ip4AddressString`                   | [ ] Pending* | N/A        |
+| `Ip6AddressString`                   | [ ] Pending* | N/A        |
+| `McdIdentifier`                      | [ ] Pending* | N/A        |
+| `RegularExpression`                  | [ ] Pending* | N/A        |
+| `RevisionLabelString`                | [ ] Pending* | N/A        |
+| `SymbolString`                       | [ ] Pending* | N/A        |
+| `UriString`                          | [ ] Pending* | N/A        |
+| `VerbatimStringPlain`                | [ ] Pending* | N/A        |
+| `CseCodeType`                        | [ ] Pending* | N/A        |
+| `EvaluatedVariantSet`                | [ ] Pending* | N/A        |
+| `PredefinedVariant`                  | [x] Done*    | N/A        |
+| `DocumentationBlock`                 | [x] Done*    | N/A        |
+| `MultiLanguageVerbatim`              | [x] Done*    | N/A        |
+| `List`                               | [x] Done*    | N/A        |
+| `LabeledList`                        | [x] Done*    | N/A        |
+| `LabeledItem`                        | [x] Done*    | N/A        |
+| `IndentSample`                       | [x] Done*    | N/A        |
+| `ItemLabelPosEnum`                   | [x] Done*    | N/A        |
+| `DefList`                            | [x] Done*    | N/A        |
+| `DefItem`                            | [x] Done*    | N/A        |
+| `MlFormula`                          | [x] Done*    | N/A        |
+| `Note`                               | [x] Done*    | N/A        |
+| `NoteTypeEnum`                       | [x] Done*    | N/A        |
+| `Traceable`                          | [x] Done*    | N/A        |
+| `EmphasisText`                       | [x] Done*    | N/A        |
+| `IndexEntry`                         | [x] Done*    | N/A        |
+| `Superscript`                        | [x] Done*    | N/A        |
+| `Tt`                                 | [x] Done*    | N/A        |
+| `EEnumFont`                          | [ ] Pending* | N/A        |
+| `EEnum`                              | [ ] Pending* | N/A        |
+| `DocumentationContext`               | [x] Done*    | N/A        |
 
 ## Group22
 

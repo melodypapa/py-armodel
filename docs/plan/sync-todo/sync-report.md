@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 852 | 44.6% |
+| [x] Done | 854 | 44.7% |
 | [x] Deferred | 25 | 1.3% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 939 | 49.2% |
+| [ ] Deferred | 937 | 49.1% |
 | [ ] Implemented | 44 | 2.3% |
 | [ ] Created | 50 | 2.6% |
 | [ ] Pending | 0 | 0.0% |
@@ -1466,7 +1466,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `ReferenceTailoring`                                    | [ ] Deferred| N/A                                      | Group36          |
 | `ReferenceValueSpecification`                           | [ ] Deferred| 8186029562                               | Group28          |
 | `Referrable`                                            | [x] Deferred| N/A                                      | Group21          |
-| `ReferrableSubtypesEnum`                                | [ ] Deferred| N/A                                      | Group21          |
+| `ReferrableSubtypesEnum`                                | [x] Done    | a097cb3d4f                               | Group21          |
 | `RegularExpression`                                     | [ ] Deferred| N/A                                      | Group21          |
 | `RelativeTolerance`                                     | [ ] Implemented| N/A                                      | Group31          |
 | `RequestResponseDelay`                                  | [x] Done    | 1c556f35b4                               | Group16          |
@@ -1536,7 +1536,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `SdgAggregationWithVariation`                           | [ ] Deferred| N/A                                      | Group21          |
 | `SdgAttribute`                                          | [ ] Deferred| N/A                                      | Group21          |
 | `SdgClass`                                              | [ ] Deferred| N/A                                      | Group21          |
-| `SdgDef`                                                | [ ] Deferred| N/A                                      | Group21          |
+| `SdgDef`                                                | [x] Done    | c7d3958065                               | Group21          |
 | `SdgElementWithGid`                                     | [ ] Deferred| N/A                                      | Group21          |
 | `SdgForeignReference`                                   | [ ] Deferred| N/A                                      | Group21          |
 | `SdgForeignReferenceWithVariation`                      | [ ] Deferred| N/A                                      | Group21          |
