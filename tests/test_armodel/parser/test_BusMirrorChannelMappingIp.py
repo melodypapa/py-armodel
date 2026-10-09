@@ -5,7 +5,7 @@ and reads TRANSMISSION-DEADLINE last per the XSD group
 BUS-MIRROR-CHANNEL-MAPPING-IP (AUTOSAR_00052.xsd).
 """
 
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import BusMirrorChannelMappingIp
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.BusMirror import BusMirrorChannelMappingIp
 from tests.test_armodel.parser._helpers import _snip
 
 

@@ -48,7 +48,7 @@ def _new_coordinator():
     coordinator.setIndex(_integer(1))
     coordinator.setNmCoordSyncSupport(_bool(True))
     coordinator.setNmGlobalCoordinatorTime(_time("2.5"))
-    coordinator.addNmNode(_ref("NM-NODE", "/Clusters/Can1/node"))
+    coordinator.addNmNodeRef(_ref("NM-NODE", "/Clusters/Can1/node"))
     return coordinator
 
 
@@ -80,7 +80,7 @@ class TestWriteNmCoordinator:
         assert parsed.getIndex().getValue() == 1
         assert parsed.getNmCoordSyncSupport().getValue() is True
         assert parsed.getNmGlobalCoordinatorTime().getValue() == 2.5
-        nodes = parsed.getNmNodes()
+        nodes = parsed.getNmNodeRefs()
         assert len(nodes) == 1
         assert nodes[0].getDest() == "NM-NODE"
         assert nodes[0].getValue() == "/Clusters/Can1/node"

@@ -198,6 +198,308 @@ class IEEE1722TpAafFormatEnum(AREnum):
         )
 
 
+class IEEE1722TpAafAes3DataTypeEnum(AREnum):
+    """
+    Definition of the AAF AES3 stream aes3_data_type reference. Tags: atp.Status=candidate
+    """
+
+    # IEEE1722TpAafAes3DataTypeEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.283, p.645
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — serialized as value form on IEEE1722TpAafConnection.aafAes3DataType
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # Data type reference is IEC 61937-2 Tags: atp.EnumerationLiteralIndex=4
+    ENUM_IEC61937 = "IEC-61937"
+
+    # Data type is PCM Tags: atp.EnumerationLiteralIndex=2
+    ENUM_PCM = "PCM"
+
+    # Data type reference is SMPTE ST 338 Tags: atp.EnumerationLiteralIndex=3
+    ENUM_SMPTE338 = "SMPTE-338"
+
+    # Data type not specified Tags: atp.EnumerationLiteralIndex=1
+    ENUM_UNSPECIFIED = "UNSPECIFIED"
+
+    # Data type reference is defined by vendor Tags: atp.EnumerationLiteralIndex=0
+    ENUM_VENDOR = "VENDOR"
+
+    def __init__(self):
+        super().__init__(
+            [
+                IEEE1722TpAafAes3DataTypeEnum.ENUM_IEC61937,
+                IEEE1722TpAafAes3DataTypeEnum.ENUM_PCM,
+                IEEE1722TpAafAes3DataTypeEnum.ENUM_SMPTE338,
+                IEEE1722TpAafAes3DataTypeEnum.ENUM_UNSPECIFIED,
+                IEEE1722TpAafAes3DataTypeEnum.ENUM_VENDOR,
+            ]
+        )
+
+
+class IEEE1722TpRvfPixelDepthEnum(AREnum):
+    """
+    Definition of the RVF Pixel Depth. Tags: atp.Status=candidate
+    """
+
+    # IEEE1722TpRvfPixelDepthEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.286, p.650
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — serialized as value form on IEEE1722TpRvfConnection.rvfPixelDepth
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # pixel depth 10 Tags: atp.EnumerationLiteralIndex=0 xml.name=10
+    ENUM_10 = "10"
+
+    # pixel depth 12 Tags: atp.EnumerationLiteralIndex=1 xml.name=12
+    ENUM_12 = "12"
+
+    # pixel depth 16 Tags: atp.EnumerationLiteralIndex=2 xml.name=16
+    ENUM_16 = "16"
+
+    # pixel depth 8 Tags: atp.EnumerationLiteralIndex=3 xml.name=8
+    ENUM_8 = "8"
+
+    # pixel depth user defined Tags: atp.EnumerationLiteralIndex=4
+    ENUM_USER = "USER"
+
+    def __init__(self):
+        super().__init__(
+            [
+                IEEE1722TpRvfPixelDepthEnum.ENUM_10,
+                IEEE1722TpRvfPixelDepthEnum.ENUM_12,
+                IEEE1722TpRvfPixelDepthEnum.ENUM_16,
+                IEEE1722TpRvfPixelDepthEnum.ENUM_8,
+                IEEE1722TpRvfPixelDepthEnum.ENUM_USER,
+            ]
+        )
+
+
+class IEEE1722TpRvfPixelFormatEnum(AREnum):
+    """
+    Definition of the RVF Pixel Format. Tags: atp.Status=candidate
+    """
+
+    # IEEE1722TpRvfPixelFormatEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.287, p.651
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — serialized as value form on IEEE1722TpRvfConnection.rvfPixelFormat
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # pixel format 4:1:1 Tags: atp.EnumerationLiteralIndex=0 xml.name=4-1-1
+    ENUM_4_1_1 = "4-1-1"
+
+    # pixel format 4:2:0 Tags: atp.EnumerationLiteralIndex=1 xml.name=4-2-0
+    ENUM_4_2_0 = "4-2-0"
+
+    # pixel format 4:2:2 Tags: atp.EnumerationLiteralIndex=2 xml.name=4-2-2
+    ENUM_4_2_2 = "4-2-2"
+
+    # pixel format 4:2:2:4 Tags: atp.EnumerationLiteralIndex=3 xml.name=4-2-2-4
+    ENUM_4_2_2_4 = "4-2-2-4"
+
+    # pixel format 4:4:4 Tags: atp.EnumerationLiteralIndex=4 xml.name=4-4-4
+    ENUM_4_4_4 = "4-4-4"
+
+    # pixel format 4:4:4:4 Tags: atp.EnumerationLiteralIndex=5 xml.name=4-4-4-4
+    ENUM_4_4_4_4 = "4-4-4-4"
+
+    # pixel format Bayer bggr Tags: atp.EnumerationLiteralIndex=6 xml.name=BAYER-BGGR
+    ENUM_BAYER_BGGR = "BAYER-BGGR"
+
+    # pixel format Bayer gbrg Tags: atp.EnumerationLiteralIndex=7 xml.name=BAYER-GBRG
+    ENUM_BAYER_GBRG = "BAYER-GBRG"
+
+    # pixel format Bayer grbg Tags: atp.EnumerationLiteralIndex=8 xml.name=BAYER-GRBG
+    ENUM_BAYER_GRBG = "BAYER-GRBG"
+
+    # pixel format Bayer rggb Tags: atp.EnumerationLiteralIndex=9 xml.name=BAYER-RGGB
+    ENUM_BAYER_RGGB = "BAYER-RGGB"
+
+    # pixel format Monochrome Tags: atp.EnumerationLiteralIndex=10
+    ENUM_MONOCHROME = "MONOCHROME"
+
+    # pixel format User defined Tags: atp.EnumerationLiteralIndex=11
+    ENUM_USER = "USER"
+
+    def __init__(self):
+        super().__init__(
+            [
+                IEEE1722TpRvfPixelFormatEnum.ENUM_4_1_1,
+                IEEE1722TpRvfPixelFormatEnum.ENUM_4_2_0,
+                IEEE1722TpRvfPixelFormatEnum.ENUM_4_2_2,
+                IEEE1722TpRvfPixelFormatEnum.ENUM_4_2_2_4,
+                IEEE1722TpRvfPixelFormatEnum.ENUM_4_4_4,
+                IEEE1722TpRvfPixelFormatEnum.ENUM_4_4_4_4,
+                IEEE1722TpRvfPixelFormatEnum.ENUM_BAYER_BGGR,
+                IEEE1722TpRvfPixelFormatEnum.ENUM_BAYER_GBRG,
+                IEEE1722TpRvfPixelFormatEnum.ENUM_BAYER_GRBG,
+                IEEE1722TpRvfPixelFormatEnum.ENUM_BAYER_RGGB,
+                IEEE1722TpRvfPixelFormatEnum.ENUM_MONOCHROME,
+                IEEE1722TpRvfPixelFormatEnum.ENUM_USER,
+            ]
+        )
+
+
+class IEEE1722TpRvfColorSpaceEnum(AREnum):
+    """
+    Definition of the RVF stream colorspace. Tags: atp.Status=candidate
+    """
+
+    # IEEE1722TpRvfColorSpaceEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.288, p.652
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — serialized as value form on IEEE1722TpRvfConnection.rvfColorSpace
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # BT Rec.601 Tags: atp.EnumerationLiteralIndex=0 xml.name=BT-REC-601
+    ENUM_BT_REC_601 = "BT-REC-601"
+
+    # BT Rec.709 Tags: atp.EnumerationLiteralIndex=1 xml.name=BT-REC-709
+    ENUM_BT_REC_709 = "BT-REC-709"
+
+    # Grayscale Tags: atp.EnumerationLiteralIndex=2
+    ENUM_GRAYSCALE = "GRAYSCALE"
+
+    # ITU BT 2020 Tags: atp.EnumerationLiteralIndex=3 xml.name=ITU-BT-2020
+    ENUM_ITU_BT_2020 = "ITU-BT-2020"
+
+    # sRGB Tags: atp.EnumerationLiteralIndex=9
+    ENUM_SRGB = "SRGB"
+
+    # User defined Tags: atp.EnumerationLiteralIndex=4
+    ENUM_USER = "USER"
+
+    # XYZ Tags: atp.EnumerationLiteralIndex=5
+    ENUM_XYZ = "XYZ"
+
+    # YCbCr Tags: atp.EnumerationLiteralIndex=7
+    ENUM_YCBCR = "YCBCR"
+
+    # YCgCo Tags: atp.EnumerationLiteralIndex=8
+    ENUM_YCGCO = "YCGCO"
+
+    # YCM Tags: atp.EnumerationLiteralIndex=6
+    ENUM_YCM = "YCM"
+
+    def __init__(self):
+        super().__init__(
+            [
+                IEEE1722TpRvfColorSpaceEnum.ENUM_BT_REC_601,
+                IEEE1722TpRvfColorSpaceEnum.ENUM_BT_REC_709,
+                IEEE1722TpRvfColorSpaceEnum.ENUM_GRAYSCALE,
+                IEEE1722TpRvfColorSpaceEnum.ENUM_ITU_BT_2020,
+                IEEE1722TpRvfColorSpaceEnum.ENUM_SRGB,
+                IEEE1722TpRvfColorSpaceEnum.ENUM_USER,
+                IEEE1722TpRvfColorSpaceEnum.ENUM_XYZ,
+                IEEE1722TpRvfColorSpaceEnum.ENUM_YCBCR,
+                IEEE1722TpRvfColorSpaceEnum.ENUM_YCGCO,
+                IEEE1722TpRvfColorSpaceEnum.ENUM_YCM,
+            ]
+        )
+
+
+class IEEE1722TpRvfFrameRateEnum(AREnum):
+    """
+    Definition of the RVF stream frame_rate. Tags: atp.Status=candidate
+    """
+
+    # IEEE1722TpRvfFrameRateEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.289, p.654
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — serialized as value form on IEEE1722TpRvfConnection.rvfFrameRate
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # frame rate 1 Tags: atp.EnumerationLiteralIndex=0 xml.name=1
+    ENUM_1 = "1"
+
+    # frame rate 10 Tags: atp.EnumerationLiteralIndex=3 xml.name=10
+    ENUM_10 = "10"
+
+    # frame rate 100 Tags: atp.EnumerationLiteralIndex=14 xml.name=100
+    ENUM_100 = "100"
+
+    # frame rate 120 Tags: atp.EnumerationLiteralIndex=15 xml.name=120
+    ENUM_120 = "120"
+
+    # frame rate 15 Tags: atp.EnumerationLiteralIndex=4 xml.name=15
+    ENUM_15 = "15"
+
+    # frame rate 150 Tags: atp.EnumerationLiteralIndex=16 xml.name=150
+    ENUM_150 = "150"
+
+    # frame rate 2 Tags: atp.EnumerationLiteralIndex=1 xml.name=2
+    ENUM_2 = "2"
+
+    # frame rate 20 Tags: atp.EnumerationLiteralIndex=5 xml.name=20
+    ENUM_20 = "20"
+
+    # frame rate 200 Tags: atp.EnumerationLiteralIndex=17 xml.name=200
+    ENUM_200 = "200"
+
+    # frame rate 24 Tags: atp.EnumerationLiteralIndex=6 xml.name=24
+    ENUM_24 = "24"
+
+    # frame rate 240 Tags: atp.EnumerationLiteralIndex=18 xml.name=240
+    ENUM_240 = "240"
+
+    # frame rate 25 Tags: atp.EnumerationLiteralIndex=7 xml.name=25
+    ENUM_25 = "25"
+
+    # frame rate 30 Tags: atp.EnumerationLiteralIndex=8 xml.name=30
+    ENUM_30 = "30"
+
+    # frame rate 300 Tags: atp.EnumerationLiteralIndex=19 xml.name=300
+    ENUM_300 = "300"
+
+    # frame rate 48 Tags: atp.EnumerationLiteralIndex=9 xml.name=48
+    ENUM_48 = "48"
+
+    # frame rate 5 Tags: atp.EnumerationLiteralIndex=2 xml.name=5
+    ENUM_5 = "5"
+
+    # frame rate 50 Tags: atp.EnumerationLiteralIndex=10 xml.name=50
+    ENUM_50 = "50"
+
+    # frame rate 60 Tags: atp.EnumerationLiteralIndex=11 xml.name=60
+    ENUM_60 = "60"
+
+    # frame rate 72 Tags: atp.EnumerationLiteralIndex=12 xml.name=72
+    ENUM_72 = "72"
+
+    # frame rate 85 Tags: atp.EnumerationLiteralIndex=13 xml.name=85
+    ENUM_85 = "85"
+
+    # frame rate User defined Tags: atp.EnumerationLiteralIndex=20
+    ENUM_USER = "USER"
+
+    def __init__(self):
+        super().__init__(
+            [
+                IEEE1722TpRvfFrameRateEnum.ENUM_1,
+                IEEE1722TpRvfFrameRateEnum.ENUM_10,
+                IEEE1722TpRvfFrameRateEnum.ENUM_100,
+                IEEE1722TpRvfFrameRateEnum.ENUM_120,
+                IEEE1722TpRvfFrameRateEnum.ENUM_15,
+                IEEE1722TpRvfFrameRateEnum.ENUM_150,
+                IEEE1722TpRvfFrameRateEnum.ENUM_2,
+                IEEE1722TpRvfFrameRateEnum.ENUM_20,
+                IEEE1722TpRvfFrameRateEnum.ENUM_200,
+                IEEE1722TpRvfFrameRateEnum.ENUM_24,
+                IEEE1722TpRvfFrameRateEnum.ENUM_240,
+                IEEE1722TpRvfFrameRateEnum.ENUM_25,
+                IEEE1722TpRvfFrameRateEnum.ENUM_30,
+                IEEE1722TpRvfFrameRateEnum.ENUM_300,
+                IEEE1722TpRvfFrameRateEnum.ENUM_48,
+                IEEE1722TpRvfFrameRateEnum.ENUM_5,
+                IEEE1722TpRvfFrameRateEnum.ENUM_50,
+                IEEE1722TpRvfFrameRateEnum.ENUM_60,
+                IEEE1722TpRvfFrameRateEnum.ENUM_72,
+                IEEE1722TpRvfFrameRateEnum.ENUM_85,
+                IEEE1722TpRvfFrameRateEnum.ENUM_USER,
+            ]
+        )
+
+
 class IEEE1722TpCrfConnection(IEEE1722TpAvConnection):
     """
     AV IEEE1722Tp CRF connection. Tags: atp.Status=candidate atp.recommendedPackage=IEEE1722TpConnections
@@ -310,4 +612,569 @@ class IEEE1722TpCrfConnection(IEEE1722TpAvConnection):
         """
         if value is not None:
             self.timestampInterval = value
+        return self
+
+
+class IEEE1722TpAafConnection(IEEE1722TpAvConnection):
+    """
+    AV IEEE1722Tp AAF connection. Tags: atp.Status=candidate atp.recommendedPackage=IEEE1722TpConnections
+    """
+
+    # IEEE1722TpAafConnection method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.280, p.643
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAafAes3DataType           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAafAes3DataType           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAafFormat                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAafFormat                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAafNominalRate            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAafNominalRate            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAes3DataTypeH             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAes3DataTypeH             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAes3DataTypeL             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAes3DataTypeL             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getChannelsPerFrame          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setChannelsPerFrame          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEventDefaultValue         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEventDefaultValue         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPcmBitDepth               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPcmBitDepth               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSparseTimestampEnabled    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSparseTimestampEnabled    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getStreamsPerFrame           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setStreamsPerFrame           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # (Base row: ARElement, ARObject, CollectableElement, IEEE1722TpAvConnection, IEEE1722TpConnection, Identifiable, MultilanguageReferrable, PackageableElement, Referrable)
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Definition of the AAF AES3 stream aes3_data_type reference.
+        self.aafAes3DataType: Optional[IEEE1722TpAafAes3DataTypeEnum] = None
+
+        # Definition of the AAF stream format.
+        self.aafFormat: Optional[IEEE1722TpAafFormatEnum] = None
+
+        # Definition of the AAF stream nominal sample / frame rate. For an AAF PCM stream this is the nominal sample rate. For an AAF AES3 stream this is the nominal frame rate.
+        self.aafNominalRate: Optional[IEEE1722TpAafNominalRateEnum] = None
+
+        # Definition of the AAF AES3 aes3_data_type_h default value. Tags: atp.Status=candidate
+        self.aes3DataTypeH: Optional[PositiveInteger] = None
+
+        # Definition of the AAF AES3 aes3_data_type_l default value. Tags: atp.Status=candidate
+        self.aes3DataTypeL: Optional[PositiveInteger] = None
+
+        # Definition of the AAF PCM stream channels_per_frame. e.g. 1: mono, 2: stereo, 8: 7.1 multicannel Tags: atp.Status=candidate
+        self.channelsPerFrame: Optional[PositiveInteger] = None
+
+        # Definition of a value to be used for the 4-bit "evt" field. Tags: atp.Status=candidate
+        self.eventDefaultValue: Optional[PositiveInteger] = None
+
+        # Definition of the AAF PCM stream bit_depth. e.g. 16, 24, 32. Tags: atp.Status=candidate
+        self.pcmBitDepth: Optional[PositiveInteger] = None
+
+        # Defines whether the "sp" (sparse timestamp) shall be enabled. false: Normal operation, timestamp in every AAF AVTPDU true: Sparse mode, timestamp in every eighth AAF AVTPDU Tags: atp.Status=candidate
+        self.sparseTimestampEnabled: Optional[Boolean] = None
+
+        # AAF AES3 stream streams_per_frame. Tags: atp.Status=candidate
+        self.streamsPerFrame: Optional[PositiveInteger] = None
+
+    def getAafAes3DataType(self) -> Optional[IEEE1722TpAafAes3DataTypeEnum]:
+        """
+        Definition of the AAF AES3 stream aes3_data_type reference.
+        """
+        return self.aafAes3DataType
+
+    def setAafAes3DataType(self, value: Optional[IEEE1722TpAafAes3DataTypeEnum]) -> IEEE1722TpAafConnection:
+        """
+        Definition of the AAF AES3 stream aes3_data_type reference.
+        A None value is a no-op and does not overwrite an existing aafAes3DataType.
+        """
+        if value is not None:
+            self.aafAes3DataType = value
+        return self
+
+    def getAafFormat(self) -> Optional[IEEE1722TpAafFormatEnum]:
+        """
+        Definition of the AAF stream format.
+        """
+        return self.aafFormat
+
+    def setAafFormat(self, value: Optional[IEEE1722TpAafFormatEnum]) -> IEEE1722TpAafConnection:
+        """
+        Definition of the AAF stream format.
+        A None value is a no-op and does not overwrite an existing aafFormat.
+        """
+        if value is not None:
+            self.aafFormat = value
+        return self
+
+    def getAafNominalRate(self) -> Optional[IEEE1722TpAafNominalRateEnum]:
+        """
+        Definition of the AAF stream nominal sample / frame rate. For an AAF PCM stream this is the nominal sample rate. For an AAF AES3 stream this is the nominal frame rate.
+        """
+        return self.aafNominalRate
+
+    def setAafNominalRate(self, value: Optional[IEEE1722TpAafNominalRateEnum]) -> IEEE1722TpAafConnection:
+        """
+        Definition of the AAF stream nominal sample / frame rate. For an AAF PCM stream this is the nominal sample rate. For an AAF AES3 stream this is the nominal frame rate.
+        A None value is a no-op and does not overwrite an existing aafNominalRate.
+        """
+        if value is not None:
+            self.aafNominalRate = value
+        return self
+
+    def getAes3DataTypeH(self) -> Optional[PositiveInteger]:
+        """
+        Definition of the AAF AES3 aes3_data_type_h default value. Tags: atp.Status=candidate
+        """
+        return self.aes3DataTypeH
+
+    def setAes3DataTypeH(self, value: Optional[PositiveInteger]) -> IEEE1722TpAafConnection:
+        """
+        Definition of the AAF AES3 aes3_data_type_h default value. Tags: atp.Status=candidate
+        A None value is a no-op and does not overwrite an existing aes3DataTypeH.
+        """
+        if value is not None:
+            self.aes3DataTypeH = value
+        return self
+
+    def getAes3DataTypeL(self) -> Optional[PositiveInteger]:
+        """
+        Definition of the AAF AES3 aes3_data_type_l default value. Tags: atp.Status=candidate
+        """
+        return self.aes3DataTypeL
+
+    def setAes3DataTypeL(self, value: Optional[PositiveInteger]) -> IEEE1722TpAafConnection:
+        """
+        Definition of the AAF AES3 aes3_data_type_l default value. Tags: atp.Status=candidate
+        A None value is a no-op and does not overwrite an existing aes3DataTypeL.
+        """
+        if value is not None:
+            self.aes3DataTypeL = value
+        return self
+
+    def getChannelsPerFrame(self) -> Optional[PositiveInteger]:
+        """
+        Definition of the AAF PCM stream channels_per_frame. e.g. 1: mono, 2: stereo, 8: 7.1 multicannel Tags: atp.Status=candidate
+        """
+        return self.channelsPerFrame
+
+    def setChannelsPerFrame(self, value: Optional[PositiveInteger]) -> IEEE1722TpAafConnection:
+        """
+        Definition of the AAF PCM stream channels_per_frame. e.g. 1: mono, 2: stereo, 8: 7.1 multicannel Tags: atp.Status=candidate
+        A None value is a no-op and does not overwrite an existing channelsPerFrame.
+        """
+        if value is not None:
+            self.channelsPerFrame = value
+        return self
+
+    def getEventDefaultValue(self) -> Optional[PositiveInteger]:
+        """
+        Definition of a value to be used for the 4-bit "evt" field. Tags: atp.Status=candidate
+        """
+        return self.eventDefaultValue
+
+    def setEventDefaultValue(self, value: Optional[PositiveInteger]) -> IEEE1722TpAafConnection:
+        """
+        Definition of a value to be used for the 4-bit "evt" field. Tags: atp.Status=candidate
+        A None value is a no-op and does not overwrite an existing eventDefaultValue.
+        """
+        if value is not None:
+            self.eventDefaultValue = value
+        return self
+
+    def getPcmBitDepth(self) -> Optional[PositiveInteger]:
+        """
+        Definition of the AAF PCM stream bit_depth. e.g. 16, 24, 32. Tags: atp.Status=candidate
+        """
+        return self.pcmBitDepth
+
+    def setPcmBitDepth(self, value: Optional[PositiveInteger]) -> IEEE1722TpAafConnection:
+        """
+        Definition of the AAF PCM stream bit_depth. e.g. 16, 24, 32. Tags: atp.Status=candidate
+        A None value is a no-op and does not overwrite an existing pcmBitDepth.
+        """
+        if value is not None:
+            self.pcmBitDepth = value
+        return self
+
+    def getSparseTimestampEnabled(self) -> Optional[Boolean]:
+        """
+        Defines whether the "sp" (sparse timestamp) shall be enabled. false: Normal operation, timestamp in every AAF AVTPDU true: Sparse mode, timestamp in every eighth AAF AVTPDU Tags: atp.Status=candidate
+        """
+        return self.sparseTimestampEnabled
+
+    def setSparseTimestampEnabled(self, value: Optional[Boolean]) -> IEEE1722TpAafConnection:
+        """
+        Defines whether the "sp" (sparse timestamp) shall be enabled. false: Normal operation, timestamp in every AAF AVTPDU true: Sparse mode, timestamp in every eighth AAF AVTPDU Tags: atp.Status=candidate
+        A None value is a no-op and does not overwrite an existing sparseTimestampEnabled.
+        """
+        if value is not None:
+            self.sparseTimestampEnabled = value
+        return self
+
+    def getStreamsPerFrame(self) -> Optional[PositiveInteger]:
+        """
+        AAF AES3 stream streams_per_frame. Tags: atp.Status=candidate
+        """
+        return self.streamsPerFrame
+
+    def setStreamsPerFrame(self, value: Optional[PositiveInteger]) -> IEEE1722TpAafConnection:
+        """
+        AAF AES3 stream streams_per_frame. Tags: atp.Status=candidate
+        A None value is a no-op and does not overwrite an existing streamsPerFrame.
+        """
+        if value is not None:
+            self.streamsPerFrame = value
+        return self
+
+
+class IEEE1722TpIidcConnection(IEEE1722TpAvConnection):
+    """
+    AV IEEE1722Tp IIDC connection. Tags: atp.Status=candidate atp.recommendedPackage=IEEE1722TpConnections
+    """
+
+    # IEEE1722TpIidcConnection method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.284, p.648
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getIidcChannel              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIidcChannel              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIidcDataBlockSize        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIidcDataBlockSize        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIidcFractionNumber       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIidcFractionNumber       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIidcSourcePacketHeader   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIidcSourcePacketHeader   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIidcStreamFormat         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIidcStreamFormat         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIidcSy                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIidcSy                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIidcTag                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIidcTag                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIidcTCode                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIidcTCode                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # (Base row: ARElement, ARObject, CollectableElement, IEEE1722TpAvConnection, IEEE1722TpConnection, Identifiable, MultilanguageReferrable, PackageableElement, Referrable)
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Definition of the IIDC channel. Tags: atp.Status=candidate
+        self.iidcChannel: Optional[PositiveInteger] = None
+
+        # Definition of the IIDC data block size (DBS). Tags: atp.Status=candidate
+        self.iidcDataBlockSize: Optional[PositiveInteger] = None
+
+        # Definition of the IIDC fractionNumber (FN). Tags: atp.Status=candidate
+        self.iidcFractionNumber: Optional[PositiveInteger] = None
+
+        # Defines the IIDC source packet header (SPH) existence. Tags: atp.Status=candidate
+        self.iidcSourcePacketHeader: Optional[Boolean] = None
+
+        # Definition of the IIDC stream format (FMT). Tags: atp.Status=candidate
+        self.iidcStreamFormat: Optional[PositiveInteger] = None
+
+        # Definition of the IIDC sy. Tags: atp.Status=candidate
+        self.iidcSy: Optional[PositiveInteger] = None
+
+        # Definition of the IIDC tag. Tags: atp.Status=candidate
+        self.iidcTag: Optional[PositiveInteger] = None
+
+        # Definition of the IIDC tcode. Tags: atp.Status=candidate
+        self.iidcTCode: Optional[PositiveInteger] = None
+
+    def getIidcChannel(self) -> Optional[PositiveInteger]:
+        """
+        Definition of the IIDC channel. Tags: atp.Status=candidate
+        """
+        return self.iidcChannel
+
+    def setIidcChannel(self, value: Optional[PositiveInteger]) -> IEEE1722TpIidcConnection:
+        """
+        Definition of the IIDC channel. Tags: atp.Status=candidate
+        A None value is a no-op and does not overwrite an existing iidcChannel.
+        """
+        if value is not None:
+            self.iidcChannel = value
+        return self
+
+    def getIidcDataBlockSize(self) -> Optional[PositiveInteger]:
+        """
+        Definition of the IIDC data block size (DBS). Tags: atp.Status=candidate
+        """
+        return self.iidcDataBlockSize
+
+    def setIidcDataBlockSize(self, value: Optional[PositiveInteger]) -> IEEE1722TpIidcConnection:
+        """
+        Definition of the IIDC data block size (DBS). Tags: atp.Status=candidate
+        A None value is a no-op and does not overwrite an existing iidcDataBlockSize.
+        """
+        if value is not None:
+            self.iidcDataBlockSize = value
+        return self
+
+    def getIidcFractionNumber(self) -> Optional[PositiveInteger]:
+        """
+        Definition of the IIDC fractionNumber (FN). Tags: atp.Status=candidate
+        """
+        return self.iidcFractionNumber
+
+    def setIidcFractionNumber(self, value: Optional[PositiveInteger]) -> IEEE1722TpIidcConnection:
+        """
+        Definition of the IIDC fractionNumber (FN). Tags: atp.Status=candidate
+        A None value is a no-op and does not overwrite an existing iidcFractionNumber.
+        """
+        if value is not None:
+            self.iidcFractionNumber = value
+        return self
+
+    def getIidcSourcePacketHeader(self) -> Optional[Boolean]:
+        """
+        Defines the IIDC source packet header (SPH) existence. Tags: atp.Status=candidate
+        """
+        return self.iidcSourcePacketHeader
+
+    def setIidcSourcePacketHeader(self, value: Optional[Boolean]) -> IEEE1722TpIidcConnection:
+        """
+        Defines the IIDC source packet header (SPH) existence. Tags: atp.Status=candidate
+        A None value is a no-op and does not overwrite an existing iidcSourcePacketHeader.
+        """
+        if value is not None:
+            self.iidcSourcePacketHeader = value
+        return self
+
+    def getIidcStreamFormat(self) -> Optional[PositiveInteger]:
+        """
+        Definition of the IIDC stream format (FMT). Tags: atp.Status=candidate
+        """
+        return self.iidcStreamFormat
+
+    def setIidcStreamFormat(self, value: Optional[PositiveInteger]) -> IEEE1722TpIidcConnection:
+        """
+        Definition of the IIDC stream format (FMT). Tags: atp.Status=candidate
+        A None value is a no-op and does not overwrite an existing iidcStreamFormat.
+        """
+        if value is not None:
+            self.iidcStreamFormat = value
+        return self
+
+    def getIidcSy(self) -> Optional[PositiveInteger]:
+        """
+        Definition of the IIDC sy. Tags: atp.Status=candidate
+        """
+        return self.iidcSy
+
+    def setIidcSy(self, value: Optional[PositiveInteger]) -> IEEE1722TpIidcConnection:
+        """
+        Definition of the IIDC sy. Tags: atp.Status=candidate
+        A None value is a no-op and does not overwrite an existing iidcSy.
+        """
+        if value is not None:
+            self.iidcSy = value
+        return self
+
+    def getIidcTag(self) -> Optional[PositiveInteger]:
+        """
+        Definition of the IIDC tag. Tags: atp.Status=candidate
+        """
+        return self.iidcTag
+
+    def setIidcTag(self, value: Optional[PositiveInteger]) -> IEEE1722TpIidcConnection:
+        """
+        Definition of the IIDC tag. Tags: atp.Status=candidate
+        A None value is a no-op and does not overwrite an existing iidcTag.
+        """
+        if value is not None:
+            self.iidcTag = value
+        return self
+
+    def getIidcTCode(self) -> Optional[PositiveInteger]:
+        """
+        Definition of the IIDC tcode. Tags: atp.Status=candidate
+        """
+        return self.iidcTCode
+
+    def setIidcTCode(self, value: Optional[PositiveInteger]) -> IEEE1722TpIidcConnection:
+        """
+        Definition of the IIDC tcode. Tags: atp.Status=candidate
+        A None value is a no-op and does not overwrite an existing iidcTCode.
+        """
+        if value is not None:
+            self.iidcTCode = value
+        return self
+
+
+class IEEE1722TpRvfConnection(IEEE1722TpAvConnection):
+    """
+    AV IEEE1722Tp RVF connection. Tags: atp.Status=candidate atp.recommendedPackage=IEEE1722TpConnections
+    """
+
+    # IEEE1722TpRvfConnection method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.285, p.650
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getRvfActivePixels      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRvfActivePixels      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRvfColorSpace        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRvfColorSpace        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRvfEventDefault      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRvfEventDefault      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRvfFrameRate         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRvfFrameRate         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRvfInterlaced        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRvfInterlaced        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRvfPixelDepth        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRvfPixelDepth        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRvfPixelFormat       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRvfPixelFormat       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRvfTotalLines        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRvfTotalLines        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # (Base row: ARElement, ARObject, CollectableElement, IEEE1722TpAvConnection, IEEE1722TpConnection, Identifiable, MultilanguageReferrable, PackageableElement, Referrable)
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Definition of the RVF stream active_pixels. Tags: atp.Status=candidate
+        self.rvfActivePixels: Optional[PositiveInteger] = None
+
+        # Definition of the RVF stream colorspace. Tags: atp.Status=candidate
+        self.rvfColorSpace: Optional[IEEE1722TpRvfColorSpaceEnum] = None
+
+        # Definition of the RVF stream event (evt) default value. Tags: atp.Status=candidate
+        self.rvfEventDefault: Optional[PositiveInteger] = None
+
+        # Definition of the RVF stream frame_rate. Tags: atp.Status=candidate
+        self.rvfFrameRate: Optional[IEEE1722TpRvfFrameRateEnum] = None
+
+        # Defines the RVF stream interlaced (i). Tags: atp.Status=candidate
+        self.rvfInterlaced: Optional[Boolean] = None
+
+        # Definition of the RVF stream pixel_depth. Tags: atp.Status=candidate
+        self.rvfPixelDepth: Optional[IEEE1722TpRvfPixelDepthEnum] = None
+
+        # Definition of the RVF stream pixel_format. Tags: atp.Status=candidate
+        self.rvfPixelFormat: Optional[IEEE1722TpRvfPixelFormatEnum] = None
+
+        # Definition of the RVF stream total_lines. Tags: atp.Status=candidate
+        self.rvfTotalLines: Optional[PositiveInteger] = None
+
+    def getRvfActivePixels(self) -> Optional[PositiveInteger]:
+        """
+        Definition of the RVF stream active_pixels. Tags: atp.Status=candidate
+        """
+        return self.rvfActivePixels
+
+    def setRvfActivePixels(self, value: Optional[PositiveInteger]) -> IEEE1722TpRvfConnection:
+        """
+        Definition of the RVF stream active_pixels. Tags: atp.Status=candidate
+        A None value is a no-op and does not overwrite an existing rvfActivePixels.
+        """
+        if value is not None:
+            self.rvfActivePixels = value
+        return self
+
+    def getRvfColorSpace(self) -> Optional[IEEE1722TpRvfColorSpaceEnum]:
+        """
+        Definition of the RVF stream colorspace. Tags: atp.Status=candidate
+        """
+        return self.rvfColorSpace
+
+    def setRvfColorSpace(self, value: Optional[IEEE1722TpRvfColorSpaceEnum]) -> IEEE1722TpRvfConnection:
+        """
+        Definition of the RVF stream colorspace. Tags: atp.Status=candidate
+        A None value is a no-op and does not overwrite an existing rvfColorSpace.
+        """
+        if value is not None:
+            self.rvfColorSpace = value
+        return self
+
+    def getRvfEventDefault(self) -> Optional[PositiveInteger]:
+        """
+        Definition of the RVF stream event (evt) default value. Tags: atp.Status=candidate
+        """
+        return self.rvfEventDefault
+
+    def setRvfEventDefault(self, value: Optional[PositiveInteger]) -> IEEE1722TpRvfConnection:
+        """
+        Definition of the RVF stream event (evt) default value. Tags: atp.Status=candidate
+        A None value is a no-op and does not overwrite an existing rvfEventDefault.
+        """
+        if value is not None:
+            self.rvfEventDefault = value
+        return self
+
+    def getRvfFrameRate(self) -> Optional[IEEE1722TpRvfFrameRateEnum]:
+        """
+        Definition of the RVF stream frame_rate. Tags: atp.Status=candidate
+        """
+        return self.rvfFrameRate
+
+    def setRvfFrameRate(self, value: Optional[IEEE1722TpRvfFrameRateEnum]) -> IEEE1722TpRvfConnection:
+        """
+        Definition of the RVF stream frame_rate. Tags: atp.Status=candidate
+        A None value is a no-op and does not overwrite an existing rvfFrameRate.
+        """
+        if value is not None:
+            self.rvfFrameRate = value
+        return self
+
+    def getRvfInterlaced(self) -> Optional[Boolean]:
+        """
+        Defines the RVF stream interlaced (i). Tags: atp.Status=candidate
+        """
+        return self.rvfInterlaced
+
+    def setRvfInterlaced(self, value: Optional[Boolean]) -> IEEE1722TpRvfConnection:
+        """
+        Defines the RVF stream interlaced (i). Tags: atp.Status=candidate
+        A None value is a no-op and does not overwrite an existing rvfInterlaced.
+        """
+        if value is not None:
+            self.rvfInterlaced = value
+        return self
+
+    def getRvfPixelDepth(self) -> Optional[IEEE1722TpRvfPixelDepthEnum]:
+        """
+        Definition of the RVF stream pixel_depth. Tags: atp.Status=candidate
+        """
+        return self.rvfPixelDepth
+
+    def setRvfPixelDepth(self, value: Optional[IEEE1722TpRvfPixelDepthEnum]) -> IEEE1722TpRvfConnection:
+        """
+        Definition of the RVF stream pixel_depth. Tags: atp.Status=candidate
+        A None value is a no-op and does not overwrite an existing rvfPixelDepth.
+        """
+        if value is not None:
+            self.rvfPixelDepth = value
+        return self
+
+    def getRvfPixelFormat(self) -> Optional[IEEE1722TpRvfPixelFormatEnum]:
+        """
+        Definition of the RVF stream pixel_format. Tags: atp.Status=candidate
+        """
+        return self.rvfPixelFormat
+
+    def setRvfPixelFormat(self, value: Optional[IEEE1722TpRvfPixelFormatEnum]) -> IEEE1722TpRvfConnection:
+        """
+        Definition of the RVF stream pixel_format. Tags: atp.Status=candidate
+        A None value is a no-op and does not overwrite an existing rvfPixelFormat.
+        """
+        if value is not None:
+            self.rvfPixelFormat = value
+        return self
+
+    def getRvfTotalLines(self) -> Optional[PositiveInteger]:
+        """
+        Definition of the RVF stream total_lines. Tags: atp.Status=candidate
+        """
+        return self.rvfTotalLines
+
+    def setRvfTotalLines(self, value: Optional[PositiveInteger]) -> IEEE1722TpRvfConnection:
+        """
+        Definition of the RVF stream total_lines. Tags: atp.Status=candidate
+        A None value is a no-op and does not overwrite an existing rvfTotalLines.
+        """
+        if value is not None:
+            self.rvfTotalLines = value
         return self

@@ -874,65 +874,65 @@ Status: **29/29** completed
 
 ## Group21
 
-Status: **23/55** completed
+Status: **25/55** completed
 
-| Class Name                           | Status       | Commit ID |
-| ------------------------------------ | ------------ | --------- |
-| `Identifier`                         | [x] Done*    | N/A       |
-| `LLongName`                          | [x] Done*    | N/A       |
-| `MixedContentForLongName`            | [x] Done*    | N/A       |
-| `Referrable`                         | [x] Done*    | N/A       |
-| `ReferrableSubtypesEnum`             | [ ] Pending* | N/A       |
-| `SdgDef`                             | [ ] Pending* | N/A       |
-| `SdgElementWithGid`                  | [ ] Pending* | N/A       |
-| `SdgClass`                           | [ ] Pending* | N/A       |
-| `SdgAttribute`                       | [ ] Pending* | N/A       |
-| `SdgAbstractPrimitiveAttribute`      | [ ] Pending* | N/A       |
-| `SdgPrimitiveAttribute`              | [ ] Pending* | N/A       |
-| `SdgPrimitiveAttributeWithVariation` | [ ] Pending* | N/A       |
-| `SdgAggregationWithVariation`        | [ ] Pending* | N/A       |
-| `SdgReference`                       | [ ] Pending* | N/A       |
-| `SdgAbstractForeignReference`        | [ ] Pending* | N/A       |
-| `SdgForeignReference`                | [ ] Pending* | N/A       |
-| `SdgForeignReferenceWithVariation`   | [ ] Pending* | N/A       |
-| `AbstractValueRestriction`           | [ ] Pending* | N/A       |
-| `AbstractVariationRestriction`       | [ ] Pending* | N/A       |
-| `FullBindingTimeEnum`                | [ ] Pending* | N/A       |
-| `CIdentifier`                        | [ ] Pending* | N/A       |
-| `CategoryString`                     | [ ] Pending* | N/A       |
-| `DateTime`                           | [ ] Pending* | N/A       |
-| `DiagRequirementIdString`            | [ ] Pending* | N/A       |
-| `Ip4AddressString`                   | [ ] Pending* | N/A       |
-| `Ip6AddressString`                   | [ ] Pending* | N/A       |
-| `McdIdentifier`                      | [ ] Pending* | N/A       |
-| `RegularExpression`                  | [ ] Pending* | N/A       |
-| `RevisionLabelString`                | [ ] Pending* | N/A       |
-| `SymbolString`                       | [ ] Pending* | N/A       |
-| `UriString`                          | [ ] Pending* | N/A       |
-| `VerbatimStringPlain`                | [ ] Pending* | N/A       |
-| `CseCodeType`                        | [ ] Pending* | N/A       |
-| `EvaluatedVariantSet`                | [ ] Pending* | N/A       |
-| `PredefinedVariant`                  | [x] Done*    | N/A       |
-| `DocumentationBlock`                 | [x] Done*    | N/A       |
-| `MultiLanguageVerbatim`              | [x] Done*    | N/A       |
-| `List`                               | [x] Done*    | N/A       |
-| `LabeledList`                        | [x] Done*    | N/A       |
-| `LabeledItem`                        | [x] Done*    | N/A       |
-| `IndentSample`                       | [x] Done*    | N/A       |
-| `ItemLabelPosEnum`                   | [x] Done*    | N/A       |
-| `DefList`                            | [x] Done*    | N/A       |
-| `DefItem`                            | [x] Done*    | N/A       |
-| `MlFormula`                          | [x] Done*    | N/A       |
-| `Note`                               | [x] Done*    | N/A       |
-| `NoteTypeEnum`                       | [x] Done*    | N/A       |
-| `Traceable`                          | [x] Done*    | N/A       |
-| `EmphasisText`                       | [x] Done*    | N/A       |
-| `IndexEntry`                         | [x] Done*    | N/A       |
-| `Superscript`                        | [x] Done*    | N/A       |
-| `Tt`                                 | [x] Done*    | N/A       |
-| `EEnumFont`                          | [ ] Pending* | N/A       |
-| `EEnum`                              | [ ] Pending* | N/A       |
-| `DocumentationContext`               | [x] Done*    | N/A       |
+| Class Name                           | Status       | Commit ID  |
+| ------------------------------------ | ------------ | ---------- |
+| `Identifier`                         | [x] Done*    | N/A        |
+| `LLongName`                          | [x] Done*    | N/A        |
+| `MixedContentForLongName`            | [x] Done*    | N/A        |
+| `Referrable`                         | [x] Done*    | N/A        |
+| `ReferrableSubtypesEnum`             | [x] Done     | a097cb3d4f |
+| `SdgDef`                             | [x] Done     | c7d3958065 |
+| `SdgElementWithGid`                  | [ ] Pending* | N/A        |
+| `SdgClass`                           | [ ] Pending* | N/A        |
+| `SdgAttribute`                       | [ ] Pending* | N/A        |
+| `SdgAbstractPrimitiveAttribute`      | [ ] Pending* | N/A        |
+| `SdgPrimitiveAttribute`              | [ ] Pending* | N/A        |
+| `SdgPrimitiveAttributeWithVariation` | [ ] Pending* | N/A        |
+| `SdgAggregationWithVariation`        | [ ] Pending* | N/A        |
+| `SdgReference`                       | [ ] Pending* | N/A        |
+| `SdgAbstractForeignReference`        | [ ] Pending* | N/A        |
+| `SdgForeignReference`                | [ ] Pending* | N/A        |
+| `SdgForeignReferenceWithVariation`   | [ ] Pending* | N/A        |
+| `AbstractValueRestriction`           | [ ] Pending* | N/A        |
+| `AbstractVariationRestriction`       | [ ] Pending* | N/A        |
+| `FullBindingTimeEnum`                | [ ] Pending* | N/A        |
+| `CIdentifier`                        | [ ] Pending* | N/A        |
+| `CategoryString`                     | [ ] Pending* | N/A        |
+| `DateTime`                           | [ ] Pending* | N/A        |
+| `DiagRequirementIdString`            | [ ] Pending* | N/A        |
+| `Ip4AddressString`                   | [ ] Pending* | N/A        |
+| `Ip6AddressString`                   | [ ] Pending* | N/A        |
+| `McdIdentifier`                      | [ ] Pending* | N/A        |
+| `RegularExpression`                  | [ ] Pending* | N/A        |
+| `RevisionLabelString`                | [ ] Pending* | N/A        |
+| `SymbolString`                       | [ ] Pending* | N/A        |
+| `UriString`                          | [ ] Pending* | N/A        |
+| `VerbatimStringPlain`                | [ ] Pending* | N/A        |
+| `CseCodeType`                        | [ ] Pending* | N/A        |
+| `EvaluatedVariantSet`                | [ ] Pending* | N/A        |
+| `PredefinedVariant`                  | [x] Done*    | N/A        |
+| `DocumentationBlock`                 | [x] Done*    | N/A        |
+| `MultiLanguageVerbatim`              | [x] Done*    | N/A        |
+| `List`                               | [x] Done*    | N/A        |
+| `LabeledList`                        | [x] Done*    | N/A        |
+| `LabeledItem`                        | [x] Done*    | N/A        |
+| `IndentSample`                       | [x] Done*    | N/A        |
+| `ItemLabelPosEnum`                   | [x] Done*    | N/A        |
+| `DefList`                            | [x] Done*    | N/A        |
+| `DefItem`                            | [x] Done*    | N/A        |
+| `MlFormula`                          | [x] Done*    | N/A        |
+| `Note`                               | [x] Done*    | N/A        |
+| `NoteTypeEnum`                       | [x] Done*    | N/A        |
+| `Traceable`                          | [x] Done*    | N/A        |
+| `EmphasisText`                       | [x] Done*    | N/A        |
+| `IndexEntry`                         | [x] Done*    | N/A        |
+| `Superscript`                        | [x] Done*    | N/A        |
+| `Tt`                                 | [x] Done*    | N/A        |
+| `EEnumFont`                          | [ ] Pending* | N/A        |
+| `EEnum`                              | [ ] Pending* | N/A        |
+| `DocumentationContext`               | [x] Done*    | N/A        |
 
 ## Group22
 
@@ -1838,83 +1838,83 @@ Status: **0/74** completed
 
 Status: **0/75** completed
 
-| Class Name                                  | Status          | Commit ID |
-| ------------------------------------------- | --------------- | --------- |
-| `IPsecHeaderTypeEnum`                       | [ ] Pending*    | N/A       |
-| `IPsecDpdActionEnum`                        | [ ] Pending*    | N/A       |
-| `EthernetFrameTriggering`                   | [ ] Created     | N/A       |
-| `UserDefinedEthernetFrame`                  | [ ] Created     | N/A       |
-| `Ieee1722TpEthernetFrame`                   | [ ] Created     | N/A       |
-| `StateDependentFirewall`                    | [ ] Implemented | N/A       |
-| `TpConfig`                                  | [ ] Pending*    | N/A       |
-| `FlexrayTpConfig`                           | [ ] Pending*    | N/A       |
-| `FlexrayTpConnectionControl`                | [ ] Pending*    | N/A       |
-| `FlexrayTpConnection`                       | [ ] Pending*    | N/A       |
-| `FlexrayTpPduPool`                          | [ ] Pending*    | N/A       |
-| `FlexrayTpNode`                             | [ ] Pending*    | N/A       |
-| `FlexrayTpEcu`                              | [ ] Pending*    | N/A       |
-| `FlexrayArTpConfig`                         | [ ] Pending*    | N/A       |
-| `FlexrayArTpChannel`                        | [ ] Pending*    | N/A       |
-| `FlexrayArTpNode`                           | [ ] Pending*    | N/A       |
-| `FlexrayArTpConnection`                     | [ ] Pending*    | N/A       |
-| `FrArTpAckType`                             | [ ] Pending*    | N/A       |
-| `MaximumMessageLengthType`                  | [ ] Pending*    | N/A       |
-| `CanTpConfig`                               | [ ] Pending*    | N/A       |
-| `CanTpChannel`                              | [ ] Pending*    | N/A       |
-| `CanTpConnection`                           | [ ] Pending*    | N/A       |
-| `CanTpAddressingFormatType`                 | [ ] Pending*    | N/A       |
-| `CanTpAddress`                              | [ ] Pending*    | N/A       |
-| `CanTpEcu`                                  | [ ] Pending*    | N/A       |
-| `CanTpNode`                                 | [ ] Pending*    | N/A       |
-| `NetworkTargetAddressType`                  | [ ] Pending*    | N/A       |
-| `LinTpConfig`                               | [ ] Pending*    | N/A       |
-| `LinTpNode`                                 | [ ] Pending*    | N/A       |
-| `EthTpConfig`                               | [ ] Pending*    | N/A       |
-| `EthTpConnection`                           | [ ] Pending*    | N/A       |
-| `SomeipTpConfig`                            | [ ] Pending*    | N/A       |
-| `SomeipTpConnection`                        | [ ] Created     | N/A       |
-| `SomeipTpChannel`                           | [ ] Created     | N/A       |
-| `J1939TpConfig`                             | [ ] Created     | N/A       |
-| `J1939TpConnection`                         | [ ] Created     | N/A       |
-| `J1939TpPg`                                 | [ ] Created     | N/A       |
-| `J1939TpNode`                               | [ ] Created     | N/A       |
-| `TpConnection`                              | [ ] Pending*    | N/A       |
-| `IEEE1722TpConfig`                          | [ ] Pending*    | N/A       |
-| `IEEE1722TpConnection`                      | [ ] Pending*    | N/A       |
-| `IEEE1722TpAvConnection`                    | [ ] Pending*    | N/A       |
-| `IEEE1722TpCrfConnection`                   | [ ] Pending*    | N/A       |
-| `IEEE1722TpCrfTypeEnum`                     | [ ] Pending*    | N/A       |
-| `IEEE1722TpCrfPullEnum`                     | [ ] Pending*    | N/A       |
-| `IEEE1722TpAafConnection`                   | [ ] Created     | N/A       |
-| `IEEE1722TpAafNominalRateEnum`              | [ ] Pending*    | N/A       |
-| `IEEE1722TpAafFormatEnum`                   | [ ] Pending*    | N/A       |
-| `IEEE1722TpAafAes3DataTypeEnum`             | [ ] Created     | N/A       |
-| `IEEE1722TpIidcConnection`                  | [ ] Created     | N/A       |
-| `IEEE1722TpRvfConnection`                   | [ ] Created     | N/A       |
-| `IEEE1722TpRvfPixelDepthEnum`               | [ ] Created     | N/A       |
-| `IEEE1722TpRvfPixelFormatEnum`              | [ ] Created     | N/A       |
-| `IEEE1722TpRvfColorSpaceEnum`               | [ ] Created     | N/A       |
-| `IEEE1722TpRvfFrameRateEnum`                | [ ] Created     | N/A       |
-| `IEEE1722TpAcfConnection`                   | [ ] Created     | N/A       |
-| `IEEE1722TpAcfBus`                          | [ ] Created     | N/A       |
-| `IEEE1722TpAcfBusPart`                      | [ ] Created     | N/A       |
-| `IEEE1722TpAcfCan`                          | [ ] Created     | N/A       |
-| `IEEE1722TpAcfCanPart`                      | [ ] Created     | N/A       |
-| `IEEE1722TpAcfCanMessageTypeEnum`           | [ ] Created     | N/A       |
-| `IEEE1722TpAcfLin`                          | [ ] Created     | N/A       |
-| `IEEE1722TpAcfLinPart`                      | [ ] Created     | N/A       |
-| `BusspecificNmEcu`                          | [ ] Implemented | N/A       |
-| `NmCoordinator`                             | [ ] Implemented | N/A       |
-| `NmNode`                                    | [ ] Implemented | N/A       |
-| `NmCoordinatorRoleEnum`                     | [ ] Implemented | N/A       |
-| `FlexrayNmScheduleVariant`                  | [ ] Implemented | N/A       |
-| `CanNmEcu`                                  | [ ] Implemented | N/A       |
-| `J1939NmNode`                               | [ ] Implemented | N/A       |
-| `J1939NodeName`                             | [ ] Implemented | N/A       |
-| `J1939NmAddressConfigurationCapabilityEnum` | [ ] Implemented | N/A       |
-| `BusMirrorChannelMapping`                   | [ ] Implemented | N/A       |
-| `MirroringProtocolEnum`                     | [ ] Created     | N/A       |
-| `BusMirrorChannel`                          | [ ] Created     | N/A       |
+| Class Name                                  | Status       | Commit ID |
+| ------------------------------------------- | ------------ | --------- |
+| `IPsecHeaderTypeEnum`                       | [ ] Pending* | N/A       |
+| `IPsecDpdActionEnum`                        | [ ] Pending* | N/A       |
+| `EthernetFrameTriggering`                   | [ ] Pending* | N/A       |
+| `UserDefinedEthernetFrame`                  | [ ] Pending* | N/A       |
+| `Ieee1722TpEthernetFrame`                   | [ ] Pending* | N/A       |
+| `StateDependentFirewall`                    | [ ] Pending* | N/A       |
+| `TpConfig`                                  | [ ] Pending* | N/A       |
+| `FlexrayTpConfig`                           | [ ] Pending* | N/A       |
+| `FlexrayTpConnectionControl`                | [ ] Pending* | N/A       |
+| `FlexrayTpConnection`                       | [ ] Pending* | N/A       |
+| `FlexrayTpPduPool`                          | [ ] Pending* | N/A       |
+| `FlexrayTpNode`                             | [ ] Pending* | N/A       |
+| `FlexrayTpEcu`                              | [ ] Pending* | N/A       |
+| `FlexrayArTpConfig`                         | [ ] Pending* | N/A       |
+| `FlexrayArTpChannel`                        | [ ] Pending* | N/A       |
+| `FlexrayArTpNode`                           | [ ] Pending* | N/A       |
+| `FlexrayArTpConnection`                     | [ ] Pending* | N/A       |
+| `FrArTpAckType`                             | [ ] Pending* | N/A       |
+| `MaximumMessageLengthType`                  | [ ] Pending* | N/A       |
+| `CanTpConfig`                               | [ ] Pending* | N/A       |
+| `CanTpChannel`                              | [ ] Pending* | N/A       |
+| `CanTpConnection`                           | [ ] Pending* | N/A       |
+| `CanTpAddressingFormatType`                 | [ ] Pending* | N/A       |
+| `CanTpAddress`                              | [ ] Pending* | N/A       |
+| `CanTpEcu`                                  | [ ] Pending* | N/A       |
+| `CanTpNode`                                 | [ ] Pending* | N/A       |
+| `NetworkTargetAddressType`                  | [ ] Pending* | N/A       |
+| `LinTpConfig`                               | [ ] Pending* | N/A       |
+| `LinTpNode`                                 | [ ] Pending* | N/A       |
+| `EthTpConfig`                               | [ ] Pending* | N/A       |
+| `EthTpConnection`                           | [ ] Pending* | N/A       |
+| `SomeipTpConfig`                            | [ ] Pending* | N/A       |
+| `SomeipTpConnection`                        | [ ] Pending* | N/A       |
+| `SomeipTpChannel`                           | [ ] Pending* | N/A       |
+| `J1939TpConfig`                             | [ ] Pending* | N/A       |
+| `J1939TpConnection`                         | [ ] Pending* | N/A       |
+| `J1939TpPg`                                 | [ ] Pending* | N/A       |
+| `J1939TpNode`                               | [ ] Pending* | N/A       |
+| `TpConnection`                              | [ ] Pending* | N/A       |
+| `IEEE1722TpConfig`                          | [ ] Pending* | N/A       |
+| `IEEE1722TpConnection`                      | [ ] Pending* | N/A       |
+| `IEEE1722TpAvConnection`                    | [ ] Pending* | N/A       |
+| `IEEE1722TpCrfConnection`                   | [ ] Pending* | N/A       |
+| `IEEE1722TpCrfTypeEnum`                     | [ ] Pending* | N/A       |
+| `IEEE1722TpCrfPullEnum`                     | [ ] Pending* | N/A       |
+| `IEEE1722TpAafConnection`                   | [ ] Pending* | N/A       |
+| `IEEE1722TpAafNominalRateEnum`              | [ ] Pending* | N/A       |
+| `IEEE1722TpAafFormatEnum`                   | [ ] Pending* | N/A       |
+| `IEEE1722TpAafAes3DataTypeEnum`             | [ ] Pending* | N/A       |
+| `IEEE1722TpIidcConnection`                  | [ ] Pending* | N/A       |
+| `IEEE1722TpRvfConnection`                   | [ ] Pending* | N/A       |
+| `IEEE1722TpRvfPixelDepthEnum`               | [ ] Pending* | N/A       |
+| `IEEE1722TpRvfPixelFormatEnum`              | [ ] Pending* | N/A       |
+| `IEEE1722TpRvfColorSpaceEnum`               | [ ] Pending* | N/A       |
+| `IEEE1722TpRvfFrameRateEnum`                | [ ] Pending* | N/A       |
+| `IEEE1722TpAcfConnection`                   | [ ] Pending* | N/A       |
+| `IEEE1722TpAcfBus`                          | [ ] Pending* | N/A       |
+| `IEEE1722TpAcfBusPart`                      | [ ] Pending* | N/A       |
+| `IEEE1722TpAcfCan`                          | [ ] Pending* | N/A       |
+| `IEEE1722TpAcfCanPart`                      | [ ] Pending* | N/A       |
+| `IEEE1722TpAcfCanMessageTypeEnum`           | [ ] Pending* | N/A       |
+| `IEEE1722TpAcfLin`                          | [ ] Pending* | N/A       |
+| `IEEE1722TpAcfLinPart`                      | [ ] Pending* | N/A       |
+| `BusspecificNmEcu`                          | [ ] Pending* | N/A       |
+| `NmCoordinator`                             | [ ] Pending* | N/A       |
+| `NmNode`                                    | [ ] Pending* | N/A       |
+| `NmCoordinatorRoleEnum`                     | [ ] Pending* | N/A       |
+| `FlexrayNmScheduleVariant`                  | [ ] Pending* | N/A       |
+| `CanNmEcu`                                  | [ ] Pending* | N/A       |
+| `J1939NmNode`                               | [ ] Pending* | N/A       |
+| `J1939NodeName`                             | [ ] Pending* | N/A       |
+| `J1939NmAddressConfigurationCapabilityEnum` | [ ] Pending* | N/A       |
+| `BusMirrorChannelMapping`                   | [ ] Pending* | N/A       |
+| `MirroringProtocolEnum`                     | [ ] Pending* | N/A       |
+| `BusMirrorChannel`                          | [ ] Pending* | N/A       |
 
 ## Group34
 
@@ -2082,80 +2082,88 @@ Status: **0/75** completed
 
 ## Group36
 
-Status: **0/73** completed
+Status: **0/81** completed
 
-| Class Name                                     | Status          | Commit ID |
-| ---------------------------------------------- | --------------- | --------- |
-| `ApplicationInterface`                         | [ ] Implemented | N/A       |
-| `FMFeatureModel`                               | [ ] Created     | N/A       |
-| `FMFeature`                                    | [ ] Created     | N/A       |
-| `FMAttributeDef`                               | [ ] Created     | N/A       |
-| `FMFeatureDecomposition`                       | [ ] Created     | N/A       |
-| `FMFeatureRestriction`                         | [ ] Created     | N/A       |
-| `FMFeatureRelation`                            | [ ] Created     | N/A       |
-| `FMFeatureSelection`                           | [ ] Created     | N/A       |
-| `FMFeatureSelectionState`                      | [ ] Created     | N/A       |
-| `FMAttributeValue`                             | [ ] Created     | N/A       |
-| `FMFeatureSelectionSet`                        | [ ] Created     | N/A       |
-| `FMFeatureMap`                                 | [ ] Created     | N/A       |
-| `FMFeatureMapElement`                          | [ ] Created     | N/A       |
-| `FMFeatureMapCondition`                        | [ ] Created     | N/A       |
-| `FMFeatureMapAssertion`                        | [ ] Created     | N/A       |
-| `SwSystemconstantValueSet`                     | [ ] Implemented | N/A       |
-| `PostBuildVariantCriterionValueSet`            | [ ] Created     | N/A       |
-| `LogAndTraceMessageCollectionSet`              | [ ] Created     | N/A       |
-| `IdsDesign`                                    | [ ] Created     | N/A       |
-| `SecurityEventDefinition`                      | [ ] Created     | N/A       |
-| `SecurityEventFilterChain`                     | [ ] Created     | N/A       |
-| `AbstractSecurityEventFilter`                  | [ ] Created     | N/A       |
-| `SecurityEventStateFilter`                     | [ ] Created     | N/A       |
-| `SecurityEventOneEveryNFilter`                 | [ ] Created     | N/A       |
-| `SecurityEventAggregationFilter`               | [ ] Created     | N/A       |
-| `SecurityEventContextDataSourceEnum`           | [ ] Created     | N/A       |
-| `SecurityEventThresholdFilter`                 | [ ] Created     | N/A       |
-| `IdsmRateLimitation`                           | [ ] Created     | N/A       |
-| `IdsmTrafficLimitation`                        | [ ] Created     | N/A       |
-| `SecurityEventContextMapping`                  | [ ] Created     | N/A       |
-| `SecurityEventContextProps`                    | [ ] Created     | N/A       |
-| `SecurityEventReportingModeEnum`               | [ ] Created     | N/A       |
-| `SecurityEventContextMappingBswModule`         | [ ] Created     | N/A       |
-| `SecurityEventContextMappingFunctionalCluster` | [ ] Created     | N/A       |
-| `SecurityEventContextMappingCommConnector`     | [ ] Created     | N/A       |
-| `SecurityEventContextMappingApplication`       | [ ] Created     | N/A       |
-| `IdsmInstance`                                 | [ ] Created     | N/A       |
-| `BlockState`                                   | [ ] Created     | N/A       |
-| `ClientServerOperationBlueprintMapping`        | [ ] Created     | N/A       |
-| `DataExchangePoint`                            | [ ] Created     | N/A       |
-| `Baseline`                                     | [ ] Created     | N/A       |
-| `DataExchangePointKind`                        | [ ] Created     | N/A       |
-| `SpecElementReference`                         | [ ] Created     | N/A       |
-| `SpecElementScope`                             | [ ] Created     | N/A       |
-| `RestrictionWithSeverity`                      | [ ] Created     | N/A       |
-| `SeverityEnum`                                 | [ ] Created     | N/A       |
-| `ValueRestrictionWithSeverity`                 | [ ] Created     | N/A       |
-| `MultiplicityRestrictionWithSeverity`          | [ ] Created     | N/A       |
-| `AbstractMultiplicityRestriction`              | [ ] Created     | N/A       |
-| `VariationRestrictionWithSeverity`             | [ ] Created     | N/A       |
-| `DataFormatElementReference`                   | [ ] Created     | N/A       |
-| `DataFormatElementScope`                       | [ ] Created     | N/A       |
-| `SpecificationScope`                           | [ ] Created     | N/A       |
-| `SpecificationDocumentScope`                   | [ ] Created     | N/A       |
-| `DocumentElementScope`                         | [ ] Created     | N/A       |
-| `AbstractClassTailoring`                       | [ ] Created     | N/A       |
-| `AbstractCondition`                            | [ ] Created     | N/A       |
-| `AggregationCondition`                         | [ ] Created     | N/A       |
-| `AttributeCondition`                           | [ ] Created     | N/A       |
-| `ClassTailoring`                               | [ ] Created     | N/A       |
-| `ClassContentConditional`                      | [ ] Created     | N/A       |
-| `ConcreteClassTailoring`                       | [ ] Created     | N/A       |
-| `InvertCondition`                              | [ ] Created     | N/A       |
-| `PrimitiveAttributeCondition`                  | [ ] Created     | N/A       |
-| `ReferenceCondition`                           | [ ] Created     | N/A       |
-| `TextualCondition`                             | [ ] Created     | N/A       |
-| `AttributeTailoring`                           | [ ] Created     | N/A       |
-| `PrimitiveAttributeTailoring`                  | [ ] Created     | N/A       |
-| `DefaultValueApplicationStrategyEnum`          | [ ] Created     | N/A       |
-| `AggregationTailoring`                         | [ ] Created     | N/A       |
-| `ReferenceTailoring`                           | [ ] Created     | N/A       |
-| `ConstraintTailoring`                          | [ ] Created     | N/A       |
-| `SdgTailoring`                                 | [ ] Created     | N/A       |
+| Class Name                                        | Status          | Commit ID  |
+| ------------------------------------------------- | --------------- | ---------- |
+| `ApplicationInterface`                            | [ ] Pending*    | N/A        |
+| `FMFeatureModel`                                  | [ ] Pending*    | N/A        |
+| `FMFeature`                                       | [ ] Pending*    | N/A        |
+| `FMAttributeDef`                                  | [ ] Pending*    | N/A        |
+| `FMFeatureDecomposition`                          | [ ] Pending*    | N/A        |
+| `FMFeatureRestriction`                            | [ ] Pending*    | N/A        |
+| `FMFeatureRelation`                               | [ ] Pending*    | N/A        |
+| `FMFeatureSelection`                              | [ ] Pending*    | N/A        |
+| `FMFeatureSelectionState`                         | [ ] Pending*    | N/A        |
+| `FMAttributeValue`                                | [ ] Pending*    | N/A        |
+| `FMFeatureSelectionSet`                           | [ ] Pending*    | N/A        |
+| `FMFeatureMap`                                    | [ ] Pending*    | N/A        |
+| `FMFeatureMapElement`                             | [ ] Pending*    | N/A        |
+| `FMFeatureMapCondition`                           | [ ] Pending*    | N/A        |
+| `FMFeatureMapAssertion`                           | [ ] Pending*    | N/A        |
+| `SwSystemconstantValueSet`                        | [ ] Pending*    | N/A        |
+| `PostBuildVariantCriterionValueSet`               | [ ] Pending*    | N/A        |
+| `LogAndTraceMessageCollectionSet`                 | [ ] Pending*    | N/A        |
+| `IdsDesign`                                       | [ ] Pending*    | N/A        |
+| `SecurityEventDefinition`                         | [ ] Pending*    | N/A        |
+| `SecurityEventFilterChain`                        | [ ] Pending*    | N/A        |
+| `AbstractSecurityEventFilter`                     | [ ] Pending*    | N/A        |
+| `SecurityEventStateFilter`                        | [ ] Pending*    | N/A        |
+| `SecurityEventOneEveryNFilter`                    | [ ] Pending*    | N/A        |
+| `SecurityEventAggregationFilter`                  | [ ] Pending*    | N/A        |
+| `SecurityEventContextDataSourceEnum`              | [ ] Pending*    | N/A        |
+| `SecurityEventThresholdFilter`                    | [ ] Pending*    | N/A        |
+| `IdsmRateLimitation`                              | [ ] Pending*    | N/A        |
+| `IdsmTrafficLimitation`                           | [ ] Pending*    | N/A        |
+| `SecurityEventContextMapping`                     | [ ] Pending*    | N/A        |
+| `SecurityEventContextProps`                       | [ ] Pending*    | N/A        |
+| `SecurityEventReportingModeEnum`                  | [ ] Pending*    | N/A        |
+| `SecurityEventContextMappingBswModule`            | [ ] Pending*    | N/A        |
+| `SecurityEventContextMappingFunctionalCluster`    | [ ] Pending*    | N/A        |
+| `SecurityEventContextMappingCommConnector`        | [ ] Pending*    | N/A        |
+| `SecurityEventContextMappingApplication`          | [ ] Pending*    | N/A        |
+| `IdsmInstance`                                    | [ ] Pending*    | N/A        |
+| `BlockState`                                      | [ ] Pending*    | N/A        |
+| `ClientServerOperationBlueprintMapping`           | [ ] Pending*    | N/A        |
+| `DataExchangePoint`                               | [ ] Pending*    | N/A        |
+| `Baseline`                                        | [ ] Pending*    | N/A        |
+| `DataExchangePointKind`                           | [ ] Pending*    | N/A        |
+| `SpecElementReference`                            | [ ] Pending*    | N/A        |
+| `SpecElementScope`                                | [ ] Pending*    | N/A        |
+| `RestrictionWithSeverity`                         | [ ] Pending*    | N/A        |
+| `SeverityEnum`                                    | [ ] Pending*    | N/A        |
+| `ValueRestrictionWithSeverity`                    | [ ] Pending*    | N/A        |
+| `MultiplicityRestrictionWithSeverity`             | [ ] Pending*    | N/A        |
+| `AbstractMultiplicityRestriction`                 | [ ] Pending*    | N/A        |
+| `VariationRestrictionWithSeverity`                | [ ] Pending*    | N/A        |
+| `DataFormatElementReference`                      | [ ] Pending*    | N/A        |
+| `DataFormatElementScope`                          | [ ] Pending*    | N/A        |
+| `SpecificationScope`                              | [ ] Pending*    | N/A        |
+| `SpecificationDocumentScope`                      | [ ] Pending*    | N/A        |
+| `DocumentElementScope`                            | [ ] Pending*    | N/A        |
+| `AbstractClassTailoring`                          | [ ] Pending*    | N/A        |
+| `AbstractCondition`                               | [ ] Pending*    | N/A        |
+| `AggregationCondition`                            | [ ] Pending*    | N/A        |
+| `AttributeCondition`                              | [ ] Pending*    | N/A        |
+| `ClassTailoring`                                  | [ ] Pending*    | N/A        |
+| `ClassContentConditional`                         | [ ] Pending*    | N/A        |
+| `ConcreteClassTailoring`                          | [ ] Pending*    | N/A        |
+| `InvertCondition`                                 | [ ] Pending*    | N/A        |
+| `PrimitiveAttributeCondition`                     | [ ] Pending*    | N/A        |
+| `ReferenceCondition`                              | [ ] Pending*    | N/A        |
+| `TextualCondition`                                | [ ] Pending*    | N/A        |
+| `AttributeTailoring`                              | [ ] Pending*    | N/A        |
+| `PrimitiveAttributeTailoring`                     | [ ] Pending*    | N/A        |
+| `DefaultValueApplicationStrategyEnum`             | [ ] Pending*    | N/A        |
+| `AggregationTailoring`                            | [ ] Pending*    | N/A        |
+| `ReferenceTailoring`                              | [ ] Pending*    | N/A        |
+| `ConstraintTailoring`                             | [ ] Pending*    | N/A        |
+| `SdgTailoring`                                    | [ ] Pending*    | N/A        |
+| `IdsCommonElement`                                | [ ] Implemented | ecb37c71eb |
+| `IdsMapping`                                      | [ ] Implemented | ecb37c71eb |
+| `IdsmProperties`                                  | [ ] Implemented | 023395a0a6 |
+| `IdsmSignatureSupportAp`                          | [ ] Implemented | 023395a0a6 |
+| `IdsmSignatureSupportCp`                          | [ ] Implemented | 023395a0a6 |
+| `SecurityEventContextData`                        | [ ] Implemented | 023395a0a6 |
+| `FunctionGroupStateInFunctionGroupSetInstanceRef` | [ ] Implemented | 48a3dcb2fa |
+| `DataFormatTailoring`                             | [ ] Implemented | b4ee0768b9 |

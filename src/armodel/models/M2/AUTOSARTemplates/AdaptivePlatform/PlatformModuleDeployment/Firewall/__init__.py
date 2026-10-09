@@ -2016,80 +2016,66 @@ class FirewallRuleProps(ARObject):
 
 
 class StateDependentFirewall(ARElement):
-    """Firewall rules that are defined in a firewall state"""
+    """Firewall rules that are defined in a firewall state Tags: atp.Status=candidate atp.recommendedPackage=StateDependentFirewallRules"""
 
     # StateDependentFirewall method parity checklist:
-    # Spec: R23-11/AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.234, p.584 (R23-11)
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.234, p.584
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # Note: the XSD-only AP variant firewallState (FIREWALL-STATE-IREFS, iref type
-    #  FIREWALL-STATE-IN-FIRWALL-STATE-SWITCH-INTERFACE-INSTANCE-REF) is not modeled —
-    #  Rule 0015: the PDF/markdown table is authoritative and Table 6.234 (CP) lists
-    #  only firewallStateModeDeclaration
-    # [x] __init__                          [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
-    # [x] getDefaultAction                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setDefaultAction                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] addFirewallRuleProps              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getFirewallRuleProps              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] addFirewallStateModeDeclarationRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] __init__                            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDefaultAction                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDefaultAction                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addFirewallRuleProps                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFirewallRuleProps                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addFirewallStateModeDeclarationRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getFirewallStateModeDeclarationRefs [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent, short_name: str):
         super().__init__(parent, short_name)
 
-        # This attribute defines a defaultAction in case that the VehicleMode is not yet set.
+        # This attribute defines a defaultAction in case that the VehicleMode is not yet set. Tags: atp.Status=candidate
         self.defaultAction: Optional[FirewallActionEnum] = None
 
-        # Collection of firewall rules that apply in the vehicle mode
+        # Collection of firewall rules that apply in the vehicle mode Tags: atp.Status=candidate
         self.firewallRuleProps: List[FirewallRuleProps] = []
 
-        # Reference to firewall states in which the Firewall is active. If one of the referenced ModeDeclarations is the current firewall state then the firewall rule shall be considered as active.
+        # Reference to firewall states in which the Firewall is active. If one of the referenced ModeDeclarations is the current firewall state then the firewall rule shall be considered as active. Tags: atp.Status=candidate
         self.firewallStateModeDeclarationRefs: List[RefType] = []
 
     def getDefaultAction(self) -> Optional[FirewallActionEnum]:
-        """
-        This attribute defines a defaultAction in case that the VehicleMode is not yet set.
-        """
+        """This attribute defines a defaultAction in case that the VehicleMode is not yet set. Tags: atp.Status=candidate"""
         return self.defaultAction
 
-    def setDefaultAction(self, value: Optional[FirewallActionEnum]):
+    def setDefaultAction(self, value: Optional[FirewallActionEnum]) -> "StateDependentFirewall":
         """
-        This attribute defines a defaultAction in case that the VehicleMode is not yet set. Only sets the value if it is not None.
-
-        Returns:
-            self for method chaining
+        This attribute defines a defaultAction in case that the VehicleMode is not yet set. Tags: atp.Status=candidate
+        A None value is a no-op and does not overwrite an existing defaultAction.
         """
         if value is not None:
             self.defaultAction = value
         return self
 
-    def addFirewallRuleProps(self, value: FirewallRuleProps):
+    def addFirewallRuleProps(self, value: Optional[FirewallRuleProps]) -> "StateDependentFirewall":
         """
-        Collection of firewall rules that apply in the vehicle mode
-
-        Returns:
-            self for method chaining
+        Collection of firewall rules that apply in the vehicle mode Tags: atp.Status=candidate
+        A None value is a no-op and does not overwrite an existing firewallRuleProps.
         """
-        self.firewallRuleProps.append(value)
+        if value is not None:
+            self.firewallRuleProps.append(value)
         return self
 
     def getFirewallRuleProps(self) -> List[FirewallRuleProps]:
-        """
-        Collection of firewall rules that apply in the vehicle mode
-        """
+        """Collection of firewall rules that apply in the vehicle mode Tags: atp.Status=candidate"""
         return self.firewallRuleProps
 
-    def addFirewallStateModeDeclarationRef(self, value: RefType):
+    def addFirewallStateModeDeclarationRef(self, value: Optional[RefType]) -> "StateDependentFirewall":
         """
-        Reference to firewall states in which the Firewall is active. If one of the referenced ModeDeclarations is the current firewall state then the firewall rule shall be considered as active.
-
-        Returns:
-            self for method chaining
+        Reference to firewall states in which the Firewall is active. If one of the referenced ModeDeclarations is the current firewall state then the firewall rule shall be considered as active. Tags: atp.Status=candidate
+        A None value is a no-op and does not overwrite an existing firewallStateModeDeclarationRefs.
         """
-        self.firewallStateModeDeclarationRefs.append(value)
+        if value is not None:
+            self.firewallStateModeDeclarationRefs.append(value)
         return self
 
     def getFirewallStateModeDeclarationRefs(self) -> List[RefType]:
-        """
-        Reference to firewall states in which the Firewall is active. If one of the referenced ModeDeclarations is the current firewall state then the firewall rule shall be considered as active.
-        """
+        """Reference to firewall states in which the Firewall is active. If one of the referenced ModeDeclarations is the current firewall state then the firewall rule shall be considered as active. Tags: atp.Status=candidate"""
         return self.firewallStateModeDeclarationRefs

@@ -80,7 +80,7 @@ class TestParseNmEcu:
         assert coordinator.getIndex().getValue() == 1
         assert coordinator.getNmCoordSyncSupport().getValue() is True
         assert coordinator.getNmGlobalCoordinatorTime().getValue() == 2.5
-        nodes = coordinator.getNmNodes()
+        nodes = coordinator.getNmNodeRefs()
         assert len(nodes) == 1
         assert nodes[0].getDest() == "NM-NODE"
         assert nodes[0].getValue() == "/Clusters/Can1/node"

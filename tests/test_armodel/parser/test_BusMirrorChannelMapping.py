@@ -6,7 +6,7 @@ TARGET-PDU-TRIGGERINGS wrapper list last per the XSD group
 BUS-MIRROR-CHANNEL-MAPPING (AUTOSAR_00052.xsd).
 """
 
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import BusMirrorChannelMapping
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.BusMirror import BusMirrorChannelMapping, MirroringProtocolEnum
 from tests.test_armodel.parser._helpers import _snip
 
 
@@ -38,7 +38,9 @@ class TestBusMirrorChannelMappingReader:
 
         parser.readBusMirrorChannelMapping(element, mapping)
 
-        assert mapping.getMirroringProtocol().getValue() == "VERSION-1"
+        protocol = mapping.getMirroringProtocol()
+        assert isinstance(protocol, MirroringProtocolEnum)
+        assert protocol.getValue() == "VERSION-1"
         source_channel = mapping.getSourceChannel()
         assert source_channel is not None
         assert source_channel.getChecksum().getValue() == "1234"

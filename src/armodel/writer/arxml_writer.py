@@ -420,11 +420,33 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ModelRestrictionTypes import (
     AbstractValueRestriction,
     AbstractVariationRestriction,
+    ValueRestrictionWithSeverity,
+    VariationRestrictionWithSeverity,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (
     EvaluatedVariantSet,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARPackage,
+    DataExchangePoint,
+    SecurityEventContextMapping,
+    SecurityEventFilterChain,
+    SecurityEventDefinition,
+    SecurityEventContextMappingFunctionalCluster,
+    SecurityEventContextMappingCommConnector,
+    SecurityEventContextMappingBswModule,
+    SecurityEventContextMappingApplication,
+    IdsmInstance,
+    IdsDesign,
+    LogAndTraceMessageCollectionSet,
+    PostBuildVariantCriterionValueSet,
+    IdsmProperties,
+    FMFeature,
+    FMFeatureMap,
+    FMFeatureModel,
+    FMFeatureSelectionSet,
+    ReferenceBase,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import AclObjectSet, AclOperation, AclPermission, AclRole
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import DiagnosticCustomServiceInstance, DiagnosticMapping
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
@@ -541,6 +563,21 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticWriteDataByIdentifier,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    AggregationCondition,
+    Baseline,
+    ClassTailoring,
+    DataFormatTailoring,
+    InvertCondition,
+    MultiplicityRestrictionWithSeverity,
+    PrimitiveAttributeCondition,
+    ReferenceCondition,
+    SpecificationScope,
+    TextualCondition,
+    FMAttributeValue,
+    IdsmSignatureSupportAp,
+    IdsmSignatureSupportCp,
+    SecurityEventContextData,
+    FMFeatureDecomposition,
     AbstractGlobalTimeDomainProps,
     BinaryManifestItemNumericalValue,
     BinaryManifestItemPointerValue,
@@ -597,6 +634,28 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     BinaryManifestAddressableObject,
+    FMAttributeDef,
+    AggregationTailoring,
+    ClassContentConditional,
+    AbstractClassTailoring,
+    ConcreteClassTailoring,
+    DocumentElementScope,
+    PrimitiveAttributeTailoring,
+    ReferenceTailoring,
+    SpecificationDocumentScope,
+    SecurityEventAggregationFilter,
+    SecurityEventContextProps,
+    SecurityEventOneEveryNFilter,
+    SecurityEventStateFilter,
+    SecurityEventThresholdFilter,
+    IdsmRateLimitation,
+    IdsmTrafficLimitation,
+    FMFeatureMapAssertion,
+    FMFeatureMapCondition,
+    FMFeatureMapElement,
+    FMFeatureRelation,
+    FMFeatureRestriction,
+    FMFeatureSelection,
     BinaryManifestMetaDataField,
     BinaryManifestResource,
     CpSoftwareClusterCommunicationResource,
@@ -1041,7 +1100,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Obso
     SoAdRoutingGroup,
     SocketConnection,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import GenericEthernetFrame
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import EthernetFrameTriggering, GenericEthernetFrame, Ieee1722TpEthernetFrame, UserDefinedEthernetFrame
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
     CouplingElement,
     CouplingElementAbstractDetails,
@@ -1210,7 +1269,6 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommu
     DcmIPdu,
     DynamicPart,
     DynamicPartAlternative,
-    EthernetFrameTriggering,
     Frame,
     FramePort,
     FrameTriggering,
@@ -1251,7 +1309,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopolo
     TtcanPhysicalChannel,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanClusterBusOffRecovery, J1939Cluster
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import (
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.BusMirror import (
     BusMirrorChannel,
     BusMirrorChannelMapping,
     BusMirrorChannelMappingCan,
@@ -1389,8 +1447,17 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import
     FlexrayTpPduPool,
     IEEE1722TpConfig,
     IEEE1722TpConnection,
+    IEEE1722TpAcfBus,
+    IEEE1722TpAcfConnection,
     IEEE1722TpAvConnection,
+    IEEE1722TpAafConnection,
     IEEE1722TpCrfConnection,
+    IEEE1722TpIidcConnection,
+    IEEE1722TpRvfConnection,
+    J1939TpConfig,
+    J1939TpConnection,
+    J1939TpNode,
+    J1939TpPg,
     LinTpConfig,
     LinTpConnection,
     LinTpNode,
@@ -1399,6 +1466,14 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import
     SomeipTpConnection,
     TpAddress,
     TpConfig,
+)
+
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols.IEEE1722Tp.IEEE1722TpAcf import (
+    IEEE1722TpAcfBusPart,
+    IEEE1722TpAcfCan,
+    IEEE1722TpAcfCanPart,
+    IEEE1722TpAcfLin,
+    IEEE1722TpAcfLinPart,
 )
 from armodel.models.M2.MSR.AsamHdo.AdminData import AdminData, DocRevision, Modification
 from armodel.models.M2.MSR.AsamHdo.BaseTypes import BaseTypeDirectDefinition, SwBaseType
@@ -1969,6 +2044,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setJ1939NodeName(self, element: ET.Element, key: str, node_name: Optional[J1939NodeName]):
         if node_name is not None:
             child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, node_name)
             self.setChildElementOptionalBooleanValue(child_element, "ARBITRARY-ADDRESS-CAPABLE", node_name.getArbitraryAddressCapable())
             self.setChildElementOptionalIntegerValue(child_element, "ECU-INSTANCE", node_name.getEcuInstance())
             self.setChildElementOptionalIntegerValue(child_element, "FUNCTION", node_name.getFunction())
@@ -2105,6 +2181,655 @@ class ARXMLWriter(AbstractARXMLWriter):
                 child_element.text = text
             if isinstance(formula, FMFormulaByFeaturesAndAttributes):
                 self.writeFMFormulaByFeaturesAndAttributes(child_element, formula)
+
+    def writeFMAttributeValue(self, element: ET.Element, value: FMAttributeValue):
+        if value is not None:
+            child_element = ET.SubElement(element, "FM-ATTRIBUTE-VALUE")
+            self.writeARObject(child_element, value)
+            self.setChildElementOptionalRefType(child_element, "DEFINITION-REF", value.getDefinitionRef())
+            self.setChildElementOptionalNumericalValue(child_element, "VALUE", value.getValue())
+
+    def writeFMFeatureDecomposition(self, element: ET.Element, decomposition: FMFeatureDecomposition):
+        if decomposition is not None:
+            child_element = ET.SubElement(element, "FM-FEATURE-DECOMPOSITION")
+            self.writeARObject(child_element, decomposition)
+            self.setChildElementOptionalCategoryString(child_element, "CATEGORY", decomposition.getCategory())
+            refs = decomposition.getFeatureRefs()
+            if len(refs) > 0:
+                refs_tag = ET.SubElement(child_element, "FEATURE-REFS")
+                for ref in refs:
+                    self.setChildElementOptionalRefType(refs_tag, "FEATURE-REF", ref)
+            self.setChildElementOptionalPositiveInteger(child_element, "MAX", decomposition.getMax())
+            self.setChildElementOptionalPositiveInteger(child_element, "MIN", decomposition.getMin())
+
+    def writeFMAttributeDef(self, element: ET.Element, attribute_def: FMAttributeDef):
+        if attribute_def is not None:
+            child_element = ET.SubElement(element, "FM-ATTRIBUTE-DEF")
+            self.writeIdentifiable(child_element, attribute_def)
+            self.setChildElementOptionalNumericalValue(child_element, "DEFAULT-VALUE", attribute_def.getDefaultValue())
+            self.setChildLimitElement(child_element, "MAX", attribute_def.getMax())
+            self.setChildLimitElement(child_element, "MIN", attribute_def.getMin())
+
+    def writeFMFeatureRestriction(self, element: ET.Element, restriction: FMFeatureRestriction):
+        if restriction is not None:
+            child_element = ET.SubElement(element, "FM-FEATURE-RESTRICTION")
+            self.writeIdentifiable(child_element, restriction)
+            restriction_condition = restriction.getRestriction()
+            if restriction_condition is not None:
+                self.writeFMConditionByFeaturesAndAttributes(child_element, restriction_condition, key="RESTRICTION")
+
+    def writeFMFeatureRelation(self, element: ET.Element, relation: FMFeatureRelation):
+        if relation is not None:
+            child_element = ET.SubElement(element, "FM-FEATURE-RELATION")
+            self.writeIdentifiable(child_element, relation)
+            refs = relation.getFeatureRefs()
+            if len(refs) > 0:
+                refs_tag = ET.SubElement(child_element, "FEATURE-REFS")
+                for ref in refs:
+                    self.setChildElementOptionalRefType(refs_tag, "FEATURE-REF", ref)
+            relation_restriction = relation.getRestriction()
+            if relation_restriction is not None:
+                self.writeFMConditionByFeaturesAndAttributes(child_element, relation_restriction, key="RESTRICTION")
+
+    def writeFMFeatureSelection(self, element: ET.Element, selection: FMFeatureSelection):
+        if selection is not None:
+            child_element = ET.SubElement(element, "FM-FEATURE-SELECTION")
+            self.writeIdentifiable(child_element, selection)
+            self.setChildElementOptionalRefType(child_element, "FEATURE-REF", selection.getFeatureRef())
+            self.setChildElementOptionalLiteral(child_element, "STATE", selection.getState())
+            self.setChildElementOptionalLiteral(child_element, "MINIMUM-SELECTED-BINDING-TIME", selection.getMinimumSelectedBindingTime())
+            self.setChildElementOptionalLiteral(child_element, "MAXIMUM-SELECTED-BINDING-TIME", selection.getMaximumSelectedBindingTime())
+            attribute_values = selection.getAttributeValues()
+            if len(attribute_values) > 0:
+                values_tag = ET.SubElement(child_element, "ATTRIBUTE-VALUES")
+                for value in attribute_values:
+                    self.writeFMAttributeValue(values_tag, value)
+
+    def writePostBuildVariantCriterionValueSet(self, element: ET.Element, value_set: PostBuildVariantCriterionValueSet):
+        if value_set is not None:
+            child_element = ET.SubElement(element, "POST-BUILD-VARIANT-CRITERION-VALUE-SET")
+            self.writeIdentifiable(child_element, value_set)
+            values = value_set.getPostBuildVariantCriterionValues()
+            if len(values) > 0:
+                values_tag = ET.SubElement(child_element, "POST-BUILD-VARIANT-CRITERION-VALUES")
+                for value in values:
+                    self.writePostBuildVariantCriterionValue(values_tag, value)
+
+    def writeLogAndTraceMessageCollectionSet(self, element: ET.Element, collection_set: LogAndTraceMessageCollectionSet):
+        if collection_set is not None:
+            child_element = ET.SubElement(element, "LOG-AND-TRACE-MESSAGE-COLLECTION-SET")
+            self.writeIdentifiable(child_element, collection_set)
+            messages = collection_set.getDltMessages()
+            if len(messages) > 0:
+                messages_tag = ET.SubElement(child_element, "DLT-MESSAGES")
+                for message in messages:
+                    self.writeDltMessage(messages_tag, message)
+
+    def writeSecurityEventStateFilter(self, element: ET.Element, state_filter: SecurityEventStateFilter, key: str = "SECURITY-EVENT-STATE-FILTER"):
+        if state_filter is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeIdentifiable(child_element, state_filter)
+            irefs = state_filter.getBlockIfStateActiveApIrefs()
+            if len(irefs) > 0:
+                irefs_tag = ET.SubElement(child_element, "BLOCK-IF-STATE-ACTIVE-AP-IREFS")
+                for iref in irefs:
+                    iref_element = ET.SubElement(irefs_tag, "BLOCK-IF-STATE-ACTIVE-AP-IREF")
+                    self.setChildElementOptionalRefType(iref_element, "CONTEXT-MODE-DECLARATION-GROUP-PROTOTYPE-REF", iref.getContextModeDeclarationGroupPrototypeRef())
+                    self.setChildElementOptionalRefType(iref_element, "TARGET-MODE-DECLARATION-REF", iref.getTargetModeDeclarationRef())
+            refs = state_filter.getBlockIfStateActiveCpRefs()
+            if len(refs) > 0:
+                refs_tag = ET.SubElement(child_element, "BLOCK-IF-STATE-ACTIVE-CP-REFS")
+                for ref in refs:
+                    self.setChildElementOptionalRefType(refs_tag, "BLOCK-IF-STATE-ACTIVE-CP-REF", ref)
+
+    def writeSecurityEventOneEveryNFilter(self, element: ET.Element, one_every_n_filter: SecurityEventOneEveryNFilter, key: str = "SECURITY-EVENT-ONE-EVERY-N-FILTER"):
+        if one_every_n_filter is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeIdentifiable(child_element, one_every_n_filter)
+            self.setChildElementOptionalPositiveInteger(child_element, "N", one_every_n_filter.getN())
+
+    def writeSecurityEventAggregationFilter(self, element: ET.Element, aggregation_filter: SecurityEventAggregationFilter, key: str = "SECURITY-EVENT-AGGREGATION-FILTER"):
+        if aggregation_filter is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeIdentifiable(child_element, aggregation_filter)
+            self.setChildElementOptionalLiteral(child_element, "CONTEXT-DATA-SOURCE", aggregation_filter.getContextDataSource())
+            self.setChildElementOptionalTimeValue(child_element, "MINIMUM-INTERVAL-LENGTH", aggregation_filter.getMinimumIntervalLength())
+
+    def writeSecurityEventThresholdFilter(self, element: ET.Element, threshold_filter: SecurityEventThresholdFilter, key: str = "SECURITY-EVENT-THRESHOLD-FILTER"):
+        if threshold_filter is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeIdentifiable(child_element, threshold_filter)
+            self.setChildElementOptionalTimeValue(child_element, "INTERVAL-LENGTH", threshold_filter.getIntervalLength())
+            self.setChildElementOptionalPositiveInteger(child_element, "THRESHOLD-NUMBER", threshold_filter.getThresholdNumber())
+
+    def writeSecurityEventContextProps(self, element: ET.Element, props: SecurityEventContextProps):
+        if props is not None:
+            child_element = ET.SubElement(element, "SECURITY-EVENT-CONTEXT-PROPS")
+            self.writeIdentifiable(child_element, props)
+            context_data = props.getContextData()
+            if context_data is not None:
+                datas_tag = ET.SubElement(child_element, "CONTEXT-DATAS")
+                self.writeSecurityEventContextData(datas_tag, context_data)
+            self.setChildElementOptionalLiteral(child_element, "DEFAULT-REPORTING-MODE", props.getDefaultReportingMode())
+            self.setChildElementOptionalBooleanValue(child_element, "PERSISTENT-STORAGE", props.getPersistentStorage())
+            security_event_ref = props.getSecurityEventRef()
+            if security_event_ref is not None:
+                events_tag = ET.SubElement(child_element, "SECURITY-EVENTS")
+                conditional = ET.SubElement(events_tag, "SECURITY-EVENT-DEFINITION-REF-CONDITIONAL")
+                self.setChildElementOptionalRefType(conditional, "SECURITY-EVENT-DEFINITION-REF", security_event_ref)
+            self.setChildElementOptionalPositiveInteger(child_element, "SENSOR-INSTANCE-ID", props.getSensorInstanceId())
+            self.setChildElementOptionalPositiveInteger(child_element, "SEVERITY", props.getSeverity())
+            self.writeVariationPointCapable(child_element, props)
+
+    def writeSecurityEventContextMappingContents(self, element: ET.Element, mapping: SecurityEventContextMapping):
+        filter_chain_ref = mapping.getFilterChainRef()
+        if filter_chain_ref is not None:
+            chains_tag = ET.SubElement(element, "FILTER-CHAINS")
+            conditional = ET.SubElement(chains_tag, "SECURITY-EVENT-FILTER-CHAIN-REF-CONDITIONAL")
+            self.setChildElementOptionalRefType(conditional, "SECURITY-EVENT-FILTER-CHAIN-REF", filter_chain_ref)
+        idsm_instance_ref = mapping.getIdsmInstanceRef()
+        if idsm_instance_ref is not None:
+            instances_tag = ET.SubElement(element, "IDSM-INSTANCES")
+            conditional = ET.SubElement(instances_tag, "IDSM-INSTANCE-REF-CONDITIONAL")
+            self.setChildElementOptionalRefType(conditional, "IDSM-INSTANCE-REF", idsm_instance_ref)
+        mapped_security_events = mapping.getMappedSecurityEvents()
+        if len(mapped_security_events) > 0:
+            events_tag = ET.SubElement(element, "MAPPED-SECURITY-EVENTS")
+            for props in mapped_security_events:
+                self.writeSecurityEventContextProps(events_tag, props)
+
+    def writeSecurityEventContextMappingBswModule(self, element: ET.Element, mapping: SecurityEventContextMappingBswModule):
+        if mapping is not None:
+            child_element = ET.SubElement(element, "SECURITY-EVENT-CONTEXT-MAPPING-BSW-MODULE")
+            self.writeIdentifiable(child_element, mapping)
+            self.writeSecurityEventContextMappingContents(child_element, mapping)
+            affected_bsw_module = mapping.getAffectedBswModule()
+            self.setChildElementOptionalStringValue(child_element, "AFFECTED-BSW-MODULE", affected_bsw_module.getValue() if affected_bsw_module is not None else None)
+
+    def writeSecurityEventContextMappingFunctionalCluster(self, element: ET.Element, mapping: SecurityEventContextMappingFunctionalCluster):
+        if mapping is not None:
+            child_element = ET.SubElement(element, "SECURITY-EVENT-CONTEXT-MAPPING-FUNCTIONAL-CLUSTER")
+            self.writeIdentifiable(child_element, mapping)
+            self.writeSecurityEventContextMappingContents(child_element, mapping)
+            affected_functional_cluster = mapping.getAffectedFunctionalCluster()
+            self.setChildElementOptionalStringValue(child_element, "AFFECTED-FUNCTIONAL-CLUSTER", affected_functional_cluster.getValue() if affected_functional_cluster is not None else None)
+
+    def writeSecurityEventContextMappingCommConnector(self, element: ET.Element, mapping: SecurityEventContextMappingCommConnector):
+        if mapping is not None:
+            child_element = ET.SubElement(element, "SECURITY-EVENT-CONTEXT-MAPPING-COMM-CONNECTOR")
+            self.writeIdentifiable(child_element, mapping)
+            self.writeSecurityEventContextMappingContents(child_element, mapping)
+            communication_connector_ref = mapping.getCommunicationConnectorRef()
+            if communication_connector_ref is not None:
+                connectors_tag = ET.SubElement(child_element, "COMM-CONNECTORS")
+                conditional = ET.SubElement(connectors_tag, "COMMUNICATION-CONNECTOR-REF-CONDITIONAL")
+                self.setChildElementOptionalRefType(conditional, "COMMUNICATION-CONNECTOR-REF", communication_connector_ref)
+
+    def writeSecurityEventContextMappingApplication(self, element: ET.Element, mapping: SecurityEventContextMappingApplication):
+        if mapping is not None:
+            child_element = ET.SubElement(element, "SECURITY-EVENT-CONTEXT-MAPPING-APPLICATION")
+            self.writeIdentifiable(child_element, mapping)
+            self.writeSecurityEventContextMappingContents(child_element, mapping)
+            affected_application = mapping.getAffectedApplication()
+            self.setChildElementOptionalStringValue(child_element, "AFFECTED-APPLICATION", affected_application.getValue() if affected_application is not None else None)
+
+    def writeSecurityEventDefinition(self, element: ET.Element, definition: SecurityEventDefinition):
+        if definition is not None:
+            child_element = ET.SubElement(element, "SECURITY-EVENT-DEFINITION")
+            self.writeIdentifiable(child_element, definition)
+            event_symbol_name = definition.getEventSymbolName()
+            if event_symbol_name is not None:
+                symbol_element = ET.SubElement(child_element, "EVENT-SYMBOL-NAME")
+                self.writeSymbolProps(symbol_element, event_symbol_name)
+            self.setChildElementOptionalPositiveInteger(child_element, "ID", definition.getId())
+
+    def writeSecurityEventFilterChain(self, element: ET.Element, filter_chain: SecurityEventFilterChain):
+        if filter_chain is not None:
+            child_element = ET.SubElement(element, "SECURITY-EVENT-FILTER-CHAIN")
+            self.writeIdentifiable(child_element, filter_chain)
+            aggregation = filter_chain.getAggregation()
+            if aggregation is not None:
+                self.writeSecurityEventAggregationFilter(child_element, aggregation, key="AGGREGATION")
+            one_every_n = filter_chain.getOneEveryN()
+            if one_every_n is not None:
+                self.writeSecurityEventOneEveryNFilter(child_element, one_every_n, key="ONE-EVERY-N")
+            state = filter_chain.getState()
+            if state is not None:
+                self.writeSecurityEventStateFilter(child_element, state, key="STATE")
+            threshold = filter_chain.getThreshold()
+            if threshold is not None:
+                self.writeSecurityEventThresholdFilter(child_element, threshold, key="THRESHOLD")
+
+    def writeIdsDesign(self, element: ET.Element, ids_design: IdsDesign):
+        if ids_design is not None:
+            child_element = ET.SubElement(element, "IDS-DESIGN")
+            self.writeIdentifiable(child_element, ids_design)
+            refs = ids_design.getElementRefs()
+            if len(refs) > 0:
+                refs_tag = ET.SubElement(child_element, "ELEMENTS")
+                for ref in refs:
+                    conditional = ET.SubElement(refs_tag, "IDS-COMMON-ELEMENT-REF-CONDITIONAL")
+                    self.setChildElementOptionalRefType(conditional, "IDS-COMMON-ELEMENT-REF", ref)
+
+    def writeIdsmInstance(self, element: ET.Element, idsm_instance: IdsmInstance):
+        if idsm_instance is not None:
+            child_element = ET.SubElement(element, "IDSM-INSTANCE")
+            self.writeIdentifiable(child_element, idsm_instance)
+            block_states = idsm_instance.getBlockStates()
+            if len(block_states) > 0:
+                states_tag = ET.SubElement(child_element, "BLOCK-STATES")
+                for block_state in block_states:
+                    state_element = ET.SubElement(states_tag, "BLOCK-STATE")
+                    self.writeIdentifiable(state_element, block_state)
+            ecu_instance_ref = idsm_instance.getEcuInstanceRef()
+            if ecu_instance_ref is not None:
+                instances_tag = ET.SubElement(child_element, "ECU-INSTANCES")
+                conditional = ET.SubElement(instances_tag, "ECU-INSTANCE-REF-CONDITIONAL")
+                self.setChildElementOptionalRefType(conditional, "ECU-INSTANCE-REF", ecu_instance_ref)
+            self.setChildElementOptionalPositiveInteger(child_element, "IDSM-INSTANCE-ID", idsm_instance.getIdsmInstanceId())
+            self.setChildElementOptionalRefType(child_element, "IDSM-MODULE-INSTANTIATION-REF", idsm_instance.getIdsmModuleInstantiationRef())
+            rate_limitation_filter_refs = idsm_instance.getRateLimitationFilterRefs()
+            if len(rate_limitation_filter_refs) > 0:
+                filters_tag = ET.SubElement(child_element, "RATE-LIMITATION-FILTERS")
+                for ref in rate_limitation_filter_refs:
+                    conditional = ET.SubElement(filters_tag, "IDSM-RATE-LIMITATION-REF-CONDITIONAL")
+                    self.setChildElementOptionalRefType(conditional, "IDSM-RATE-LIMITATION-REF", ref)
+            self.writeIdsmSignatureSupportAp(child_element, idsm_instance.getSignatureSupportAp(), key="SIGNATURE-SUPPORT-AP")
+            self.writeIdsmSignatureSupportCp(child_element, idsm_instance.getSignatureSupportCp(), key="SIGNATURE-SUPPORT-CP")
+            timestamp_format = idsm_instance.getTimestampFormat()
+            self.setChildElementOptionalStringValue(child_element, "TIMESTAMP-FORMAT", timestamp_format.getValue() if timestamp_format is not None else None)
+            traffic_limitation_filter_refs = idsm_instance.getTrafficLimitationFilterRefs()
+            if len(traffic_limitation_filter_refs) > 0:
+                filters_tag = ET.SubElement(child_element, "TRAFFIC-LIMITATION-FILTERS")
+                for ref in traffic_limitation_filter_refs:
+                    conditional = ET.SubElement(filters_tag, "IDSM-TRAFFIC-LIMITATION-REF-CONDITIONAL")
+                    self.setChildElementOptionalRefType(conditional, "IDSM-TRAFFIC-LIMITATION-REF", ref)
+
+    def writeAggregationCondition(self, element: ET.Element, condition: AggregationCondition):
+        if condition is not None:
+            child_element = ET.SubElement(element, "AGGREGATION-CONDITION")
+            self.writeARObject(child_element, condition)
+            self.setChildElementOptionalRefType(child_element, "AGGREGATION-REF", condition.getAggregationRef())
+
+    def writeInvertCondition(self, element: ET.Element, condition: InvertCondition):
+        if condition is not None:
+            child_element = ET.SubElement(element, "INVERT-CONDITION")
+            self.writeARObject(child_element, condition)
+            inner_condition = condition.getCondition()
+            if inner_condition is not None:
+                conditions_tag = ET.SubElement(child_element, "CONDITIONS")
+                self.writeConditionByType(conditions_tag, inner_condition)
+
+    def writePrimitiveAttributeCondition(self, element: ET.Element, condition: PrimitiveAttributeCondition):
+        if condition is not None:
+            child_element = ET.SubElement(element, "PRIMITIVE-ATTRIBUTE-CONDITION")
+            self.writeARObject(child_element, condition)
+            self.setChildElementOptionalRefType(child_element, "ATTRIBUTE-REF", condition.getAttributeRef())
+
+    def writeReferenceCondition(self, element: ET.Element, condition: ReferenceCondition):
+        if condition is not None:
+            child_element = ET.SubElement(element, "REFERENCE-CONDITION")
+            self.writeARObject(child_element, condition)
+            self.setChildElementOptionalRefType(child_element, "REFERENCE-REF", condition.getReferenceRef())
+
+    def writeTextualCondition(self, element: ET.Element, condition: TextualCondition):
+        if condition is not None:
+            child_element = ET.SubElement(element, "TEXTUAL-CONDITION")
+            self.writeARObject(child_element, condition)
+
+    def writeBaseline(self, element: ET.Element, baseline: Optional[Baseline]):
+        if baseline is not None:
+            child_element = ET.SubElement(element, "REFERENCED-BASELINE")
+            self.writeARObject(child_element, baseline)
+            revisions = baseline.getStandardRevisions()
+            if len(revisions) > 0:
+                revisions_tag = ET.SubElement(child_element, "STANDARD-REVISIONS")
+                for revision in revisions:
+                    revision_element = ET.SubElement(revisions_tag, "STANDARD-REVISION")
+                    if revision is not None:
+                        revision_element.text = revision.getValue()
+            refs = baseline.getCustomSpecificationRefs()
+            if len(refs) > 0:
+                refs_tag = ET.SubElement(child_element, "CUSTOM-SPECIFICATION-REFS")
+                for ref in refs:
+                    self.setChildElementOptionalRefType(refs_tag, "CUSTOM-SPECIFICATION-REF", ref)
+            refs = baseline.getCustomSdgDefRefs()
+            if len(refs) > 0:
+                refs_tag = ET.SubElement(child_element, "CUSTOM-SDG-DEF-REFS")
+                for ref in refs:
+                    self.setChildElementOptionalRefType(refs_tag, "CUSTOM-SDG-DEF-REF", ref)
+
+    def writeSpecificationScope(self, element: ET.Element, specification_scope: Optional[SpecificationScope], key: str = "SPECIFICATION-SCOPE"):
+        if specification_scope is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, specification_scope)
+            scopes = specification_scope.getSpecificationDocumentScopes()
+            if len(scopes) > 0:
+                scopes_tag = ET.SubElement(child_element, "SPECIFICATION-DOCUMENT-SCOPES")
+                for scope in scopes:
+                    self.writeSpecificationDocumentScope(scopes_tag, scope)
+
+    def writeSpecificationDocumentScope(self, element: ET.Element, scope: SpecificationDocumentScope):
+        if scope is not None:
+            child_element = ET.SubElement(element, "SPECIFICATION-DOCUMENT-SCOPE")
+            self.writeIdentifiable(child_element, scope)
+            self.setChildElementOptionalRefType(child_element, "CUSTOM-DOCUMENTATION-REF", scope.getCustomDocumentationRef())
+            element_scopes = scope.getDocumentElementScopes()
+            if len(element_scopes) > 0:
+                scopes_tag = ET.SubElement(child_element, "DOCUMENT-ELEMENT-SCOPES")
+                for element_scope in element_scopes:
+                    self.writeDocumentElementScope(scopes_tag, element_scope)
+
+    def writeDocumentElementScope(self, element: ET.Element, scope: DocumentElementScope):
+        if scope is not None:
+            child_element = ET.SubElement(element, "DOCUMENT-ELEMENT-SCOPE")
+            self.writeIdentifiable(child_element, scope)
+            self.setChildElementOptionalRefType(child_element, "CUSTOM-DOCUMENT-ELEMENT-REF", scope.getCustomDocumentElementRef())
+            refs = scope.getTailoringRefs()
+            if len(refs) > 0:
+                refs_tag = ET.SubElement(child_element, "TAILORING-REFS")
+                for ref in refs:
+                    self.setChildElementOptionalRefType(refs_tag, "TAILORING-REF", ref)
+
+    def writeClassTailoringContents(self, element: ET.Element, class_tailoring: ClassTailoring):
+        self.writeMultiplicityRestrictionWithSeverity(element, class_tailoring.getMultiplicityRestriction(), key="MULTIPLICITY-RESTRICTION")
+        variation_restriction = class_tailoring.getVariationRestriction()
+        if variation_restriction is not None:
+            self.writeVariationRestrictionWithSeverity(element, variation_restriction, key="VARIATION-RESTRICTION")
+        class_contents = class_tailoring.getClassContents()
+        if len(class_contents) > 0:
+            contents_tag = ET.SubElement(element, "CLASS-CONTENTS")
+            for content in class_contents:
+                content_element = ET.SubElement(contents_tag, "CLASS-CONTENT-CONDITIONAL")
+                self.writeClassContentConditional(content_element, content)
+
+    def writeMultiplicityRestrictionWithSeverity(self, element: ET.Element, restriction: Optional[MultiplicityRestrictionWithSeverity], key: str = "MULTIPLICITY-RESTRICTION-WITH-SEVERITY"):
+        if restriction is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, restriction)
+
+    def writeVariationRestrictionWithSeverity(self, element: ET.Element, restriction: Optional[VariationRestrictionWithSeverity], key: str = "VARIATION-RESTRICTION-WITH-SEVERITY"):
+        if restriction is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, restriction)
+            valid_binding_times = restriction.getValidBindingTimes()
+            if valid_binding_times:
+                self.setChildElementOptionalLiteral(child_element, "VALID-BINDING-TIME", valid_binding_times[0])
+
+    def writeClassContentConditional(self, element: ET.Element, content: ClassContentConditional):
+        if content is not None:
+            child_element = ET.SubElement(element, "CLASS-CONTENT-CONDITIONAL")
+            self.writeIdentifiable(child_element, content)
+            condition = content.getCondition()
+            if condition is not None:
+                conditions_tag = ET.SubElement(child_element, "CONDITIONS")
+                self.writeConditionByType(conditions_tag, condition)
+            attribute_tailorings = content.getAttributeTailorings()
+            if len(attribute_tailorings) > 0:
+                tailorings_tag = ET.SubElement(child_element, "ATTRIBUTE-TAILORINGS")
+                for attribute_tailoring_item in attribute_tailorings:
+                    if isinstance(attribute_tailoring_item, PrimitiveAttributeTailoring):
+                        self.writePrimitiveAttributeTailoring(tailorings_tag, attribute_tailoring_item)
+                    elif isinstance(attribute_tailoring_item, AggregationTailoring):
+                        self.writeAggregationTailoring(tailorings_tag, attribute_tailoring_item)
+                    elif isinstance(attribute_tailoring_item, ReferenceTailoring):
+                        self.writeReferenceTailoring(tailorings_tag, attribute_tailoring_item)
+            constraint_tailorings = content.getConstraintTailorings()
+            if len(constraint_tailorings) > 0:
+                tailorings_tag = ET.SubElement(child_element, "CONSTRAINT-TAILORINGS")
+                for constraint_tailoring_item in constraint_tailorings:
+                    tailoring_element = ET.SubElement(tailorings_tag, "CONSTRAINT-TAILORING")
+                    self.writeIdentifiable(tailoring_element, constraint_tailoring_item)
+            sdg_tailorings = content.getSdgTailorings()
+            if len(sdg_tailorings) > 0:
+                tailorings_tag = ET.SubElement(child_element, "SDG-TAILORINGS")
+                for sdg_tailoring_item in sdg_tailorings:
+                    tailoring_element = ET.SubElement(tailorings_tag, "SDG-TAILORING")
+                    self.writeIdentifiable(tailoring_element, sdg_tailoring_item)
+
+    def writePrimitiveAttributeTailoring(self, element: ET.Element, tailoring: PrimitiveAttributeTailoring):
+        if tailoring is not None:
+            child_element = ET.SubElement(element, "PRIMITIVE-ATTRIBUTE-TAILORING")
+            self.writeIdentifiable(child_element, tailoring)
+            self.setChildElementOptionalLiteral(child_element, "DEFAULT-VALUE-HANDLING", tailoring.getDefaultValueHandling())
+            sub_tailorings = tailoring.getSubAttributeTailorings()
+            if len(sub_tailorings) > 0:
+                subs_tag = ET.SubElement(child_element, "SUB-ATTRIBUTE-TAILORINGS")
+                for sub_tailoring in sub_tailorings:
+                    self.writePrimitiveAttributeTailoring(subs_tag, sub_tailoring)
+            value_restriction = tailoring.getValueRestriction()
+            if value_restriction is not None:
+                self.writeValueRestrictionWithSeverity(child_element, value_restriction, key="VALUE-RESTRICTION")
+
+    def writeValueRestrictionWithSeverity(self, element: ET.Element, restriction: ValueRestrictionWithSeverity, key: str = "VALUE-RESTRICTION-WITH-SEVERITY"):
+        if restriction is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, restriction)
+
+    def writeConditionByType(self, parent_element: ET.Element, condition: Any) -> None:
+        if isinstance(condition, AggregationCondition):
+            self.writeAggregationCondition(parent_element, condition)
+        elif isinstance(condition, InvertCondition):
+            self.writeInvertCondition(parent_element, condition)
+        elif isinstance(condition, PrimitiveAttributeCondition):
+            self.writePrimitiveAttributeCondition(parent_element, condition)
+        elif isinstance(condition, ReferenceCondition):
+            self.writeReferenceCondition(parent_element, condition)
+        elif isinstance(condition, TextualCondition):
+            self.writeTextualCondition(parent_element, condition)
+
+    def writeClassTailoringByType(self, parent_element: ET.Element, class_tailoring: Any) -> None:
+        if isinstance(class_tailoring, AbstractClassTailoring):
+            child_element = ET.SubElement(parent_element, "ABSTRACT-CLASS-TAILORING")
+        elif isinstance(class_tailoring, ConcreteClassTailoring):
+            child_element = ET.SubElement(parent_element, "CONCRETE-CLASS-TAILORING")
+        else:
+            return
+        self.writeIdentifiable(child_element, class_tailoring)
+        self.writeClassTailoringContents(child_element, class_tailoring)
+
+    def writeAggregationTailoring(self, element: ET.Element, tailoring: AggregationTailoring):
+        if tailoring is not None:
+            child_element = ET.SubElement(element, "AGGREGATION-TAILORING")
+            self.writeIdentifiable(child_element, tailoring)
+            type_tailorings = tailoring.getTypeTailorings()
+            if len(type_tailorings) > 0:
+                types_tag = ET.SubElement(child_element, "TYPE-TAILORINGS")
+                for class_tailoring in type_tailorings:
+                    self.writeClassTailoringByType(types_tag, class_tailoring)
+
+    def writeReferenceTailoring(self, element: ET.Element, tailoring: ReferenceTailoring):
+        if tailoring is not None:
+            child_element = ET.SubElement(element, "REFERENCE-TAILORING")
+            self.writeIdentifiable(child_element, tailoring)
+            type_tailorings = tailoring.getTypeTailorings()
+            if len(type_tailorings) > 0:
+                types_tag = ET.SubElement(child_element, "TYPE-TAILORINGS")
+                for class_tailoring in type_tailorings:
+                    self.writeClassTailoringByType(types_tag, class_tailoring)
+
+    def writeDataFormatTailoring(self, element: ET.Element, tailoring: Optional[DataFormatTailoring], key: str = "DATA-FORMAT-TAILORING"):
+        if tailoring is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, tailoring)
+            class_tailorings = tailoring.getClassTailorings()
+            if len(class_tailorings) > 0:
+                tailorings_tag = ET.SubElement(child_element, "CLASS-TAILORINGS")
+                for class_tailoring in class_tailorings:
+                    self.writeClassTailoringByType(tailorings_tag, class_tailoring)
+            constraint_tailorings = tailoring.getConstraintTailorings()
+            if len(constraint_tailorings) > 0:
+                tailorings_tag = ET.SubElement(child_element, "CONSTRAINT-TAILORINGS")
+                for constraint_tailoring in constraint_tailorings:
+                    tailoring_element = ET.SubElement(tailorings_tag, "CONSTRAINT-TAILORING")
+                    self.writeIdentifiable(tailoring_element, constraint_tailoring)
+
+    def writeDataExchangePoint(self, element: ET.Element, data_exchange_point: DataExchangePoint):
+        if data_exchange_point is not None:
+            child_element = ET.SubElement(element, "DATA-EXCHANGE-POINT")
+            self.writeIdentifiable(child_element, data_exchange_point)
+            self.setChildElementOptionalLiteral(child_element, "KIND", data_exchange_point.getKind())
+            self.writeBaseline(child_element, data_exchange_point.getReferencedBaseline())
+            self.writeSpecificationScope(child_element, data_exchange_point.getSpecificationScope(), key="SPECIFICATION-SCOPE")
+            self.writeDataFormatTailoring(child_element, data_exchange_point.getDataFormatTailoring(), key="DATA-FORMAT-TAILORING")
+
+    def writeIdsmSignatureSupportAp(self, element: ET.Element, signature_support: Optional[IdsmSignatureSupportAp], key: str = "SIGNATURE-SUPPORT-AP"):
+        if signature_support is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, signature_support)
+            self.setChildElementOptionalString(child_element, "CRYPTO-PRIMITIVE", signature_support.getCryptoPrimitive())
+            self.setChildElementOptionalRefType(child_element, "KEY-SLOT-REF", signature_support.getKeySlotRef())
+
+    def writeIdsmSignatureSupportCp(self, element: ET.Element, signature_support: Optional[IdsmSignatureSupportCp], key: str = "SIGNATURE-SUPPORT-CP"):
+        if signature_support is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, signature_support)
+            self.setChildElementOptionalRefType(child_element, "AUTHENTICATION-REF", signature_support.getAuthenticationRef())
+            self.setChildElementOptionalRefType(child_element, "CRYPTO-SERVICE-KEY-REF", signature_support.getCryptoServiceKeyRef())
+
+    def writeSecurityEventContextData(self, element: ET.Element, context_data: SecurityEventContextData):
+        if context_data is not None:
+            child_element = ET.SubElement(element, "SECURITY-EVENT-CONTEXT-DATA")
+            self.writeARObject(child_element, context_data)
+            self.writeVariationPointCapable(child_element, context_data)
+
+    def writeIdsmProperties(self, element: ET.Element, idsm_properties: IdsmProperties):
+        if idsm_properties is not None:
+            child_element = ET.SubElement(element, "IDSM-PROPERTIES")
+            self.writeIdentifiable(child_element, idsm_properties)
+            rate_limitations = idsm_properties.getRateLimitationFilters()
+            if len(rate_limitations) > 0:
+                rate_tag = ET.SubElement(child_element, "RATE-LIMITATION-FILTERS")
+                for limitation in rate_limitations:
+                    self.writeIdsmRateLimitation(rate_tag, limitation)
+            traffic_limitations = idsm_properties.getTrafficLimitationFilters()
+            if len(traffic_limitations) > 0:
+                traffic_tag = ET.SubElement(child_element, "TRAFFIC-LIMITATION-FILTERS")
+                for traffic_limitation in traffic_limitations:
+                    self.writeIdsmTrafficLimitation(traffic_tag, traffic_limitation)
+
+    def writeIdsmRateLimitation(self, element: ET.Element, limitation: IdsmRateLimitation):
+        if limitation is not None:
+            child_element = ET.SubElement(element, "IDSM-RATE-LIMITATION")
+            self.writeIdentifiable(child_element, limitation)
+            self.setChildElementOptionalPositiveInteger(child_element, "MAX-EVENTS-IN-INTERVAL", limitation.getMaxEventsInInterval())
+            self.setChildElementOptionalFloatValue(child_element, "TIME-INTERVAL", limitation.getTimeInterval())
+
+    def writeIdsmTrafficLimitation(self, element: ET.Element, limitation: IdsmTrafficLimitation):
+        if limitation is not None:
+            child_element = ET.SubElement(element, "IDSM-TRAFFIC-LIMITATION")
+            self.writeIdentifiable(child_element, limitation)
+            self.setChildElementOptionalPositiveInteger(child_element, "MAX-BYTES-IN-INTERVAL", limitation.getMaxBytesInInterval())
+            self.setChildElementOptionalFloatValue(child_element, "TIME-INTERVAL", limitation.getTimeInterval())
+
+    def writeFMFeatureMapCondition(self, element: ET.Element, condition: FMFeatureMapCondition):
+        if condition is not None:
+            child_element = ET.SubElement(element, "FM-FEATURE-MAP-CONDITION")
+            self.writeIdentifiable(child_element, condition)
+            fm_cond = condition.getFmCond()
+            if fm_cond is not None:
+                self.writeFMConditionByFeaturesAndAttributes(child_element, fm_cond, key="FM-COND")
+
+    def writeFMFeatureMapAssertion(self, element: ET.Element, assertion: FMFeatureMapAssertion):
+        if assertion is not None:
+            child_element = ET.SubElement(element, "FM-FEATURE-MAP-ASSERTION")
+            self.writeIdentifiable(child_element, assertion)
+            fm_syscond = assertion.getFmSyscond()
+            if fm_syscond is not None:
+                self.writeFMConditionByFeaturesAndSwSystemconsts(child_element, fm_syscond, key="FM-SYSCOND")
+
+    def writeFMFeatureMapElement(self, element: ET.Element, map_element: FMFeatureMapElement):
+        if map_element is not None:
+            child_element = ET.SubElement(element, "FM-FEATURE-MAP-ELEMENT")
+            self.writeIdentifiable(child_element, map_element)
+            assertions = map_element.getAssertions()
+            if len(assertions) > 0:
+                assertions_tag = ET.SubElement(child_element, "ASSERTIONS")
+                for assertion in assertions:
+                    self.writeFMFeatureMapAssertion(assertions_tag, assertion)
+            conditions = map_element.getConditions()
+            if len(conditions) > 0:
+                conditions_tag = ET.SubElement(child_element, "CONDITIONS")
+                for condition in conditions:
+                    self.writeFMFeatureMapCondition(conditions_tag, condition)
+            refs = map_element.getPostBuildVariantCriterionValueSetRefs()
+            if len(refs) > 0:
+                refs_tag = ET.SubElement(child_element, "POST-BUILD-VARIANT-CRITERION-VALUE-SET-REFS")
+                for ref in refs:
+                    self.setChildElementOptionalRefType(refs_tag, "POST-BUILD-VARIANT-CRITERION-VALUE-SET-REF", ref)
+            refs = map_element.getSwSystemconstantValueSetRefs()
+            if len(refs) > 0:
+                refs_tag = ET.SubElement(child_element, "SW-SYSTEMCONSTANT-VALUE-SET-REFS")
+                for ref in refs:
+                    self.setChildElementOptionalRefType(refs_tag, "SW-SYSTEMCONSTANT-VALUE-SET-REF", ref)
+
+    def writeFMFeature(self, element: ET.Element, feature: FMFeature):
+        if feature is not None:
+            child_element = ET.SubElement(element, "FM-FEATURE")
+            self.writeIdentifiable(child_element, feature)
+            attribute_defs = feature.getAttributeDefs()
+            if len(attribute_defs) > 0:
+                defs_tag = ET.SubElement(child_element, "ATTRIBUTE-DEFS")
+                for attribute_def in attribute_defs:
+                    self.writeFMAttributeDef(defs_tag, attribute_def)
+            decompositions = feature.getDecompositions()
+            if len(decompositions) > 0:
+                decompositions_tag = ET.SubElement(child_element, "DECOMPOSITIONS")
+                for decomposition in decompositions:
+                    self.writeFMFeatureDecomposition(decompositions_tag, decomposition)
+            self.setChildElementOptionalLiteral(child_element, "MAXIMUM-INTENDED-BINDING-TIME", feature.getMaximumIntendedBindingTime())
+            self.setChildElementOptionalLiteral(child_element, "MINIMUM-INTENDED-BINDING-TIME", feature.getMinimumIntendedBindingTime())
+            relations = feature.getRelations()
+            if len(relations) > 0:
+                relations_tag = ET.SubElement(child_element, "RELATIONS")
+                for relation in relations:
+                    self.writeFMFeatureRelation(relations_tag, relation)
+            restrictions = feature.getRestrictions()
+            if len(restrictions) > 0:
+                restrictions_tag = ET.SubElement(child_element, "RESTRICTIONS")
+                for restriction in restrictions:
+                    self.writeFMFeatureRestriction(restrictions_tag, restriction)
+
+    def writeFMFeatureModel(self, element: ET.Element, feature_model: FMFeatureModel):
+        if feature_model is not None:
+            child_element = ET.SubElement(element, "FM-FEATURE-MODEL")
+            self.writeIdentifiable(child_element, feature_model)
+            refs = feature_model.getFeatureRefs()
+            if len(refs) > 0:
+                refs_tag = ET.SubElement(child_element, "FEATURE-REFS")
+                for ref in refs:
+                    self.setChildElementOptionalRefType(refs_tag, "FEATURE-REF", ref)
+            self.setChildElementOptionalRefType(child_element, "ROOT-REF", feature_model.getRootRef())
+
+    def writeFMFeatureSelectionSet(self, element: ET.Element, selection_set: FMFeatureSelectionSet):
+        if selection_set is not None:
+            child_element = ET.SubElement(element, "FM-FEATURE-SELECTION-SET")
+            self.writeIdentifiable(child_element, selection_set)
+            refs = selection_set.getFeatureModelRefs()
+            if len(refs) > 0:
+                refs_tag = ET.SubElement(child_element, "FEATURE-MODEL-REFS")
+                for ref in refs:
+                    self.setChildElementOptionalRefType(refs_tag, "FEATURE-MODEL-REF", ref)
+            refs = selection_set.getIncludeRefs()
+            if len(refs) > 0:
+                refs_tag = ET.SubElement(child_element, "INCLUDE-REFS")
+                for ref in refs:
+                    self.setChildElementOptionalRefType(refs_tag, "INCLUDE-REF", ref)
+            selections = selection_set.getSelections()
+            if len(selections) > 0:
+                selections_tag = ET.SubElement(child_element, "SELECTIONS")
+                for selection in selections:
+                    self.writeFMFeatureSelection(selections_tag, selection)
+
+    def writeFMFeatureMap(self, element: ET.Element, feature_map: FMFeatureMap):
+        if feature_map is not None:
+            child_element = ET.SubElement(element, "FM-FEATURE-MAP")
+            self.writeIdentifiable(child_element, feature_map)
+            mappings = feature_map.getMappings()
+            if len(mappings) > 0:
+                mappings_tag = ET.SubElement(child_element, "MAPPINGS")
+                for map_element in mappings:
+                    self.writeFMFeatureMapElement(mappings_tag, map_element)
 
     def writePostBuildVariantCondition(self, element: ET.Element, condition: PostBuildVariantCondition):
         child_element = ET.SubElement(element, "POST-BUILD-VARIANT-CONDITION")
@@ -9899,6 +10624,12 @@ class ARXMLWriter(AbstractARXMLWriter):
         if channel is not None:
             child_element = ET.SubElement(parent, key)
             self.writeARObject(child_element, channel)
+            self.setChildElementOptionalPositiveInteger(child_element, "BUS-MIRROR-NETWORK-ID", channel.getBusMirrorNetworkId())
+            ref = channel.getChannelRef()
+            if ref is not None:
+                channels_tag = ET.SubElement(child_element, "CHANNELS")
+                conditional_tag = ET.SubElement(channels_tag, "PHYSICAL-CHANNEL-REF-CONDITIONAL")
+                self.setChildElementOptionalRefType(conditional_tag, "PHYSICAL-CHANNEL-REF", ref)
 
     def writeBusMirrorCanIdRangeMapping(self, element: ET.Element, mapping: BusMirrorCanIdRangeMapping):
         child_element = ET.SubElement(element, "BUS-MIRROR-CAN-ID-RANGE-MAPPING")
@@ -10289,7 +11020,8 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeCanNmEcu(self, element: ET.Element, ecu: CanNmEcu):
         if ecu is not None:
-            ET.SubElement(element, "CAN-NM-ECU")
+            child_element = ET.SubElement(element, "CAN-NM-ECU")
+            self.writeARObject(child_element, ecu)
 
     def writeJ1939NmEcu(self, element: ET.Element, ecu: J1939NmEcu):
         if ecu is not None:
@@ -10317,7 +11049,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalIntegerValue(child_element, "INDEX", coordinator.getIndex())
         self.setChildElementOptionalBooleanValue(child_element, "NM-COORD-SYNC-SUPPORT", coordinator.getNmCoordSyncSupport())
         self.setChildElementOptionalTimeValue(child_element, "NM-GLOBAL-COORDINATOR-TIME", coordinator.getNmGlobalCoordinatorTime())
-        refs = coordinator.getNmNodes()
+        refs = coordinator.getNmNodeRefs()
         if len(refs) > 0:
             refs_tag = ET.SubElement(child_element, "NM-NODE-REFS")
             for ref in refs:
@@ -10496,7 +11228,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "IDENT")
             self.writeReferrable(child_element, ident)
 
-    def writeTpConnectionReceiverRefs(self, element: ET.Element, connection: Union[CanTpConnection, FlexrayTpConnection, LinTpConnection]):
+    def writeTpConnectionReceiverRefs(self, element: ET.Element, connection: Union[CanTpConnection, FlexrayTpConnection, J1939TpConnection, LinTpConnection]):
         refs = connection.getReceiverRefs()
         if len(refs) > 0:
             child_element = ET.SubElement(element, "RECEIVER-REFS")
@@ -10595,6 +11327,97 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeIdentifiable(child_element, address, write_variation_point=False)
             self.setChildElementOptionalIntegerValue(child_element, "TP-ADDRESS", address.getTpAddress())
             self.writeVariationPointCapable(child_element, address)
+
+    def writeJ1939TpConnection(self, element: ET.Element, connection: J1939TpConnection):
+        if connection is not None:
+            child_element = ET.SubElement(element, "J-1939-TP-CONNECTION")
+            self.writeTpConnection(child_element, connection)
+            self.setChildElementOptionalBooleanValue(child_element, "BROADCAST", connection.getBroadcast())
+            self.setChildElementOptionalPositiveInteger(child_element, "BUFFER-RATIO", connection.getBufferRatio())
+            self.setChildElementOptionalBooleanValue(child_element, "CANCELLATION", connection.getCancellation())
+            self.setChildElementOptionalRefType(child_element, "DATA-PDU-REF", connection.getDataPduRef())
+            self.setChildElementOptionalBooleanValue(child_element, "DYNAMIC-BS", connection.getDynamicBs())
+            flow_control_pdu_refs = connection.getFlowControlPduRefs()
+            if len(flow_control_pdu_refs) > 0:
+                flow_control_pdu_refs_element = ET.SubElement(child_element, "FLOW-CONTROL-PDU-REFS")
+                for ref in flow_control_pdu_refs:
+                    self.setChildElementOptionalRefType(flow_control_pdu_refs_element, "FLOW-CONTROL-PDU-REF", ref)
+            self.setChildElementOptionalPositiveInteger(child_element, "MAX-BS", connection.getMaxBs())
+            self.setChildElementOptionalPositiveInteger(child_element, "MAX-EXP-BS", connection.getMaxExpBs())
+            self.writeTpConnectionReceiverRefs(child_element, connection)
+            self.setChildElementOptionalBooleanValue(child_element, "RETRY", connection.getRetry())
+            self.writeJ1939TpConnectionTpPgs(child_element, connection)
+            self.setChildElementOptionalRefType(child_element, "TRANSMITTER-REF", connection.getTransmitterRef())
+            self.writeVariationPointCapable(child_element, connection)
+
+    def writeJ1939TpConnectionTpPgs(self, element: ET.Element, connection: J1939TpConnection):
+        tp_pgs = connection.getTpPgs()
+        if len(tp_pgs) > 0:
+            child_element = ET.SubElement(element, "TP-PGS")
+            for tp_pg in tp_pgs:
+                if isinstance(tp_pg, J1939TpPg):
+                    self.writeJ1939TpPg(child_element, tp_pg)
+                else:
+                    self.notImplemented("Unsupported TpPg <%s>" % type(tp_pg))
+
+    def writeJ1939TpConfigTpAddresses(self, element: ET.Element, config: J1939TpConfig):
+        addresses = config.getTpAddresses()
+        if len(addresses) > 0:
+            child_element = ET.SubElement(element, "TP-ADDRESSS")
+            for address in addresses:
+                if isinstance(address, TpAddress):
+                    self.writeTpAddress(child_element, address)
+                else:
+                    self.notImplemented("Unsupported TpAddress <%s>" % type(address))
+
+    def writeJ1939TpConfigTpConnections(self, element: ET.Element, config: J1939TpConfig):
+        connections = config.getTpConnections()
+        if len(connections) > 0:
+            child_element = ET.SubElement(element, "TP-CONNECTIONS")
+            for connection in connections:
+                if isinstance(connection, J1939TpConnection):
+                    self.writeJ1939TpConnection(child_element, connection)
+                else:
+                    self.notImplemented("Unsupported TpConnection <%s>" % type(connection))
+
+    def writeJ1939TpNode(self, element: ET.Element, tp_node: J1939TpNode):
+        if tp_node is not None:
+            child_element = ET.SubElement(element, "J-1939-TP-NODE")
+            self.writeIdentifiable(child_element, tp_node)
+            self.setChildElementOptionalRefType(child_element, "CONNECTOR-REF", tp_node.getConnectorRef())
+            self.setChildElementOptionalRefType(child_element, "TP-ADDRESS-REF", tp_node.getTpAddressRef())
+            self.writeVariationPointCapable(child_element, tp_node)
+
+    def writeJ1939TpPg(self, element: ET.Element, tp_pg: J1939TpPg):
+        if tp_pg is not None:
+            child_element = ET.SubElement(element, "J-1939-TP-PG")
+            self.writeARObject(child_element, tp_pg)
+            self.setChildElementOptionalRefType(child_element, "DIRECT-PDU-REF", tp_pg.getDirectPduRef())
+            self.setChildElementOptionalIntegerValue(child_element, "PGN", tp_pg.getPgn())
+            self.setChildElementOptionalBooleanValue(child_element, "REQUESTABLE", tp_pg.getRequestable())
+            sdu_refs = tp_pg.getSduRefs()
+            if len(sdu_refs) > 0:
+                sdu_refs_element = ET.SubElement(child_element, "SDU-REFS")
+                for ref in sdu_refs:
+                    self.setChildElementOptionalRefType(sdu_refs_element, "SDU-REF", ref)
+
+    def writeJ1939TpConfigTpNodes(self, element: ET.Element, config: J1939TpConfig):
+        tp_nodes = config.getTpNodes()
+        if len(tp_nodes) > 0:
+            child_element = ET.SubElement(element, "TP-NODES")
+            for tp_node in tp_nodes:
+                if isinstance(tp_node, J1939TpNode):
+                    self.writeJ1939TpNode(child_element, tp_node)
+                else:
+                    self.notImplemented("Unsupported TpNode <%s>" % type(tp_node))
+
+    def writeJ1939TpConfig(self, element: ET.Element, config: J1939TpConfig):
+        self.logger.debug("Write J1939TpConfig <%s>" % config.getShortName())
+        child_element = ET.SubElement(element, "J-1939-TP-CONFIG")
+        self.writeTpConfig(child_element, config)
+        self.writeJ1939TpConfigTpAddresses(child_element, config)
+        self.writeJ1939TpConfigTpConnections(child_element, config)
+        self.writeJ1939TpConfigTpNodes(child_element, config)
 
     def writeLinTpConfigTpAddresses(self, element: ET.Element, config: LinTpConfig):
         addresses = config.getTpAddresses()
@@ -10941,6 +11764,9 @@ class ARXMLWriter(AbstractARXMLWriter):
         if channel is not None:
             child_element = ET.SubElement(element, "SOMEIP-TP-CHANNEL")
             self.writeIdentifiable(child_element, channel)
+            self.setChildElementOptionalPositiveInteger(child_element, "BURST-SIZE", cast(Integer, channel.getBurstSize()))
+            self.setChildElementOptionalTimeValue(child_element, "RX-TIMEOUT-TIME", channel.getRxTimeoutTime())
+            self.setChildElementOptionalTimeValue(child_element, "SEPARATION-TIME", channel.getSeparationTime())
 
     def writeSomeipTpConfigTpChannels(self, element: ET.Element, config: SomeipTpConfig):
         channels = config.getTpChannels()
@@ -10956,6 +11782,9 @@ class ARXMLWriter(AbstractARXMLWriter):
         if connection is not None:
             child_element = ET.SubElement(element, "SOMEIP-TP-CONNECTION")
             self.writeARObject(child_element, connection)
+            self.setChildElementOptionalRefType(child_element, "TP-CHANNEL-REF", connection.getTpChannelRef())
+            self.setChildElementOptionalRefType(child_element, "TP-SDU-REF", connection.getTpSduRef())
+            self.setChildElementOptionalRefType(child_element, "TRANSPORT-PDU-REF", connection.getTransportPduRef())
 
     def writeSomeipTpConfigTpConnections(self, element: ET.Element, config: SomeipTpConfig):
         connections = config.getTpConnections()
@@ -11021,6 +11850,147 @@ class ARXMLWriter(AbstractARXMLWriter):
             crf_type_element.text = crf_type.getValue()
         self.setChildElementOptionalBooleanValue(child_element, "FRAME-SYNC-ENABLED", connection.getFrameSyncEnabled())
         self.setChildElementOptionalPositiveInteger(child_element, "TIMESTAMP-INTERVAL", cast(Integer, connection.getTimestampInterval()))
+
+    def writeIEEE1722TpAafConnection(self, element: ET.Element, connection: IEEE1722TpAafConnection):
+        self.logger.debug("Write IEEE1722TpAafConnection <%s>" % connection.getShortName())
+        child_element = ET.SubElement(element, "IEEE-1722-TP-AAF-CONNECTION")
+        self.writeIEEE1722TpAvConnection(child_element, connection)
+        aes3_data_type = connection.getAafAes3DataType()
+        if aes3_data_type is not None:
+            aes3_data_type_element = ET.SubElement(child_element, "AAF-AES-3-DATA-TYPE")
+            aes3_data_type_element.text = aes3_data_type.getValue()
+        aaf_format = connection.getAafFormat()
+        if aaf_format is not None:
+            aaf_format_element = ET.SubElement(child_element, "AAF-FORMAT")
+            aaf_format_element.text = aaf_format.getValue()
+        aaf_nominal_rate = connection.getAafNominalRate()
+        if aaf_nominal_rate is not None:
+            aaf_nominal_rate_element = ET.SubElement(child_element, "AAF-NOMINAL-RATE")
+            aaf_nominal_rate_element.text = aaf_nominal_rate.getValue()
+        self.setChildElementOptionalPositiveInteger(child_element, "AES-3-DATA-TYPE-H", cast(Integer, connection.getAes3DataTypeH()))
+        self.setChildElementOptionalPositiveInteger(child_element, "AES-3-DATA-TYPE-L", cast(Integer, connection.getAes3DataTypeL()))
+        self.setChildElementOptionalPositiveInteger(child_element, "CHANNELS-PER-FRAME", cast(Integer, connection.getChannelsPerFrame()))
+        self.setChildElementOptionalPositiveInteger(child_element, "EVENT-DEFAULT-VALUE", cast(Integer, connection.getEventDefaultValue()))
+        self.setChildElementOptionalPositiveInteger(child_element, "PCM-BIT-DEPTH", cast(Integer, connection.getPcmBitDepth()))
+        self.setChildElementOptionalBooleanValue(child_element, "SPARSE-TIMESTAMP-ENABLED", connection.getSparseTimestampEnabled())
+        self.setChildElementOptionalPositiveInteger(child_element, "STREAMS-PER-FRAME", cast(Integer, connection.getStreamsPerFrame()))
+
+    def writeIEEE1722TpIidcConnection(self, element: ET.Element, connection: IEEE1722TpIidcConnection):
+        self.logger.debug("Write IEEE1722TpIidcConnection <%s>" % connection.getShortName())
+        child_element = ET.SubElement(element, "IEEE-1722-TP-IIDC-CONNECTION")
+        self.writeIEEE1722TpAvConnection(child_element, connection)
+        self.setChildElementOptionalPositiveInteger(child_element, "IIDC-CHANNEL", cast(Integer, connection.getIidcChannel()))
+        self.setChildElementOptionalPositiveInteger(child_element, "IIDC-DATA-BLOCK-SIZE", cast(Integer, connection.getIidcDataBlockSize()))
+        self.setChildElementOptionalPositiveInteger(child_element, "IIDC-FRACTION-NUMBER", cast(Integer, connection.getIidcFractionNumber()))
+        self.setChildElementOptionalBooleanValue(child_element, "IIDC-SOURCE-PACKET-HEADER", connection.getIidcSourcePacketHeader())
+        self.setChildElementOptionalPositiveInteger(child_element, "IIDC-STREAM-FORMAT", cast(Integer, connection.getIidcStreamFormat()))
+        self.setChildElementOptionalPositiveInteger(child_element, "IIDC-SY", cast(Integer, connection.getIidcSy()))
+        self.setChildElementOptionalPositiveInteger(child_element, "IIDC-T-CODE", cast(Integer, connection.getIidcTCode()))
+        self.setChildElementOptionalPositiveInteger(child_element, "IIDC-TAG", cast(Integer, connection.getIidcTag()))
+
+    def writeIEEE1722TpRvfConnection(self, element: ET.Element, connection: IEEE1722TpRvfConnection):
+        self.logger.debug("Write IEEE1722TpRvfConnection <%s>" % connection.getShortName())
+        child_element = ET.SubElement(element, "IEEE-1722-TP-RVF-CONNECTION")
+        self.writeIEEE1722TpAvConnection(child_element, connection)
+        self.setChildElementOptionalPositiveInteger(child_element, "RVF-ACTIVE-PIXELS", cast(Integer, connection.getRvfActivePixels()))
+        rvf_color_space = connection.getRvfColorSpace()
+        if rvf_color_space is not None:
+            rvf_color_space_element = ET.SubElement(child_element, "RVF-COLOR-SPACE")
+            rvf_color_space_element.text = rvf_color_space.getValue()
+        self.setChildElementOptionalPositiveInteger(child_element, "RVF-EVENT-DEFAULT", cast(Integer, connection.getRvfEventDefault()))
+        rvf_frame_rate = connection.getRvfFrameRate()
+        if rvf_frame_rate is not None:
+            rvf_frame_rate_element = ET.SubElement(child_element, "RVF-FRAME-RATE")
+            rvf_frame_rate_element.text = rvf_frame_rate.getValue()
+        self.setChildElementOptionalBooleanValue(child_element, "RVF-INTERLACED", connection.getRvfInterlaced())
+        rvf_pixel_depth = connection.getRvfPixelDepth()
+        if rvf_pixel_depth is not None:
+            rvf_pixel_depth_element = ET.SubElement(child_element, "RVF-PIXEL-DEPTH")
+            rvf_pixel_depth_element.text = rvf_pixel_depth.getValue()
+        rvf_pixel_format = connection.getRvfPixelFormat()
+        if rvf_pixel_format is not None:
+            rvf_pixel_format_element = ET.SubElement(child_element, "RVF-PIXEL-FORMAT")
+            rvf_pixel_format_element.text = rvf_pixel_format.getValue()
+        self.setChildElementOptionalPositiveInteger(child_element, "RVF-TOTAL-LINES", cast(Integer, connection.getRvfTotalLines()))
+
+    def writeIEEE1722TpAcfBus(self, element: ET.Element, bus: IEEE1722TpAcfBus):
+        self.writeIdentifiable(element, bus, write_variation_point=False)
+        parts = bus.getAcfParts()
+        if len(parts) > 0:
+            parts_element = ET.SubElement(element, "ACF-PARTS")
+            for part in parts:
+                if isinstance(part, IEEE1722TpAcfCanPart):
+                    self.writeIEEE1722TpAcfCanPart(parts_element, part)
+                elif isinstance(part, IEEE1722TpAcfLinPart):
+                    self.writeIEEE1722TpAcfLinPart(parts_element, part)
+                else:
+                    self.notImplemented("Unsupported ACF Bus Part <%s>" % type(part))
+        self.setChildElementOptionalPositiveInteger(element, "BUS-ID", cast(Integer, bus.getBusId()))
+        self.writeVariationPointCapable(element, bus)
+
+    def writeIEEE1722TpAcfBusPart(self, element: ET.Element, part: IEEE1722TpAcfBusPart):
+        self.writeIdentifiable(element, part, write_variation_point=False)
+        collection_trigger = part.getCollectionTrigger()
+        if collection_trigger is not None:
+            collection_trigger_element = ET.SubElement(element, "COLLECTION-TRIGGER")
+            collection_trigger_element.text = collection_trigger.getValue()
+        self.writeVariationPointCapable(element, part)
+
+    def writeIEEE1722TpAcfCanPart(self, element: ET.Element, part: IEEE1722TpAcfCanPart):
+        child_element = ET.SubElement(element, "IEEE-1722-TP-ACF-CAN-PART")
+        self.writeIEEE1722TpAcfBusPart(child_element, part)
+        can_addressing_mode = part.getCanAddressingMode()
+        if can_addressing_mode is not None:
+            can_addressing_mode_element = ET.SubElement(child_element, "CAN-ADDRESSING-MODE")
+            can_addressing_mode_element.text = can_addressing_mode.getValue()
+        self.setChildElementOptionalBooleanValue(child_element, "CAN-BIT-RATE-SWITCH", part.getCanBitRateSwitch())
+        can_frame_tx_behavior = part.getCanFrameTxBehavior()
+        if can_frame_tx_behavior is not None:
+            can_frame_tx_behavior_element = ET.SubElement(child_element, "CAN-FRAME-TX-BEHAVIOR")
+            can_frame_tx_behavior_element.text = can_frame_tx_behavior.getValue()
+        self.setChildElementOptionalPositiveInteger(child_element, "CAN-IDENTIFIER", cast(Integer, part.getCanIdentifier()))
+        self.setChildElementOptionalPositiveInteger(child_element, "CAN-IDENTIFIER-MASK", cast(Integer, part.getCanIdentifierMask()))
+        self.setRxIdentifierRange(child_element, "CAN-IDENTIFIER-RANGE", part.getCanIdentifierRange())
+        self.setChildElementOptionalRefType(child_element, "SDU-REF", part.getSduRef())
+
+    def writeIEEE1722TpAcfLinPart(self, element: ET.Element, part: IEEE1722TpAcfLinPart):
+        child_element = ET.SubElement(element, "IEEE-1722-TP-ACF-LIN-PART")
+        self.writeIEEE1722TpAcfBusPart(child_element, part)
+        self.setChildElementOptionalPositiveInteger(child_element, "LIN-IDENTIFIER", cast(Integer, part.getLinIdentifier()))
+        self.setChildElementOptionalRefType(child_element, "SDU-REF", part.getSduRef())
+
+    def writeIEEE1722TpAcfCan(self, element: ET.Element, bus: IEEE1722TpAcfCan):
+        child_element = ET.SubElement(element, "IEEE-1722-TP-ACF-CAN")
+        self.writeIEEE1722TpAcfBus(child_element, bus)
+        message_type = bus.getMessageType()
+        if message_type is not None:
+            message_type_element = ET.SubElement(child_element, "MESSAGE-TYPE")
+            message_type_element.text = message_type.getValue()
+
+    def writeIEEE1722TpAcfLin(self, element: ET.Element, bus: IEEE1722TpAcfLin):
+        child_element = ET.SubElement(element, "IEEE-1722-TP-ACF-LIN")
+        self.writeIEEE1722TpAcfBus(child_element, bus)
+        self.setChildElementOptionalPositiveInteger(child_element, "BASE-FREQUENCY", cast(Integer, bus.getBaseFrequency()))
+        self.setChildElementOptionalBooleanValue(child_element, "FRAME-SYNC-ENABLED", bus.getFrameSyncEnabled())
+        self.setChildElementOptionalPositiveInteger(child_element, "TIMESTAMP-INTERVAL", cast(Integer, bus.getTimestampInterval()))
+
+    def writeIEEE1722TpAcfConnection(self, element: ET.Element, connection: IEEE1722TpAcfConnection):
+        self.logger.debug("Write IEEE1722TpAcfConnection <%s>" % connection.getShortName())
+        child_element = ET.SubElement(element, "IEEE-1722-TP-ACF-CONNECTION")
+        self.writeIEEE1722TpConnection(child_element, connection)
+        buses = connection.getAcfTransportedBuses()
+        if len(buses) > 0:
+            buses_element = ET.SubElement(child_element, "ACF-TRANSPORTED-BUSS")
+            for bus in buses:
+                if isinstance(bus, IEEE1722TpAcfCan):
+                    self.writeIEEE1722TpAcfCan(buses_element, bus)
+                elif isinstance(bus, IEEE1722TpAcfLin):
+                    self.writeIEEE1722TpAcfLin(buses_element, bus)
+                else:
+                    self.notImplemented("Unsupported ACF Transported Bus <%s>" % type(bus))
+        self.setChildElementOptionalPositiveInteger(child_element, "COLLECTION-THRESHOLD", cast(Integer, connection.getCollectionThreshold()))
+        self.setChildElementOptionalTimeValue(child_element, "COLLECTION-TIMEOUT", connection.getCollectionTimeout())
+        self.setChildElementOptionalBooleanValue(child_element, "MIXED-BUS-TYPE-COLLECTION", connection.getMixedBusTypeCollection())
 
     def writeFrameTriggering(self, element: ET.Element, triggering: FrameTriggering):
         self.writeIdentifiable(element, triggering)
@@ -17052,6 +18022,20 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "GENERIC-ETHERNET-FRAME")
         self.writeFrame(child_element, frame)
 
+    def writeUserDefinedEthernetFrame(self, element: ET.Element, frame: UserDefinedEthernetFrame):
+        self.logger.debug("Write UserDefinedEthernetFrame %s" % frame.getShortName())
+        child_element = ET.SubElement(element, "USER-DEFINED-ETHERNET-FRAME")
+        self.writeFrame(child_element, frame)
+
+    def writeIeee1722TpEthernetFrame(self, element: ET.Element, frame: Ieee1722TpEthernetFrame):
+        self.logger.debug("Write Ieee1722TpEthernetFrame %s" % frame.getShortName())
+        child_element = ET.SubElement(element, "IEEE-1722-TP-ETHERNET-FRAME")
+        self.writeFrame(child_element, frame)
+        self.setChildElementOptionalTimeValue(child_element, "RELATIVE-REPRESENTATION-TIME", frame.getRelativeRepresentationTime())
+        self.setChildElementOptionalPositiveInteger(child_element, "STREAM-IDENTIFIER", frame.getStreamIdentifier())
+        self.setChildElementOptionalPositiveInteger(child_element, "SUB-TYPE", frame.getSubType())
+        self.setChildElementOptionalPositiveInteger(child_element, "VERSION", frame.getVersion())
+
     def setLifeCyclePeriod(self, element: ET.Element, key: str, period: Optional[LifeCyclePeriod]):
         if period is not None:
             child_element = ET.SubElement(element, key)
@@ -20023,8 +21007,40 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeModeSwitchInterface(element, ar_element)
         elif isinstance(ar_element, SwcTiming):
             self.writeSwcTiming(element, ar_element)
+        elif isinstance(ar_element, IdsmProperties):
+            self.writeIdsmProperties(element, ar_element)
+        elif isinstance(ar_element, PostBuildVariantCriterionValueSet):
+            self.writePostBuildVariantCriterionValueSet(element, ar_element)
+        elif isinstance(ar_element, LogAndTraceMessageCollectionSet):
+            self.writeLogAndTraceMessageCollectionSet(element, ar_element)
+        elif isinstance(ar_element, DataExchangePoint):
+            self.writeDataExchangePoint(element, ar_element)
+        elif isinstance(ar_element, IdsDesign):
+            self.writeIdsDesign(element, ar_element)
+        elif isinstance(ar_element, SecurityEventContextMappingBswModule):
+            self.writeSecurityEventContextMappingBswModule(element, ar_element)
+        elif isinstance(ar_element, SecurityEventContextMappingFunctionalCluster):
+            self.writeSecurityEventContextMappingFunctionalCluster(element, ar_element)
+        elif isinstance(ar_element, SecurityEventContextMappingCommConnector):
+            self.writeSecurityEventContextMappingCommConnector(element, ar_element)
+        elif isinstance(ar_element, SecurityEventContextMappingApplication):
+            self.writeSecurityEventContextMappingApplication(element, ar_element)
+        elif isinstance(ar_element, SecurityEventDefinition):
+            self.writeSecurityEventDefinition(element, ar_element)
+        elif isinstance(ar_element, SecurityEventFilterChain):
+            self.writeSecurityEventFilterChain(element, ar_element)
+        elif isinstance(ar_element, IdsmInstance):
+            self.writeIdsmInstance(element, ar_element)
         elif isinstance(ar_element, VfbTiming):
             self.writeVfbTiming(element, ar_element)
+        elif isinstance(ar_element, FMFeature):
+            self.writeFMFeature(element, ar_element)
+        elif isinstance(ar_element, FMFeatureModel):
+            self.writeFMFeatureModel(element, ar_element)
+        elif isinstance(ar_element, FMFeatureSelectionSet):
+            self.writeFMFeatureSelectionSet(element, ar_element)
+        elif isinstance(ar_element, FMFeatureMap):
+            self.writeFMFeatureMap(element, ar_element)
         elif isinstance(ar_element, SystemTiming):
             self.writeSystemTiming(element, ar_element)
         elif isinstance(ar_element, BswModuleTiming):
@@ -20061,8 +21077,18 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeEthTpConfig(element, ar_element)
         elif isinstance(ar_element, SomeipTpConfig):
             self.writeSomeipTpConfig(element, ar_element)
+        elif isinstance(ar_element, J1939TpConfig):
+            self.writeJ1939TpConfig(element, ar_element)
         elif isinstance(ar_element, IEEE1722TpCrfConnection):
             self.writeIEEE1722TpCrfConnection(element, ar_element)
+        elif isinstance(ar_element, IEEE1722TpAafConnection):
+            self.writeIEEE1722TpAafConnection(element, ar_element)
+        elif isinstance(ar_element, IEEE1722TpIidcConnection):
+            self.writeIEEE1722TpIidcConnection(element, ar_element)
+        elif isinstance(ar_element, IEEE1722TpRvfConnection):
+            self.writeIEEE1722TpRvfConnection(element, ar_element)
+        elif isinstance(ar_element, IEEE1722TpAcfConnection):
+            self.writeIEEE1722TpAcfConnection(element, ar_element)
         elif isinstance(ar_element, IEEE1722TpConfig):
             self.writeIEEE1722TpConfig(element, ar_element)
         elif isinstance(ar_element, LinCluster):
@@ -20109,6 +21135,10 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeNvDataInterface(element, ar_element)
         elif isinstance(ar_element, GenericEthernetFrame):
             self.writeGenericEthernetFrame(element, ar_element)
+        elif isinstance(ar_element, UserDefinedEthernetFrame):
+            self.writeUserDefinedEthernetFrame(element, ar_element)
+        elif isinstance(ar_element, Ieee1722TpEthernetFrame):
+            self.writeIeee1722TpEthernetFrame(element, ar_element)
         elif isinstance(ar_element, LifeCycleInfoSet):
             self.writeLifeCycleInfoSet(element, ar_element)
         elif isinstance(ar_element, PhysicalDimension):

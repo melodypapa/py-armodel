@@ -6,7 +6,7 @@ LIN-PID-TO-CAN-ID-MAPPINGS) then the two scalars, per the XSD group
 BUS-MIRROR-CHANNEL-MAPPING-CAN (AUTOSAR_00052.xsd).
 """
 
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import BusMirrorChannelMappingCan
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.BusMirror import BusMirrorChannelMappingCan
 from tests.test_armodel.parser._helpers import _snip
 
 
