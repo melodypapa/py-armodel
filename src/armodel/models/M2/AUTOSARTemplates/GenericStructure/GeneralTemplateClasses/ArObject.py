@@ -27,8 +27,8 @@ class ARObject(ABC):
     """
 
     # ARObject method parity checklist:
-    # Spec verified: R23-11
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 6.1, p.192
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] setChecksum   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
