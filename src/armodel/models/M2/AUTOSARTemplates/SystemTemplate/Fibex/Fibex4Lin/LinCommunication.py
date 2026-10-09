@@ -66,10 +66,9 @@ class LinUnconditionalFrame(LinFrame):
 
     # LinUnconditionalFrame method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.90, p.429
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # (no own attributes; Base = ARObject, CollectableElement, FibexElement, Frame, Identifiable, LinFrame, MultilanguageReferrable, PackageableElement, Referrable)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # (no own attributes; Base = ARObject, CollectableElement, FibexElement, Frame, Identifiable, LinFrame, MultilanguageReferrable, PackageableElement, Referrable; wire contribution rides the concrete LIN-UNCONDITIONAL-FRAME element via readLinUnconditionalFrame/writeLinUnconditionalFrame calling readFrame/writeFrame exactly once)
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)

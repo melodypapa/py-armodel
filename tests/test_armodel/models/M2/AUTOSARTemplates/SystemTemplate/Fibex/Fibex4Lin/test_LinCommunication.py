@@ -157,6 +157,13 @@ class Test_Fibex4LinCommunication:
         assert isinstance(frame, Frame)
         assert isinstance(frame, LinFrame)
 
+    def test_LinUnconditionalFrame_docstring_matches_spec_note(self):
+        """Test the class docstring is the Table 6.90 Note copied verbatim."""
+        expected = (
+            "Unconditional frames carry signals. The master sends a frame header in a scheduled frame slot and the designated slave node fills the frame with data. Tags: atp.recommendedPackage=Frames"
+        )
+        assert inspect.cleandoc(LinUnconditionalFrame.__doc__) == expected
+
     def test_LinFrameTriggering(self):
         """Test LinFrameTriggering class functionality."""
         parent = MockParent()

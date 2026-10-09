@@ -138,7 +138,6 @@ LEnum
 LanguageSpecific
 LifeCyclePeriod
 LinConfigurationEntry
-LinUnconditionalFrame
 Linker
 LinkerSymbolValue
 LogTraceDefaultLogLevelEnum
