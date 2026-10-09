@@ -1513,8 +1513,10 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommun
     FreeFormat,
     LinConfigurationEntry,
     LinErrorResponse,
+    LinEventTriggeredFrame,
     LinFrameTriggering,
     LinScheduleTable,
+    LinSporadicFrame,
     LinUnconditionalFrame,
     ResumePosition,
     RunMode,
@@ -14797,6 +14799,19 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read LinUnconditionalFrame <%s>" % frame.getShortName())
         self.readFrame(element, frame)
 
+    def readLinSporadicFrame(self, element: ET.Element, frame: LinSporadicFrame):
+        self.logger.debug("Read LinSporadicFrame <%s>" % frame.getShortName())
+        self.readFrame(element, frame)
+        for ref_type in self.getChildElementRefTypeList(element, "SUBSTITUTED-FRAME-REFS/SUBSTITUTED-FRAME-REF"):
+            frame.addSubstitutedFrame(ref_type)
+
+    def readLinEventTriggeredFrame(self, element: ET.Element, frame: LinEventTriggeredFrame):
+        self.logger.debug("Read LinEventTriggeredFrame <%s>" % frame.getShortName())
+        self.readFrame(element, frame)
+        frame.setCollisionResolvingScheduleRef(self.getChildElementOptionalRefType(element, "COLLISION-RESOLVING-SCHEDULE-REF"))
+        for ref_type in self.getChildElementRefTypeList(element, "LIN-UNCONDITIONAL-FRAME-REFS/LIN-UNCONDITIONAL-FRAME-REF"):
+            frame.addLinUnconditionalFrame(ref_type)
+
     def readPdu(self, element: ET.Element, pdu: Pdu):
         self.readIdentifiable(element, pdu)
         pdu.setHasDynamicLength(self.getChildElementOptionalBooleanValue(element, "HAS-DYNAMIC-LENGTH"))
@@ -20654,6 +20669,12 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "LIN-UNCONDITIONAL-FRAME":
                 frame = parent.createLinUnconditionalFrame(self.getShortName(child_element))
                 self.readLinUnconditionalFrame(child_element, frame)
+            elif tag_name == "LIN-SPORADIC-FRAME":
+                sporadic_frame = parent.createLinSporadicFrame(self.getShortName(child_element))
+                self.readLinSporadicFrame(child_element, sporadic_frame)
+            elif tag_name == "LIN-EVENT-TRIGGERED-FRAME":
+                event_triggered_frame = parent.createLinEventTriggeredFrame(self.getShortName(child_element))
+                self.readLinEventTriggeredFrame(child_element, event_triggered_frame)
             elif tag_name == "NM-PDU":
                 pdu = parent.createNmPdu(self.getShortName(child_element))
                 self.readNmPdu(child_element, pdu)

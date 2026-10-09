@@ -1250,8 +1250,10 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommun
     FreeFormat,
     LinConfigurationEntry,
     LinErrorResponse,
+    LinEventTriggeredFrame,
     LinFrameTriggering,
     LinScheduleTable,
+    LinSporadicFrame,
     LinUnconditionalFrame,
     SaveConfigurationEntry,
     ScheduleTableEntry,
@@ -10807,6 +10809,27 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("LinUnconditionalFrame %s" % frame.getShortName())
         child_element = ET.SubElement(element, "LIN-UNCONDITIONAL-FRAME")
         self.writeFrame(child_element, frame)
+
+    def writeLinSporadicFrame(self, element: ET.Element, frame: LinSporadicFrame):
+        self.logger.debug("Write LinSporadicFrame %s" % frame.getShortName())
+        child_element = ET.SubElement(element, "LIN-SPORADIC-FRAME")
+        self.writeFrame(child_element, frame)
+        refs = frame.getSubstitutedFrameRefs()
+        if len(refs) > 0:
+            refs_element = ET.SubElement(child_element, "SUBSTITUTED-FRAME-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_element, "SUBSTITUTED-FRAME-REF", ref)
+
+    def writeLinEventTriggeredFrame(self, element: ET.Element, frame: LinEventTriggeredFrame):
+        self.logger.debug("Write LinEventTriggeredFrame %s" % frame.getShortName())
+        child_element = ET.SubElement(element, "LIN-EVENT-TRIGGERED-FRAME")
+        self.writeFrame(child_element, frame)
+        self.setChildElementOptionalRefType(child_element, "COLLISION-RESOLVING-SCHEDULE-REF", frame.getCollisionResolvingScheduleRef())
+        refs = frame.getLinUnconditionalFrameRefs()
+        if len(refs) > 0:
+            refs_element = ET.SubElement(child_element, "LIN-UNCONDITIONAL-FRAME-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_element, "LIN-UNCONDITIONAL-FRAME-REF", ref)
 
     def writeNmNode(self, element: ET.Element, nm_node: NmNode):
         self.writeIdentifiable(element, nm_node, write_variation_point=False)
@@ -21098,6 +21121,10 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeTDCpSoftwareClusterMappingSet(element, ar_element)
         elif isinstance(ar_element, LinUnconditionalFrame):
             self.writeLinUnconditionalFrame(element, ar_element)
+        elif isinstance(ar_element, LinSporadicFrame):
+            self.writeLinSporadicFrame(element, ar_element)
+        elif isinstance(ar_element, LinEventTriggeredFrame):
+            self.writeLinEventTriggeredFrame(element, ar_element)
         elif isinstance(ar_element, NmConfig):
             self.writeNmConfig(element, ar_element)
         elif isinstance(ar_element, NmPdu):

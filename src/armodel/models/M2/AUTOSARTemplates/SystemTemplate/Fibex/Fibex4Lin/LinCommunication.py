@@ -841,9 +841,89 @@ class LinScheduleTable(Identifiable, VariationPointCapable):
         return self
 
 
-class LinEventTriggeredFrame(LinFrame):
-    pass
-
-
 class LinSporadicFrame(LinFrame):
-    pass
+    """
+    A sporadic frame is a group of unconditional frames that share the same frame slot. The sporadic frame shall not contain any Pdus. Tags: atp.recommendedPackage=Frames
+    """
+
+    # LinSporadicFrame method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.91, p.429
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getSubstitutedFrameRefs  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addSubstitutedFrame      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Reference to a group of unconditional frames that share the same frame slot. In case that more than one of the declared frames needs to be transferred, the one first listed shall be chosen. Within a channel a LIN Frame shall be referenced by only one FrameTriggering. This allows a derivation of the identifier of a substituted Frame. The identifier is specified in FrameTriggering element. A LinUnconditionalFrame associated with a LinSporadic Frame may not be allocated in the same LinSchedule Table as the sporadic frame.
+        self.substitutedFrameRefs: List[RefType] = []
+
+    def getSubstitutedFrameRefs(self) -> List[RefType]:
+        """
+        Reference to a group of unconditional frames that share the same frame slot. In case that more than one of the declared frames needs to be transferred, the one first listed shall be chosen. Within a channel a LIN Frame shall be referenced by only one FrameTriggering. This allows a derivation of the identifier of a substituted Frame. The identifier is specified in FrameTriggering element. A LinUnconditionalFrame associated with a LinSporadic Frame may not be allocated in the same LinSchedule Table as the sporadic frame.
+        """
+        return self.substitutedFrameRefs
+
+    def addSubstitutedFrame(self, value: Optional[RefType]) -> LinSporadicFrame:
+        """
+        Reference to a group of unconditional frames that share the same frame slot. In case that more than one of the declared frames needs to be transferred, the one first listed shall be chosen. Within a channel a LIN Frame shall be referenced by only one FrameTriggering. This allows a derivation of the identifier of a substituted Frame. The identifier is specified in FrameTriggering element. A LinUnconditionalFrame associated with a LinSporadic Frame may not be allocated in the same LinSchedule Table as the sporadic frame.
+        A None value is a no-op and is not appended to substitutedFrameRefs.
+        """
+        if value is not None:
+            self.substitutedFrameRefs.append(value)
+        return self
+
+
+class LinEventTriggeredFrame(LinFrame):
+    """
+    An event triggered frame is used as a placeholder to allow multiple slave nodes to provide its response. The header of an event triggered frame is transmitted when a frame slot allocated to the event triggered frame is processed. The publisher of an associated unconditional frame shall only transmit the response if at least one of the signals carried in its unconditional frame is updated. The LIN Master discovers and purges collisions with the collisionResolvingScheduleTable. The event controlled frame shall not contain any Pdus. Tags: atp.recommendedPackage=Frames
+    """
+
+    # LinEventTriggeredFrame method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.92, p.430
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCollisionResolvingScheduleRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCollisionResolvingScheduleRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getLinUnconditionalFrameRefs        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addLinUnconditionalFrame            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Reference to the schedule table, which resolves a collision.
+        self.collisionResolvingScheduleRef: Optional[RefType] = None
+
+        # A list of slaves can respond to the master request if at least one of the signals carried in its unconditional frame is updated. For each response a LinFrameTriggering and a LinUnconditionalFrame shall be defined. Within a channel a LIN Frame shall be referenced by only one FrameTriggering. This allows a derivation of the identifier of a substituted Frame. The identifier is specified in FrameTriggering element. The Unconditional frames associated with an event triggered frame shall: • have equal length. • use the same checksum model (i.e. mixing LIN 1.x and LIN 2.x frames is not allowed). • reserve the first data field to its protected identifier (even if the associated unconditional frame is scheduled as a unconditional frame in the same or another schedule table). • be published by different slave nodes. • shall not be included directly in the same schedule table as the event triggered frame is scheduled.
+        self.linUnconditionalFrameRefs: List[RefType] = []
+
+    def getCollisionResolvingScheduleRef(self) -> Optional[RefType]:
+        """
+        Reference to the schedule table, which resolves a collision.
+        """
+        return self.collisionResolvingScheduleRef
+
+    def setCollisionResolvingScheduleRef(self, value: Optional[RefType]) -> LinEventTriggeredFrame:
+        """
+        Reference to the schedule table, which resolves a collision.
+        A None value is a no-op and does not overwrite an existing collisionResolvingScheduleRef.
+        """
+        if value is not None:
+            self.collisionResolvingScheduleRef = value
+        return self
+
+    def getLinUnconditionalFrameRefs(self) -> List[RefType]:
+        """
+        A list of slaves can respond to the master request if at least one of the signals carried in its unconditional frame is updated. For each response a LinFrameTriggering and a LinUnconditionalFrame shall be defined. Within a channel a LIN Frame shall be referenced by only one FrameTriggering. This allows a derivation of the identifier of a substituted Frame. The identifier is specified in FrameTriggering element. The Unconditional frames associated with an event triggered frame shall: • have equal length. • use the same checksum model (i.e. mixing LIN 1.x and LIN 2.x frames is not allowed). • reserve the first data field to its protected identifier (even if the associated unconditional frame is scheduled as a unconditional frame in the same or another schedule table). • be published by different slave nodes. • shall not be included directly in the same schedule table as the event triggered frame is scheduled.
+        """
+        return self.linUnconditionalFrameRefs
+
+    def addLinUnconditionalFrame(self, value: Optional[RefType]) -> LinEventTriggeredFrame:
+        """
+        A list of slaves can respond to the master request if at least one of the signals carried in its unconditional frame is updated. For each response a LinFrameTriggering and a LinUnconditionalFrame shall be defined. Within a channel a LIN Frame shall be referenced by only one FrameTriggering. This allows a derivation of the identifier of a substituted Frame. The identifier is specified in FrameTriggering element. The Unconditional frames associated with an event triggered frame shall: • have equal length. • use the same checksum model (i.e. mixing LIN 1.x and LIN 2.x frames is not allowed). • reserve the first data field to its protected identifier (even if the associated unconditional frame is scheduled as a unconditional frame in the same or another schedule table). • be published by different slave nodes. • shall not be included directly in the same schedule table as the event triggered frame is scheduled.
+        A None value is a no-op and is not appended to linUnconditionalFrameRefs.
+        """
+        if value is not None:
+            self.linUnconditionalFrameRefs.append(value)
+        return self
