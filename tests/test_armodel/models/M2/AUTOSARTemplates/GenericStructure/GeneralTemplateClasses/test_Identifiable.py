@@ -60,6 +60,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     GlobalTimeEthMaster,
     GlobalTimeEthSlave,
     GlobalTimeFrMaster,
+    GlobalTimeFrSlave,
     GlobalTimeGateway,
     GlobalTimeMaster,
     GlobalTimeSlave,
@@ -4335,3 +4336,151 @@ class TestGlobalTimeFrMaster:
         """
         assert inspect.cleandoc(GlobalTimeFrMaster.getCrcSecured.__doc__) == self.CRC_SECURED_NOTE
         assert inspect.cleandoc(GlobalTimeFrMaster.setCrcSecured.__doc__) == (self.CRC_SECURED_NOTE + "\n\nA None value is a no-op and does not overwrite an existing crcSecured.")
+
+
+class TestGlobalTimeFrSlave:
+    """
+    Test class for GlobalTimeFrSlave functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.21, p.878
+    (concrete; the Table 9.21 Base row's most-derived class is GlobalTimeSlave — re-parented
+    from the Identifiable stub base.)
+    """
+
+    CLASS_NOTE = "This represents the specialization of the GlobalTimeSlave for Flexray communication."
+    CRC_VALIDATED_NOTE = "Definition of whether or not validation of the CRC is supported."
+    SEQUENCE_COUNTER_JUMP_WIDTH_NOTE = "Specifies the maximum allowed gap of the sequence counter between two SYNC resp. two OFS messages."
+
+    def _create_slave(self) -> GlobalTimeFrSlave:
+        return GlobalTimeFrSlave(AUTOSAR.getInstance(), "frSlave")
+
+    def test_is_global_time_slave_subclass(self):
+        """
+        Test that GlobalTimeFrSlave derives from GlobalTimeSlave per the Table 9.21 Base row
+        (ARObject, GlobalTimeSlave, Identifiable, MultilanguageReferrable, Referrable —
+        most-derived GlobalTimeSlave).
+        """
+        assert issubclass(GlobalTimeFrSlave, GlobalTimeSlave)
+        assert issubclass(GlobalTimeFrSlave, Identifiable)
+        assert issubclass(GlobalTimeFrSlave, VariationPointCapable)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(GlobalTimeFrSlave.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert GlobalTimeFrSlave.__init__.__doc__ is None
+
+    def test_member_order_follows_spec_rows(self):
+        """
+        Test that the accessors follow the Table 9.21 displayed row order (getter first per attribute).
+        """
+        methods = [name for name, value in GlobalTimeFrSlave.__dict__.items() if callable(value) and not name.startswith("_")]
+        assert methods == [
+            "getCrcValidated",
+            "setCrcValidated",
+            "getSequenceCounterJumpWidth",
+            "setSequenceCounterJumpWidth",
+        ]
+
+    def test_initialization_defaults(self):
+        """
+        Test that the instance initializes all own and inherited attributes to their defaults.
+        """
+        obj = self._create_slave()
+
+        assert obj.getShortName() == "frSlave"
+        assert obj.getChecksum() is None
+        assert obj.getCrcValidated() is None
+        assert obj.getSequenceCounterJumpWidth() is None
+        assert obj.getCommunicationConnectorRef() is None
+        assert obj.getFollowUpTimeoutValue() is None
+        assert obj.getIcvVerification() is None
+        assert obj.getTimeLeapFutureThreshold() is None
+        assert obj.getTimeLeapHealingCounter() is None
+        assert obj.getTimeLeapPastThreshold() is None
+        assert obj.getVariationPoint() is None
+
+    def test_annotations_are_optional_typed(self):
+        """
+        Test that the accessors carry the spec types (0..1 rows).
+        """
+        hints = typing.get_type_hints(GlobalTimeFrSlave.getCrcValidated)
+        assert hints.get("return") == typing.Optional[GlobalTimeCrcValidationEnum]
+        hints = typing.get_type_hints(GlobalTimeFrSlave.setCrcValidated)
+        assert hints.get("value") == typing.Optional[GlobalTimeCrcValidationEnum]
+        assert hints.get("return") is GlobalTimeFrSlave
+
+        hints = typing.get_type_hints(GlobalTimeFrSlave.getSequenceCounterJumpWidth)
+        assert hints.get("return") == typing.Optional[PositiveInteger]
+
+    def test_get_set_crc_validated(self):
+        """
+        Test getCrcValidated and setCrcValidated round-trip and None no-op.
+        """
+        obj = self._create_slave()
+
+        value = GlobalTimeCrcValidationEnum()
+        value.setValue(GlobalTimeCrcValidationEnum.CRC_VALIDATED)
+        result = obj.setCrcValidated(value)
+        assert result is obj
+        assert obj.getCrcValidated() is value
+        assert obj.getCrcValidated().getValue() == GlobalTimeCrcValidationEnum.CRC_VALIDATED
+
+        result = obj.setCrcValidated(None)
+        assert result is obj
+        assert obj.getCrcValidated() is value
+
+    def test_get_set_sequence_counter_jump_width(self):
+        """
+        Test getSequenceCounterJumpWidth and setSequenceCounterJumpWidth round-trip and None no-op.
+        """
+        obj = self._create_slave()
+
+        value = PositiveInteger()
+        value.setValue("2")
+        result = obj.setSequenceCounterJumpWidth(value)
+        assert result is obj
+        assert obj.getSequenceCounterJumpWidth() is value
+        assert obj.getSequenceCounterJumpWidth().getValue() == 2
+
+        result = obj.setSequenceCounterJumpWidth(None)
+        assert result is obj
+        assert obj.getSequenceCounterJumpWidth() is value
+
+    def test_inherited_base_accessors(self):
+        """
+        Exercise the inherited GlobalTimeSlave accessors: chaining, round-trip, None no-op.
+        """
+        obj = self._create_slave()
+
+        follow_up = TimeValue()
+        follow_up.setValue("0.05")
+        assert obj.setFollowUpTimeoutValue(follow_up) is obj
+        assert obj.getFollowUpTimeoutValue() is follow_up
+
+        obj.setFollowUpTimeoutValue(None)
+        assert obj.getFollowUpTimeoutValue() is follow_up
+
+        variation_point = VariationPoint()
+        assert obj.setVariationPoint(variation_point) is obj
+        assert obj.getVariationPoint() is variation_point
+
+        obj.setVariationPoint(None)
+        assert obj.getVariationPoint() is variation_point
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        assert inspect.cleandoc(GlobalTimeFrSlave.getCrcValidated.__doc__) == self.CRC_VALIDATED_NOTE
+        assert inspect.cleandoc(GlobalTimeFrSlave.setCrcValidated.__doc__) == (self.CRC_VALIDATED_NOTE + "\n\nA None value is a no-op and does not overwrite an existing crcValidated.")
+        assert inspect.cleandoc(GlobalTimeFrSlave.getSequenceCounterJumpWidth.__doc__) == self.SEQUENCE_COUNTER_JUMP_WIDTH_NOTE
+        assert inspect.cleandoc(GlobalTimeFrSlave.setSequenceCounterJumpWidth.__doc__) == (
+            self.SEQUENCE_COUNTER_JUMP_WIDTH_NOTE + "\n\nA None value is a no-op and does not overwrite an existing sequenceCounterJumpWidth."
+        )

@@ -779,6 +779,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     GlobalTimeEthMaster,
     GlobalTimeEthSlave,
     GlobalTimeFrMaster,
+    GlobalTimeFrSlave,
     GlobalTimeGateway,
     GlobalTimeMaster,
     GlobalTimeSlave,
@@ -16394,6 +16395,19 @@ class ARXMLParser(AbstractARXMLParser):
             crc_validated = GlobalTimeCrcValidationEnum()
             crc_validated.setValue(literal.getValue())
             slave.setCrcValidated(crc_validated)
+        return slave
+
+    def readGlobalTimeFrSlave(self, element: ET.Element, slave: GlobalTimeFrSlave) -> GlobalTimeFrSlave:
+        # The XSD GLOBAL-TIME-FR-SLAVE group (AUTOSAR_00052.xsd l.64809) follows the
+        # GLOBAL-TIME-SLAVE group: CRC-VALIDATED then SEQUENCE-COUNTER-JUMP-WIDTH.
+        # readGlobalTimeSlave transitively owns the Identifiable level.
+        self.readGlobalTimeSlave(element, slave)
+        literal = self.getChildElementOptionalLiteral(element, "CRC-VALIDATED")
+        if literal is not None:
+            crc_validated = GlobalTimeCrcValidationEnum()
+            crc_validated.setValue(literal.getValue())
+            slave.setCrcValidated(crc_validated)
+        slave.setSequenceCounterJumpWidth(self.getChildElementOptionalPositiveInteger(element, "SEQUENCE-COUNTER-JUMP-WIDTH"))
         return slave
 
     def readGlobalTimeFrMaster(self, element: ET.Element, master: GlobalTimeFrMaster) -> GlobalTimeFrMaster:

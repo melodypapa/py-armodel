@@ -622,6 +622,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     GlobalTimeEthMaster,
     GlobalTimeEthSlave,
     GlobalTimeFrMaster,
+    GlobalTimeFrSlave,
     GlobalTimeGateway,
     GlobalTimeMaster,
     GlobalTimeSlave,
@@ -13885,6 +13886,14 @@ class ARXMLWriter(AbstractARXMLWriter):
         # Table 9.13) is not written.
         self.writeGlobalTimeSlave(element, slave)
         self.setChildElementOptionalLiteral(element, "CRC-VALIDATED", slave.getCrcValidated())
+
+    def writeGlobalTimeFrSlave(self, element: ET.Element, slave: GlobalTimeFrSlave):
+        # Populates the GLOBAL-TIME-FR-SLAVE element created by the caller; the XSD
+        # GLOBAL-TIME-FR-SLAVE group (AUTOSAR_00052.xsd l.64809) follows the
+        # GLOBAL-TIME-SLAVE group: CRC-VALIDATED then SEQUENCE-COUNTER-JUMP-WIDTH.
+        self.writeGlobalTimeSlave(element, slave)
+        self.setChildElementOptionalLiteral(element, "CRC-VALIDATED", slave.getCrcValidated())
+        self.setChildElementOptionalPositiveInteger(element, "SEQUENCE-COUNTER-JUMP-WIDTH", cast(Integer, slave.getSequenceCounterJumpWidth()))
 
     def writeGlobalTimeFrMaster(self, element: ET.Element, master: GlobalTimeFrMaster):
         # Populates the GLOBAL-TIME-FR-MASTER element created by the caller; the XSD
