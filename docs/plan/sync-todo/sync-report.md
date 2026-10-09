@@ -13,9 +13,9 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | [x] Done | 859 | 45.0% |
 | [x] Deferred | 40 | 2.1% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 976 | 51.1% |
-| [ ] Implemented | 20 | 1.0% |
-| [ ] Created | 15 | 0.8% |
+| [ ] Deferred | 989 | 51.8% |
+| [ ] Implemented | 10 | 0.5% |
+| [ ] Created | 12 | 0.6% |
 | [ ] Pending | 0 | 0.0% |
 
 | Class Name                                              | Status      | Commit ID                                | Groups           |
@@ -103,9 +103,9 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `ArrayValueSpecification`                               | [x] Done    | 043de7436d                               | Group3           |
 | `AsamRecordLayoutSemantics`                             | [x] Done    | 2acaf7a45f                               | Group3           |
 | `AssemblySwConnector`                                   | [x] Done    | 2a104a061c                               | Group2           |
-| `AssignFrameId`                                         | [ ] Implemented| N/A                                      | Group31          |
-| `AssignFrameIdRange`                                    | [ ] Implemented| N/A                                      | Group31          |
-| `AssignNad`                                             | [ ] Implemented| N/A                                      | Group31          |
+| `AssignFrameId`                                         | [ ] Deferred| e36b881da1                               | Group31          |
+| `AssignFrameIdRange`                                    | [ ] Deferred| e36b881da1                               | Group31          |
+| `AssignNad`                                             | [ ] Deferred| e36b881da1                               | Group31          |
 | `AsynchronousServerCallPoint`                           | [x] Done    | 3223dde420                               | Group2           |
 | `AsynchronousServerCallResultPoint`                     | [x] Done    | 724f490c7a                               | Group2           |
 | `AsynchronousServerCallReturnsEvent`                    | [x] Done    | a706fd368b                               | Group12          |
@@ -969,11 +969,11 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `Frame`                                                 | [ ] Deferred| 417c1d0055                               | Group31          |
 | `FrameEnum`                                             | [x] Done    | 531991e029                               | Group3           |
 | `FrameMapping`                                          | [x] Done    | a5f62ee06d                               | Group17          |
-| `FramePid`                                              | [ ] Implemented| N/A                                      | Group31          |
+| `FramePid`                                              | [ ] Deferred| e36b881da1                               | Group31          |
 | `FramePort`                                             | [x] Done    | 75683a2ede                               | Group5           |
 | `FrameTriggering`                                       | [x] Done    | 206cf29517                               | Group5           |
 | `FreeFormat`                                            | [ ] Deferred| N/A                                      | Group32          |
-| `FreeFormatEntry`                                       | [ ] Implemented| N/A                                      | Group31          |
+| `FreeFormatEntry`                                       | [ ] Deferred| e36b881da1                               | Group31          |
 | `FullBindingTimeEnum`                                   | [ ] Deferred| N/A                                      | Group21          |
 | `FunctionGroupStateInFunctionGroupSetInstanceRef`       | [ ] Implemented| 48a3dcb2fa                               | Group36          |
 | `FunctionInhibitionAvailabilityNeeds`                   | [x] Done    | N/A                                      | Group29          |
@@ -1190,16 +1190,16 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `LifeCycleStateDefinitionGroup`                         | [ ] Deferred| 0c87fdbee4                               | Group22          |
 | `Limit`                                                 | [ ] Deferred| 953b4ee68c                               | Group28          |
 | `LimitValueVariationPoint`                              | [x] Done    | d5c96fd954                               | Group8           |
-| `LinChecksumType`                                       | [ ] Created | N/A                                      | Group31          |
+| `LinChecksumType`                                       | [ ] Deferred| e03844e729                               | Group31          |
 | `LinCluster`                                            | [ ] Deferred| d8a563e1f0                               | Group29          |
 | `LinCommunicationConnector`                             | [x] Done    | da0534323b                               | Group17          |
 | `LinCommunicationController`                            | [ ] Deferred| f19185283e                               | Group29          |
 | `LinConfigurableFrame`                                  | [ ] Deferred| eb075693c2                               | Group29          |
-| `LinConfigurationEntry`                                 | [ ] Implemented| N/A                                      | Group31          |
+| `LinConfigurationEntry`                                 | [ ] Deferred| e36b881da1                               | Group31          |
 | `LinErrorResponse`                                      | [ ] Deferred| 6439b6cbd5                               | Group29          |
-| `LinEventTriggeredFrame`                                | [ ] Created | N/A                                      | Group31          |
+| `LinEventTriggeredFrame`                                | [ ] Deferred| db8b2fb950                               | Group31          |
 | `LinFrame`                                              | [ ] Deferred| d72398ba5a                               | Group31          |
-| `LinFrameTriggering`                                    | [ ] Implemented| N/A                                      | Group31          |
+| `LinFrameTriggering`                                    | [ ] Deferred| 63e2caeb11                               | Group31          |
 | `LinMaster`                                             | [ ] Deferred| 35db48e9b0                               | Group29          |
 | `LinOrderedConfigurableFrame`                           | [ ] Deferred| 15a63a22ae                               | Group29          |
 | `LinPhysicalChannel`                                    | [ ] Deferred| a60d5418a2                               | Group29          |
@@ -1207,11 +1207,11 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `LinSlave`                                              | [ ] Deferred| c8f1e00c47                               | Group29          |
 | `LinSlaveConfig`                                        | [ ] Deferred| 81ac1ac2a0                               | Group29          |
 | `LinSlaveConfigIdent`                                   | [ ] Deferred| 5e4ae9f277                               | Group29          |
-| `LinSporadicFrame`                                      | [ ] Created | N/A                                      | Group31          |
+| `LinSporadicFrame`                                      | [ ] Deferred| db8b2fb950                               | Group31          |
 | `LinTpConfig`                                           | [ ] Deferred| N/A                                      | Group33          |
 | `LinTpConnection`                                       | [x] Done    | fa26bba13a                               | Group18          |
 | `LinTpNode`                                             | [ ] Deferred| N/A                                      | Group33          |
-| `LinUnconditionalFrame`                                 | [ ] Implemented| N/A                                      | Group31          |
+| `LinUnconditionalFrame`                                 | [ ] Deferred| b9e186e5a4                               | Group31          |
 | `Linker`                                                | [x] Done    | 20003dc3cc                               | Group1           |
 | `List`                                                  | [x] Deferred| N/A                                      | Group21          |
 | `ListEnum`                                              | [x] Done    | 0623068af8                               | Group9           |
@@ -1528,7 +1528,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `SOMEIPTransformationProps`                             | [ ] Deferred| N/A                                      | Group34          |
 | `SaveConfigurationEntry`                                | [ ] Deferred| N/A                                      | Group32          |
 | `ScaleConstrValidityEnum`                               | [x] Done    | 1bc8904eee                               | Group9           |
-| `ScheduleTableEntry`                                    | [ ] Implemented| N/A                                      | Group31          |
+| `ScheduleTableEntry`                                    | [ ] Deferred| e36b881da1                               | Group31          |
 | `SdClientConfig`                                        | [x] Done    | 8e0c8857ad                               | Group7           |
 | `SdServerConfig`                                        | [x] Done    | f509df9d94                               | Group16          |
 | `SdgAbstractForeignReference`                           | [ ] Deferred| N/A                                      | Group21          |
@@ -1873,7 +1873,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `UdpProps`                                              | [x] Done    | ecb15e901f                               | Group5           |
 | `UdpRule`                                               | [x] Done    | c871945ce1                               | Group20          |
 | `UdpTp`                                                 | [x] Done    | 5336dd0eae                               | Group16          |
-| `UnassignFrameId`                                       | [ ] Implemented| N/A                                      | Group31          |
+| `UnassignFrameId`                                       | [ ] Deferred| e36b881da1                               | Group31          |
 | `Unit`                                                  | [ ] Deferred| f801a63d13                               | Group28          |
 | `UnitGroup`                                             | [x] Done    | e7fdb07f2b                               | Group9           |
 | `UnlimitedIntegerValueVariationPoint`                   | [x] Done    | d5c96fd954                               | Group8           |
