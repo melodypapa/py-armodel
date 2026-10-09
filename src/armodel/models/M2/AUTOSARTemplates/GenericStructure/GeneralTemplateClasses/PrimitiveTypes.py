@@ -734,6 +734,13 @@ class UnlimitedInteger(Integer):
 class Identifier(ARLiteral):
     """
     An Identifier is a string with a number of constraints on its appearance, satisfying the requirements typical programming languages define for their Identifiers. This datatype represents a string, that can be used as a c-Identifier. It shall start with a letter, may consist of letters, digits and underscores.
+
+    Tags:
+
+    * xml.xsd.customType=IDENTIFIER
+    * xml.xsd.maxLength=128
+    * xml.xsd.pattern=[a-zA-Z][a-zA-Z0-9_]*
+    * xml.xsd.type=string
     """
 
     # Identifier method parity checklist:
@@ -744,19 +751,20 @@ class Identifier(ARLiteral):
     # [x] setBlueprintValue   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getNamePattern      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] setNamePattern      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # Spec verified: R23-11
 
     def __init__(self):
         super().__init__()
 
-        # This represents a description that documents how the value shall be defined when deriving objects from the blueprint.
+        # This represents a description that documents how the value shall be defined when deriving objects from the blueprint. Tags: atp.Status=draft xml.attribute=true
         self.blueprintValue: Optional[String] = None
 
-        # This attribute represents a pattern which shall be used to define the value of the identifier if the identifier in question is part of a blueprint. For more details refer to TPS_StandardizationTemplate.
+        # This attribute represents a pattern which shall be used to define the value of the identifier if the identifier in question is part of a blueprint. For more details refer to TPS_StandardizationTemplate. Tags: xml.attribute=true
         self.namePattern: Optional[String] = None
 
     def getBlueprintValue(self) -> Optional[String]:
         """
-        This represents a description that documents how the value shall be defined when deriving objects from the blueprint.
+        This represents a description that documents how the value shall be defined when deriving objects from the blueprint. Tags: atp.Status=draft xml.attribute=true
 
         Returns:
             The blueprint value, or None if not set
@@ -765,7 +773,7 @@ class Identifier(ARLiteral):
 
     def setBlueprintValue(self, value: Optional[String]) -> "Identifier":
         """
-        This represents a description that documents how the value shall be defined when deriving objects from the blueprint.
+        This represents a description that documents how the value shall be defined when deriving objects from the blueprint. Tags: atp.Status=draft xml.attribute=true
 
         A None value is a no-op and does not overwrite an existing blueprintValue.
 
@@ -778,7 +786,7 @@ class Identifier(ARLiteral):
 
     def getNamePattern(self) -> Optional[String]:
         """
-        This attribute represents a pattern which shall be used to define the value of the identifier if the identifier in question is part of a blueprint. For more details refer to TPS_StandardizationTemplate.
+        This attribute represents a pattern which shall be used to define the value of the identifier if the identifier in question is part of a blueprint. For more details refer to TPS_StandardizationTemplate. Tags: xml.attribute=true
 
         Returns:
             The name pattern, or None if not set
@@ -787,7 +795,7 @@ class Identifier(ARLiteral):
 
     def setNamePattern(self, value: Optional[String]) -> "Identifier":
         """
-        This attribute represents a pattern which shall be used to define the value of the identifier if the identifier in question is part of a blueprint. For more details refer to TPS_StandardizationTemplate.
+        This attribute represents a pattern which shall be used to define the value of the identifier if the identifier in question is part of a blueprint. For more details refer to TPS_StandardizationTemplate. Tags: xml.attribute=true
 
         A None value is a no-op and does not overwrite an existing namePattern.
 
@@ -822,7 +830,7 @@ class CIdentifier(ARLiteral):
     def __init__(self):
         super().__init__()
 
-        # This represents a description that documents how the value shall be defined when deriving objects from the blueprint. Tags: atp.Status=draft xml.attribute=true
+        # This represents a description that documents how the value shall be defined when deriving objects from the blueprint. Tags: atp.Status=draft xml.attribute=true Tags: atp.Status=draft xml.attribute=true
         self.blueprintValue: Optional[str] = None
 
         # This attribute represents a pattern which shall be used to define the value of the identifier if the CIdentifier in question is part of a blueprint. For more details refer to TPS_StandardizationTemplate. Tags: xml.attribute=true
@@ -830,13 +838,13 @@ class CIdentifier(ARLiteral):
 
     def getBlueprintValue(self) -> Optional[str]:
         """
-        This represents a description that documents how the value shall be defined when deriving objects from the blueprint. Tags: atp.Status=draft xml.attribute=true
+        This represents a description that documents how the value shall be defined when deriving objects from the blueprint. Tags: atp.Status=draft xml.attribute=true Tags: atp.Status=draft xml.attribute=true
         """
         return self.blueprintValue
 
     def setBlueprintValue(self, value: Optional[str]):
         """
-        This represents a description that documents how the value shall be defined when deriving objects from the blueprint. Tags: atp.Status=draft xml.attribute=true
+        This represents a description that documents how the value shall be defined when deriving objects from the blueprint. Tags: atp.Status=draft xml.attribute=true Tags: atp.Status=draft xml.attribute=true
 
         A None value is a no-op and does not overwrite an existing blueprintValue.
         """
@@ -1005,7 +1013,7 @@ class Ref(ARLiteral):
         # This attribute reflects the base to be used for this reference. Tags: xml.attribute=true
         self.base: Optional[Identifier] = None
 
-        # This represents a description that documents how the value shall be defined when deriving objects from the blueprint. Tags: atp.Status=draft xml.attribute=true
+        # This represents a description that documents how the value shall be defined when deriving objects from the blueprint. Tags: atp.Status=draft xml.attribute=true Tags: atp.Status=draft xml.attribute=true
         self.blueprintValue: Optional[String] = None
 
         # This attribute supports the use case to point on specific elements in an array. This is in particular required if arrays are used to implement particular data objects. The counting of array indices starts with the value 0, i.e. the index of the first array element is 0. Tags: xml.attribute=true
@@ -1022,11 +1030,11 @@ class Ref(ARLiteral):
         return self
 
     def getBlueprintValue(self) -> Optional[String]:
-        """This represents a description that documents how the value shall be defined when deriving objects from the blueprint."""
+        """This represents a description that documents how the value shall be defined when deriving objects from the blueprint. Tags: atp.Status=draft xml.attribute=true"""
         return self.blueprintValue
 
     def setBlueprintValue(self, value: Optional[String]) -> "Ref":
-        """This represents a description that documents how the value shall be defined when deriving objects from the blueprint. A None value is a no-op and does not overwrite an existing blueprintValue."""
+        """This represents a description that documents how the value shall be defined when deriving objects from the blueprint. Tags: atp.Status=draft xml.attribute=true A None value is a no-op and does not overwrite an existing blueprintValue."""
         if value is not None:
             self.blueprintValue = value
         return self
