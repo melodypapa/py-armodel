@@ -10,8 +10,8 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 857 | 45.1% |
-| [x] Deferred | 25 | 1.3% |
+| [x] Done | 858 | 45.1% |
+| [x] Deferred | 24 | 1.3% |
 | [x] Retired | 0 | 0.0% |
 | [ ] Deferred | 861 | 45.3% |
 | [ ] Implemented | 38 | 2.0% |
@@ -1080,7 +1080,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `IcmpRule`                                              | [x] Done    | c839e30e0e                               | Group20          |
 | `IdentCaption`                                          | [x] Done    | 2dd2f91845                               | Group1           |
 | `Identifiable`                                          | [x] Done    | c17bfbf60f                               | Group1           |
-| `Identifier`                                            | [x] Deferred| N/A                                      | Group21          |
+| `Identifier`                                            | [x] Done    | 6336d00e15                               | Group21          |
 | `IdsDesign`                                             | [ ] Created | N/A                                      | Group36          |
 | `IdsMgrCustomTimestampNeeds`                            | [x] Done    | b65fe94222                               | Group5           |
 | `IdsMgrNeeds`                                           | [ ] Deferred| 4c1801ebf6                               | Group29          |
