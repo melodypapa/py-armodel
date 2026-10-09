@@ -68,11 +68,13 @@ class TestReadISignalTriggering:
 
     def test_read_empty_wrapper_list(self):
         triggering = ISignalTriggering(None, "Triggering1")
-        element = ET.fromstring(f"""<I-SIGNAL-TRIGGERING xmlns='{NS}'>
+        element = ET.fromstring(
+            f"""<I-SIGNAL-TRIGGERING xmlns='{NS}'>
             <SHORT-NAME>Triggering1</SHORT-NAME>
             <I-SIGNAL-PORT-REFS/>
             <I-SIGNAL-REF DEST='I-SIGNAL'>/AUTOSAR/ISignals/Signal1</I-SIGNAL-REF>
-        </I-SIGNAL-TRIGGERING>""")
+        </I-SIGNAL-TRIGGERING>"""
+        )
         ARXMLParser().readISignalTriggering(element, triggering)
 
         assert triggering.getISignalPortRefs() == []

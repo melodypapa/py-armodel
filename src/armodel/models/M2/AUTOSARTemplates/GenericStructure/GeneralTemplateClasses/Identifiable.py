@@ -7,6 +7,8 @@ from __future__ import annotations
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
+    ClassTailoring,
+    FMAttributeValue,
     DdsCpServiceInstanceEvent,
     DdsCpServiceInstanceOperation,
     DdsDeadline,
@@ -27,22 +29,37 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticParameter,
     RoleBasedResourceDependency,
 )
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Enumerations import BindingTimeEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AnyVersionString,
-    Boolean,
     CategoryString,
     DiagnosticDebounceBehaviorEnum,
+    FMFeatureSelectionState,
+    Float,
     Identifier,
+    Limit,
+    Numerical,
     PositiveInteger,
+    Boolean,
     RefType,
+    SecurityEventContextDataSourceEnum,
+    SecurityEventReportingModeEnum,
     String,
+    TimeValue,
     VerbatimString,
+    DefaultValueApplicationStrategyEnum,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from abc import ABC
 from typing import Dict, List, Optional, TYPE_CHECKING, Union, cast
 
 if TYPE_CHECKING:
+    from armodel.models.M2.AUTOSARTemplates.FeatureModelTemplate import FMConditionByFeaturesAndAttributes, FMConditionByFeaturesAndSwSystemconsts
+    from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import FunctionGroupStateInFunctionGroupSetInstanceRef
+    from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import SecurityEventContextData
+    from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import AbstractCondition, ClassTailoring
+    from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ModelRestrictionTypes import ValueRestrictionWithSeverity
+    from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import MultiplicityRestrictionWithSeverity, VariationRestrictionWithSeverity
     from armodel.models.M2.MSR.AsamHdo.AdminData import AdminData
     from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName, MultiLanguageOverviewParagraph
     from armodel.models.M2.MSR.Documentation.TextModel.SingleLanguageData import SingleLanguageLongName
@@ -666,47 +683,354 @@ class Describable(ARObject, ABC):
 
 
 class SpecElementReference(Identifiable, ABC):
-    pass
+    """
+    This meta-class represents the ability to reference a specification element. Tags: atp.Recommendation=FOR_STANDARDIZATION
+    """
+
+    # SpecElementReference method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 6.4, p.82
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is SpecElementReference:
+            raise TypeError("SpecElementReference is an abstract class.")
+
+        super().__init__(parent, short_name)
 
 
 class DataFormatElementReference(SpecElementReference, ABC):
-    pass
+    """
+    This meta-class represents the ability to reference an element of the data format. Tags: atp.Recommendation=FOR_STANDARDIZATION
+    """
+
+    # DataFormatElementReference method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 6.15, p.91
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is DataFormatElementReference:
+            raise TypeError("DataFormatElementReference is an abstract class.")
+
+        super().__init__(parent, short_name)
 
 
-class AbstractClassTailoring(DataFormatElementReference):
-    pass
+class AbstractClassTailoring(Identifiable):
+    """
+    This meta-class represents the ability to tailor an abstract class and its subclasses. Tags: atp.Recommendation=FOR_STANDARDIZATION
+    """
 
+    # AbstractClassTailoring method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 6.20, p.101
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addClassContent             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getClassContents            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getMultiplicityRestriction  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMultiplicityRestriction  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVariationRestriction     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setVariationRestriction     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
-class AbstractSecurityEventFilter(Identifiable, ABC):
-    pass
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Specifies the accepted / not accepted content of the class. All rules apply that fullfill the condition of the Class ContentConditional. Tags: xml.sequenceOffset=30
+        self.classContents: List[ClassContentConditional] = []
+
+        # Specifies the multiplicity of the class in the current context. Tags: xml.sequenceOffset=10
+        self.multiplicityRestriction: Optional[MultiplicityRestrictionWithSeverity] = None
+
+        # Specifies restrictions on the usage of variant handling. Tags: xml.sequenceOffset=20
+        self.variationRestriction: Optional[VariationRestrictionWithSeverity] = None
+
+    def addClassContent(self, value: ClassContentConditional) -> AbstractClassTailoring:
+        """
+        Specifies the accepted / not accepted content of the class. All rules apply that fullfill the condition of the Class ContentConditional. Tags: xml.sequenceOffset=30
+        """
+        self.classContents.append(value)
+        return self
+
+    def getClassContents(self) -> List[ClassContentConditional]:
+        """
+        Specifies the accepted / not accepted content of the class. All rules apply that fullfill the condition of the Class ContentConditional. Tags: xml.sequenceOffset=30
+        """
+        return self.classContents
+
+    def getMultiplicityRestriction(self) -> Optional[MultiplicityRestrictionWithSeverity]:
+        """
+        Specifies the multiplicity of the class in the current context. Tags: xml.sequenceOffset=10
+        """
+        return self.multiplicityRestriction
+
+    def setMultiplicityRestriction(self, value: Optional[MultiplicityRestrictionWithSeverity]) -> AbstractClassTailoring:
+        """
+        Specifies the multiplicity of the class in the current context. Tags: xml.sequenceOffset=10
+
+        A None value is a no-op and does not overwrite an existing multiplicityRestriction.
+        """
+        if value is not None:
+            self.multiplicityRestriction = value
+        return self
+
+    def getVariationRestriction(self) -> Optional[VariationRestrictionWithSeverity]:
+        """
+        Specifies restrictions on the usage of variant handling. Tags: xml.sequenceOffset=20
+        """
+        return self.variationRestriction
+
+    def setVariationRestriction(self, value: Optional[VariationRestrictionWithSeverity]) -> AbstractClassTailoring:
+        """
+        Specifies restrictions on the usage of variant handling. Tags: xml.sequenceOffset=20
+
+        A None value is a no-op and does not overwrite an existing variationRestriction.
+        """
+        if value is not None:
+            self.variationRestriction = value
+        return self
 
 
 class DataFormatElementScope(DataFormatElementReference, ABC):
-    pass
+    """
+    This meta-class represents the ability to define the scope within the data format that is subject of a tailoring. Tags: atp.Recommendation=FOR_STANDARDIZATION
+    """
+
+    # DataFormatElementScope method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 6.16, p.91
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is DataFormatElementScope:
+            raise TypeError("DataFormatElementScope is an abstract class.")
+
+        super().__init__(parent, short_name)
 
 
 class AttributeTailoring(DataFormatElementScope, ABC):
-    pass
+    """
+    This meta-class represents the ability to tailor attributes. Tags: atp.Recommendation=FOR_STANDARDIZATION
+    """
+
+    # AttributeTailoring method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 6.31, p.109
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is AttributeTailoring:
+            raise TypeError("AttributeTailoring is an abstract class.")
+
+        super().__init__(parent, short_name)
 
 
 class AggregationTailoring(AttributeTailoring):
-    pass
+    """
+    This meta-class represents the ability to tailor an aggregation of a class. Tags: atp.Recommendation=FOR_STANDARDIZATION
+    """
 
+    # AggregationTailoring method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 6.34, p.113
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addTypeTailoring          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTypeTailorings         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
-class BlockState(Identifiable):
-    pass
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Local class tailoring which is applied if the content is contained by this aggregation.
+        self.typeTailorings: List[ClassTailoring] = []
+
+    def addTypeTailoring(self, value: ClassTailoring) -> AggregationTailoring:
+        """
+        Local class tailoring which is applied if the content is contained by this aggregation.
+        """
+        self.typeTailorings.append(value)
+        return self
+
+    def getTypeTailorings(self) -> List[ClassTailoring]:
+        """
+        Local class tailoring which is applied if the content is contained by this aggregation.
+        """
+        return self.typeTailorings
 
 
 class ClassContentConditional(Identifiable):
-    pass
+    """
+    This meta-class specifies the condition and the tailorings of the content of a class.
+    """
+
+    # ClassContentConditional method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 6.25, p.103
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCondition                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCondition                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addAttributeTailoring        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAttributeTailorings       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addConstraintTailoring       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getConstraintTailorings      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addSdgTailoring              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSdgTailorings             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # The rules on the content of this class are enabled if the condition validates to true. Tags: xml.sequenceOffset=10
+        self.condition: Optional[AbstractCondition] = None
+
+        # Tailorings of the owned and inherited attributes of this Meta Classes Tags: xml.sequenceOffset=20
+        self.attributeTailorings: List[AttributeTailoring] = []
+
+        # Specification of tailorings of Constraints of that are owned by this Meta Classes Tags: xml.sequenceOffset=30
+        self.constraintTailorings: List[ConstraintTailoring] = []
+
+        # Specification of the applicable Special Data Group Tags: xml.sequenceOffset=40
+        self.sdgTailorings: List[SdgTailoring] = []
+
+    def getCondition(self) -> Optional[AbstractCondition]:
+        """
+        The rules on the content of this class are enabled if the condition validates to true. Tags: xml.sequenceOffset=10
+        """
+        return self.condition
+
+    def setCondition(self, value: Optional[AbstractCondition]) -> ClassContentConditional:
+        """
+        The rules on the content of this class are enabled if the condition validates to true. Tags: xml.sequenceOffset=10
+
+        A None value is a no-op and does not overwrite an existing condition.
+        """
+        if value is not None:
+            self.condition = value
+        return self
+
+    def addAttributeTailoring(self, value: AttributeTailoring) -> ClassContentConditional:
+        """
+        Tailorings of the owned and inherited attributes of this Meta Classes Tags: xml.sequenceOffset=20
+        """
+        self.attributeTailorings.append(value)
+        return self
+
+    def getAttributeTailorings(self) -> List[AttributeTailoring]:
+        """
+        Tailorings of the owned and inherited attributes of this Meta Classes Tags: xml.sequenceOffset=20
+        """
+        return self.attributeTailorings
+
+    def addConstraintTailoring(self, value: ConstraintTailoring) -> ClassContentConditional:
+        """
+        Specification of tailorings of Constraints of that are owned by this Meta Classes Tags: xml.sequenceOffset=30
+        """
+        self.constraintTailorings.append(value)
+        return self
+
+    def getConstraintTailorings(self) -> List[ConstraintTailoring]:
+        """
+        Specification of tailorings of Constraints of that are owned by this Meta Classes Tags: xml.sequenceOffset=30
+        """
+        return self.constraintTailorings
+
+    def addSdgTailoring(self, value: SdgTailoring) -> ClassContentConditional:
+        """
+        Specification of the applicable Special Data Group Tags: xml.sequenceOffset=40
+        """
+        self.sdgTailorings.append(value)
+        return self
+
+    def getSdgTailorings(self) -> List[SdgTailoring]:
+        """
+        Specification of the applicable Special Data Group Tags: xml.sequenceOffset=40
+        """
+        return self.sdgTailorings
 
 
-class ConcreteClassTailoring(DataFormatElementScope):
-    pass
+class ConcreteClassTailoring(Identifiable):
+    """
+    This meta-class represents the ability to tailor a concrete class. Tags: atp.Recommendation=FOR_STANDARDIZATION
+    """
+
+    # ConcreteClassTailoring method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 6.26, p.104
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addClassContent             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getClassContents            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getMultiplicityRestriction  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMultiplicityRestriction  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVariationRestriction     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setVariationRestriction     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Specifies the accepted / not accepted content of the class. All rules apply that fullfill the condition of the Class ContentConditional. Tags: xml.sequenceOffset=30
+        self.classContents: List[ClassContentConditional] = []
+
+        # Specifies the multiplicity of the class in the current context. Tags: xml.sequenceOffset=10
+        self.multiplicityRestriction: Optional[MultiplicityRestrictionWithSeverity] = None
+
+        # Specifies restrictions on the usage of variant handling. Tags: xml.sequenceOffset=20
+        self.variationRestriction: Optional[VariationRestrictionWithSeverity] = None
+
+    def addClassContent(self, value: ClassContentConditional) -> ConcreteClassTailoring:
+        """
+        Specifies the accepted / not accepted content of the class. All rules apply that fullfill the condition of the Class ContentConditional. Tags: xml.sequenceOffset=30
+        """
+        self.classContents.append(value)
+        return self
+
+    def getClassContents(self) -> List[ClassContentConditional]:
+        """
+        Specifies the accepted / not accepted content of the class. All rules apply that fullfill the condition of the Class ContentConditional. Tags: xml.sequenceOffset=30
+        """
+        return self.classContents
+
+    def getMultiplicityRestriction(self) -> Optional[MultiplicityRestrictionWithSeverity]:
+        """
+        Specifies the multiplicity of the class in the current context. Tags: xml.sequenceOffset=10
+        """
+        return self.multiplicityRestriction
+
+    def setMultiplicityRestriction(self, value: Optional[MultiplicityRestrictionWithSeverity]) -> ConcreteClassTailoring:
+        """
+        Specifies the multiplicity of the class in the current context. Tags: xml.sequenceOffset=10
+
+        A None value is a no-op and does not overwrite an existing multiplicityRestriction.
+        """
+        if value is not None:
+            self.multiplicityRestriction = value
+        return self
+
+    def getVariationRestriction(self) -> Optional[VariationRestrictionWithSeverity]:
+        """
+        Specifies restrictions on the usage of variant handling. Tags: xml.sequenceOffset=20
+        """
+        return self.variationRestriction
+
+    def setVariationRestriction(self, value: Optional[VariationRestrictionWithSeverity]) -> ConcreteClassTailoring:
+        """
+        Specifies restrictions on the usage of variant handling. Tags: xml.sequenceOffset=20
+
+        A None value is a no-op and does not overwrite an existing variationRestriction.
+        """
+        if value is not None:
+            self.variationRestriction = value
+        return self
 
 
 class ConstraintTailoring(DataFormatElementScope):
-    pass
+    """
+    This meta-class represents the ability to tailor constraints. Tags: atp.Recommendation=FOR_STANDARDIZATION
+    """
+
+    # ConstraintTailoring method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 6.36, p.117
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
 
 
 class CpSoftwareClusterResource(Identifiable):
@@ -1383,67 +1707,1164 @@ class DiagnosticStopRoutine(DiagnosticRoutineSubfunction):
 
 
 class SpecElementScope(SpecElementReference, ABC):
-    pass
+    """
+    This meta-class represents the ability to define the scope within a specification that is subject of a tailoring. Tags: atp.Recommendation=FOR_STANDARDIZATION
+    """
+
+    # SpecElementScope method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 6.5, p.84
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is SpecElementScope:
+            raise TypeError("SpecElementScope is an abstract class.")
+
+        super().__init__(parent, short_name)
 
 
 class DocumentElementScope(SpecElementScope):
-    pass
+    """
+    This meta-class represents the scope of an element within a specification document.
+    """
+
+    # DocumentElementScope method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 6.19, p.97
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCustomDocumentElementRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCustomDocumentElementRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addTailoringRef                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTailoringRefs               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Reference to a custom defined specification element.
+        self.customDocumentElementRef: Optional[RefType] = None
+
+        # Data Format Element that is implied by this element in the specification. Used to share one rationale for more tailorings.
+        self.tailoringRefs: List[RefType] = []
+
+    def getCustomDocumentElementRef(self) -> Optional[RefType]:
+        """
+        Reference to a custom defined specification element.
+        """
+        return self.customDocumentElementRef
+
+    def setCustomDocumentElementRef(self, value: Optional[RefType]) -> DocumentElementScope:
+        """
+        Reference to a custom defined specification element.
+
+        A None value is a no-op and does not overwrite an existing customDocumentElementRef.
+        """
+        if value is not None:
+            self.customDocumentElementRef = value
+        return self
+
+    def addTailoringRef(self, ref: RefType) -> DocumentElementScope:
+        """
+        Data Format Element that is implied by this element in the specification. Used to share one rationale for more tailorings.
+        """
+        self.tailoringRefs.append(ref)
+        return self
+
+    def getTailoringRefs(self) -> List[RefType]:
+        """
+        Data Format Element that is implied by this element in the specification. Used to share one rationale for more tailorings.
+        """
+        return self.tailoringRefs
 
 
 class FMAttributeDef(Identifiable):
-    pass
+    """
+    This metaclass represents the ability to define attributes for a feature.
+    """
+
+    # FMAttributeDef method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf, Table 4.3, p.26
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDefaultValue     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDefaultValue     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMax              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMax              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMin              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMin              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This represents the default value of the attribute.
+        self.defaultValue: Optional[Numerical] = None
+
+        # Maximum possible value for the value of this attribute
+        self.max: Optional[Limit] = None
+
+        # Minimum possible value for the value of this attribute
+        self.min: Optional[Limit] = None
+
+    def getDefaultValue(self) -> Optional[Numerical]:
+        """
+        This represents the default value of the attribute.
+        """
+        return self.defaultValue
+
+    def setDefaultValue(self, value: Optional[Numerical]) -> FMAttributeDef:
+        """
+        This represents the default value of the attribute.
+
+        A None value is a no-op and does not overwrite an existing defaultValue.
+        """
+        if value is not None:
+            self.defaultValue = value
+        return self
+
+    def getMax(self) -> Optional[Limit]:
+        """
+        Maximum possible value for the value of this attribute
+        """
+        return self.max
+
+    def setMax(self, value: Optional[Limit]) -> FMAttributeDef:
+        """
+        Maximum possible value for the value of this attribute
+
+        A None value is a no-op and does not overwrite an existing max.
+        """
+        if value is not None:
+            self.max = value
+        return self
+
+    def getMin(self) -> Optional[Limit]:
+        """
+        Minimum possible value for the value of this attribute
+        """
+        return self.min
+
+    def setMin(self, value: Optional[Limit]) -> FMAttributeDef:
+        """
+        Minimum possible value for the value of this attribute
+
+        A None value is a no-op and does not overwrite an existing min.
+        """
+        if value is not None:
+            self.min = value
+        return self
 
 
 class FMFeatureMapAssertion(Identifiable):
-    pass
+    """
+    Defines a boolean expression which shall evaluate to true for this mapping to become active. The expression is a formula that is based on features and system constants, and is defined by fmSyscond.
+    """
+
+    # FMFeatureMapAssertion method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf, Table 6.4, p.56
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getFmSyscond   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFmSyscond   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # The formula that implements the assertion.
+        self.fmSyscond: Optional[FMConditionByFeaturesAndSwSystemconsts] = None
+
+    def getFmSyscond(self) -> Optional[FMConditionByFeaturesAndSwSystemconsts]:
+        """
+        The formula that implements the assertion.
+        """
+        return self.fmSyscond
+
+    def setFmSyscond(self, value: Optional[FMConditionByFeaturesAndSwSystemconsts]) -> FMFeatureMapAssertion:
+        """
+        The formula that implements the assertion.
+
+        A None value is a no-op and does not overwrite an existing fmSyscond.
+        """
+        if value is not None:
+            self.fmSyscond = value
+        return self
 
 
 class FMFeatureMapCondition(Identifiable):
-    pass
+    """
+    Defines a condition which needs to be fulfilled for this mapping to become active. The condition is implemented as formula that is based on features and attributes and is defined by fmCond.
+    """
+
+    # FMFeatureMapCondition method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf, Table 6.3, p.55
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getFmCond     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFmCond     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # The formula that implements the condition.
+        self.fmCond: Optional[FMConditionByFeaturesAndAttributes] = None
+
+    def getFmCond(self) -> Optional[FMConditionByFeaturesAndAttributes]:
+        """
+        The formula that implements the condition.
+        """
+        return self.fmCond
+
+    def setFmCond(self, value: Optional[FMConditionByFeaturesAndAttributes]) -> FMFeatureMapCondition:
+        """
+        The formula that implements the condition.
+
+        A None value is a no-op and does not overwrite an existing fmCond.
+        """
+        if value is not None:
+            self.fmCond = value
+        return self
 
 
 class FMFeatureMapElement(Identifiable):
-    pass
+    """
+    Defines value sets for system constants and postbuild variant criterions that shall be chosen whenever a certain combination of features (and system constants) is encountered.
+    """
+
+    # FMFeatureMapElement method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf, Table 6.2, p.53
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addAssertion                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAssertions                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addCondition                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getConditions                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addPostBuildVariantCriterionValueSetRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPostBuildVariantCriterionValueSetRefs [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addSwSystemconstantValueSetRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwSystemconstantValueSetRefs       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Defines a boolean expression based on features and system constants which needs to evaluate to true for this mapping to become active.
+        self.assertions: List[FMFeatureMapAssertion] = []
+
+        # Defines a condition which needs to be fulfilled for this mapping to become active.
+        self.conditions: List[FMFeatureMapCondition] = []
+
+        # Selects a set of values for postbuild variant criterions.
+        self.postBuildVariantCriterionValueSetRefs: List[RefType] = []
+
+        # Selects a set of values for system constants.
+        self.swSystemconstantValueSetRefs: List[RefType] = []
+
+    def addAssertion(self, value: FMFeatureMapAssertion) -> FMFeatureMapElement:
+        """
+        Defines a boolean expression based on features and system constants which needs to evaluate to true for this mapping to become active.
+        """
+        self.assertions.append(value)
+        return self
+
+    def getAssertions(self) -> List[FMFeatureMapAssertion]:
+        """
+        Defines a boolean expression based on features and system constants which needs to evaluate to true for this mapping to become active.
+        """
+        return self.assertions
+
+    def addCondition(self, value: FMFeatureMapCondition) -> FMFeatureMapElement:
+        """
+        Defines a condition which needs to be fulfilled for this mapping to become active.
+        """
+        self.conditions.append(value)
+        return self
+
+    def getConditions(self) -> List[FMFeatureMapCondition]:
+        """
+        Defines a condition which needs to be fulfilled for this mapping to become active.
+        """
+        return self.conditions
+
+    def addPostBuildVariantCriterionValueSetRef(self, ref: RefType) -> FMFeatureMapElement:
+        """
+        Selects a set of values for postbuild variant criterions.
+        """
+        self.postBuildVariantCriterionValueSetRefs.append(ref)
+        return self
+
+    def getPostBuildVariantCriterionValueSetRefs(self) -> List[RefType]:
+        """
+        Selects a set of values for postbuild variant criterions.
+        """
+        return self.postBuildVariantCriterionValueSetRefs
+
+    def addSwSystemconstantValueSetRef(self, ref: RefType) -> FMFeatureMapElement:
+        """
+        Selects a set of values for system constants.
+        """
+        self.swSystemconstantValueSetRefs.append(ref)
+        return self
+
+    def getSwSystemconstantValueSetRefs(self) -> List[RefType]:
+        """
+        Selects a set of values for system constants.
+        """
+        return self.swSystemconstantValueSetRefs
 
 
 class FMFeatureRelation(Identifiable):
-    pass
+    """
+    Defines relations for FMFeatures, for example dependencies on other FMFeatures, or conflicts with other FMFeatures. A FMFeature can only be part of a FMFeatureSelectionSet if all its relations are fulfilled.
+    """
+
+    # FMFeatureRelation method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf, Table 4.6, p.34
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addFeatureRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFeatureRefs    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getRestriction    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRestriction    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # The FMFeature that is targeted by this FMFeature Relation.
+        self.featureRefs: List[RefType] = []
+
+        # If given, the condition shall evaluate to true, in order for the FMFeatureRelation to be active.
+        self.restriction: Optional[FMConditionByFeaturesAndAttributes] = None
+
+    def addFeatureRef(self, ref: RefType) -> FMFeatureRelation:
+        """
+        The FMFeature that is targeted by this FMFeature Relation.
+        """
+        self.featureRefs.append(ref)
+        return self
+
+    def getFeatureRefs(self) -> List[RefType]:
+        """
+        The FMFeature that is targeted by this FMFeature Relation.
+        """
+        return self.featureRefs
+
+    def getRestriction(self) -> Optional[FMConditionByFeaturesAndAttributes]:
+        """
+        If given, the condition shall evaluate to true, in order for the FMFeatureRelation to be active.
+        """
+        return self.restriction
+
+    def setRestriction(self, value: Optional[FMConditionByFeaturesAndAttributes]) -> FMFeatureRelation:
+        """
+        If given, the condition shall evaluate to true, in order for the FMFeatureRelation to be active.
+
+        A None value is a no-op and does not overwrite an existing restriction.
+        """
+        if value is not None:
+            self.restriction = value
+        return self
 
 
 class FMFeatureRestriction(Identifiable):
-    pass
+    """
+    Defines restrictions for FMFeatures. A FMFeature can only be part of a FMFeatureSelectionSet if at least one of its restrictions evaluate to true.
+    """
+
+    # FMFeatureRestriction method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf, Table 4.5, p.32
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getRestriction    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRestriction    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # A formula that contains the actual restriction.
+        self.restriction: Optional[FMConditionByFeaturesAndAttributes] = None
+
+    def getRestriction(self) -> Optional[FMConditionByFeaturesAndAttributes]:
+        """
+        A formula that contains the actual restriction.
+        """
+        return self.restriction
+
+    def setRestriction(self, value: Optional[FMConditionByFeaturesAndAttributes]) -> FMFeatureRestriction:
+        """
+        A formula that contains the actual restriction.
+
+        A None value is a no-op and does not overwrite an existing restriction.
+        """
+        if value is not None:
+            self.restriction = value
+        return self
 
 
-class FMFeatureSelection(Identifiable):
-    pass
+class AbstractSecurityEventFilter(Identifiable, ABC):
+    """
+    This meta-class acts as a base class for security event filters. Tags: atp.Status=candidate
+    """
+
+    # AbstractSecurityEventFilter method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf, Table 4.4, p.21
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is AbstractSecurityEventFilter:
+            raise TypeError("AbstractSecurityEventFilter is an abstract class.")
+
+        super().__init__(parent, short_name)
 
 
-class IdsmRateLimitation(Identifiable):
-    pass
+class SecurityEventStateFilter(AbstractSecurityEventFilter):
+    """
+    This meta-class represents the configuration of a state filter for security events. The referenced states represent a block list, i.e. the security events are dropped if the referenced state is the active state in the relevant state machine (which depends on the platform). Tags: atp.Status=candidate
+    """
+
+    # SecurityEventStateFilter method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf, Table 4.5, p.23
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addBlockIfStateActiveApIref  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getBlockIfStateActiveApIrefs [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addBlockIfStateActiveCpRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getBlockIfStateActiveCpRefs  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # For the AP, this reference defines the machine states of the block list. That means, if a security event (mapped to the filter chain to which the SecurityEventStateFilter belongs to) is reported when the referenced state is active, the security event is dropped. Tags: atp.Status=candidate
+        self.blockIfStateActiveApIrefs: List[FunctionGroupStateInFunctionGroupSetInstanceRef] = []
+
+        # For the CP, this reference defines the states of the block list. That means, if a security event (mapped to the filter chain to which the SecurityEventStateFilter belongs to) is reported when the currently active state is referenced in this list, the security event is dropped. Tags: atp.Status=candidate
+        self.blockIfStateActiveCpRefs: List[RefType] = []
+
+    def addBlockIfStateActiveApIref(self, value: FunctionGroupStateInFunctionGroupSetInstanceRef) -> SecurityEventStateFilter:
+        """
+        For the AP, this reference defines the machine states of the block list. That means, if a security event (mapped to the filter chain to which the SecurityEventStateFilter belongs to) is reported when the referenced state is active, the security event is dropped. Tags: atp.Status=candidate
+        """
+        self.blockIfStateActiveApIrefs.append(value)
+        return self
+
+    def getBlockIfStateActiveApIrefs(self) -> List[FunctionGroupStateInFunctionGroupSetInstanceRef]:
+        """
+        For the AP, this reference defines the machine states of the block list. That means, if a security event (mapped to the filter chain to which the SecurityEventStateFilter belongs to) is reported when the referenced state is active, the security event is dropped. Tags: atp.Status=candidate
+        """
+        return self.blockIfStateActiveApIrefs
+
+    def addBlockIfStateActiveCpRef(self, ref: RefType) -> SecurityEventStateFilter:
+        """
+        For the CP, this reference defines the states of the block list. That means, if a security event (mapped to the filter chain to which the SecurityEventStateFilter belongs to) is reported when the currently active state is referenced in this list, the security event is dropped. Tags: atp.Status=candidate
+        """
+        self.blockIfStateActiveCpRefs.append(ref)
+        return self
+
+    def getBlockIfStateActiveCpRefs(self) -> List[RefType]:
+        """
+        For the CP, this reference defines the states of the block list. That means, if a security event (mapped to the filter chain to which the SecurityEventStateFilter belongs to) is reported when the currently active state is referenced in this list, the security event is dropped. Tags: atp.Status=candidate
+        """
+        return self.blockIfStateActiveCpRefs
 
 
-class PrimitiveAttributeTailoring(AttributeTailoring):
-    pass
+class BlockState(Identifiable):
+    """
+    This meta-class defines a block state that is part of the collection of block states belonging to a specific IdsmInstance. The IdsM shall discard any reported security event that is mapped to a filter chain containing a SecurityEventStateFilter that references the block state which is currently active. Tags: atp.Status=candidate
+    """
 
+    # BlockState method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf, Table 4.20, p.52
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # (the table declares no attribute rows — BLOCK-STATE is an empty XSD group)
 
-class ReferenceTailoring(AttributeTailoring):
-    pass
-
-
-class SdgTailoring(DataFormatElementScope):
-    pass
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
 
 
 class SecurityEventOneEveryNFilter(AbstractSecurityEventFilter):
-    pass
+    """
+    This meta-class represents the configuration of a sampling (i.e. every n-th event is sampled) filter for security events. Tags: atp.Status=candidate
+    """
+
+    # SecurityEventOneEveryNFilter method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf, Table 4.6, p.24
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getN         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setN         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This attribute represents the configuration of the sampling filter, i.e. it configures the parameter "n" that controls how many events (n-1) shall be dropped after a sampled event until a new sample is created. Tags: atp.Status=candidate
+        self.n: Optional[PositiveInteger] = None
+
+    def getN(self) -> Optional[PositiveInteger]:
+        """
+        This attribute represents the configuration of the sampling filter, i.e. it configures the parameter "n" that controls how many events (n-1) shall be dropped after a sampled event until a new sample is created. Tags: atp.Status=candidate
+        """
+        return self.n
+
+    def setN(self, value: Optional[PositiveInteger]) -> SecurityEventOneEveryNFilter:
+        """
+        This attribute represents the configuration of the sampling filter, i.e. it configures the parameter "n" that controls how many events (n-1) shall be dropped after a sampled event until a new sample is created. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing n.
+        """
+        if value is not None:
+            self.n = value
+        return self
+
+
+class SecurityEventAggregationFilter(AbstractSecurityEventFilter):
+    """
+    This meta-class represents the aggregation filter that aggregates all security events occurring within configured time frame into one (i.e. the last reported) security event. Tags: atp.Status=candidate
+    """
+
+    # SecurityEventAggregationFilter method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf, Table 4.7, p.25
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getContextDataSource         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setContextDataSource         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMinimumIntervalLength     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMinimumIntervalLength     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This attributes defines whether the context data of the first or last time-aggregated security event shall be used for the resulting qualified security event.
+        self.contextDataSource: Optional[SecurityEventContextDataSourceEnum] = None
+
+        # This attribute represents the configuration of the minimum time window in seconds for the aggregation filter. Tags: atp.Status=candidate
+        self.minimumIntervalLength: Optional[TimeValue] = None
+
+    def getContextDataSource(self) -> Optional[SecurityEventContextDataSourceEnum]:
+        """
+        This attributes defines whether the context data of the first or last time-aggregated security event shall be used for the resulting qualified security event.
+        """
+        return self.contextDataSource
+
+    def setContextDataSource(self, value: Optional[SecurityEventContextDataSourceEnum]) -> SecurityEventAggregationFilter:
+        """
+        This attributes defines whether the context data of the first or last time-aggregated security event shall be used for the resulting qualified security event.
+
+        A None value is a no-op and does not overwrite an existing contextDataSource.
+        """
+        if value is not None:
+            self.contextDataSource = value
+        return self
+
+    def getMinimumIntervalLength(self) -> Optional[TimeValue]:
+        """
+        This attribute represents the configuration of the minimum time window in seconds for the aggregation filter. Tags: atp.Status=candidate
+        """
+        return self.minimumIntervalLength
+
+    def setMinimumIntervalLength(self, value: Optional[TimeValue]) -> SecurityEventAggregationFilter:
+        """
+        This attribute represents the configuration of the minimum time window in seconds for the aggregation filter. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing minimumIntervalLength.
+        """
+        if value is not None:
+            self.minimumIntervalLength = value
+        return self
 
 
 class SecurityEventThresholdFilter(AbstractSecurityEventFilter):
-    pass
+    """
+    This meta-class represents the threshold filter that drops (repeatedly at each beginning of a configurable time interval) a configurable number of security events . All subsequently arriving security events (within the configured time interval) pass the filter. Tags: atp.Status=candidate
+    """
+
+    # SecurityEventThresholdFilter method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf, Table 4.9, p.26
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getIntervalLength         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIntervalLength         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getThresholdNumber        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setThresholdNumber        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This attribute configures the time interval in seconds for one threshold filter operation. Tags: atp.Status=candidate
+        self.intervalLength: Optional[TimeValue] = None
+
+        # This attribute configures the threshold number, i.e. how many security events in the configured time frame are dropped before subsequent events start to pass the filter. Tags: atp.Status=candidate
+        self.thresholdNumber: Optional[PositiveInteger] = None
+
+    def getIntervalLength(self) -> Optional[TimeValue]:
+        """
+        This attribute configures the time interval in seconds for one threshold filter operation. Tags: atp.Status=candidate
+        """
+        return self.intervalLength
+
+    def setIntervalLength(self, value: Optional[TimeValue]) -> SecurityEventThresholdFilter:
+        """
+        This attribute configures the time interval in seconds for one threshold filter operation. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing intervalLength.
+        """
+        if value is not None:
+            self.intervalLength = value
+        return self
+
+    def getThresholdNumber(self) -> Optional[PositiveInteger]:
+        """
+        This attribute configures the threshold number, i.e. how many security events in the configured time frame are dropped before subsequent events start to pass the filter. Tags: atp.Status=candidate
+        """
+        return self.thresholdNumber
+
+    def setThresholdNumber(self, value: Optional[PositiveInteger]) -> SecurityEventThresholdFilter:
+        """
+        This attribute configures the threshold number, i.e. how many security events in the configured time frame are dropped before subsequent events start to pass the filter. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing thresholdNumber.
+        """
+        if value is not None:
+            self.thresholdNumber = value
+        return self
+
+
+class SecurityEventContextProps(Identifiable):
+    """
+    This meta-class specifies the SecurityEventDefinition to be mapped to an IdsmInstance and adds mapping-dependent properties of this security event valid only for this specific mapping. Tags: atp.Status=candidate
+    """
+
+    # SecurityEventContextProps method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf, Table 4.13, p.34
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getContextData              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setContextData              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDefaultReportingMode     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDefaultReportingMode     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPersistentStorage        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPersistentStorage        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSecurityEventRef         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSecurityEventRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSensorInstanceId         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSensorInstanceId         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSeverity                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSeverity                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This aggregation represents the definition of optional context data for security events. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=contextData, contextData.variationPoint.shortLabel atp.Status=candidate
+        self.contextData: Optional[SecurityEventContextData] = None
+
+        # This attribute defines the default reporting mode for the referenced security event. Tags: atp.Status=candidate
+        self.defaultReportingMode: Optional[SecurityEventReportingModeEnum] = None
+
+        # This attribute controls whether qualified reportings of the referenced security event shall be stored persistently by the mapped IdsmInstance or not. Tags: atp.Status=candidate
+        self.persistentStorage: Optional[Boolean] = None
+
+        # This reference defines the security event that is mapped and enriched by SecurityEventMappingProps with mapping dependent properties. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=securityEvent.securityEventDefinition, securityEvent.variationPoint.shortLabel atp.Status=candidate
+        self.securityEventRef: Optional[RefType] = None
+
+        # This attribute defines the ID of the security sensor that detects the referenced security event. Tags: atp.Status=candidate
+        self.sensorInstanceId: Optional[PositiveInteger] = None
+
+        # This attribute defines how critical/severe the referenced security event is. Please note that currently, the severity level meanings of specific integer values is not specified by AUTOSAR but left to the party responsible for the security event definition. Tags: atp.Status=candidate
+        self.severity: Optional[PositiveInteger] = None
+
+    def getContextData(self) -> Optional[SecurityEventContextData]:
+        """
+        This aggregation represents the definition of optional context data for security events. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=contextData, contextData.variationPoint.shortLabel atp.Status=candidate
+        """
+        return self.contextData
+
+    def setContextData(self, value: Optional[SecurityEventContextData]) -> SecurityEventContextProps:
+        """
+        This aggregation represents the definition of optional context data for security events. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=contextData, contextData.variationPoint.shortLabel atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing contextData.
+        """
+        if value is not None:
+            self.contextData = value
+        return self
+
+    def getDefaultReportingMode(self) -> Optional[SecurityEventReportingModeEnum]:
+        """
+        This attribute defines the default reporting mode for the referenced security event. Tags: atp.Status=candidate
+        """
+        return self.defaultReportingMode
+
+    def setDefaultReportingMode(self, value: Optional[SecurityEventReportingModeEnum]) -> SecurityEventContextProps:
+        """
+        This attribute defines the default reporting mode for the referenced security event. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing defaultReportingMode.
+        """
+        if value is not None:
+            self.defaultReportingMode = value
+        return self
+
+    def getPersistentStorage(self) -> Optional[Boolean]:
+        """
+        This attribute controls whether qualified reportings of the referenced security event shall be stored persistently by the mapped IdsmInstance or not. Tags: atp.Status=candidate
+        """
+        return self.persistentStorage
+
+    def setPersistentStorage(self, value: Optional[Boolean]) -> SecurityEventContextProps:
+        """
+        This attribute controls whether qualified reportings of the referenced security event shall be stored persistently by the mapped IdsmInstance or not. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing persistentStorage.
+        """
+        if value is not None:
+            self.persistentStorage = value
+        return self
+
+    def getSecurityEventRef(self) -> Optional[RefType]:
+        """
+        This reference defines the security event that is mapped and enriched by SecurityEventMappingProps with mapping dependent properties. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=securityEvent.securityEventDefinition, securityEvent.variationPoint.shortLabel atp.Status=candidate
+        """
+        return self.securityEventRef
+
+    def setSecurityEventRef(self, value: Optional[RefType]) -> SecurityEventContextProps:
+        """
+        This reference defines the security event that is mapped and enriched by SecurityEventMappingProps with mapping dependent properties. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=securityEvent.securityEventDefinition, securityEvent.variationPoint.shortLabel atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing securityEventRef.
+        """
+        if value is not None:
+            self.securityEventRef = value
+        return self
+
+    def getSensorInstanceId(self) -> Optional[PositiveInteger]:
+        """
+        This attribute defines the ID of the security sensor that detects the referenced security event. Tags: atp.Status=candidate
+        """
+        return self.sensorInstanceId
+
+    def setSensorInstanceId(self, value: Optional[PositiveInteger]) -> SecurityEventContextProps:
+        """
+        This attribute defines the ID of the security sensor that detects the referenced security event. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing sensorInstanceId.
+        """
+        if value is not None:
+            self.sensorInstanceId = value
+        return self
+
+    def getSeverity(self) -> Optional[PositiveInteger]:
+        """
+        This attribute defines how critical/severe the referenced security event is. Please note that currently, the severity level meanings of specific integer values is not specified by AUTOSAR but left to the party responsible for the security event definition. Tags: atp.Status=candidate
+        """
+        return self.severity
+
+    def setSeverity(self, value: Optional[PositiveInteger]) -> SecurityEventContextProps:
+        """
+        This attribute defines how critical/severe the referenced security event is. Please note that currently, the severity level meanings of specific integer values is not specified by AUTOSAR but left to the party responsible for the security event definition. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing severity.
+        """
+        if value is not None:
+            self.severity = value
+        return self
+
+
+class IdsmRateLimitation(Identifiable):
+    """
+    This meta-class represents the configuration of a rate limitation filter for security events. This means that security events are dropped if the number of events (of any type) processed within a configurable time window is greater than a configurable threshold. Tags: atp.Status=candidate
+    """
+
+    # IdsmRateLimitation method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf, Table 4.10, p.28
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getMaxEventsInInterval    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxEventsInInterval    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeInterval           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeInterval           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This attribute configures the threshold for dropping security events if the number of all processed security events exceeds the threshold in the respective time interval. Tags: atp.Status=candidate
+        self.maxEventsInInterval: Optional[PositiveInteger] = None
+
+        # This attribute configures the length of the time interval in seconds for dropping security events if the number of all processed security events exceeds the configurable threshold within the respective time interval. Tags: atp.Status=candidate
+        self.timeInterval: Optional[Float] = None
+
+    def getMaxEventsInInterval(self) -> Optional[PositiveInteger]:
+        """
+        This attribute configures the threshold for dropping security events if the number of all processed security events exceeds the threshold in the respective time interval. Tags: atp.Status=candidate
+        """
+        return self.maxEventsInInterval
+
+    def setMaxEventsInInterval(self, value: Optional[PositiveInteger]) -> IdsmRateLimitation:
+        """
+        This attribute configures the threshold for dropping security events if the number of all processed security events exceeds the threshold in the respective time interval. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing maxEventsInInterval.
+        """
+        if value is not None:
+            self.maxEventsInInterval = value
+        return self
+
+    def getTimeInterval(self) -> Optional[Float]:
+        """
+        This attribute configures the length of the time interval in seconds for dropping security events if the number of all processed security events exceeds the configurable threshold within the respective time interval. Tags: atp.Status=candidate
+        """
+        return self.timeInterval
+
+    def setTimeInterval(self, value: Optional[Float]) -> IdsmRateLimitation:
+        """
+        This attribute configures the length of the time interval in seconds for dropping security events if the number of all processed security events exceeds the configurable threshold within the respective time interval. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing timeInterval.
+        """
+        if value is not None:
+            self.timeInterval = value
+        return self
+
+
+class IdsmTrafficLimitation(Identifiable):
+    """
+    This meta-class represents the configuration of a traffic limitation filter for Security Events. This means that security events are dropped if the size (in terms of bandwidth) of security events (of any type) processed within a configurable time window is greater than a configurable threshold. Tags: atp.Status=candidate
+    """
+
+    # IdsmTrafficLimitation method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf, Table 4.11, p.29
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getMaxBytesInInterval     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxBytesInInterval     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeInterval           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeInterval           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This attribute configures the threshold for dropping security events if the size of all processed security events exceeds the threshold in the respective time interval. Tags: atp.Status=candidate
+        self.maxBytesInInterval: Optional[PositiveInteger] = None
+
+        # This attribute configures the length of the time interval in seconds for dropping security events if the size of all processed security events exceeds the configurable threshold within the respective time interval. Tags: atp.Status=candidate
+        self.timeInterval: Optional[Float] = None
+
+    def getMaxBytesInInterval(self) -> Optional[PositiveInteger]:
+        """
+        This attribute configures the threshold for dropping security events if the size of all processed security events exceeds the threshold in the respective time interval. Tags: atp.Status=candidate
+        """
+        return self.maxBytesInInterval
+
+    def setMaxBytesInInterval(self, value: Optional[PositiveInteger]) -> IdsmTrafficLimitation:
+        """
+        This attribute configures the threshold for dropping security events if the size of all processed security events exceeds the threshold in the respective time interval. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing maxBytesInInterval.
+        """
+        if value is not None:
+            self.maxBytesInInterval = value
+        return self
+
+    def getTimeInterval(self) -> Optional[Float]:
+        """
+        This attribute configures the length of the time interval in seconds for dropping security events if the size of all processed security events exceeds the configurable threshold within the respective time interval. Tags: atp.Status=candidate
+        """
+        return self.timeInterval
+
+    def setTimeInterval(self, value: Optional[Float]) -> IdsmTrafficLimitation:
+        """
+        This attribute configures the length of the time interval in seconds for dropping security events if the size of all processed security events exceeds the configurable threshold within the respective time interval. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing timeInterval.
+        """
+        if value is not None:
+            self.timeInterval = value
+        return self
+
+
+class FMFeatureSelection(Identifiable):
+    """
+    A FMFeatureSelection represents the state of a particular FMFeature within a FMFeatureSelectionSet.
+    """
+
+    # FMFeatureSelection method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf, Table 5.2, p.40
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addAttributeValue              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAttributeValues             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getFeatureRef                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFeatureRef                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaximumSelectedBindingTime  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaximumSelectedBindingTime  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMinimumSelectedBindingTime  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMinimumSelectedBindingTime  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getState                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setState                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This defines a value for the attribute that is referred to in the role definition. Note that a FMFeatureSelection cannot include two FMAttributeValues that refer to the same FMAttributeDef in the role definition. Tags: xml.sequenceOffset=50
+        self.attributeValues: List[FMAttributeValue] = []
+
+        # The FMFeature whose state is defined by this FMFeature Selection. Tags: xml.sequenceOffset=10
+        self.featureRef: Optional[RefType] = None
+
+        # Defines an upper bound for the binding time of the variation points that are associated with the FMFeature, and refines its maximumIntendedBindingTime. This attribute is meant as a hint for the development process. Tags: xml.sequenceOffset=40
+        self.maximumSelectedBindingTime: Optional[BindingTimeEnum] = None
+
+        # Defines a lower bound for the binding time of the variation points that are associated with the FMFeature, and refines its minimumIntendedBindingTime. This attribute is meant as a hint for the development process. Tags: xml.sequenceOffset=30
+        self.minimumSelectedBindingTime: Optional[BindingTimeEnum] = None
+
+        # Defines how the FMFeature that is described by this FMFeatureSelection contributes to the FMFeature SelectionSet. A FMFeature may have the state selected, deselected or undecided. Tags: xml.sequenceOffset=20
+        self.state: Optional[FMFeatureSelectionState] = None
+
+    def addAttributeValue(self, value: FMAttributeValue) -> FMFeatureSelection:
+        """
+        This defines a value for the attribute that is referred to in the role definition. Note that a FMFeatureSelection cannot include two FMAttributeValues that refer to the same FMAttributeDef in the role definition. Tags: xml.sequenceOffset=50
+        """
+        self.attributeValues.append(value)
+        return self
+
+    def getAttributeValues(self) -> List[FMAttributeValue]:
+        """
+        This defines a value for the attribute that is referred to in the role definition. Note that a FMFeatureSelection cannot include two FMAttributeValues that refer to the same FMAttributeDef in the role definition. Tags: xml.sequenceOffset=50
+        """
+        return self.attributeValues
+
+    def getFeatureRef(self) -> Optional[RefType]:
+        """
+        The FMFeature whose state is defined by this FMFeature Selection. Tags: xml.sequenceOffset=10
+        """
+        return self.featureRef
+
+    def setFeatureRef(self, value: Optional[RefType]) -> FMFeatureSelection:
+        """
+        The FMFeature whose state is defined by this FMFeature Selection. Tags: xml.sequenceOffset=10
+
+        A None value is a no-op and does not overwrite an existing featureRef.
+        """
+        if value is not None:
+            self.featureRef = value
+        return self
+
+    def getMaximumSelectedBindingTime(self) -> Optional[BindingTimeEnum]:
+        """
+        Defines an upper bound for the binding time of the variation points that are associated with the FMFeature, and refines its maximumIntendedBindingTime. This attribute is meant as a hint for the development process. Tags: xml.sequenceOffset=40
+        """
+        return self.maximumSelectedBindingTime
+
+    def setMaximumSelectedBindingTime(self, value: Optional[BindingTimeEnum]) -> FMFeatureSelection:
+        """
+        Defines an upper bound for the binding time of the variation points that are associated with the FMFeature, and refines its maximumIntendedBindingTime. This attribute is meant as a hint for the development process. Tags: xml.sequenceOffset=40
+
+        A None value is a no-op and does not overwrite an existing maximumSelectedBindingTime.
+        """
+        if value is not None:
+            self.maximumSelectedBindingTime = value
+        return self
+
+    def getMinimumSelectedBindingTime(self) -> Optional[BindingTimeEnum]:
+        """
+        Defines a lower bound for the binding time of the variation points that are associated with the FMFeature, and refines its minimumIntendedBindingTime. This attribute is meant as a hint for the development process. Tags: xml.sequenceOffset=30
+        """
+        return self.minimumSelectedBindingTime
+
+    def setMinimumSelectedBindingTime(self, value: Optional[BindingTimeEnum]) -> FMFeatureSelection:
+        """
+        Defines a lower bound for the binding time of the variation points that are associated with the FMFeature, and refines its minimumIntendedBindingTime. This attribute is meant as a hint for the development process. Tags: xml.sequenceOffset=30
+
+        A None value is a no-op and does not overwrite an existing minimumSelectedBindingTime.
+        """
+        if value is not None:
+            self.minimumSelectedBindingTime = value
+        return self
+
+    def getState(self) -> Optional[FMFeatureSelectionState]:
+        """
+        Defines how the FMFeature that is described by this FMFeatureSelection contributes to the FMFeature SelectionSet. A FMFeature may have the state selected, deselected or undecided. Tags: xml.sequenceOffset=20
+        """
+        return self.state
+
+    def setState(self, value: Optional[FMFeatureSelectionState]) -> FMFeatureSelection:
+        """
+        Defines how the FMFeature that is described by this FMFeatureSelection contributes to the FMFeature SelectionSet. A FMFeature may have the state selected, deselected or undecided. Tags: xml.sequenceOffset=20
+
+        A None value is a no-op and does not overwrite an existing state.
+        """
+        if value is not None:
+            self.state = value
+        return self
+
+
+class PrimitiveAttributeTailoring(AttributeTailoring):
+    """
+    This meta-class represents the ability to tailor a primitive attribute. Tags: atp.Recommendation=FOR_STANDARDIZATION
+    """
+
+    # PrimitiveAttributeTailoring method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 6.32, p.111
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDefaultValueHandling        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDefaultValueHandling        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addSubAttributeTailoring       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSubAttributeTailorings      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getValueRestriction            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setValueRestriction            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Specification of how to handle AUTOSAR defined default values.
+        self.defaultValueHandling: Optional[DefaultValueApplicationStrategyEnum] = None
+
+        # Tailors the attribute of a <<primitive>> data type.
+        self.subAttributeTailorings: List[PrimitiveAttributeTailoring] = []
+
+        # The restriction of the attribute value.
+        self.valueRestriction: Optional[ValueRestrictionWithSeverity] = None
+
+    def getDefaultValueHandling(self) -> Optional[DefaultValueApplicationStrategyEnum]:
+        """
+        Specification of how to handle AUTOSAR defined default values.
+        """
+        return self.defaultValueHandling
+
+    def setDefaultValueHandling(self, value: Optional[DefaultValueApplicationStrategyEnum]) -> PrimitiveAttributeTailoring:
+        """
+        Specification of how to handle AUTOSAR defined default values.
+
+        A None value is a no-op and does not overwrite an existing defaultValueHandling.
+        """
+        if value is not None:
+            self.defaultValueHandling = value
+        return self
+
+    def addSubAttributeTailoring(self, value: PrimitiveAttributeTailoring) -> PrimitiveAttributeTailoring:
+        """
+        Tailors the attribute of a <<primitive>> data type.
+        """
+        self.subAttributeTailorings.append(value)
+        return self
+
+    def getSubAttributeTailorings(self) -> List[PrimitiveAttributeTailoring]:
+        """
+        Tailors the attribute of a <<primitive>> data type.
+        """
+        return self.subAttributeTailorings
+
+    def getValueRestriction(self) -> Optional[ValueRestrictionWithSeverity]:
+        """
+        The restriction of the attribute value.
+        """
+        return self.valueRestriction
+
+    def setValueRestriction(self, value: Optional[ValueRestrictionWithSeverity]) -> PrimitiveAttributeTailoring:
+        """
+        The restriction of the attribute value.
+
+        A None value is a no-op and does not overwrite an existing valueRestriction.
+        """
+        if value is not None:
+            self.valueRestriction = value
+        return self
+
+
+class ReferenceTailoring(AttributeTailoring):
+    """
+    This meta-class represents the ability to tailor a reference of a class. Tags: atp.Recommendation=FOR_STANDARDIZATION
+    """
+
+    # ReferenceTailoring method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 6.35, p.115
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addTypeTailoring          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTypeTailorings         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Local class tailoring which is applied if the content is contained by this aggregation.
+        self.typeTailorings: List[ClassTailoring] = []
+
+    def addTypeTailoring(self, value: ClassTailoring) -> ReferenceTailoring:
+        """
+        Local class tailoring which is applied if the content is contained by this aggregation.
+        """
+        self.typeTailorings.append(value)
+        return self
+
+    def getTypeTailorings(self) -> List[ClassTailoring]:
+        """
+        Local class tailoring which is applied if the content is contained by this aggregation.
+        """
+        return self.typeTailorings
+
+
+class SdgTailoring(DataFormatElementScope):
+    """
+    This meta-class represents the ability to tailor SpecialDataGroups. Tags: atp.Recommendation=FOR_STANDARDIZATION
+    """
+
+    # SdgTailoring method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 6.37, p.118
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
 
 
 class SpecificationDocumentScope(SpecElementScope):
-    pass
+    """
+    This meta-class represents the scope of a whole specification document.
+    """
+
+    # SpecificationDocumentScope method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 6.18, p.97
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCustomDocumentationRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCustomDocumentationRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addDocumentElementScope      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDocumentElementScopes     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # reference to a custom defined specification.
+        self.customDocumentationRef: Optional[RefType] = None
+
+        # An element with a name or ID that is specified in the Specification Document.
+        self.documentElementScopes: List[DocumentElementScope] = []
+
+    def getCustomDocumentationRef(self) -> Optional[RefType]:
+        """
+        reference to a custom defined specification.
+        """
+        return self.customDocumentationRef
+
+    def setCustomDocumentationRef(self, value: Optional[RefType]) -> SpecificationDocumentScope:
+        """
+        reference to a custom defined specification.
+
+        A None value is a no-op and does not overwrite an existing customDocumentationRef.
+        """
+        if value is not None:
+            self.customDocumentationRef = value
+        return self
+
+    def addDocumentElementScope(self, value: DocumentElementScope) -> SpecificationDocumentScope:
+        """
+        An element with a name or ID that is specified in the Specification Document.
+        """
+        self.documentElementScopes.append(value)
+        return self
+
+    def getDocumentElementScopes(self) -> List[DocumentElementScope]:
+        """
+        An element with a name or ID that is specified in the Specification Document.
+        """
+        return self.documentElementScopes
 
 
 class BinaryManifestItem(Identifiable):
@@ -2202,31 +3623,11 @@ class GlobalTimeMaster(Identifiable, ABC):
     pass
 
 
-class IEEE1722TpAcfBus(Identifiable, ABC):
-    pass
-
-
-class IEEE1722TpAcfCanPart(Identifiable):
-    pass
-
-
-class IEEE1722TpAcfLinPart(Identifiable):
-    pass
-
-
-class J1939TpNode(Identifiable):
-    pass
-
-
 class PortElementToCommunicationResourceMapping(Identifiable):
     pass
 
 
 class SOMEIPTransformationProps(Identifiable):
-    pass
-
-
-class SomeipTpChannel(Identifiable):
     pass
 
 
@@ -2387,10 +3788,6 @@ class GlobalTimeEthMaster(GlobalTimeMaster):
 
 
 class GlobalTimeFrMaster(GlobalTimeMaster):
-    pass
-
-
-class IEEE1722TpAcfCan(IEEE1722TpAcfBus):
     pass
 
 

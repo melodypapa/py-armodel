@@ -39,7 +39,7 @@ class TestParseNmCoordinator:
         assert coordinator.getIndex().getValue() == 1
         assert coordinator.getNmCoordSyncSupport().getValue() is True
         assert coordinator.getNmGlobalCoordinatorTime().getValue() == 2.5
-        nodes = coordinator.getNmNodes()
+        nodes = coordinator.getNmNodeRefs()
         assert len(nodes) == 1
         assert nodes[0].getDest() == "NM-NODE"
         assert nodes[0].getValue() == "/Clusters/Can1/node"
@@ -50,4 +50,4 @@ class TestParseNmCoordinator:
         assert coordinator.getIndex() is None
         assert coordinator.getNmCoordSyncSupport() is None
         assert coordinator.getNmGlobalCoordinatorTime() is None
-        assert coordinator.getNmNodes() == []
+        assert coordinator.getNmNodeRefs() == []

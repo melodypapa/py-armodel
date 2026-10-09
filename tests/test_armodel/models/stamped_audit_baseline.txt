@@ -13,7 +13,6 @@ AnyInstanceRef
 AnyServiceInstanceId
 AnyVersionString
 ApplicationCompositeElementInPortInterfaceInstanceRef
-ApplicationInterface
 ArgumentDirectionEnum
 ArrayValueSpecification
 AsamRecordLayoutSemantics
@@ -55,8 +54,6 @@ BswSchedulerNamePrefix
 BswServiceDependencyIdent
 BswTimingEvent
 BuildEngineeringObject
-BusspecificNmEcu
-CanNmEcu
 CanXlFrameTriggeringProps
 CanXlProps
 Caption
@@ -176,8 +173,6 @@ MultiLanguagePlainText
 MultidimensionalTime
 NativeDeclarationString
 NmCluster
-NmCoordinatorRoleEnum
-NmNode
 Numerical
 OperationArgumentInComponentInstanceRef
 OrderedMaster
@@ -242,7 +237,6 @@ SwServiceArg
 SwServiceImplPolicyEnum
 SwSystemconstDependentFormula
 SwSystemconstValue
-SwSystemconstantValueSet
 SwcInternalBehavior
 TDEventBsw
 TDEventSLLET

@@ -17,6 +17,8 @@ if TYPE_CHECKING:
     )
     from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import ValueSpecification
     from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import DiagnosticParameterIdent
+    from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ClassContentConditional, ConstraintTailoring, SpecificationDocumentScope
+    from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ModelRestrictionTypes import VariationRestrictionWithSeverity
     from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import DiagnosticDataElement, DiagnosticDebounceAlgorithmProps, DiagnosticFunctionInhibitSource
 
 
@@ -95,23 +97,157 @@ class ARObject(ABC):
 
 
 class AbstractCondition(ARObject, ABC):
-    pass
+    """
+    This meta-class represents the ability to define rules on the content of a CLASS. Tags: atp.Recommendation=FOR_STANDARDIZATION
+    """
+
+    # AbstractCondition method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 6.21, p.102
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self):
+        if type(self) is AbstractCondition:
+            raise TypeError("AbstractCondition is an abstract class.")
+
+        super().__init__()
 
 
 class AbstractMultiplicityRestriction(ARObject, ABC):
-    pass
+    """
+    This meta-class represents the ability to specify multiplicity restrictions for the current context. Tags: atp.Recommendation=FOR_STANDARDIZATION
+    """
+
+    # AbstractMultiplicityRestriction method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 6.11, p.88
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self):
+        if type(self) is AbstractMultiplicityRestriction:
+            raise TypeError("AbstractMultiplicityRestriction is an abstract class.")
+
+        super().__init__()
 
 
 class AttributeCondition(AbstractCondition, ABC):
-    pass
+    """
+    This meta-class represents the ability to define rules on attributes of a class. Tags: atp.Recommendation=FOR_STANDARDIZATION
+    """
+
+    # AttributeCondition method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 6.23, p.102
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self):
+        if type(self) is AttributeCondition:
+            raise TypeError("AttributeCondition is an abstract class.")
+
+        super().__init__()
 
 
 class AggregationCondition(AttributeCondition):
-    pass
+    """
+    This meta-class represents the ability to define a rule on an aggregation of a class. Tags: atp.Recommendation=FOR_STANDARDIZATION
+    """
+
+    # AggregationCondition method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 6.22, p.102
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAggregationRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAggregationRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # The aggregation that has to be accepted by the restrictions of this AggregationCondition
+        self.aggregationRef: Optional[RefType] = None
+
+    def getAggregationRef(self) -> Optional[RefType]:
+        """
+        The aggregation that has to be accepted by the restrictions of this AggregationCondition
+        """
+        return self.aggregationRef
+
+    def setAggregationRef(self, value: Optional[RefType]) -> AggregationCondition:
+        """
+        The aggregation that has to be accepted by the restrictions of this AggregationCondition
+
+        A None value is a no-op and does not overwrite an existing aggregationRef.
+        """
+        if value is not None:
+            self.aggregationRef = value
+        return self
 
 
 class Baseline(ARObject):
-    pass
+    """
+    This meta-class represents the specification baseline of a Data Exchange Point, i.e. the combination of revisions of AUTOSAR standards and custom specifications that are used as reference.
+    """
+
+    # Baseline method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 6.2, p.79
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addCustomSdgDefRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCustomSdgDefRefs          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addCustomSpecificationRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCustomSpecificationRefs   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addStandardRevision          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getStandardRevisions         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # Reference to custom SdgDefs that extend the data format of this baseline, Tags: xml.sequenceOffset=30
+        self.customSdgDefRefs: List[RefType] = []
+
+        # Reference to custom specifications that extend this baseline, Tags: xml.sequenceOffset=20
+        self.customSpecificationRefs: List[RefType] = []
+
+        # Specifies a combination of revisions of AUTOSAR standards that are used as the specification baseline of this Data Exchange Point. All standard revisions referenced by a DataExchangePoint shall use the same AUTOSAR release.
+        self.standardRevisions: List[String] = []
+
+    def addCustomSdgDefRef(self, ref: RefType) -> Baseline:
+        """
+        Reference to custom SdgDefs that extend the data format of this baseline, Tags: xml.sequenceOffset=30
+        """
+        self.customSdgDefRefs.append(ref)
+        return self
+
+    def getCustomSdgDefRefs(self) -> List[RefType]:
+        """
+        Reference to custom SdgDefs that extend the data format of this baseline, Tags: xml.sequenceOffset=30
+        """
+        return self.customSdgDefRefs
+
+    def addCustomSpecificationRef(self, ref: RefType) -> Baseline:
+        """
+        Reference to custom specifications that extend this baseline, Tags: xml.sequenceOffset=20
+        """
+        self.customSpecificationRefs.append(ref)
+        return self
+
+    def getCustomSpecificationRefs(self) -> List[RefType]:
+        """
+        Reference to custom specifications that extend this baseline, Tags: xml.sequenceOffset=20
+        """
+        return self.customSpecificationRefs
+
+    def addStandardRevision(self, value: String) -> Baseline:
+        """
+        Specifies a combination of revisions of AUTOSAR standards that are used as the specification baseline of this Data Exchange Point. All standard revisions referenced by a DataExchangePoint shall use the same AUTOSAR release.
+        """
+        self.standardRevisions.append(value)
+        return self
+
+    def getStandardRevisions(self) -> List[String]:
+        """
+        Specifies a combination of revisions of AUTOSAR standards that are used as the specification baseline of this Data Exchange Point. All standard revisions referenced by a DataExchangePoint shall use the same AUTOSAR release.
+        """
+        return self.standardRevisions
 
 
 class CalibrationParameterValue(ARObject, VariationPointCapable):
@@ -195,11 +331,94 @@ class CalibrationParameterValue(ARObject, VariationPointCapable):
 
 
 class ClassTailoring(ARObject, ABC):
-    pass
+    """
+    This meta-class represents the ability to specify the accepted / not accepted content of a class. Tags: atp.Recommendation=FOR_STANDARDIZATION
+    """
+
+    # ClassTailoring method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 6.24, p.103
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addClassContent             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getClassContents            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getMultiplicityRestriction  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMultiplicityRestriction  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVariationRestriction     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setVariationRestriction     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        if type(self) is ClassTailoring:
+            raise TypeError("ClassTailoring is an abstract class.")
+
+        super().__init__()
+
+        # Specifies the accepted / not accepted content of the class. All rules apply that fullfill the condition of the Class ContentConditional. Tags: xml.sequenceOffset=30
+        self.classContents: List[ClassContentConditional] = []
+
+        # Specifies the multiplicity of the class in the current context. Tags: xml.sequenceOffset=10
+        self.multiplicityRestriction: Optional[MultiplicityRestrictionWithSeverity] = None
+
+        # Specifies restrictions on the usage of variant handling. Tags: xml.sequenceOffset=20
+        self.variationRestriction: Optional[VariationRestrictionWithSeverity] = None
+
+    def addClassContent(self, value: ClassContentConditional) -> ClassTailoring:
+        """
+        Specifies the accepted / not accepted content of the class. All rules apply that fullfill the condition of the Class ContentConditional. Tags: xml.sequenceOffset=30
+        """
+        self.classContents.append(value)
+        return self
+
+    def getClassContents(self) -> List[ClassContentConditional]:
+        """
+        Specifies the accepted / not accepted content of the class. All rules apply that fullfill the condition of the Class ContentConditional. Tags: xml.sequenceOffset=30
+        """
+        return self.classContents
+
+    def getMultiplicityRestriction(self) -> Optional[MultiplicityRestrictionWithSeverity]:
+        """
+        Specifies the multiplicity of the class in the current context. Tags: xml.sequenceOffset=10
+        """
+        return self.multiplicityRestriction
+
+    def setMultiplicityRestriction(self, value: Optional[MultiplicityRestrictionWithSeverity]) -> ClassTailoring:
+        """
+        Specifies the multiplicity of the class in the current context. Tags: xml.sequenceOffset=10
+
+        A None value is a no-op and does not overwrite an existing multiplicityRestriction.
+        """
+        if value is not None:
+            self.multiplicityRestriction = value
+        return self
+
+    def getVariationRestriction(self) -> Optional[VariationRestrictionWithSeverity]:
+        """
+        Specifies restrictions on the usage of variant handling. Tags: xml.sequenceOffset=20
+        """
+        return self.variationRestriction
+
+    def setVariationRestriction(self, value: Optional[VariationRestrictionWithSeverity]) -> ClassTailoring:
+        """
+        Specifies restrictions on the usage of variant handling. Tags: xml.sequenceOffset=20
+
+        A None value is a no-op and does not overwrite an existing variationRestriction.
+        """
+        if value is not None:
+            self.variationRestriction = value
+        return self
 
 
 class ClientServerOperationBlueprintMapping(ARObject):
-    pass
+    """
+    This meta-class represents the association between a ClientServerOperation and its blueprint. Tags: atp.Recommendation=FOR_STANDARDIZATION
+    """
+
+    # ClientServerOperationBlueprintMapping method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 4.11, p.69
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
 
 
 class DiagnosticAbstractParameter(ARObject, ABC):
@@ -2125,19 +2344,336 @@ class EventObdReadinessGroup(ARObject):
 
 
 class FMAttributeValue(ARObject):
-    pass
+    """
+    This defines a value for the attribute that is referred to in the role definition.
+    """
+
+    # FMAttributeValue method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf, Table 5.4, p.42
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDefinitionRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDefinitionRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getValue           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setValue           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # This refers to the definition of this attribute. Stereotypes: atpIdentityContributor
+        self.definitionRef: Optional[RefType] = None
+
+        # This represents the value of this attribute.
+        self.value: Optional[Numerical] = None
+
+    def getDefinitionRef(self) -> Optional[RefType]:
+        """
+        This refers to the definition of this attribute. Stereotypes: atpIdentityContributor
+        """
+        return self.definitionRef
+
+    def setDefinitionRef(self, value: Optional[RefType]) -> FMAttributeValue:
+        """
+        This refers to the definition of this attribute. Stereotypes: atpIdentityContributor
+
+        A None value is a no-op and does not overwrite an existing definitionRef.
+        """
+        if value is not None:
+            self.definitionRef = value
+        return self
+
+    def getValue(self) -> Optional[Numerical]:
+        """
+        This represents the value of this attribute.
+        """
+        return self.value
+
+    def setValue(self, value: Optional[Numerical]) -> FMAttributeValue:
+        """
+        This represents the value of this attribute.
+
+        A None value is a no-op and does not overwrite an existing value.
+        """
+        if value is not None:
+            self.value = value
+        return self
 
 
 class FMFeatureDecomposition(ARObject):
-    pass
+    """
+    A FMFeatureDecomposition describes dependencies between a list of features and their parent feature (i.e., the FMFeature that aggregates the FMFeatureDecomposition). The kind of dependency is defined by the attribute category.
+    """
+
+    # FMFeatureDecomposition method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf, Table 4.4, p.28
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCategory       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCategory       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addFeatureRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFeatureRefs    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getMax            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMax            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMin            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMin            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # The category of a FMFeatureDecomposition defines the type of dependency that is defined by the FMFeature Decomposition. There are four different categories: MANDATORYFEATURE, OPTIONALFEATURE, ALTERNATIVEFEATURE, and MULTIPLEFEATURE.
+        self.category: Optional[CategoryString] = None
+
+        # The features that are affected by the dependency defined by the FMFeatureDecomposition.
+        self.featureRefs: List[RefType] = []
+
+        # For a dependency of category MULTIPLEFEATURE, this defines the maximum number of features allowed.
+        self.max: Optional[PositiveInteger] = None
+
+        # For a dependency of category MULTIPLEFEATURE, this defines the minimum number of features allowed.
+        self.min: Optional[PositiveInteger] = None
+
+    def getCategory(self) -> Optional[CategoryString]:
+        """
+        The category of a FMFeatureDecomposition defines the type of dependency that is defined by the FMFeature Decomposition. There are four different categories: MANDATORYFEATURE, OPTIONALFEATURE, ALTERNATIVEFEATURE, and MULTIPLEFEATURE.
+        """
+        return self.category
+
+    def setCategory(self, value: Optional[CategoryString]) -> FMFeatureDecomposition:
+        """
+        The category of a FMFeatureDecomposition defines the type of dependency that is defined by the FMFeature Decomposition. There are four different categories: MANDATORYFEATURE, OPTIONALFEATURE, ALTERNATIVEFEATURE, and MULTIPLEFEATURE.
+
+        A None value is a no-op and does not overwrite an existing category.
+        """
+        if value is not None:
+            self.category = value
+        return self
+
+    def addFeatureRef(self, ref: RefType) -> FMFeatureDecomposition:
+        """
+        The features that are affected by the dependency defined by the FMFeatureDecomposition.
+        """
+        self.featureRefs.append(ref)
+        return self
+
+    def getFeatureRefs(self) -> List[RefType]:
+        """
+        The features that are affected by the dependency defined by the FMFeatureDecomposition.
+        """
+        return self.featureRefs
+
+    def getMax(self) -> Optional[PositiveInteger]:
+        """
+        For a dependency of category MULTIPLEFEATURE, this defines the maximum number of features allowed.
+        """
+        return self.max
+
+    def setMax(self, value: Optional[PositiveInteger]) -> FMFeatureDecomposition:
+        """
+        For a dependency of category MULTIPLEFEATURE, this defines the maximum number of features allowed.
+
+        A None value is a no-op and does not overwrite an existing max.
+        """
+        if value is not None:
+            self.max = value
+        return self
+
+    def getMin(self) -> Optional[PositiveInteger]:
+        """
+        For a dependency of category MULTIPLEFEATURE, this defines the minimum number of features allowed.
+        """
+        return self.min
+
+    def setMin(self, value: Optional[PositiveInteger]) -> FMFeatureDecomposition:
+        """
+        For a dependency of category MULTIPLEFEATURE, this defines the minimum number of features allowed.
+
+        A None value is a no-op and does not overwrite an existing min.
+        """
+        if value is not None:
+            self.min = value
+        return self
+
+
+class IdsmSignatureSupportAp(ARObject):
+    """
+    This meta-class defines, for the Adaptive Platform, the cryptographic algorithm and key to be used by the IdsM instance for providing signature information in QSEv messages. Tags: atp.Status=candidate
+    """
+
+    # IdsmSignatureSupportAp method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf, Table B.16, p.53 (annex; pull-in —
+    # IdsmInstance.signatureSupportAp member type — not an indexed all_classes.md row)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCryptoPrimitive  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCryptoPrimitive  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getKeySlotRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setKeySlotRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # This attribute defines the cryptographic algorithm to be used for providing authentication information in QSEv messages. The content of this attribute shall comply to the "Cryptographic Primitives Verbose Specification" Tags: atp.Status=candidate
+        self.cryptoPrimitive: Optional[String] = None
+
+        # This reference denotes the cryptographic key to be used by the cryptographic algorithm for providing authentication information in QSEv messages. Tags: atp.Status=candidate
+        self.keySlotRef: Optional[RefType] = None
+
+    def getCryptoPrimitive(self) -> Optional[String]:
+        """
+        This attribute defines the cryptographic algorithm to be used for providing authentication information in QSEv messages. The content of this attribute shall comply to the "Cryptographic Primitives Verbose Specification" Tags: atp.Status=candidate
+        """
+        return self.cryptoPrimitive
+
+    def setCryptoPrimitive(self, value: Optional[String]) -> IdsmSignatureSupportAp:
+        """
+        This attribute defines the cryptographic algorithm to be used for providing authentication information in QSEv messages. The content of this attribute shall comply to the "Cryptographic Primitives Verbose Specification" Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing cryptoPrimitive.
+        """
+        if value is not None:
+            self.cryptoPrimitive = value
+        return self
+
+    def getKeySlotRef(self) -> Optional[RefType]:
+        """
+        This reference denotes the cryptographic key to be used by the cryptographic algorithm for providing authentication information in QSEv messages. Tags: atp.Status=candidate
+        """
+        return self.keySlotRef
+
+    def setKeySlotRef(self, value: Optional[RefType]) -> IdsmSignatureSupportAp:
+        """
+        This reference denotes the cryptographic key to be used by the cryptographic algorithm for providing authentication information in QSEv messages. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing keySlotRef.
+        """
+        if value is not None:
+            self.keySlotRef = value
+        return self
+
+
+class IdsmSignatureSupportCp(ARObject):
+    """
+    This meta-class defines, for the Classic Platform, the cryptographic algorithm and key to be used by the IdsM instance for providing signature information in QSEv messages. Tags: atp.Status=candidate
+    """
+
+    # IdsmSignatureSupportCp method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf, Table B.17, p.53 (annex; pull-in —
+    # IdsmInstance.signatureSupportCp member type — not an indexed all_classes.md row)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAuthenticationRef      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAuthenticationRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCryptoServiceKeyRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCryptoServiceKeyRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # This reference dennotes the cryptographic primitives for providing authentication information in QSEv messages. Tags: atp.Status=candidate
+        self.authenticationRef: Optional[RefType] = None
+
+        # This reference denotes the cryptographic key to be used by the cryptographic algorithm for providing authentication information in QSEv messages. Tags: atp.Status=candidate
+        self.cryptoServiceKeyRef: Optional[RefType] = None
+
+    def getAuthenticationRef(self) -> Optional[RefType]:
+        """
+        This reference dennotes the cryptographic primitives for providing authentication information in QSEv messages. Tags: atp.Status=candidate
+        """
+        return self.authenticationRef
+
+    def setAuthenticationRef(self, value: Optional[RefType]) -> IdsmSignatureSupportCp:
+        """
+        This reference dennotes the cryptographic primitives for providing authentication information in QSEv messages. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing authenticationRef.
+        """
+        if value is not None:
+            self.authenticationRef = value
+        return self
+
+    def getCryptoServiceKeyRef(self) -> Optional[RefType]:
+        """
+        This reference denotes the cryptographic key to be used by the cryptographic algorithm for providing authentication information in QSEv messages. Tags: atp.Status=candidate
+        """
+        return self.cryptoServiceKeyRef
+
+    def setCryptoServiceKeyRef(self, value: Optional[RefType]) -> IdsmSignatureSupportCp:
+        """
+        This reference denotes the cryptographic key to be used by the cryptographic algorithm for providing authentication information in QSEv messages. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing cryptoServiceKeyRef.
+        """
+        if value is not None:
+            self.cryptoServiceKeyRef = value
+        return self
+
+
+class SecurityEventContextData(ARObject, VariationPointCapable):
+    """
+    This meta-class represents the possibility that context data can be attached to the aggregating Security EventDefinition. If this meta-class does not exist for a SecurityEventDefinition, then no context data shall be provided for the security events of this SecurityEventDefinition. Tags: atp.Status=candidate
+    """
+
+    # SecurityEventContextData method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf, Table B.22, p.53 (annex; pull-in — the
+    # SecurityEventContextProps.contextDatas member type — not an indexed all_classes.md row)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # (the table declares no attribute rows of its own — VARIATION-POINT is the sole group
+    #  member; the variationPoint accessor pair is inherited from the VariationPointCapable
+    #  mixin and its reader/writer coverage lives in read/writeVariationPointCapable)
+
+    def __init__(self):
+        super().__init__()
 
 
 class InvertCondition(AbstractCondition):
-    pass
+    """
+    This meta-class represents the ability to define a rule that is the negation of another rule. Tags: atp.Recommendation=FOR_STANDARDIZATION
+    """
+
+    # InvertCondition method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 6.27, p.104
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCondition    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCondition    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # The inverted condition
+        self.condition: Optional[AbstractCondition] = None
+
+    def getCondition(self) -> Optional[AbstractCondition]:
+        """
+        The inverted condition
+        """
+        return self.condition
+
+    def setCondition(self, value: Optional[AbstractCondition]) -> InvertCondition:
+        """
+        The inverted condition
+
+        A None value is a no-op and does not overwrite an existing condition.
+        """
+        if value is not None:
+            self.condition = value
+        return self
 
 
 class MultiplicityRestrictionWithSeverity(AbstractMultiplicityRestriction):
-    pass
+    """
+    This meta-class represents the ability to specify multiplicity restrictions with a severity. Tags: atp.Recommendation=FOR_STANDARDIZATION
+    """
+
+    # MultiplicityRestrictionWithSeverity method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 6.10, p.88
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # (the table declares no attribute rows of its own)
+
+    def __init__(self):
+        super().__init__()
 
 
 class PhysicalDimensionMapping(ARObject):
@@ -2195,15 +2731,90 @@ class PhysicalDimensionMapping(ARObject):
 
 
 class PrimitiveAttributeCondition(AttributeCondition):
-    pass
+    """
+    This meta-class represents the ability to define a rule on a primitive attribute of a class. Tags: atp.Recommendation=FOR_STANDARDIZATION
+    """
+
+    # PrimitiveAttributeCondition method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 6.28, p.104
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAttributeRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAttributeRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # The primitive attribute that has to be accepted by the restrictions of this PrimitiveAttributeCondition
+        self.attributeRef: Optional[RefType] = None
+
+    def getAttributeRef(self) -> Optional[RefType]:
+        """
+        The primitive attribute that has to be accepted by the restrictions of this PrimitiveAttributeCondition
+        """
+        return self.attributeRef
+
+    def setAttributeRef(self, value: Optional[RefType]) -> PrimitiveAttributeCondition:
+        """
+        The primitive attribute that has to be accepted by the restrictions of this PrimitiveAttributeCondition
+
+        A None value is a no-op and does not overwrite an existing attributeRef.
+        """
+        if value is not None:
+            self.attributeRef = value
+        return self
 
 
 class ReferenceCondition(AttributeCondition):
-    pass
+    """
+    This meta-class represents the ability to define a rule on a reference of a class. Tags: atp.Recommendation=FOR_STANDARDIZATION
+    """
+
+    # ReferenceCondition method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 6.29, p.104
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getReferenceRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setReferenceRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # The reference that has to be accepted by the restrictions of this ReferenceCondition
+        self.referenceRef: Optional[RefType] = None
+
+    def getReferenceRef(self) -> Optional[RefType]:
+        """
+        The reference that has to be accepted by the restrictions of this ReferenceCondition
+        """
+        return self.referenceRef
+
+    def setReferenceRef(self, value: Optional[RefType]) -> ReferenceCondition:
+        """
+        The reference that has to be accepted by the restrictions of this ReferenceCondition
+
+        A None value is a no-op and does not overwrite an existing referenceRef.
+        """
+        if value is not None:
+            self.referenceRef = value
+        return self
 
 
 class RestrictionWithSeverity(ARObject, ABC):
-    pass
+    """
+    This meta-class represents the ability to specify restrictions that shall be evaluated together with a severity. Tags: atp.Recommendation=FOR_STANDARDIZATION
+    """
+
+    # RestrictionWithSeverity method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 6.6, p.86
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self):
+        if type(self) is RestrictionWithSeverity:
+            raise TypeError("RestrictionWithSeverity is an abstract class.")
+
+        super().__init__()
 
 
 class RoleBasedResourceDependency(ARObject):
@@ -2259,11 +2870,49 @@ class RoleBasedResourceDependency(ARObject):
 
 
 class SpecificationScope(ARObject):
-    pass
+    """
+    This meta-class represents the specification of the relevant subset of AUTOSAR standardized and custom specifications.
+    """
+
+    # SpecificationScope method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 6.17, p.97
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addSpecificationDocumentScope   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSpecificationDocumentScopes  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # The Autosar or custom specifications that contain that are considered in this Data Exchange Point.
+        self.specificationDocumentScopes: List[SpecificationDocumentScope] = []
+
+    def addSpecificationDocumentScope(self, value: SpecificationDocumentScope) -> SpecificationScope:
+        """
+        The Autosar or custom specifications that contain that are considered in this Data Exchange Point.
+        """
+        self.specificationDocumentScopes.append(value)
+        return self
+
+    def getSpecificationDocumentScopes(self) -> List[SpecificationDocumentScope]:
+        """
+        The Autosar or custom specifications that contain that are considered in this Data Exchange Point.
+        """
+        return self.specificationDocumentScopes
 
 
 class TextualCondition(AbstractCondition):
-    pass
+    """
+    This meta-class represents the ability to define a rule expressed as free text. Tags: atp.Recommendation=FOR_STANDARDIZATION
+    """
+
+    # TextualCondition method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 6.30, p.105
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
 
 
 class AbstractGlobalTimeDomainProps(ARObject, VariationPointCapable):
@@ -2296,6 +2945,57 @@ class BinaryManifestItemValue(ARObject, ABC):
 
 class BinaryManifestResource(ARObject, ABC):
     pass
+
+
+class DataFormatTailoring(ARObject):
+    """
+    This class collects all rules that tailor the AUTOSAR templates for a specific data exchange point.
+    """
+
+    # DataFormatTailoring method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table C.36, p.118 (annex; pull-in — the
+    # DataExchangePoint.dataFormatTailoring member type — not an indexed all_classes.md row)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addClassTailoring          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getClassTailorings         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addConstraintTailoring     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getConstraintTailorings    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # Specification of tailorings of Meta Classes Tags: xml.sequenceOffset=10
+        self.classTailorings: List[ClassTailoring] = []
+
+        # Specification of tailorings of Constraints that are not explicitly owned by any Meta-Class Tags: xml.sequenceOffset=20
+        self.constraintTailorings: List[ConstraintTailoring] = []
+
+    def addClassTailoring(self, value: ClassTailoring) -> DataFormatTailoring:
+        """
+        Specification of tailorings of Meta Classes Tags: xml.sequenceOffset=10
+        """
+        self.classTailorings.append(value)
+        return self
+
+    def getClassTailorings(self) -> List[ClassTailoring]:
+        """
+        Specification of tailorings of Meta Classes Tags: xml.sequenceOffset=10
+        """
+        return self.classTailorings
+
+    def addConstraintTailoring(self, value: ConstraintTailoring) -> DataFormatTailoring:
+        """
+        Specification of tailorings of Constraints that are not explicitly owned by any Meta-Class Tags: xml.sequenceOffset=20
+        """
+        self.constraintTailorings.append(value)
+        return self
+
+    def getConstraintTailorings(self) -> List[ConstraintTailoring]:
+        """
+        Specification of tailorings of Constraints that are not explicitly owned by any Meta-Class Tags: xml.sequenceOffset=20
+        """
+        return self.constraintTailorings
 
 
 class BusMirrorCanIdRangeMapping(ARObject):
@@ -2429,10 +3129,6 @@ class BusMirrorCanIdToCanIdMapping(ARObject):
         if value is not None:
             self.souceCanIdRef = value
         return self
-
-
-class BusMirrorChannel(ARObject):
-    pass
 
 
 class BusMirrorLinPidToCanIdMapping(ARObject):
@@ -3592,34 +4288,6 @@ class GlobalTimeSlave(ARObject, ABC):
     pass
 
 
-class IEEE1722TpAcfBusPart(ARObject, ABC):
-    pass
-
-
-class IEEE1722TpAcfLin(ARObject):
-    pass
-
-
-class IdsmInstance(ARObject):
-    pass
-
-
-class IdsmTrafficLimitation(ARObject):
-    pass
-
-
-class J1939TpConfig(ARObject):
-    pass
-
-
-class J1939TpConnection(ARObject):
-    pass
-
-
-class J1939TpPg(ARObject):
-    pass
-
-
 class NetworkSegmentIdentification(ARObject):
     """
     This meta-class represents the ability to identify the PhysicalChannel on a system scope in a numerical way. One possible application of this approach is the Time Validation.
@@ -3657,34 +4325,6 @@ class NetworkSegmentIdentification(ARObject):
         if value is not None:
             self.networkSegmentId = value
         return self
-
-
-class SecurityEventAggregationFilter(ARObject):
-    pass
-
-
-class SecurityEventContextMapping(ARObject, ABC):
-    pass
-
-
-class SecurityEventContextMappingCommConnector(ARObject):
-    pass
-
-
-class SecurityEventContextProps(ARObject):
-    pass
-
-
-class SecurityEventFilterChain(ARObject):
-    pass
-
-
-class SecurityEventStateFilter(ARObject):
-    pass
-
-
-class SomeipTpConnection(ARObject):
-    pass
 
 
 class TransformationProps(ARObject, ABC):
@@ -3748,9 +4388,11 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticTypeOfFreezeFrameRecordNumerationEnum,
     DiagnosticUdsSeverityEnum,
     DiagnosticWwhObdDtcClassEnum,
+    CategoryString,
     Float,
     Identifier,
     NameToken,
+    Numerical,
     PositiveInteger,
     RefType,
     String,

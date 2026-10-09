@@ -83,6 +83,24 @@ class TestWriteStateDependentFirewall:
         assert firewall_el.find("FIREWALL-RULE-PROPSS") is None
         assert firewall_el.find("FIREWALL-STATE-MODE-DECLARATION-REFS") is None
 
+    def test_write_empty_round_trip_yields_empty_lists(self):
+        writer = _make_writer()
+        firewall = StateDependentFirewall(AUTOSAR.getInstance().createARPackage("AUTOSAR"), "FW1")
+        root = ET.Element("AR-PACKAGE")
+        writer.writeStateDependentFirewall(root, firewall)
+
+        inner = ET.tostring(root).decode("utf-8")
+        assert "FIREWALL-RULE-PROPSS" not in inner
+        assert "FIREWALL-STATE-MODE-DECLARATION-REFS" not in inner
+        element = ET.fromstring(f"<AUTOSAR xmlns='{QNS}'>{inner}</AUTOSAR>")[0][0]
+
+        recovered = StateDependentFirewall(AUTOSAR.getInstance().createARPackage("AUTOSAR"), "FW1")
+        ARXMLParser(options={"warning": True}).readStateDependentFirewall(element, recovered)
+
+        assert recovered.getDefaultAction() is None
+        assert recovered.getFirewallRuleProps() == []
+        assert recovered.getFirewallStateModeDeclarationRefs() == []
+
     def test_write_and_reparse_round_trip(self):
         writer = _make_writer()
         root = ET.Element("AR-PACKAGE")

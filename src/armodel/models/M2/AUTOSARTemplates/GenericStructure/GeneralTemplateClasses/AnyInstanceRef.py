@@ -81,3 +81,43 @@ class AnyInstanceRef(AtpInstanceRef, VariationPointCapable):
         if value is not None:
             self.targetRef = value
         return self
+
+
+class FunctionGroupStateInFunctionGroupSetInstanceRef(AtpInstanceRef):
+    """
+    Instance reference to a ModeDeclaration within a ModeDeclarationGroupPrototype (Adaptive Platform machine/FG state block list entry).
+    """
+
+    # FunctionGroupStateInFunctionGroupSetInstanceRef method parity checklist:
+    # Spec: XSD-only (no own PDF/markdown table in the repo corpus) — AUTOSAR_00052.xsd group
+    # FUNCTION-GROUP-STATE-IN-FUNCTION-GROUP-SET-INSTANCE-REF (pull-in — the
+    # SecurityEventStateFilter.blockIfStateActiveAp iref member type)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getContextModeDeclarationGroupPrototypeRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setContextModeDeclarationGroupPrototypeRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTargetModeDeclarationRef                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTargetModeDeclarationRef                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        self.contextModeDeclarationGroupPrototypeRef: Optional[RefType] = None
+
+        self.targetModeDeclarationRef: Optional[RefType] = None
+
+    def getContextModeDeclarationGroupPrototypeRef(self) -> Optional[RefType]:
+        return self.contextModeDeclarationGroupPrototypeRef
+
+    def setContextModeDeclarationGroupPrototypeRef(self, value: Optional[RefType]) -> "FunctionGroupStateInFunctionGroupSetInstanceRef":
+        if value is not None:
+            self.contextModeDeclarationGroupPrototypeRef = value
+        return self
+
+    def getTargetModeDeclarationRef(self) -> Optional[RefType]:
+        return self.targetModeDeclarationRef
+
+    def setTargetModeDeclarationRef(self, value: Optional[RefType]) -> "FunctionGroupStateInFunctionGroupSetInstanceRef":
+        if value is not None:
+            self.targetModeDeclarationRef = value
+        return self

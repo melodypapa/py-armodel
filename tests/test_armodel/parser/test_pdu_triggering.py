@@ -31,7 +31,8 @@ def _parse(xml: str) -> ET.Element:
     return ET.fromstring(xml)
 
 
-FULL_XML = """
+FULL_XML = (
+    """
 <PDU-TRIGGERING xmlns="%s" UUID="11111111-2222-3333-4444-555555555555">
     <SHORT-NAME>PT1</SHORT-NAME>
     <I-PDU-PORT-REFS>
@@ -59,7 +60,9 @@ FULL_XML = """
         <SHORT-LABEL>vpPt</SHORT-LABEL>
     </VARIATION-POINT>
 </PDU-TRIGGERING>
-""" % NS
+"""
+    % NS
+)
 
 
 class TestReadPduTriggering:
@@ -112,7 +115,8 @@ class TestReadPduTriggering:
         assert triggering.getVariationPoint() is None
 
     def test_read_via_physical_channel_dispatch(self):
-        xml = """
+        xml = (
+            """
         <CAN-PHYSICAL-CHANNEL xmlns="%s">
             <SHORT-NAME>CanCh</SHORT-NAME>
             <PDU-TRIGGERINGS>
@@ -122,7 +126,9 @@ class TestReadPduTriggering:
                 </PDU-TRIGGERING>
             </PDU-TRIGGERINGS>
         </CAN-PHYSICAL-CHANNEL>
-        """ % NS
+        """
+            % NS
+        )
         element = _parse(xml)
         channel = CanPhysicalChannel(None, "CanCh")
         ARXMLParser().readPhysicalChannelPduTriggerings(element, channel)
