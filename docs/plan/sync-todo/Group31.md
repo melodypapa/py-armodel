@@ -1449,7 +1449,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green) — N/A: standalone AREnum, no own XML element (value form on LinFrameTriggering.linChecksum)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-10 (24808 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit e03844e72
 
 - [ ] `LinUnconditionalFrame` — LinFrame — R23-11 CP_TPS_SystemTemplate Table 6.90, p.429
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Lin/LinCommunication.py
