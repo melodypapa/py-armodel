@@ -11310,6 +11310,7 @@ class ARXMLParser(AbstractARXMLParser):
         return entry
 
     def readLinConfigurationEntry(self, element: ET.Element, entry: LinConfigurationEntry):
+        self.readScheduleTableEntry(element, entry)
         entry.setAssignedControllerRef(self.getChildElementOptionalRefType(element, "ASSIGNED-CONTROLLER-REF"))
         entry.setAssignedLinSlaveConfigRef(self.getChildElementOptionalRefType(element, "ASSIGNED-LIN-SLAVE-CONFIG-REF"))
 
@@ -11329,7 +11330,6 @@ class ARXMLParser(AbstractARXMLParser):
         entry = None
         if element is not None:
             entry = AssignFrameId()
-            self.readScheduleTableEntry(element, entry)
             self.readLinConfigurationEntry(element, entry)
             entry.setAssignedFrameTriggeringRef(self.getChildElementOptionalRefType(element, "ASSIGNED-FRAME-TRIGGERING-REF"))
         return entry
@@ -11338,7 +11338,6 @@ class ARXMLParser(AbstractARXMLParser):
         entry = None
         if element is not None:
             entry = UnassignFrameId()
-            self.readScheduleTableEntry(element, entry)
             self.readLinConfigurationEntry(element, entry)
             entry.setUnassignedFrameTriggeringRef(self.getChildElementOptionalRefType(element, "UNASSIGNED-FRAME-TRIGGERING-REF"))
         return entry
@@ -11347,7 +11346,6 @@ class ARXMLParser(AbstractARXMLParser):
         entry = None
         if element is not None:
             entry = AssignFrameIdRange()
-            self.readScheduleTableEntry(element, entry)
             self.readLinConfigurationEntry(element, entry)
             for child_element in self.findall(element, "FRAME-PIDS/FRAME-PID"):
                 frame_pid = FramePid()
@@ -11361,7 +11359,6 @@ class ARXMLParser(AbstractARXMLParser):
         entry = None
         if element is not None:
             entry = AssignNad()
-            self.readScheduleTableEntry(element, entry)
             self.readLinConfigurationEntry(element, entry)
             entry.setNewNad(self.getChildElementOptionalIntegerValue(element, "NEW-NAD"))
         return entry
@@ -11370,7 +11367,6 @@ class ARXMLParser(AbstractARXMLParser):
         entry = None
         if element is not None:
             entry = ConditionalChangeNad()
-            self.readScheduleTableEntry(element, entry)
             self.readLinConfigurationEntry(element, entry)
             entry.setByte(self.getChildElementOptionalIntegerValue(element, "BYTE"))
             entry.setId(self.getChildElementOptionalPositiveInteger(element, "ID"))
@@ -11383,7 +11379,6 @@ class ARXMLParser(AbstractARXMLParser):
         entry = None
         if element is not None:
             entry = SaveConfigurationEntry()
-            self.readScheduleTableEntry(element, entry)
             self.readLinConfigurationEntry(element, entry)
         return entry
 
@@ -11391,7 +11386,6 @@ class ARXMLParser(AbstractARXMLParser):
         entry = None
         if element is not None:
             entry = DataDumpEntry()
-            self.readScheduleTableEntry(element, entry)
             self.readLinConfigurationEntry(element, entry)
             self.readByteValues(element, entry)
         return entry

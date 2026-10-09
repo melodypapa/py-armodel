@@ -16,9 +16,6 @@ ApplicationCompositeElementInPortInterfaceInstanceRef
 ArgumentDirectionEnum
 ArrayValueSpecification
 AsamRecordLayoutSemantics
-AssignFrameId
-AssignFrameIdRange
-AssignNad
 AtpClassifier
 AtpFeature
 AtpInstanceRef
@@ -112,8 +109,6 @@ FirewallRuleProps
 FlexrayNmEcu
 FloatValue
 FormulaExpression
-FramePid
-FreeFormatEntry
 FunctionNameValue
 Graphic
 HeapUsage
@@ -137,7 +132,6 @@ J1939NmEcu
 LEnum
 LanguageSpecific
 LifeCyclePeriod
-LinConfigurationEntry
 Linker
 LinkerSymbolValue
 LogTraceDefaultLogLevelEnum
@@ -208,7 +202,6 @@ RunnableEntityArgument
 RunnableEntityInCompositionInstanceRef
 SOMEIPMessageTypeEnum
 ScaleConstr
-ScheduleTableEntry
 Sd
 Sdf
 Sdg
@@ -267,7 +260,6 @@ TransientFault
 TriggerMapping
 UdpNmEcu
 UdpProps
-UnassignFrameId
 VariableAccessInEcuInstanceRef
 VariableDataPrototypeInCompositionInstanceRef
 VariableInComponentInstanceRef

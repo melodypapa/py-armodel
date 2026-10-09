@@ -12312,6 +12312,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalRefType(child_element, "FRAME-TRIGGERING-REF", entry.getFrameTriggeringRef())
 
     def writeLinConfigurationEntry(self, element: ET.Element, entry: LinConfigurationEntry):
+        self.writeScheduleTableEntry(element, entry)
         self.setChildElementOptionalRefType(element, "ASSIGNED-CONTROLLER-REF", entry.getAssignedControllerRef())
         self.setChildElementOptionalRefType(element, "ASSIGNED-LIN-SLAVE-CONFIG-REF", entry.getAssignedLinSlaveConfigRef())
 
@@ -12327,21 +12328,18 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setAssignFrameId(self, element: ET.Element, key: str, entry: AssignFrameId):
         if entry is not None:
             child_element = ET.SubElement(element, key)
-            self.writeScheduleTableEntry(child_element, entry)
             self.writeLinConfigurationEntry(child_element, entry)
             self.setChildElementOptionalRefType(child_element, "ASSIGNED-FRAME-TRIGGERING-REF", entry.getAssignedFrameTriggeringRef())
 
     def setUnassignFrameId(self, element: ET.Element, key: str, entry: UnassignFrameId):
         if entry is not None:
             child_element = ET.SubElement(element, key)
-            self.writeScheduleTableEntry(child_element, entry)
             self.writeLinConfigurationEntry(child_element, entry)
             self.setChildElementOptionalRefType(child_element, "UNASSIGNED-FRAME-TRIGGERING-REF", entry.getUnassignedFrameTriggeringRef())
 
     def setAssignFrameIdRange(self, element: ET.Element, key: str, entry: AssignFrameIdRange):
         if entry is not None:
             child_element = ET.SubElement(element, key)
-            self.writeScheduleTableEntry(child_element, entry)
             self.writeLinConfigurationEntry(child_element, entry)
             frame_pids = entry.getFramePids()
             if len(frame_pids) > 0:
@@ -12355,14 +12353,12 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setAssignNad(self, element: ET.Element, key: str, entry: AssignNad):
         if entry is not None:
             child_element = ET.SubElement(element, key)
-            self.writeScheduleTableEntry(child_element, entry)
             self.writeLinConfigurationEntry(child_element, entry)
             self.setChildElementOptionalIntegerValue(child_element, "NEW-NAD", entry.getNewNad())
 
     def setConditionalChangeNad(self, element: ET.Element, key: str, entry: ConditionalChangeNad):
         if entry is not None:
             child_element = ET.SubElement(element, key)
-            self.writeScheduleTableEntry(child_element, entry)
             self.writeLinConfigurationEntry(child_element, entry)
             self.setChildElementOptionalIntegerValue(child_element, "BYTE", entry.getByte())
             self.setChildElementOptionalPositiveInteger(child_element, "ID", cast(Integer, entry.getId()))
@@ -12373,13 +12369,11 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setSaveConfigurationEntry(self, element: ET.Element, key: str, entry: SaveConfigurationEntry):
         if entry is not None:
             child_element = ET.SubElement(element, key)
-            self.writeScheduleTableEntry(child_element, entry)
             self.writeLinConfigurationEntry(child_element, entry)
 
     def setDataDumpEntry(self, element: ET.Element, key: str, entry: DataDumpEntry):
         if entry is not None:
             child_element = ET.SubElement(element, key)
-            self.writeScheduleTableEntry(child_element, entry)
             self.writeLinConfigurationEntry(child_element, entry)
             if len(entry.getByteValues()) > 0:
                 byte_values_element = ET.SubElement(child_element, "BYTE-VALUES")

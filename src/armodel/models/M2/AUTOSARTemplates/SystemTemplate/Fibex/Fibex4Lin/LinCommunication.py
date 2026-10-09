@@ -177,16 +177,14 @@ class ScheduleTableEntry(ARObject, ABC):
 
     # ScheduleTableEntry method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.96, p.433
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getDelay            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDelay            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getIntroduction     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setIntroduction     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPositionInTable  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setPositionInTable  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDelay            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDelay            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIntroduction     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIntroduction     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPositionInTable  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPositionInTable  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     def __init__(self):
 
         if type(self) is ScheduleTableEntry:
@@ -281,9 +279,8 @@ class FreeFormatEntry(ScheduleTableEntry, ABC):
 
     # FreeFormatEntry method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.98, p.434
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # (no own attributes; Base = ARObject, ScheduleTableEntry; serialized through concrete subclass FreeFormat)
 
     def __init__(self):
@@ -334,13 +331,12 @@ class LinConfigurationEntry(ScheduleTableEntry, ABC):
 
     # LinConfigurationEntry method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.99, p.434
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getAssignedControllerRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setAssignedControllerRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getAssignedLinSlaveConfigRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setAssignedLinSlaveConfigRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAssignedControllerRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAssignedControllerRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAssignedLinSlaveConfigRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAssignedLinSlaveConfigRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # (Base = ARObject, ScheduleTableEntry; abstract — no own XML tag; ASSIGNED-CONTROLLER-REF/ASSIGNED-LIN-SLAVE-CONFIG-REF round-trip via the concrete subclass dispatch in readLinScheduleTableTableEntries/writeLinScheduleTableTableEntries)
 
     def __init__(self):
@@ -394,13 +390,12 @@ class FramePid(ARObject):
 
     # FramePid method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.103, p.437
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getIndex      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setIndex      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPid        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setPid        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getIndex      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIndex      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPid        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPid        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # (Base = ARObject; aggregated by AssignFrameIdRange.framePid)
 
     def __init__(self):
@@ -450,11 +445,10 @@ class AssignFrameId(LinConfigurationEntry):
 
     # AssignFrameId method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.100, p.436
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getAssignedFrameTriggeringRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setAssignedFrameTriggeringRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAssignedFrameTriggeringRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAssignedFrameTriggeringRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # (Base = ARObject, LinConfigurationEntry, ScheduleTableEntry; messageId present in XSD with atp.Status="removed" — not modeled)
 
     def __init__(self):
@@ -486,11 +480,10 @@ class UnassignFrameId(LinConfigurationEntry):
 
     # UnassignFrameId method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.101, p.436
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getUnassignedFrameTriggeringRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setUnassignedFrameTriggeringRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getUnassignedFrameTriggeringRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUnassignedFrameTriggeringRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # (Base = ARObject, LinConfigurationEntry, ScheduleTableEntry; messageId present in XSD with atp.Status="removed" — not modeled)
 
     def __init__(self):
@@ -522,13 +515,12 @@ class AssignFrameIdRange(LinConfigurationEntry):
 
     # AssignFrameIdRange method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.102, p.437
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getFramePids           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addFramePid            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getStartIndex          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setStartIndex          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getFramePids           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addFramePid            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getStartIndex          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setStartIndex          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # (Base = ARObject, LinConfigurationEntry, ScheduleTableEntry)
 
     def __init__(self):
@@ -578,11 +570,10 @@ class AssignNad(LinConfigurationEntry):
 
     # AssignNad method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.104, p.438
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getNewNad       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setNewNad       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getNewNad       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNewNad       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # (Base = ARObject, LinConfigurationEntry, ScheduleTableEntry)
 
     def __init__(self):
