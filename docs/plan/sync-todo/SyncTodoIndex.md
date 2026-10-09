@@ -1673,7 +1673,7 @@ Status: **0/75** completed
 
 ## Group31
 
-Status: **0/75** completed
+Status: **17/75** completed
 
 | Class Name                                               | Status          | Commit ID  |
 | -------------------------------------------------------- | --------------- | ---------- |
@@ -1704,41 +1704,41 @@ Status: **0/75** completed
 | `CommConnectorPort`                                      | [ ] Pending*    | ca22bc0a86 |
 | `IPduPort`                                               | [ ] Pending*    | 5809b8408f |
 | `IPduSignalProcessingEnum`                               | [ ] Pending*    | e34ab3e1ad |
-| `ISignal`                                                | [ ] Implemented | N/A        |
+| `ISignal`                                                | [x] Done*       | e260b39286 |
 | `DataTypePolicyEnum`                                     | [ ] Implemented | N/A        |
-| `ISignalTypeEnum`                                        | [ ] Implemented | N/A        |
-| `ISignalProps`                                           | [ ] Implemented | N/A        |
-| `ISignalGroup`                                           | [ ] Implemented | N/A        |
-| `SystemSignalGroup`                                      | [ ] Implemented | N/A        |
-| `ISignalToIPduMapping`                                   | [ ] Implemented | N/A        |
-| `ISignalTriggering`                                      | [ ] Implemented | N/A        |
-| `Pdu`                                                    | [ ] Implemented | N/A        |
-| `IPdu`                                                   | [ ] Implemented | N/A        |
-| `ISignalIPdu`                                            | [ ] Implemented | N/A        |
-| `NmPdu`                                                  | [ ] Implemented | N/A        |
-| `NPdu`                                                   | [ ] Implemented | N/A        |
-| `DcmIPdu`                                                | [ ] Implemented | N/A        |
-| `DiagPduType`                                            | [ ] Created     | N/A        |
-| `J1939DcmIPdu`                                           | [ ] Created     | N/A        |
-| `PduToFrameMapping`                                      | [ ] Implemented | N/A        |
-| `IPduTiming`                                             | [ ] Implemented | N/A        |
-| `PduTriggering`                                          | [ ] Implemented | N/A        |
+| `ISignalTypeEnum`                                        | [x] Done*       | 3bf0b50440 |
+| `ISignalProps`                                           | [ ] Pending*    | 724ee746c9 |
+| `ISignalGroup`                                           | [x] Done*       | 9e6350c7c6 |
+| `SystemSignalGroup`                                      | [x] Done*       | bf1e679967 |
+| `ISignalToIPduMapping`                                   | [x] Done*       | 036440b90e |
+| `ISignalTriggering`                                      | [x] Done*       | 96695d8a34 |
+| `Pdu`                                                    | [x] Done*       | b51f649ba4 |
+| `IPdu`                                                   | [x] Done*       | 6d2c23610d |
+| `ISignalIPdu`                                            | [x] Done*       | e9cdc05065 |
+| `NmPdu`                                                  | [x] Done*       | 462941c124 |
+| `NPdu`                                                   | [x] Done*       | 5cff010b1a |
+| `DcmIPdu`                                                | [x] Done*       | edf35e5e2a |
+| `DiagPduType`                                            | [x] Done*       | de6338d747 |
+| `J1939DcmIPdu`                                           | [x] Done*       | 75a272e532 |
+| `PduToFrameMapping`                                      | [x] Done*       | a8e5ac35ee |
+| `IPduTiming`                                             | [x] Done*       | 028e487683 |
+| `PduTriggering`                                          | [x] Done*       | cb8a7e121b |
 | `ContainerIPdu`                                          | [ ] Pending*    | N/A        |
 | `ContainerIPduTriggerEnum`                               | [ ] Pending*    | N/A        |
 | `ContainerIPduHeaderTypeEnum`                            | [ ] Pending*    | N/A        |
 | `RxAcceptContainedIPduEnum`                              | [ ] Pending*    | N/A        |
-| `SecureCommunicationProps`                               | [ ] Implemented | N/A        |
-| `SecureCommunicationPropsSet`                            | [ ] Implemented | N/A        |
-| `SecureCommunicationFreshnessProps`                      | [ ] Implemented | N/A        |
-| `SecureCommunicationAuthenticationProps`                 | [ ] Implemented | N/A        |
-| `CryptoServiceKey`                                       | [ ] Created     | N/A        |
-| `CryptoServiceKeyGenerationEnum`                         | [ ] Created     | N/A        |
-| `CryptoServiceQueue`                                     | [ ] Created     | N/A        |
-| `GeneralPurposeConnection`                               | [ ] Created     | N/A        |
-| `RelativeTolerance`                                      | [ ] Implemented | N/A        |
-| `AbsoluteTolerance`                                      | [ ] Implemented | N/A        |
-| `Frame`                                                  | [ ] Implemented | N/A        |
-| `LinFrame`                                               | [ ] Implemented | N/A        |
+| `SecureCommunicationProps`                               | [ ] Pending*    | e744b793f0 |
+| `SecureCommunicationPropsSet`                            | [ ] Pending*    | ac09333846 |
+| `SecureCommunicationFreshnessProps`                      | [ ] Pending*    | 748ee0ad2c |
+| `SecureCommunicationAuthenticationProps`                 | [ ] Pending*    | 56bcc7567c |
+| `CryptoServiceKey`                                       | [ ] Pending*    | 7f0ee10676 |
+| `CryptoServiceKeyGenerationEnum`                         | [ ] Pending*    | 0ad977989f |
+| `CryptoServiceQueue`                                     | [ ] Pending*    | eeb832d638 |
+| `GeneralPurposeConnection`                               | [ ] Pending*    | a8e970f876 |
+| `RelativeTolerance`                                      | [ ] Pending*    | 358656e2a4 |
+| `AbsoluteTolerance`                                      | [ ] Pending*    | a371d1ab84 |
+| `Frame`                                                  | [ ] Pending*    | 417c1d0055 |
+| `LinFrame`                                               | [ ] Pending*    | d72398ba5a |
 | `LinFrameTriggering`                                     | [ ] Implemented | N/A        |
 | `LinChecksumType`                                        | [ ] Created     | N/A        |
 | `LinUnconditionalFrame`                                  | [ ] Implemented | N/A        |
@@ -1937,8 +1937,8 @@ Status: **0/75** completed
 | `CSTransformerErrorReactionEnum`                    | [ ] Pending* | N/A       |
 | `SOMEIPTransformationDescription`                   | [ ] Pending* | N/A       |
 | `TransformationPropsSet`                            | [ ] Created  | N/A       |
-| `TransformationProps`                               | [ ] Created  | N/A       |
-| `SOMEIPTransformationProps`                         | [ ] Created  | N/A       |
+| `TransformationProps`                               | [ ] Pending* | N/A       |
+| `SOMEIPTransformationProps`                         | [ ] Pending* | N/A       |
 | `DataPrototypeReference`                            | [ ] Pending* | N/A       |
 | `DataPrototypeInPortInterfaceRef`                   | [ ] Pending* | N/A       |
 | `DataPrototypeInSenderReceiverInterfaceInstanceRef` | [ ] Pending* | N/A       |
@@ -1947,56 +1947,56 @@ Status: **0/75** completed
 | `EndToEndTransformationDescription`                 | [ ] Pending* | N/A       |
 | `DataIdModeEnum`                                    | [ ] Pending* | N/A       |
 | `EndToEndProfileBehaviorEnum`                       | [ ] Pending* | N/A       |
-| `UserDefinedTransformationProps`                    | [ ] Created  | N/A       |
+| `UserDefinedTransformationProps`                    | [ ] Pending* | N/A       |
 | `GlobalTimeDomain`                                  | [ ] Created  | N/A       |
 | `AbstractGlobalTimeDomainProps`                     | [ ] Pending* | N/A       |
 | `NetworkSegmentIdentification`                      | [ ] Pending* | N/A       |
-| `GlobalTimeMaster`                                  | [ ] Created  | N/A       |
-| `GlobalTimeSlave`                                   | [ ] Created  | N/A       |
-| `GlobalTimeGateway`                                 | [ ] Created  | N/A       |
+| `GlobalTimeMaster`                                  | [ ] Pending* | N/A       |
+| `GlobalTimeSlave`                                   | [ ] Pending* | N/A       |
+| `GlobalTimeGateway`                                 | [ ] Pending* | N/A       |
 | `GlobalTimeCorrectionProps`                         | [ ] Pending* | N/A       |
-| `GlobalTimeCanMaster`                               | [ ] Created  | N/A       |
-| `GlobalTimeCanSlave`                                | [ ] Created  | N/A       |
-| `CanGlobalTimeDomainProps`                          | [ ] Created  | N/A       |
-| `GlobalTimeEthMaster`                               | [ ] Created  | N/A       |
-| `EthTSynSubTlvConfig`                               | [ ] Created  | N/A       |
-| `GlobalTimeEthSlave`                                | [ ] Created  | N/A       |
-| `EthGlobalTimeDomainProps`                          | [ ] Created  | N/A       |
-| `EthTSynCrcFlags`                                   | [ ] Created  | N/A       |
+| `GlobalTimeCanMaster`                               | [ ] Pending* | N/A       |
+| `GlobalTimeCanSlave`                                | [ ] Pending* | N/A       |
+| `CanGlobalTimeDomainProps`                          | [ ] Pending* | N/A       |
+| `GlobalTimeEthMaster`                               | [ ] Pending* | N/A       |
+| `EthTSynSubTlvConfig`                               | [ ] Pending* | N/A       |
+| `GlobalTimeEthSlave`                                | [ ] Pending* | N/A       |
+| `EthGlobalTimeDomainProps`                          | [ ] Pending* | N/A       |
+| `EthTSynCrcFlags`                                   | [ ] Pending* | N/A       |
 | `EthGlobalTimeMessageFormatEnum`                    | [ ] Pending* | N/A       |
-| `EthGlobalTimeManagedCouplingPort`                  | [ ] Created  | N/A       |
+| `EthGlobalTimeManagedCouplingPort`                  | [ ] Pending* | N/A       |
 | `GlobalTimeCouplingPortProps`                       | [ ] Pending* | N/A       |
 | `GlobalTimePortRoleEnum`                            | [ ] Pending* | N/A       |
-| `GlobalTimeFrMaster`                                | [ ] Created  | N/A       |
-| `GlobalTimeFrSlave`                                 | [ ] Created  | N/A       |
-| `FrGlobalTimeDomainProps`                           | [ ] Created  | N/A       |
-| `UserDefinedGlobalTimeMaster`                       | [ ] Created  | N/A       |
-| `UserDefinedGlobalTimeSlave`                        | [ ] Created  | N/A       |
+| `GlobalTimeFrMaster`                                | [ ] Pending* | N/A       |
+| `GlobalTimeFrSlave`                                 | [ ] Pending* | N/A       |
+| `FrGlobalTimeDomainProps`                           | [ ] Pending* | N/A       |
+| `UserDefinedGlobalTimeMaster`                       | [ ] Pending* | N/A       |
+| `UserDefinedGlobalTimeSlave`                        | [ ] Pending* | N/A       |
 | `GlobalTimeCrcSupportEnum`                          | [ ] Pending* | N/A       |
 | `GlobalTimeCrcValidationEnum`                       | [ ] Pending* | N/A       |
 | `GlobalTimeIcvSupportEnum`                          | [ ] Pending* | N/A       |
 | `GlobalTimeIcvVerificationEnum`                     | [ ] Pending* | N/A       |
 | `CpSoftwareClusterResourcePool`                     | [ ] Created  | N/A       |
-| `CpSoftwareClusterCommunicationResource`            | [ ] Created  | N/A       |
-| `CpSoftwareClusterCommunicationResourceProps`       | [ ] Created  | N/A       |
-| `DataComProps`                                      | [ ] Created  | N/A       |
+| `CpSoftwareClusterCommunicationResource`            | [ ] Pending* | N/A       |
+| `CpSoftwareClusterCommunicationResourceProps`       | [ ] Pending* | N/A       |
+| `DataComProps`                                      | [ ] Pending* | N/A       |
 | `DataConsistencyPolicyEnum`                         | [ ] Pending* | N/A       |
-| `ClientServerOperationComProps`                     | [ ] Created  | N/A       |
+| `ClientServerOperationComProps`                     | [ ] Pending* | N/A       |
 | `SendIndicationEnum`                                | [ ] Pending* | N/A       |
 | `CpSoftwareClusterServiceResource`                  | [ ] Created  | N/A       |
 | `PortElementToCommunicationResourceMapping`         | [ ] Created  | N/A       |
 | `CpSoftwareClusterToResourceMapping`                | [ ] Created  | N/A       |
 | `CpSoftwareClusterBinaryManifestDescriptor`         | [ ] Created  | N/A       |
 | `BinaryManifestProvideResource`                     | [ ] Created  | N/A       |
-| `BinaryManifestResource`                            | [ ] Created  | N/A       |
+| `BinaryManifestResource`                            | [ ] Pending* | N/A       |
 | `BinaryManifestRequireResource`                     | [ ] Created  | N/A       |
 | `BinaryManifestResourceDefinition`                  | [ ] Created  | N/A       |
 | `BinaryManifestItem`                                | [ ] Created  | N/A       |
 | `BinaryManifestItemDefinition`                      | [ ] Created  | N/A       |
-| `BinaryManifestAddressableObject`                   | [ ] Created  | N/A       |
-| `BinaryManifestItemValue`                           | [ ] Created  | N/A       |
-| `BinaryManifestItemNumericalValue`                  | [ ] Created  | N/A       |
-| `BinaryManifestItemPointerValue`                    | [ ] Created  | N/A       |
+| `BinaryManifestAddressableObject`                   | [ ] Pending* | N/A       |
+| `BinaryManifestItemValue`                           | [ ] Pending* | N/A       |
+| `BinaryManifestItemNumericalValue`                  | [ ] Pending* | N/A       |
+| `BinaryManifestItemPointerValue`                    | [ ] Pending* | N/A       |
 
 ## Group35
 
@@ -2082,80 +2082,88 @@ Status: **0/75** completed
 
 ## Group36
 
-Status: **0/73** completed
+Status: **0/81** completed
 
-| Class Name                                     | Status          | Commit ID |
-| ---------------------------------------------- | --------------- | --------- |
-| `ApplicationInterface`                         | [ ] Implemented | N/A       |
-| `FMFeatureModel`                               | [ ] Created     | N/A       |
-| `FMFeature`                                    | [ ] Created     | N/A       |
-| `FMAttributeDef`                               | [ ] Created     | N/A       |
-| `FMFeatureDecomposition`                       | [ ] Created     | N/A       |
-| `FMFeatureRestriction`                         | [ ] Created     | N/A       |
-| `FMFeatureRelation`                            | [ ] Created     | N/A       |
-| `FMFeatureSelection`                           | [ ] Created     | N/A       |
-| `FMFeatureSelectionState`                      | [ ] Created     | N/A       |
-| `FMAttributeValue`                             | [ ] Created     | N/A       |
-| `FMFeatureSelectionSet`                        | [ ] Created     | N/A       |
-| `FMFeatureMap`                                 | [ ] Created     | N/A       |
-| `FMFeatureMapElement`                          | [ ] Created     | N/A       |
-| `FMFeatureMapCondition`                        | [ ] Created     | N/A       |
-| `FMFeatureMapAssertion`                        | [ ] Created     | N/A       |
-| `SwSystemconstantValueSet`                     | [ ] Implemented | N/A       |
-| `PostBuildVariantCriterionValueSet`            | [ ] Created     | N/A       |
-| `LogAndTraceMessageCollectionSet`              | [ ] Created     | N/A       |
-| `IdsDesign`                                    | [ ] Created     | N/A       |
-| `SecurityEventDefinition`                      | [ ] Created     | N/A       |
-| `SecurityEventFilterChain`                     | [ ] Created     | N/A       |
-| `AbstractSecurityEventFilter`                  | [ ] Created     | N/A       |
-| `SecurityEventStateFilter`                     | [ ] Created     | N/A       |
-| `SecurityEventOneEveryNFilter`                 | [ ] Created     | N/A       |
-| `SecurityEventAggregationFilter`               | [ ] Created     | N/A       |
-| `SecurityEventContextDataSourceEnum`           | [ ] Created     | N/A       |
-| `SecurityEventThresholdFilter`                 | [ ] Created     | N/A       |
-| `IdsmRateLimitation`                           | [ ] Created     | N/A       |
-| `IdsmTrafficLimitation`                        | [ ] Created     | N/A       |
-| `SecurityEventContextMapping`                  | [ ] Created     | N/A       |
-| `SecurityEventContextProps`                    | [ ] Created     | N/A       |
-| `SecurityEventReportingModeEnum`               | [ ] Created     | N/A       |
-| `SecurityEventContextMappingBswModule`         | [ ] Created     | N/A       |
-| `SecurityEventContextMappingFunctionalCluster` | [ ] Created     | N/A       |
-| `SecurityEventContextMappingCommConnector`     | [ ] Created     | N/A       |
-| `SecurityEventContextMappingApplication`       | [ ] Created     | N/A       |
-| `IdsmInstance`                                 | [ ] Created     | N/A       |
-| `BlockState`                                   | [ ] Created     | N/A       |
-| `ClientServerOperationBlueprintMapping`        | [ ] Created     | N/A       |
-| `DataExchangePoint`                            | [ ] Created     | N/A       |
-| `Baseline`                                     | [ ] Created     | N/A       |
-| `DataExchangePointKind`                        | [ ] Created     | N/A       |
-| `SpecElementReference`                         | [ ] Created     | N/A       |
-| `SpecElementScope`                             | [ ] Created     | N/A       |
-| `RestrictionWithSeverity`                      | [ ] Created     | N/A       |
-| `SeverityEnum`                                 | [ ] Created     | N/A       |
-| `ValueRestrictionWithSeverity`                 | [ ] Created     | N/A       |
-| `MultiplicityRestrictionWithSeverity`          | [ ] Created     | N/A       |
-| `AbstractMultiplicityRestriction`              | [ ] Created     | N/A       |
-| `VariationRestrictionWithSeverity`             | [ ] Created     | N/A       |
-| `DataFormatElementReference`                   | [ ] Created     | N/A       |
-| `DataFormatElementScope`                       | [ ] Created     | N/A       |
-| `SpecificationScope`                           | [ ] Created     | N/A       |
-| `SpecificationDocumentScope`                   | [ ] Created     | N/A       |
-| `DocumentElementScope`                         | [ ] Created     | N/A       |
-| `AbstractClassTailoring`                       | [ ] Created     | N/A       |
-| `AbstractCondition`                            | [ ] Created     | N/A       |
-| `AggregationCondition`                         | [ ] Created     | N/A       |
-| `AttributeCondition`                           | [ ] Created     | N/A       |
-| `ClassTailoring`                               | [ ] Created     | N/A       |
-| `ClassContentConditional`                      | [ ] Created     | N/A       |
-| `ConcreteClassTailoring`                       | [ ] Created     | N/A       |
-| `InvertCondition`                              | [ ] Created     | N/A       |
-| `PrimitiveAttributeCondition`                  | [ ] Created     | N/A       |
-| `ReferenceCondition`                           | [ ] Created     | N/A       |
-| `TextualCondition`                             | [ ] Created     | N/A       |
-| `AttributeTailoring`                           | [ ] Created     | N/A       |
-| `PrimitiveAttributeTailoring`                  | [ ] Created     | N/A       |
-| `DefaultValueApplicationStrategyEnum`          | [ ] Created     | N/A       |
-| `AggregationTailoring`                         | [ ] Created     | N/A       |
-| `ReferenceTailoring`                           | [ ] Created     | N/A       |
-| `ConstraintTailoring`                          | [ ] Created     | N/A       |
-| `SdgTailoring`                                 | [ ] Created     | N/A       |
+| Class Name                                        | Status          | Commit ID  |
+| ------------------------------------------------- | --------------- | ---------- |
+| `ApplicationInterface`                            | [ ] Pending*    | N/A        |
+| `FMFeatureModel`                                  | [ ] Pending*    | N/A        |
+| `FMFeature`                                       | [ ] Pending*    | N/A        |
+| `FMAttributeDef`                                  | [ ] Pending*    | N/A        |
+| `FMFeatureDecomposition`                          | [ ] Pending*    | N/A        |
+| `FMFeatureRestriction`                            | [ ] Pending*    | N/A        |
+| `FMFeatureRelation`                               | [ ] Pending*    | N/A        |
+| `FMFeatureSelection`                              | [ ] Pending*    | N/A        |
+| `FMFeatureSelectionState`                         | [ ] Pending*    | N/A        |
+| `FMAttributeValue`                                | [ ] Pending*    | N/A        |
+| `FMFeatureSelectionSet`                           | [ ] Pending*    | N/A        |
+| `FMFeatureMap`                                    | [ ] Pending*    | N/A        |
+| `FMFeatureMapElement`                             | [ ] Pending*    | N/A        |
+| `FMFeatureMapCondition`                           | [ ] Pending*    | N/A        |
+| `FMFeatureMapAssertion`                           | [ ] Pending*    | N/A        |
+| `SwSystemconstantValueSet`                        | [ ] Pending*    | N/A        |
+| `PostBuildVariantCriterionValueSet`               | [ ] Pending*    | N/A        |
+| `LogAndTraceMessageCollectionSet`                 | [ ] Pending*    | N/A        |
+| `IdsDesign`                                       | [ ] Pending*    | N/A        |
+| `SecurityEventDefinition`                         | [ ] Pending*    | N/A        |
+| `SecurityEventFilterChain`                        | [ ] Pending*    | N/A        |
+| `AbstractSecurityEventFilter`                     | [ ] Pending*    | N/A        |
+| `SecurityEventStateFilter`                        | [ ] Pending*    | N/A        |
+| `SecurityEventOneEveryNFilter`                    | [ ] Pending*    | N/A        |
+| `SecurityEventAggregationFilter`                  | [ ] Pending*    | N/A        |
+| `SecurityEventContextDataSourceEnum`              | [ ] Pending*    | N/A        |
+| `SecurityEventThresholdFilter`                    | [ ] Pending*    | N/A        |
+| `IdsmRateLimitation`                              | [ ] Pending*    | N/A        |
+| `IdsmTrafficLimitation`                           | [ ] Pending*    | N/A        |
+| `SecurityEventContextMapping`                     | [ ] Pending*    | N/A        |
+| `SecurityEventContextProps`                       | [ ] Pending*    | N/A        |
+| `SecurityEventReportingModeEnum`                  | [ ] Pending*    | N/A        |
+| `SecurityEventContextMappingBswModule`            | [ ] Pending*    | N/A        |
+| `SecurityEventContextMappingFunctionalCluster`    | [ ] Pending*    | N/A        |
+| `SecurityEventContextMappingCommConnector`        | [ ] Pending*    | N/A        |
+| `SecurityEventContextMappingApplication`          | [ ] Pending*    | N/A        |
+| `IdsmInstance`                                    | [ ] Pending*    | N/A        |
+| `BlockState`                                      | [ ] Pending*    | N/A        |
+| `ClientServerOperationBlueprintMapping`           | [ ] Pending*    | N/A        |
+| `DataExchangePoint`                               | [ ] Pending*    | N/A        |
+| `Baseline`                                        | [ ] Pending*    | N/A        |
+| `DataExchangePointKind`                           | [ ] Pending*    | N/A        |
+| `SpecElementReference`                            | [ ] Pending*    | N/A        |
+| `SpecElementScope`                                | [ ] Pending*    | N/A        |
+| `RestrictionWithSeverity`                         | [ ] Pending*    | N/A        |
+| `SeverityEnum`                                    | [ ] Pending*    | N/A        |
+| `ValueRestrictionWithSeverity`                    | [ ] Pending*    | N/A        |
+| `MultiplicityRestrictionWithSeverity`             | [ ] Pending*    | N/A        |
+| `AbstractMultiplicityRestriction`                 | [ ] Pending*    | N/A        |
+| `VariationRestrictionWithSeverity`                | [ ] Pending*    | N/A        |
+| `DataFormatElementReference`                      | [ ] Pending*    | N/A        |
+| `DataFormatElementScope`                          | [ ] Pending*    | N/A        |
+| `SpecificationScope`                              | [ ] Pending*    | N/A        |
+| `SpecificationDocumentScope`                      | [ ] Pending*    | N/A        |
+| `DocumentElementScope`                            | [ ] Pending*    | N/A        |
+| `AbstractClassTailoring`                          | [ ] Pending*    | N/A        |
+| `AbstractCondition`                               | [ ] Pending*    | N/A        |
+| `AggregationCondition`                            | [ ] Pending*    | N/A        |
+| `AttributeCondition`                              | [ ] Pending*    | N/A        |
+| `ClassTailoring`                                  | [ ] Pending*    | N/A        |
+| `ClassContentConditional`                         | [ ] Pending*    | N/A        |
+| `ConcreteClassTailoring`                          | [ ] Pending*    | N/A        |
+| `InvertCondition`                                 | [ ] Pending*    | N/A        |
+| `PrimitiveAttributeCondition`                     | [ ] Pending*    | N/A        |
+| `ReferenceCondition`                              | [ ] Pending*    | N/A        |
+| `TextualCondition`                                | [ ] Pending*    | N/A        |
+| `AttributeTailoring`                              | [ ] Pending*    | N/A        |
+| `PrimitiveAttributeTailoring`                     | [ ] Pending*    | N/A        |
+| `DefaultValueApplicationStrategyEnum`             | [ ] Pending*    | N/A        |
+| `AggregationTailoring`                            | [ ] Pending*    | N/A        |
+| `ReferenceTailoring`                              | [ ] Pending*    | N/A        |
+| `ConstraintTailoring`                             | [ ] Pending*    | N/A        |
+| `SdgTailoring`                                    | [ ] Pending*    | N/A        |
+| `IdsCommonElement`                                | [ ] Implemented | ecb37c71eb |
+| `IdsMapping`                                      | [ ] Implemented | ecb37c71eb |
+| `IdsmProperties`                                  | [ ] Implemented | 023395a0a6 |
+| `IdsmSignatureSupportAp`                          | [ ] Implemented | 023395a0a6 |
+| `IdsmSignatureSupportCp`                          | [ ] Implemented | 023395a0a6 |
+| `SecurityEventContextData`                        | [ ] Implemented | 023395a0a6 |
+| `FunctionGroupStateInFunctionGroupSetInstanceRef` | [ ] Implemented | 48a3dcb2fa |
+| `DataFormatTailoring`                             | [ ] Implemented | b4ee0768b9 |

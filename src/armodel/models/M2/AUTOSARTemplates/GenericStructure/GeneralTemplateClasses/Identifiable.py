@@ -7,6 +7,9 @@ from __future__ import annotations
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
+    ClassTailoring,
+    CpSoftwareClusterCommunicationResourceProps,
+    FMAttributeValue,
     DdsCpServiceInstanceEvent,
     DdsCpServiceInstanceOperation,
     DdsDeadline,
@@ -25,24 +28,46 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DdsTransportPriority,
     DiagnosticAbstractParameter,
     DiagnosticParameter,
+    EthTSynSubTlvConfig,
     RoleBasedResourceDependency,
 )
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Enumerations import BindingTimeEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    Address,
     AnyVersionString,
-    Boolean,
     CategoryString,
     DiagnosticDebounceBehaviorEnum,
+    FMFeatureSelectionState,
+    Float,
+    GlobalTimeCrcSupportEnum,
+    GlobalTimeCrcValidationEnum,
+    GlobalTimeIcvSupportEnum,
+    GlobalTimeIcvVerificationEnum,
     Identifier,
+    Limit,
+    Numerical,
     PositiveInteger,
+    Boolean,
     RefType,
+    SecurityEventContextDataSourceEnum,
+    SecurityEventReportingModeEnum,
     String,
+    SymbolString,
+    TimeValue,
     VerbatimString,
+    DefaultValueApplicationStrategyEnum,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from abc import ABC
 from typing import Dict, List, Optional, TYPE_CHECKING, Union, cast
 
 if TYPE_CHECKING:
+    from armodel.models.M2.AUTOSARTemplates.FeatureModelTemplate import FMConditionByFeaturesAndAttributes, FMConditionByFeaturesAndSwSystemconsts
+    from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import FunctionGroupStateInFunctionGroupSetInstanceRef
+    from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import SecurityEventContextData
+    from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import AbstractCondition, ClassTailoring
+    from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ModelRestrictionTypes import ValueRestrictionWithSeverity
+    from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import MultiplicityRestrictionWithSeverity, VariationRestrictionWithSeverity
     from armodel.models.M2.MSR.AsamHdo.AdminData import AdminData
     from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName, MultiLanguageOverviewParagraph
     from armodel.models.M2.MSR.Documentation.TextModel.SingleLanguageData import SingleLanguageLongName
@@ -666,47 +691,354 @@ class Describable(ARObject, ABC):
 
 
 class SpecElementReference(Identifiable, ABC):
-    pass
+    """
+    This meta-class represents the ability to reference a specification element. Tags: atp.Recommendation=FOR_STANDARDIZATION
+    """
+
+    # SpecElementReference method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 6.4, p.82
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is SpecElementReference:
+            raise TypeError("SpecElementReference is an abstract class.")
+
+        super().__init__(parent, short_name)
 
 
 class DataFormatElementReference(SpecElementReference, ABC):
-    pass
+    """
+    This meta-class represents the ability to reference an element of the data format. Tags: atp.Recommendation=FOR_STANDARDIZATION
+    """
+
+    # DataFormatElementReference method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 6.15, p.91
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is DataFormatElementReference:
+            raise TypeError("DataFormatElementReference is an abstract class.")
+
+        super().__init__(parent, short_name)
 
 
-class AbstractClassTailoring(DataFormatElementReference):
-    pass
+class AbstractClassTailoring(Identifiable):
+    """
+    This meta-class represents the ability to tailor an abstract class and its subclasses. Tags: atp.Recommendation=FOR_STANDARDIZATION
+    """
 
+    # AbstractClassTailoring method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 6.20, p.101
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addClassContent             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getClassContents            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getMultiplicityRestriction  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMultiplicityRestriction  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVariationRestriction     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setVariationRestriction     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
-class AbstractSecurityEventFilter(Identifiable, ABC):
-    pass
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Specifies the accepted / not accepted content of the class. All rules apply that fullfill the condition of the Class ContentConditional. Tags: xml.sequenceOffset=30
+        self.classContents: List[ClassContentConditional] = []
+
+        # Specifies the multiplicity of the class in the current context. Tags: xml.sequenceOffset=10
+        self.multiplicityRestriction: Optional[MultiplicityRestrictionWithSeverity] = None
+
+        # Specifies restrictions on the usage of variant handling. Tags: xml.sequenceOffset=20
+        self.variationRestriction: Optional[VariationRestrictionWithSeverity] = None
+
+    def addClassContent(self, value: ClassContentConditional) -> AbstractClassTailoring:
+        """
+        Specifies the accepted / not accepted content of the class. All rules apply that fullfill the condition of the Class ContentConditional. Tags: xml.sequenceOffset=30
+        """
+        self.classContents.append(value)
+        return self
+
+    def getClassContents(self) -> List[ClassContentConditional]:
+        """
+        Specifies the accepted / not accepted content of the class. All rules apply that fullfill the condition of the Class ContentConditional. Tags: xml.sequenceOffset=30
+        """
+        return self.classContents
+
+    def getMultiplicityRestriction(self) -> Optional[MultiplicityRestrictionWithSeverity]:
+        """
+        Specifies the multiplicity of the class in the current context. Tags: xml.sequenceOffset=10
+        """
+        return self.multiplicityRestriction
+
+    def setMultiplicityRestriction(self, value: Optional[MultiplicityRestrictionWithSeverity]) -> AbstractClassTailoring:
+        """
+        Specifies the multiplicity of the class in the current context. Tags: xml.sequenceOffset=10
+
+        A None value is a no-op and does not overwrite an existing multiplicityRestriction.
+        """
+        if value is not None:
+            self.multiplicityRestriction = value
+        return self
+
+    def getVariationRestriction(self) -> Optional[VariationRestrictionWithSeverity]:
+        """
+        Specifies restrictions on the usage of variant handling. Tags: xml.sequenceOffset=20
+        """
+        return self.variationRestriction
+
+    def setVariationRestriction(self, value: Optional[VariationRestrictionWithSeverity]) -> AbstractClassTailoring:
+        """
+        Specifies restrictions on the usage of variant handling. Tags: xml.sequenceOffset=20
+
+        A None value is a no-op and does not overwrite an existing variationRestriction.
+        """
+        if value is not None:
+            self.variationRestriction = value
+        return self
 
 
 class DataFormatElementScope(DataFormatElementReference, ABC):
-    pass
+    """
+    This meta-class represents the ability to define the scope within the data format that is subject of a tailoring. Tags: atp.Recommendation=FOR_STANDARDIZATION
+    """
+
+    # DataFormatElementScope method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 6.16, p.91
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is DataFormatElementScope:
+            raise TypeError("DataFormatElementScope is an abstract class.")
+
+        super().__init__(parent, short_name)
 
 
 class AttributeTailoring(DataFormatElementScope, ABC):
-    pass
+    """
+    This meta-class represents the ability to tailor attributes. Tags: atp.Recommendation=FOR_STANDARDIZATION
+    """
+
+    # AttributeTailoring method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 6.31, p.109
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is AttributeTailoring:
+            raise TypeError("AttributeTailoring is an abstract class.")
+
+        super().__init__(parent, short_name)
 
 
 class AggregationTailoring(AttributeTailoring):
-    pass
+    """
+    This meta-class represents the ability to tailor an aggregation of a class. Tags: atp.Recommendation=FOR_STANDARDIZATION
+    """
 
+    # AggregationTailoring method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 6.34, p.113
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addTypeTailoring          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTypeTailorings         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
-class BlockState(Identifiable):
-    pass
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Local class tailoring which is applied if the content is contained by this aggregation.
+        self.typeTailorings: List[ClassTailoring] = []
+
+    def addTypeTailoring(self, value: ClassTailoring) -> AggregationTailoring:
+        """
+        Local class tailoring which is applied if the content is contained by this aggregation.
+        """
+        self.typeTailorings.append(value)
+        return self
+
+    def getTypeTailorings(self) -> List[ClassTailoring]:
+        """
+        Local class tailoring which is applied if the content is contained by this aggregation.
+        """
+        return self.typeTailorings
 
 
 class ClassContentConditional(Identifiable):
-    pass
+    """
+    This meta-class specifies the condition and the tailorings of the content of a class.
+    """
+
+    # ClassContentConditional method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 6.25, p.103
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCondition                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCondition                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addAttributeTailoring        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAttributeTailorings       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addConstraintTailoring       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getConstraintTailorings      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addSdgTailoring              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSdgTailorings             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # The rules on the content of this class are enabled if the condition validates to true. Tags: xml.sequenceOffset=10
+        self.condition: Optional[AbstractCondition] = None
+
+        # Tailorings of the owned and inherited attributes of this Meta Classes Tags: xml.sequenceOffset=20
+        self.attributeTailorings: List[AttributeTailoring] = []
+
+        # Specification of tailorings of Constraints of that are owned by this Meta Classes Tags: xml.sequenceOffset=30
+        self.constraintTailorings: List[ConstraintTailoring] = []
+
+        # Specification of the applicable Special Data Group Tags: xml.sequenceOffset=40
+        self.sdgTailorings: List[SdgTailoring] = []
+
+    def getCondition(self) -> Optional[AbstractCondition]:
+        """
+        The rules on the content of this class are enabled if the condition validates to true. Tags: xml.sequenceOffset=10
+        """
+        return self.condition
+
+    def setCondition(self, value: Optional[AbstractCondition]) -> ClassContentConditional:
+        """
+        The rules on the content of this class are enabled if the condition validates to true. Tags: xml.sequenceOffset=10
+
+        A None value is a no-op and does not overwrite an existing condition.
+        """
+        if value is not None:
+            self.condition = value
+        return self
+
+    def addAttributeTailoring(self, value: AttributeTailoring) -> ClassContentConditional:
+        """
+        Tailorings of the owned and inherited attributes of this Meta Classes Tags: xml.sequenceOffset=20
+        """
+        self.attributeTailorings.append(value)
+        return self
+
+    def getAttributeTailorings(self) -> List[AttributeTailoring]:
+        """
+        Tailorings of the owned and inherited attributes of this Meta Classes Tags: xml.sequenceOffset=20
+        """
+        return self.attributeTailorings
+
+    def addConstraintTailoring(self, value: ConstraintTailoring) -> ClassContentConditional:
+        """
+        Specification of tailorings of Constraints of that are owned by this Meta Classes Tags: xml.sequenceOffset=30
+        """
+        self.constraintTailorings.append(value)
+        return self
+
+    def getConstraintTailorings(self) -> List[ConstraintTailoring]:
+        """
+        Specification of tailorings of Constraints of that are owned by this Meta Classes Tags: xml.sequenceOffset=30
+        """
+        return self.constraintTailorings
+
+    def addSdgTailoring(self, value: SdgTailoring) -> ClassContentConditional:
+        """
+        Specification of the applicable Special Data Group Tags: xml.sequenceOffset=40
+        """
+        self.sdgTailorings.append(value)
+        return self
+
+    def getSdgTailorings(self) -> List[SdgTailoring]:
+        """
+        Specification of the applicable Special Data Group Tags: xml.sequenceOffset=40
+        """
+        return self.sdgTailorings
 
 
-class ConcreteClassTailoring(DataFormatElementScope):
-    pass
+class ConcreteClassTailoring(Identifiable):
+    """
+    This meta-class represents the ability to tailor a concrete class. Tags: atp.Recommendation=FOR_STANDARDIZATION
+    """
+
+    # ConcreteClassTailoring method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 6.26, p.104
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addClassContent             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getClassContents            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getMultiplicityRestriction  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMultiplicityRestriction  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVariationRestriction     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setVariationRestriction     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Specifies the accepted / not accepted content of the class. All rules apply that fullfill the condition of the Class ContentConditional. Tags: xml.sequenceOffset=30
+        self.classContents: List[ClassContentConditional] = []
+
+        # Specifies the multiplicity of the class in the current context. Tags: xml.sequenceOffset=10
+        self.multiplicityRestriction: Optional[MultiplicityRestrictionWithSeverity] = None
+
+        # Specifies restrictions on the usage of variant handling. Tags: xml.sequenceOffset=20
+        self.variationRestriction: Optional[VariationRestrictionWithSeverity] = None
+
+    def addClassContent(self, value: ClassContentConditional) -> ConcreteClassTailoring:
+        """
+        Specifies the accepted / not accepted content of the class. All rules apply that fullfill the condition of the Class ContentConditional. Tags: xml.sequenceOffset=30
+        """
+        self.classContents.append(value)
+        return self
+
+    def getClassContents(self) -> List[ClassContentConditional]:
+        """
+        Specifies the accepted / not accepted content of the class. All rules apply that fullfill the condition of the Class ContentConditional. Tags: xml.sequenceOffset=30
+        """
+        return self.classContents
+
+    def getMultiplicityRestriction(self) -> Optional[MultiplicityRestrictionWithSeverity]:
+        """
+        Specifies the multiplicity of the class in the current context. Tags: xml.sequenceOffset=10
+        """
+        return self.multiplicityRestriction
+
+    def setMultiplicityRestriction(self, value: Optional[MultiplicityRestrictionWithSeverity]) -> ConcreteClassTailoring:
+        """
+        Specifies the multiplicity of the class in the current context. Tags: xml.sequenceOffset=10
+
+        A None value is a no-op and does not overwrite an existing multiplicityRestriction.
+        """
+        if value is not None:
+            self.multiplicityRestriction = value
+        return self
+
+    def getVariationRestriction(self) -> Optional[VariationRestrictionWithSeverity]:
+        """
+        Specifies restrictions on the usage of variant handling. Tags: xml.sequenceOffset=20
+        """
+        return self.variationRestriction
+
+    def setVariationRestriction(self, value: Optional[VariationRestrictionWithSeverity]) -> ConcreteClassTailoring:
+        """
+        Specifies restrictions on the usage of variant handling. Tags: xml.sequenceOffset=20
+
+        A None value is a no-op and does not overwrite an existing variationRestriction.
+        """
+        if value is not None:
+            self.variationRestriction = value
+        return self
 
 
 class ConstraintTailoring(DataFormatElementScope):
-    pass
+    """
+    This meta-class represents the ability to tailor constraints. Tags: atp.Recommendation=FOR_STANDARDIZATION
+    """
+
+    # ConstraintTailoring method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 6.36, p.117
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
 
 
 class CpSoftwareClusterResource(Identifiable):
@@ -782,7 +1114,42 @@ class CpSoftwareClusterResource(Identifiable):
 
 
 class CpSoftwareClusterCommunicationResource(CpSoftwareClusterResource):
-    pass
+    """Represents a single resource required or provided by a CP Software Cluster which relates to the port based communication on VFB level."""
+
+    # CpSoftwareClusterCommunicationResource method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 11.8, p.902
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCommunicationResourceProps  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCommunicationResourceProps  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # The XSD CP-SOFTWARE-CLUSTER-COMMUNICATION-RESOURCE group (AUTOSAR_00052.xsd l.24239) orders
+    # COM-PROPS then COMMUNICATION-RESOURCE-PROPS. COM-PROPS carries atp.Status="removed" and has
+    # no Table 11.8 Attribute row (Rule 0015) — not modeled. COMMUNICATION-RESOURCE-PROPS is a 0..1
+    # wrapper whose inner choice dispatches to the concrete CpSoftwareClusterCommunicationResourceProps
+    # subclasses; the reader/writer call the CpSoftwareClusterResource base helpers exactly once and the
+    # aggregator dispatch from CpSoftwareClusterResourcePool.resource is pending (unsynced later-wave class).
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This aggregation supports the further qualification of the enclosing CpSoftwareClusterCommunicationRecource by means of additional attributes depending on the nature of the CpSoftwareClusterCommunicationRecource.
+        self.communicationResourceProps: Optional[CpSoftwareClusterCommunicationResourceProps] = None
+
+    def getCommunicationResourceProps(self) -> Optional[CpSoftwareClusterCommunicationResourceProps]:
+        """
+        This aggregation supports the further qualification of the enclosing CpSoftwareClusterCommunicationRecource by means of additional attributes depending on the nature of the CpSoftwareClusterCommunicationRecource.
+        """
+        return self.communicationResourceProps
+
+    def setCommunicationResourceProps(self, value: Optional[CpSoftwareClusterCommunicationResourceProps]) -> CpSoftwareClusterCommunicationResource:
+        """
+        This aggregation supports the further qualification of the enclosing CpSoftwareClusterCommunicationRecource by means of additional attributes depending on the nature of the CpSoftwareClusterCommunicationRecource.
+        A None value is a no-op and does not overwrite an existing communicationResourceProps.
+        """
+        if value is not None:
+            self.communicationResourceProps = value
+        return self
 
 
 class CpSoftwareClusterServiceResource(CpSoftwareClusterResource):
@@ -1383,67 +1750,1164 @@ class DiagnosticStopRoutine(DiagnosticRoutineSubfunction):
 
 
 class SpecElementScope(SpecElementReference, ABC):
-    pass
+    """
+    This meta-class represents the ability to define the scope within a specification that is subject of a tailoring. Tags: atp.Recommendation=FOR_STANDARDIZATION
+    """
+
+    # SpecElementScope method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 6.5, p.84
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is SpecElementScope:
+            raise TypeError("SpecElementScope is an abstract class.")
+
+        super().__init__(parent, short_name)
 
 
 class DocumentElementScope(SpecElementScope):
-    pass
+    """
+    This meta-class represents the scope of an element within a specification document.
+    """
+
+    # DocumentElementScope method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 6.19, p.97
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCustomDocumentElementRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCustomDocumentElementRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addTailoringRef                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTailoringRefs               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Reference to a custom defined specification element.
+        self.customDocumentElementRef: Optional[RefType] = None
+
+        # Data Format Element that is implied by this element in the specification. Used to share one rationale for more tailorings.
+        self.tailoringRefs: List[RefType] = []
+
+    def getCustomDocumentElementRef(self) -> Optional[RefType]:
+        """
+        Reference to a custom defined specification element.
+        """
+        return self.customDocumentElementRef
+
+    def setCustomDocumentElementRef(self, value: Optional[RefType]) -> DocumentElementScope:
+        """
+        Reference to a custom defined specification element.
+
+        A None value is a no-op and does not overwrite an existing customDocumentElementRef.
+        """
+        if value is not None:
+            self.customDocumentElementRef = value
+        return self
+
+    def addTailoringRef(self, ref: RefType) -> DocumentElementScope:
+        """
+        Data Format Element that is implied by this element in the specification. Used to share one rationale for more tailorings.
+        """
+        self.tailoringRefs.append(ref)
+        return self
+
+    def getTailoringRefs(self) -> List[RefType]:
+        """
+        Data Format Element that is implied by this element in the specification. Used to share one rationale for more tailorings.
+        """
+        return self.tailoringRefs
 
 
 class FMAttributeDef(Identifiable):
-    pass
+    """
+    This metaclass represents the ability to define attributes for a feature.
+    """
+
+    # FMAttributeDef method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf, Table 4.3, p.26
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDefaultValue     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDefaultValue     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMax              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMax              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMin              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMin              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This represents the default value of the attribute.
+        self.defaultValue: Optional[Numerical] = None
+
+        # Maximum possible value for the value of this attribute
+        self.max: Optional[Limit] = None
+
+        # Minimum possible value for the value of this attribute
+        self.min: Optional[Limit] = None
+
+    def getDefaultValue(self) -> Optional[Numerical]:
+        """
+        This represents the default value of the attribute.
+        """
+        return self.defaultValue
+
+    def setDefaultValue(self, value: Optional[Numerical]) -> FMAttributeDef:
+        """
+        This represents the default value of the attribute.
+
+        A None value is a no-op and does not overwrite an existing defaultValue.
+        """
+        if value is not None:
+            self.defaultValue = value
+        return self
+
+    def getMax(self) -> Optional[Limit]:
+        """
+        Maximum possible value for the value of this attribute
+        """
+        return self.max
+
+    def setMax(self, value: Optional[Limit]) -> FMAttributeDef:
+        """
+        Maximum possible value for the value of this attribute
+
+        A None value is a no-op and does not overwrite an existing max.
+        """
+        if value is not None:
+            self.max = value
+        return self
+
+    def getMin(self) -> Optional[Limit]:
+        """
+        Minimum possible value for the value of this attribute
+        """
+        return self.min
+
+    def setMin(self, value: Optional[Limit]) -> FMAttributeDef:
+        """
+        Minimum possible value for the value of this attribute
+
+        A None value is a no-op and does not overwrite an existing min.
+        """
+        if value is not None:
+            self.min = value
+        return self
 
 
 class FMFeatureMapAssertion(Identifiable):
-    pass
+    """
+    Defines a boolean expression which shall evaluate to true for this mapping to become active. The expression is a formula that is based on features and system constants, and is defined by fmSyscond.
+    """
+
+    # FMFeatureMapAssertion method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf, Table 6.4, p.56
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getFmSyscond   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFmSyscond   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # The formula that implements the assertion.
+        self.fmSyscond: Optional[FMConditionByFeaturesAndSwSystemconsts] = None
+
+    def getFmSyscond(self) -> Optional[FMConditionByFeaturesAndSwSystemconsts]:
+        """
+        The formula that implements the assertion.
+        """
+        return self.fmSyscond
+
+    def setFmSyscond(self, value: Optional[FMConditionByFeaturesAndSwSystemconsts]) -> FMFeatureMapAssertion:
+        """
+        The formula that implements the assertion.
+
+        A None value is a no-op and does not overwrite an existing fmSyscond.
+        """
+        if value is not None:
+            self.fmSyscond = value
+        return self
 
 
 class FMFeatureMapCondition(Identifiable):
-    pass
+    """
+    Defines a condition which needs to be fulfilled for this mapping to become active. The condition is implemented as formula that is based on features and attributes and is defined by fmCond.
+    """
+
+    # FMFeatureMapCondition method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf, Table 6.3, p.55
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getFmCond     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFmCond     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # The formula that implements the condition.
+        self.fmCond: Optional[FMConditionByFeaturesAndAttributes] = None
+
+    def getFmCond(self) -> Optional[FMConditionByFeaturesAndAttributes]:
+        """
+        The formula that implements the condition.
+        """
+        return self.fmCond
+
+    def setFmCond(self, value: Optional[FMConditionByFeaturesAndAttributes]) -> FMFeatureMapCondition:
+        """
+        The formula that implements the condition.
+
+        A None value is a no-op and does not overwrite an existing fmCond.
+        """
+        if value is not None:
+            self.fmCond = value
+        return self
 
 
 class FMFeatureMapElement(Identifiable):
-    pass
+    """
+    Defines value sets for system constants and postbuild variant criterions that shall be chosen whenever a certain combination of features (and system constants) is encountered.
+    """
+
+    # FMFeatureMapElement method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf, Table 6.2, p.53
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addAssertion                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAssertions                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addCondition                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getConditions                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addPostBuildVariantCriterionValueSetRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPostBuildVariantCriterionValueSetRefs [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addSwSystemconstantValueSetRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwSystemconstantValueSetRefs       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Defines a boolean expression based on features and system constants which needs to evaluate to true for this mapping to become active.
+        self.assertions: List[FMFeatureMapAssertion] = []
+
+        # Defines a condition which needs to be fulfilled for this mapping to become active.
+        self.conditions: List[FMFeatureMapCondition] = []
+
+        # Selects a set of values for postbuild variant criterions.
+        self.postBuildVariantCriterionValueSetRefs: List[RefType] = []
+
+        # Selects a set of values for system constants.
+        self.swSystemconstantValueSetRefs: List[RefType] = []
+
+    def addAssertion(self, value: FMFeatureMapAssertion) -> FMFeatureMapElement:
+        """
+        Defines a boolean expression based on features and system constants which needs to evaluate to true for this mapping to become active.
+        """
+        self.assertions.append(value)
+        return self
+
+    def getAssertions(self) -> List[FMFeatureMapAssertion]:
+        """
+        Defines a boolean expression based on features and system constants which needs to evaluate to true for this mapping to become active.
+        """
+        return self.assertions
+
+    def addCondition(self, value: FMFeatureMapCondition) -> FMFeatureMapElement:
+        """
+        Defines a condition which needs to be fulfilled for this mapping to become active.
+        """
+        self.conditions.append(value)
+        return self
+
+    def getConditions(self) -> List[FMFeatureMapCondition]:
+        """
+        Defines a condition which needs to be fulfilled for this mapping to become active.
+        """
+        return self.conditions
+
+    def addPostBuildVariantCriterionValueSetRef(self, ref: RefType) -> FMFeatureMapElement:
+        """
+        Selects a set of values for postbuild variant criterions.
+        """
+        self.postBuildVariantCriterionValueSetRefs.append(ref)
+        return self
+
+    def getPostBuildVariantCriterionValueSetRefs(self) -> List[RefType]:
+        """
+        Selects a set of values for postbuild variant criterions.
+        """
+        return self.postBuildVariantCriterionValueSetRefs
+
+    def addSwSystemconstantValueSetRef(self, ref: RefType) -> FMFeatureMapElement:
+        """
+        Selects a set of values for system constants.
+        """
+        self.swSystemconstantValueSetRefs.append(ref)
+        return self
+
+    def getSwSystemconstantValueSetRefs(self) -> List[RefType]:
+        """
+        Selects a set of values for system constants.
+        """
+        return self.swSystemconstantValueSetRefs
 
 
 class FMFeatureRelation(Identifiable):
-    pass
+    """
+    Defines relations for FMFeatures, for example dependencies on other FMFeatures, or conflicts with other FMFeatures. A FMFeature can only be part of a FMFeatureSelectionSet if all its relations are fulfilled.
+    """
+
+    # FMFeatureRelation method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf, Table 4.6, p.34
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addFeatureRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFeatureRefs    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getRestriction    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRestriction    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # The FMFeature that is targeted by this FMFeature Relation.
+        self.featureRefs: List[RefType] = []
+
+        # If given, the condition shall evaluate to true, in order for the FMFeatureRelation to be active.
+        self.restriction: Optional[FMConditionByFeaturesAndAttributes] = None
+
+    def addFeatureRef(self, ref: RefType) -> FMFeatureRelation:
+        """
+        The FMFeature that is targeted by this FMFeature Relation.
+        """
+        self.featureRefs.append(ref)
+        return self
+
+    def getFeatureRefs(self) -> List[RefType]:
+        """
+        The FMFeature that is targeted by this FMFeature Relation.
+        """
+        return self.featureRefs
+
+    def getRestriction(self) -> Optional[FMConditionByFeaturesAndAttributes]:
+        """
+        If given, the condition shall evaluate to true, in order for the FMFeatureRelation to be active.
+        """
+        return self.restriction
+
+    def setRestriction(self, value: Optional[FMConditionByFeaturesAndAttributes]) -> FMFeatureRelation:
+        """
+        If given, the condition shall evaluate to true, in order for the FMFeatureRelation to be active.
+
+        A None value is a no-op and does not overwrite an existing restriction.
+        """
+        if value is not None:
+            self.restriction = value
+        return self
 
 
 class FMFeatureRestriction(Identifiable):
-    pass
+    """
+    Defines restrictions for FMFeatures. A FMFeature can only be part of a FMFeatureSelectionSet if at least one of its restrictions evaluate to true.
+    """
+
+    # FMFeatureRestriction method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf, Table 4.5, p.32
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getRestriction    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRestriction    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # A formula that contains the actual restriction.
+        self.restriction: Optional[FMConditionByFeaturesAndAttributes] = None
+
+    def getRestriction(self) -> Optional[FMConditionByFeaturesAndAttributes]:
+        """
+        A formula that contains the actual restriction.
+        """
+        return self.restriction
+
+    def setRestriction(self, value: Optional[FMConditionByFeaturesAndAttributes]) -> FMFeatureRestriction:
+        """
+        A formula that contains the actual restriction.
+
+        A None value is a no-op and does not overwrite an existing restriction.
+        """
+        if value is not None:
+            self.restriction = value
+        return self
 
 
-class FMFeatureSelection(Identifiable):
-    pass
+class AbstractSecurityEventFilter(Identifiable, ABC):
+    """
+    This meta-class acts as a base class for security event filters. Tags: atp.Status=candidate
+    """
+
+    # AbstractSecurityEventFilter method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf, Table 4.4, p.21
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is AbstractSecurityEventFilter:
+            raise TypeError("AbstractSecurityEventFilter is an abstract class.")
+
+        super().__init__(parent, short_name)
 
 
-class IdsmRateLimitation(Identifiable):
-    pass
+class SecurityEventStateFilter(AbstractSecurityEventFilter):
+    """
+    This meta-class represents the configuration of a state filter for security events. The referenced states represent a block list, i.e. the security events are dropped if the referenced state is the active state in the relevant state machine (which depends on the platform). Tags: atp.Status=candidate
+    """
+
+    # SecurityEventStateFilter method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf, Table 4.5, p.23
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addBlockIfStateActiveApIref  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getBlockIfStateActiveApIrefs [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addBlockIfStateActiveCpRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getBlockIfStateActiveCpRefs  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # For the AP, this reference defines the machine states of the block list. That means, if a security event (mapped to the filter chain to which the SecurityEventStateFilter belongs to) is reported when the referenced state is active, the security event is dropped. Tags: atp.Status=candidate
+        self.blockIfStateActiveApIrefs: List[FunctionGroupStateInFunctionGroupSetInstanceRef] = []
+
+        # For the CP, this reference defines the states of the block list. That means, if a security event (mapped to the filter chain to which the SecurityEventStateFilter belongs to) is reported when the currently active state is referenced in this list, the security event is dropped. Tags: atp.Status=candidate
+        self.blockIfStateActiveCpRefs: List[RefType] = []
+
+    def addBlockIfStateActiveApIref(self, value: FunctionGroupStateInFunctionGroupSetInstanceRef) -> SecurityEventStateFilter:
+        """
+        For the AP, this reference defines the machine states of the block list. That means, if a security event (mapped to the filter chain to which the SecurityEventStateFilter belongs to) is reported when the referenced state is active, the security event is dropped. Tags: atp.Status=candidate
+        """
+        self.blockIfStateActiveApIrefs.append(value)
+        return self
+
+    def getBlockIfStateActiveApIrefs(self) -> List[FunctionGroupStateInFunctionGroupSetInstanceRef]:
+        """
+        For the AP, this reference defines the machine states of the block list. That means, if a security event (mapped to the filter chain to which the SecurityEventStateFilter belongs to) is reported when the referenced state is active, the security event is dropped. Tags: atp.Status=candidate
+        """
+        return self.blockIfStateActiveApIrefs
+
+    def addBlockIfStateActiveCpRef(self, ref: RefType) -> SecurityEventStateFilter:
+        """
+        For the CP, this reference defines the states of the block list. That means, if a security event (mapped to the filter chain to which the SecurityEventStateFilter belongs to) is reported when the currently active state is referenced in this list, the security event is dropped. Tags: atp.Status=candidate
+        """
+        self.blockIfStateActiveCpRefs.append(ref)
+        return self
+
+    def getBlockIfStateActiveCpRefs(self) -> List[RefType]:
+        """
+        For the CP, this reference defines the states of the block list. That means, if a security event (mapped to the filter chain to which the SecurityEventStateFilter belongs to) is reported when the currently active state is referenced in this list, the security event is dropped. Tags: atp.Status=candidate
+        """
+        return self.blockIfStateActiveCpRefs
 
 
-class PrimitiveAttributeTailoring(AttributeTailoring):
-    pass
+class BlockState(Identifiable):
+    """
+    This meta-class defines a block state that is part of the collection of block states belonging to a specific IdsmInstance. The IdsM shall discard any reported security event that is mapped to a filter chain containing a SecurityEventStateFilter that references the block state which is currently active. Tags: atp.Status=candidate
+    """
 
+    # BlockState method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf, Table 4.20, p.52
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # (the table declares no attribute rows — BLOCK-STATE is an empty XSD group)
 
-class ReferenceTailoring(AttributeTailoring):
-    pass
-
-
-class SdgTailoring(DataFormatElementScope):
-    pass
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
 
 
 class SecurityEventOneEveryNFilter(AbstractSecurityEventFilter):
-    pass
+    """
+    This meta-class represents the configuration of a sampling (i.e. every n-th event is sampled) filter for security events. Tags: atp.Status=candidate
+    """
+
+    # SecurityEventOneEveryNFilter method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf, Table 4.6, p.24
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getN         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setN         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This attribute represents the configuration of the sampling filter, i.e. it configures the parameter "n" that controls how many events (n-1) shall be dropped after a sampled event until a new sample is created. Tags: atp.Status=candidate
+        self.n: Optional[PositiveInteger] = None
+
+    def getN(self) -> Optional[PositiveInteger]:
+        """
+        This attribute represents the configuration of the sampling filter, i.e. it configures the parameter "n" that controls how many events (n-1) shall be dropped after a sampled event until a new sample is created. Tags: atp.Status=candidate
+        """
+        return self.n
+
+    def setN(self, value: Optional[PositiveInteger]) -> SecurityEventOneEveryNFilter:
+        """
+        This attribute represents the configuration of the sampling filter, i.e. it configures the parameter "n" that controls how many events (n-1) shall be dropped after a sampled event until a new sample is created. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing n.
+        """
+        if value is not None:
+            self.n = value
+        return self
+
+
+class SecurityEventAggregationFilter(AbstractSecurityEventFilter):
+    """
+    This meta-class represents the aggregation filter that aggregates all security events occurring within configured time frame into one (i.e. the last reported) security event. Tags: atp.Status=candidate
+    """
+
+    # SecurityEventAggregationFilter method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf, Table 4.7, p.25
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getContextDataSource         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setContextDataSource         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMinimumIntervalLength     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMinimumIntervalLength     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This attributes defines whether the context data of the first or last time-aggregated security event shall be used for the resulting qualified security event.
+        self.contextDataSource: Optional[SecurityEventContextDataSourceEnum] = None
+
+        # This attribute represents the configuration of the minimum time window in seconds for the aggregation filter. Tags: atp.Status=candidate
+        self.minimumIntervalLength: Optional[TimeValue] = None
+
+    def getContextDataSource(self) -> Optional[SecurityEventContextDataSourceEnum]:
+        """
+        This attributes defines whether the context data of the first or last time-aggregated security event shall be used for the resulting qualified security event.
+        """
+        return self.contextDataSource
+
+    def setContextDataSource(self, value: Optional[SecurityEventContextDataSourceEnum]) -> SecurityEventAggregationFilter:
+        """
+        This attributes defines whether the context data of the first or last time-aggregated security event shall be used for the resulting qualified security event.
+
+        A None value is a no-op and does not overwrite an existing contextDataSource.
+        """
+        if value is not None:
+            self.contextDataSource = value
+        return self
+
+    def getMinimumIntervalLength(self) -> Optional[TimeValue]:
+        """
+        This attribute represents the configuration of the minimum time window in seconds for the aggregation filter. Tags: atp.Status=candidate
+        """
+        return self.minimumIntervalLength
+
+    def setMinimumIntervalLength(self, value: Optional[TimeValue]) -> SecurityEventAggregationFilter:
+        """
+        This attribute represents the configuration of the minimum time window in seconds for the aggregation filter. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing minimumIntervalLength.
+        """
+        if value is not None:
+            self.minimumIntervalLength = value
+        return self
 
 
 class SecurityEventThresholdFilter(AbstractSecurityEventFilter):
-    pass
+    """
+    This meta-class represents the threshold filter that drops (repeatedly at each beginning of a configurable time interval) a configurable number of security events . All subsequently arriving security events (within the configured time interval) pass the filter. Tags: atp.Status=candidate
+    """
+
+    # SecurityEventThresholdFilter method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf, Table 4.9, p.26
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getIntervalLength         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIntervalLength         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getThresholdNumber        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setThresholdNumber        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This attribute configures the time interval in seconds for one threshold filter operation. Tags: atp.Status=candidate
+        self.intervalLength: Optional[TimeValue] = None
+
+        # This attribute configures the threshold number, i.e. how many security events in the configured time frame are dropped before subsequent events start to pass the filter. Tags: atp.Status=candidate
+        self.thresholdNumber: Optional[PositiveInteger] = None
+
+    def getIntervalLength(self) -> Optional[TimeValue]:
+        """
+        This attribute configures the time interval in seconds for one threshold filter operation. Tags: atp.Status=candidate
+        """
+        return self.intervalLength
+
+    def setIntervalLength(self, value: Optional[TimeValue]) -> SecurityEventThresholdFilter:
+        """
+        This attribute configures the time interval in seconds for one threshold filter operation. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing intervalLength.
+        """
+        if value is not None:
+            self.intervalLength = value
+        return self
+
+    def getThresholdNumber(self) -> Optional[PositiveInteger]:
+        """
+        This attribute configures the threshold number, i.e. how many security events in the configured time frame are dropped before subsequent events start to pass the filter. Tags: atp.Status=candidate
+        """
+        return self.thresholdNumber
+
+    def setThresholdNumber(self, value: Optional[PositiveInteger]) -> SecurityEventThresholdFilter:
+        """
+        This attribute configures the threshold number, i.e. how many security events in the configured time frame are dropped before subsequent events start to pass the filter. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing thresholdNumber.
+        """
+        if value is not None:
+            self.thresholdNumber = value
+        return self
+
+
+class SecurityEventContextProps(Identifiable):
+    """
+    This meta-class specifies the SecurityEventDefinition to be mapped to an IdsmInstance and adds mapping-dependent properties of this security event valid only for this specific mapping. Tags: atp.Status=candidate
+    """
+
+    # SecurityEventContextProps method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf, Table 4.13, p.34
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getContextData              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setContextData              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDefaultReportingMode     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDefaultReportingMode     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPersistentStorage        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPersistentStorage        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSecurityEventRef         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSecurityEventRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSensorInstanceId         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSensorInstanceId         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSeverity                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSeverity                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This aggregation represents the definition of optional context data for security events. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=contextData, contextData.variationPoint.shortLabel atp.Status=candidate
+        self.contextData: Optional[SecurityEventContextData] = None
+
+        # This attribute defines the default reporting mode for the referenced security event. Tags: atp.Status=candidate
+        self.defaultReportingMode: Optional[SecurityEventReportingModeEnum] = None
+
+        # This attribute controls whether qualified reportings of the referenced security event shall be stored persistently by the mapped IdsmInstance or not. Tags: atp.Status=candidate
+        self.persistentStorage: Optional[Boolean] = None
+
+        # This reference defines the security event that is mapped and enriched by SecurityEventMappingProps with mapping dependent properties. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=securityEvent.securityEventDefinition, securityEvent.variationPoint.shortLabel atp.Status=candidate
+        self.securityEventRef: Optional[RefType] = None
+
+        # This attribute defines the ID of the security sensor that detects the referenced security event. Tags: atp.Status=candidate
+        self.sensorInstanceId: Optional[PositiveInteger] = None
+
+        # This attribute defines how critical/severe the referenced security event is. Please note that currently, the severity level meanings of specific integer values is not specified by AUTOSAR but left to the party responsible for the security event definition. Tags: atp.Status=candidate
+        self.severity: Optional[PositiveInteger] = None
+
+    def getContextData(self) -> Optional[SecurityEventContextData]:
+        """
+        This aggregation represents the definition of optional context data for security events. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=contextData, contextData.variationPoint.shortLabel atp.Status=candidate
+        """
+        return self.contextData
+
+    def setContextData(self, value: Optional[SecurityEventContextData]) -> SecurityEventContextProps:
+        """
+        This aggregation represents the definition of optional context data for security events. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=contextData, contextData.variationPoint.shortLabel atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing contextData.
+        """
+        if value is not None:
+            self.contextData = value
+        return self
+
+    def getDefaultReportingMode(self) -> Optional[SecurityEventReportingModeEnum]:
+        """
+        This attribute defines the default reporting mode for the referenced security event. Tags: atp.Status=candidate
+        """
+        return self.defaultReportingMode
+
+    def setDefaultReportingMode(self, value: Optional[SecurityEventReportingModeEnum]) -> SecurityEventContextProps:
+        """
+        This attribute defines the default reporting mode for the referenced security event. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing defaultReportingMode.
+        """
+        if value is not None:
+            self.defaultReportingMode = value
+        return self
+
+    def getPersistentStorage(self) -> Optional[Boolean]:
+        """
+        This attribute controls whether qualified reportings of the referenced security event shall be stored persistently by the mapped IdsmInstance or not. Tags: atp.Status=candidate
+        """
+        return self.persistentStorage
+
+    def setPersistentStorage(self, value: Optional[Boolean]) -> SecurityEventContextProps:
+        """
+        This attribute controls whether qualified reportings of the referenced security event shall be stored persistently by the mapped IdsmInstance or not. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing persistentStorage.
+        """
+        if value is not None:
+            self.persistentStorage = value
+        return self
+
+    def getSecurityEventRef(self) -> Optional[RefType]:
+        """
+        This reference defines the security event that is mapped and enriched by SecurityEventMappingProps with mapping dependent properties. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=securityEvent.securityEventDefinition, securityEvent.variationPoint.shortLabel atp.Status=candidate
+        """
+        return self.securityEventRef
+
+    def setSecurityEventRef(self, value: Optional[RefType]) -> SecurityEventContextProps:
+        """
+        This reference defines the security event that is mapped and enriched by SecurityEventMappingProps with mapping dependent properties. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=securityEvent.securityEventDefinition, securityEvent.variationPoint.shortLabel atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing securityEventRef.
+        """
+        if value is not None:
+            self.securityEventRef = value
+        return self
+
+    def getSensorInstanceId(self) -> Optional[PositiveInteger]:
+        """
+        This attribute defines the ID of the security sensor that detects the referenced security event. Tags: atp.Status=candidate
+        """
+        return self.sensorInstanceId
+
+    def setSensorInstanceId(self, value: Optional[PositiveInteger]) -> SecurityEventContextProps:
+        """
+        This attribute defines the ID of the security sensor that detects the referenced security event. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing sensorInstanceId.
+        """
+        if value is not None:
+            self.sensorInstanceId = value
+        return self
+
+    def getSeverity(self) -> Optional[PositiveInteger]:
+        """
+        This attribute defines how critical/severe the referenced security event is. Please note that currently, the severity level meanings of specific integer values is not specified by AUTOSAR but left to the party responsible for the security event definition. Tags: atp.Status=candidate
+        """
+        return self.severity
+
+    def setSeverity(self, value: Optional[PositiveInteger]) -> SecurityEventContextProps:
+        """
+        This attribute defines how critical/severe the referenced security event is. Please note that currently, the severity level meanings of specific integer values is not specified by AUTOSAR but left to the party responsible for the security event definition. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing severity.
+        """
+        if value is not None:
+            self.severity = value
+        return self
+
+
+class IdsmRateLimitation(Identifiable):
+    """
+    This meta-class represents the configuration of a rate limitation filter for security events. This means that security events are dropped if the number of events (of any type) processed within a configurable time window is greater than a configurable threshold. Tags: atp.Status=candidate
+    """
+
+    # IdsmRateLimitation method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf, Table 4.10, p.28
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getMaxEventsInInterval    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxEventsInInterval    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeInterval           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeInterval           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This attribute configures the threshold for dropping security events if the number of all processed security events exceeds the threshold in the respective time interval. Tags: atp.Status=candidate
+        self.maxEventsInInterval: Optional[PositiveInteger] = None
+
+        # This attribute configures the length of the time interval in seconds for dropping security events if the number of all processed security events exceeds the configurable threshold within the respective time interval. Tags: atp.Status=candidate
+        self.timeInterval: Optional[Float] = None
+
+    def getMaxEventsInInterval(self) -> Optional[PositiveInteger]:
+        """
+        This attribute configures the threshold for dropping security events if the number of all processed security events exceeds the threshold in the respective time interval. Tags: atp.Status=candidate
+        """
+        return self.maxEventsInInterval
+
+    def setMaxEventsInInterval(self, value: Optional[PositiveInteger]) -> IdsmRateLimitation:
+        """
+        This attribute configures the threshold for dropping security events if the number of all processed security events exceeds the threshold in the respective time interval. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing maxEventsInInterval.
+        """
+        if value is not None:
+            self.maxEventsInInterval = value
+        return self
+
+    def getTimeInterval(self) -> Optional[Float]:
+        """
+        This attribute configures the length of the time interval in seconds for dropping security events if the number of all processed security events exceeds the configurable threshold within the respective time interval. Tags: atp.Status=candidate
+        """
+        return self.timeInterval
+
+    def setTimeInterval(self, value: Optional[Float]) -> IdsmRateLimitation:
+        """
+        This attribute configures the length of the time interval in seconds for dropping security events if the number of all processed security events exceeds the configurable threshold within the respective time interval. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing timeInterval.
+        """
+        if value is not None:
+            self.timeInterval = value
+        return self
+
+
+class IdsmTrafficLimitation(Identifiable):
+    """
+    This meta-class represents the configuration of a traffic limitation filter for Security Events. This means that security events are dropped if the size (in terms of bandwidth) of security events (of any type) processed within a configurable time window is greater than a configurable threshold. Tags: atp.Status=candidate
+    """
+
+    # IdsmTrafficLimitation method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf, Table 4.11, p.29
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getMaxBytesInInterval     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxBytesInInterval     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeInterval           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeInterval           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This attribute configures the threshold for dropping security events if the size of all processed security events exceeds the threshold in the respective time interval. Tags: atp.Status=candidate
+        self.maxBytesInInterval: Optional[PositiveInteger] = None
+
+        # This attribute configures the length of the time interval in seconds for dropping security events if the size of all processed security events exceeds the configurable threshold within the respective time interval. Tags: atp.Status=candidate
+        self.timeInterval: Optional[Float] = None
+
+    def getMaxBytesInInterval(self) -> Optional[PositiveInteger]:
+        """
+        This attribute configures the threshold for dropping security events if the size of all processed security events exceeds the threshold in the respective time interval. Tags: atp.Status=candidate
+        """
+        return self.maxBytesInInterval
+
+    def setMaxBytesInInterval(self, value: Optional[PositiveInteger]) -> IdsmTrafficLimitation:
+        """
+        This attribute configures the threshold for dropping security events if the size of all processed security events exceeds the threshold in the respective time interval. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing maxBytesInInterval.
+        """
+        if value is not None:
+            self.maxBytesInInterval = value
+        return self
+
+    def getTimeInterval(self) -> Optional[Float]:
+        """
+        This attribute configures the length of the time interval in seconds for dropping security events if the size of all processed security events exceeds the configurable threshold within the respective time interval. Tags: atp.Status=candidate
+        """
+        return self.timeInterval
+
+    def setTimeInterval(self, value: Optional[Float]) -> IdsmTrafficLimitation:
+        """
+        This attribute configures the length of the time interval in seconds for dropping security events if the size of all processed security events exceeds the configurable threshold within the respective time interval. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing timeInterval.
+        """
+        if value is not None:
+            self.timeInterval = value
+        return self
+
+
+class FMFeatureSelection(Identifiable):
+    """
+    A FMFeatureSelection represents the state of a particular FMFeature within a FMFeatureSelectionSet.
+    """
+
+    # FMFeatureSelection method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf, Table 5.2, p.40
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addAttributeValue              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAttributeValues             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getFeatureRef                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFeatureRef                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaximumSelectedBindingTime  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaximumSelectedBindingTime  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMinimumSelectedBindingTime  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMinimumSelectedBindingTime  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getState                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setState                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This defines a value for the attribute that is referred to in the role definition. Note that a FMFeatureSelection cannot include two FMAttributeValues that refer to the same FMAttributeDef in the role definition. Tags: xml.sequenceOffset=50
+        self.attributeValues: List[FMAttributeValue] = []
+
+        # The FMFeature whose state is defined by this FMFeature Selection. Tags: xml.sequenceOffset=10
+        self.featureRef: Optional[RefType] = None
+
+        # Defines an upper bound for the binding time of the variation points that are associated with the FMFeature, and refines its maximumIntendedBindingTime. This attribute is meant as a hint for the development process. Tags: xml.sequenceOffset=40
+        self.maximumSelectedBindingTime: Optional[BindingTimeEnum] = None
+
+        # Defines a lower bound for the binding time of the variation points that are associated with the FMFeature, and refines its minimumIntendedBindingTime. This attribute is meant as a hint for the development process. Tags: xml.sequenceOffset=30
+        self.minimumSelectedBindingTime: Optional[BindingTimeEnum] = None
+
+        # Defines how the FMFeature that is described by this FMFeatureSelection contributes to the FMFeature SelectionSet. A FMFeature may have the state selected, deselected or undecided. Tags: xml.sequenceOffset=20
+        self.state: Optional[FMFeatureSelectionState] = None
+
+    def addAttributeValue(self, value: FMAttributeValue) -> FMFeatureSelection:
+        """
+        This defines a value for the attribute that is referred to in the role definition. Note that a FMFeatureSelection cannot include two FMAttributeValues that refer to the same FMAttributeDef in the role definition. Tags: xml.sequenceOffset=50
+        """
+        self.attributeValues.append(value)
+        return self
+
+    def getAttributeValues(self) -> List[FMAttributeValue]:
+        """
+        This defines a value for the attribute that is referred to in the role definition. Note that a FMFeatureSelection cannot include two FMAttributeValues that refer to the same FMAttributeDef in the role definition. Tags: xml.sequenceOffset=50
+        """
+        return self.attributeValues
+
+    def getFeatureRef(self) -> Optional[RefType]:
+        """
+        The FMFeature whose state is defined by this FMFeature Selection. Tags: xml.sequenceOffset=10
+        """
+        return self.featureRef
+
+    def setFeatureRef(self, value: Optional[RefType]) -> FMFeatureSelection:
+        """
+        The FMFeature whose state is defined by this FMFeature Selection. Tags: xml.sequenceOffset=10
+
+        A None value is a no-op and does not overwrite an existing featureRef.
+        """
+        if value is not None:
+            self.featureRef = value
+        return self
+
+    def getMaximumSelectedBindingTime(self) -> Optional[BindingTimeEnum]:
+        """
+        Defines an upper bound for the binding time of the variation points that are associated with the FMFeature, and refines its maximumIntendedBindingTime. This attribute is meant as a hint for the development process. Tags: xml.sequenceOffset=40
+        """
+        return self.maximumSelectedBindingTime
+
+    def setMaximumSelectedBindingTime(self, value: Optional[BindingTimeEnum]) -> FMFeatureSelection:
+        """
+        Defines an upper bound for the binding time of the variation points that are associated with the FMFeature, and refines its maximumIntendedBindingTime. This attribute is meant as a hint for the development process. Tags: xml.sequenceOffset=40
+
+        A None value is a no-op and does not overwrite an existing maximumSelectedBindingTime.
+        """
+        if value is not None:
+            self.maximumSelectedBindingTime = value
+        return self
+
+    def getMinimumSelectedBindingTime(self) -> Optional[BindingTimeEnum]:
+        """
+        Defines a lower bound for the binding time of the variation points that are associated with the FMFeature, and refines its minimumIntendedBindingTime. This attribute is meant as a hint for the development process. Tags: xml.sequenceOffset=30
+        """
+        return self.minimumSelectedBindingTime
+
+    def setMinimumSelectedBindingTime(self, value: Optional[BindingTimeEnum]) -> FMFeatureSelection:
+        """
+        Defines a lower bound for the binding time of the variation points that are associated with the FMFeature, and refines its minimumIntendedBindingTime. This attribute is meant as a hint for the development process. Tags: xml.sequenceOffset=30
+
+        A None value is a no-op and does not overwrite an existing minimumSelectedBindingTime.
+        """
+        if value is not None:
+            self.minimumSelectedBindingTime = value
+        return self
+
+    def getState(self) -> Optional[FMFeatureSelectionState]:
+        """
+        Defines how the FMFeature that is described by this FMFeatureSelection contributes to the FMFeature SelectionSet. A FMFeature may have the state selected, deselected or undecided. Tags: xml.sequenceOffset=20
+        """
+        return self.state
+
+    def setState(self, value: Optional[FMFeatureSelectionState]) -> FMFeatureSelection:
+        """
+        Defines how the FMFeature that is described by this FMFeatureSelection contributes to the FMFeature SelectionSet. A FMFeature may have the state selected, deselected or undecided. Tags: xml.sequenceOffset=20
+
+        A None value is a no-op and does not overwrite an existing state.
+        """
+        if value is not None:
+            self.state = value
+        return self
+
+
+class PrimitiveAttributeTailoring(AttributeTailoring):
+    """
+    This meta-class represents the ability to tailor a primitive attribute. Tags: atp.Recommendation=FOR_STANDARDIZATION
+    """
+
+    # PrimitiveAttributeTailoring method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 6.32, p.111
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDefaultValueHandling        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDefaultValueHandling        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addSubAttributeTailoring       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSubAttributeTailorings      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getValueRestriction            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setValueRestriction            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Specification of how to handle AUTOSAR defined default values.
+        self.defaultValueHandling: Optional[DefaultValueApplicationStrategyEnum] = None
+
+        # Tailors the attribute of a <<primitive>> data type.
+        self.subAttributeTailorings: List[PrimitiveAttributeTailoring] = []
+
+        # The restriction of the attribute value.
+        self.valueRestriction: Optional[ValueRestrictionWithSeverity] = None
+
+    def getDefaultValueHandling(self) -> Optional[DefaultValueApplicationStrategyEnum]:
+        """
+        Specification of how to handle AUTOSAR defined default values.
+        """
+        return self.defaultValueHandling
+
+    def setDefaultValueHandling(self, value: Optional[DefaultValueApplicationStrategyEnum]) -> PrimitiveAttributeTailoring:
+        """
+        Specification of how to handle AUTOSAR defined default values.
+
+        A None value is a no-op and does not overwrite an existing defaultValueHandling.
+        """
+        if value is not None:
+            self.defaultValueHandling = value
+        return self
+
+    def addSubAttributeTailoring(self, value: PrimitiveAttributeTailoring) -> PrimitiveAttributeTailoring:
+        """
+        Tailors the attribute of a <<primitive>> data type.
+        """
+        self.subAttributeTailorings.append(value)
+        return self
+
+    def getSubAttributeTailorings(self) -> List[PrimitiveAttributeTailoring]:
+        """
+        Tailors the attribute of a <<primitive>> data type.
+        """
+        return self.subAttributeTailorings
+
+    def getValueRestriction(self) -> Optional[ValueRestrictionWithSeverity]:
+        """
+        The restriction of the attribute value.
+        """
+        return self.valueRestriction
+
+    def setValueRestriction(self, value: Optional[ValueRestrictionWithSeverity]) -> PrimitiveAttributeTailoring:
+        """
+        The restriction of the attribute value.
+
+        A None value is a no-op and does not overwrite an existing valueRestriction.
+        """
+        if value is not None:
+            self.valueRestriction = value
+        return self
+
+
+class ReferenceTailoring(AttributeTailoring):
+    """
+    This meta-class represents the ability to tailor a reference of a class. Tags: atp.Recommendation=FOR_STANDARDIZATION
+    """
+
+    # ReferenceTailoring method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 6.35, p.115
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addTypeTailoring          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTypeTailorings         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Local class tailoring which is applied if the content is contained by this aggregation.
+        self.typeTailorings: List[ClassTailoring] = []
+
+    def addTypeTailoring(self, value: ClassTailoring) -> ReferenceTailoring:
+        """
+        Local class tailoring which is applied if the content is contained by this aggregation.
+        """
+        self.typeTailorings.append(value)
+        return self
+
+    def getTypeTailorings(self) -> List[ClassTailoring]:
+        """
+        Local class tailoring which is applied if the content is contained by this aggregation.
+        """
+        return self.typeTailorings
+
+
+class SdgTailoring(DataFormatElementScope):
+    """
+    This meta-class represents the ability to tailor SpecialDataGroups. Tags: atp.Recommendation=FOR_STANDARDIZATION
+    """
+
+    # SdgTailoring method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 6.37, p.118
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
 
 
 class SpecificationDocumentScope(SpecElementScope):
-    pass
+    """
+    This meta-class represents the scope of a whole specification document.
+    """
+
+    # SpecificationDocumentScope method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 6.18, p.97
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCustomDocumentationRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCustomDocumentationRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addDocumentElementScope      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDocumentElementScopes     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # reference to a custom defined specification.
+        self.customDocumentationRef: Optional[RefType] = None
+
+        # An element with a name or ID that is specified in the Specification Document.
+        self.documentElementScopes: List[DocumentElementScope] = []
+
+    def getCustomDocumentationRef(self) -> Optional[RefType]:
+        """
+        reference to a custom defined specification.
+        """
+        return self.customDocumentationRef
+
+    def setCustomDocumentationRef(self, value: Optional[RefType]) -> SpecificationDocumentScope:
+        """
+        reference to a custom defined specification.
+
+        A None value is a no-op and does not overwrite an existing customDocumentationRef.
+        """
+        if value is not None:
+            self.customDocumentationRef = value
+        return self
+
+    def addDocumentElementScope(self, value: DocumentElementScope) -> SpecificationDocumentScope:
+        """
+        An element with a name or ID that is specified in the Specification Document.
+        """
+        self.documentElementScopes.append(value)
+        return self
+
+    def getDocumentElementScopes(self) -> List[DocumentElementScope]:
+        """
+        An element with a name or ID that is specified in the Specification Document.
+        """
+        return self.documentElementScopes
 
 
 class BinaryManifestItem(Identifiable):
@@ -1455,7 +2919,71 @@ class BinaryManifestItemDefinition(Identifiable):
 
 
 class BinaryManifestAddressableObject(Identifiable, ABC):
-    pass
+    """
+    This meta-class acts as an abstract base class for addressable objects in the context of the binary manifest of a CP software cluster.
+    """
+
+    # BinaryManifestAddressableObject method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 11.24, p.921
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAddress  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAddress  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSymbol   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSymbol   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # The XSD BINARY-MANIFEST-ADDRESSABLE-OBJECT group (AUTOSAR_00052.xsd l.8552) orders ADDRESS,
+    # SYMBOL after the Identifiable level. The reusable readBinaryManifestAddressableObject /
+    # writeBinaryManifestAddressableObject helpers own that group for the concrete subclass element
+    # (BINARY-MANIFEST-ITEM / BINARY-MANIFEST-META-DATA-FIELD); the subclass dispatch is pending —
+    # BinaryManifestItem is an unsynced later-wave stub and the BinaryManifestMetaDataField
+    # aggregator (CpSoftwareClusterBinaryManifestDescriptor.metaDataField) is a later-wave class.
+    # The address attribute's spec Type Address is a referenced primitive implemented from
+    # AUTOSAR_FO_TPS_GenericStructureTemplate.pdf Table 4.40, p.107 (Rule 0001.10).
+
+    def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is BinaryManifestAddressableObject:
+            raise TypeError("BinaryManifestAddressableObject is an abstract class.")
+
+        super().__init__(parent, short_name)
+
+        # This attribute specifies the address of the enclosing addressable object.
+        self.address: Optional[Address] = None
+
+        # This attribute specifies the symbol of the addressable object.
+        self.symbol: Optional[SymbolString] = None
+
+    def getAddress(self) -> Optional[Address]:
+        """
+        This attribute specifies the address of the enclosing addressable object.
+        """
+        return self.address
+
+    def setAddress(self, value: Optional[Address]) -> BinaryManifestAddressableObject:
+        """
+        This attribute specifies the address of the enclosing addressable object.
+
+        A None value is a no-op and does not overwrite an existing address.
+        """
+        if value is not None:
+            self.address = value
+        return self
+
+    def getSymbol(self) -> Optional[SymbolString]:
+        """
+        This attribute specifies the symbol of the addressable object.
+        """
+        return self.symbol
+
+    def setSymbol(self, value: Optional[SymbolString]) -> BinaryManifestAddressableObject:
+        """
+        This attribute specifies the symbol of the addressable object.
+
+        A None value is a no-op and does not overwrite an existing symbol.
+        """
+        if value is not None:
+            self.symbol = value
+        return self
 
 
 class BinaryManifestMetaDataField(BinaryManifestAddressableObject):
@@ -1520,6 +3048,96 @@ class BinaryManifestProvideResource(Identifiable):
 
 class BinaryManifestRequireResource(Identifiable):
     pass
+
+
+class BinaryManifestResource(Identifiable, ABC):
+    """
+    This meta-class acts as an abstract base class for specializations.
+    """
+
+    # BinaryManifestResource method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 11.19, p.916
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getGlobalResourceId  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setGlobalResourceId  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createItem           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getItems             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getResourceRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setResourceRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # The XSD BINARY-MANIFEST-RESOURCE group (AUTOSAR_00052.xsd l.8886) orders GLOBAL-RESOURCE-ID,
+    # ITEMS, RESOURCE-REF (its RESOURCE-DEFINITION-REF / RESOURCE-GUARD-VALUE elements have no
+    # Table 11.19 Attribute row and are not modeled, Rule 0015). The reusable
+    # readBinaryManifestResource / writeBinaryManifestResource helpers own that group for the
+    # concrete subclass element (BINARY-MANIFEST-PROVIDE-RESOURCE / BINARY-MANIFEST-REQUIRE-RESOURCE);
+    # the subclass dispatch is pending — BinaryManifestProvideResource / BinaryManifestRequireResource
+    # are unsynced later-wave stubs. ITEMS children are serialized identity-only (Rule 0001.7 debt):
+    # BinaryManifestItem (Table 11.22) is an unsynced stub — its own sync replaces the placeholder
+    # (cf. DdsCpDomain / DdsCpPartition).
+
+    def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is BinaryManifestResource:
+            raise TypeError("BinaryManifestResource is an abstract class.")
+
+        super().__init__(parent, short_name)
+
+        # A unique identifiers per resource used for the connection process. The identifier is required to be unique in the scope of a single machine. If software clusters are designed to be reused on multiple machines the uniqueness requirements applies for all the intended machines.
+        self.globalResourceId: Optional[PositiveInteger] = None
+
+        # This aggregation represents the collection of binary manifest handles owned by the enclosing binary manifest resource.
+        self.items: List[BinaryManifestItem] = []
+
+        # This reference identifies the CpSoftwareClusterResource (on design level) that corresponds to the BinaryManifest Resource (on integration level).
+        self.resourceRef: Optional[RefType] = None
+
+    def getGlobalResourceId(self) -> Optional[PositiveInteger]:
+        """
+        A unique identifiers per resource used for the connection process. The identifier is required to be unique in the scope of a single machine. If software clusters are designed to be reused on multiple machines the uniqueness requirements applies for all the intended machines.
+        """
+        return self.globalResourceId
+
+    def setGlobalResourceId(self, value: Optional[PositiveInteger]) -> BinaryManifestResource:
+        """
+        A unique identifiers per resource used for the connection process. The identifier is required to be unique in the scope of a single machine. If software clusters are designed to be reused on multiple machines the uniqueness requirements applies for all the intended machines.
+
+        A None value is a no-op and does not overwrite an existing globalResourceId.
+        """
+        if value is not None:
+            self.globalResourceId = value
+        return self
+
+    def createItem(self, short_name: str) -> BinaryManifestItem:
+        """
+        This aggregation represents the collection of binary manifest handles owned by the enclosing binary manifest resource.
+        """
+        if not self.IsReferrableElementExists(short_name, BinaryManifestItem):
+            item = BinaryManifestItem(self, short_name)
+            self.addReferrableElement(item)
+            self.items.append(item)
+        return cast(BinaryManifestItem, self.getReferrableElement(short_name, BinaryManifestItem))
+
+    def getItems(self) -> List[BinaryManifestItem]:
+        """
+        This aggregation represents the collection of binary manifest handles owned by the enclosing binary manifest resource.
+        """
+        return self.items
+
+    def getResourceRef(self) -> Optional[RefType]:
+        """
+        This reference identifies the CpSoftwareClusterResource (on design level) that corresponds to the BinaryManifest Resource (on integration level).
+        """
+        return self.resourceRef
+
+    def setResourceRef(self, value: Optional[RefType]) -> BinaryManifestResource:
+        """
+        This reference identifies the CpSoftwareClusterResource (on design level) that corresponds to the BinaryManifest Resource (on integration level).
+
+        A None value is a no-op and does not overwrite an existing resourceRef.
+        """
+        if value is not None:
+            self.resourceRef = value
+        return self
 
 
 class BinaryManifestResourceDefinition(Identifiable):
@@ -2182,40 +3800,570 @@ class DdsCpQosProfile(Identifiable):
         return self
 
 
-class GlobalTimeCanSlave(Identifiable):
-    pass
+class GlobalTimeGateway(Identifiable, VariationPointCapable):
+    """
+    This represents the ability to define a time gateway for establishing a global time domain over several communication clusters.
+    """
+
+    # GlobalTimeGateway method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.6, p.861
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getHostRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setHostRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMasterRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMasterRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSlaveRef      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSlaveRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # getVariationPoint / setVariationPoint provided by the VariationPointCapable base (mixin) — no spec row
+    # (stereotype-inherent). VARIATION-POINT is the last element of the XSD GLOBAL-TIME-GATEWAY group
+    # (AUTOSAR_00052.xsd l.64849, xml.sequenceOffset=10000, "Applicable for: GlobalTimeDomain.gateway"):
+    # the reader reads it inside readIdentifiable, the writer emits it as the tail after the class's
+    # own elements (writeIdentifiable is called with write_variation_point=False). Aggregator dispatch
+    # (GlobalTimeDomain.gateway) is pending — GlobalTimeDomain is a later-wave class.
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # The GlobalTimeGateway is hosted by the referenced Ecu Instance.
+        self.hostRef: Optional[RefType] = None
+
+        # This represents the master of the global time gateway.
+        self.masterRef: Optional[RefType] = None
+
+        # This represents the slave of the GlobalTimeGateway.
+        self.slaveRef: Optional[RefType] = None
+
+    def getHostRef(self) -> Optional[RefType]:
+        """
+        The GlobalTimeGateway is hosted by the referenced Ecu Instance.
+        """
+        return self.hostRef
+
+    def setHostRef(self, value: Optional[RefType]) -> GlobalTimeGateway:
+        """
+        The GlobalTimeGateway is hosted by the referenced Ecu Instance.
+
+        A None value is a no-op and does not overwrite an existing hostRef.
+        """
+        if value is not None:
+            self.hostRef = value
+        return self
+
+    def getMasterRef(self) -> Optional[RefType]:
+        """
+        This represents the master of the global time gateway.
+        """
+        return self.masterRef
+
+    def setMasterRef(self, value: Optional[RefType]) -> GlobalTimeGateway:
+        """
+        This represents the master of the global time gateway.
+
+        A None value is a no-op and does not overwrite an existing masterRef.
+        """
+        if value is not None:
+            self.masterRef = value
+        return self
+
+    def getSlaveRef(self) -> Optional[RefType]:
+        """
+        This represents the slave of the GlobalTimeGateway.
+        """
+        return self.slaveRef
+
+    def setSlaveRef(self, value: Optional[RefType]) -> GlobalTimeGateway:
+        """
+        This represents the slave of the GlobalTimeGateway.
+
+        A None value is a no-op and does not overwrite an existing slaveRef.
+        """
+        if value is not None:
+            self.slaveRef = value
+        return self
 
 
-class GlobalTimeEthSlave(Identifiable):
-    pass
+class GlobalTimeMaster(Identifiable, VariationPointCapable, ABC):
+    """
+    This represents the generic concept of a global time master.
+    """
+
+    # GlobalTimeMaster method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.4, p.860
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCommunicationConnectorRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCommunicationConnectorRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIcvSecured                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIcvSecured                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getImmediateResumeTime           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setImmediateResumeTime           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIsSystemWideGlobalTimeMaster  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIsSystemWideGlobalTimeMaster  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSyncPeriod                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSyncPeriod                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # getVariationPoint / setVariationPoint provided by the VariationPointCapable base (mixin) — no spec row
+    # (stereotype-inherent). VARIATION-POINT is the last element of the XSD GLOBAL-TIME-MASTER group
+    # (AUTOSAR_00052.xsd l.64923, xml.sequenceOffset=10000, "Applicable for:
+    # GlobalTimeDomain.globalTimeMaster"): the reader reads it inside readIdentifiable, the writer
+    # emits it as the tail after the class's own elements (writeIdentifiable is called with
+    # write_variation_point=False). Abstract XML-bearing base: the reusable readGlobalTimeMaster /
+    # writeGlobalTimeMaster helpers own the five group elements and are called by the concrete
+    # master subclasses. Aggregator dispatch (GlobalTimeDomain.globalTimeMaster) is pending —
+    # GlobalTimeDomain is a later-wave class.
+
+    def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is GlobalTimeMaster:
+            raise TypeError("GlobalTimeMaster is an abstract class.")
+
+        super().__init__(parent, short_name)
+
+        # The GlobalTimeMaster is bound to the Communication Connector.
+        self.communicationConnectorRef: Optional[RefType] = None
+
+        # Defines whether an Integrity Check Value (ICV) shall be added to the sent time sync messages. Tags: atp.Status=candidate
+        self.icvSecured: Optional[GlobalTimeIcvSupportEnum] = None
+
+        # Defines the minimum time between an "immediate" message and the next periodic message.
+        self.immediateResumeTime: Optional[TimeValue] = None
+
+        # If set to TRUE, the GlobalTimeMaster is supposed to act as the root of global time information.
+        self.isSystemWideGlobalTimeMaster: Optional[Boolean] = None
+
+        # This represents the period. Unit: seconds
+        self.syncPeriod: Optional[TimeValue] = None
+
+    def getCommunicationConnectorRef(self) -> Optional[RefType]:
+        """
+        The GlobalTimeMaster is bound to the Communication Connector.
+        """
+        return self.communicationConnectorRef
+
+    def setCommunicationConnectorRef(self, value: Optional[RefType]) -> GlobalTimeMaster:
+        """
+        The GlobalTimeMaster is bound to the Communication Connector.
+
+        A None value is a no-op and does not overwrite an existing communicationConnectorRef.
+        """
+        if value is not None:
+            self.communicationConnectorRef = value
+        return self
+
+    def getIcvSecured(self) -> Optional[GlobalTimeIcvSupportEnum]:
+        """
+        Defines whether an Integrity Check Value (ICV) shall be added to the sent time sync messages. Tags: atp.Status=candidate
+        """
+        return self.icvSecured
+
+    def setIcvSecured(self, value: Optional[GlobalTimeIcvSupportEnum]) -> GlobalTimeMaster:
+        """
+        Defines whether an Integrity Check Value (ICV) shall be added to the sent time sync messages. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing icvSecured.
+        """
+        if value is not None:
+            self.icvSecured = value
+        return self
+
+    def getImmediateResumeTime(self) -> Optional[TimeValue]:
+        """
+        Defines the minimum time between an "immediate" message and the next periodic message.
+        """
+        return self.immediateResumeTime
+
+    def setImmediateResumeTime(self, value: Optional[TimeValue]) -> GlobalTimeMaster:
+        """
+        Defines the minimum time between an "immediate" message and the next periodic message.
+
+        A None value is a no-op and does not overwrite an existing immediateResumeTime.
+        """
+        if value is not None:
+            self.immediateResumeTime = value
+        return self
+
+    def getIsSystemWideGlobalTimeMaster(self) -> Optional[Boolean]:
+        """
+        If set to TRUE, the GlobalTimeMaster is supposed to act as the root of global time information.
+        """
+        return self.isSystemWideGlobalTimeMaster
+
+    def setIsSystemWideGlobalTimeMaster(self, value: Optional[Boolean]) -> GlobalTimeMaster:
+        """
+        If set to TRUE, the GlobalTimeMaster is supposed to act as the root of global time information.
+
+        A None value is a no-op and does not overwrite an existing isSystemWideGlobalTimeMaster.
+        """
+        if value is not None:
+            self.isSystemWideGlobalTimeMaster = value
+        return self
+
+    def getSyncPeriod(self) -> Optional[TimeValue]:
+        """
+        This represents the period. Unit: seconds
+        """
+        return self.syncPeriod
+
+    def setSyncPeriod(self, value: Optional[TimeValue]) -> GlobalTimeMaster:
+        """
+        This represents the period. Unit: seconds
+
+        A None value is a no-op and does not overwrite an existing syncPeriod.
+        """
+        if value is not None:
+            self.syncPeriod = value
+        return self
 
 
-class GlobalTimeFrSlave(Identifiable):
-    pass
+class GlobalTimeSlave(Identifiable, VariationPointCapable, ABC):
+    """
+    This represents the generic concept of a global time slave.
+    """
+
+    # GlobalTimeSlave method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.5, p.861
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCommunicationConnectorRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCommunicationConnectorRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFollowUpTimeoutValue        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFollowUpTimeoutValue        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIcvVerification             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIcvVerification             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeLeapFutureThreshold     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeLeapFutureThreshold     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeLeapHealingCounter      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeLeapHealingCounter      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeLeapPastThreshold       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeLeapPastThreshold       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # getVariationPoint / setVariationPoint provided by the VariationPointCapable base (mixin) — no spec row
+    # (stereotype-inherent). VARIATION-POINT is the last element of the XSD GLOBAL-TIME-SLAVE group
+    # (AUTOSAR_00052.xsd l.64988, xml.sequenceOffset=10000, "Applicable for: GlobalTimeDomain.slave"):
+    # the reader reads it inside readIdentifiable, the writer emits it as the tail after the class's
+    # own elements (writeIdentifiable is called with write_variation_point=False). Aggregator dispatch
+    # (GlobalTimeDomain.slave) is pending — GlobalTimeDomain is a later-wave class.
+
+    def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is GlobalTimeSlave:
+            raise TypeError("GlobalTimeSlave is an abstract class.")
+
+        super().__init__(parent, short_name)
+
+        # The GlobalTimeSlave is bound to the Communication Connector.
+        self.communicationConnectorRef: Optional[RefType] = None
+
+        # Rx timeout for the follow-up message.
+        self.followUpTimeoutValue: Optional[TimeValue] = None
+
+        # Defines how an Integrity Check Value (ICV) shall be handled at the receiver. Tags: atp.Status=candidate
+        self.icvVerification: Optional[GlobalTimeIcvVerificationEnum] = None
+
+        # Defines the maximum allowed positive difference between the current Local Time Base value and a newly received Global Time Base value.
+        self.timeLeapFutureThreshold: Optional[TimeValue] = None
+
+        # Defines the required number of updates to the Time Base where the time difference to the previous received value has to remain within the bounds of timeLeapFutureThreshold and timeLeapPastThreshold until that Time Base is considered healed.
+        self.timeLeapHealingCounter: Optional[PositiveInteger] = None
+
+        # Defines the maximum allowed negative difference between the current Local Time Base value and a newly received Global Time Base value.
+        self.timeLeapPastThreshold: Optional[TimeValue] = None
+
+    def getCommunicationConnectorRef(self) -> Optional[RefType]:
+        """
+        The GlobalTimeSlave is bound to the Communication Connector.
+        """
+        return self.communicationConnectorRef
+
+    def setCommunicationConnectorRef(self, value: Optional[RefType]) -> GlobalTimeSlave:
+        """
+        The GlobalTimeSlave is bound to the Communication Connector.
+
+        A None value is a no-op and does not overwrite an existing communicationConnectorRef.
+        """
+        if value is not None:
+            self.communicationConnectorRef = value
+        return self
+
+    def getFollowUpTimeoutValue(self) -> Optional[TimeValue]:
+        """
+        Rx timeout for the follow-up message.
+        """
+        return self.followUpTimeoutValue
+
+    def setFollowUpTimeoutValue(self, value: Optional[TimeValue]) -> GlobalTimeSlave:
+        """
+        Rx timeout for the follow-up message.
+
+        A None value is a no-op and does not overwrite an existing followUpTimeoutValue.
+        """
+        if value is not None:
+            self.followUpTimeoutValue = value
+        return self
+
+    def getIcvVerification(self) -> Optional[GlobalTimeIcvVerificationEnum]:
+        """
+        Defines how an Integrity Check Value (ICV) shall be handled at the receiver. Tags: atp.Status=candidate
+        """
+        return self.icvVerification
+
+    def setIcvVerification(self, value: Optional[GlobalTimeIcvVerificationEnum]) -> GlobalTimeSlave:
+        """
+        Defines how an Integrity Check Value (ICV) shall be handled at the receiver. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing icvVerification.
+        """
+        if value is not None:
+            self.icvVerification = value
+        return self
+
+    def getTimeLeapFutureThreshold(self) -> Optional[TimeValue]:
+        """
+        Defines the maximum allowed positive difference between the current Local Time Base value and a newly received Global Time Base value.
+        """
+        return self.timeLeapFutureThreshold
+
+    def setTimeLeapFutureThreshold(self, value: Optional[TimeValue]) -> GlobalTimeSlave:
+        """
+        Defines the maximum allowed positive difference between the current Local Time Base value and a newly received Global Time Base value.
+
+        A None value is a no-op and does not overwrite an existing timeLeapFutureThreshold.
+        """
+        if value is not None:
+            self.timeLeapFutureThreshold = value
+        return self
+
+    def getTimeLeapHealingCounter(self) -> Optional[PositiveInteger]:
+        """
+        Defines the required number of updates to the Time Base where the time difference to the previous received value has to remain within the bounds of timeLeapFutureThreshold and timeLeapPastThreshold until that Time Base is considered healed.
+        """
+        return self.timeLeapHealingCounter
+
+    def setTimeLeapHealingCounter(self, value: Optional[PositiveInteger]) -> GlobalTimeSlave:
+        """
+        Defines the required number of updates to the Time Base where the time difference to the previous received value has to remain within the bounds of timeLeapFutureThreshold and timeLeapPastThreshold until that Time Base is considered healed.
+
+        A None value is a no-op and does not overwrite an existing timeLeapHealingCounter.
+        """
+        if value is not None:
+            self.timeLeapHealingCounter = value
+        return self
+
+    def getTimeLeapPastThreshold(self) -> Optional[TimeValue]:
+        """
+        Defines the maximum allowed negative difference between the current Local Time Base value and a newly received Global Time Base value.
+        """
+        return self.timeLeapPastThreshold
+
+    def setTimeLeapPastThreshold(self, value: Optional[TimeValue]) -> GlobalTimeSlave:
+        """
+        Defines the maximum allowed negative difference between the current Local Time Base value and a newly received Global Time Base value.
+
+        A None value is a no-op and does not overwrite an existing timeLeapPastThreshold.
+        """
+        if value is not None:
+            self.timeLeapPastThreshold = value
+        return self
 
 
-class GlobalTimeGateway(Identifiable):
-    pass
+class GlobalTimeCanSlave(GlobalTimeSlave):
+    """
+    This represents the specialization of the GlobalTimeSlave for the CAN communication.
+    """
+
+    # GlobalTimeCanSlave method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.9, p.864
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCrcValidated               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCrcValidated               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSequenceCounterJumpWidth   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSequenceCounterJumpWidth   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # Re-parented from the Identifiable stub base to GlobalTimeSlave per the Table 9.9 Base row
+    # (most-derived base GlobalTimeSlave); the class definition moved below GlobalTimeSlave so
+    # the Python name resolves. The reader/writer call the Table 9.5 base helpers
+    # (readGlobalTimeSlave / writeGlobalTimeSlave, which transitively own the Identifiable
+    # level) exactly once; the XSD GLOBAL-TIME-CAN-SLAVE group (AUTOSAR_00052.xsd l.64256)
+    # element order is CRC-VALIDATED then SEQUENCE-COUNTER-JUMP-WIDTH. Aggregator dispatch
+    # (GlobalTimeDomain.slave) is pending — GlobalTimeDomain is a later-wave class.
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Definition of whether or not validation of the CRC is supported.
+        self.crcValidated: Optional[GlobalTimeCrcValidationEnum] = None
+
+        # Specifies the maximum allowed gap of the sequence counter between two SYNC resp. two OFS messages.
+        self.sequenceCounterJumpWidth: Optional[PositiveInteger] = None
+
+    def getCrcValidated(self) -> Optional[GlobalTimeCrcValidationEnum]:
+        """
+        Definition of whether or not validation of the CRC is supported.
+        """
+        return self.crcValidated
+
+    def setCrcValidated(self, value: Optional[GlobalTimeCrcValidationEnum]) -> GlobalTimeCanSlave:
+        """
+        Definition of whether or not validation of the CRC is supported.
+
+        A None value is a no-op and does not overwrite an existing crcValidated.
+        """
+        if value is not None:
+            self.crcValidated = value
+        return self
+
+    def getSequenceCounterJumpWidth(self) -> Optional[PositiveInteger]:
+        """
+        Specifies the maximum allowed gap of the sequence counter between two SYNC resp. two OFS messages.
+        """
+        return self.sequenceCounterJumpWidth
+
+    def setSequenceCounterJumpWidth(self, value: Optional[PositiveInteger]) -> GlobalTimeCanSlave:
+        """
+        Specifies the maximum allowed gap of the sequence counter between two SYNC resp. two OFS messages.
+
+        A None value is a no-op and does not overwrite an existing sequenceCounterJumpWidth.
+        """
+        if value is not None:
+            self.sequenceCounterJumpWidth = value
+        return self
 
 
-class GlobalTimeMaster(Identifiable, ABC):
-    pass
+class GlobalTimeEthSlave(GlobalTimeSlave):
+    """
+    This represents the specialization of the GlobalTimeSlave for Ethernet communication.
+    """
+
+    # GlobalTimeEthSlave method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.13, p.867
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCrcValidated   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCrcValidated   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # Re-parented from the Identifiable stub base to GlobalTimeSlave per the Table 9.13 Base row
+    # (most-derived base GlobalTimeSlave); the class definition moved below GlobalTimeSlave so
+    # the Python name resolves. The reader/writer call the Table 9.5 base helpers
+    # (readGlobalTimeSlave / writeGlobalTimeSlave, which transitively own the Identifiable
+    # level) exactly once; the XSD GLOBAL-TIME-ETH-SLAVE group (AUTOSAR_00052.xsd l.64735)
+    # carries only the CRC-VALIDATED element. TIME-HARDWARE-CORRECTION-THRESHOLD is absent from
+    # Table 9.13 and carries atp.Status="removed" in the XSD — deprecated, not implemented.
+    # Aggregator dispatch (GlobalTimeDomain.slave) is pending — GlobalTimeDomain is a
+    # later-wave class.
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Definition of whether or not validation of the CRC is supported.
+        self.crcValidated: Optional[GlobalTimeCrcValidationEnum] = None
+
+    def getCrcValidated(self) -> Optional[GlobalTimeCrcValidationEnum]:
+        """
+        Definition of whether or not validation of the CRC is supported.
+        """
+        return self.crcValidated
+
+    def setCrcValidated(self, value: Optional[GlobalTimeCrcValidationEnum]) -> GlobalTimeEthSlave:
+        """
+        Definition of whether or not validation of the CRC is supported.
+
+        A None value is a no-op and does not overwrite an existing crcValidated.
+        """
+        if value is not None:
+            self.crcValidated = value
+        return self
+
+
+class GlobalTimeFrSlave(GlobalTimeSlave):
+    """
+    This represents the specialization of the GlobalTimeSlave for Flexray communication.
+    """
+
+    # GlobalTimeFrSlave method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.21, p.878
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCrcValidated               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCrcValidated               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSequenceCounterJumpWidth   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSequenceCounterJumpWidth   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # Re-parented from the Identifiable stub base to GlobalTimeSlave per the Table 9.21 Base row
+    # (most-derived base GlobalTimeSlave); the class definition moved below GlobalTimeSlave so
+    # the Python name resolves. The reader/writer call the Table 9.5 base helpers
+    # (readGlobalTimeSlave / writeGlobalTimeSlave, which transitively own the Identifiable
+    # level) exactly once; the XSD GLOBAL-TIME-FR-SLAVE group (AUTOSAR_00052.xsd l.64809)
+    # element order is CRC-VALIDATED then SEQUENCE-COUNTER-JUMP-WIDTH. Aggregator dispatch
+    # (GlobalTimeDomain.slave) is pending — GlobalTimeDomain is a later-wave class.
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Definition of whether or not validation of the CRC is supported.
+        self.crcValidated: Optional[GlobalTimeCrcValidationEnum] = None
+
+        # Specifies the maximum allowed gap of the sequence counter between two SYNC resp. two OFS messages.
+        self.sequenceCounterJumpWidth: Optional[PositiveInteger] = None
+
+    def getCrcValidated(self) -> Optional[GlobalTimeCrcValidationEnum]:
+        """
+        Definition of whether or not validation of the CRC is supported.
+        """
+        return self.crcValidated
+
+    def setCrcValidated(self, value: Optional[GlobalTimeCrcValidationEnum]) -> GlobalTimeFrSlave:
+        """
+        Definition of whether or not validation of the CRC is supported.
+
+        A None value is a no-op and does not overwrite an existing crcValidated.
+        """
+        if value is not None:
+            self.crcValidated = value
+        return self
+
+    def getSequenceCounterJumpWidth(self) -> Optional[PositiveInteger]:
+        """
+        Specifies the maximum allowed gap of the sequence counter between two SYNC resp. two OFS messages.
+        """
+        return self.sequenceCounterJumpWidth
+
+    def setSequenceCounterJumpWidth(self, value: Optional[PositiveInteger]) -> GlobalTimeFrSlave:
+        """
+        Specifies the maximum allowed gap of the sequence counter between two SYNC resp. two OFS messages.
+
+        A None value is a no-op and does not overwrite an existing sequenceCounterJumpWidth.
+        """
+        if value is not None:
+            self.sequenceCounterJumpWidth = value
+        return self
 
 
 class PortElementToCommunicationResourceMapping(Identifiable):
     pass
 
 
-class SOMEIPTransformationProps(Identifiable):
-    pass
+class UserDefinedGlobalTimeSlave(GlobalTimeSlave):
+    """
+    This represents the specialization of the GlobalTimeSlave for user defined communication.
+    """
 
+    # UserDefinedGlobalTimeSlave method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.24, p.879
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    #
+    # Re-parented from the Identifiable stub base to GlobalTimeSlave per the Table 9.24 Base
+    # row (most-derived base GlobalTimeSlave); the stub already sat below the base's
+    # definition, so the class definition stays in place. Table 9.24 has no own Attribute rows
+    # and the XSD USER-DEFINED-GLOBAL-TIME-SLAVE group (AUTOSAR_00052.xsd l.128845) has an
+    # empty sequence: the reader/writer call the Table 9.5 base helpers (readGlobalTimeSlave /
+    # writeGlobalTimeSlave, which transitively own the Identifiable level) exactly once.
+    # Aggregator dispatch (GlobalTimeDomain.slave) is pending — GlobalTimeDomain is a
+    # later-wave class.
 
-class UserDefinedGlobalTimeSlave(Identifiable):
-    pass
-
-
-class UserDefinedTransformationProps(Identifiable):
-    pass
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
 
 
 class DdsCpConsumedServiceInstance(DdsCpServiceInstance):
@@ -2359,16 +4507,210 @@ class DdsCpConsumedServiceInstance(DdsCpServiceInstance):
 
 
 class GlobalTimeCanMaster(GlobalTimeMaster):
-    pass
+    """
+    This represents the specialization of the GlobalTimeMaster for the CAN communication.
+    """
+
+    # GlobalTimeCanMaster method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.8, p.864
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCrcSecured               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCrcSecured               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSyncConfirmationTimeout  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSyncConfirmationTimeout  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # The reader/writer call the Table 9.4 base helpers (readGlobalTimeMaster /
+    # writeGlobalTimeMaster) exactly once; the XSD GLOBAL-TIME-CAN-MASTER group
+    # (AUTOSAR_00052.xsd l.64210) element order is CRC-SECURED then SYNC-CONFIRMATION-TIMEOUT.
+    # FOLLOW-UP-OFFSET is absent from Table 9.8 and carries atp.Status="removed" in the XSD —
+    # deprecated, not implemented. Aggregator dispatch (GlobalTimeDomain.globalTimeMaster) is
+    # pending — GlobalTimeDomain is a later-wave class.
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Definition of whether or not CRC is supported. This is only relevant for selected bus systems.
+        self.crcSecured: Optional[GlobalTimeCrcSupportEnum] = None
+
+        # This represents the value for the confirmation timeout. Unit: seconds.
+        self.syncConfirmationTimeout: Optional[TimeValue] = None
+
+    def getCrcSecured(self) -> Optional[GlobalTimeCrcSupportEnum]:
+        """
+        Definition of whether or not CRC is supported. This is only relevant for selected bus systems.
+        """
+        return self.crcSecured
+
+    def setCrcSecured(self, value: Optional[GlobalTimeCrcSupportEnum]) -> GlobalTimeCanMaster:
+        """
+        Definition of whether or not CRC is supported. This is only relevant for selected bus systems.
+
+        A None value is a no-op and does not overwrite an existing crcSecured.
+        """
+        if value is not None:
+            self.crcSecured = value
+        return self
+
+    def getSyncConfirmationTimeout(self) -> Optional[TimeValue]:
+        """
+        This represents the value for the confirmation timeout. Unit: seconds.
+        """
+        return self.syncConfirmationTimeout
+
+    def setSyncConfirmationTimeout(self, value: Optional[TimeValue]) -> GlobalTimeCanMaster:
+        """
+        This represents the value for the confirmation timeout. Unit: seconds.
+
+        A None value is a no-op and does not overwrite an existing syncConfirmationTimeout.
+        """
+        if value is not None:
+            self.syncConfirmationTimeout = value
+        return self
 
 
 class GlobalTimeEthMaster(GlobalTimeMaster):
-    pass
+    """
+    This represents the specialization of the GlobalTimeMaster for Ethernet communication.
+    """
+
+    # GlobalTimeEthMaster method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.11, p.866
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCrcSecured         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCrcSecured         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getHoldOverTime       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setHoldOverTime       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSubTlvConfig       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSubTlvConfig       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # The reader/writer call the Table 9.4 base helpers (readGlobalTimeMaster /
+    # writeGlobalTimeMaster) exactly once; the XSD GLOBAL-TIME-ETH-MASTER group
+    # (AUTOSAR_00052.xsd l.64689) element order is CRC-SECURED, HOLD-OVER-TIME then
+    # SUB-TLV-CONFIG. The aggregated EthTSynSubTlvConfig (Table 9.12, synced) rides in the
+    # <SUB-TLV-CONFIG> element named by the group and dispatches to the reusable
+    # readEthTSynSubTlvConfig / writeEthTSynSubTlvConfig helpers (emitted field by field under
+    # the group-named element, not the type's own tag) — the aggregator dispatch this class
+    # carried as pending is now wired. Aggregator dispatch (GlobalTimeDomain.globalTimeMaster)
+    # is still pending — GlobalTimeDomain is a later-wave class.
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Definition of whether or not CRC is supported. This is only relevant for selected bus systems.
+        self.crcSecured: Optional[GlobalTimeCrcSupportEnum] = None
+
+        # This attribute defines the timeout for transmission of Sync and Follow_Up messages on Master ports in absence of reception of Sync and Follow_Up messages on Slave port.
+        self.holdOverTime: Optional[TimeValue] = None
+
+        # Defines the subTLV fields which shall be included in the time sync message.
+        self.subTlvConfig: Optional[EthTSynSubTlvConfig] = None
+
+    def getCrcSecured(self) -> Optional[GlobalTimeCrcSupportEnum]:
+        """
+        Definition of whether or not CRC is supported. This is only relevant for selected bus systems.
+        """
+        return self.crcSecured
+
+    def setCrcSecured(self, value: Optional[GlobalTimeCrcSupportEnum]) -> GlobalTimeEthMaster:
+        """
+        Definition of whether or not CRC is supported. This is only relevant for selected bus systems.
+
+        A None value is a no-op and does not overwrite an existing crcSecured.
+        """
+        if value is not None:
+            self.crcSecured = value
+        return self
+
+    def getHoldOverTime(self) -> Optional[TimeValue]:
+        """
+        This attribute defines the timeout for transmission of Sync and Follow_Up messages on Master ports in absence of reception of Sync and Follow_Up messages on Slave port.
+        """
+        return self.holdOverTime
+
+    def setHoldOverTime(self, value: Optional[TimeValue]) -> GlobalTimeEthMaster:
+        """
+        This attribute defines the timeout for transmission of Sync and Follow_Up messages on Master ports in absence of reception of Sync and Follow_Up messages on Slave port.
+
+        A None value is a no-op and does not overwrite an existing holdOverTime.
+        """
+        if value is not None:
+            self.holdOverTime = value
+        return self
+
+    def getSubTlvConfig(self) -> Optional[EthTSynSubTlvConfig]:
+        """
+        Defines the subTLV fields which shall be included in the time sync message.
+        """
+        return self.subTlvConfig
+
+    def setSubTlvConfig(self, value: Optional[EthTSynSubTlvConfig]) -> GlobalTimeEthMaster:
+        """
+        Defines the subTLV fields which shall be included in the time sync message.
+
+        A None value is a no-op and does not overwrite an existing subTlvConfig.
+        """
+        if value is not None:
+            self.subTlvConfig = value
+        return self
 
 
 class GlobalTimeFrMaster(GlobalTimeMaster):
-    pass
+    """
+    This represents the specialization of the GlobalTimeMaster for Flexray communication.
+    """
+
+    # GlobalTimeFrMaster method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.20, p.877
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCrcSecured   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCrcSecured   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # The reader/writer call the Table 9.4 base helpers (readGlobalTimeMaster /
+    # writeGlobalTimeMaster) exactly once; the XSD GLOBAL-TIME-FR-MASTER group
+    # (AUTOSAR_00052.xsd l.64775) carries only the CRC-SECURED element. Aggregator dispatch
+    # (GlobalTimeDomain.globalTimeMaster) is pending — GlobalTimeDomain is a later-wave class.
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Definition of whether or not CRC is supported. This is only relevant for selected bus systems.
+        self.crcSecured: Optional[GlobalTimeCrcSupportEnum] = None
+
+    def getCrcSecured(self) -> Optional[GlobalTimeCrcSupportEnum]:
+        """
+        Definition of whether or not CRC is supported. This is only relevant for selected bus systems.
+        """
+        return self.crcSecured
+
+    def setCrcSecured(self, value: Optional[GlobalTimeCrcSupportEnum]) -> GlobalTimeFrMaster:
+        """
+        Definition of whether or not CRC is supported. This is only relevant for selected bus systems.
+
+        A None value is a no-op and does not overwrite an existing crcSecured.
+        """
+        if value is not None:
+            self.crcSecured = value
+        return self
 
 
 class UserDefinedGlobalTimeMaster(GlobalTimeMaster):
-    pass
+    """
+    This represents the specialization of the GlobalTimeMaster for user defined communication.
+    """
+
+    # UserDefinedGlobalTimeMaster method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.23, p.879
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    #
+    # Table 9.23 has no own Attribute rows and the XSD USER-DEFINED-GLOBAL-TIME-MASTER group
+    # (AUTOSAR_00052.xsd l.128818) has an empty sequence: the reader/writer call the Table 9.4
+    # base helpers (readGlobalTimeMaster / writeGlobalTimeMaster) exactly once and own only the
+    # base level. Aggregator dispatch (GlobalTimeDomain.globalTimeMaster) is pending —
+    # GlobalTimeDomain is a later-wave class.
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)

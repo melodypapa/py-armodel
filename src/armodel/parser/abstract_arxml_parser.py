@@ -9,6 +9,7 @@ from colorama import Fore
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    Address,
     AlignmentType,
     ARLiteral,
     ARType,
@@ -259,6 +260,15 @@ class AbstractARXMLParser(ABC):
             self.readARType(child_element, category)
             category.setValue("" if child_element.text is None else child_element.text)
         return category
+
+    def getChildElementOptionalAddress(self, element: ET.Element, key: str) -> Optional[Address]:
+        child_element = self.find(element, key)
+        value = None
+        if child_element is not None:
+            value = Address()
+            self.readARType(child_element, value)
+            value.setValue("" if child_element.text is None else child_element.text)
+        return value
 
     def getChildElementOptionalIp4AddressString(self, element: ET.Element, key: str) -> Optional[Ip4AddressString]:
         child_element = self.find(element, key)

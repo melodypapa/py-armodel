@@ -13,7 +13,6 @@ AnyInstanceRef
 AnyServiceInstanceId
 AnyVersionString
 ApplicationCompositeElementInPortInterfaceInstanceRef
-ApplicationInterface
 ArgumentDirectionEnum
 ArrayValueSpecification
 AsamRecordLayoutSemantics
@@ -113,7 +112,6 @@ FirewallRuleProps
 FlexrayNmEcu
 FloatValue
 FormulaExpression
-Frame
 FramePid
 FreeFormatEntry
 FunctionNameValue
@@ -125,15 +123,6 @@ HwCategory
 HwElement
 HwPortMapping
 IPSecConfig
-IPdu
-IPduTiming
-ISignal
-ISignalGroup
-ISignalIPdu
-ISignalProps
-ISignalToIPduMapping
-ISignalTriggering
-ISignalTypeEnum
 Identifiable
 ImplementationElementInParameterInstanceRef
 InnerDataPrototypeGroupInCompositionInstanceRef
@@ -149,7 +138,6 @@ LEnum
 LanguageSpecific
 LifeCyclePeriod
 LinConfigurationEntry
-LinFrame
 LinUnconditionalFrame
 Linker
 LinkerSymbolValue
@@ -183,10 +171,8 @@ MsrQueryTopic1
 MultiLanguageOverviewParagraph
 MultiLanguagePlainText
 MultidimensionalTime
-NPdu
 NativeDeclarationString
 NmCluster
-NmPdu
 Numerical
 OperationArgumentInComponentInstanceRef
 OrderedMaster
@@ -195,9 +181,6 @@ PModeInSystemInstanceRef
 PTriggerInAtomicSwcTypeInstanceRef
 ParameterDataPrototype
 ParameterValue
-Pdu
-PduToFrameMapping
-PduTriggering
 PortDefinedArgumentValue
 PortPrototype
 PositiveInteger
@@ -233,10 +216,6 @@ Sdg
 SdgCaption
 SdgContents
 SectionInitializationPolicyType
-SecureCommunicationAuthenticationProps
-SecureCommunicationFreshnessProps
-SecureCommunicationProps
-SecureCommunicationPropsSet
 ServiceDependency
 ServiceVersionAcceptanceKindEnum
 SingleLanguageUnitNames
@@ -257,9 +236,7 @@ SwServiceArg
 SwServiceImplPolicyEnum
 SwSystemconstDependentFormula
 SwSystemconstValue
-SwSystemconstantValueSet
 SwcInternalBehavior
-SystemSignalGroup
 TDEventBsw
 TDEventSLLET
 TDLETZoneClock

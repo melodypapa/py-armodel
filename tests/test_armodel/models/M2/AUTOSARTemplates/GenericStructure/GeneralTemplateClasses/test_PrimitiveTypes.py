@@ -11,6 +11,7 @@ import pytest
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AclScopeEnum,
     AdditionalBindingTimeEnum,
+    Address,
     AlignmentType,
     AnyServiceInstanceId,
     AnyVersionString,
@@ -23,6 +24,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ByteOrderEnum,
     CategoryString,
     CIdentifier,
+    CryptoServiceKeyGenerationEnum,
     CseCodeType,
     DataConsistencyPolicyEnum,
     DateTime,
@@ -63,6 +65,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticTypeOfFreezeFrameRecordNumerationEnum,
     DiagnosticUdsSeverityEnum,
     DiagnosticWwhObdDtcClassEnum,
+    DiagPduType,
     DiagRequirementIdString,
     DisplayFormatString,
     EthGlobalTimeMessageFormatEnum,
@@ -534,6 +537,49 @@ class TestCseCodeType:
 
         cse_zero = CseCodeType().setValue("0")
         assert cse_zero.getValue() == "0"
+
+
+class TestCryptoServiceKeyGenerationEnum:
+    """
+    Test class for CryptoServiceKeyGenerationEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.52, p.378
+    """
+
+    def test_initialization(self):
+        """
+        Test CryptoServiceKeyGenerationEnum initialization with the spec literals in XSD facet order.
+        """
+        enum = CryptoServiceKeyGenerationEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == [
+            CryptoServiceKeyGenerationEnum.KEY_DERIVATION,
+            CryptoServiceKeyGenerationEnum.KEY_STORAGE,
+        ]
+
+    def test_enum_values(self):
+        """
+        Test CryptoServiceKeyGenerationEnum member values.
+        """
+        enum = CryptoServiceKeyGenerationEnum()
+
+        assert CryptoServiceKeyGenerationEnum.KEY_DERIVATION == "KEY-DERIVATION"
+        assert CryptoServiceKeyGenerationEnum.KEY_STORAGE == "KEY-STORAGE"
+
+        assert enum.validateEnumValue("KEY-DERIVATION") is True
+        assert enum.validateEnumValue("KEY-STORAGE") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test CryptoServiceKeyGenerationEnum instantiability and getValue.
+        """
+        enum = CryptoServiceKeyGenerationEnum()
+        enum.setValue(CryptoServiceKeyGenerationEnum.KEY_DERIVATION)
+
+        assert enum.getValue() == CryptoServiceKeyGenerationEnum.KEY_DERIVATION
 
 
 class TestDisplayFormatString:
@@ -2507,6 +2553,49 @@ class TestDiagnosticResponseOnEventActionEnum:
         assert enum.getValue() == DiagnosticResponseOnEventActionEnum.ON_CHANGE_OF_DATA_IDENTIFIER
 
 
+class TestDiagPduType:
+    """
+    Test class for DiagPduType functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.23, p.344
+    """
+
+    def test_initialization(self):
+        """
+        Test DiagPduType initialization with the spec literals in XSD facet order.
+        """
+        enum = DiagPduType()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == [
+            DiagPduType.DIAG_REQUEST,
+            DiagPduType.DIAG_RESPONSE,
+        ]
+
+    def test_enum_values(self):
+        """
+        Test DiagPduType member values.
+        """
+        enum = DiagPduType()
+
+        assert DiagPduType.DIAG_REQUEST == "DIAG-REQUEST"
+        assert DiagPduType.DIAG_RESPONSE == "DIAG-RESPONSE"
+
+        assert enum.validateEnumValue("DIAG-REQUEST") is True
+        assert enum.validateEnumValue("DIAG-RESPONSE") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test DiagPduType instantiability and getValue.
+        """
+        enum = DiagPduType()
+        enum.setValue(DiagPduType.DIAG_REQUEST)
+
+        assert enum.getValue() == DiagPduType.DIAG_REQUEST
+
+
 class TestDiagnosticClearDtcLimitationEnum:
     """
     Test class for DiagnosticClearDtcLimitationEnum functionality.
@@ -3944,3 +4033,36 @@ class TestMaximumMessageLengthType:
     def test_xsd_facet_order(self):
         enum = MaximumMessageLengthType()
         assert list(enum.getEnumValues()) == ["I-4-G", "ISO", "ISO-6"]
+
+
+class TestAddress:
+    """
+    Test class for Address functionality (Table 4.40, p.107).
+    """
+
+    def test_initialization(self):
+        """
+        Test Address initialization.
+        """
+        address = Address()
+
+        assert address is not None
+        assert isinstance(address, ARLiteral)
+        assert address._value is None
+
+    def test_set_get_value(self):
+        """Test setValue round-trip and method chaining."""
+        address = Address()
+        assert address.setValue("0x0000A000") is address
+        assert address.value == "0x0000A000"
+        assert str(address) == "0x0000A000"
+
+    def test_hex_notation_stored_verbatim(self):
+        """Test that hex strings matching the XSD pattern are stored verbatim in any letter case."""
+        assert Address().setValue("0x10").value == "0x10"
+        assert Address().setValue("0XaBcD1234").value == "0XaBcD1234"
+
+    def test_class_docstring_matches_spec_note(self):
+        """Test the class docstring is the Table 4.40 Note copied verbatim plus the Tags tail."""
+        expected = "This is used to specify an address within the CPU.\n" "\n" "Tags:\n" "    * xml.xsd.customType=ADDRESS\n" "    * xml.xsd.pattern=0[xX][0-9a-fA-F]+\n" "    * xml.xsd.type=string"
+        assert inspect.cleandoc(Address.__doc__) == expected

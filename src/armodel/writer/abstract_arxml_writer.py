@@ -10,6 +10,7 @@ from colorama import Fore
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    Address,
     AlignmentType,
     ARLiteral,
     ARType,
@@ -33,6 +34,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     String,
     SymbolString,
     TimeValue,
+    UnlimitedInteger,
     UriString,
     VerbatimString,
 )
@@ -145,6 +147,9 @@ class AbstractARXMLWriter(ABC):
     def setChildElementOptionalPositiveUnlimitedInteger(self, element: ET.Element, key: str, value: Optional[PositiveUnlimitedInteger]):
         self.setChildElementOptionalNumericalValue(element, key, value)
 
+    def setChildElementOptionalUnlimitedInteger(self, element: ET.Element, key: str, value: Optional[UnlimitedInteger]):
+        self.setChildElementOptionalNumericalValue(element, key, value)
+
     def setChildElementOptionalNameToken(self, element: ET.Element, key: str, value: Optional[NameToken]):
         self.setChildElementOptionalLiteral(element, key, value)
 
@@ -182,6 +187,9 @@ class AbstractARXMLWriter(ABC):
         self.setChildElementOptionalLiteral(element, key, literal)
 
     def setChildElementOptionalIp6AddressString(self, element: ET.Element, key: str, literal: Optional[Ip6AddressString]):
+        self.setChildElementOptionalLiteral(element, key, literal)
+
+    def setChildElementOptionalAddress(self, element: ET.Element, key: str, literal: Optional[Address]):
         self.setChildElementOptionalLiteral(element, key, literal)
 
     def setChildElementOptionalSymbolString(self, element: ET.Element, key: str, value: Optional[SymbolString]) -> ET.Element:

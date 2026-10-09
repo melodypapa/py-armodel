@@ -1,9 +1,12 @@
+import inspect
+import typing
+
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable, Identifiable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, PositiveInteger
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     BufferProperties,
     CSTransformerErrorReactionEnum,
@@ -18,13 +21,16 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     EndToEndTransformationISignalProps,
     SOMEIPMessageTypeEnum,
     SOMEIPTransformationISignalProps,
+    SOMEIPTransformationProps,
     TlvDataIdDefinition,
     TlvDataIdDefinitionSet,
     TransformationDescription,
     TransformationISignalProps,
+    TransformationProps,
     TransformationTechnology,
     TransformerClassEnum,
     UserDefinedTransformationISignalProps,
+    UserDefinedTransformationProps,
 )
 
 
@@ -1253,3 +1259,286 @@ class Test_UserDefinedTransformationISignalProps:
         base_accessors = {name for name in dir(TransformationISignalProps) if not name.startswith("_") and callable(getattr(TransformationISignalProps, name, None))}
         own_accessors = {name for name in dir(props) if not name.startswith("_") and callable(getattr(props, name, None))} - base_accessors
         assert own_accessors == set()
+
+
+class ConcreteTransformationProps(TransformationProps):
+    pass
+
+
+class TestTransformationProps:
+    """
+    Test class for TransformationProps functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.15, p.783
+    (abstract; subclasses SOMEIPTransformationProps and UserDefinedTransformationProps —
+    exercised through a local concrete subclass per the abstract-class test convention.
+    The table's Attribute column is a single "-" row, so the class owns no attributes of
+    its own; the Table 7.15 Base row's most-derived class is Identifiable.)
+    """
+
+    CLASS_NOTE = "This meta-class represents a abstract base class for transformation settings."
+
+    def test_abstract_initialization(self):
+        """
+        TransformationProps is abstract and cannot be instantiated directly.
+        """
+        with pytest.raises(TypeError):
+            TransformationProps(MockParent(), "TransformationProps")
+
+    def test_is_identifiable_subclass(self):
+        """
+        Test that TransformationProps derives from Identifiable per the Table 7.15 Base row
+        (ARObject, Identifiable, MultilanguageReferrable, Referrable — most-derived Identifiable).
+        """
+        assert issubclass(TransformationProps, Identifiable)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(TransformationProps.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert TransformationProps.__init__.__doc__ is None
+
+    def test_no_own_methods(self):
+        """
+        Test that the class declares no accessors — Table 7.15 has no Attribute rows.
+        """
+        methods = [name for name, value in TransformationProps.__dict__.items() if callable(value) and not name.startswith("_")]
+        assert methods == []
+
+    def test_concrete_subclass_initialization(self):
+        """
+        Test that a concrete subclass instantiates with the Identifiable state at defaults.
+        """
+        obj = ConcreteTransformationProps(MockParent(), "props")
+
+        assert obj.getShortName() == "props"
+        assert obj.getChecksum() is None
+        assert obj.getTimestamp() is None
+        assert obj.getUuid() is None
+
+
+class TestSOMEIPTransformationProps:
+    """
+    Test class for SOMEIPTransformationProps functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.16, p.783
+    (concrete; the Table 7.16 Base row's most-derived class is TransformationProps —
+    the class is rehoused from GeneralTemplateClasses.Identifiable into the spec
+    package Transformer per Rule 0007.)
+    """
+
+    CLASS_NOTE = "The class SOMEIPTransformationProps specifies SOME/IP specific configuration properties."
+    ALIGNMENT_NOTE = "Defines the padding for alignment purposes that will be added by the SOME/IP transformer after the serialized data of the variable data length data element. The alignment shall be specified in Bits."
+    SIZE_OF_ARRAY_LENGTH_FIELD_NOTE = "This attribute describes the size of the length field (in Bytes) that will be put in front of the referenced Array in the SOME/IP message."
+    SIZE_OF_STRING_LENGTH_FIELD_NOTE = "This attribute describes the size of the length field (in Bytes) that will be put in front of the referenced String in the SOME/IP message."
+    SIZE_OF_STRUCT_LENGTH_FIELD_NOTE = "This attribute describes the size of the length field (in Bytes) that will be put in front of a Structure in the SOME/IP message."
+    SIZE_OF_UNION_LENGTH_FIELD_NOTE = "This attribute describes the size of the length field (in Bytes) that will be put in front of a Union in the SOME/IP message."
+
+    def _create_props(self) -> SOMEIPTransformationProps:
+        return SOMEIPTransformationProps(MockParent(), "someipProps")
+
+    def test_is_transformation_props_subclass(self):
+        """
+        Test that SOMEIPTransformationProps derives from TransformationProps per the
+        Table 7.16 Base row (ARObject, Identifiable, MultilanguageReferrable, Referrable,
+        TransformationProps — most-derived TransformationProps).
+        """
+        assert issubclass(SOMEIPTransformationProps, TransformationProps)
+        assert issubclass(SOMEIPTransformationProps, Identifiable)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(SOMEIPTransformationProps.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert SOMEIPTransformationProps.__init__.__doc__ is None
+
+    def test_member_order_follows_spec_rows(self):
+        """
+        Test that the accessors follow the Table 7.16 displayed row order (getter first per attribute).
+        """
+        methods = [name for name, value in SOMEIPTransformationProps.__dict__.items() if callable(value) and not name.startswith("_")]
+        assert methods == [
+            "getAlignment",
+            "setAlignment",
+            "getSizeOfArrayLengthField",
+            "setSizeOfArrayLengthField",
+            "getSizeOfStringLengthField",
+            "setSizeOfStringLengthField",
+            "getSizeOfStructLengthField",
+            "setSizeOfStructLengthField",
+            "getSizeOfUnionLengthField",
+            "setSizeOfUnionLengthField",
+        ]
+
+    def test_initialization_defaults(self):
+        """
+        Test that the instance initializes all attributes to their defaults.
+        """
+        obj = self._create_props()
+
+        assert obj.getShortName() == "someipProps"
+        assert obj.getAlignment() is None
+        assert obj.getSizeOfArrayLengthField() is None
+        assert obj.getSizeOfStringLengthField() is None
+        assert obj.getSizeOfStructLengthField() is None
+        assert obj.getSizeOfUnionLengthField() is None
+
+    def test_annotations_are_optional_typed(self):
+        """
+        Test that the accessors carry the spec types (0..1 rows).
+        """
+        hints = typing.get_type_hints(SOMEIPTransformationProps.getAlignment)
+        assert hints.get("return") == typing.Optional[PositiveInteger]
+        hints = typing.get_type_hints(SOMEIPTransformationProps.setAlignment)
+        assert hints.get("value") == typing.Optional[PositiveInteger]
+        assert hints.get("return") is SOMEIPTransformationProps
+
+        hints = typing.get_type_hints(SOMEIPTransformationProps.getSizeOfArrayLengthField)
+        assert hints.get("return") == typing.Optional[PositiveInteger]
+        hints = typing.get_type_hints(SOMEIPTransformationProps.getSizeOfStringLengthField)
+        assert hints.get("return") == typing.Optional[PositiveInteger]
+        hints = typing.get_type_hints(SOMEIPTransformationProps.getSizeOfStructLengthField)
+        assert hints.get("return") == typing.Optional[PositiveInteger]
+        hints = typing.get_type_hints(SOMEIPTransformationProps.getSizeOfUnionLengthField)
+        assert hints.get("return") == typing.Optional[PositiveInteger]
+
+    def test_get_set_alignment(self):
+        """
+        Test getAlignment and setAlignment round-trip and None no-op.
+        """
+        obj = self._create_props()
+
+        value = PositiveInteger()
+        value.setValue("8")
+        result = obj.setAlignment(value)
+        assert result is obj
+        assert obj.getAlignment() is value
+        assert obj.getAlignment().getValue() == 8
+
+        result = obj.setAlignment(None)
+        assert result is obj
+        assert obj.getAlignment() is value
+
+    def test_get_set_size_of_length_fields(self):
+        """
+        Test the sizeOf*LengthField getter/setter pairs round-trip and None no-op.
+        """
+        obj = self._create_props()
+
+        array_field = PositiveInteger()
+        array_field.setValue("4")
+        result = obj.setSizeOfArrayLengthField(array_field)
+        assert result is obj
+        assert obj.getSizeOfArrayLengthField() is array_field
+        assert obj.getSizeOfArrayLengthField().getValue() == 4
+
+        string_field = PositiveInteger()
+        string_field.setValue("4")
+        result = obj.setSizeOfStringLengthField(string_field)
+        assert result is obj
+        assert obj.getSizeOfStringLengthField() is string_field
+
+        struct_field = PositiveInteger()
+        struct_field.setValue("4")
+        result = obj.setSizeOfStructLengthField(struct_field)
+        assert result is obj
+        assert obj.getSizeOfStructLengthField() is struct_field
+
+        union_field = PositiveInteger()
+        union_field.setValue("4")
+        result = obj.setSizeOfUnionLengthField(union_field)
+        assert result is obj
+        assert obj.getSizeOfUnionLengthField() is union_field
+
+        result = obj.setSizeOfArrayLengthField(None)
+        assert result is obj
+        assert obj.getSizeOfArrayLengthField() is array_field
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        assert inspect.cleandoc(SOMEIPTransformationProps.getAlignment.__doc__) == self.ALIGNMENT_NOTE
+        assert inspect.cleandoc(SOMEIPTransformationProps.setAlignment.__doc__) == (self.ALIGNMENT_NOTE + "\n\nA None value is a no-op and does not overwrite an existing alignment.")
+        assert inspect.cleandoc(SOMEIPTransformationProps.getSizeOfArrayLengthField.__doc__) == self.SIZE_OF_ARRAY_LENGTH_FIELD_NOTE
+        assert inspect.cleandoc(SOMEIPTransformationProps.setSizeOfArrayLengthField.__doc__) == (
+            self.SIZE_OF_ARRAY_LENGTH_FIELD_NOTE + "\n\nA None value is a no-op and does not overwrite an existing sizeOfArrayLengthField."
+        )
+        assert inspect.cleandoc(SOMEIPTransformationProps.getSizeOfStringLengthField.__doc__) == self.SIZE_OF_STRING_LENGTH_FIELD_NOTE
+        assert inspect.cleandoc(SOMEIPTransformationProps.setSizeOfStringLengthField.__doc__) == (
+            self.SIZE_OF_STRING_LENGTH_FIELD_NOTE + "\n\nA None value is a no-op and does not overwrite an existing sizeOfStringLengthField."
+        )
+        assert inspect.cleandoc(SOMEIPTransformationProps.getSizeOfStructLengthField.__doc__) == self.SIZE_OF_STRUCT_LENGTH_FIELD_NOTE
+        assert inspect.cleandoc(SOMEIPTransformationProps.setSizeOfStructLengthField.__doc__) == (
+            self.SIZE_OF_STRUCT_LENGTH_FIELD_NOTE + "\n\nA None value is a no-op and does not overwrite an existing sizeOfStructLengthField."
+        )
+        assert inspect.cleandoc(SOMEIPTransformationProps.getSizeOfUnionLengthField.__doc__) == self.SIZE_OF_UNION_LENGTH_FIELD_NOTE
+        assert inspect.cleandoc(SOMEIPTransformationProps.setSizeOfUnionLengthField.__doc__) == (
+            self.SIZE_OF_UNION_LENGTH_FIELD_NOTE + "\n\nA None value is a no-op and does not overwrite an existing sizeOfUnionLengthField."
+        )
+
+
+class TestUserDefinedTransformationProps:
+    """
+    Test class for UserDefinedTransformationProps functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.29, p.829
+    (concrete; the Table 7.29 Base row's most-derived class is TransformationProps —
+    the class is rehoused from GeneralTemplateClasses.Identifiable into the spec
+    package Transformer per Rule 0007. The table's Attribute column is a single "-"
+    row, so the class owns no attributes of its own.)
+    """
+
+    CLASS_NOTE = "The class UserDefinedTransformationProps specifies specific configuration properties of a user defined serializer."
+
+    def test_is_transformation_props_subclass(self):
+        """
+        Test that UserDefinedTransformationProps derives from TransformationProps per the
+        Table 7.29 Base row (ARObject, Identifiable, MultilanguageReferrable, Referrable,
+        TransformationProps — most-derived TransformationProps).
+        """
+        assert issubclass(UserDefinedTransformationProps, TransformationProps)
+        assert issubclass(UserDefinedTransformationProps, Identifiable)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(UserDefinedTransformationProps.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert UserDefinedTransformationProps.__init__.__doc__ is None
+
+    def test_no_own_methods(self):
+        """
+        Test that the class declares no accessors — Table 7.29 has no Attribute rows.
+        """
+        methods = [name for name, value in UserDefinedTransformationProps.__dict__.items() if callable(value) and not name.startswith("_")]
+        assert methods == []
+
+    def test_initialization_defaults(self):
+        """
+        Test that the instance instantiates with the Identifiable state at defaults.
+        """
+        obj = UserDefinedTransformationProps(MockParent(), "userDefinedProps")
+
+        assert obj.getShortName() == "userDefinedProps"
+        assert obj.getChecksum() is None
+        assert obj.getTimestamp() is None
+        assert obj.getUuid() is None
+        assert obj.getCategory() is None

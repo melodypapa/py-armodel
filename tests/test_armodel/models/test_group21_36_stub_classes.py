@@ -54,7 +54,7 @@ STUBS = [
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable",
         "AbstractClassTailoring",
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable",
-        "DataFormatElementReference",
+        "Identifiable",
     ),
     (
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
@@ -231,10 +231,10 @@ STUBS = [
         "Identifiable",
     ),
     (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
+        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable",
         "BinaryManifestResource",
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
-        "ARObject",
+        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable",
+        "Identifiable",
     ),
     (
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable",
@@ -355,7 +355,7 @@ STUBS = [
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable",
         "ConcreteClassTailoring",
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable",
-        "DataFormatElementScope",
+        "Identifiable",
     ),
     (
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable",
@@ -2207,7 +2207,7 @@ STUBS = [
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable",
         "GlobalTimeCanSlave",
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable",
-        "Identifiable",
+        "GlobalTimeSlave",
     ),
     (
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
@@ -2243,7 +2243,7 @@ STUBS = [
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable",
         "GlobalTimeEthSlave",
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable",
-        "Identifiable",
+        "GlobalTimeSlave",
     ),
     (
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable",
@@ -2255,7 +2255,7 @@ STUBS = [
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable",
         "GlobalTimeFrSlave",
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable",
-        "Identifiable",
+        "GlobalTimeSlave",
     ),
     (
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable",
@@ -2282,10 +2282,10 @@ STUBS = [
         "AREnum",
     ),
     (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
+        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable",
         "GlobalTimeSlave",
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
-        "ARObject",
+        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable",
+        "Identifiable",
     ),
     (
         "armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols.IEEE1722Tp.IEEE1722TpAcf",
@@ -2350,10 +2350,10 @@ STUBS = [
         "ARElement",
     ),
     (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
+        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage",
         "IdsmInstance",
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
-        "ARObject",
+        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage",
+        "IdsCommonElement",
     ),
     (
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable",
@@ -2362,10 +2362,10 @@ STUBS = [
         "Identifiable",
     ),
     (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
+        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable",
         "IdsmTrafficLimitation",
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
-        "ARObject",
+        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable",
+        "Identifiable",
     ),
     (
         "armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface.__init__",
@@ -2640,10 +2640,10 @@ STUBS = [
         "TransformationDescription",
     ),
     (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable",
+        "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer.__init__",
         "SOMEIPTransformationProps",
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable",
-        "Identifiable",
+        "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer.__init__",
+        "TransformationProps",
     ),
     (
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.SpecialDataDef",
@@ -2724,10 +2724,10 @@ STUBS = [
         "DataFormatElementScope",
     ),
     (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
+        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable",
         "SecurityEventAggregationFilter",
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
-        "ARObject",
+        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable",
+        "AbstractSecurityEventFilter",
     ),
     (
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes",
@@ -2736,10 +2736,10 @@ STUBS = [
         "AREnum",
     ),
     (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
+        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage",
         "SecurityEventContextMapping",
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
-        "ARObject",
+        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage",
+        "IdsMapping",
     ),
     (
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage",
@@ -2754,10 +2754,10 @@ STUBS = [
         "ARElement",
     ),
     (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
+        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage",
         "SecurityEventContextMappingCommConnector",
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
-        "ARObject",
+        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage",
+        "SecurityEventContextMapping",
     ),
     (
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage",
@@ -2766,10 +2766,10 @@ STUBS = [
         "ARElement",
     ),
     (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
+        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable",
         "SecurityEventContextProps",
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
-        "ARObject",
+        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable",
+        "Identifiable",
     ),
     (
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage",
@@ -2778,10 +2778,10 @@ STUBS = [
         "ARElement",
     ),
     (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
+        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage",
         "SecurityEventFilterChain",
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
-        "ARObject",
+        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage",
+        "IdsCommonElement",
     ),
     (
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable",
@@ -2796,10 +2796,10 @@ STUBS = [
         "AREnum",
     ),
     (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
+        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable",
         "SecurityEventStateFilter",
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
-        "ARObject",
+        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable",
+        "AbstractSecurityEventFilter",
     ),
     (
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable",
@@ -3013,10 +3013,10 @@ STUBS = [
         "AbstractCondition",
     ),
     (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
+        "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer",
         "TransformationProps",
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
-        "ARObject",
+        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable",
+        "Identifiable",
     ),
     (
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage",
@@ -3076,7 +3076,7 @@ STUBS = [
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable",
         "UserDefinedGlobalTimeSlave",
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable",
-        "Identifiable",
+        "GlobalTimeSlave",
     ),
     (
         "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.CddSupport",
@@ -3091,10 +3091,10 @@ STUBS = [
         "TransformationDescription",
     ),
     (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable",
+        "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer.__init__",
         "UserDefinedTransformationProps",
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable",
-        "Identifiable",
+        "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer.__init__",
+        "TransformationProps",
     ),
     (
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ModelRestrictionTypes",

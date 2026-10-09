@@ -1218,6 +1218,25 @@ class ArgumentDirectionEnum(AREnum):
         super().__init__((ArgumentDirectionEnum.IN, ArgumentDirectionEnum.INOUT, ArgumentDirectionEnum.OUT))
 
 
+class Address(ARLiteral):
+    """
+    This is used to specify an address within the CPU.
+
+    Tags:
+        * xml.xsd.customType=ADDRESS
+        * xml.xsd.pattern=0[xX][0-9a-fA-F]+
+        * xml.xsd.type=string
+    """
+
+    # Address method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.40, p.107
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+
 class Ip4AddressString(ARLiteral):
     r"""
     This is used to specify an IP4 address. Notation: 255.255.255.255
@@ -1681,7 +1700,29 @@ class AdditionalBindingTimeEnum(AREnum):
 
 
 class CryptoServiceKeyGenerationEnum(AREnum):
-    pass
+    """
+    This enumeration shall be taken to express the handling of a crypto key in terms of whether it is obtained from e.g. a diagnostic tester or whether it is created by derivation from a master key.
+    """
+
+    # CryptoServiceKeyGenerationEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.52, p.378
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — serialized as value form on CryptoServiceKey.keyGeneration members
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # This means that the crypto key is created by derivation from a master key. Tags: atp.EnumerationLiteralIndex=0
+    KEY_DERIVATION = "KEY-DERIVATION"
+
+    # This means that the crypto key is obtained from an external entity, e.g. a diagnostic tester. Tags: atp.EnumerationLiteralIndex=1
+    KEY_STORAGE = "KEY-STORAGE"
+
+    def __init__(self):
+        super().__init__(
+            [
+                CryptoServiceKeyGenerationEnum.KEY_DERIVATION,
+                CryptoServiceKeyGenerationEnum.KEY_STORAGE,
+            ]
+        )
 
 
 class DataConsistencyPolicyEnum(AREnum):
@@ -1708,10 +1749,6 @@ class DataConsistencyPolicyEnum(AREnum):
                 DataConsistencyPolicyEnum.NO_CONSISTENCY_MECHANISM,
             ]
         )
-
-
-class DataExchangePointKind(AREnum):
-    pass
 
 
 class DdsDestinationOrderKindEnum(AREnum):
@@ -1908,12 +1945,30 @@ class DdsReliabilityKindEnum(AREnum):
         )
 
 
-class DefaultValueApplicationStrategyEnum(AREnum):
-    pass
-
-
 class DiagPduType(AREnum):
-    pass
+    """
+    Used to distinguish a diagnostic request from a response.
+    """
+
+    # DiagPduType method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.23, p.344
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — serialized as value form on DcmIPdu.diagPduType members
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # Diagnostic Request Tags: atp.EnumerationLiteralIndex=0
+    DIAG_REQUEST = "DIAG-REQUEST"
+
+    # Diagnostic Response Tags: atp.EnumerationLiteralIndex=1
+    DIAG_RESPONSE = "DIAG-RESPONSE"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DiagPduType.DIAG_REQUEST,
+                DiagPduType.DIAG_RESPONSE,
+            ]
+        )
 
 
 class DiagnosticClearDtcLimitationEnum(AREnum):
@@ -2850,8 +2905,212 @@ class EthGlobalTimeMessageFormatEnum(AREnum):
         )
 
 
+class SeverityEnum(AREnum):
+    """
+    This enumeration represents the severity levels of a restriction. Tags: atp.Recommendation=FOR_STANDARDIZATION
+    """
+
+    # SeverityEnum method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 6.7, p.87
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — serialized as value form on the consuming class attribute
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # The severity level error.
+    ERROR = "ERROR"
+
+    # The severity level info.
+    INFO = "INFO"
+
+    # The severity level warning.
+    WARNING = "WARNING"
+
+    # The content shall not be shown.
+    NO_SHOW_CONTENT = "NO-SHOW-CONTENT"
+
+    # The content shall be shown.
+    SHOW_CONTENT = "SHOW-CONTENT"
+
+    def __init__(self):
+        super().__init__(
+            [
+                SeverityEnum.ERROR,
+                SeverityEnum.INFO,
+                SeverityEnum.WARNING,
+                SeverityEnum.NO_SHOW_CONTENT,
+                SeverityEnum.SHOW_CONTENT,
+            ]
+        )
+
+
+class DataExchangePointKind(AREnum):
+    """
+    This enumeration represents the kind of a DataExchangePoint.
+    """
+
+    # DataExchangePointKind method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 6.3, p.79
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — serialized as value form on the consuming class attribute
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # The DataExchangePoint represents the agreed content between producer and consumer.
+    AGREED = "AGREED"
+
+    # The DataExchangePoint represents the view of a consumer.
+    CONSUMER = "CONSUMER"
+
+    # The DataExchangePoint represents the view of a producer.
+    PRODUCER = "PRODUCER"
+
+    # The content is always applicable.
+    ALWAYS = "ALWAYS"
+
+    # Masked new differs masked old.
+    MASKED_NEW_DIFFERS_MASKED_OLD = "MASKED-NEW-DIFFERS-MASKED-OLD"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DataExchangePointKind.AGREED,
+                DataExchangePointKind.CONSUMER,
+                DataExchangePointKind.PRODUCER,
+                DataExchangePointKind.ALWAYS,
+                DataExchangePointKind.MASKED_NEW_DIFFERS_MASKED_OLD,
+            ]
+        )
+
+
+class DefaultValueApplicationStrategyEnum(AREnum):
+    """
+    This enumeration specifies how to handle AUTOSAR defined default values.
+    """
+
+    # DefaultValueApplicationStrategyEnum method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 6.33, p.112
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — serialized as value form on the consuming class attribute
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # The default value shall be applied if the revision is updated.
+    DEFAULT_IF_REVISION_UPDATE = "DEFAULT-IF-REVISION-UPDATE"
+
+    # The default value shall be applied if the value is undefined.
+    DEFAULT_IF_UNDEFINED = "DEFAULT-IF-UNDEFINED"
+
+    # No default value shall be applied.
+    NO_DEFAULT = "NO-DEFAULT"
+
+    # The default value shall be applied at build time.
+    BUILD = "BUILD"
+
+    # The default value shall be applied at code generation time.
+    CODEGENERATION = "CODEGENERATION"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DefaultValueApplicationStrategyEnum.DEFAULT_IF_REVISION_UPDATE,
+                DefaultValueApplicationStrategyEnum.DEFAULT_IF_UNDEFINED,
+                DefaultValueApplicationStrategyEnum.NO_DEFAULT,
+                DefaultValueApplicationStrategyEnum.BUILD,
+                DefaultValueApplicationStrategyEnum.CODEGENERATION,
+            ]
+        )
+
+
+class SecurityEventContextDataSourceEnum(AREnum):
+    """
+    This enumeration controls the elements used to creating the resulting qualified security event Tags: atp.Status=candidate
+    """
+
+    # SecurityEventContextDataSourceEnum method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf, Table 4.8, p.25
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — serialized as value form on SecurityEventAggregationFilter.contextDataSource
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # Context data of first received security event shall be used for resulting qualified security event. Tags: atp.EnumerationLiteralIndex=0 atp.Status=candidate
+    USE_FIRST_CONTEXT_DATA = "USE-FIRST-CONTEXT-DATA"
+
+    # Context data of last received security event shall be used for resulting qualified security event. Tags: atp.EnumerationLiteralIndex=1 atp.Status=candidate
+    USE_LAST_CONTEXT_DATA = "USE-LAST-CONTEXT-DATA"
+
+    def __init__(self):
+        super().__init__(
+            [
+                SecurityEventContextDataSourceEnum.USE_FIRST_CONTEXT_DATA,
+                SecurityEventContextDataSourceEnum.USE_LAST_CONTEXT_DATA,
+            ]
+        )
+
+
+class SecurityEventReportingModeEnum(AREnum):
+    """
+    This enumeration controls the reporting mode of a security event. Tags: atp.Status=candidate
+    """
+
+    # SecurityEventReportingModeEnum method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf, Table 4.14, p.36
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — serialized as value form on SecurityEventContextProps.defaultReportingMode
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # Only the main security event properties such as its ID are processed. Any additional context data (if existing) is discarded. Tags: atp.EnumerationLiteralIndex=1 atp.Status=candidate
+    BRIEF = "BRIEF"
+
+    # The reported security event without its context data (if existing) is processed further but the filter chain is bypassed. Tags: atp.EnumerationLiteralIndex=3 atp.Status=candidate
+    BRIEF_BYPASSING_FILTERS = "BRIEF-BYPASSING-FILTERS"
+
+    # The main properties and the context data (if existing) of the reported security event are processed further. Tags: atp.EnumerationLiteralIndex=2 atp.Status=candidate
+    DETAILED = "DETAILED"
+
+    # The reported security event including its context data (if existing) is processed further but the filter chain is bypassed. Tags: atp.EnumerationLiteralIndex=4 atp.Status=candidate
+    DETAILED_BYPASSING_FILTERS = "DETAILED-BYPASSING-FILTERS"
+
+    # The reported security event is not further processed by the IdsM and therefore discarded. Tags: atp.EnumerationLiteralIndex=0 atp.Status=candidate
+    OFF = "OFF"
+
+    def __init__(self):
+        super().__init__(
+            [
+                SecurityEventReportingModeEnum.BRIEF,
+                SecurityEventReportingModeEnum.BRIEF_BYPASSING_FILTERS,
+                SecurityEventReportingModeEnum.DETAILED,
+                SecurityEventReportingModeEnum.DETAILED_BYPASSING_FILTERS,
+                SecurityEventReportingModeEnum.OFF,
+            ]
+        )
+
+
 class FMFeatureSelectionState(AREnum):
-    pass
+    """
+    Defines how a particular FMFeature contributes to a FMFSelectionSet.
+    """
+
+    # FMFeatureSelectionState method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf, Table 5.3, p.41
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — serialized as value form on FMFeatureSelection.state
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # The feature is excluded from the selection. Tags: atp.EnumerationLiteralIndex=0
+    DESELECTED = "DESELECTED"
+
+    # The feature is included in the selection. Tags: atp.EnumerationLiteralIndex=1
+    SELECTED = "SELECTED"
+
+    # It is not yet decided whether the feature shall be included into or excluded from the selection. Tags: atp.EnumerationLiteralIndex=2
+    UNDECIDED = "UNDECIDED"
+
+    def __init__(self):
+        super().__init__(
+            [
+                FMFeatureSelectionState.DESELECTED,
+                FMFeatureSelectionState.SELECTED,
+                FMFeatureSelectionState.UNDECIDED,
+            ]
+        )
 
 
 class FrArTpAckType(AREnum):
@@ -3064,14 +3323,6 @@ class MaximumMessageLengthType(AREnum):
         )
 
 
-class SecurityEventContextDataSourceEnum(AREnum):
-    pass
-
-
-class SecurityEventReportingModeEnum(AREnum):
-    pass
-
-
 class SendIndicationEnum(AREnum):
     """
     This meta-class provides a way to specify in which way redundancy shall be applied on collection level.
@@ -3096,7 +3347,3 @@ class SendIndicationEnum(AREnum):
                 SendIndicationEnum.NONE,
             ]
         )
-
-
-class SeverityEnum(AREnum):
-    pass

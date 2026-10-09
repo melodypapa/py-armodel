@@ -2171,3 +2171,178 @@ class UserDefinedTransformationDescription(TransformationDescription):
 
     def __init__(self):
         super().__init__()
+
+
+class TransformationProps(Identifiable, ABC):
+    """
+    This meta-class represents a abstract base class for transformation settings.
+    """
+
+    # TransformationProps method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.15, p.783
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    #
+    # Table 7.15 has no Attribute rows (the column renders a single "-") and the XSD
+    # TRANSFORMATION-PROPS group (AUTOSAR_00052.xsd l.125529) has an empty sequence, so
+    # the class owns no attributes of its own. The reusable readTransformationProps /
+    # writeTransformationProps helpers own the Identifiable level of the concrete subclass
+    # elements (AP-SOMEIP-/SOMEIP-/USER-DEFINED-TRANSFORMATION-PROPS); aggregator dispatch
+    # (TransformationPropsSet.transformationProps) is pending — the subclasses are later-wave
+    # stubs.
+
+    def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is TransformationProps:
+            raise TypeError("TransformationProps is an abstract class.")
+
+        super().__init__(parent, short_name)
+
+
+class SOMEIPTransformationProps(TransformationProps):
+    """
+    The class SOMEIPTransformationProps specifies SOME/IP specific configuration properties.
+    """
+
+    # SOMEIPTransformationProps method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.16, p.783
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAlignment                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAlignment                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSizeOfArrayLengthField   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSizeOfArrayLengthField   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSizeOfStringLengthField  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSizeOfStringLengthField  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSizeOfStructLengthField  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSizeOfStructLengthField  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSizeOfUnionLengthField   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSizeOfUnionLengthField   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # Rehoused from GeneralTemplateClasses.Identifiable per the Table 7.16 Base row (most-derived
+    # base TransformationProps) and the Package row …::SystemTemplate::Transformer (Rule 0007).
+    # The reader/writer call readTransformationProps/writeTransformationProps exactly once; the
+    # XSD SOMEIP-TRANSFORMATION-PROPS group (AUTOSAR_00052.xsd l.111546) element order is
+    # ALIGNMENT, SIZE-OF-ARRAY-LENGTH-FIELD, SIZE-OF-STRING-LENGTH-FIELD, SIZE-OF-STRUCT-LENGTH-FIELD,
+    # SIZE-OF-UNION-LENGTH-FIELD. Aggregator dispatch (TransformationPropsSet.transformationProps)
+    # is pending — TransformationPropsSet is a later-wave stub.
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Defines the padding for alignment purposes that will be added by the SOME/IP transformer after the serialized data of the variable data length data element. The alignment shall be specified in Bits.
+        self.alignment: Optional[PositiveInteger] = None
+
+        # This attribute describes the size of the length field (in Bytes) that will be put in front of the referenced Array in the SOME/IP message.
+        self.sizeOfArrayLengthField: Optional[PositiveInteger] = None
+
+        # This attribute describes the size of the length field (in Bytes) that will be put in front of the referenced String in the SOME/IP message.
+        self.sizeOfStringLengthField: Optional[PositiveInteger] = None
+
+        # This attribute describes the size of the length field (in Bytes) that will be put in front of a Structure in the SOME/IP message.
+        self.sizeOfStructLengthField: Optional[PositiveInteger] = None
+
+        # This attribute describes the size of the length field (in Bytes) that will be put in front of a Union in the SOME/IP message.
+        self.sizeOfUnionLengthField: Optional[PositiveInteger] = None
+
+    def getAlignment(self) -> Optional[PositiveInteger]:
+        """
+        Defines the padding for alignment purposes that will be added by the SOME/IP transformer after the serialized data of the variable data length data element. The alignment shall be specified in Bits.
+        """
+        return self.alignment
+
+    def setAlignment(self, value: Optional[PositiveInteger]) -> SOMEIPTransformationProps:
+        """
+        Defines the padding for alignment purposes that will be added by the SOME/IP transformer after the serialized data of the variable data length data element. The alignment shall be specified in Bits.
+
+        A None value is a no-op and does not overwrite an existing alignment.
+        """
+        if value is not None:
+            self.alignment = value
+        return self
+
+    def getSizeOfArrayLengthField(self) -> Optional[PositiveInteger]:
+        """
+        This attribute describes the size of the length field (in Bytes) that will be put in front of the referenced Array in the SOME/IP message.
+        """
+        return self.sizeOfArrayLengthField
+
+    def setSizeOfArrayLengthField(self, value: Optional[PositiveInteger]) -> SOMEIPTransformationProps:
+        """
+        This attribute describes the size of the length field (in Bytes) that will be put in front of the referenced Array in the SOME/IP message.
+
+        A None value is a no-op and does not overwrite an existing sizeOfArrayLengthField.
+        """
+        if value is not None:
+            self.sizeOfArrayLengthField = value
+        return self
+
+    def getSizeOfStringLengthField(self) -> Optional[PositiveInteger]:
+        """
+        This attribute describes the size of the length field (in Bytes) that will be put in front of the referenced String in the SOME/IP message.
+        """
+        return self.sizeOfStringLengthField
+
+    def setSizeOfStringLengthField(self, value: Optional[PositiveInteger]) -> SOMEIPTransformationProps:
+        """
+        This attribute describes the size of the length field (in Bytes) that will be put in front of the referenced String in the SOME/IP message.
+
+        A None value is a no-op and does not overwrite an existing sizeOfStringLengthField.
+        """
+        if value is not None:
+            self.sizeOfStringLengthField = value
+        return self
+
+    def getSizeOfStructLengthField(self) -> Optional[PositiveInteger]:
+        """
+        This attribute describes the size of the length field (in Bytes) that will be put in front of a Structure in the SOME/IP message.
+        """
+        return self.sizeOfStructLengthField
+
+    def setSizeOfStructLengthField(self, value: Optional[PositiveInteger]) -> SOMEIPTransformationProps:
+        """
+        This attribute describes the size of the length field (in Bytes) that will be put in front of a Structure in the SOME/IP message.
+
+        A None value is a no-op and does not overwrite an existing sizeOfStructLengthField.
+        """
+        if value is not None:
+            self.sizeOfStructLengthField = value
+        return self
+
+    def getSizeOfUnionLengthField(self) -> Optional[PositiveInteger]:
+        """
+        This attribute describes the size of the length field (in Bytes) that will be put in front of a Union in the SOME/IP message.
+        """
+        return self.sizeOfUnionLengthField
+
+    def setSizeOfUnionLengthField(self, value: Optional[PositiveInteger]) -> SOMEIPTransformationProps:
+        """
+        This attribute describes the size of the length field (in Bytes) that will be put in front of a Union in the SOME/IP message.
+
+        A None value is a no-op and does not overwrite an existing sizeOfUnionLengthField.
+        """
+        if value is not None:
+            self.sizeOfUnionLengthField = value
+        return self
+
+
+class UserDefinedTransformationProps(TransformationProps):
+    """
+    The class UserDefinedTransformationProps specifies specific configuration properties of a user defined serializer.
+    """
+
+    # UserDefinedTransformationProps method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.29, p.829
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    #
+    # Table 7.29 has no Attribute rows (the column renders a single "-") and the XSD
+    # USER-DEFINED-TRANSFORMATION-PROPS group (AUTOSAR_00052.xsd l.129197) has an empty
+    # sequence, so the class owns no attributes of its own. Rehoused from
+    # GeneralTemplateClasses.Identifiable per the Table 7.29 Base row (most-derived base
+    # TransformationProps) and the Package row …::SystemTemplate::Transformer (Rule 0007).
+    # The reader/writer call readTransformationProps/writeTransformationProps exactly once.
+    # Aggregator dispatch (TransformationPropsSet.transformationProps) is pending —
+    # TransformationPropsSet is a later-wave stub.
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
