@@ -923,7 +923,17 @@ is one ordered procedure per class (Rule 0006's mechanical check only confirms t
 
 ### 0012.1 Versioning
 
-- The `# Spec verified: <RELEASE>` marker sits immediately after the `# Spec:` line.
+- The `# Spec verified: <RELEASE>` marker sits immediately after the `# Spec:` line — the
+  **very next comment line**, before `# Columns:` and the method rows (block shape:
+  `Spec → Spec verified → Columns → rows`). A dual-corpus class (Rule 0019) lists **all**
+  of its `# Spec:` lines first and puts the marker after the **last** one. A wrapped
+  citation (a continuation `#` line under `# Spec:`) counts as part of the citation; the
+  marker follows the citation's final line. `audit_class.py`'s STAMP check enforces this
+  adjacency. Found in the wild (2026-10 repo sweep, 14 blocks): `ARObject` carried the
+  marker *above* the `# Spec:` line; `MemorySection` put the R4.3.1 citation *below* the
+  marker; `Implementation`, `Collection`, `CompositeRuleBasedValueSpecification` and 9
+  more deferred the marker past `# Columns:` or all the way past the rows — each shape
+  came from a different stamping pass, which is exactly the drift adjacency forbids.
   `<RELEASE>` is the release of the corpus the class was synced from — `R23-11`
   (`CP_TPS`/`FO_TPS` corpus, Nov 2023) or `R4.3.1` (pre-split corpus, Rule 0016.3
   fallback: no R23-11 table anywhere). It is **written in Step 9b** (after the user
