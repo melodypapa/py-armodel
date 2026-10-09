@@ -141,7 +141,6 @@ LEnum
 LanguageSpecific
 LifeCyclePeriod
 LinConfigurationEntry
-LinFrame
 LinUnconditionalFrame
 Linker
 LinkerSymbolValue
