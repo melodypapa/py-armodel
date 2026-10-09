@@ -51,7 +51,7 @@ pending that confirmation.
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b)
-  - note: already-verified short-circuit 2026-09-30 (Group21 header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
+  - note: 9b confirmed 2026-10-09 (Rule 0026 audit vs source). The prior "short-circuit" note was STALE — the `# Spec verified:` marker was NOT actually present in src and the `Tags:` tails (atp.Status=draft on blueprintValue, xml.xsd.* block on the class, xml.attribute=true on namePattern) had been dropped, a Rule 0012.2.5.3 verbatim gap. Fixed docstrings to verbatim parity (matching the stamped sibling CIdentifier), re-audited clean; marker written (sync commit 6336d00e1). Marker position aligned to the canonical location (after the # Spec: line) in 8e187f157.
 - [x] `LLongName` — LanguageSpecific — R23-11 FO_TPS_GenericStructureTemplate Table 4.8, p.62; also CP_TPS_DiagnosticExtractTemplate Table 4.166, p.180 — already verified (short-circuit 2026-09-30)
   - module: M2/MSR/Documentation/TextModel/LanguageDataModel.py
   - [x] Step 1 — Sync members & description from spec
