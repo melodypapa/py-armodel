@@ -924,6 +924,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Ip4AddressString,
     Ip6AddressString,
     Limit,
+    LinChecksumType,
     MimeTypeString,
     MonotonyEnum,
     NameToken,
@@ -1512,8 +1513,10 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommun
     FreeFormat,
     LinConfigurationEntry,
     LinErrorResponse,
+    LinEventTriggeredFrame,
     LinFrameTriggering,
     LinScheduleTable,
+    LinSporadicFrame,
     LinUnconditionalFrame,
     ResumePosition,
     RunMode,
@@ -11128,8 +11131,8 @@ class ARXMLParser(AbstractARXMLParser):
     def readLinFrameTriggering(self, element: ET.Element, triggering: LinFrameTriggering):
         self.logger.debug("Read LinFrameTriggering %s" % triggering.getShortName())
         self.readFrameTriggering(element, triggering)
-        triggering.setIdentifier(self.getChildElementOptionalNumericalValue(element, "IDENTIFIER"))
-        triggering.setLinChecksum(self.getChildElementOptionalLiteral(element, "LIN-CHECKSUM"))
+        triggering.setIdentifier(self.getChildElementOptionalIntegerValue(element, "IDENTIFIER"))
+        triggering.setLinChecksum(cast(Optional[LinChecksumType], self.getChildElementOptionalLiteral(element, "LIN-CHECKSUM")))
 
     def readCommunicationCycle(self, element: ET.Element, cycle: CommunicationCycle):
         self.readARObject(element, cycle)
@@ -11307,6 +11310,7 @@ class ARXMLParser(AbstractARXMLParser):
         return entry
 
     def readLinConfigurationEntry(self, element: ET.Element, entry: LinConfigurationEntry):
+        self.readScheduleTableEntry(element, entry)
         entry.setAssignedControllerRef(self.getChildElementOptionalRefType(element, "ASSIGNED-CONTROLLER-REF"))
         entry.setAssignedLinSlaveConfigRef(self.getChildElementOptionalRefType(element, "ASSIGNED-LIN-SLAVE-CONFIG-REF"))
 
@@ -11326,7 +11330,6 @@ class ARXMLParser(AbstractARXMLParser):
         entry = None
         if element is not None:
             entry = AssignFrameId()
-            self.readScheduleTableEntry(element, entry)
             self.readLinConfigurationEntry(element, entry)
             entry.setAssignedFrameTriggeringRef(self.getChildElementOptionalRefType(element, "ASSIGNED-FRAME-TRIGGERING-REF"))
         return entry
@@ -11335,7 +11338,6 @@ class ARXMLParser(AbstractARXMLParser):
         entry = None
         if element is not None:
             entry = UnassignFrameId()
-            self.readScheduleTableEntry(element, entry)
             self.readLinConfigurationEntry(element, entry)
             entry.setUnassignedFrameTriggeringRef(self.getChildElementOptionalRefType(element, "UNASSIGNED-FRAME-TRIGGERING-REF"))
         return entry
@@ -11344,7 +11346,6 @@ class ARXMLParser(AbstractARXMLParser):
         entry = None
         if element is not None:
             entry = AssignFrameIdRange()
-            self.readScheduleTableEntry(element, entry)
             self.readLinConfigurationEntry(element, entry)
             for child_element in self.findall(element, "FRAME-PIDS/FRAME-PID"):
                 frame_pid = FramePid()
@@ -11358,7 +11359,6 @@ class ARXMLParser(AbstractARXMLParser):
         entry = None
         if element is not None:
             entry = AssignNad()
-            self.readScheduleTableEntry(element, entry)
             self.readLinConfigurationEntry(element, entry)
             entry.setNewNad(self.getChildElementOptionalIntegerValue(element, "NEW-NAD"))
         return entry
@@ -11367,7 +11367,6 @@ class ARXMLParser(AbstractARXMLParser):
         entry = None
         if element is not None:
             entry = ConditionalChangeNad()
-            self.readScheduleTableEntry(element, entry)
             self.readLinConfigurationEntry(element, entry)
             entry.setByte(self.getChildElementOptionalIntegerValue(element, "BYTE"))
             entry.setId(self.getChildElementOptionalPositiveInteger(element, "ID"))
@@ -11380,7 +11379,6 @@ class ARXMLParser(AbstractARXMLParser):
         entry = None
         if element is not None:
             entry = SaveConfigurationEntry()
-            self.readScheduleTableEntry(element, entry)
             self.readLinConfigurationEntry(element, entry)
         return entry
 
@@ -11388,7 +11386,6 @@ class ARXMLParser(AbstractARXMLParser):
         entry = None
         if element is not None:
             entry = DataDumpEntry()
-            self.readScheduleTableEntry(element, entry)
             self.readLinConfigurationEntry(element, entry)
             self.readByteValues(element, entry)
         return entry
@@ -14795,6 +14792,19 @@ class ARXMLParser(AbstractARXMLParser):
     def readLinUnconditionalFrame(self, element: ET.Element, frame: LinUnconditionalFrame):
         self.logger.debug("Read LinUnconditionalFrame <%s>" % frame.getShortName())
         self.readFrame(element, frame)
+
+    def readLinSporadicFrame(self, element: ET.Element, frame: LinSporadicFrame):
+        self.logger.debug("Read LinSporadicFrame <%s>" % frame.getShortName())
+        self.readFrame(element, frame)
+        for ref_type in self.getChildElementRefTypeList(element, "SUBSTITUTED-FRAME-REFS/SUBSTITUTED-FRAME-REF"):
+            frame.addSubstitutedFrame(ref_type)
+
+    def readLinEventTriggeredFrame(self, element: ET.Element, frame: LinEventTriggeredFrame):
+        self.logger.debug("Read LinEventTriggeredFrame <%s>" % frame.getShortName())
+        self.readFrame(element, frame)
+        frame.setCollisionResolvingScheduleRef(self.getChildElementOptionalRefType(element, "COLLISION-RESOLVING-SCHEDULE-REF"))
+        for ref_type in self.getChildElementRefTypeList(element, "LIN-UNCONDITIONAL-FRAME-REFS/LIN-UNCONDITIONAL-FRAME-REF"):
+            frame.addLinUnconditionalFrame(ref_type)
 
     def readPdu(self, element: ET.Element, pdu: Pdu):
         self.readIdentifiable(element, pdu)
@@ -20653,6 +20663,12 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "LIN-UNCONDITIONAL-FRAME":
                 frame = parent.createLinUnconditionalFrame(self.getShortName(child_element))
                 self.readLinUnconditionalFrame(child_element, frame)
+            elif tag_name == "LIN-SPORADIC-FRAME":
+                sporadic_frame = parent.createLinSporadicFrame(self.getShortName(child_element))
+                self.readLinSporadicFrame(child_element, sporadic_frame)
+            elif tag_name == "LIN-EVENT-TRIGGERED-FRAME":
+                event_triggered_frame = parent.createLinEventTriggeredFrame(self.getShortName(child_element))
+                self.readLinEventTriggeredFrame(child_element, event_triggered_frame)
             elif tag_name == "NM-PDU":
                 pdu = parent.createNmPdu(self.getShortName(child_element))
                 self.readNmPdu(child_element, pdu)

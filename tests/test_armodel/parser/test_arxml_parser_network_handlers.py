@@ -340,6 +340,44 @@ class TestLinClusterHandlers:
         assert triggering.getLinChecksum() is not None
         assert triggering.getLinChecksum().getValue() == "enhanced"
 
+    def test_readLinSporadicFrame_sets_substituted_frame_refs(self, parser):
+        from armodel.models import LinSporadicFrame
+
+        frame = LinSporadicFrame(parent=MagicMock(), short_name="sf")
+        element = _snip(
+            "<SHORT-NAME>sf</SHORT-NAME>"
+            "<SUBSTITUTED-FRAME-REFS>"
+            "<SUBSTITUTED-FRAME-REF DEST='LIN-UNCONDITIONAL-FRAME'>/pkg/uf1</SUBSTITUTED-FRAME-REF>"
+            "<SUBSTITUTED-FRAME-REF DEST='LIN-UNCONDITIONAL-FRAME'>/pkg/uf2</SUBSTITUTED-FRAME-REF>"
+            "</SUBSTITUTED-FRAME-REFS>",
+            root_tag="LIN-SPORADIC-FRAME",
+        )
+        parser.readLinSporadicFrame(element, frame)
+        refs = frame.getSubstitutedFrameRefs()
+        assert len(refs) == 2
+        assert refs[0].getValue() == "/pkg/uf1"
+        assert refs[0].getDest() == "LIN-UNCONDITIONAL-FRAME"
+        assert refs[1].getValue() == "/pkg/uf2"
+
+    def test_readLinEventTriggeredFrame_sets_refs(self, parser):
+        from armodel.models import LinEventTriggeredFrame
+
+        frame = LinEventTriggeredFrame(parent=MagicMock(), short_name="ef")
+        element = _snip(
+            "<SHORT-NAME>ef</SHORT-NAME>"
+            "<COLLISION-RESOLVING-SCHEDULE-REF DEST='LIN-SCHEDULE-TABLE'>/pkg/st</COLLISION-RESOLVING-SCHEDULE-REF>"
+            "<LIN-UNCONDITIONAL-FRAME-REFS>"
+            "<LIN-UNCONDITIONAL-FRAME-REF DEST='LIN-UNCONDITIONAL-FRAME'>/pkg/uf1</LIN-UNCONDITIONAL-FRAME-REF>"
+            "</LIN-UNCONDITIONAL-FRAME-REFS>",
+            root_tag="LIN-EVENT-TRIGGERED-FRAME",
+        )
+        parser.readLinEventTriggeredFrame(element, frame)
+        assert frame.getCollisionResolvingScheduleRef() is not None
+        assert frame.getCollisionResolvingScheduleRef().getValue() == "/pkg/st"
+        refs = frame.getLinUnconditionalFrameRefs()
+        assert len(refs) == 1
+        assert refs[0].getValue() == "/pkg/uf1"
+
     def test_getApplicationEntry_returns_entry(self, parser):
 
         element = _snip(

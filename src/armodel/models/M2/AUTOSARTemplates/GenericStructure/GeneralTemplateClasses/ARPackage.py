@@ -2611,6 +2611,20 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(frame)
         return cast(LinUnconditionalFrame, self.getReferrableElement(short_name, LinUnconditionalFrame))
 
+    def createLinSporadicFrame(self, short_name: str) -> LinSporadicFrame:
+
+        if not self.IsReferrableElementExists(short_name, LinSporadicFrame):
+            frame = LinSporadicFrame(self, short_name)
+            self.addReferrableElement(frame)
+        return cast(LinSporadicFrame, self.getReferrableElement(short_name, LinSporadicFrame))
+
+    def createLinEventTriggeredFrame(self, short_name: str) -> LinEventTriggeredFrame:
+
+        if not self.IsReferrableElementExists(short_name, LinEventTriggeredFrame):
+            frame = LinEventTriggeredFrame(self, short_name)
+            self.addReferrableElement(frame)
+        return cast(LinEventTriggeredFrame, self.getReferrableElement(short_name, LinEventTriggeredFrame))
+
     def createNmPdu(self, short_name: str) -> NmPdu:
 
         if not self.IsReferrableElementExists(short_name, NmPdu):
@@ -5429,7 +5443,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Dds 
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.TcpOptionFilterSet import TcpOptionFilterSet  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayCommunication import FlexrayFrame  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayCluster  # noqa: E402
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import LinUnconditionalFrame  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import LinEventTriggeredFrame, LinSporadicFrame, LinUnconditionalFrame  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinCluster  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import Gateway  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (  # noqa: E402
