@@ -69,6 +69,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Referrable,
     ShortNameFragment,
     SingleLanguageReferrable,
+    UserDefinedGlobalTimeMaster,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Address,
@@ -4484,3 +4485,84 @@ class TestGlobalTimeFrSlave:
         assert inspect.cleandoc(GlobalTimeFrSlave.setSequenceCounterJumpWidth.__doc__) == (
             self.SEQUENCE_COUNTER_JUMP_WIDTH_NOTE + "\n\nA None value is a no-op and does not overwrite an existing sequenceCounterJumpWidth."
         )
+
+
+class TestUserDefinedGlobalTimeMaster:
+    """
+    Test class for UserDefinedGlobalTimeMaster functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.23, p.879
+    (concrete; the Table 9.23 Base row's most-derived class is GlobalTimeMaster; the table
+    has no own Attribute rows and the XSD USER-DEFINED-GLOBAL-TIME-MASTER group has an empty
+    sequence.)
+    """
+
+    CLASS_NOTE = "This represents the specialization of the GlobalTimeMaster for user defined communication."
+
+    def _create_master(self) -> UserDefinedGlobalTimeMaster:
+        return UserDefinedGlobalTimeMaster(AUTOSAR.getInstance(), "userDefinedMaster")
+
+    def test_is_global_time_master_subclass(self):
+        """
+        Test that UserDefinedGlobalTimeMaster derives from GlobalTimeMaster per the Table 9.23
+        Base row (ARObject, GlobalTimeMaster, Identifiable, MultilanguageReferrable,
+        Referrable — most-derived GlobalTimeMaster).
+        """
+        assert issubclass(UserDefinedGlobalTimeMaster, GlobalTimeMaster)
+        assert issubclass(UserDefinedGlobalTimeMaster, Identifiable)
+        assert issubclass(UserDefinedGlobalTimeMaster, VariationPointCapable)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(UserDefinedGlobalTimeMaster.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert UserDefinedGlobalTimeMaster.__init__.__doc__ is None
+
+    def test_member_order_follows_spec_rows(self):
+        """
+        Test that the class declares no own accessors (Table 9.23 has no Attribute rows).
+        """
+        methods = [name for name, value in UserDefinedGlobalTimeMaster.__dict__.items() if callable(value) and not name.startswith("_")]
+        assert methods == []
+
+    def test_initialization_defaults(self):
+        """
+        Test that the instance initializes all inherited attributes to their defaults.
+        """
+        obj = self._create_master()
+
+        assert obj.getShortName() == "userDefinedMaster"
+        assert obj.getChecksum() is None
+        assert obj.getCommunicationConnectorRef() is None
+        assert obj.getIcvSecured() is None
+        assert obj.getImmediateResumeTime() is None
+        assert obj.getIsSystemWideGlobalTimeMaster() is None
+        assert obj.getSyncPeriod() is None
+        assert obj.getVariationPoint() is None
+
+    def test_inherited_base_accessors(self):
+        """
+        Exercise the inherited GlobalTimeMaster accessors: chaining, round-trip, None no-op.
+        """
+        obj = self._create_master()
+
+        sync_period = TimeValue()
+        sync_period.setValue("0.2")
+        assert obj.setSyncPeriod(sync_period) is obj
+        assert obj.getSyncPeriod() is sync_period
+
+        obj.setSyncPeriod(None)
+        assert obj.getSyncPeriod() is sync_period
+
+        variation_point = VariationPoint()
+        assert obj.setVariationPoint(variation_point) is obj
+        assert obj.getVariationPoint() is variation_point
+
+        obj.setVariationPoint(None)
+        assert obj.getVariationPoint() is variation_point

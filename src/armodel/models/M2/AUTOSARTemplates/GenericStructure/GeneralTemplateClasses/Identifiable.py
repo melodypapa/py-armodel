@@ -3246,4 +3246,20 @@ class IEEE1722TpAcfCan(IEEE1722TpAcfBus):
 
 
 class UserDefinedGlobalTimeMaster(GlobalTimeMaster):
-    pass
+    """
+    This represents the specialization of the GlobalTimeMaster for user defined communication.
+    """
+
+    # UserDefinedGlobalTimeMaster method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.23, p.879
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    #
+    # Table 9.23 has no own Attribute rows and the XSD USER-DEFINED-GLOBAL-TIME-MASTER group
+    # (AUTOSAR_00052.xsd l.128818) has an empty sequence: the reader/writer call the Table 9.4
+    # base helpers (readGlobalTimeMaster / writeGlobalTimeMaster) exactly once and own only the
+    # base level. Aggregator dispatch (GlobalTimeDomain.globalTimeMaster) is pending —
+    # GlobalTimeDomain is a later-wave class.
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)

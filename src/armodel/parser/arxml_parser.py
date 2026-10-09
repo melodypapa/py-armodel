@@ -788,6 +788,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Referrable,
     ShortNameFragment,
     SingleLanguageReferrable,
+    UserDefinedGlobalTimeMaster,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultidimensionalTime import MultidimensionalTime
@@ -16419,6 +16420,13 @@ class ARXMLParser(AbstractARXMLParser):
             crc_secured = GlobalTimeCrcSupportEnum()
             crc_secured.setValue(literal.getValue())
             master.setCrcSecured(crc_secured)
+        return master
+
+    def readUserDefinedGlobalTimeMaster(self, element: ET.Element, master: UserDefinedGlobalTimeMaster) -> UserDefinedGlobalTimeMaster:
+        # The XSD USER-DEFINED-GLOBAL-TIME-MASTER group (AUTOSAR_00052.xsd l.128818) follows the
+        # GLOBAL-TIME-MASTER group and has an empty sequence, so the helper owns only the base
+        # level reached through readGlobalTimeMaster.
+        self.readGlobalTimeMaster(element, master)
         return master
 
     def readGlobalTimeEthMaster(self, element: ET.Element, master: GlobalTimeEthMaster) -> GlobalTimeEthMaster:

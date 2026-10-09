@@ -631,6 +631,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Referrable,
     ShortNameFragment,
     SingleLanguageReferrable,
+    UserDefinedGlobalTimeMaster,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement, CalibrationParameterValueSet, PhysicalDimensionMappingSet
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultidimensionalTime import MultidimensionalTime
@@ -13901,6 +13902,13 @@ class ARXMLWriter(AbstractARXMLWriter):
         # GLOBAL-TIME-MASTER group and carries only the CRC-SECURED element.
         self.writeGlobalTimeMaster(element, master)
         self.setChildElementOptionalLiteral(element, "CRC-SECURED", master.getCrcSecured())
+
+    def writeUserDefinedGlobalTimeMaster(self, element: ET.Element, master: UserDefinedGlobalTimeMaster):
+        # Populates the USER-DEFINED-GLOBAL-TIME-MASTER element created by the caller; the XSD
+        # USER-DEFINED-GLOBAL-TIME-MASTER group (AUTOSAR_00052.xsd l.128818) follows the
+        # GLOBAL-TIME-MASTER group and has an empty sequence, so the helper owns only the base
+        # level reached through writeGlobalTimeMaster.
+        self.writeGlobalTimeMaster(element, master)
 
     def writeGlobalTimeEthMaster(self, element: ET.Element, master: GlobalTimeEthMaster):
         # Populates the GLOBAL-TIME-ETH-MASTER element created by the caller; the XSD
