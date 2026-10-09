@@ -924,6 +924,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Ip4AddressString,
     Ip6AddressString,
     Limit,
+    LinChecksumType,
     MimeTypeString,
     MonotonyEnum,
     NameToken,
@@ -11128,8 +11129,8 @@ class ARXMLParser(AbstractARXMLParser):
     def readLinFrameTriggering(self, element: ET.Element, triggering: LinFrameTriggering):
         self.logger.debug("Read LinFrameTriggering %s" % triggering.getShortName())
         self.readFrameTriggering(element, triggering)
-        triggering.setIdentifier(self.getChildElementOptionalNumericalValue(element, "IDENTIFIER"))
-        triggering.setLinChecksum(self.getChildElementOptionalLiteral(element, "LIN-CHECKSUM"))
+        triggering.setIdentifier(self.getChildElementOptionalIntegerValue(element, "IDENTIFIER"))
+        triggering.setLinChecksum(cast(Optional[LinChecksumType], self.getChildElementOptionalLiteral(element, "LIN-CHECKSUM")))
 
     def readCommunicationCycle(self, element: ET.Element, cycle: CommunicationCycle):
         self.readARObject(element, cycle)

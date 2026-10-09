@@ -6,8 +6,7 @@ from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Integer, PositiveInteger, RefType, TimeValue
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Integer, LinChecksumType, PositiveInteger, RefType, TimeValue
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import Frame, FrameTriggering
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 
@@ -78,36 +77,53 @@ class LinUnconditionalFrame(LinFrame):
 
 class LinFrameTriggering(FrameTriggering):
     """
-    Defines the triggering mechanism for LIN frames, specifying how and when
-    LIN frames are transmitted or received on the network, including
-    identifier and checksum properties.
+    LIN specific attributes to the FrameTriggering
     """
 
     # LinFrameTriggering method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getIdentifier                [x] impl  [ ] docstring  [ ] test
-    # [ ] setIdentifier                [x] impl  [ ] docstring  [ ] test
-    # [ ] getLinChecksum               [x] impl  [ ] docstring  [ ] test
-    # [ ] setLinChecksum               [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.88, p.428
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getIdentifier   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIdentifier   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getLinChecksum  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setLinChecksum  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
-    def __init__(self, parent, short_name):
+    def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.identifier: Integer = None
-        self.linChecksum: ARLiteral = None
+        # To describe a frames identifier on the communication system, usually with a fixed identifierValue. For Lin SporadicFrames the attribute shall be ignored.
+        self.identifier: Optional[Integer] = None
 
-    def getIdentifier(self):
+        # Type of checksum that the frame is using. This attribute is optional because in case of sporadic frames it should not be set.
+        self.linChecksum: Optional[LinChecksumType] = None
+
+    def getIdentifier(self) -> Optional[Integer]:
+        """
+        To describe a frames identifier on the communication system, usually with a fixed identifierValue. For Lin SporadicFrames the attribute shall be ignored.
+        """
         return self.identifier
 
-    def setIdentifier(self, value):
+    def setIdentifier(self, value: Optional[Integer]) -> LinFrameTriggering:
+        """
+        To describe a frames identifier on the communication system, usually with a fixed identifierValue. For Lin SporadicFrames the attribute shall be ignored.
+        A None value is a no-op and does not overwrite an existing identifier.
+        """
         if value is not None:
             self.identifier = value
         return self
 
-    def getLinChecksum(self):
+    def getLinChecksum(self) -> Optional[LinChecksumType]:
+        """
+        Type of checksum that the frame is using. This attribute is optional because in case of sporadic frames it should not be set.
+        """
         return self.linChecksum
 
-    def setLinChecksum(self, value):
+    def setLinChecksum(self, value: Optional[LinChecksumType]) -> LinFrameTriggering:
+        """
+        Type of checksum that the frame is using. This attribute is optional because in case of sporadic frames it should not be set.
+        A None value is a no-op and does not overwrite an existing linChecksum.
+        """
         if value is not None:
             self.linChecksum = value
         return self

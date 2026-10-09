@@ -6,7 +6,7 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, PositiveInteger, RefType, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, LinChecksumType, PositiveInteger, RefType, TimeValue
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import (
     ApplicationEntry,
@@ -179,13 +179,21 @@ class Test_Fibex4LinCommunication:
         assert triggering.getIdentifier() == 60  # Value should still be 60 since None was not set
         assert result == triggering  # Test method chaining
 
-        result = triggering.setLinChecksum("checksum")
-        assert triggering.getLinChecksum() == "checksum"
+        checksum = LinChecksumType()
+        checksum.setValue(LinChecksumType.CLASSIC)
+        result = triggering.setLinChecksum(checksum)
+        assert triggering.getLinChecksum() is checksum
+        assert triggering.getLinChecksum().getValue() == "CLASSIC"
         assert result == triggering  # Test method chaining
 
         result = triggering.setLinChecksum(None)
-        assert triggering.getLinChecksum() == "checksum"  # Value should still be "checksum" since None was not set
+        assert triggering.getLinChecksum() is checksum  # Value should still be the checksum since None was not set
         assert result == triggering  # Test method chaining
+
+    def test_LinFrameTriggering_docstring_matches_spec_note(self):
+        """Test the class docstring is the Table 6.88 Note copied verbatim."""
+        expected = "LIN specific attributes to the FrameTriggering"
+        assert inspect.cleandoc(LinFrameTriggering.__doc__) == expected
 
     def test_ResumePosition(self):
         """Test ResumePosition enum functionality."""
