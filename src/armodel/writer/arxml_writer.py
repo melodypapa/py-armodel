@@ -599,6 +599,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     BinaryManifestAddressableObject,
     BinaryManifestMetaDataField,
     BinaryManifestResource,
+    CpSoftwareClusterCommunicationResource,
     CpSoftwareClusterResource,
     CpSoftwareClusterToResourceMapping,
     DdsCpConsumedServiceInstance,
@@ -17482,6 +17483,23 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.writeRoleBasedResourceDependency(dep_element, dependency)
         self.setChildElementOptionalPositiveInteger(element, "GLOBAL-RESOURCE-ID", cast(Integer, resource.getGlobalResourceId()))
         self.setChildElementOptionalBooleanValue(element, "IS-MANDATORY", resource.getIsMandatory())
+
+    def writeCpSoftwareClusterCommunicationResource(self, element: ET.Element, resource: CpSoftwareClusterCommunicationResource):
+        # Populates the CP-SOFTWARE-CLUSTER-COMMUNICATION-RESOURCE element created by the caller;
+        # the XSD CP-SOFTWARE-CLUSTER-COMMUNICATION-RESOURCE group (AUTOSAR_00052.xsd l.24239)
+        # orders COM-PROPS (atp.Status="removed", not modeled) then COMMUNICATION-RESOURCE-PROPS,
+        # a 0..1 wrapper whose inner choice names the concrete props element.
+        self.logger.debug("Write CpSoftwareClusterCommunicationResource %s" % resource.getShortName())
+        self.writeCpSoftwareClusterResource(element, resource)
+        props = resource.getCommunicationResourceProps()
+        if props is not None:
+            communication_resource_props_element = ET.SubElement(element, "COMMUNICATION-RESOURCE-PROPS")
+            if isinstance(props, ClientServerOperationComProps):
+                client_server_element = ET.SubElement(communication_resource_props_element, "CLIENT-SERVER-OPERATION-COM-PROPS")
+                self.writeClientServerOperationComProps(client_server_element, props)
+            elif isinstance(props, DataComProps):
+                data_com_element = ET.SubElement(communication_resource_props_element, "DATA-COM-PROPS")
+                self.writeDataComProps(data_com_element, props)
 
     def writeDiagnosticEventToTroubleCodeJ1939Mapping(self, element: ET.Element, mapping: DiagnosticEventToTroubleCodeJ1939Mapping):
         self.logger.debug("Write DiagnosticEventToTroubleCodeJ1939Mapping %s" % mapping.getShortName())

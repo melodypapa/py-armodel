@@ -14,6 +14,8 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import Diag
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
+    ClientServerOperationComProps,
+    DataComProps,
     DdsCpServiceInstanceEvent,
     DdsCpServiceInstanceOperation,
     DdsDeadline,
@@ -38,6 +40,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     BinaryManifestAddressableObject,
     BinaryManifestItem,
     BinaryManifestResource,
+    CpSoftwareClusterCommunicationResource,
     CpSoftwareClusterResource,
     DdsCpConsumedServiceInstance,
     DdsCpDomain,
@@ -4649,3 +4652,91 @@ class TestUserDefinedGlobalTimeSlave:
 
         obj.setVariationPoint(None)
         assert obj.getVariationPoint() is variation_point
+
+
+class TestCpSoftwareClusterCommunicationResource:
+    """
+    Test class for CpSoftwareClusterCommunicationResource functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 11.8, p.902
+    (concrete; the Table 11.8 Base row's most-derived class is CpSoftwareClusterResource.)
+    """
+
+    CLASS_NOTE = "Represents a single resource required or provided by a CP Software Cluster which relates to the port based communication on VFB level."
+    PROPS_NOTE = "This aggregation supports the further qualification of the enclosing CpSoftwareClusterCommunicationRecource by means of additional attributes depending on the nature of the CpSoftwareClusterCommunicationRecource."
+
+    def _create_resource(self) -> CpSoftwareClusterCommunicationResource:
+        return CpSoftwareClusterCommunicationResource(AUTOSAR.getInstance(), "commResource")
+
+    def test_is_cp_software_cluster_resource_subclass(self):
+        """
+        Test that CpSoftwareClusterCommunicationResource derives from CpSoftwareClusterResource
+        per the Table 11.8 Base row (ARObject, CpSoftwareClusterResource, Identifiable,
+        MultilanguageReferrable, Referrable — most-derived CpSoftwareClusterResource).
+        """
+        assert issubclass(CpSoftwareClusterCommunicationResource, CpSoftwareClusterResource)
+        assert issubclass(CpSoftwareClusterCommunicationResource, Identifiable)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim (including the spec's own
+        "Recource" spelling).
+        """
+        assert inspect.cleandoc(CpSoftwareClusterCommunicationResource.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert CpSoftwareClusterCommunicationResource.__init__.__doc__ is None
+
+    def test_initialization(self):
+        """
+        Test that communicationResourceProps defaults to None (Table 11.8 multiplicity 0..1).
+        """
+        resource = self._create_resource()
+
+        assert resource.getCommunicationResourceProps() is None
+
+    def test_get_set_communication_resource_props(self):
+        """
+        Test the communicationResourceProps round-trip with a concrete DataComProps value.
+        """
+        resource = self._create_resource()
+        props = DataComProps()
+
+        assert resource.setCommunicationResourceProps(props) is resource
+        assert resource.getCommunicationResourceProps() is props
+
+    def test_set_communication_resource_props_none_is_no_op(self):
+        """
+        Test that setting None does not overwrite an existing communicationResourceProps.
+        """
+        resource = self._create_resource()
+        props = DataComProps()
+        resource.setCommunicationResourceProps(props)
+
+        resource.setCommunicationResourceProps(None)
+
+        assert resource.getCommunicationResourceProps() is props
+
+    def test_accessor_docstrings_are_spec_note_verbatim(self):
+        """
+        Test that the getter/setter docstrings carry the spec Note verbatim (the setter
+        appends the None-no-op sentence).
+        """
+        resource = self._create_resource()
+
+        assert inspect.cleandoc(resource.getCommunicationResourceProps.__doc__) == self.PROPS_NOTE
+        assert inspect.cleandoc(resource.setCommunicationResourceProps.__doc__) == self.PROPS_NOTE + "\nA None value is a no-op and does not overwrite an existing communicationResourceProps."
+
+    def test_client_server_operation_com_props_accepted(self):
+        """
+        Test that the polymorphic aggregate also accepts the second concrete subclass.
+        """
+        resource = self._create_resource()
+        props = ClientServerOperationComProps()
+
+        resource.setCommunicationResourceProps(props)
+
+        assert resource.getCommunicationResourceProps() is props

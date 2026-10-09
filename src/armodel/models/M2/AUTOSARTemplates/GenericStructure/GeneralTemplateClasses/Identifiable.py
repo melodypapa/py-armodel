@@ -7,6 +7,7 @@ from __future__ import annotations
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
+    CpSoftwareClusterCommunicationResourceProps,
     DdsCpServiceInstanceEvent,
     DdsCpServiceInstanceOperation,
     DdsDeadline,
@@ -790,7 +791,42 @@ class CpSoftwareClusterResource(Identifiable):
 
 
 class CpSoftwareClusterCommunicationResource(CpSoftwareClusterResource):
-    pass
+    """Represents a single resource required or provided by a CP Software Cluster which relates to the port based communication on VFB level."""
+
+    # CpSoftwareClusterCommunicationResource method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 11.8, p.902
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCommunicationResourceProps  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCommunicationResourceProps  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # The XSD CP-SOFTWARE-CLUSTER-COMMUNICATION-RESOURCE group (AUTOSAR_00052.xsd l.24239) orders
+    # COM-PROPS then COMMUNICATION-RESOURCE-PROPS. COM-PROPS carries atp.Status="removed" and has
+    # no Table 11.8 Attribute row (Rule 0015) — not modeled. COMMUNICATION-RESOURCE-PROPS is a 0..1
+    # wrapper whose inner choice dispatches to the concrete CpSoftwareClusterCommunicationResourceProps
+    # subclasses; the reader/writer call the CpSoftwareClusterResource base helpers exactly once and the
+    # aggregator dispatch from CpSoftwareClusterResourcePool.resource is pending (unsynced later-wave class).
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This aggregation supports the further qualification of the enclosing CpSoftwareClusterCommunicationRecource by means of additional attributes depending on the nature of the CpSoftwareClusterCommunicationRecource.
+        self.communicationResourceProps: Optional[CpSoftwareClusterCommunicationResourceProps] = None
+
+    def getCommunicationResourceProps(self) -> Optional[CpSoftwareClusterCommunicationResourceProps]:
+        """
+        This aggregation supports the further qualification of the enclosing CpSoftwareClusterCommunicationRecource by means of additional attributes depending on the nature of the CpSoftwareClusterCommunicationRecource.
+        """
+        return self.communicationResourceProps
+
+    def setCommunicationResourceProps(self, value: Optional[CpSoftwareClusterCommunicationResourceProps]) -> CpSoftwareClusterCommunicationResource:
+        """
+        This aggregation supports the further qualification of the enclosing CpSoftwareClusterCommunicationRecource by means of additional attributes depending on the nature of the CpSoftwareClusterCommunicationRecource.
+        A None value is a no-op and does not overwrite an existing communicationResourceProps.
+        """
+        if value is not None:
+            self.communicationResourceProps = value
+        return self
 
 
 class CpSoftwareClusterServiceResource(CpSoftwareClusterResource):

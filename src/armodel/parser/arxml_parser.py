@@ -758,6 +758,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     BinaryManifestAddressableObject,
     BinaryManifestMetaDataField,
     BinaryManifestResource,
+    CpSoftwareClusterCommunicationResource,
     CpSoftwareClusterResource,
     DdsCpConsumedServiceInstance,
     DdsCpDomain,
@@ -12385,6 +12386,26 @@ class ARXMLParser(AbstractARXMLParser):
             resource.addDependentResource(dependency)
         resource.setGlobalResourceId(self.getChildElementOptionalPositiveInteger(element, "GLOBAL-RESOURCE-ID"))
         resource.setIsMandatory(self.getChildElementOptionalBooleanValue(element, "IS-MANDATORY"))
+
+    def readCpSoftwareClusterCommunicationResource(self, element: ET.Element, resource: CpSoftwareClusterCommunicationResource) -> CpSoftwareClusterCommunicationResource:
+        # The XSD CP-SOFTWARE-CLUSTER-COMMUNICATION-RESOURCE group (AUTOSAR_00052.xsd l.24239)
+        # orders COM-PROPS then COMMUNICATION-RESOURCE-PROPS. COM-PROPS carries atp.Status="removed"
+        # and has no Table 11.8 Attribute row (Rule 0015). COMMUNICATION-RESOURCE-PROPS is a 0..1
+        # wrapper whose inner choice dispatches to the concrete props subclasses.
+        self.readCpSoftwareClusterResource(element, resource)
+        communication_resource_props_element = self.find(element, "COMMUNICATION-RESOURCE-PROPS")
+        if communication_resource_props_element is not None:
+            client_server_element = self.find(communication_resource_props_element, "CLIENT-SERVER-OPERATION-COM-PROPS")
+            if client_server_element is not None:
+                client_server_props = ClientServerOperationComProps()
+                self.readClientServerOperationComProps(client_server_element, client_server_props)
+                resource.setCommunicationResourceProps(client_server_props)
+            data_com_element = self.find(communication_resource_props_element, "DATA-COM-PROPS")
+            if data_com_element is not None:
+                data_com_props = DataComProps()
+                self.readDataComProps(data_com_element, data_com_props)
+                resource.setCommunicationResourceProps(data_com_props)
+        return resource
 
     def readDiagnosticEventToTroubleCodeJ1939Mapping(self, element: ET.Element, mapping: DiagnosticEventToTroubleCodeJ1939Mapping):
         self.readDiagnosticMapping(element, mapping)
