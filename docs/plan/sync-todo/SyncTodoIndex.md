@@ -874,7 +874,7 @@ Status: **29/29** completed
 
 ## Group21
 
-Status: **27/55** completed
+Status: **28/55** completed
 
 | Class Name                           | Status       | Commit ID  |
 | ------------------------------------ | ------------ | ---------- |
@@ -886,7 +886,7 @@ Status: **27/55** completed
 | `SdgDef`                             | [x] Done     | c7d3958065 |
 | `SdgElementWithGid`                  | [x] Done     | f7d552948b |
 | `SdgClass`                           | [x] Done     | cfa7402dec |
-| `SdgAttribute`                       | [ ] Pending* | N/A        |
+| `SdgAttribute`                       | [x] Done     | 41952ae2fd |
 | `SdgAbstractPrimitiveAttribute`      | [ ] Pending* | N/A        |
 | `SdgPrimitiveAttribute`              | [ ] Pending* | N/A        |
 | `SdgPrimitiveAttributeWithVariation` | [ ] Pending* | N/A        |
