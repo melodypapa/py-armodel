@@ -12,6 +12,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ARLiteral,
     Boolean,
     ByteOrderEnum,
+    DiagPduType,
     Integer,
     PositiveInteger,
     RefType,
@@ -232,7 +233,7 @@ class TestWriteDcmIPdu:
     def test_basic(self, writer):
         pkg = _pkg()
         pdu = DcmIPdu(pkg, "Dcm")
-        pdu.setDiagPduType(_literal("DIAG-REQUEST"))
+        pdu.setDiagPduType(DiagPduType().setValue(DiagPduType.DIAG_REQUEST))
         parent = _parent()
         writer.writeDcmIPdu(parent, pdu)
         assert len(parent) == 1

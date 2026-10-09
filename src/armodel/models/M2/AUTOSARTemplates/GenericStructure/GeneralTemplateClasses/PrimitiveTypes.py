@@ -1692,7 +1692,29 @@ class AdditionalBindingTimeEnum(AREnum):
 
 
 class CryptoServiceKeyGenerationEnum(AREnum):
-    pass
+    """
+    This enumeration shall be taken to express the handling of a crypto key in terms of whether it is obtained from e.g. a diagnostic tester or whether it is created by derivation from a master key.
+    """
+
+    # CryptoServiceKeyGenerationEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.52, p.378
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — serialized as value form on CryptoServiceKey.keyGeneration members
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # This means that the crypto key is created by derivation from a master key. Tags: atp.EnumerationLiteralIndex=0
+    KEY_DERIVATION = "KEY-DERIVATION"
+
+    # This means that the crypto key is obtained from an external entity, e.g. a diagnostic tester. Tags: atp.EnumerationLiteralIndex=1
+    KEY_STORAGE = "KEY-STORAGE"
+
+    def __init__(self):
+        super().__init__(
+            [
+                CryptoServiceKeyGenerationEnum.KEY_DERIVATION,
+                CryptoServiceKeyGenerationEnum.KEY_STORAGE,
+            ]
+        )
 
 
 class DataConsistencyPolicyEnum(AREnum):
@@ -1916,7 +1938,29 @@ class DdsReliabilityKindEnum(AREnum):
 
 
 class DiagPduType(AREnum):
-    pass
+    """
+    Used to distinguish a diagnostic request from a response.
+    """
+
+    # DiagPduType method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.23, p.344
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — serialized as value form on DcmIPdu.diagPduType members
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # Diagnostic Request Tags: atp.EnumerationLiteralIndex=0
+    DIAG_REQUEST = "DIAG-REQUEST"
+
+    # Diagnostic Response Tags: atp.EnumerationLiteralIndex=1
+    DIAG_RESPONSE = "DIAG-RESPONSE"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DiagPduType.DIAG_REQUEST,
+                DiagPduType.DIAG_RESPONSE,
+            ]
+        )
 
 
 class DiagnosticClearDtcLimitationEnum(AREnum):

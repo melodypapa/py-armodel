@@ -7,7 +7,7 @@ import pytest
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable, Identifiable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, ByteOrderEnum, Integer, RefType, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, ByteOrderEnum, DiagPduType, Integer, PositiveInteger, RefType, TimeValue
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
@@ -34,7 +34,6 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommu
     ISignalTriggering,
     MultiplexedIPdu,
     MultiplexedPart,
-    NmPdu,
     NPdu,
     Pdu,
     PduToFrameMapping,
@@ -131,7 +130,7 @@ class Test_FibexCoreCommunication:
             Frame(parent, "test_frame")
 
     def test_Frame_methods(self):
-        """Test Frame abstract class methods."""
+        """Test Frame abstract class methods against Table 6.78."""
 
         class ConcreteFrame(Frame):
             def __init__(self, parent, short_name):
@@ -145,20 +144,38 @@ class Test_FibexCoreCommunication:
         assert frame.getPduToFrameMappings() == []
 
         # Test setter/getter methods with method chaining
-        frame.setFrameLength(100)
-        assert frame.getFrameLength() == 100
-        assert frame == frame.setFrameLength(100)  # Test method chaining
+        frame_length = Integer()
+        frame_length.setValue("100")
+        frame.setFrameLength(frame_length)
+        assert frame.getFrameLength().getValue() == 100
+        assert frame == frame.setFrameLength(frame_length)  # Test method chaining
+        # None is a no-op and does not overwrite an existing frameLength
+        assert frame == frame.setFrameLength(None)
+        assert frame.getFrameLength().getValue() == 100
 
         # Test PduToFrameMapping creation methods
         mapping = frame.createPduToFrameMapping("test_mapping")
         assert isinstance(mapping, PduToFrameMapping)
+        assert isinstance(mapping, Identifiable)
         assert len(frame.getPduToFrameMappings()) == 1
-        mapping.setPduRef(object())
-        assert frame.getPduToFrameMappings()[0].getPduRef() == mapping.getPduRef()
+        pdu_ref = RefType()
+        pdu_ref.setValue("/Pdu/test_pdu")
+        mapping.setPduRef(pdu_ref)
+        assert frame.getPduToFrameMappings()[0].getPduRef().getValue() == "/Pdu/test_pdu"
 
         # Try creating the same mapping again (should return existing)
         mapping2 = frame.createPduToFrameMapping("test_mapping")
         assert mapping == mapping2  # Should return the same instance
+
+        # getPduToFrameMappings returns the dedicated pduToFrameMappings field
+        # in insertion order (Rule 0004), not a registry view sorted by short name
+        bravo = frame.createPduToFrameMapping("bravo")
+        alpha = frame.createPduToFrameMapping("alpha")
+        mappings = frame.getPduToFrameMappings()
+        assert mappings[0] is mapping
+        assert mappings[1] is bravo
+        assert mappings[2] is alpha
+        assert len(mappings) == 3
 
     def test_ContainedIPduProps(self):
         """Test ContainedIPduProps class functionality."""
@@ -536,51 +553,6 @@ class Test_FibexCoreCommunication:
         assert TransferPropertyEnum.TRIGGERED_ON_CHANGE_WITHOUT_REPETITION in enum.getEnumValues()
         assert TransferPropertyEnum.TRIGGERED_WITHOUT_REPETITION in enum.getEnumValues()
 
-    def test_NmPdu(self):
-        """Test NmPdu class functionality."""
-        parent = MockParent()
-        pdu = NmPdu(parent, "test_nm_pdu")
-
-        assert isinstance(pdu, Pdu)
-
-        # Test default values
-        assert pdu.getISignalToIPduMappings() == []
-        assert pdu.getNmDataInformation() is None
-        assert pdu.getNmVoteInformation() is None
-        assert pdu.getUnusedBitPattern() is None
-
-        # Test setter/getter methods with method chaining
-        _ref1 = object()
-        pdu.setNmDataInformation(True)
-        assert pdu.getNmDataInformation() is True
-        assert pdu == pdu.setNmDataInformation(True)  # Test method chaining
-        # None is a no-op and does not overwrite an existing nmDataInformation
-        assert pdu == pdu.setNmDataInformation(None)
-        assert pdu.getNmDataInformation() is True
-
-        pdu.setNmVoteInformation(False)
-        assert pdu.getNmVoteInformation() is False
-        assert pdu == pdu.setNmVoteInformation(False)  # Test method chaining
-        # None is a no-op and does not overwrite an existing nmVoteInformation
-        assert pdu == pdu.setNmVoteInformation(None)
-        assert pdu.getNmVoteInformation() is False
-
-        pdu.setUnusedBitPattern(-1)
-        assert pdu.getUnusedBitPattern() == -1
-        assert pdu == pdu.setUnusedBitPattern(-1)  # Test method chaining
-        # None is a no-op and does not overwrite an existing unusedBitPattern
-        assert pdu == pdu.setUnusedBitPattern(None)
-        assert pdu.getUnusedBitPattern() == -1
-
-        # Test ISignalToIPduMapping creation method
-        mapping = pdu.createISignalToIPduMapping("test_mapping")
-        assert isinstance(mapping, ISignalToIPduMapping)
-        assert len(pdu.getISignalToIPduMappings()) == 1
-
-        # Try creating the same mapping again (should return existing)
-        mapping2 = pdu.createISignalToIPduMapping("test_mapping")
-        assert mapping == mapping2  # Should return the same instance
-
     def test_NPdu(self):
         """Test NPdu class functionality."""
         parent = MockParent()
@@ -599,9 +571,9 @@ class Test_FibexCoreCommunication:
         assert pdu.getDiagPduType() is None
 
         # Test setter/getter methods with method chaining
-        pdu.setDiagPduType("REQUEST")
-        assert pdu.getDiagPduType() == "REQUEST"
-        assert pdu == pdu.setDiagPduType("REQUEST")  # Test method chaining
+        pdu.setDiagPduType(DiagPduType().setValue(DiagPduType.DIAG_REQUEST))
+        assert pdu.getDiagPduType().getValue() == DiagPduType.DIAG_REQUEST
+        assert pdu == pdu.setDiagPduType(DiagPduType().setValue(DiagPduType.DIAG_REQUEST))  # Test method chaining
 
     def test_IPduTiming(self):
         """Test IPduTiming class functionality."""
@@ -655,10 +627,10 @@ class Test_FibexCoreCommunication:
         assert ipdu.getUnusedBitPattern() == 255
 
         # Test ISignalToPduMappings creation method
-        mapping = ipdu.createISignalToPduMappings("test_mapping")
+        mapping = ipdu.createISignalToPduMapping("test_mapping")
         assert isinstance(mapping, ISignalToIPduMapping)
         assert len(ipdu.getISignalToPduMappings()) == 1
-        assert ipdu.createISignalToPduMappings("test_mapping") is mapping  # duplicate returns existing
+        assert ipdu.createISignalToPduMapping("test_mapping") is mapping  # duplicate returns existing
 
     def test_ISignal(self):
         """Test ISignal class functionality."""
@@ -1125,10 +1097,12 @@ class Test_FibexCoreCommunication:
         parent = MockParent()
         auth_props = SecureCommunicationAuthenticationProps(parent, "test_auth_props")
 
-        auth_props.setAuthInfoTxLength(4)
-        assert auth_props.getAuthInfoTxLength() == 4
+        value = PositiveInteger()
+        value.setValue("24")
+        auth_props.setAuthInfoTxLength(value)
+        assert auth_props.getAuthInfoTxLength() == value
         assert auth_props == auth_props.setAuthInfoTxLength(None)
-        assert auth_props.getAuthInfoTxLength() == 4
+        assert auth_props.getAuthInfoTxLength() == value
 
     def test_SecureCommunicationFreshnessProps_initialization(self):
         parent = MockParent()

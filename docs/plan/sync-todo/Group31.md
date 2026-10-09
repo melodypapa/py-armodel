@@ -371,17 +371,43 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
     the renamed DEFERRED/IMMEDIATE constants.
   - [x] Step 9 — 9a passed 2026-10-08 (22259 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit e34ab3e1a
 
-- [ ] `ISignal` — ARElement — R23-11 CP_TPS_SystemTemplate Table 6.7, p.321
+- [x] `ISignal` — ARElement — R23-11 CP_TPS_SystemTemplate Table 6.7, p.321
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-08 (23269 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit e260b3928
+  - Step 1 finding: page-split render — Package/Note/Base/Aggregated + rows dataTransformation..iSignalType
+    (lines 8311-8322) appear BEFORE the caption at line 8328; rows length..transformationISignalProps
+    (lines 8330-8336) after. Displayed member order = concatenation: dataTransformation, dataTypePolicy,
+    initValue, iSignalProps, iSignalType, length, networkRepresentationProps, systemSignal,
+    timeoutSubstitutionValue, transformationISignalProps — matches the legacy member order, no reorder.
+  - Step 1 finding: Base chain lists ARElement and FibexElement (same-depth siblings under
+    PackageableElement; UploadableDesignElement/UploadablePackageElement not in codebase) — kept
+    `FibexElement` per Rule 0001.2 role-matching branch (FIBEX-ELEMENT/AR-ELEMENT/COLLECTABLE-ELEMENT
+    XSD groups are empty sequences; 14 sibling classes already derive FibexElement).
+  - Step 1 finding: XSD I-SIGNAL group child order puts I-SIGNAL-PROPS (3rd) BEFORE I-SIGNAL-TYPE (4th);
+    the legacy writer emits I-SIGNAL-TYPE first — writer child order to fix in Step 6.
+  - Rule 0023: stale `# Spec verified: R23-11` marker (5-column legacy checklist) removed at session
+    start; stamped-audit ratchet drained (`ISignal` line gone from stamped_audit_baseline.txt).
+  - Step 6 fix (in-step, not a deviation): writer emitted I-SIGNAL-TYPE before I-SIGNAL-PROPS —
+    reordered to the XSD I-SIGNAL group sequence (DATA-TRANSFORMATIONS, DATA-TYPE-POLICY, I-SIGNAL-PROPS,
+    I-SIGNAL-TYPE, INIT-VALUE, LENGTH, NETWORK-REPRESENTATION-PROPS, SYSTEM-SIGNAL-REF,
+    TIMEOUT-SUBSTITUTION-VALUE, TRANSFORMATION-I-SIGNAL-PROPSS); reader reordered symmetrically.
+    Both ARPackage dispatches were already full-level readISignal/writeISignal — no identity-only
+    placeholders to upgrade.
+  - Step 8: no open deviations. All member types exist (DataTypePolicyEnum, ISignalProps,
+    ISignalTypeEnum, UnlimitedInteger, ValueSpecification + Text/Numerical subtypes, SwDataDefProps,
+    TransformationISignalProps + EndToEnd/SOMEIP/UserDefined subtypes, RefType); no missing classes,
+    no placeholders. Test migration: legacy misplaced `FibexCore/test_ISignal.py` (Test_FibexCoreISignal
+    + Test_DataTypePolicyEnum) split — TestISignal now at the mirrored CoreCommunication home;
+    Test_DataTypePolicyEnum moved to its own mirrored home `SystemTemplate/test_DataTypePolicyEnum.py`
+    (DataTypePolicyEnum is a separate queued row — its checklist stays that row's business).
 
 - [ ] `DataTypePolicyEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 6.8, p.322
   - note: already `# Spec verified: R23-11` on main (earlier enum-XSD wave) — no sync work needed; row flip rides the batch 9b pass
@@ -396,209 +422,548 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `ISignalTypeEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 6.9, p.322
+- [x] `ISignalTypeEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 6.9, p.322 (sync commit 3bf0b5044)
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A: standalone AREnum, no own XML element; serialized as the attribute value on ISignal.iSignalType and round-tripped there
+  - [x] Step 6 — Update parser & writer (Green) — N/A: standalone AREnum; the consuming-class coverage lives on the ISignal row (parser:17074 / writer:15906)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-08 (23271 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 3bf0b5044
+  - Step 1 finding: Table 6.9 (R23-11 CP_TPS_SystemTemplate, p.322 via cached pdf_page index) is an
+    `Enumeration` table — 2 literals, displayed/XSD facet order `array` (idx 0), `primitive` (idx 1);
+    XSD `I-SIGNAL-TYPE-ENUM--SIMPLE` (AUTOSAR_00052.xsd:137810) facets `ARRAY`/`PRIMITIVE`, no
+    `atp.Status="removed"` facets, no exclusions; legacy implementation literal set/order/values/names
+    and the verbatim Note already matched the spec — the drift was the legacy checklist (no `__init__`
+    row, no Columns line) + stale `# Spec verified: R23-11` marker (Rule 0023, removed at session start;
+    ratchet baseline drained by 1 line).
+  - Step 2 note: Red = entry audit ROWS FAIL (legacy checklist missed `__init__`) + mirrored-placement
+    defect (legacy `Test_ISignalTypeEnum` sat in `FibexCore/`, migrated to the CoreCommunication home and
+    renamed `TestISignalTypeEnum` per Rule 0006); content-level assertions (facet-order pin,
+    instantiability, Note pin) pass immediately — legacy implementation already spec-correct
+    (VariableAccessScopeEnum precedent).
+  - Step 8: no in-scope deviations (literals/order/values/names match Table 6.9 + XSD; docstring
+    verbatim; no naming/type/missing rows). Consumers use the constants (writer test
+    `ISignalTypeEnum().setValue(ISignalTypeEnum.ARRAY)`); observation for the batch reviewer
+    (out of scope, consuming-class business): parser:17074 materializes a plain `ARLiteral` for
+    I-SIGNAL-TYPE via `getChildElementOptionalLiteral` + cast (Rule 0013.2 anti-pattern; same pattern on
+    the adjacent DATA-TYPE-POLICY line and unlike the typed TDEvent family readers) — a typed-reader
+    upgrade belongs to an ISignal drift pass; round-trip is lossless (`test_writer_isignal` asserts the
+    value form).
 
 - [ ] `ISignalProps` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.10, p.323
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: single attribute `handleOutOfRange` (HandleOutOfRangeEnum, 0..1, attr);
+    Base `ARObject` (concrete, `__init__(self)`); aggregated by `ISignal.iSignalProps`. XSD group
+    `I-SIGNAL-PROPS` (AUTOSAR_00052.xsd line 67362) = one child `HANDLE-OUT-OF-RANGE` +
+    `AR:AR-OBJECT` group; no `atp.Status="removed"` elements. Legacy model already matches the
+    spec contract; entry audit FAIL = legacy 5-col checklist + stale `# Spec verified:` marker
+    (removed per Rule 0023) + missing base reader/writer helper calls + `__init__` docstring.
+  - Step 8: no open deviations. All member types exist and are content-synced (HandleOutOfRangeEnum
+    audits PASS, marker batch-deferred like this class); no Rule 0001.10 placeholders.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-08 (23282 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 724ee746c
 
-- [ ] `ISignalGroup` — ARElement — R23-11 CP_TPS_SystemTemplate Table 6.12, p.324
+- [x] `ISignalGroup` — ARElement — R23-11 CP_TPS_SystemTemplate Table 6.12, p.324
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Table 6.12 body renders above its caption (ll.8400-8421, caption l.8414), p.324 confirmed via
+    pdf_page.py; Base column flattens to most-derived `FibexElement` (CollectableElement/Uploadable* are its
+    ancestors); 4 attrs in displayed order — comBasedSignalGroupTransformation (ref 0..1), iSignal (ref *),
+    systemSignalGroup (ref 0..1), transformationISignalProps (aggr *, abstract → E2E/SOMEIP/UserDefined
+    subtypes); XSD group (AUTOSAR_00052.xsd l.66868) confirms the same 4-element sequence, no
+    atp.Status="removed" elements; not VP-capable (ref-kind atpVariation → DATA-TRANSFORMATION-REF-CONDITIONAL
+    wrapper; no VARIATION-POINT in the group); legacy 5-column checklist + stale `# Spec verified: R23-11`
+    marker forced the full re-sync (Rule 0023) — marker removed at session start, stamped-audit baseline
+    regenerated.
+  - Deviation: none — fixed in-pass: addISignalRef/addTransformationISignalProps gained the Rule 0004 None
+    no-op + `Optional[...]` params; legacy test migrated to the mirrored CoreCommunication home;
+    constr_9225 added to the class docstring; reader/writer coverage already complete (no parser/writer
+    change; ARPackage dispatch already identity-based on both sides).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-08 (23299 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 9e6350c7c
 
-- [ ] `SystemSignalGroup` — ARElement — R23-11 CP_TPS_SystemTemplate Table 6.13, p.324
+- [x] `SystemSignalGroup` — ARElement — R23-11 CP_TPS_SystemTemplate Table 6.13, p.324
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: own table = CP_TPS_SystemTemplate Table 6.13, p.324; concrete Class; Base
+    most-derived = `ARElement` (current base correct); exactly 2 spec attrs
+    (`systemSignal` `*` ref, `transformingSystemSignal` 0..1 ref) — no flattening;
+    XSD group SYSTEM-SIGNAL-GROUP (AUTOSAR_00052.xsd l.119828): SYSTEM-SIGNAL-REFS
+    wrapper then TRANSFORMING-SYSTEM-SIGNAL-REF; no VARIATION-POINT (not
+    VP-capable); entry audit FAIL (legacy 5-col checklist, Rule 0023) + stale
+    marker removed at session start; drift = checklist format + addXxx None no-op.
+  - Deviation: none — fixed in-pass: `addSystemSignalRef` gained the Rule 0004 None
+    no-op + `Optional[RefType]` param; legacy test mirrored to the
+    CoreCommunication home (legacy block in test_CoreCommunication.py kept, per the
+    ISignalGroup precedent); dedicated parser/writer round-trip tests added
+    (field values, XSD child order, empty-wrapper case); reader/writer coverage
+    already complete — no parser/writer change (ARPackage dispatch already real on
+    both sides); referenced classes (RefType, ARElement chain) all exist — no
+    Rule 0001.10 placeholders.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-08 (23314 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit bf1e67996
 
-- [ ] `ISignalToIPduMapping` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.14, p.326
+- [x] `ISignalToIPduMapping` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.14, p.326 (sync commit 036440b90)
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: own table = CP_TPS_SystemTemplate Table 6.14, p.326 (page-split: header rows
+    above the caption, `updateIndicationBitPosition` row below it); Base most-derived =
+    `Identifiable` + `VariationPointCapable` mixin (XSD group carries VARIATION-POINT,
+    sequenceOffset=10000, "Applicable for: ISignalIPdu.iSignalToPduMapping") — both
+    pre-existing bases correct; 6 spec attrs 0..1, no flattening, no missing members.
+    Entry audit FAIL (Rule 0023 legacy 5-col checklist + stale `# Spec verified:`
+    marker) — marker removed at session start, baseline refreshed (one-line diff).
+    Drift fixed: reader/writer child order was I-SIGNAL-REF before I-SIGNAL-GROUP-REF
+    (XSD: GROUP-REF first); VARIATION-POINT was emitted before own children (now last
+    via `write_variation_point=False` + `writeVariationPointCapable`); START-POSITION/
+    UPDATE-INDICATION-BIT-POSITION upgraded to the spec-typed
+    `getChildElementOptionalUnlimitedInteger`/`setChildElementOptionalUnlimitedInteger`
+    pair (new writer delegation); `updateIndicationBitPosition` Note re-wrapped
+    verbatim (markdown wrap artifacts restored); class docstring gained the
+    constr_5322/5323/3514 rows; ISignalIPdu-side `readISignalToPduMappings`/
+    `writeISignalToPduMappings` dispatch upgraded from inline duplication to the
+    shared `readISignalToIPduMapping`/`writeISignalToIPduMapping` helpers.
+  - Deviation: none.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-08 (23332 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 036440b90
 
-- [ ] `ISignalTriggering` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 6.16, p.330
+- [x] `ISignalTriggering` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 6.16, p.330 (sync commit 96695d8a3)
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: own table = SystemTemplate TPS Table 6.16, p.330 (pdf_page.py); concrete
+    Class; Base most-derived = `Identifiable`, VP-capable per XSD group
+    I-SIGNAL-TRIGGERING (VARIATION-POINT "Applicable for:
+    PhysicalChannel.iSignalTriggering", sequenceOffset 10000) — base
+    `(Identifiable, VariationPointCapable)` kept (Rule 0020). Attrs (displayed
+    order): `iSignal` 0..1 ref → `iSignalRef`, `iSignalGroup` 0..1 ref →
+    `iSignalGroupRef`, `iSignalPort` * ref → `iSignalPortRefs` (all `RefType`).
+    XSD child order l.67499: I-SIGNAL-GROUP-REF → I-SIGNAL-PORT-REFS →
+    I-SIGNAL-REF → VARIATION-POINT. Rule 0015 clean (no XSD-only attrs). Drift
+    found at entry: legacy 5-column checklist (Rule 0023) + stale
+    `# Spec verified: R23-11` marker removed at session start;
+    `audit_stamped_classes.py --write-baseline` diff = 1 deletion
+    (ISignalTriggering leaves the known-failing list).
+  - Deviation: none. Referenced types (`RefType`, `ISignal`, `ISignalGroup`,
+    `ISignalPort`) all exist — no Rule 0001.10 placeholders.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-08 (23348 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 96695d8a3
 
-- [ ] `Pdu` — ARElement — R23-11 CP_TPS_SystemTemplate Table 6.17, p.340
+- [x] `Pdu` — ARElement — R23-11 CP_TPS_SystemTemplate Table 6.17, p.340 (sync commit b51f649ba)
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: own table = CP_TPS_SystemTemplate Table 6.17, p.340; abstract Class; Base
+    most-derived modeled = `FibexElement` (`UploadableDesignElement`/`UploadablePackageElement`
+    are spec chain names with no model class; `FibexElement(PackageableElement, ABC)` is the
+    established family base) — pre-existing base correct; 2 spec attrs (`hasDynamicLength`
+    Boolean 0..1, `length` UnlimitedInteger 0..1), no refs/aggrs, XSD group PDU
+    (AUTOSAR_00052.xsd l.88521) order HAS-DYNAMIC-LENGTH, LENGTH; META-DATA-LENGTH carries
+    `atp.Status="removed"` → not modeled; class Note + constr_5249/5321/3448 to append.
+    Entry audit FAIL (Rule 0023 legacy 5-col checklist + stale `# Spec verified:`
+    marker) — marker removed at session start, baseline refreshed (one-line diff).
+    `readPdu`/`writePdu` reusable helpers + subclass call sites already exist.
+  - Deviation: `META-DATA-LENGTH` (PDU group, AUTOSAR_00052.xsd l.88554) carries
+    `atp.Status="removed"` (atp.StatusRevisionBegin="4.3.0") — deprecated, not
+    implemented (Rule 0001.3/0015); absent from the Table 6.17 Attribute column.
+    No referenced-but-missing classes (Boolean, UnlimitedInteger, FibexElement all
+    exist; FibexElement stamped `# Spec verified: R23-11`).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-08 (23363 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit b51f649ba
 
-- [ ] `IPdu` — Pdu — R23-11 CP_TPS_SystemTemplate Table 6.18, p.341
+- [x] `IPdu` — Pdu — R23-11 CP_TPS_SystemTemplate Table 6.18, p.341 (sync commit 6d2c23610)
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note (Step 1): own table = SystemTemplate TPS Table 6.18, p.341 (pdf_page.py:
+    AUTOSAR_CP_TPS_SystemTemplate.pdf); abstract Class; Package row
+    `...Fibex::FibexCore::CoreCommunication` matches src home (Rule 0007 — non-leaf
+    `__init__.py`); Base most-derived = `Pdu` (synced b51f649ba) — src base already
+    correct; exactly ONE own attribute row `containedIPduProps`
+    (ContainedIPduProps 0..1 aggr) — no page-split continuation, no Tags/
+    Stereotypes tail, no constr rows; XSD group I-PDU (AUTOSAR_00052.xsd l.66381)
+    = single child CONTAINED-I-PDU-PROPS (minOccurs=0 maxOccurs=1), sequenced
+    AFTER the PDU group in every concrete complexType (e.g. DCM-I-PDU l.28532) —
+    reader/writer order already conforms; VP-capable via the PACKAGEABLE-ELEMENT
+    ancestor group (VARIATION-POINT) — handled by read/writeIdentifiable at the
+    base level; member type ContainedIPduProps + its two enums already
+    synced/stamped (Group5, 206cf295) — no Rule 0001.10 placeholders. Legacy
+    5-column checklist + stale `# Spec verified: R23-11` marker found at entry
+    (Rule 0023 removal + audit_stamped_classes baseline refresh). No deviations
+    for IPdu itself.
+  - Note (Step 8, cross-class observation for the queued `NPdu` row, NOT touched
+    this session): `readNPdu` dispatches through `readIPdu` (so it reads the
+    I-PDU group) while `writeNPdu` calls `writePdu` only — a read/write asymmetry
+    to resolve in NPdu's own sync (its Base = IPdu ⇒ writer should dispatch via
+    `writeIPdu`).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-08 (23377 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 6d2c23610
 
-- [ ] `ISignalIPdu` — IPdu — R23-11 CP_TPS_SystemTemplate Table 6.19, p.342
+- [x] `ISignalIPdu` — IPdu — R23-11 CP_TPS_SystemTemplate Table 6.19, p.342 (sync commit e9cdc0506)
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note (Step 1): own table = CP_TPS_SystemTemplate Table 6.19, p.342 (pdf_page.py;
+    page-split rendering: body rows above the caption, directly under Table 6.18's
+    body — identified by Class row `ISignalIPdu`); concrete Class; Package row
+    `...Fibex::FibexCore::CoreCommunication` matches src home (Rule 0007 — non-leaf
+    `__init__.py`); Base most-derived = `IPdu` (synced 6d2c23610) — src base already
+    correct; Class Note tail `Tags: atp.recommendedPackage=Pdus` kept verbatim.
+    Exactly 3 own attribute rows in displayed order: `iPduTimingSpecification`
+    (IPduTiming 0..1 aggr → get/set shape — IPduTiming Base = ARObject, Describable,
+    not Referrable, Rule 0001.6), `iSignalToPduMapping` (ISignalToIPduMapping `*`
+    aggr, singular spec name → plural list + plural getter; Identifiable child →
+    `createXxx(short_name)`), `unusedBitPattern` (Integer 0..1 attr). No page-split
+    continuation, no constr rows in the table. XSD group I-SIGNAL-I-PDU
+    (AUTOSAR_00052.xsd l.66972) child order: I-PDU-TIMING-SPECIFICATIONS (wrapper →
+    I-PDU-TIMING), I-SIGNAL-TO-PDU-MAPPINGS (wrapper → I-SIGNAL-TO-I-PDU-MAPPING),
+    PDU-COUNTERS (atp.Status="removed" — deprecated, NOT modeled), PDU-REPLICATIONS
+    (atp.Status="removed" — deprecated, NOT modeled), UNUSED-BIT-PATTERN — reader/
+    writer order conforms; Rule 0015: XSD appinfo `pureMM.maxOccurs="-1"` on
+    I-PDU-TIMING-SPECIFICATIONS (atpVariation resolved upper-mult increase) vs PDF
+    Mult 0..1 → PDF wins, single Optional. Not VP-capable (no VARIATION-POINT in own
+    group, absent from vp_anchors.txt). Entry audit FAIL (Rule 0023 legacy 5-col
+    checklist) + stale `# Spec verified: R23-11` marker removed at session start,
+    baseline refreshed (one-line diff). Legacy drift to fix: reader/writer call
+    `readIdentifiable`/`writeIdentifiable` directly + read LENGTH inline (Base is
+    IPdu → must dispatch `readIPdu`/`writeIPdu` exactly once per side, Rule 0025);
+    factory `createISignalToPduMappings` plural → rename singular
+    `createISignalToPduMapping` (Rule 0001.5, NmPdu `createISignalToIPduMapping`
+    precedent); legacy test sets bare `int` for `unusedBitPattern` → typed
+    `Integer().setValue(...)` (Rule 0006).
+  - Deviation: `deprecated (atp.Status="removed"), not implemented` — XSD group
+    I-SIGNAL-I-PDU also declares PDU-COUNTERS/SIGNAL-I-PDU-COUNTER and
+    PDU-REPLICATIONS/SIGNAL-I-PDU-REPLICATION wrappers, both tagged
+    `atp.Status="removed"` (AUTOSAR_00052.xsd ll.67010/67025) and absent from the
+    Table 6.19 Attribute column → not modeled (Rule 0001.3/0015).
+  - Deviation: none otherwise — fixed in-pass: factory `createISignalToPduMappings`
+    renamed singular `createISignalToPduMapping` (Rule 0001.5; parser + 2 legacy
+    test call sites updated, mutator-before-getter source order per Rule 0001.11);
+    reader/writer re-dispatched `readIdentifiable`/`writeIdentifiable` →
+    `readIPdu`/`writeIPdu` exactly once per side (Rule 0025) and the inline
+    generic-typed LENGTH read/write dropped (owned by readPdu/writePdu, typed
+    UnlimitedInteger); shared `readISignalToPduMappings`/`writeISignalToPduMappings`
+    reused unchanged. No referenced-but-missing classes (IPduTiming stamped;
+    ISignalToIPduMapping synced 036440b90; Integer/TimeValue/UnlimitedInteger/
+    RefType all exist) — no Rule 0001.10 placeholders.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-08 (23392 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit e9cdc0506
 
-- [ ] `NmPdu` — Pdu — R23-11 CP_TPS_SystemTemplate Table 6.20, p.343
+- [x] `NmPdu` — Pdu — R23-11 CP_TPS_SystemTemplate Table 6.20, p.343 (sync commit 462941c12)
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: legacy 5-column checklist + stale `# Spec verified: R23-11` (Rule 0023) —
+    marker removed at entry, stamped baseline refreshed. Accessor order drift
+    (getISignalToIPduMappings before createISignalToIPduMapping — Rule 0001.11
+    wants mutator first); unusedBitPattern Note carried XSD wording, dropping the
+    markdown wrap artifact "nm DataInformation". Not VP-capable (no
+    VARIATION-POINT in the NM-PDU group/complexType). Reader/writer already
+    chain readPdu/writePdu once per side.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - Deviation: none — fixed in-pass: `createISignalToIPduMapping` moved before
+    `getISignalToIPduMappings` (Rule 0001.11 mutator-first; checklist rows
+    reordered to source order); `iSignalToIPduMapping`/`unusedBitPattern` Notes
+    re-synced verbatim from the markdown (wrap artifacts "NmUser Data" / "nm
+    DataInformation" restored — prior text had XSD-collapsed wording); legacy
+    5-column checklist upgraded to 6-column with per-row release; class docstring
+    gained the class-level constr_5385/constr_3073 rows. Reader/writer source
+    unchanged (readNmPdu/writeNmPdu already chain readPdu/writePdu exactly once
+    per side; XSD l.85128 child order; ARPackage dispatch full both sides). XSD
+    notes the I-SIGNAL-TO-I-PDU-MAPPINGS aggregation carries a variation point
+    that "shall not exist in models" (constr_2638) — not an attribute, not
+    modeled. No referenced-but-missing classes (Pdu synced b51f649ba;
+    ISignalToIPduMapping synced; Boolean/Integer primitives exist) — no Rule
+    0001.10 placeholders.
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-08 (23407 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 462941c12
 
-- [ ] `NPdu` — IPdu — R23-11 CP_TPS_SystemTemplate Table 6.21, p.343
+- [x] `NPdu` — IPdu — R23-11 CP_TPS_SystemTemplate Table 6.21, p.343 (sync commit 5cff010b1)
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: legacy 5-column checklist + stale `# Spec verified: R23-11` (Rule 0023) —
+    marker removed at entry, stamped baseline refreshed (292 → 291 known-failing
+    stamped classes). Step 1: concrete Class; Base most-derived = `IPdu`
+    (markdown Base row and XSD group chain AR-OBJECT..PDU, I-PDU, N-PDU agree);
+    ZERO own Attribute rows — the N-PDU group (AUTOSAR_00052.xsd l.83999) is an
+    empty `<xsd:sequence/>`, so NPdu declares no fields (inherited Pdu/IPdu
+    members stay on the bases — no flattening). Class Note keeps the
+    `Tags: atp.recommendedPackage=Pdus` tail verbatim. Not VP-capable (no
+    VARIATION-POINT in the N-PDU group/complexType).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - Deviation: none — fixed in-pass: the flagged read/write asymmetry resolved —
+    `readNPdu` dispatched `readIPdu` but legacy `writeNPdu` called `writePdu`
+    only, silently dropping CONTAINED-I-PDU-PROPS on write; `writeNPdu` now
+    calls `writeIPdu` exactly once per side (Rule 0025 symmetry; Base = IPdu),
+    pinned by writer round-trip tests (Red: 3 failed before the fix). Reader
+    unchanged. ARPackage dispatch full both sides; base-level S/T/UUID
+    round-trip pinned (`test_round_trip_base_level_attributes`).
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-08 (23424 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 5cff010b1
 
-- [ ] `DcmIPdu` — IPdu — R23-11 CP_TPS_SystemTemplate Table 6.22, p.343
+- [x] `DcmIPdu` — IPdu — R23-11 CP_TPS_SystemTemplate Table 6.22, p.343 (sync commit edf35e5e2)
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: own table = CP_TPS_SystemTemplate Table 6.22, p.343 (pdf_page.py);
+    concrete Class; Package row `...Fibex::FibexCore::CoreCommunication` matches src
+    home (Rule 0007 — non-leaf `__init__.py`, no move); Base most-derived = `IPdu`
+    (synced 6d2c23610) — src base already correct; Class Note "Represents the IPdus
+    handled by Dcm. Tags: atp.recommendedPackage=Pdus" (tail kept verbatim) +
+    class-level constr_9194 (diagPduType shall exist when the System Description is
+    complete). Exactly ONE own attribute row `diagPduType` (DiagPduType 0..1 attr);
+    no page-split continuation. XSD group DCM-I-PDU (AUTOSAR_00052.xsd l.28516) =
+    single child DIAG-PDU-TYPE (minOccurs=0 maxOccurs=1); complexType (l.28532)
+    sequences PDU → I-PDU → DCM-I-PDU — reader/writer already conform; no
+    atp.Status="removed" elements; not VP-capable (no VARIATION-POINT in the
+    DCM-I-PDU group/complexType, absent from vp_anchors.txt). PDF type of
+    diagPduType = DiagPduType enum — legacy field `Optional[ARLiteral]` is looser
+    → retype to `Optional[DiagPduType]` (Rule 0001.3). Member type DiagPduType
+    exists as a STUB (`class DiagPduType(AREnum): pass` — no literals/marker; XSD
+    facets DIAG-REQUEST idx 0 / DIAG-RESPONSE idx 1, none removed) queued as its
+    own row (Table 6.23) — referenced by real class name per Rule 0001.10
+    relaxation, stub noted in Step 8. Legacy drift: 4-column checklist (Rule 0023),
+    paraphrased class docstring, untyped accessors, no None no-op, bare-string
+    legacy test value; entry audit FAIL (ROWS/SPECLINE), NO stale marker (STAMP
+    INFO clean — no Rule 0023 removal/baseline refresh needed). ARPackage dispatch
+    already full-level both sides (createDcmIPdu ARPackage.py:2442; parser:19271;
+    writer:19694).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - Deviation: none in scope — the single spec attribute diagPduType is fully
+    modeled (field + typed accessors + reader/writer). Referenced-but-stub member
+    type (Rule 0001.10 relaxation, one-class-per-session): `DiagPduType` exists as
+    `class DiagPduType(AREnum): pass` (no literals/marker) and is queued as its own
+    row (Table 6.23, next) — DcmIPdu references the real class name (`Optional[DiagPduType]`,
+    no RefType placeholder); its mirrored/round-trip tests construct the XSD facet
+    value as typed `ARLiteral().setValue("DIAG-REQUEST")` (exactly what the family
+    reader materializes at runtime) until the enum's own sync lands, then switch to
+    enum constants. No atp.Status="removed" elements in the DCM-I-PDU group; no
+    XSD-only attributes (Rule 0015 clean); no Rule 0001.10 placeholder classes.
+    Consumer dispatch: ARPackage createDcmIPdu factory + parser/writer dispatch
+    already full-level both sides — no identity-only placeholders to upgrade.
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-08 (23441 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit edf35e5e2
 
-- [ ] `DiagPduType` — AREnum — R23-11 CP_TPS_SystemTemplate Table 6.23, p.344
+- [x] `DiagPduType` — AREnum — R23-11 CP_TPS_SystemTemplate Table 6.23, p.344 (sync commit de6338d74)
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: own table = CP_TPS_SystemTemplate Table 6.23, p.344 (pdf_page.py);
+    header `Enumeration` → AREnum confirmed (Rule 0001.1); Package row
+    `...Fibex::FibexCore::CoreCommunication` but home stays PrimitiveTypes.py per
+    confirmed Phase 0 module + sibling precedent (DdsOwnershipKindEnum Table 6.188,
+    spec package Fibex4Ethernet::Dds, also lives in PrimitiveTypes.py, stamped).
+    Note "Used to distinguish a diagnostic request from a response." (matches XSD
+    complexType doc verbatim). Literals display order = XSD facet order:
+    diagRequest (idx 0) → DIAG-REQUEST, diagResponse (idx 1) → DIAG-RESPONSE
+    (AUTOSAR_00052.xsd l.133781 `DIAG-PDU-TYPE--SIMPLE`); no
+    atp.Status="removed" facets — nothing excluded; Aggregated by DcmIPdu.diagPduType.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A: standalone AREnum, no own XML element; round-tripped as value form on DcmIPdu.diagPduType
+  - [x] Step 6 — Update parser & writer (Green) — N/A: standalone AREnum, no own XML element; round-tripped as value form on DcmIPdu.diagPduType
+  - [x] Step 7 — Update checklist comment
+  - Deviation: none in scope — both spec literals (diagRequest idx 0, diagResponse
+    idx 1) fully modeled as UPPER_SNAKE constants with XSD facet values
+    (DIAG-REQUEST / DIAG-RESPONSE, exact XSD `--SIMPLE` spelling) in facet order;
+    Note verbatim in the class docstring; no atp.Status="removed" facets; no
+    Rule 0001.10 placeholder classes. Consumer upgrade (planned by the DcmIPdu
+    session): its 4 construction sites now use enum constants instead of the
+    typed-`ARLiteral` test double — test_DcmIPdu.py + test_CoreCommunication.py
+    (models), test_dcm_ipdu.py + test_writer_pdu_tp.py (writer); round-trip
+    assertions compare against `DiagPduType.DIAG_REQUEST` (IPduSignalProcessingEnum
+    precedent). Raw strings remain only in XML wire-format fixtures and lenient
+    parse-value assertions (Rule 0011 allows). No other consumer uses raw strings
+    (grep: parser/writer call sites unchanged — value form via
+    getChildElementOptionalLiteral/setChildElementOptionalLiteral, same loose
+    pattern as IPduSignalProcessingEnum).
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-08 (23444 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit de6338d74
 
-- [ ] `J1939DcmIPdu` — IPdu — R23-11 CP_TPS_SystemTemplate Table 6.24, p.344
+- [x] `J1939DcmIPdu` — IPdu — R23-11 CP_TPS_SystemTemplate Table 6.24, p.344 (sync commit 75a272e53)
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: own table = SystemTemplate Table 6.24, p.344 (single page, no split); concrete
+    Class; Base most-derived = `IPdu` (already synced); one own attribute
+    `diagnosticMessageType` (PositiveInteger, 0..1, attr; markdown renders
+    "diagnostic MessageType" — XSD mmt.qualifiedName + constr_3096 confirm camelCase);
+    class Note carries Tags: atp.recommendedPackage=Pdus; constr_3096 (range 1..57);
+    XSD group J-1939-DCM-I-PDU (l.75299) = single child DIAGNOSTIC-MESSAGE-TYPE
+    (POSITIVE-INTEGER, 0..1), complexType l.75315; no XSD-only attrs, no removed attrs.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - Note: No deviations — single own attribute diagnosticMessageType modeled per PDF
+    (PositiveInteger, 0..1); no XSD-only attrs, no atp.Status=removed elements, no
+    Rule 0001.10 placeholders; consumer dispatch upgraded end-to-end (ARPackage
+    createJ1939DcmIPdu factory added, parser J-1939-DCM-I-PDU tag branch, writer
+    isinstance branch). No referenced-but-missing classes.
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-08 (23463 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 75a272e53
 
-- [ ] `PduToFrameMapping` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.29, p.347
+- [x] `PduToFrameMapping` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.29, p.347 (sync commit a8e5ac35e)
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - Note: legacy 5-col checklist + stale `# Spec verified: R23-11` removed at entry
+    (Rule 0023). Own table = CP_TPS SystemTemplate Table 6.29, p.347; Base
+    most-derived = `Identifiable` + `VariationPointCapable` mixin (XSD group
+    PDU-TO-FRAME-MAPPING l.88686 carries VARIATION-POINT, Applicable for
+    Frame.pduToFrameMapping — Rule 0020). 4 attrs, all 0..1: packingByteOrder
+    (ByteOrderEnum), pdu (Pdu, ref → pduRef/RefType, DEST=PDU--SUBTYPES-ENUM),
+    startPosition/updateIndicationBitPosition (Integer). Member set/names/types
+    already match spec; no XSD-only attrs, no atp.Status=removed. Reader/writer
+    child order already matches XSD sequenceOffset; drift = docstrings missing
+    markdown wrap artifacts + legacy checklist. Markdown note ends at
+    `glyph[triangleinv]` footnote marker (dropped per repo-wide precedent; XSD
+    documentation continues past it).
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - Deviation: none for the class — no naming/type/missing rows, no Rule 0001.10
+    placeholders; referenced types (ByteOrderEnum, Integer, RefType, Identifiable,
+    VariationPointCapable) all exist and are synced. Notes for batch 9b: (a) the
+    R23-11 markdown updateIndicationBitPosition cell ends at the `glyph[triangleinv]`
+    footnote marker — token dropped, cell text copied verbatim up to it (repo-wide
+    precedent: no stamped model carries a `glyph[` token); the XSD documentation
+    continues past the footnote ("packed signals within the IPdu … sawtooth …") —
+    not merged, markdown is authoritative (Rule 0015). (b) audit BASE writer WARN is
+    a name-guess false positive — writePduToFrameMappings calls writeIdentifiable
+    directly on the mapping (pinned by test_round_trip_base_level_attributes).
+    (c) sibling reconcile note (Frame's own Table 6.78 row, still pending):
+    Frame.getPduToFrameMappings() filters referrableElements instead of returning
+    its dedicated pduToFrameMappings field (Rule 0004 shape).
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-08 (23484 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit a8e5ac35e
 
-- [ ] `IPduTiming` — Describable — R23-11 CP_TPS_SystemTemplate Table 6.30, p.348
+- [x] `IPduTiming` — Describable — R23-11 CP_TPS_SystemTemplate Table 6.30, p.348 (sync commit 028e48768)
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note (Step 1): markdown renders table body BEFORE caption — Table 6.30 body at
+    md lines 9237-9245, caption line 9247; p.348 (R23-11 PDF). Base `ARObject,
+    Describable` → most-derived `Describable`; XSD group I-PDU-TIMING
+    (AUTOSAR_00052.xsd line 66546) = MINIMUM-DELAY, TRANSMISSION-MODE-DECLARATION,
+    VARIATION-POINT (sequenceOffset=10000, "Applicable for:
+    ISignalIPdu.iPduTimingSpecification") → VP-capable per Rule 0020, keep the
+    `VariationPointCapable` mixin. Sole aggregator: ISignalIPdu wrapper
+    I-PDU-TIMING-SPECIFICATIONS/I-PDU-TIMING (xsd lines 66982-66994). Member types
+    TimeValue + TransmissionModeDeclaration both stamped — no Rule 0001.10 gaps.
+    Legacy 4-column checklist + stale `# Spec verified: R23-11` removed at entry
+    (Rule 0023); baseline regenerated. Reader/writer drop the Describable /
+    ARObject / VariationPointCapable levels on both sides (Rule 0025).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - Deviation: none — both spec attributes (minimumDelay TimeValue 0..1 attr,
+    transmissionModeDeclaration TransmissionModeDeclaration 0..1 aggr) modeled
+    spec-typed with full reader/writer coverage; no referenced-but-missing
+    classes (TimeValue, TransmissionModeDeclaration both stamped R23-11). The
+    prior Rule 0025 base-helper gap (reader/writer dropped the Describable /
+    ARObject / VariationPointCapable levels) was fixed in Step 6 via the new
+    readIPduTiming/writeIPduTiming pair, not recorded as a deviation.
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-08 (23504 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 028e48768
 
-- [ ] `PduTriggering` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 6.31, p.349
+- [x] `PduTriggering` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 6.31, p.349 (sync commit cb8a7e121)
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: page-split table (body rows above + below the caption, markdown l.9249-9271);
+    5 attrs in displayed order (iPdu 0..1 ref, iPduPort * ref, iSignalTriggering * ref,
+    secOcCryptoMapping 0..1 ref, triggerIPduSendCondition * aggr) — field/accessor set
+    already matches spec; drift = reader+writer missing VARIATION-POINT coverage
+    (XSD group PDU-TRIGGERING carries VARIATION-POINT last, sequenceOffset 10000,
+    "Applicable for: PhysicalChannel.pduTriggering") and 3 docstrings missing the
+    markdown space artifacts ("ISignal Triggerings", "role i Pdu.", "Com_Trigger
+    IPDUSend"); stale legacy 5-col `# Spec verified: R23-11` marker removed at session
+    start (Rule 0023), stamped baseline refreshed. Legacy test in
+    test_CoreCommunication.py kept (batch precedent); new per-class mirror test added.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - Deviation: none — all 5 spec attributes modeled (iPdu/iPduPort/iSignalTriggering/
+    secOcCryptoMapping refs + triggerIPduSendCondition aggr, TriggerIPduSendCondition
+    Base=ARObject so addXxx shape is correct); reader/writer coverage complete incl.
+    the previously-missing VARIATION-POINT pair (readVariationPointCapable +
+    write_variation_point=False with explicit trailing writeVariationPointCapable per
+    sequenceOffset 10000); no referenced-but-missing classes (RefType,
+    TriggerIPduSendCondition, VariationPoint all exist); class-level constraint
+    constr_9198 appended to the class docstring per Rule 0012.2.4; no
+    atp.Status="removed" elements in XSD group PDU-TRIGGERING.
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-08 (23522 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit cb8a7e121
 
 - [ ] `ContainerIPdu` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.35, p.354
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
@@ -650,147 +1015,417 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `SecureCommunicationProps` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.44, p.369
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: placement verified per Package row (CoreCommunication, non-leaf →
+    `__init__.py` — no move); concrete Class, Base most-derived = `ARObject`
+    (matches). Table 6.44 lists 11 attrs, all PositiveInteger 0..1 attr; displayed
+    order == current member order == XSD group SECURE-COMMUNICATION-PROPS
+    (l.102992) order. Legacy 5-column checklist + stale `# Spec verified: R23-11`
+    marker found (Rule 0023) — marker removed at session start, baseline
+    regenerated (288 entries). Parser `getSecureCommunicationProps` / writer
+    `setSecureCommunicationProps` already covered all 11 children in XSD order but
+    missed the base-level ARObject helpers — `readARObject`/`writeARObject` added
+    (S/T round-trip pinned by tests). constr_9205 (dataId existence) appended to
+    the class docstring.
+  - Deviation: 7 XSD-only elements of group SECURE-COMMUNICATION-PROPS carry
+    atp.Status="removed" (AUTH-ALGORITHM, AUTH-INFO-TX-LENGTH,
+    FRESHNESS-COUNTER-SYNC-ATTEMPTS, FRESHNESS-TIMESTAMP-TIME-PERIOD-FACTOR,
+    FRESHNESS-VALUE-LENGTH, FRESHNESS-VALUE-TX-LENGTH, USE-FRESHNESS-TIMESTAMP)
+    and are absent from Table 6.44 → deprecated (atp.Status=removed), not
+    implemented (Rules 0015/0001.3). No other deviations; referenced member type
+    PositiveInteger is a synced primitive; no referenced-but-missing classes.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-08 (23549 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit e744b793f
 
 - [ ] `SecureCommunicationPropsSet` — FibexElement — R23-11 CP_TPS_SystemTemplate Table 6.45, p.370
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: own table = CP_TPS SystemTemplate Table 6.45, p.370 (body renders above the caption); Base
+    most-derived = `FibexElement` (confirmed stamped at FibexCore/__init__.py). Two spec `*` aggr rows in
+    displayed order (`authenticationProps`, `freshnessProps`) → XSD wrapper lists `AUTHENTICATION-PROPSS` /
+    `FRESHNESS-PROPSS` (group l.103127, complexType l.103159; child order = markdown order; no
+    atp.Status=removed elements; no VARIATION-POINT). Aggregated by `ARPackage.element` — factory +
+    reader + writer dispatches already real (five-place pattern complete, no identity-only dispatch to
+    upgrade). Rule 0023: legacy 5-column checklist + stale `# Spec verified: R23-11` marker removed at
+    session start (audit FAIL ROWS/STAMP/DOC = drift evidence; stamped-audit baseline refreshed). XSD
+    wrapper doc renders "SecuredIPdus." for AUTHENTICATION-PROPSS; PDF Note "Secured IPdus." wins
+    (Rule 0015).
+  - Deviation: none — both spec `*` aggr attributes have field + accessors + full reader and writer
+    coverage (wrapper-only-when-non-empty); no atp.Status=removed elements in the XSD group; no
+    VARIATION-POINT anchor (not VP-capable). Referenced member types
+    `SecureCommunicationAuthenticationProps` (Table 6.47) / `SecureCommunicationFreshnessProps`
+    (Table 6.46) exist with typed fields + reader/writer coverage and are queued rows syncing right
+    after this one — not Rule 0001.10 placeholders.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-08 (23565 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit ac0933384
 
 - [ ] `SecureCommunicationFreshnessProps` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.46, p.371
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: Table 6.46 is page-split — body (Package/Note/Base/Aggregated by +
+    `freshnessCounterSyncAttempts`, `freshnessTimestampTimePeriodFactor`, `freshnessValueLength`,
+    `freshnessValueTxLength`) renders ABOVE the caption (md l.9828) and the `useFreshnessTimestamp`
+    row renders BELOW it; displayed order == XSD group `SECURE-COMMUNICATION-FRESHNESS-PROPS`
+    (l.102930) `sequenceOffset` order; all 5 attrs `0..1` attr (PositiveInteger ×4, Boolean ×1);
+    Base most-derived = `Identifiable` ✓; Aggregated by `SecureCommunicationPropsSet.freshnessProps`
+    (`*` aggr); concrete Class; no `atp.Status="removed"` elements; no VARIATION-POINT anchor (not
+    VP-capable). Rule 0023: legacy 5-column checklist + stale `# Spec verified: R23-11` marker
+    removed at session start (entry audit FAIL ROWS/STAMP/DOC = drift evidence; stamped-audit
+    baseline refreshed).
+  - Honest-Red note: model Red = `test_init_docless` (legacy `__init__` docstring — fields/types/
+    docstrings already verbatim, so the rest of the contract passed on arrival); reader/writer tests
+    passed on placement (both helpers were completed in the SecureCommunicationPropsSet sync) —
+    drift evidence = the entry audit FAIL, per the autonomous-mode class card.
+  - Deviation: none — all 5 spec attributes have field + accessor pair + full reader and writer
+    coverage; no XSD-only members (Rule 0015); no Rule 0001.10 placeholders (`PositiveInteger` /
+    `Boolean` are synced primitives); consumer dispatch `read/writeSecureCommunicationPropsSetFreshnessProps`
+    already dispatches on identity (tag `SECURE-COMMUNICATION-FRESHNESS-PROPS` / `isinstance`) — no
+    upgrade needed.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-08 (23584 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 748ee0ad2
 
 - [ ] `SecureCommunicationAuthenticationProps` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 6.47, p.371
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: Table 6.47 is single-page (no split); concrete Class; Package row
+    `...Fibex::FibexCore::CoreCommunication` matches src home (Rule 0007 — non-leaf
+    `__init__.py`, no move); Base most-derived = `Identifiable` ✓ (card kind verified
+    against the spec Base row `ARObject, Identifiable, MultilanguageReferrable,
+    Referrable`); Class Note "Authentication properties used to configure SecuredIPdus."
+    (no Tags/Stereotypes tail, no constr rows); Aggregated by
+    `SecureCommunicationPropsSet.authenticationProps` (`*` aggr). Exactly ONE
+    attribute row `authInfoTxLength` (PositiveInteger, 0..1, attr; markdown renders
+    the wrap artifact "authInfoTx Length" — XSD mmt.qualifiedName confirms camelCase).
+    XSD group SECURE-COMMUNICATION-AUTHENTICATION-PROPS (AUTOSAR_00052.xsd l.102877):
+    AUTH-INFO-TX-LENGTH (POSITIVE-INTEGER, 0..1) + AUTH-ALGORITHM carrying
+    atp.Status="removed" (atp.StatusRevisionBegin="4.4.0", absent from Table 6.47) →
+    deprecated, NOT modeled; complexType (l.102899) chains
+    AR-OBJECT→REFERRABLE→MULTILANGUAGE-REFERRABLE→IDENTIFIABLE; no VARIATION-POINT
+    (not VP-capable). Rule 0023: legacy 5-column checklist + stale
+    `# Spec verified: R23-11` marker removed at session start; stamped-audit baseline
+    refreshed (286 → 285 known-failing). Reader/writer already complete at the right
+    level (readIdentifiable/writeIdentifiable exactly once per side, spec-typed
+    PositiveInteger helpers); consumer dispatch
+    read/writeSecureCommunicationPropsSetAuthenticationProps already identity-based —
+    no upgrade needed.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - Deviation: `AUTH-ALGORITHM` (XSD group SECURE-COMMUNICATION-AUTHENTICATION-PROPS,
+    AUTOSAR_00052.xsd l.102884) carries atp.Status="removed"
+    (atp.StatusRevisionBegin="4.4.0") and is absent from the Table 6.47 Attribute
+    column → deprecated (atp.Status=removed), not implemented (Rules 0015/0001.3).
+    No other deviations — the single spec attribute authInfoTxLength is fully
+    modeled (field + typed accessors + reader/writer); no XSD-only members kept;
+    no Rule 0001.10 placeholders (`PositiveInteger` is a synced primitive, the base
+    chain ARObject→Referrable→MultilanguageReferrable→Identifiable is fully
+    modeled). Honest-Red note: model Red = `test_init_docless` (legacy `__init__`
+    docstring — fields/types/docstrings already verbatim); reader/writer tests
+    passed on placement (both helpers were completed in the
+    SecureCommunicationPropsSet sync ac0933384) — drift evidence = the entry audit
+    FAIL (ROWS legacy 5-column checklist / STAMP stale marker / DOC), per the
+    autonomous-mode class card. Legacy test modernized: bare-int
+    `setAuthInfoTxLength(4)` call in test_CoreCommunication.py → typed
+    `PositiveInteger().setValue("24")` (Rule 0006).
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-08 (23599 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 56bcc7567
 
 - [ ] `CryptoServiceKey` — ARElement — R23-11 CP_TPS_SystemTemplate Table 6.51, p.377
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: own table = CP_TPS_SystemTemplate Table 6.51, p.377
+    (pdf_page.py); header `Class` → concrete ARElement confirmed (Rule 0001.1);
+    Base row = ARElement, ARObject, CollectableElement, Identifiable,
+    MultilanguageReferrable, PackageableElement, Referrable,
+    UploadableDesignElement, UploadablePackageElement — most-derived ARElement
+    (spec-verified; matches current home, no flattening). Note "This meta-class
+    has the ability to represent a crypto key. Tags:
+    atp.recommendedPackage=CryptoDevelopmentKeys" (tail kept per 0012.2.5.3);
+    class-level constraints constr_5334 (length multiple of 8) + constr_9206
+    (length existence) appended to the class docstring (Rule 0012.2.4). 5
+    attribute rows in displayed order = XSD group CRYPTO-SERVICE-KEY order
+    (AUTOSAR_00052.xsd l.26314): algorithmFamily (String), developmentValue
+    (ValueSpecification 0..1 aggr — polymorphic 12-subtype XSD choice; shared
+    getChildValueSpecification/setChildValueSpecification infra exists),
+    keyGeneration (CryptoServiceKeyGenerationEnum — STUB, queued next row),
+    keyStorageType (String), length (PositiveInteger); all 0..1. No
+    atp.Status="removed" elements in the group; not VP-capable (no
+    VARIATION-POINT anchor); Aggregated by ARPackage.element — ARPackage
+    createCryptoServiceKey factory + parser tag branch + writer isinstance
+    branch currently MISSING (class was a whole-class stub; entry audit FAIL
+    BLOCK). XSD-only DEVELOPMENT-VALUE doc elaboration ("variation point ... shall
+    not exist in models. See constr_2638"; vh.variationPointApplicable=false) not
+    modeled — markdown Note authoritative (Rule 0015).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — wipe is a no-op: the class was a whole-class stub (`pass`, no docstrings/comments); all docstrings written fresh verbatim from the markdown
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - Deviation: none in scope — all 5 spec attributes fully modeled (field + typed
+    accessors + reader/writer each; XSD group order on both sides). Referenced-but-stub
+    member type (Rule 0001.10 relaxation, one-class-per-session):
+    `CryptoServiceKeyGenerationEnum` exists as `class CryptoServiceKeyGenerationEnum(AREnum):
+    pass` (no literals/marker) and is queued as its own row (Table 6.52, next) —
+    keyGeneration references the real class name (`Optional[CryptoServiceKeyGenerationEnum]`,
+    no placeholder substitution); the reader materializes the literal via
+    `getChildElementOptionalLiteral` + `cast` and the tests construct the XSD facet value
+    as typed `ARLiteral().setValue("KEY-DERIVATION")` (DiagPduType/DcmIPdu precedent)
+    until the enum's own sync lands, then switch to enum constants. No
+    atp.Status="removed" elements in the CRYPTO-SERVICE-KEY group; no XSD-only
+    attributes (Rule 0015 clean); not VP-capable (no VARIATION-POINT anchor in the group
+    or complexType). Consumer dispatch: ARPackage createCryptoServiceKey factory (new) +
+    parser CRYPTO-SERVICE-KEY tag branch + writer CryptoServiceKey isinstance branch
+    added full-level both sides (class was a whole-class stub — nothing identity-only to
+    upgrade); developmentValue uses the shared polymorphic
+    getChildValueSpecification/setChildValueSpecification dispatchers (12-subtype
+    ValueSpecification choice).
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-08 (23622 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 7f0ee1067
 
 - [ ] `CryptoServiceKeyGenerationEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 6.52, p.378
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: own table = SystemTemplate Table 6.52, p.378; `Enumeration` header confirmed;
+    2 literals in XSD facet order = markdown displayed order (`keyDerivation` idx 0 →
+    `KEY-DERIVATION`, `keyStorage` idx 1 → `KEY-STORAGE`); no `atp.Status="removed"`
+    facets, nothing excluded. Aggregated by `CryptoServiceKey.keyGeneration`.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) (N/A: standalone enum — no own
+    XML element; round-tripped as the attribute value of `CryptoServiceKey.keyGeneration`,
+    covered by its parser/writer tests)
+  - [x] Step 6 — Update parser & writer (Green) (N/A: standalone enum — consumer already
+    reads/writes `KEY-GENERATION` via the literal helpers; 23 consumer tests pass)
+  - [x] Step 7 — Update checklist comment
+  - Deviation: none in scope — both spec literals (keyDerivation idx 0, keyStorage
+    idx 1) fully modeled as UPPER_SNAKE constants with XSD facet values
+    (KEY-DERIVATION / KEY-STORAGE, exact `CRYPTO-SERVICE-KEY-GENERATION-ENUM--SIMPLE`
+    spelling, AUTOSAR_00052.xsd l.132780) in facet order; Note verbatim in the class
+    docstring; no `atp.Status="removed"` facets; no Rule 0001.10 placeholder classes.
+    Consumer upgrade (planned by the CryptoServiceKey session): its construction
+    sites now use enum constants instead of the typed-`ARLiteral` test double —
+    test_CryptoServiceKey.py (models: construction + assert), test_crypto_service_key.py
+    (writer: `_populate` construction + round-trip assert); round-trip assertions
+    compare against `CryptoServiceKeyGenerationEnum.KEY_DERIVATION` (DiagPduType/
+    DcmIPdu precedent). Raw strings remain only in XML wire-format fixtures and
+    lenient parse-value assertions (Rule 0011 allows; parser test unchanged, same
+    shape as parser test_dcm_ipdu.py). No other consumer uses raw strings (grep:
+    parser/writer call sites unchanged — value form via
+    getChildElementOptionalLiteral/setChildElementOptionalLiteral).
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-08 (23625 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 0ad977989
 
 - [ ] `CryptoServiceQueue` — ARElement — R23-11 CP_TPS_SystemTemplate Table 6.53, p.381
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: own table = SystemTemplate Table 6.53, p.381 (pdf_page.py); concrete
+    `Class` header → ARElement confirmed (Rule 0001.1); Base row = ARElement,
+    ARObject, CollectableElement, Identifiable, MultilanguageReferrable,
+    PackageableElement, Referrable — most-derived ARElement (spec-verified;
+    matches current home, no flattening). Note "This meta-class has the ability
+    to represent a crypto queue. Tags: atp.recommendedPackage=CryptoServiceQueues"
+    (tail kept per 0012.2.5.3); class-level constraint constr_5058 (queueSize >= 1
+    when defined) appended to the class docstring (Rule 0012.2.4). 1 attribute row
+    in displayed order = XSD group CRYPTO-SERVICE-QUEUE order
+    (AUTOSAR_00052.xsd l.26525): queueSize (PositiveInteger, 0..1, attr, Note
+    "Defines the queue size of the CryptoServiceQueue."). No
+    atp.Status="removed" elements in the group; not VP-capable (no
+    VARIATION-POINT anchor); Aggregated by ARPackage.element — ARPackage
+    createCryptoServiceQueue factory + parser tag branch + writer isinstance
+    branch currently MISSING (class was a whole-class stub; entry audit FAIL
+    BLOCK). Spec Package row = SystemTemplate::SecureCommunication, but placement
+    stays ARPackage.py per the confirmed Phase-0 queue row + CryptoServiceKey
+    sibling precedent (same spec package, synced in-file at 7f0ee1067).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — wipe is a no-op: the class was a whole-class stub (`pass`, no docstrings/comments); all docstrings written fresh verbatim from the markdown
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - Deviation: none in scope — the single spec attribute queueSize (PositiveInteger,
+    0..1) fully modeled (field + typed accessors + reader/writer each; XSD group
+    order on both sides, one child element). No `atp.Status="removed"` elements in
+    the group; nothing XSD-only excluded (Rule 0015 not triggered). No
+    referenced-but-missing classes (member type `PositiveInteger` fully implemented
+    in PrimitiveTypes.py). Consumer dispatch: ARPackage createCryptoServiceQueue
+    factory (new) + parser CRYPTO-SERVICE-QUEUE tag branch (new) + writer
+    isinstance branch (new) — the class previously had no dispatch at all
+    (whole-class stub: write raised NotImplementedError, read hit the unknown-tag
+    fallback); no identity-only dispatches existed to upgrade (the
+    CRYPTO-SERVICE-QUEUE-REF rows on SecOcCryptoServiceMapping/TlsCryptoServiceMapping
+    are RefType references, not aggregations). VP capability inherited via
+    PackageableElement(CollectableElement, VariationPointCapable) — no per-class
+    field (Rule 0020).
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-08 (23643 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit eeb832d63
 
 - [ ] `GeneralPurposeConnection` — ARElement — R23-11 CP_TPS_SystemTemplate Table 6.58, p.388
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Table 6.58, p.388 confirmed; concrete Class; Base most-derived = `ARElement`
+    (stub base already correct). One attribute row: `pduTriggering` (PduTriggering,
+    `*`, ref) → `pduTriggeringRefs: List[RefType]` + `addPduTriggeringRef`/
+    `getPduTriggeringRefs` (FrameTriggering sibling precedent). XSD group
+    GENERAL-PURPOSE-CONNECTION: single wrapper `PDU-TRIGGERING-REFS` (0..1) over
+    unbounded `PDU-TRIGGERING-REF` (DEST=PDU-TRIGGERING-SUBTYPES-ENUM); no
+    VARIATION-POINT in the group → not VP-capable (Rule 0020). Spec Package row says
+    `SystemTemplate::GeneralPurposeConnection` but the class stays in ARPackage.py
+    per the Phase-0 queue (CryptoServiceKey/CryptoServiceQueue precedent).
+  - Deviation: none blocking. Placement note: spec Package row says
+    `SystemTemplate::GeneralPurposeConnection`; class stays in ARPackage.py per the
+    Phase-0 queue (CryptoServiceKey/Queue precedent). The markdown Note and
+    constraints (TPS_SYST_02170, constr_3383/3385/3386) mention an attribute
+    `category` that is absent from the Table 6.58 Attribute column AND from the
+    R23-11 XSD group GENERAL-PURPOSE-CONNECTION — not modeled (Rule 0015: PDF table
+    wins). No referenced-but-missing classes: `PduTriggering` exists
+    (CoreCommunication/__init__.py) and the ref is typed `RefType` per kind=ref.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-08 (23662 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit a8e970f87
 
 - [ ] `RelativeTolerance` — TimeRangeTypeTolerance — R23-11 CP_TPS_SystemTemplate Table 6.68, p.398
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/Timing.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: Table 6.68 EXISTS (p.398) — the class's `# XSD verified:` marker +
+    XSD-only `# Spec:` line were stale provenance; removed at session start (Rule 0023)
+    and `audit_stamped_classes.py --write-baseline` re-run (baseline unchanged, 285
+    entries). Base row verified from spec: `ARObject, TimeRangeTypeTolerance` → Python
+    base `TimeRangeTypeTolerance` (unchanged). Own attr: `relative` (Integer, 0..1,
+    attr) — already modeled with spec type. XSD group RELATIVE-TOLERANCE: single
+    `RELATIVE` element (AR:INTEGER), no atp.Status="removed" members; atpObject (not
+    VP-capable). Aggregator `getTimeRangeType`/`setTimeRangeType` dispatch already full
+    (isinstance branch writes the RELATIVE child) — no consumer upgrade needed.
+  - Deviation: none — the model already matched its table (field `relative`
+    Optional[Integer], None-no-op setter, base `TimeRangeTypeTolerance`); the sync
+    added the missing accessor docstrings, the constr_9191 class-docstring row, the
+    corrected `# Spec:` citation and the per-class parser/writer round-trip tests.
+    Stale `# XSD verified:` marker removed at entry (Rule 0023 removal +
+    audit_stamped_classes baseline refresh — baseline unchanged). No
+    referenced-but-missing classes.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-08 (23680 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 358656e2a
 
 - [ ] `AbsoluteTolerance` — TimeRangeTypeTolerance — R23-11 CP_TPS_SystemTemplate Table 6.69, p.398
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/Timing.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: own table EXISTS (Table 6.69, p.398) — the legacy `# XSD verified:
+    AUTOSAR_00052.xsd` marker claiming "no own table in repo corpus" was stale
+    (same pattern as RelativeTolerance/Table 6.68); removed at entry (Rule 0023),
+    audit_stamped_classes baseline refreshed (unchanged — class not in the
+    known-failing set). Model already matched the table (field `absolute`
+    Optional[TimeValue], base `TimeRangeTypeTolerance`); accessor docstrings
+    missing, class docstring missing constr_9192.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-08 (23698 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit a371d1ab8
+  - Deviation: none — the model already matched its table (field `absolute`
+    Optional[TimeValue], None-no-op setter, base `TimeRangeTypeTolerance`); the
+    sync added the missing accessor docstrings, the constr_9192 class-docstring
+    row, the corrected `# Spec:` citation and the per-class parser/writer
+    round-trip tests. Stale `# XSD verified:` marker removed at entry (Rule 0023
+    removal + audit_stamped_classes baseline refresh — baseline unchanged). No
+    referenced-but-missing classes.
 
 - [ ] `Frame` — FibexElement — R23-11 CP_TPS_SystemTemplate Table 6.78, p.418
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - Note: legacy 5-col checklist + stale `# Spec verified: R23-11` removed at entry
+    (Rule 0023 removal + audit_stamped_classes baseline refresh — Frame left the
+    known-failing set). Own table = CP_TPS SystemTemplate Table 6.78, p.418; class
+    is abstract ("Frame (abstract)"); Base most-derived = `FibexElement` (stamped,
+    no own attrs, owns no reader/writer helpers → one base call per side =
+    readIdentifiable/writeIdentifiable, audit BASE clean). 2 attrs in displayed
+    order: frameLength (Integer, 0..1, attr), pduToFrameMapping (PduToFrameMapping,
+    `*`, aggr; atpVariation tail kept verbatim incl. the markdown wrap artifact
+    "pduTo FrameMapping."). XSD group FRAME (AUTOSAR_00052.xsd l.62960):
+    FRAME-LENGTH → PDU-TO-FRAME-MAPPINGS wrapper (unbounded PDU-TO-FRAME-MAPPING
+    choice) — matches displayed order; no atp.Status=removed elements. Placement
+    verified (Rule 0007, non-leaf package → __init__.py).
+  - [x] Step 2 — Write model class unit test (Red)
+  - Red = insertion-order assertion on getPduToFrameMappings (the registry-sorted
+    view failed it); the abstract-guard test passed as expected.
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - Red justification: per-class parser/writer tests placed + entry audit FAIL
+    (ROWS/STAMP legacy bar); round-trip content already passed (readFrame/
+    writeFrame pre-existed) — sanctioned honest-Red convention.
+  - [x] Step 6 — Update parser & writer (Green)
+  - Reader populates via setFrameLength mutator (was direct field assignment);
+    writer reads getFrameLength() via setChildElementOptionalIntegerValue (matched
+    IntegerValue pair with the reader helper — was a NumericalValue cross-type);
+    exactly one base call per side kept.
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - Deviation: none — no naming/type/missing rows, no Rule 0001.10 placeholders;
+    referenced types (Integer, PduToFrameMapping, FibexElement) exist and are
+    synced. Reconcile from the PduToFrameMapping session (a8e5ac35e) DONE:
+    getPduToFrameMappings returns the dedicated pduToFrameMappings field
+    (insertion order) instead of filtering referrableElements (Rule 0004);
+    writePduToFrameMappings unchanged (reads the getter). Concrete-subclass
+    dispatch (CanFrame/FlexrayFrame/GenericEthernetFrame/LinUnconditionalFrame)
+    already chains readFrame/writeFrame — the LinFrame family inherits clean
+    helpers for its Rule 0025 chaining.
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-08 (23707 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 417c1d005
 
 - [ ] `LinFrame` — Frame — R23-11 CP_TPS_SystemTemplate Table 6.87, p.428
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Lin/LinCommunication.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: Table 6.87 body renders above its caption (md lines 11274-11282): abstract Class, Package row
+    confirms LinCommunication.py home (Rule 0007, no move), Note "Lin specific Frame element.", Base most-derived
+    modeled = Frame (synced 417c1d005), Attribute row renders as `-` (no own members), Subclasses
+    LinEventTriggeredFrame/LinSporadicFrame/LinUnconditionalFrame, Aggregated by ARPackage.element. XSD LIN-FRAME
+    group empty — the class's wire contribution is the concrete LIN-UNCONDITIONAL-FRAME element whose
+    reader/writer chains readFrame/writeFrame exactly once (Rule 0025); no own readLinFrame/writeLinFrame needed.
+    Legacy 5-column checklist + stale `# Spec verified: R23-11` marker found (Rule 0023) — marker removed at
+    session start, stamped-audit baseline drained, full re-sync at the 6-column bar.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-09 (23717 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit d72398ba5
 
 - [ ] `LinFrameTriggering` — FrameTriggering — R23-11 CP_TPS_SystemTemplate Table 6.88, p.428
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Lin/LinCommunication.py

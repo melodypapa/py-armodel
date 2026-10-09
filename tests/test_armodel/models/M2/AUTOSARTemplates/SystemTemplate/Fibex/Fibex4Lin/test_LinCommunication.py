@@ -351,6 +351,32 @@ class TestLinFrame:
         assert isinstance(frame, Frame)
         assert isinstance(frame, LinFrame)
 
+    def test_inheritance_chain(self):
+        frame = LinUnconditionalFrame(MockParent(), "test_lin_unconditional_frame")
+
+        assert isinstance(frame, ARObject)
+        assert isinstance(frame, Identifiable)
+        assert isinstance(frame, Frame)
+
+    def test_class_docstring_is_spec_note(self):
+        assert inspect.getdoc(LinFrame) == "Lin specific Frame element."
+
+    def test_no_own_attributes(self):
+        own_members = [name for name in vars(LinFrame) if not name.startswith("__") and not name.startswith("_abc")]
+
+        assert own_members == []
+
+    def test_inherited_frame_accessors(self):
+        frame = LinUnconditionalFrame(MockParent(), "test_lin_unconditional_frame")
+
+        assert frame.getFrameLength() is None
+        length = Integer().setValue(8)
+        assert frame.setFrameLength(length) is frame
+        assert frame.getFrameLength() == length
+
+        frame.setFrameLength(None)
+        assert frame.getFrameLength() == length
+
 
 class ConcreteLinConfigurationEntry(LinConfigurationEntry):
     pass

@@ -651,6 +651,10 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import 
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
     ARPackage,
+    CalibrationParameterValueSet,
+    CryptoServiceKey,
+    CryptoServiceQueue,
+    GeneralPurposeConnection,
     DataExchangePoint,
     SecurityEventContextMapping,
     SecurityEventFilterChain,
@@ -664,7 +668,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     LogAndTraceMessageCollectionSet,
     PostBuildVariantCriterionValueSet,
     IdsmProperties,
-    CalibrationParameterValueSet,
     FMFeature,
     FMFeatureMap,
     FMFeatureModel,
@@ -869,9 +872,11 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Boolean,
     ByteOrderEnum,
     CIdentifier,
+    CryptoServiceKeyGenerationEnum,
     DataConsistencyPolicyEnum,
     DateTime,
     DdsDurabilityKindEnum,
+    DiagPduType,
     FrArTpAckType,
     GlobalTimeCrcSupportEnum,
     GlobalTimeCrcValidationEnum,
@@ -1557,6 +1562,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommu
     ISignalToIPduMapping,
     ISignalTriggering,
     ISignalTypeEnum,
+    J1939DcmIPdu,
     MultiplexedIPdu,
     MultiplexedPart,
     NPdu,
@@ -11199,6 +11205,7 @@ class ARXMLParser(AbstractARXMLParser):
         for ref in self.getChildElementRefTypeList(element, "I-SIGNAL-PORT-REFS/I-SIGNAL-PORT-REF"):
             triggering.addISignalPortRef(ref)
         triggering.setISignalRef(self.getChildElementOptionalRefType(element, "I-SIGNAL-REF"))
+        self.readVariationPointCapable(element, triggering)
 
     def readPduTriggering(self, element: ET.Element, triggering: PduTriggering):
         self.logger.debug("Read PduTriggering %s" % triggering.getShortName())
@@ -11213,6 +11220,7 @@ class ARXMLParser(AbstractARXMLParser):
             condition = TriggerIPduSendCondition()
             self.readTriggerIPduSendCondition(child_element, condition)
             triggering.addTriggerIPduSendCondition(condition)
+        self.readVariationPointCapable(element, triggering)
 
     def readTriggerIPduSendCondition(self, element: ET.Element, condition: TriggerIPduSendCondition):
         self.readARObject(element, condition)
@@ -14779,7 +14787,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readFrame(self, element: ET.Element, frame: Frame):
         self.readIdentifiable(element, frame)
-        frame.frameLength = self.getChildElementOptionalIntegerValue(element, "FRAME-LENGTH")
+        frame.setFrameLength(self.getChildElementOptionalIntegerValue(element, "FRAME-LENGTH"))
         self.readPduToFrameMappings(element, frame)
 
     def readLinUnconditionalFrame(self, element: ET.Element, frame: LinUnconditionalFrame):
@@ -14789,16 +14797,16 @@ class ARXMLParser(AbstractARXMLParser):
     def readPdu(self, element: ET.Element, pdu: Pdu):
         self.readIdentifiable(element, pdu)
         pdu.setHasDynamicLength(self.getChildElementOptionalBooleanValue(element, "HAS-DYNAMIC-LENGTH"))
-        pdu.setLength(cast(Optional[UnlimitedInteger], self.getChildElementOptionalNumericalValue(element, "LENGTH")))
+        pdu.setLength(self.getChildElementOptionalUnlimitedInteger(element, "LENGTH"))
 
     def readISignalToIPduMapping(self, element: ET.Element, mapping: ISignalToIPduMapping):
         self.readIdentifiable(element, mapping)
-        mapping.setISignalRef(self.getChildElementOptionalRefType(element, "I-SIGNAL-REF"))
         mapping.setISignalGroupRef(self.getChildElementOptionalRefType(element, "I-SIGNAL-GROUP-REF"))
+        mapping.setISignalRef(self.getChildElementOptionalRefType(element, "I-SIGNAL-REF"))
         mapping.setPackingByteOrder(self._readEnumToken(element, "PACKING-BYTE-ORDER", ByteOrderEnum, BYTE_ORDER_XML_MAP))
-        mapping.setStartPosition(cast(Optional[UnlimitedInteger], self.getChildElementOptionalIntegerValue(element, "START-POSITION")))
+        mapping.setStartPosition(self.getChildElementOptionalUnlimitedInteger(element, "START-POSITION"))
         mapping.setTransferProperty(cast(Optional[TransferPropertyEnum], self.getChildElementOptionalLiteral(element, "TRANSFER-PROPERTY")))
-        mapping.setUpdateIndicationBitPosition(cast(Optional[UnlimitedInteger], self.getChildElementOptionalNumericalValue(element, "UPDATE-INDICATION-BIT-POSITION")))
+        mapping.setUpdateIndicationBitPosition(self.getChildElementOptionalUnlimitedInteger(element, "UPDATE-INDICATION-BIT-POSITION"))
 
     def readNmPduISignalToIPduMappings(self, element: ET.Element, pdu: NmPdu):
         for child_element in self.findall(element, "I-SIGNAL-TO-I-PDU-MAPPINGS/*"):
@@ -14863,13 +14871,19 @@ class ARXMLParser(AbstractARXMLParser):
     def readDcmIPdu(self, element: ET.Element, i_pdu: DcmIPdu):
         self.logger.debug("Read DcmIPdu <%s>" % i_pdu.getShortName())
         self.readIPdu(element, i_pdu)
-        i_pdu.setDiagPduType(self.getChildElementOptionalLiteral(element, "DIAG-PDU-TYPE"))
+        i_pdu.setDiagPduType(cast(Optional[DiagPduType], self.getChildElementOptionalLiteral(element, "DIAG-PDU-TYPE")))
+
+    def readJ1939DcmIPdu(self, element: ET.Element, i_pdu: J1939DcmIPdu):
+        self.logger.debug("Read J1939DcmIPdu <%s>" % i_pdu.getShortName())
+        self.readIPdu(element, i_pdu)
+        i_pdu.setDiagnosticMessageType(self.getChildElementOptionalPositiveInteger(element, "DIAGNOSTIC-MESSAGE-TYPE"))
 
     def getSecureCommunicationProps(self, element: ET.Element, key: str) -> Optional[SecureCommunicationProps]:
         props = None
         child_element = self.find(element, key)
         if child_element is not None:
             props = SecureCommunicationProps()
+            self.readARObject(child_element, props)
             props.setAuthDataFreshnessLength(self.getChildElementOptionalPositiveInteger(child_element, "AUTH-DATA-FRESHNESS-LENGTH"))
             props.setAuthDataFreshnessStartPosition(self.getChildElementOptionalPositiveInteger(child_element, "AUTH-DATA-FRESHNESS-START-POSITION"))
             props.setAuthenticationBuildAttempts(self.getChildElementOptionalPositiveInteger(child_element, "AUTHENTICATION-BUILD-ATTEMPTS"))
@@ -18361,19 +18375,20 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, signal)
         signal.setDataTransformationRef(self.getChildElementOptionalRefType(element, "DATA-TRANSFORMATIONS/DATA-TRANSFORMATION-REF-CONDITIONAL/DATA-TRANSFORMATION-REF"))
         signal.setDataTypePolicy(cast(Optional[DataTypePolicyEnum], self.getChildElementOptionalLiteral(element, "DATA-TYPE-POLICY")))
+        self.readISignalProps(element, signal)
         signal.setISignalType(cast(Optional[ISignalTypeEnum], self.getChildElementOptionalLiteral(element, "I-SIGNAL-TYPE")))
         signal.setInitValue(self.getInitValue(element))
         signal.setLength(cast(Optional[UnlimitedInteger], self.getChildElementOptionalNumericalValue(element, "LENGTH")))
         signal.setNetworkRepresentationProps(self.getSwDataDefProps(element, "NETWORK-REPRESENTATION-PROPS"))
         signal.setSystemSignalRef(self.getChildElementOptionalRefType(element, "SYSTEM-SIGNAL-REF"))
         signal.setTimeoutSubstitutionValue(self.getChildValueSpecification(element, "TIMEOUT-SUBSTITUTION-VALUE"))
-        self.readISignalProps(element, signal)
         self.readISignalTransformationISignalProps(element, signal)
 
     def readISignalProps(self, element: ET.Element, signal: ISignal):
         props_element = self.find(element, "I-SIGNAL-PROPS")
         if props_element is not None:
             props = ISignalProps()
+            self.readARObject(props_element, props)
             props.setHandleOutOfRange(self._readEnumToken(props_element, "HANDLE-OUT-OF-RANGE", HandleOutOfRangeEnum, HANDLE_OUT_OF_RANGE_XML_MAP))
             signal.setISignalProps(props)
 
@@ -18894,14 +18909,8 @@ class ARXMLParser(AbstractARXMLParser):
     def readISignalToPduMappings(self, element: ET.Element, parent: ISignalIPdu):
         for child_element in self.findall(element, "I-SIGNAL-TO-PDU-MAPPINGS/I-SIGNAL-TO-I-PDU-MAPPING"):
             short_name = self.getShortName(child_element)
-            mapping = parent.createISignalToPduMappings(short_name)
-            self.readIdentifiable(child_element, mapping)
-            mapping.setISignalRef(self.getChildElementOptionalRefType(child_element, "I-SIGNAL-REF"))
-            mapping.setISignalGroupRef(self.getChildElementOptionalRefType(child_element, "I-SIGNAL-GROUP-REF"))
-            mapping.setPackingByteOrder(self._readEnumToken(child_element, "PACKING-BYTE-ORDER", ByteOrderEnum, BYTE_ORDER_XML_MAP))
-            mapping.setStartPosition(cast(Optional[UnlimitedInteger], self.getChildElementOptionalNumericalValue(child_element, "START-POSITION")))
-            mapping.setTransferProperty(cast(Optional[TransferPropertyEnum], self.getChildElementOptionalLiteral(child_element, "TRANSFER-PROPERTY")))
-            mapping.setUpdateIndicationBitPosition(cast(Optional[UnlimitedInteger], self.getChildElementOptionalNumericalValue(child_element, "UPDATE-INDICATION-BIT-POSITION")))
+            mapping = parent.createISignalToPduMapping(short_name)
+            self.readISignalToIPduMapping(child_element, mapping)
 
     def getDataFilter(self, element: ET.Element, key: str) -> Optional[DataFilter]:
         filter = None
@@ -19005,13 +19014,18 @@ class ARXMLParser(AbstractARXMLParser):
             decl.setTransmissionModeTrueTiming(self.getTransmissionModeTiming(child_element, "TRANSMISSION-MODE-TRUE-TIMING"))
         return decl
 
+    def readIPduTiming(self, element: ET.Element, timing: IPduTiming):
+        self.readDescribable(element, timing)
+        timing.setMinimumDelay(self.getChildElementOptionalTimeValue(element, "MINIMUM-DELAY"))
+        timing.setTransmissionModeDeclaration(self.getTransmissionModeDeclaration(element, "TRANSMISSION-MODE-DECLARATION"))
+        self.readVariationPointCapable(element, timing)
+
     def getISignalIPduIPduTimingSpecification(self, element: ET.Element) -> Optional[IPduTiming]:
         timing = None
         child_element = self.find(element, "I-PDU-TIMING-SPECIFICATIONS/I-PDU-TIMING")
         if child_element is not None:
             timing = IPduTiming()
-            timing.setMinimumDelay(self.getChildElementOptionalTimeValue(child_element, "MINIMUM-DELAY"))
-            timing.setTransmissionModeDeclaration(self.getTransmissionModeDeclaration(child_element, "TRANSMISSION-MODE-DECLARATION"))
+            self.readIPduTiming(child_element, timing)
         return timing
 
     def readDoIpConfig(self, element: ET.Element, config: DoIpConfig):
@@ -19053,8 +19067,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readISignalIPdu(self, element: ET.Element, ipdu: ISignalIPdu):
         self.logger.debug("Read ISignalIPdu <%s>" % ipdu.getShortName())
-        self.readIdentifiable(element, ipdu)
-        ipdu.setLength(cast(Optional[UnlimitedInteger], self.getChildElementOptionalNumericalValue(element, "LENGTH")))
+        self.readIPdu(element, ipdu)
         ipdu.setIPduTimingSpecification(self.getISignalIPduIPduTimingSpecification(element))
         self.readISignalToPduMappings(element, ipdu)
         ipdu.setUnusedBitPattern(self.getChildElementOptionalIntegerValue(element, "UNUSED-BIT-PATTERN"))
@@ -19797,6 +19810,26 @@ class ARXMLParser(AbstractARXMLParser):
         primitive.setAlgorithmFamily(self.getChildElementOptionalString(element, "ALGORITHM-FAMILY"))
         primitive.setAlgorithmMode(self.getChildElementOptionalString(element, "ALGORITHM-MODE"))
         primitive.setAlgorithmSecondaryFamily(self.getChildElementOptionalString(element, "ALGORITHM-SECONDARY-FAMILY"))
+
+    def readCryptoServiceKey(self, element: ET.Element, key: CryptoServiceKey):
+        self.logger.debug("Read CryptoServiceKey <%s>" % key.getShortName())
+        self.readIdentifiable(element, key)
+        key.setAlgorithmFamily(self.getChildElementOptionalString(element, "ALGORITHM-FAMILY"))
+        key.setDevelopmentValue(self.getChildValueSpecification(element, "DEVELOPMENT-VALUE"))
+        key.setKeyGeneration(cast(Optional[CryptoServiceKeyGenerationEnum], self.getChildElementOptionalLiteral(element, "KEY-GENERATION")))
+        key.setKeyStorageType(self.getChildElementOptionalString(element, "KEY-STORAGE-TYPE"))
+        key.setLength(self.getChildElementOptionalPositiveInteger(element, "LENGTH"))
+
+    def readCryptoServiceQueue(self, element: ET.Element, queue: CryptoServiceQueue):
+        self.logger.debug("Read CryptoServiceQueue <%s>" % queue.getShortName())
+        self.readIdentifiable(element, queue)
+        queue.setQueueSize(self.getChildElementOptionalPositiveInteger(element, "QUEUE-SIZE"))
+
+    def readGeneralPurposeConnection(self, element: ET.Element, connection: GeneralPurposeConnection):
+        self.logger.debug("Read GeneralPurposeConnection <%s>" % connection.getShortName())
+        self.readIdentifiable(element, connection)
+        for ref in self.getChildElementRefTypeList(element, "PDU-TRIGGERING-REFS/PDU-TRIGGERING-REF"):
+            connection.addPduTriggeringRef(ref)
 
     def readSecOcCryptoServiceMapping(self, element: ET.Element, mapping: SecOcCryptoServiceMapping):
         self.readIdentifiable(element, mapping)
@@ -20626,6 +20659,8 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DCM-I-PDU":
                 i_pdu = parent.createDcmIPdu(self.getShortName(child_element))
                 self.readDcmIPdu(child_element, i_pdu)
+            elif tag_name == "J-1939-DCM-I-PDU":
+                self.readJ1939DcmIPdu(child_element, parent.createJ1939DcmIPdu(self.getShortName(child_element)))
             elif tag_name == "SECURED-I-PDU":
                 self.readSecuredIPdu(child_element, parent.createSecuredIPdu(self.getShortName(child_element)))
             elif tag_name == "CONTAINER-I-PDU":
@@ -21080,6 +21115,15 @@ class ARXMLParser(AbstractARXMLParser):
         elif tag_name == "CRYPTO-SERVICE-PRIMITIVE":
             primitive = parent.createCryptoServicePrimitive(self.getShortName(child_element))
             self.readCryptoServicePrimitive(child_element, primitive)
+        elif tag_name == "CRYPTO-SERVICE-KEY":
+            crypto_service_key = parent.createCryptoServiceKey(self.getShortName(child_element))
+            self.readCryptoServiceKey(child_element, crypto_service_key)
+        elif tag_name == "CRYPTO-SERVICE-QUEUE":
+            crypto_service_queue = parent.createCryptoServiceQueue(self.getShortName(child_element))
+            self.readCryptoServiceQueue(child_element, crypto_service_queue)
+        elif tag_name == "GENERAL-PURPOSE-CONNECTION":
+            general_purpose_connection = parent.createGeneralPurposeConnection(self.getShortName(child_element))
+            self.readGeneralPurposeConnection(child_element, general_purpose_connection)
         elif tag_name == "DDS-CP-CONFIG":
             dds_config = parent.createDdsConfig(self.getShortName(child_element))
             self.readDdsCpConfig(child_element, dds_config)

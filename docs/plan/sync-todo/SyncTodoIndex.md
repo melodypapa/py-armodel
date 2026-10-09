@@ -1673,7 +1673,7 @@ Status: **0/75** completed
 
 ## Group31
 
-Status: **0/75** completed
+Status: **17/75** completed
 
 | Class Name                                               | Status          | Commit ID  |
 | -------------------------------------------------------- | --------------- | ---------- |
@@ -1704,41 +1704,41 @@ Status: **0/75** completed
 | `CommConnectorPort`                                      | [ ] Pending*    | ca22bc0a86 |
 | `IPduPort`                                               | [ ] Pending*    | 5809b8408f |
 | `IPduSignalProcessingEnum`                               | [ ] Pending*    | e34ab3e1ad |
-| `ISignal`                                                | [ ] Implemented | N/A        |
+| `ISignal`                                                | [x] Done*       | e260b39286 |
 | `DataTypePolicyEnum`                                     | [ ] Implemented | N/A        |
-| `ISignalTypeEnum`                                        | [ ] Implemented | N/A        |
-| `ISignalProps`                                           | [ ] Implemented | N/A        |
-| `ISignalGroup`                                           | [ ] Implemented | N/A        |
-| `SystemSignalGroup`                                      | [ ] Implemented | N/A        |
-| `ISignalToIPduMapping`                                   | [ ] Implemented | N/A        |
-| `ISignalTriggering`                                      | [ ] Implemented | N/A        |
-| `Pdu`                                                    | [ ] Implemented | N/A        |
-| `IPdu`                                                   | [ ] Implemented | N/A        |
-| `ISignalIPdu`                                            | [ ] Implemented | N/A        |
-| `NmPdu`                                                  | [ ] Implemented | N/A        |
-| `NPdu`                                                   | [ ] Implemented | N/A        |
-| `DcmIPdu`                                                | [ ] Implemented | N/A        |
-| `DiagPduType`                                            | [ ] Created     | N/A        |
-| `J1939DcmIPdu`                                           | [ ] Created     | N/A        |
-| `PduToFrameMapping`                                      | [ ] Implemented | N/A        |
-| `IPduTiming`                                             | [ ] Implemented | N/A        |
-| `PduTriggering`                                          | [ ] Implemented | N/A        |
+| `ISignalTypeEnum`                                        | [x] Done*       | 3bf0b50440 |
+| `ISignalProps`                                           | [ ] Pending*    | 724ee746c9 |
+| `ISignalGroup`                                           | [x] Done*       | 9e6350c7c6 |
+| `SystemSignalGroup`                                      | [x] Done*       | bf1e679967 |
+| `ISignalToIPduMapping`                                   | [x] Done*       | 036440b90e |
+| `ISignalTriggering`                                      | [x] Done*       | 96695d8a34 |
+| `Pdu`                                                    | [x] Done*       | b51f649ba4 |
+| `IPdu`                                                   | [x] Done*       | 6d2c23610d |
+| `ISignalIPdu`                                            | [x] Done*       | e9cdc05065 |
+| `NmPdu`                                                  | [x] Done*       | 462941c124 |
+| `NPdu`                                                   | [x] Done*       | 5cff010b1a |
+| `DcmIPdu`                                                | [x] Done*       | edf35e5e2a |
+| `DiagPduType`                                            | [x] Done*       | de6338d747 |
+| `J1939DcmIPdu`                                           | [x] Done*       | 75a272e532 |
+| `PduToFrameMapping`                                      | [x] Done*       | a8e5ac35ee |
+| `IPduTiming`                                             | [x] Done*       | 028e487683 |
+| `PduTriggering`                                          | [x] Done*       | cb8a7e121b |
 | `ContainerIPdu`                                          | [ ] Pending*    | N/A        |
 | `ContainerIPduTriggerEnum`                               | [ ] Pending*    | N/A        |
 | `ContainerIPduHeaderTypeEnum`                            | [ ] Pending*    | N/A        |
 | `RxAcceptContainedIPduEnum`                              | [ ] Pending*    | N/A        |
-| `SecureCommunicationProps`                               | [ ] Implemented | N/A        |
-| `SecureCommunicationPropsSet`                            | [ ] Implemented | N/A        |
-| `SecureCommunicationFreshnessProps`                      | [ ] Implemented | N/A        |
-| `SecureCommunicationAuthenticationProps`                 | [ ] Implemented | N/A        |
-| `CryptoServiceKey`                                       | [ ] Created     | N/A        |
-| `CryptoServiceKeyGenerationEnum`                         | [ ] Created     | N/A        |
-| `CryptoServiceQueue`                                     | [ ] Created     | N/A        |
-| `GeneralPurposeConnection`                               | [ ] Created     | N/A        |
-| `RelativeTolerance`                                      | [ ] Implemented | N/A        |
-| `AbsoluteTolerance`                                      | [ ] Implemented | N/A        |
-| `Frame`                                                  | [ ] Implemented | N/A        |
-| `LinFrame`                                               | [ ] Implemented | N/A        |
+| `SecureCommunicationProps`                               | [ ] Pending*    | e744b793f0 |
+| `SecureCommunicationPropsSet`                            | [ ] Pending*    | ac09333846 |
+| `SecureCommunicationFreshnessProps`                      | [ ] Pending*    | 748ee0ad2c |
+| `SecureCommunicationAuthenticationProps`                 | [ ] Pending*    | 56bcc7567c |
+| `CryptoServiceKey`                                       | [ ] Pending*    | 7f0ee10676 |
+| `CryptoServiceKeyGenerationEnum`                         | [ ] Pending*    | 0ad977989f |
+| `CryptoServiceQueue`                                     | [ ] Pending*    | eeb832d638 |
+| `GeneralPurposeConnection`                               | [ ] Pending*    | a8e970f876 |
+| `RelativeTolerance`                                      | [ ] Pending*    | 358656e2a4 |
+| `AbsoluteTolerance`                                      | [ ] Pending*    | a371d1ab84 |
+| `Frame`                                                  | [ ] Pending*    | 417c1d0055 |
+| `LinFrame`                                               | [ ] Pending*    | d72398ba5a |
 | `LinFrameTriggering`                                     | [ ] Implemented | N/A        |
 | `LinChecksumType`                                        | [ ] Created     | N/A        |
 | `LinUnconditionalFrame`                                  | [ ] Implemented | N/A        |
