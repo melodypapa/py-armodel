@@ -13,8 +13,8 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | [x] Done | 852 | 44.8% |
 | [x] Deferred | 42 | 2.2% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 840 | 44.2% |
-| [ ] Implemented | 26 | 1.4% |
+| [ ] Deferred | 841 | 44.2% |
+| [ ] Implemented | 25 | 1.3% |
 | [ ] Created | 142 | 7.5% |
 | [ ] Pending | 0 | 0.0% |
 
@@ -1191,7 +1191,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `LinConfigurationEntry`                                 | [ ] Implemented| N/A                                      | Group31          |
 | `LinErrorResponse`                                      | [ ] Deferred| 6439b6cbd5                               | Group29          |
 | `LinEventTriggeredFrame`                                | [ ] Created | N/A                                      | Group31          |
-| `LinFrame`                                              | [ ] Implemented| N/A                                      | Group31          |
+| `LinFrame`                                              | [ ] Deferred| d72398ba5a                               | Group31          |
 | `LinFrameTriggering`                                    | [ ] Implemented| N/A                                      | Group31          |
 | `LinMaster`                                             | [ ] Deferred| 35db48e9b0                               | Group29          |
 | `LinOrderedConfigurableFrame`                           | [ ] Deferred| 15a63a22ae                               | Group29          |

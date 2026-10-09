@@ -1738,7 +1738,7 @@ Status: **17/75** completed
 | `RelativeTolerance`                                      | [ ] Pending*    | 358656e2a4 |
 | `AbsoluteTolerance`                                      | [ ] Pending*    | a371d1ab84 |
 | `Frame`                                                  | [ ] Pending*    | 417c1d0055 |
-| `LinFrame`                                               | [ ] Implemented | N/A        |
+| `LinFrame`                                               | [ ] Pending*    | d72398ba5a |
 | `LinFrameTriggering`                                     | [ ] Implemented | N/A        |
 | `LinChecksumType`                                        | [ ] Created     | N/A        |
 | `LinUnconditionalFrame`                                  | [ ] Implemented | N/A        |
