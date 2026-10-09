@@ -78,7 +78,6 @@ CycleRepetitionType
 DataFilter
 DataPrototype
 DataPrototypeTransformationProps
-DataTypePolicyEnum
 Describable
 DiagEventDebounceAlgorithm
 DiagEventDebounceCounterBased
