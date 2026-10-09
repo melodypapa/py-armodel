@@ -154,7 +154,7 @@ pending that confirmation.
     family suites; 14,043 passed / 0 failed models+parser+writer sweep); 9b confirmed
     2026-10-08; sync commit c7d395806
 
-- [ ] `SdgElementWithGid` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.25, p.99
+- [x] `SdgElementWithGid` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.25, p.99
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/SpecialDataDef.py
   - [x] Step 1 — Sync members & description from spec
     - note (Step 1): Table 4.25 (p.99 via pdf_page.py); abstract (spec header); REHOUSED from the ArObject.py stub; Base ARObject (most-derived); attr gid (NameToken, 0..1, attr).
@@ -184,9 +184,10 @@ pending that confirmation.
     - note (Step 7): 6-column block + release column; marker withheld (batch mode).
   - [x] Step 8 — Deviations
     - note (Step 8): abstract instantiation guard dropped (mixin pattern — combined-inheritance constraint); no test asserts rejection for this class.
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (362 passed / 0 failed
-    family suites; 14,043 passed / 0 failed models+parser+writer sweep); 9b deferred to
-    batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (362 passed / 0 failed
+    family suites; 14,043 passed / 0 failed models+parser+writer sweep); 9b confirmed
+    2026-10-09 (Rule 0026 audit vs source: all 9a automated + 9b manual checks green;
+    `# Spec verified: R23-11` marker written); sync commit f7d552948
 
 - [ ] `SdgClass` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.26, p.100
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/SpecialDataDef.py
