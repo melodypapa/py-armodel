@@ -37,7 +37,10 @@ eyeball these — see Rule 0024 / 0025 in rules.md):
   STAMP    `# Spec verified:` / `# XSD verified:` is present iff every row is
            `[x]`. A marker over unfinished rows certifies work that was never
            done (Rule 0012.1); a finished checklist without a marker is the
-           normal state of a class awaiting its 9b gate.
+           normal state of a class awaiting its 9b gate. The marker must also
+           sit immediately after the (last) `# Spec:` citation line — a
+           displaced marker (after `# Columns:`, after the rows, or above the
+           citation) is how independent stamping passes drift apart.
 
 Exit code 0 when no FAIL, 1 otherwise. INFO/WARN never fail the run.
 """
@@ -487,6 +490,26 @@ def check_stamp(rep: Report, blk_lines: Sequence[str]) -> None:
         # Stop here: with two markers the block's provenance is ambiguous, so it is
         # meaningless to go on and report the first one as a clean certification.
         return
+    # Rule 0012.1 adjacency: the marker sits immediately after the (last) `# Spec:`
+    # citation line, before `# Columns:` and the rows. A wrapped citation (`# Spec:`
+    # followed by a non-`key:` comment line) counts as part of the citation, so the
+    # scan skips continuation lines — a continuation is anything that is neither a
+    # `# Something:` key line nor a checklist row. Dual-corpus classes (Rule 0019)
+    # list all their `# Spec:` lines first, so keying on the LAST one is correct.
+    spec_idx = [i for i, x in enumerate(blk_lines) if x.startswith("# Spec:")]
+    if markers and spec_idx:
+        key_like = re.compile(r"^#\s*[A-Za-z][A-Za-z0-9 .\-]*:\s")  # `# Columns:`, the marker itself, ...
+        row_like = re.compile(r"^#\s*\[[ x—]\]")
+        j = spec_idx[-1] + 1
+        while j < len(blk_lines) and not key_like.match(blk_lines[j]) and not row_like.match(blk_lines[j]):
+            j += 1  # wrapped continuation of the citation itself
+        if j >= len(blk_lines) or not (blk_lines[j].startswith("# Spec verified:") or blk_lines[j].startswith("# XSD verified:")):
+            rep.fail(
+                "STAMP",
+                "Rule 0012.1: the marker must sit immediately after the (last) `# Spec:` line — this marker is displaced (expected at block line %d, found at %d); move it up so the citation reads Spec → marker → Columns → rows"
+                % (j + 1 if j < len(blk_lines) else len(blk_lines) + 1, blk_lines.index(markers[0]) + 1),
+            )
+            return
     ticks = [ROW_RE.match(x).group(1) for x in blk_lines if ROW_RE.match(x)]
     all_x = bool(ticks) and all(t == "x" for t in ticks)
     any_open = any(t != "x" for t in ticks)

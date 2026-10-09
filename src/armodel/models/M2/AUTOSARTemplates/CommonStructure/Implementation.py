@@ -381,6 +381,7 @@ class Implementation(ARElement, ABC):
 
     # Implementation method parity checklist:
     # Spec: R23-11/AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 7.1, p.128 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getBuildActionManifestRef        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -413,7 +414,6 @@ class Implementation(ARElement, ABC):
     # [x] setUsedCodeGenerator             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getVendorId                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setVendorId                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # Spec verified: R23-11
 
     def __init__(self, parent: ARObject, short_name: str) -> None:
         if type(self) is Implementation:

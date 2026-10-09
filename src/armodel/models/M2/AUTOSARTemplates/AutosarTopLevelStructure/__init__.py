@@ -77,8 +77,8 @@ class AbstractAUTOSAR(ARObject):
 
     # AbstractAUTOSAR method parity checklist (framework layer; spec-derived rows below):
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table E.1, p.421 (R23-11)
-    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getAdminData                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setAdminData                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
@@ -485,8 +485,8 @@ class AUTOSAR(AbstractAUTOSAR):
 
     # AUTOSAR method parity checklist (framework layer; extends AbstractAUTOSAR):
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table E.1, p.421 (R23-11)
-    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] getInstance  [x] impl  [ ] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] new          [x] impl  [ ] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] __init__     [x] impl  [ ] docstring  [x] test  [—] reader  [—] writer  R23-11
@@ -518,8 +518,8 @@ class AUTOSARDoc(AbstractAUTOSAR):
 
     # AUTOSARDoc method parity checklist (framework layer; extends AbstractAUTOSAR):
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table E.1, p.421 (R23-11)
-    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__     [x] impl  [ ] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self):

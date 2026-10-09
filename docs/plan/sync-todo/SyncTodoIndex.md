@@ -874,19 +874,19 @@ Status: **29/29** completed
 
 ## Group21
 
-Status: **25/55** completed
+Status: **28/55** completed
 
 | Class Name                           | Status       | Commit ID  |
 | ------------------------------------ | ------------ | ---------- |
-| `Identifier`                         | [x] Done*    | N/A        |
-| `LLongName`                          | [x] Done*    | N/A        |
+| `Identifier`                         | [x] Done     | 6336d00e15 |
+| `LLongName`                          | [x] Done     | c09bc8067d |
 | `MixedContentForLongName`            | [x] Done*    | N/A        |
 | `Referrable`                         | [x] Done*    | N/A        |
 | `ReferrableSubtypesEnum`             | [x] Done     | a097cb3d4f |
 | `SdgDef`                             | [x] Done     | c7d3958065 |
-| `SdgElementWithGid`                  | [ ] Pending* | N/A        |
-| `SdgClass`                           | [ ] Pending* | N/A        |
-| `SdgAttribute`                       | [ ] Pending* | N/A        |
+| `SdgElementWithGid`                  | [x] Done     | f7d552948b |
+| `SdgClass`                           | [x] Done     | cfa7402dec |
+| `SdgAttribute`                       | [x] Done     | 41952ae2fd |
 | `SdgAbstractPrimitiveAttribute`      | [ ] Pending* | N/A        |
 | `SdgPrimitiveAttribute`              | [ ] Pending* | N/A        |
 | `SdgPrimitiveAttributeWithVariation` | [ ] Pending* | N/A        |

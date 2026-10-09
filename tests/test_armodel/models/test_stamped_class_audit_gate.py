@@ -14,7 +14,7 @@ it fails only for stamped classes absent from `stamped_audit_baseline.txt`. New 
 is blocked today; draining the baseline is the ratchet. Set `SYNC_AUDIT_STRICT=1` to
 require a clean sweep (the end state).
 
-Companion CLI: `python scripts/audit_stamped_classes.py [--baseline <file>]`.
+Companion CLI: `python .agents/skills/sync-autosar-class/audit_stamped_classes.py [--baseline <file>]`.
 """
 
 import importlib.util
@@ -29,7 +29,7 @@ STRICT = os.environ.get("SYNC_AUDIT_STRICT") == "1"
 
 
 def _load_gate():
-    path = ROOT / "scripts" / "audit_stamped_classes.py"
+    path = ROOT / ".agents" / "skills" / "sync-autosar-class" / "audit_stamped_classes.py"
     spec = importlib.util.spec_from_file_location("audit_stamped_classes", path)
     assert spec is not None and spec.loader is not None
     module = importlib.util.module_from_spec(spec)
@@ -122,6 +122,6 @@ class TestStampedClassAuditGate:
         resolved = sorted(_baseline() - set(failures))
         assert not resolved, (
             f"{len(resolved)} baseline entries now pass the audit. Re-run "
-            f"`python scripts/audit_stamped_classes.py --write-baseline {BASELINE.relative_to(ROOT)}` to shrink it. "
+            f"python .agents/skills/sync-autosar-class/audit_stamped_classes.py --write-baseline {BASELINE.relative_to(ROOT)} to shrink it. "
             f"Resolved: {', '.join(resolved[:15])}"
         )

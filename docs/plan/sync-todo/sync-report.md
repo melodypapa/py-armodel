@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 854 | 44.7% |
-| [x] Deferred | 42 | 2.2% |
+| [x] Done | 859 | 45.0% |
+| [x] Deferred | 40 | 2.1% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 979 | 51.3% |
+| [ ] Deferred | 976 | 51.1% |
 | [ ] Implemented | 20 | 1.0% |
 | [ ] Created | 15 | 0.8% |
 | [ ] Pending | 0 | 0.0% |
@@ -1082,7 +1082,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `IcmpRule`                                              | [x] Done    | c839e30e0e                               | Group20          |
 | `IdentCaption`                                          | [x] Done    | 2dd2f91845                               | Group1           |
 | `Identifiable`                                          | [x] Done    | c17bfbf60f                               | Group1           |
-| `Identifier`                                            | [x] Deferred| N/A                                      | Group21          |
+| `Identifier`                                            | [x] Done    | 6336d00e15                               | Group21          |
 | `IdsCommonElement`                                      | [ ] Implemented| ecb37c71eb                               | Group36          |
 | `IdsDesign`                                             | [ ] Deferred| N/A                                      | Group36          |
 | `IdsMapping`                                            | [ ] Implemented| ecb37c71eb                               | Group36          |
@@ -1172,7 +1172,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `KeywordSet`                                            | [x] Done    | a6a1d31ccc                               | Group7           |
 | `LEnum`                                                 | [x] Done    | 4566d4d4f7                               | Group22          |
 | `LGraphic`                                              | [x] Done    | e4b1acf6c9                               | Group3           |
-| `LLongName`                                             | [x] Deferred| N/A                                      | Group21          |
+| `LLongName`                                             | [x] Done    | c09bc8067d                               | Group21          |
 | `LOverviewParagraph`                                    | [x] Done    | 764ef1c589                               | Group9           |
 | `LParagraph`                                            | [x] Done    | 7fa4a01f74                               | Group3           |
 | `LPlainText`                                            | [x] Done    | 1de91de480                               | Group9           |
@@ -1534,10 +1534,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `SdgAbstractForeignReference`                           | [ ] Deferred| N/A                                      | Group21          |
 | `SdgAbstractPrimitiveAttribute`                         | [ ] Deferred| N/A                                      | Group21          |
 | `SdgAggregationWithVariation`                           | [ ] Deferred| N/A                                      | Group21          |
-| `SdgAttribute`                                          | [ ] Deferred| N/A                                      | Group21          |
-| `SdgClass`                                              | [ ] Deferred| N/A                                      | Group21          |
+| `SdgAttribute`                                          | [x] Done    | 41952ae2fd                               | Group21          |
+| `SdgClass`                                              | [x] Done    | cfa7402dec                               | Group21          |
 | `SdgDef`                                                | [x] Done    | c7d3958065                               | Group21          |
-| `SdgElementWithGid`                                     | [ ] Deferred| N/A                                      | Group21          |
+| `SdgElementWithGid`                                     | [x] Done    | f7d552948b                               | Group21          |
 | `SdgForeignReference`                                   | [ ] Deferred| N/A                                      | Group21          |
 | `SdgForeignReferenceWithVariation`                      | [ ] Deferred| N/A                                      | Group21          |
 | `SdgPrimitiveAttribute`                                 | [ ] Deferred| N/A                                      | Group21          |

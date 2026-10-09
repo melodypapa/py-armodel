@@ -2954,6 +2954,9 @@ class ARXMLWriter(AbstractARXMLWriter):
         if l_value is not None:
             child_element.attrib["L"] = str(l_value)
         child_element.text = name.getValue()
+        blueprint_value = name.getBlueprintValue()
+        if blueprint_value is not None:
+            child_element.attrib["BLUEPRINT-VALUE"] = blueprint_value.getValue()
         self.writeMixedContentForLongName(child_element, name)
 
     def writeMixedContentForLongName(self, element: ET.Element, content: MixedContentForLongName):

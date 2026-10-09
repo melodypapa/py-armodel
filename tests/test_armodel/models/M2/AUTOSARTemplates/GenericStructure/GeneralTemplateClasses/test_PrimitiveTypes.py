@@ -956,7 +956,7 @@ class TestLimit:
 
 
 BASE_NOTE = "This attribute reflects the base to be used for this reference."
-BLUEPRINT_NOTE = "This represents a description that documents how the value shall be defined when deriving objects from the blueprint."
+BLUEPRINT_NOTE = "This represents a description that documents how the value shall be defined when deriving objects from the blueprint. Tags: atp.Status=draft xml.attribute=true"
 INDEX_NOTE = (
     "This attribute supports the use case to point on specific elements in an array. This is in particular required if arrays are used to implement "
     "particular data objects. The counting of array indices starts with the value 0, i.e. the index of the first array element is 0."

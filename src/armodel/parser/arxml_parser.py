@@ -3253,6 +3253,8 @@ class ARXMLParser(AbstractARXMLParser):
             l4.setValue(cast(str, child_element.text))
             if "L" in child_element.attrib:
                 l4.setL(cast(Optional[LEnum], child_element.attrib["L"]))  # noqa: E741
+            if "BLUEPRINT-VALUE" in child_element.attrib:
+                l4.setBlueprintValue(String().setValue(child_element.attrib["BLUEPRINT-VALUE"]))
             self.readMixedContentForLongName(child_element, l4)
             long_name.addL4(l4)
 
