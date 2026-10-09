@@ -776,6 +776,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticStopRoutine,
     GlobalTimeCanMaster,
     GlobalTimeCanSlave,
+    GlobalTimeEthMaster,
     GlobalTimeGateway,
     GlobalTimeMaster,
     GlobalTimeSlave,
@@ -16378,6 +16379,25 @@ class ARXMLParser(AbstractARXMLParser):
             slave.setCrcValidated(crc_validated)
         slave.setSequenceCounterJumpWidth(self.getChildElementOptionalPositiveInteger(element, "SEQUENCE-COUNTER-JUMP-WIDTH"))
         return slave
+
+    def readGlobalTimeEthMaster(self, element: ET.Element, master: GlobalTimeEthMaster) -> GlobalTimeEthMaster:
+        # The XSD GLOBAL-TIME-ETH-MASTER group (AUTOSAR_00052.xsd l.64689) follows the
+        # GLOBAL-TIME-MASTER group: CRC-SECURED, HOLD-OVER-TIME then SUB-TLV-CONFIG. The
+        # aggregated EthTSynSubTlvConfig rides in the <SUB-TLV-CONFIG> element named by the
+        # group (not the type's own tag) and dispatches to readEthTSynSubTlvConfig.
+        self.readGlobalTimeMaster(element, master)
+        literal = self.getChildElementOptionalLiteral(element, "CRC-SECURED")
+        if literal is not None:
+            crc_secured = GlobalTimeCrcSupportEnum()
+            crc_secured.setValue(literal.getValue())
+            master.setCrcSecured(crc_secured)
+        master.setHoldOverTime(self.getChildElementOptionalTimeValue(element, "HOLD-OVER-TIME"))
+        sub_tlv_config_element = self.find(element, "SUB-TLV-CONFIG")
+        if sub_tlv_config_element is not None:
+            sub_tlv_config = EthTSynSubTlvConfig()
+            self.readEthTSynSubTlvConfig(sub_tlv_config_element, sub_tlv_config)
+            master.setSubTlvConfig(sub_tlv_config)
+        return master
 
     def readEthGlobalTimeManagedCouplingPort(self, element: ET.Element, port: EthGlobalTimeManagedCouplingPort) -> EthGlobalTimeManagedCouplingPort:
         self.readARObject(element, port)

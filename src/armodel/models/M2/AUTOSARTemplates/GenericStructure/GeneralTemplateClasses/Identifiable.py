@@ -25,6 +25,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DdsTransportPriority,
     DiagnosticAbstractParameter,
     DiagnosticParameter,
+    EthTSynSubTlvConfig,
     RoleBasedResourceDependency,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
@@ -3013,7 +3014,90 @@ class GlobalTimeCanMaster(GlobalTimeMaster):
 
 
 class GlobalTimeEthMaster(GlobalTimeMaster):
-    pass
+    """
+    This represents the specialization of the GlobalTimeMaster for Ethernet communication.
+    """
+
+    # GlobalTimeEthMaster method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.11, p.866
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCrcSecured         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCrcSecured         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getHoldOverTime       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setHoldOverTime       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSubTlvConfig       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSubTlvConfig       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # The reader/writer call the Table 9.4 base helpers (readGlobalTimeMaster /
+    # writeGlobalTimeMaster) exactly once; the XSD GLOBAL-TIME-ETH-MASTER group
+    # (AUTOSAR_00052.xsd l.64689) element order is CRC-SECURED, HOLD-OVER-TIME then
+    # SUB-TLV-CONFIG. The aggregated EthTSynSubTlvConfig (Table 9.12, synced) rides in the
+    # <SUB-TLV-CONFIG> element named by the group and dispatches to the reusable
+    # readEthTSynSubTlvConfig / writeEthTSynSubTlvConfig helpers (emitted field by field under
+    # the group-named element, not the type's own tag) — the aggregator dispatch this class
+    # carried as pending is now wired. Aggregator dispatch (GlobalTimeDomain.globalTimeMaster)
+    # is still pending — GlobalTimeDomain is a later-wave class.
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Definition of whether or not CRC is supported. This is only relevant for selected bus systems.
+        self.crcSecured: Optional[GlobalTimeCrcSupportEnum] = None
+
+        # This attribute defines the timeout for transmission of Sync and Follow_Up messages on Master ports in absence of reception of Sync and Follow_Up messages on Slave port.
+        self.holdOverTime: Optional[TimeValue] = None
+
+        # Defines the subTLV fields which shall be included in the time sync message.
+        self.subTlvConfig: Optional[EthTSynSubTlvConfig] = None
+
+    def getCrcSecured(self) -> Optional[GlobalTimeCrcSupportEnum]:
+        """
+        Definition of whether or not CRC is supported. This is only relevant for selected bus systems.
+        """
+        return self.crcSecured
+
+    def setCrcSecured(self, value: Optional[GlobalTimeCrcSupportEnum]) -> GlobalTimeEthMaster:
+        """
+        Definition of whether or not CRC is supported. This is only relevant for selected bus systems.
+
+        A None value is a no-op and does not overwrite an existing crcSecured.
+        """
+        if value is not None:
+            self.crcSecured = value
+        return self
+
+    def getHoldOverTime(self) -> Optional[TimeValue]:
+        """
+        This attribute defines the timeout for transmission of Sync and Follow_Up messages on Master ports in absence of reception of Sync and Follow_Up messages on Slave port.
+        """
+        return self.holdOverTime
+
+    def setHoldOverTime(self, value: Optional[TimeValue]) -> GlobalTimeEthMaster:
+        """
+        This attribute defines the timeout for transmission of Sync and Follow_Up messages on Master ports in absence of reception of Sync and Follow_Up messages on Slave port.
+
+        A None value is a no-op and does not overwrite an existing holdOverTime.
+        """
+        if value is not None:
+            self.holdOverTime = value
+        return self
+
+    def getSubTlvConfig(self) -> Optional[EthTSynSubTlvConfig]:
+        """
+        Defines the subTLV fields which shall be included in the time sync message.
+        """
+        return self.subTlvConfig
+
+    def setSubTlvConfig(self, value: Optional[EthTSynSubTlvConfig]) -> GlobalTimeEthMaster:
+        """
+        Defines the subTLV fields which shall be included in the time sync message.
+
+        A None value is a no-op and does not overwrite an existing subTlvConfig.
+        """
+        if value is not None:
+            self.subTlvConfig = value
+        return self
 
 
 class GlobalTimeFrMaster(GlobalTimeMaster):

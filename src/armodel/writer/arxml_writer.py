@@ -619,6 +619,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticStopRoutine,
     GlobalTimeCanMaster,
     GlobalTimeCanSlave,
+    GlobalTimeEthMaster,
     GlobalTimeGateway,
     GlobalTimeMaster,
     GlobalTimeSlave,
@@ -13873,6 +13874,24 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeGlobalTimeSlave(element, slave)
         self.setChildElementOptionalLiteral(element, "CRC-VALIDATED", slave.getCrcValidated())
         self.setChildElementOptionalPositiveInteger(element, "SEQUENCE-COUNTER-JUMP-WIDTH", cast(Integer, slave.getSequenceCounterJumpWidth()))
+
+    def writeGlobalTimeEthMaster(self, element: ET.Element, master: GlobalTimeEthMaster):
+        # Populates the GLOBAL-TIME-ETH-MASTER element created by the caller; the XSD
+        # GLOBAL-TIME-ETH-MASTER group (AUTOSAR_00052.xsd l.64689) follows the
+        # GLOBAL-TIME-MASTER group: CRC-SECURED, HOLD-OVER-TIME then SUB-TLV-CONFIG. The
+        # aggregated EthTSynSubTlvConfig rides in the <SUB-TLV-CONFIG> element named by the
+        # group (not the type's own tag), so it is emitted here and populated field by field.
+        self.writeGlobalTimeMaster(element, master)
+        self.setChildElementOptionalLiteral(element, "CRC-SECURED", master.getCrcSecured())
+        self.setChildElementOptionalTimeValue(element, "HOLD-OVER-TIME", master.getHoldOverTime())
+        sub_tlv_config = master.getSubTlvConfig()
+        if sub_tlv_config is not None:
+            sub_tlv_config_element = ET.SubElement(element, "SUB-TLV-CONFIG")
+            self.writeARObject(sub_tlv_config_element, sub_tlv_config)
+            self.setChildElementOptionalBooleanValue(sub_tlv_config_element, "OFS-SUB-TLV", sub_tlv_config.getOfsSubTlv())
+            self.setChildElementOptionalBooleanValue(sub_tlv_config_element, "STATUS-SUB-TLV", sub_tlv_config.getStatusSubTlv())
+            self.setChildElementOptionalBooleanValue(sub_tlv_config_element, "TIME-SUB-TLV", sub_tlv_config.getTimeSubTlv())
+            self.setChildElementOptionalBooleanValue(sub_tlv_config_element, "USER-DATA-SUB-TLV", sub_tlv_config.getUserDataSubTlv())
 
     def writeEthGlobalTimeManagedCouplingPort(self, element: ET.Element, port: EthGlobalTimeManagedCouplingPort):
         child_element = ET.SubElement(element, "ETH-GLOBAL-TIME-MANAGED-COUPLING-PORT")

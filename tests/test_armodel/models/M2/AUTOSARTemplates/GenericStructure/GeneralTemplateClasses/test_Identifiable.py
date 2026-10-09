@@ -31,6 +31,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DdsTopicData,
     DdsTransportPriority,
     DiagnosticParameter,
+    EthTSynSubTlvConfig,
     RoleBasedResourceDependency,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
@@ -56,6 +57,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticStopRoutine,
     GlobalTimeCanMaster,
     GlobalTimeCanSlave,
+    GlobalTimeEthMaster,
     GlobalTimeGateway,
     GlobalTimeMaster,
     GlobalTimeSlave,
@@ -3918,3 +3920,178 @@ class TestGlobalTimeCanSlave:
         assert inspect.cleandoc(GlobalTimeCanSlave.setSequenceCounterJumpWidth.__doc__) == (
             self.SEQUENCE_COUNTER_JUMP_WIDTH_NOTE + "\n\nA None value is a no-op and does not overwrite an existing sequenceCounterJumpWidth."
         )
+
+
+class TestGlobalTimeEthMaster:
+    """
+    Test class for GlobalTimeEthMaster functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.11, p.866
+    (concrete; the Table 9.11 Base row's most-derived class is GlobalTimeMaster.)
+    """
+
+    CLASS_NOTE = "This represents the specialization of the GlobalTimeMaster for Ethernet communication."
+    CRC_SECURED_NOTE = "Definition of whether or not CRC is supported. This is only relevant for selected bus systems."
+    HOLD_OVER_TIME_NOTE = "This attribute defines the timeout for transmission of Sync and Follow_Up messages on Master ports in absence of reception of Sync and Follow_Up messages on Slave port."
+    SUB_TLV_CONFIG_NOTE = "Defines the subTLV fields which shall be included in the time sync message."
+
+    def _create_master(self) -> GlobalTimeEthMaster:
+        return GlobalTimeEthMaster(AUTOSAR.getInstance(), "ethMaster")
+
+    def test_is_global_time_master_subclass(self):
+        """
+        Test that GlobalTimeEthMaster derives from GlobalTimeMaster per the Table 9.11 Base row
+        (ARObject, GlobalTimeMaster, Identifiable, MultilanguageReferrable, Referrable —
+        most-derived GlobalTimeMaster).
+        """
+        assert issubclass(GlobalTimeEthMaster, GlobalTimeMaster)
+        assert issubclass(GlobalTimeEthMaster, Identifiable)
+        assert issubclass(GlobalTimeEthMaster, VariationPointCapable)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(GlobalTimeEthMaster.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert GlobalTimeEthMaster.__init__.__doc__ is None
+
+    def test_member_order_follows_spec_rows(self):
+        """
+        Test that the accessors follow the Table 9.11 displayed row order (getter first per attribute).
+        """
+        methods = [name for name, value in GlobalTimeEthMaster.__dict__.items() if callable(value) and not name.startswith("_")]
+        assert methods == [
+            "getCrcSecured",
+            "setCrcSecured",
+            "getHoldOverTime",
+            "setHoldOverTime",
+            "getSubTlvConfig",
+            "setSubTlvConfig",
+        ]
+
+    def test_initialization_defaults(self):
+        """
+        Test that the instance initializes all own and inherited attributes to their defaults.
+        """
+        obj = self._create_master()
+
+        assert obj.getShortName() == "ethMaster"
+        assert obj.getChecksum() is None
+        assert obj.getCrcSecured() is None
+        assert obj.getHoldOverTime() is None
+        assert obj.getSubTlvConfig() is None
+        assert obj.getCommunicationConnectorRef() is None
+        assert obj.getIcvSecured() is None
+        assert obj.getImmediateResumeTime() is None
+        assert obj.getIsSystemWideGlobalTimeMaster() is None
+        assert obj.getSyncPeriod() is None
+        assert obj.getVariationPoint() is None
+
+    def test_annotations_are_optional_typed(self):
+        """
+        Test that the accessors carry the spec types (0..1 rows).
+        """
+        hints = typing.get_type_hints(GlobalTimeEthMaster.getCrcSecured)
+        assert hints.get("return") == typing.Optional[GlobalTimeCrcSupportEnum]
+        hints = typing.get_type_hints(GlobalTimeEthMaster.setCrcSecured)
+        assert hints.get("value") == typing.Optional[GlobalTimeCrcSupportEnum]
+        assert hints.get("return") is GlobalTimeEthMaster
+
+        hints = typing.get_type_hints(GlobalTimeEthMaster.getHoldOverTime)
+        assert hints.get("return") == typing.Optional[TimeValue]
+
+        hints = typing.get_type_hints(GlobalTimeEthMaster.getSubTlvConfig)
+        assert hints.get("return") == typing.Optional[EthTSynSubTlvConfig]
+        hints = typing.get_type_hints(GlobalTimeEthMaster.setSubTlvConfig)
+        assert hints.get("value") == typing.Optional[EthTSynSubTlvConfig]
+        assert hints.get("return") is GlobalTimeEthMaster
+
+    def test_get_set_crc_secured(self):
+        """
+        Test getCrcSecured and setCrcSecured round-trip and None no-op.
+        """
+        obj = self._create_master()
+
+        value = GlobalTimeCrcSupportEnum()
+        value.setValue(GlobalTimeCrcSupportEnum.CRC_SUPPORTED)
+        result = obj.setCrcSecured(value)
+        assert result is obj
+        assert obj.getCrcSecured() is value
+        assert obj.getCrcSecured().getValue() == GlobalTimeCrcSupportEnum.CRC_SUPPORTED
+
+        result = obj.setCrcSecured(None)
+        assert result is obj
+        assert obj.getCrcSecured() is value
+
+    def test_get_set_hold_over_time(self):
+        """
+        Test getHoldOverTime and setHoldOverTime round-trip and None no-op.
+        """
+        obj = self._create_master()
+
+        value = TimeValue()
+        value.setValue("2.0")
+        result = obj.setHoldOverTime(value)
+        assert result is obj
+        assert obj.getHoldOverTime() is value
+        assert obj.getHoldOverTime().getValue() == pytest.approx(2.0)
+
+        result = obj.setHoldOverTime(None)
+        assert result is obj
+        assert obj.getHoldOverTime() is value
+
+    def test_get_set_sub_tlv_config(self):
+        """
+        Test getSubTlvConfig and setSubTlvConfig round-trip and None no-op.
+        """
+        obj = self._create_master()
+
+        value = EthTSynSubTlvConfig()
+        value.setOfsSubTlv(Boolean().setValue(True))
+        value.setTimeSubTlv(Boolean().setValue(False))
+        result = obj.setSubTlvConfig(value)
+        assert result is obj
+        assert obj.getSubTlvConfig() is value
+        assert obj.getSubTlvConfig().getOfsSubTlv().getValue() is True
+        assert obj.getSubTlvConfig().getTimeSubTlv().getValue() is False
+
+        result = obj.setSubTlvConfig(None)
+        assert result is obj
+        assert obj.getSubTlvConfig() is value
+
+    def test_inherited_base_accessors(self):
+        """
+        Exercise the inherited GlobalTimeMaster accessors: chaining, round-trip, None no-op.
+        """
+        obj = self._create_master()
+
+        sync_period = TimeValue()
+        sync_period.setValue("0.2")
+        assert obj.setSyncPeriod(sync_period) is obj
+        assert obj.getSyncPeriod() is sync_period
+
+        obj.setSyncPeriod(None)
+        assert obj.getSyncPeriod() is sync_period
+
+        variation_point = VariationPoint()
+        assert obj.setVariationPoint(variation_point) is obj
+        assert obj.getVariationPoint() is variation_point
+
+        obj.setVariationPoint(None)
+        assert obj.getVariationPoint() is variation_point
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        assert inspect.cleandoc(GlobalTimeEthMaster.getCrcSecured.__doc__) == self.CRC_SECURED_NOTE
+        assert inspect.cleandoc(GlobalTimeEthMaster.setCrcSecured.__doc__) == (self.CRC_SECURED_NOTE + "\n\nA None value is a no-op and does not overwrite an existing crcSecured.")
+        assert inspect.cleandoc(GlobalTimeEthMaster.getHoldOverTime.__doc__) == self.HOLD_OVER_TIME_NOTE
+        assert inspect.cleandoc(GlobalTimeEthMaster.setHoldOverTime.__doc__) == (self.HOLD_OVER_TIME_NOTE + "\n\nA None value is a no-op and does not overwrite an existing holdOverTime.")
+        assert inspect.cleandoc(GlobalTimeEthMaster.getSubTlvConfig.__doc__) == self.SUB_TLV_CONFIG_NOTE
+        assert inspect.cleandoc(GlobalTimeEthMaster.setSubTlvConfig.__doc__) == (self.SUB_TLV_CONFIG_NOTE + "\n\nA None value is a no-op and does not overwrite an existing subTlvConfig.")

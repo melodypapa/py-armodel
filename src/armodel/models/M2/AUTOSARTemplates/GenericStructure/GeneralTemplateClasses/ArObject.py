@@ -3840,9 +3840,10 @@ class EthTSynSubTlvConfig(ARObject):
     # [x] getUserDataSubTlv    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setUserDataSubTlv    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     #
-    # Aggregator dispatch (GlobalTimeEthMaster.subTlvConfig) is pending — GlobalTimeEthMaster
-    # is a later-wave class; the reusable readEthTSynSubTlvConfig / writeEthTSynSubTlvConfig
-    # helpers own the ETH-T-SYN-SUB-TLV-CONFIG element (AUTOSAR_00052.xsd l.55824).
+    # Aggregator dispatch (GlobalTimeEthMaster.subTlvConfig) is wired: read/writeGlobalTimeEthMaster
+    # emit the group-named <SUB-TLV-CONFIG> element and delegate the content to the reusable
+    # readEthTSynSubTlvConfig / writeEthTSynSubTlvConfig helpers, which own the
+    # ETH-T-SYN-SUB-TLV-CONFIG element content (AUTOSAR_00052.xsd l.55824).
 
     def __init__(self):
         super().__init__()
