@@ -2940,11 +2940,28 @@ class AbstractGlobalTimeDomainProps(ARObject, VariationPointCapable):
 
 
 class BinaryManifestItemValue(ARObject, ABC):
-    pass
+    """
+    This meta-class has the ability to act as an abstract base class for values of binary manifest item.
+    """
 
+    # BinaryManifestItemValue method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 11.25, p.922
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    #
+    # Table 11.25 declares no Attribute rows and the XSD BINARY-MANIFEST-ITEM-VALUE group
+    # (AUTOSAR_00052.xsd l.8763) has an empty sequence; the reusable readBinaryManifestItemValue /
+    # writeBinaryManifestItemValue helpers own the ARObject level of the concrete subclass element
+    # (BINARY-MANIFEST-ITEM-NUMERICAL-VALUE / BINARY-MANIFEST-ITEM-POINTER-VALUE) and are called by
+    # the BinaryManifestItemNumericalValue / BinaryManifestItemPointerValue readers/writers.
+    # Aggregator dispatch (BinaryManifestItem.value / BinaryManifestItem.defaultValue) is pending —
+    # BinaryManifestItem is an unsynced later-wave stub.
 
-class BinaryManifestResource(ARObject, ABC):
-    pass
+    def __init__(self):
+        if type(self) is BinaryManifestItemValue:
+            raise TypeError("BinaryManifestItemValue is an abstract class.")
+
+        super().__init__()
 
 
 class DataFormatTailoring(ARObject):
@@ -3188,7 +3205,28 @@ class BusMirrorLinPidToCanIdMapping(ARObject):
 
 
 class CpSoftwareClusterCommunicationResourceProps(ARObject, ABC):
-    pass
+    """
+    Communication properties for cross cluster communication.
+    """
+
+    # CpSoftwareClusterCommunicationResourceProps method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 11.9, p.902
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    #
+    # Table 11.9 declares no Attribute rows and the XSD CP-SOFTWARE-CLUSTER-COMMUNICATION-RESOURCE-PROPS
+    # group (AUTOSAR_00052.xsd l.24290) has an empty sequence; the reusable
+    # readCpSoftwareClusterCommunicationResourceProps / writeCpSoftwareClusterCommunicationResourceProps
+    # helpers own the ARObject level of the concrete subclass element (CLIENT-SERVER-OPERATION-COM-PROPS /
+    # DATA-COM-PROPS) and are called by the ClientServerOperationComProps / DataComProps readers/writers.
+    # Aggregator dispatch (CpSoftwareClusterCommunicationResource.communicationResourceProps) is
+    # pending — CpSoftwareClusterCommunicationResource is an unsynced later-wave class.
+
+    def __init__(self):
+        if type(self) is CpSoftwareClusterCommunicationResourceProps:
+            raise TypeError("CpSoftwareClusterCommunicationResourceProps is an abstract class.")
+
+        super().__init__()
 
 
 class DdsCpProvidedServiceInstance(ARObject):
@@ -4171,15 +4209,416 @@ class DdsTransportPriority(ARObject):
 
 
 class EthGlobalTimeManagedCouplingPort(ARObject):
-    pass
+    """
+    Specifies a CouplingPort which is managed by an Ethernet Global Time Domain.
+    """
+
+    # EthGlobalTimeManagedCouplingPort method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.17, p.875
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCouplingPortRef                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCouplingPortRef                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getGlobalTimePortRole               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setGlobalTimePortRole               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getGlobalTimeTxPeriod               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setGlobalTimeTxPeriod               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPdelayLatencyThreshold           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPdelayLatencyThreshold           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPdelayRequestPeriod              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPdelayRequestPeriod              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPdelayRespAndRespFollowUpTimeout [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPdelayRespAndRespFollowUpTimeout [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPdelayResponseEnabled            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPdelayResponseEnabled            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # Aggregator dispatch (EthGlobalTimeDomainProps.managedCouplingPort) is pending —
+    # EthGlobalTimeDomainProps is a later-wave class; the reusable
+    # readEthGlobalTimeManagedCouplingPort / writeEthGlobalTimeManagedCouplingPort helpers own
+    # the ETH-GLOBAL-TIME-MANAGED-COUPLING-PORT element (AUTOSAR_00052.xsd l.55634).
+
+    def __init__(self):
+        super().__init__()
+
+        # Defines which CouplingPort is managed by this EthGlobalTimeManagedCouplingPort.
+        self.couplingPortRef: Optional[RefType] = None
+
+        # This attribute defines the port behavior.
+        self.globalTimePortRole: Optional[GlobalTimePortRoleEnum] = None
+
+        # This attribute defines the TX period in seconds
+        self.globalTimeTxPeriod: Optional[TimeValue] = None
+
+        # Threshold for calculated Pdelay. If a measured Pdelay exceeds pdelayLatencyThreshold, the measured Pdelay value is discarded.
+        self.pdelayLatencyThreshold: Optional[TimeValue] = None
+
+        # Defines the period for the pdelay request messages.
+        self.pdelayRequestPeriod: Optional[TimeValue] = None
+
+        # Timeout value for Pdelay_Resp and Pdelay_Resp_Follow_Up after a Pdelay_Req has been transmitted resp. a Pdelay_Resp has been received. A value of 0 or not defining this attribute deactivates this timeout observation.
+        self.pdelayRespAndRespFollowUpTimeout: Optional[TimeValue] = None
+
+        # Defines whether PDELAY RESPONSE and PDELAY RESPONSE FOLLOW UP shall be sent on this Coupling Port.
+        self.pdelayResponseEnabled: Optional[Boolean] = None
+
+    def getCouplingPortRef(self) -> Optional[RefType]:
+        """
+        Defines which CouplingPort is managed by this EthGlobalTimeManagedCouplingPort.
+        """
+        return self.couplingPortRef
+
+    def setCouplingPortRef(self, value: Optional[RefType]) -> EthGlobalTimeManagedCouplingPort:
+        """
+        Defines which CouplingPort is managed by this EthGlobalTimeManagedCouplingPort.
+
+        A None value is a no-op and does not overwrite an existing couplingPortRef.
+        """
+        if value is not None:
+            self.couplingPortRef = value
+        return self
+
+    def getGlobalTimePortRole(self) -> Optional[GlobalTimePortRoleEnum]:
+        """
+        This attribute defines the port behavior.
+        """
+        return self.globalTimePortRole
+
+    def setGlobalTimePortRole(self, value: Optional[GlobalTimePortRoleEnum]) -> EthGlobalTimeManagedCouplingPort:
+        """
+        This attribute defines the port behavior.
+
+        A None value is a no-op and does not overwrite an existing globalTimePortRole.
+        """
+        if value is not None:
+            self.globalTimePortRole = value
+        return self
+
+    def getGlobalTimeTxPeriod(self) -> Optional[TimeValue]:
+        """
+        This attribute defines the TX period in seconds
+        """
+        return self.globalTimeTxPeriod
+
+    def setGlobalTimeTxPeriod(self, value: Optional[TimeValue]) -> EthGlobalTimeManagedCouplingPort:
+        """
+        This attribute defines the TX period in seconds
+
+        A None value is a no-op and does not overwrite an existing globalTimeTxPeriod.
+        """
+        if value is not None:
+            self.globalTimeTxPeriod = value
+        return self
+
+    def getPdelayLatencyThreshold(self) -> Optional[TimeValue]:
+        """
+        Threshold for calculated Pdelay. If a measured Pdelay exceeds pdelayLatencyThreshold, the measured Pdelay value is discarded.
+        """
+        return self.pdelayLatencyThreshold
+
+    def setPdelayLatencyThreshold(self, value: Optional[TimeValue]) -> EthGlobalTimeManagedCouplingPort:
+        """
+        Threshold for calculated Pdelay. If a measured Pdelay exceeds pdelayLatencyThreshold, the measured Pdelay value is discarded.
+
+        A None value is a no-op and does not overwrite an existing pdelayLatencyThreshold.
+        """
+        if value is not None:
+            self.pdelayLatencyThreshold = value
+        return self
+
+    def getPdelayRequestPeriod(self) -> Optional[TimeValue]:
+        """
+        Defines the period for the pdelay request messages.
+        """
+        return self.pdelayRequestPeriod
+
+    def setPdelayRequestPeriod(self, value: Optional[TimeValue]) -> EthGlobalTimeManagedCouplingPort:
+        """
+        Defines the period for the pdelay request messages.
+
+        A None value is a no-op and does not overwrite an existing pdelayRequestPeriod.
+        """
+        if value is not None:
+            self.pdelayRequestPeriod = value
+        return self
+
+    def getPdelayRespAndRespFollowUpTimeout(self) -> Optional[TimeValue]:
+        """
+        Timeout value for Pdelay_Resp and Pdelay_Resp_Follow_Up after a Pdelay_Req has been transmitted resp. a Pdelay_Resp has been received. A value of 0 or not defining this attribute deactivates this timeout observation.
+        """
+        return self.pdelayRespAndRespFollowUpTimeout
+
+    def setPdelayRespAndRespFollowUpTimeout(self, value: Optional[TimeValue]) -> EthGlobalTimeManagedCouplingPort:
+        """
+        Timeout value for Pdelay_Resp and Pdelay_Resp_Follow_Up after a Pdelay_Req has been transmitted resp. a Pdelay_Resp has been received. A value of 0 or not defining this attribute deactivates this timeout observation.
+
+        A None value is a no-op and does not overwrite an existing pdelayRespAndRespFollowUpTimeout.
+        """
+        if value is not None:
+            self.pdelayRespAndRespFollowUpTimeout = value
+        return self
+
+    def getPdelayResponseEnabled(self) -> Optional[Boolean]:
+        """
+        Defines whether PDELAY RESPONSE and PDELAY RESPONSE FOLLOW UP shall be sent on this Coupling Port.
+        """
+        return self.pdelayResponseEnabled
+
+    def setPdelayResponseEnabled(self, value: Optional[Boolean]) -> EthGlobalTimeManagedCouplingPort:
+        """
+        Defines whether PDELAY RESPONSE and PDELAY RESPONSE FOLLOW UP shall be sent on this Coupling Port.
+
+        A None value is a no-op and does not overwrite an existing pdelayResponseEnabled.
+        """
+        if value is not None:
+            self.pdelayResponseEnabled = value
+        return self
 
 
 class EthTSynCrcFlags(ARObject):
-    pass
+    """
+    Defines the fields of the message which shall be taken into account for CRC calculation and verification.
+    """
+
+    # EthTSynCrcFlags method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.15, p.868
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCrcCorrectionField         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCrcCorrectionField         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCrcDomainNumber            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCrcDomainNumber            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCrcMessageLength           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCrcMessageLength           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCrcPreciseOriginTimestamp  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCrcPreciseOriginTimestamp  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCrcSequenceId              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCrcSequenceId              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCrcSourcePortIdentity      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCrcSourcePortIdentity      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # Aggregator dispatch (EthGlobalTimeDomainProps.crcFlags) is pending — EthGlobalTimeDomainProps
+    # is a later-wave class; the reusable readEthTSynCrcFlags / writeEthTSynCrcFlags helpers own
+    # the ETH-T-SYN-CRC-FLAGS element (AUTOSAR_00052.xsd l.55765).
+
+    def __init__(self):
+        super().__init__()
+
+        # CorrectionField from the Follow_Up Message Header shall be included in CRC calculation.
+        self.crcCorrectionField: Optional[Boolean] = None
+
+        # DomainNumber from the Follow_Up Message Header shall be included in CRC calculation.
+        self.crcDomainNumber: Optional[Boolean] = None
+
+        # MessageLength from the Follow_Up Message Header shall be included in CRC calculation.
+        self.crcMessageLength: Optional[Boolean] = None
+
+        # PreciseOriginTimestamp from the Follow_Up Message Field shall be included in CRC calculation.
+        self.crcPreciseOriginTimestamp: Optional[Boolean] = None
+
+        # SequenceId from the Follow_Up Message Header shall be included in CRC calculation.
+        self.crcSequenceId: Optional[Boolean] = None
+
+        # SourcePortIdentity from the Follow_Up Message Header shall be included in CRC calculation.
+        self.crcSourcePortIdentity: Optional[Boolean] = None
+
+    def getCrcCorrectionField(self) -> Optional[Boolean]:
+        """
+        CorrectionField from the Follow_Up Message Header shall be included in CRC calculation.
+        """
+        return self.crcCorrectionField
+
+    def setCrcCorrectionField(self, value: Optional[Boolean]) -> EthTSynCrcFlags:
+        """
+        CorrectionField from the Follow_Up Message Header shall be included in CRC calculation.
+
+        A None value is a no-op and does not overwrite an existing crcCorrectionField.
+        """
+        if value is not None:
+            self.crcCorrectionField = value
+        return self
+
+    def getCrcDomainNumber(self) -> Optional[Boolean]:
+        """
+        DomainNumber from the Follow_Up Message Header shall be included in CRC calculation.
+        """
+        return self.crcDomainNumber
+
+    def setCrcDomainNumber(self, value: Optional[Boolean]) -> EthTSynCrcFlags:
+        """
+        DomainNumber from the Follow_Up Message Header shall be included in CRC calculation.
+
+        A None value is a no-op and does not overwrite an existing crcDomainNumber.
+        """
+        if value is not None:
+            self.crcDomainNumber = value
+        return self
+
+    def getCrcMessageLength(self) -> Optional[Boolean]:
+        """
+        MessageLength from the Follow_Up Message Header shall be included in CRC calculation.
+        """
+        return self.crcMessageLength
+
+    def setCrcMessageLength(self, value: Optional[Boolean]) -> EthTSynCrcFlags:
+        """
+        MessageLength from the Follow_Up Message Header shall be included in CRC calculation.
+
+        A None value is a no-op and does not overwrite an existing crcMessageLength.
+        """
+        if value is not None:
+            self.crcMessageLength = value
+        return self
+
+    def getCrcPreciseOriginTimestamp(self) -> Optional[Boolean]:
+        """
+        PreciseOriginTimestamp from the Follow_Up Message Field shall be included in CRC calculation.
+        """
+        return self.crcPreciseOriginTimestamp
+
+    def setCrcPreciseOriginTimestamp(self, value: Optional[Boolean]) -> EthTSynCrcFlags:
+        """
+        PreciseOriginTimestamp from the Follow_Up Message Field shall be included in CRC calculation.
+
+        A None value is a no-op and does not overwrite an existing crcPreciseOriginTimestamp.
+        """
+        if value is not None:
+            self.crcPreciseOriginTimestamp = value
+        return self
+
+    def getCrcSequenceId(self) -> Optional[Boolean]:
+        """
+        SequenceId from the Follow_Up Message Header shall be included in CRC calculation.
+        """
+        return self.crcSequenceId
+
+    def setCrcSequenceId(self, value: Optional[Boolean]) -> EthTSynCrcFlags:
+        """
+        SequenceId from the Follow_Up Message Header shall be included in CRC calculation.
+
+        A None value is a no-op and does not overwrite an existing crcSequenceId.
+        """
+        if value is not None:
+            self.crcSequenceId = value
+        return self
+
+    def getCrcSourcePortIdentity(self) -> Optional[Boolean]:
+        """
+        SourcePortIdentity from the Follow_Up Message Header shall be included in CRC calculation.
+        """
+        return self.crcSourcePortIdentity
+
+    def setCrcSourcePortIdentity(self, value: Optional[Boolean]) -> EthTSynCrcFlags:
+        """
+        SourcePortIdentity from the Follow_Up Message Header shall be included in CRC calculation.
+
+        A None value is a no-op and does not overwrite an existing crcSourcePortIdentity.
+        """
+        if value is not None:
+            self.crcSourcePortIdentity = value
+        return self
 
 
 class EthTSynSubTlvConfig(ARObject):
-    pass
+    """
+    Defines the subTLV fields which shall be included in the time sync message.
+    """
+
+    # EthTSynSubTlvConfig method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.12, p.867
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getOfsSubTlv         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOfsSubTlv         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getStatusSubTlv      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setStatusSubTlv      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeSubTlv        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeSubTlv        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getUserDataSubTlv    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUserDataSubTlv    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # Aggregator dispatch (GlobalTimeEthMaster.subTlvConfig) is wired: read/writeGlobalTimeEthMaster
+    # emit the group-named <SUB-TLV-CONFIG> element and delegate the content to the reusable
+    # readEthTSynSubTlvConfig / writeEthTSynSubTlvConfig helpers, which own the
+    # ETH-T-SYN-SUB-TLV-CONFIG element content (AUTOSAR_00052.xsd l.55824).
+
+    def __init__(self):
+        super().__init__()
+
+        # Defines whether an AUTOSAR Follow_Up TLV OFS Sub-TLV is used.
+        self.ofsSubTlv: Optional[Boolean] = None
+
+        # Defines whether an AUTOSAR Follow_Up TLV Status Sub-TLV is used.
+        self.statusSubTlv: Optional[Boolean] = None
+
+        # Defines whether an AUTOSAR Follow_Up TLV Time Sub-TLV is used.
+        self.timeSubTlv: Optional[Boolean] = None
+
+        # Defines whether an AUTOSAR Follow_Up TLV UserData Sub-TLV is used.
+        self.userDataSubTlv: Optional[Boolean] = None
+
+    def getOfsSubTlv(self) -> Optional[Boolean]:
+        """
+        Defines whether an AUTOSAR Follow_Up TLV OFS Sub-TLV is used.
+        """
+        return self.ofsSubTlv
+
+    def setOfsSubTlv(self, value: Optional[Boolean]) -> EthTSynSubTlvConfig:
+        """
+        Defines whether an AUTOSAR Follow_Up TLV OFS Sub-TLV is used.
+
+        A None value is a no-op and does not overwrite an existing ofsSubTlv.
+        """
+        if value is not None:
+            self.ofsSubTlv = value
+        return self
+
+    def getStatusSubTlv(self) -> Optional[Boolean]:
+        """
+        Defines whether an AUTOSAR Follow_Up TLV Status Sub-TLV is used.
+        """
+        return self.statusSubTlv
+
+    def setStatusSubTlv(self, value: Optional[Boolean]) -> EthTSynSubTlvConfig:
+        """
+        Defines whether an AUTOSAR Follow_Up TLV Status Sub-TLV is used.
+
+        A None value is a no-op and does not overwrite an existing statusSubTlv.
+        """
+        if value is not None:
+            self.statusSubTlv = value
+        return self
+
+    def getTimeSubTlv(self) -> Optional[Boolean]:
+        """
+        Defines whether an AUTOSAR Follow_Up TLV Time Sub-TLV is used.
+        """
+        return self.timeSubTlv
+
+    def setTimeSubTlv(self, value: Optional[Boolean]) -> EthTSynSubTlvConfig:
+        """
+        Defines whether an AUTOSAR Follow_Up TLV Time Sub-TLV is used.
+
+        A None value is a no-op and does not overwrite an existing timeSubTlv.
+        """
+        if value is not None:
+            self.timeSubTlv = value
+        return self
+
+    def getUserDataSubTlv(self) -> Optional[Boolean]:
+        """
+        Defines whether an AUTOSAR Follow_Up TLV UserData Sub-TLV is used.
+        """
+        return self.userDataSubTlv
+
+    def setUserDataSubTlv(self, value: Optional[Boolean]) -> EthTSynSubTlvConfig:
+        """
+        Defines whether an AUTOSAR Follow_Up TLV UserData Sub-TLV is used.
+
+        A None value is a no-op and does not overwrite an existing userDataSubTlv.
+        """
+        if value is not None:
+            self.userDataSubTlv = value
+        return self
 
 
 class GlobalTimeCorrectionProps(ARObject):
@@ -4284,10 +4723,6 @@ class GlobalTimeCorrectionProps(ARObject):
         return self
 
 
-class GlobalTimeSlave(ARObject, ABC):
-    pass
-
-
 class NetworkSegmentIdentification(ARObject):
     """
     This meta-class represents the ability to identify the PhysicalChannel on a system scope in a numerical way. One possible application of this approach is the Time Validation.
@@ -4327,36 +4762,540 @@ class NetworkSegmentIdentification(ARObject):
         return self
 
 
-class TransformationProps(ARObject, ABC):
-    pass
-
-
 class BinaryManifestItemNumericalValue(BinaryManifestItemValue):
-    pass
+    """
+    This meta-class has the ability to provide a numerical value for a binary manifest item.
+
+    [constr_5202] Existence of attribute BinaryManifestItemNumericalValue.value: For each BinaryManifestItemNumericalValue, attribute value shall exist at the time when the definition of binary object metadata is finished.
+    """
+
+    # BinaryManifestItemNumericalValue method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 11.26, p.922
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getValue  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setValue  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # The XSD BINARY-MANIFEST-ITEM-NUMERICAL-VALUE group (AUTOSAR_00052.xsd l.8697) orders VALUE;
+    # the reader/writer call the base readBinaryManifestItemValue / writeBinaryManifestItemValue
+    # helpers exactly once (ARObject level). Aggregator dispatch (BinaryManifestItem.value /
+    # BinaryManifestItem.defaultValue) is pending — BinaryManifestItem is an unsynced later-wave
+    # stub.
+
+    def __init__(self):
+        super().__init__()
+
+        # This attribute specifies the actual numerical value to be used in the binary manifest handle.
+        self.value: Optional[Numerical] = None
+
+    def getValue(self) -> Optional[Numerical]:
+        """
+        This attribute specifies the actual numerical value to be used in the binary manifest handle.
+        """
+        return self.value
+
+    def setValue(self, value: Optional[Numerical]) -> BinaryManifestItemNumericalValue:
+        """
+        This attribute specifies the actual numerical value to be used in the binary manifest handle.
+
+        A None value is a no-op and does not overwrite an existing value.
+        """
+        if value is not None:
+            self.value = value
+        return self
 
 
 class BinaryManifestItemPointerValue(BinaryManifestItemValue):
-    pass
+    """
+    This meta-class has the ability to provide a value for a pointer in the context of a binary manifest item.
+
+    [constr_5218] Existence of attribute BinaryManifestItemPointerValue.address: For each BinaryManifestItemPointerValue, attribute address shall exist at the time when the definition of binary object metadata is finished.
+
+    [constr_5203] Existence of attribute BinaryManifestItemPointerValue.symbol: For each BinaryManifestItemPointerValue, attribute symbol shall exist at the time when the definition of binary object meta-data is finished.
+    """
+
+    # BinaryManifestItemPointerValue method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 11.27, p.922
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAddress [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAddress [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSymbol  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSymbol  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # The XSD BINARY-MANIFEST-ITEM-POINTER-VALUE group (AUTOSAR_00052.xsd l.8727) orders ADDRESS,
+    # SYMBOL; the reader/writer call the base readBinaryManifestItemValue /
+    # writeBinaryManifestItemValue helpers exactly once (ARObject level). Aggregator dispatch
+    # (BinaryManifestItem.value / BinaryManifestItem.defaultValue) is pending — BinaryManifestItem
+    # is an unsynced later-wave stub.
+
+    def __init__(self):
+        super().__init__()
+
+        # This attribute represents the address value of the enclosing pointer value.
+        self.address: Optional[Address] = None
+
+        # This attribute represents the symbol associated with the binary manifest handle.
+        self.symbol: Optional[SymbolString] = None
+
+    def getAddress(self) -> Optional[Address]:
+        """
+        This attribute represents the address value of the enclosing pointer value.
+        """
+        return self.address
+
+    def setAddress(self, value: Optional[Address]) -> BinaryManifestItemPointerValue:
+        """
+        This attribute represents the address value of the enclosing pointer value.
+
+        A None value is a no-op and does not overwrite an existing address.
+        """
+        if value is not None:
+            self.address = value
+        return self
+
+    def getSymbol(self) -> Optional[SymbolString]:
+        """
+        This attribute represents the symbol associated with the binary manifest handle.
+        """
+        return self.symbol
+
+    def setSymbol(self, value: Optional[SymbolString]) -> BinaryManifestItemPointerValue:
+        """
+        This attribute represents the symbol associated with the binary manifest handle.
+
+        A None value is a no-op and does not overwrite an existing symbol.
+        """
+        if value is not None:
+            self.symbol = value
+        return self
 
 
 class CanGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
-    pass
+    """
+    Enables the definition of Can Global Time specific properties.
+    """
+
+    # CanGlobalTimeDomainProps method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.10, p.864
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addFupDataIDList    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFupDataIDLists   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addOfnsDataIDList   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOfnsDataIDLists  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addOfsDataIDList    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOfsDataIDLists   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addSyncDataIDList   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSyncDataIDLists  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    #
+    # getVariationPoint / setVariationPoint provided by the VariationPointCapable base (mixin) — no spec row (stereotype-inherent)
+    # The four DataIDList attributes are ordered 0..16 wrapper lists: the XSD CAN-GLOBAL-TIME-DOMAIN-PROPS
+    # group (AUTOSAR_00052.xsd l.15163) wraps <FUP/OFNS/OFS/SYNC-DATA-ID-LIST> items in a
+    # <...-DATA-ID-LISTS> wrapper emitted only when non-empty. Aggregator dispatch
+    # (GlobalTimeDomain.globalTimeDomainProperty) is pending — GlobalTimeDomain is a later-wave
+    # class; the reader/writer call the base readAbstractGlobalTimeDomainProps /
+    # writeAbstractGlobalTimeDomainProps helpers (VARIATION-POINT precedes the wrapper elements).
+
+    def __init__(self):
+        super().__init__()
+
+        # The DataIDList for FUP messages to calculate CRC.
+        self.fupDataIDLists: List[PositiveInteger] = []
+
+        # The DataIDList for OFNS messages to calculate CRC.
+        self.ofnsDataIDLists: List[PositiveInteger] = []
+
+        # The DataIDList for OFS messages to calculate CRC.
+        self.ofsDataIDLists: List[PositiveInteger] = []
+
+        # The DataIDList for SYNC messages to calculate CRC.
+        self.syncDataIDLists: List[PositiveInteger] = []
+
+    def addFupDataIDList(self, value: Optional[PositiveInteger]) -> CanGlobalTimeDomainProps:
+        """
+        The DataIDList for FUP messages to calculate CRC.
+
+        A None value is a no-op and does not append to fupDataIDLists.
+        """
+        if value is not None:
+            self.fupDataIDLists.append(value)
+        return self
+
+    def getFupDataIDLists(self) -> List[PositiveInteger]:
+        """
+        The DataIDList for FUP messages to calculate CRC.
+        """
+        return self.fupDataIDLists
+
+    def addOfnsDataIDList(self, value: Optional[PositiveInteger]) -> CanGlobalTimeDomainProps:
+        """
+        The DataIDList for OFNS messages to calculate CRC.
+
+        A None value is a no-op and does not append to ofnsDataIDLists.
+        """
+        if value is not None:
+            self.ofnsDataIDLists.append(value)
+        return self
+
+    def getOfnsDataIDLists(self) -> List[PositiveInteger]:
+        """
+        The DataIDList for OFNS messages to calculate CRC.
+        """
+        return self.ofnsDataIDLists
+
+    def addOfsDataIDList(self, value: Optional[PositiveInteger]) -> CanGlobalTimeDomainProps:
+        """
+        The DataIDList for OFS messages to calculate CRC.
+
+        A None value is a no-op and does not append to ofsDataIDLists.
+        """
+        if value is not None:
+            self.ofsDataIDLists.append(value)
+        return self
+
+    def getOfsDataIDLists(self) -> List[PositiveInteger]:
+        """
+        The DataIDList for OFS messages to calculate CRC.
+        """
+        return self.ofsDataIDLists
+
+    def addSyncDataIDList(self, value: Optional[PositiveInteger]) -> CanGlobalTimeDomainProps:
+        """
+        The DataIDList for SYNC messages to calculate CRC.
+
+        A None value is a no-op and does not append to syncDataIDLists.
+        """
+        if value is not None:
+            self.syncDataIDLists.append(value)
+        return self
+
+    def getSyncDataIDLists(self) -> List[PositiveInteger]:
+        """
+        The DataIDList for SYNC messages to calculate CRC.
+        """
+        return self.syncDataIDLists
 
 
 class ClientServerOperationComProps(CpSoftwareClusterCommunicationResourceProps):
-    pass
+    """
+    Defines additional attributes for the implementation of Client Server communication between software clusters
+    """
+
+    # ClientServerOperationComProps method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 11.12, p.903
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getQueueLength     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setQueueLength     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # The XSD CLIENT-SERVER-OPERATION-COM-PROPS group (AUTOSAR_00052.xsd l.17582) follows the (empty)
+    # CP-SOFTWARE-CLUSTER-COMMUNICATION-RESOURCE-PROPS group; the reader/writer call the base
+    # readCpSoftwareClusterCommunicationResourceProps / writeCpSoftwareClusterCommunicationResourceProps
+    # helpers exactly once (ARObject level). Aggregator dispatch
+    # (CpSoftwareClusterCommunicationResource.communicationResourceProps) is pending —
+    # CpSoftwareClusterCommunicationResource is an unsynced later-wave class.
+
+    def __init__(self):
+        super().__init__()
+
+        # Length of call request queue on the server side. The queue is implemented by the SwCluC. The value shall be greater or equal to 1. Setting the value of queueLength to 1 implies that incoming requests are rejected while another request that arrived earlier is being processed.
+        self.queueLength: Optional[PositiveInteger] = None
+
+    def getQueueLength(self) -> Optional[PositiveInteger]:
+        """
+        Length of call request queue on the server side. The queue is implemented by the SwCluC. The value shall be greater or equal to 1. Setting the value of queueLength to 1 implies that incoming requests are rejected while another request that arrived earlier is being processed.
+        """
+        return self.queueLength
+
+    def setQueueLength(self, value: Optional[PositiveInteger]) -> ClientServerOperationComProps:
+        """
+        Length of call request queue on the server side. The queue is implemented by the SwCluC. The value shall be greater or equal to 1. Setting the value of queueLength to 1 implies that incoming requests are rejected while another request that arrived earlier is being processed.
+
+        A None value is a no-op and does not overwrite an existing queueLength.
+        """
+        if value is not None:
+            self.queueLength = value
+        return self
 
 
 class DataComProps(CpSoftwareClusterCommunicationResourceProps):
-    pass
+    """
+    Represents a single resource required or provided by a CP Software Cluster which relates to the port based communication on VFB level.
+    """
+
+    # DataComProps method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 11.10, p.903
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDataConsistencyPolicy     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataConsistencyPolicy     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSendIndication            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSendIndication            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # The XSD DATA-COM-PROPS group (AUTOSAR_00052.xsd l.26787) follows the (empty)
+    # CP-SOFTWARE-CLUSTER-COMMUNICATION-RESOURCE-PROPS group; the reader/writer call the base
+    # readCpSoftwareClusterCommunicationResourceProps / writeCpSoftwareClusterCommunicationResourceProps
+    # helpers exactly once (ARObject level). Aggregator dispatch
+    # (CpSoftwareClusterCommunicationResource.communicationResourceProps) is pending —
+    # CpSoftwareClusterCommunicationResource is an unsynced later-wave class.
+
+    def __init__(self):
+        super().__init__()
+
+        # This attribute defines requirements on the data consistency mechanism in the cross cluster communication. If the attribute is not set, the default value consistencyMechanismRequired applies.
+        self.dataConsistencyPolicy: Optional[DataConsistencyPolicyEnum] = None
+
+        # Send indication behavior for last-is-the best data communication.
+        self.sendIndication: Optional[SendIndicationEnum] = None
+
+    def getDataConsistencyPolicy(self) -> Optional[DataConsistencyPolicyEnum]:
+        """
+        This attribute defines requirements on the data consistency mechanism in the cross cluster communication. If the attribute is not set, the default value consistencyMechanismRequired applies.
+        """
+        return self.dataConsistencyPolicy
+
+    def setDataConsistencyPolicy(self, value: Optional[DataConsistencyPolicyEnum]) -> DataComProps:
+        """
+        This attribute defines requirements on the data consistency mechanism in the cross cluster communication. If the attribute is not set, the default value consistencyMechanismRequired applies.
+
+        A None value is a no-op and does not overwrite an existing dataConsistencyPolicy.
+        """
+        if value is not None:
+            self.dataConsistencyPolicy = value
+        return self
+
+    def getSendIndication(self) -> Optional[SendIndicationEnum]:
+        """
+        Send indication behavior for last-is-the best data communication.
+        """
+        return self.sendIndication
+
+    def setSendIndication(self, value: Optional[SendIndicationEnum]) -> DataComProps:
+        """
+        Send indication behavior for last-is-the best data communication.
+
+        A None value is a no-op and does not overwrite an existing sendIndication.
+        """
+        if value is not None:
+            self.sendIndication = value
+        return self
 
 
 class EthGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
-    pass
+    """
+    Enables the definition of Ethernet Global Time specific properties.
+
+    [constr_9311] Existence of EthGlobalTimeDomainProps.messageCompliance: For each EthGlobalTimeDomainProps, the attribute messageCompliance shall exist at the time when the System Description is complete.
+    """
+
+    # EthGlobalTimeDomainProps method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.14, p.867
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCrcFlags                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCrcFlags                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDestinationPhysicalAddress [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDestinationPhysicalAddress [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addFupDataIDList              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFupDataIDLists             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addManagedCouplingPort        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getManagedCouplingPorts       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getMessageCompliance          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMessageCompliance          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVlanPriority               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setVlanPriority               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # getVariationPoint / setVariationPoint provided by the VariationPointCapable base (mixin) — no spec row (stereotype-inherent)
+    # The fupDataIDList attribute is an ordered 0..16 wrapper list: the XSD ETH-GLOBAL-TIME-DOMAIN-PROPS
+    # group (AUTOSAR_00052.xsd l.55564) wraps <FUP-DATA-ID-LIST> items in a <FUP-DATA-ID-LISTS> wrapper
+    # emitted only when non-empty; managedCouplingPort is a 0..* aggregation wrapped in
+    # <MANAGED-COUPLING-PORTS>. crcFlags rides in the <CRC-FLAGS> element named by the group (not the
+    # ETH-T-SYN-CRC-FLAGS type tag). Aggregator dispatch (GlobalTimeDomain.globalTimeDomainProperty)
+    # is pending — GlobalTimeDomain is a later-wave class; the reader/writer call the base
+    # readAbstractGlobalTimeDomainProps / writeAbstractGlobalTimeDomainProps helpers (VARIATION-POINT
+    # precedes the own elements).
+
+    def __init__(self):
+        super().__init__()
+
+        # Defines the fields of the message which shall be taken into account for CRC calculation and verification.
+        self.crcFlags: Optional[EthTSynCrcFlags] = None
+
+        # Defines the MAC multicast address the Ethernet time sync messages are communicated on.
+        self.destinationPhysicalAddress: Optional[MacAddressString] = None
+
+        # The DataIDList for FUP messages to calculate CRC.
+        self.fupDataIDLists: List[PositiveInteger] = []
+
+        # Collection of CouplingPorts which are managed in the scope of this Ethernet GlobalTimeDomain.
+        self.managedCouplingPorts: List[EthGlobalTimeManagedCouplingPort] = []
+
+        # Defines the compliance of the Ethernet time sync messages to specific standards.
+        self.messageCompliance: Optional[EthGlobalTimeMessageFormatEnum] = None
+
+        # Defines which VLAN priority shall be assigned to a time sync message in case the message is sent using a VLAN tag.
+        self.vlanPriority: Optional[PositiveInteger] = None
+
+    def getCrcFlags(self) -> Optional[EthTSynCrcFlags]:
+        """
+        Defines the fields of the message which shall be taken into account for CRC calculation and verification.
+        """
+        return self.crcFlags
+
+    def setCrcFlags(self, value: Optional[EthTSynCrcFlags]) -> EthGlobalTimeDomainProps:
+        """
+        Defines the fields of the message which shall be taken into account for CRC calculation and verification.
+
+        A None value is a no-op and does not overwrite an existing crcFlags.
+        """
+        if value is not None:
+            self.crcFlags = value
+        return self
+
+    def getDestinationPhysicalAddress(self) -> Optional[MacAddressString]:
+        """
+        Defines the MAC multicast address the Ethernet time sync messages are communicated on.
+        """
+        return self.destinationPhysicalAddress
+
+    def setDestinationPhysicalAddress(self, value: Optional[MacAddressString]) -> EthGlobalTimeDomainProps:
+        """
+        Defines the MAC multicast address the Ethernet time sync messages are communicated on.
+
+        A None value is a no-op and does not overwrite an existing destinationPhysicalAddress.
+        """
+        if value is not None:
+            self.destinationPhysicalAddress = value
+        return self
+
+    def addFupDataIDList(self, value: Optional[PositiveInteger]) -> EthGlobalTimeDomainProps:
+        """
+        The DataIDList for FUP messages to calculate CRC.
+
+        A None value is a no-op and does not append to fupDataIDLists.
+        """
+        if value is not None:
+            self.fupDataIDLists.append(value)
+        return self
+
+    def getFupDataIDLists(self) -> List[PositiveInteger]:
+        """
+        The DataIDList for FUP messages to calculate CRC.
+        """
+        return self.fupDataIDLists
+
+    def addManagedCouplingPort(self, value: Optional[EthGlobalTimeManagedCouplingPort]) -> EthGlobalTimeDomainProps:
+        """
+        Collection of CouplingPorts which are managed in the scope of this Ethernet GlobalTimeDomain.
+
+        A None value is a no-op and does not append to managedCouplingPorts.
+        """
+        if value is not None:
+            self.managedCouplingPorts.append(value)
+        return self
+
+    def getManagedCouplingPorts(self) -> List[EthGlobalTimeManagedCouplingPort]:
+        """
+        Collection of CouplingPorts which are managed in the scope of this Ethernet GlobalTimeDomain.
+        """
+        return self.managedCouplingPorts
+
+    def getMessageCompliance(self) -> Optional[EthGlobalTimeMessageFormatEnum]:
+        """
+        Defines the compliance of the Ethernet time sync messages to specific standards.
+        """
+        return self.messageCompliance
+
+    def setMessageCompliance(self, value: Optional[EthGlobalTimeMessageFormatEnum]) -> EthGlobalTimeDomainProps:
+        """
+        Defines the compliance of the Ethernet time sync messages to specific standards.
+
+        A None value is a no-op and does not overwrite an existing messageCompliance.
+        """
+        if value is not None:
+            self.messageCompliance = value
+        return self
+
+    def getVlanPriority(self) -> Optional[PositiveInteger]:
+        """
+        Defines which VLAN priority shall be assigned to a time sync message in case the message is sent using a VLAN tag.
+        """
+        return self.vlanPriority
+
+    def setVlanPriority(self, value: Optional[PositiveInteger]) -> EthGlobalTimeDomainProps:
+        """
+        Defines which VLAN priority shall be assigned to a time sync message in case the message is sent using a VLAN tag.
+
+        A None value is a no-op and does not overwrite an existing vlanPriority.
+        """
+        if value is not None:
+            self.vlanPriority = value
+        return self
 
 
 class FrGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
-    pass
+    """
+    Enables the definition of Flexray GlobalTime specific properties.
+    """
+
+    # FrGlobalTimeDomainProps method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.22, p.878
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addOfsDataIDList    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOfsDataIDLists   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addSyncDataIDList   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSyncDataIDLists  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    #
+    # getVariationPoint / setVariationPoint provided by the VariationPointCapable base (mixin) — no spec row (stereotype-inherent)
+    # The two DataIDList attributes are ordered 0..16 wrapper lists: the XSD FR-GLOBAL-TIME-DOMAIN-PROPS
+    # group (AUTOSAR_00052.xsd l.62914) wraps <OFS/SYNC-DATA-ID-LIST> items in a <...-DATA-ID-LISTS>
+    # wrapper emitted only when non-empty. Aggregator dispatch (GlobalTimeDomain.globalTimeDomainProperty)
+    # is pending — GlobalTimeDomain is a later-wave class; the reader/writer call the base
+    # readAbstractGlobalTimeDomainProps / writeAbstractGlobalTimeDomainProps helpers (VARIATION-POINT
+    # precedes the wrapper elements).
+
+    def __init__(self):
+        super().__init__()
+
+        # The DataIDList for OFS messages to calculate CRC.
+        self.ofsDataIDLists: List[PositiveInteger] = []
+
+        # The DataIDList for SYNC messages to calculate CRC.
+        self.syncDataIDLists: List[PositiveInteger] = []
+
+    def addOfsDataIDList(self, value: Optional[PositiveInteger]) -> FrGlobalTimeDomainProps:
+        """
+        The DataIDList for OFS messages to calculate CRC.
+
+        A None value is a no-op and does not append to ofsDataIDLists.
+        """
+        if value is not None:
+            self.ofsDataIDLists.append(value)
+        return self
+
+    def getOfsDataIDLists(self) -> List[PositiveInteger]:
+        """
+        The DataIDList for OFS messages to calculate CRC.
+        """
+        return self.ofsDataIDLists
+
+    def addSyncDataIDList(self, value: Optional[PositiveInteger]) -> FrGlobalTimeDomainProps:
+        """
+        The DataIDList for SYNC messages to calculate CRC.
+
+        A None value is a no-op and does not append to syncDataIDLists.
+        """
+        if value is not None:
+            self.syncDataIDLists.append(value)
+        return self
+
+    def getSyncDataIDLists(self) -> List[PositiveInteger]:
+        """
+        The DataIDList for SYNC messages to calculate CRC.
+        """
+        return self.syncDataIDLists
 
 
 # Cycle-breaker (Rule 0005): PrimitiveTypes imports ARObject from this module, so the
@@ -4364,8 +5303,10 @@ class FrGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
 # at the bottom, after every class above is defined. Placed here so get_type_hints can
 # resolve the bitOffset/parameterSize annotations at runtime on Python 3.8.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa: E402
+    Address,
     Boolean,
     ByteOrderEnum,
+    DataConsistencyPolicyEnum,
     DdsDestinationOrderKindEnum,
     DdsDurabilityKindEnum,
     DdsDurabilityServiceHistoryKindEnum,
@@ -4389,13 +5330,18 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticUdsSeverityEnum,
     DiagnosticWwhObdDtcClassEnum,
     CategoryString,
+    EthGlobalTimeMessageFormatEnum,
     Float,
+    GlobalTimePortRoleEnum,
     Identifier,
+    MacAddressString,
     NameToken,
     Numerical,
     PositiveInteger,
     RefType,
+    SendIndicationEnum,
     String,
+    SymbolString,
     TimeValue,
 )
 

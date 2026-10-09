@@ -1210,6 +1210,25 @@ class ArgumentDirectionEnum(AREnum):
         super().__init__((ArgumentDirectionEnum.IN, ArgumentDirectionEnum.INOUT, ArgumentDirectionEnum.OUT))
 
 
+class Address(ARLiteral):
+    """
+    This is used to specify an address within the CPU.
+
+    Tags:
+        * xml.xsd.customType=ADDRESS
+        * xml.xsd.pattern=0[xX][0-9a-fA-F]+
+        * xml.xsd.type=string
+    """
+
+    # Address method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.40, p.107
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+
 class Ip4AddressString(ARLiteral):
     r"""
     This is used to specify an IP4 address. Notation: 255.255.255.255

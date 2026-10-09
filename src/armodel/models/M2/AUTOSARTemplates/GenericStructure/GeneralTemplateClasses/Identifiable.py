@@ -8,6 +8,7 @@ from __future__ import annotations
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
     ClassTailoring,
+    CpSoftwareClusterCommunicationResourceProps,
     FMAttributeValue,
     DdsCpServiceInstanceEvent,
     DdsCpServiceInstanceOperation,
@@ -27,15 +28,21 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DdsTransportPriority,
     DiagnosticAbstractParameter,
     DiagnosticParameter,
+    EthTSynSubTlvConfig,
     RoleBasedResourceDependency,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Enumerations import BindingTimeEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    Address,
     AnyVersionString,
     CategoryString,
     DiagnosticDebounceBehaviorEnum,
     FMFeatureSelectionState,
     Float,
+    GlobalTimeCrcSupportEnum,
+    GlobalTimeCrcValidationEnum,
+    GlobalTimeIcvSupportEnum,
+    GlobalTimeIcvVerificationEnum,
     Identifier,
     Limit,
     Numerical,
@@ -45,6 +52,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     SecurityEventContextDataSourceEnum,
     SecurityEventReportingModeEnum,
     String,
+    SymbolString,
     TimeValue,
     VerbatimString,
     DefaultValueApplicationStrategyEnum,
@@ -1106,7 +1114,42 @@ class CpSoftwareClusterResource(Identifiable):
 
 
 class CpSoftwareClusterCommunicationResource(CpSoftwareClusterResource):
-    pass
+    """Represents a single resource required or provided by a CP Software Cluster which relates to the port based communication on VFB level."""
+
+    # CpSoftwareClusterCommunicationResource method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 11.8, p.902
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCommunicationResourceProps  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCommunicationResourceProps  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # The XSD CP-SOFTWARE-CLUSTER-COMMUNICATION-RESOURCE group (AUTOSAR_00052.xsd l.24239) orders
+    # COM-PROPS then COMMUNICATION-RESOURCE-PROPS. COM-PROPS carries atp.Status="removed" and has
+    # no Table 11.8 Attribute row (Rule 0015) — not modeled. COMMUNICATION-RESOURCE-PROPS is a 0..1
+    # wrapper whose inner choice dispatches to the concrete CpSoftwareClusterCommunicationResourceProps
+    # subclasses; the reader/writer call the CpSoftwareClusterResource base helpers exactly once and the
+    # aggregator dispatch from CpSoftwareClusterResourcePool.resource is pending (unsynced later-wave class).
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This aggregation supports the further qualification of the enclosing CpSoftwareClusterCommunicationRecource by means of additional attributes depending on the nature of the CpSoftwareClusterCommunicationRecource.
+        self.communicationResourceProps: Optional[CpSoftwareClusterCommunicationResourceProps] = None
+
+    def getCommunicationResourceProps(self) -> Optional[CpSoftwareClusterCommunicationResourceProps]:
+        """
+        This aggregation supports the further qualification of the enclosing CpSoftwareClusterCommunicationRecource by means of additional attributes depending on the nature of the CpSoftwareClusterCommunicationRecource.
+        """
+        return self.communicationResourceProps
+
+    def setCommunicationResourceProps(self, value: Optional[CpSoftwareClusterCommunicationResourceProps]) -> CpSoftwareClusterCommunicationResource:
+        """
+        This aggregation supports the further qualification of the enclosing CpSoftwareClusterCommunicationRecource by means of additional attributes depending on the nature of the CpSoftwareClusterCommunicationRecource.
+        A None value is a no-op and does not overwrite an existing communicationResourceProps.
+        """
+        if value is not None:
+            self.communicationResourceProps = value
+        return self
 
 
 class CpSoftwareClusterServiceResource(CpSoftwareClusterResource):
@@ -2876,7 +2919,71 @@ class BinaryManifestItemDefinition(Identifiable):
 
 
 class BinaryManifestAddressableObject(Identifiable, ABC):
-    pass
+    """
+    This meta-class acts as an abstract base class for addressable objects in the context of the binary manifest of a CP software cluster.
+    """
+
+    # BinaryManifestAddressableObject method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 11.24, p.921
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAddress  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAddress  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSymbol   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSymbol   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # The XSD BINARY-MANIFEST-ADDRESSABLE-OBJECT group (AUTOSAR_00052.xsd l.8552) orders ADDRESS,
+    # SYMBOL after the Identifiable level. The reusable readBinaryManifestAddressableObject /
+    # writeBinaryManifestAddressableObject helpers own that group for the concrete subclass element
+    # (BINARY-MANIFEST-ITEM / BINARY-MANIFEST-META-DATA-FIELD); the subclass dispatch is pending —
+    # BinaryManifestItem is an unsynced later-wave stub and the BinaryManifestMetaDataField
+    # aggregator (CpSoftwareClusterBinaryManifestDescriptor.metaDataField) is a later-wave class.
+    # The address attribute's spec Type Address is a referenced primitive implemented from
+    # AUTOSAR_FO_TPS_GenericStructureTemplate.pdf Table 4.40, p.107 (Rule 0001.10).
+
+    def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is BinaryManifestAddressableObject:
+            raise TypeError("BinaryManifestAddressableObject is an abstract class.")
+
+        super().__init__(parent, short_name)
+
+        # This attribute specifies the address of the enclosing addressable object.
+        self.address: Optional[Address] = None
+
+        # This attribute specifies the symbol of the addressable object.
+        self.symbol: Optional[SymbolString] = None
+
+    def getAddress(self) -> Optional[Address]:
+        """
+        This attribute specifies the address of the enclosing addressable object.
+        """
+        return self.address
+
+    def setAddress(self, value: Optional[Address]) -> BinaryManifestAddressableObject:
+        """
+        This attribute specifies the address of the enclosing addressable object.
+
+        A None value is a no-op and does not overwrite an existing address.
+        """
+        if value is not None:
+            self.address = value
+        return self
+
+    def getSymbol(self) -> Optional[SymbolString]:
+        """
+        This attribute specifies the symbol of the addressable object.
+        """
+        return self.symbol
+
+    def setSymbol(self, value: Optional[SymbolString]) -> BinaryManifestAddressableObject:
+        """
+        This attribute specifies the symbol of the addressable object.
+
+        A None value is a no-op and does not overwrite an existing symbol.
+        """
+        if value is not None:
+            self.symbol = value
+        return self
 
 
 class BinaryManifestMetaDataField(BinaryManifestAddressableObject):
@@ -2941,6 +3048,96 @@ class BinaryManifestProvideResource(Identifiable):
 
 class BinaryManifestRequireResource(Identifiable):
     pass
+
+
+class BinaryManifestResource(Identifiable, ABC):
+    """
+    This meta-class acts as an abstract base class for specializations.
+    """
+
+    # BinaryManifestResource method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 11.19, p.916
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getGlobalResourceId  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setGlobalResourceId  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createItem           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getItems             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getResourceRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setResourceRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # The XSD BINARY-MANIFEST-RESOURCE group (AUTOSAR_00052.xsd l.8886) orders GLOBAL-RESOURCE-ID,
+    # ITEMS, RESOURCE-REF (its RESOURCE-DEFINITION-REF / RESOURCE-GUARD-VALUE elements have no
+    # Table 11.19 Attribute row and are not modeled, Rule 0015). The reusable
+    # readBinaryManifestResource / writeBinaryManifestResource helpers own that group for the
+    # concrete subclass element (BINARY-MANIFEST-PROVIDE-RESOURCE / BINARY-MANIFEST-REQUIRE-RESOURCE);
+    # the subclass dispatch is pending — BinaryManifestProvideResource / BinaryManifestRequireResource
+    # are unsynced later-wave stubs. ITEMS children are serialized identity-only (Rule 0001.7 debt):
+    # BinaryManifestItem (Table 11.22) is an unsynced stub — its own sync replaces the placeholder
+    # (cf. DdsCpDomain / DdsCpPartition).
+
+    def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is BinaryManifestResource:
+            raise TypeError("BinaryManifestResource is an abstract class.")
+
+        super().__init__(parent, short_name)
+
+        # A unique identifiers per resource used for the connection process. The identifier is required to be unique in the scope of a single machine. If software clusters are designed to be reused on multiple machines the uniqueness requirements applies for all the intended machines.
+        self.globalResourceId: Optional[PositiveInteger] = None
+
+        # This aggregation represents the collection of binary manifest handles owned by the enclosing binary manifest resource.
+        self.items: List[BinaryManifestItem] = []
+
+        # This reference identifies the CpSoftwareClusterResource (on design level) that corresponds to the BinaryManifest Resource (on integration level).
+        self.resourceRef: Optional[RefType] = None
+
+    def getGlobalResourceId(self) -> Optional[PositiveInteger]:
+        """
+        A unique identifiers per resource used for the connection process. The identifier is required to be unique in the scope of a single machine. If software clusters are designed to be reused on multiple machines the uniqueness requirements applies for all the intended machines.
+        """
+        return self.globalResourceId
+
+    def setGlobalResourceId(self, value: Optional[PositiveInteger]) -> BinaryManifestResource:
+        """
+        A unique identifiers per resource used for the connection process. The identifier is required to be unique in the scope of a single machine. If software clusters are designed to be reused on multiple machines the uniqueness requirements applies for all the intended machines.
+
+        A None value is a no-op and does not overwrite an existing globalResourceId.
+        """
+        if value is not None:
+            self.globalResourceId = value
+        return self
+
+    def createItem(self, short_name: str) -> BinaryManifestItem:
+        """
+        This aggregation represents the collection of binary manifest handles owned by the enclosing binary manifest resource.
+        """
+        if not self.IsReferrableElementExists(short_name, BinaryManifestItem):
+            item = BinaryManifestItem(self, short_name)
+            self.addReferrableElement(item)
+            self.items.append(item)
+        return cast(BinaryManifestItem, self.getReferrableElement(short_name, BinaryManifestItem))
+
+    def getItems(self) -> List[BinaryManifestItem]:
+        """
+        This aggregation represents the collection of binary manifest handles owned by the enclosing binary manifest resource.
+        """
+        return self.items
+
+    def getResourceRef(self) -> Optional[RefType]:
+        """
+        This reference identifies the CpSoftwareClusterResource (on design level) that corresponds to the BinaryManifest Resource (on integration level).
+        """
+        return self.resourceRef
+
+    def setResourceRef(self, value: Optional[RefType]) -> BinaryManifestResource:
+        """
+        This reference identifies the CpSoftwareClusterResource (on design level) that corresponds to the BinaryManifest Resource (on integration level).
+
+        A None value is a no-op and does not overwrite an existing resourceRef.
+        """
+        if value is not None:
+            self.resourceRef = value
+        return self
 
 
 class BinaryManifestResourceDefinition(Identifiable):
@@ -3603,40 +3800,570 @@ class DdsCpQosProfile(Identifiable):
         return self
 
 
-class GlobalTimeCanSlave(Identifiable):
-    pass
+class GlobalTimeGateway(Identifiable, VariationPointCapable):
+    """
+    This represents the ability to define a time gateway for establishing a global time domain over several communication clusters.
+    """
+
+    # GlobalTimeGateway method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.6, p.861
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getHostRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setHostRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMasterRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMasterRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSlaveRef      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSlaveRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # getVariationPoint / setVariationPoint provided by the VariationPointCapable base (mixin) — no spec row
+    # (stereotype-inherent). VARIATION-POINT is the last element of the XSD GLOBAL-TIME-GATEWAY group
+    # (AUTOSAR_00052.xsd l.64849, xml.sequenceOffset=10000, "Applicable for: GlobalTimeDomain.gateway"):
+    # the reader reads it inside readIdentifiable, the writer emits it as the tail after the class's
+    # own elements (writeIdentifiable is called with write_variation_point=False). Aggregator dispatch
+    # (GlobalTimeDomain.gateway) is pending — GlobalTimeDomain is a later-wave class.
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # The GlobalTimeGateway is hosted by the referenced Ecu Instance.
+        self.hostRef: Optional[RefType] = None
+
+        # This represents the master of the global time gateway.
+        self.masterRef: Optional[RefType] = None
+
+        # This represents the slave of the GlobalTimeGateway.
+        self.slaveRef: Optional[RefType] = None
+
+    def getHostRef(self) -> Optional[RefType]:
+        """
+        The GlobalTimeGateway is hosted by the referenced Ecu Instance.
+        """
+        return self.hostRef
+
+    def setHostRef(self, value: Optional[RefType]) -> GlobalTimeGateway:
+        """
+        The GlobalTimeGateway is hosted by the referenced Ecu Instance.
+
+        A None value is a no-op and does not overwrite an existing hostRef.
+        """
+        if value is not None:
+            self.hostRef = value
+        return self
+
+    def getMasterRef(self) -> Optional[RefType]:
+        """
+        This represents the master of the global time gateway.
+        """
+        return self.masterRef
+
+    def setMasterRef(self, value: Optional[RefType]) -> GlobalTimeGateway:
+        """
+        This represents the master of the global time gateway.
+
+        A None value is a no-op and does not overwrite an existing masterRef.
+        """
+        if value is not None:
+            self.masterRef = value
+        return self
+
+    def getSlaveRef(self) -> Optional[RefType]:
+        """
+        This represents the slave of the GlobalTimeGateway.
+        """
+        return self.slaveRef
+
+    def setSlaveRef(self, value: Optional[RefType]) -> GlobalTimeGateway:
+        """
+        This represents the slave of the GlobalTimeGateway.
+
+        A None value is a no-op and does not overwrite an existing slaveRef.
+        """
+        if value is not None:
+            self.slaveRef = value
+        return self
 
 
-class GlobalTimeEthSlave(Identifiable):
-    pass
+class GlobalTimeMaster(Identifiable, VariationPointCapable, ABC):
+    """
+    This represents the generic concept of a global time master.
+    """
+
+    # GlobalTimeMaster method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.4, p.860
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCommunicationConnectorRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCommunicationConnectorRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIcvSecured                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIcvSecured                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getImmediateResumeTime           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setImmediateResumeTime           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIsSystemWideGlobalTimeMaster  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIsSystemWideGlobalTimeMaster  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSyncPeriod                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSyncPeriod                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # getVariationPoint / setVariationPoint provided by the VariationPointCapable base (mixin) — no spec row
+    # (stereotype-inherent). VARIATION-POINT is the last element of the XSD GLOBAL-TIME-MASTER group
+    # (AUTOSAR_00052.xsd l.64923, xml.sequenceOffset=10000, "Applicable for:
+    # GlobalTimeDomain.globalTimeMaster"): the reader reads it inside readIdentifiable, the writer
+    # emits it as the tail after the class's own elements (writeIdentifiable is called with
+    # write_variation_point=False). Abstract XML-bearing base: the reusable readGlobalTimeMaster /
+    # writeGlobalTimeMaster helpers own the five group elements and are called by the concrete
+    # master subclasses. Aggregator dispatch (GlobalTimeDomain.globalTimeMaster) is pending —
+    # GlobalTimeDomain is a later-wave class.
+
+    def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is GlobalTimeMaster:
+            raise TypeError("GlobalTimeMaster is an abstract class.")
+
+        super().__init__(parent, short_name)
+
+        # The GlobalTimeMaster is bound to the Communication Connector.
+        self.communicationConnectorRef: Optional[RefType] = None
+
+        # Defines whether an Integrity Check Value (ICV) shall be added to the sent time sync messages. Tags: atp.Status=candidate
+        self.icvSecured: Optional[GlobalTimeIcvSupportEnum] = None
+
+        # Defines the minimum time between an "immediate" message and the next periodic message.
+        self.immediateResumeTime: Optional[TimeValue] = None
+
+        # If set to TRUE, the GlobalTimeMaster is supposed to act as the root of global time information.
+        self.isSystemWideGlobalTimeMaster: Optional[Boolean] = None
+
+        # This represents the period. Unit: seconds
+        self.syncPeriod: Optional[TimeValue] = None
+
+    def getCommunicationConnectorRef(self) -> Optional[RefType]:
+        """
+        The GlobalTimeMaster is bound to the Communication Connector.
+        """
+        return self.communicationConnectorRef
+
+    def setCommunicationConnectorRef(self, value: Optional[RefType]) -> GlobalTimeMaster:
+        """
+        The GlobalTimeMaster is bound to the Communication Connector.
+
+        A None value is a no-op and does not overwrite an existing communicationConnectorRef.
+        """
+        if value is not None:
+            self.communicationConnectorRef = value
+        return self
+
+    def getIcvSecured(self) -> Optional[GlobalTimeIcvSupportEnum]:
+        """
+        Defines whether an Integrity Check Value (ICV) shall be added to the sent time sync messages. Tags: atp.Status=candidate
+        """
+        return self.icvSecured
+
+    def setIcvSecured(self, value: Optional[GlobalTimeIcvSupportEnum]) -> GlobalTimeMaster:
+        """
+        Defines whether an Integrity Check Value (ICV) shall be added to the sent time sync messages. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing icvSecured.
+        """
+        if value is not None:
+            self.icvSecured = value
+        return self
+
+    def getImmediateResumeTime(self) -> Optional[TimeValue]:
+        """
+        Defines the minimum time between an "immediate" message and the next periodic message.
+        """
+        return self.immediateResumeTime
+
+    def setImmediateResumeTime(self, value: Optional[TimeValue]) -> GlobalTimeMaster:
+        """
+        Defines the minimum time between an "immediate" message and the next periodic message.
+
+        A None value is a no-op and does not overwrite an existing immediateResumeTime.
+        """
+        if value is not None:
+            self.immediateResumeTime = value
+        return self
+
+    def getIsSystemWideGlobalTimeMaster(self) -> Optional[Boolean]:
+        """
+        If set to TRUE, the GlobalTimeMaster is supposed to act as the root of global time information.
+        """
+        return self.isSystemWideGlobalTimeMaster
+
+    def setIsSystemWideGlobalTimeMaster(self, value: Optional[Boolean]) -> GlobalTimeMaster:
+        """
+        If set to TRUE, the GlobalTimeMaster is supposed to act as the root of global time information.
+
+        A None value is a no-op and does not overwrite an existing isSystemWideGlobalTimeMaster.
+        """
+        if value is not None:
+            self.isSystemWideGlobalTimeMaster = value
+        return self
+
+    def getSyncPeriod(self) -> Optional[TimeValue]:
+        """
+        This represents the period. Unit: seconds
+        """
+        return self.syncPeriod
+
+    def setSyncPeriod(self, value: Optional[TimeValue]) -> GlobalTimeMaster:
+        """
+        This represents the period. Unit: seconds
+
+        A None value is a no-op and does not overwrite an existing syncPeriod.
+        """
+        if value is not None:
+            self.syncPeriod = value
+        return self
 
 
-class GlobalTimeFrSlave(Identifiable):
-    pass
+class GlobalTimeSlave(Identifiable, VariationPointCapable, ABC):
+    """
+    This represents the generic concept of a global time slave.
+    """
+
+    # GlobalTimeSlave method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.5, p.861
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCommunicationConnectorRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCommunicationConnectorRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFollowUpTimeoutValue        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFollowUpTimeoutValue        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIcvVerification             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIcvVerification             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeLeapFutureThreshold     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeLeapFutureThreshold     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeLeapHealingCounter      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeLeapHealingCounter      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeLeapPastThreshold       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeLeapPastThreshold       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # getVariationPoint / setVariationPoint provided by the VariationPointCapable base (mixin) — no spec row
+    # (stereotype-inherent). VARIATION-POINT is the last element of the XSD GLOBAL-TIME-SLAVE group
+    # (AUTOSAR_00052.xsd l.64988, xml.sequenceOffset=10000, "Applicable for: GlobalTimeDomain.slave"):
+    # the reader reads it inside readIdentifiable, the writer emits it as the tail after the class's
+    # own elements (writeIdentifiable is called with write_variation_point=False). Aggregator dispatch
+    # (GlobalTimeDomain.slave) is pending — GlobalTimeDomain is a later-wave class.
+
+    def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is GlobalTimeSlave:
+            raise TypeError("GlobalTimeSlave is an abstract class.")
+
+        super().__init__(parent, short_name)
+
+        # The GlobalTimeSlave is bound to the Communication Connector.
+        self.communicationConnectorRef: Optional[RefType] = None
+
+        # Rx timeout for the follow-up message.
+        self.followUpTimeoutValue: Optional[TimeValue] = None
+
+        # Defines how an Integrity Check Value (ICV) shall be handled at the receiver. Tags: atp.Status=candidate
+        self.icvVerification: Optional[GlobalTimeIcvVerificationEnum] = None
+
+        # Defines the maximum allowed positive difference between the current Local Time Base value and a newly received Global Time Base value.
+        self.timeLeapFutureThreshold: Optional[TimeValue] = None
+
+        # Defines the required number of updates to the Time Base where the time difference to the previous received value has to remain within the bounds of timeLeapFutureThreshold and timeLeapPastThreshold until that Time Base is considered healed.
+        self.timeLeapHealingCounter: Optional[PositiveInteger] = None
+
+        # Defines the maximum allowed negative difference between the current Local Time Base value and a newly received Global Time Base value.
+        self.timeLeapPastThreshold: Optional[TimeValue] = None
+
+    def getCommunicationConnectorRef(self) -> Optional[RefType]:
+        """
+        The GlobalTimeSlave is bound to the Communication Connector.
+        """
+        return self.communicationConnectorRef
+
+    def setCommunicationConnectorRef(self, value: Optional[RefType]) -> GlobalTimeSlave:
+        """
+        The GlobalTimeSlave is bound to the Communication Connector.
+
+        A None value is a no-op and does not overwrite an existing communicationConnectorRef.
+        """
+        if value is not None:
+            self.communicationConnectorRef = value
+        return self
+
+    def getFollowUpTimeoutValue(self) -> Optional[TimeValue]:
+        """
+        Rx timeout for the follow-up message.
+        """
+        return self.followUpTimeoutValue
+
+    def setFollowUpTimeoutValue(self, value: Optional[TimeValue]) -> GlobalTimeSlave:
+        """
+        Rx timeout for the follow-up message.
+
+        A None value is a no-op and does not overwrite an existing followUpTimeoutValue.
+        """
+        if value is not None:
+            self.followUpTimeoutValue = value
+        return self
+
+    def getIcvVerification(self) -> Optional[GlobalTimeIcvVerificationEnum]:
+        """
+        Defines how an Integrity Check Value (ICV) shall be handled at the receiver. Tags: atp.Status=candidate
+        """
+        return self.icvVerification
+
+    def setIcvVerification(self, value: Optional[GlobalTimeIcvVerificationEnum]) -> GlobalTimeSlave:
+        """
+        Defines how an Integrity Check Value (ICV) shall be handled at the receiver. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing icvVerification.
+        """
+        if value is not None:
+            self.icvVerification = value
+        return self
+
+    def getTimeLeapFutureThreshold(self) -> Optional[TimeValue]:
+        """
+        Defines the maximum allowed positive difference between the current Local Time Base value and a newly received Global Time Base value.
+        """
+        return self.timeLeapFutureThreshold
+
+    def setTimeLeapFutureThreshold(self, value: Optional[TimeValue]) -> GlobalTimeSlave:
+        """
+        Defines the maximum allowed positive difference between the current Local Time Base value and a newly received Global Time Base value.
+
+        A None value is a no-op and does not overwrite an existing timeLeapFutureThreshold.
+        """
+        if value is not None:
+            self.timeLeapFutureThreshold = value
+        return self
+
+    def getTimeLeapHealingCounter(self) -> Optional[PositiveInteger]:
+        """
+        Defines the required number of updates to the Time Base where the time difference to the previous received value has to remain within the bounds of timeLeapFutureThreshold and timeLeapPastThreshold until that Time Base is considered healed.
+        """
+        return self.timeLeapHealingCounter
+
+    def setTimeLeapHealingCounter(self, value: Optional[PositiveInteger]) -> GlobalTimeSlave:
+        """
+        Defines the required number of updates to the Time Base where the time difference to the previous received value has to remain within the bounds of timeLeapFutureThreshold and timeLeapPastThreshold until that Time Base is considered healed.
+
+        A None value is a no-op and does not overwrite an existing timeLeapHealingCounter.
+        """
+        if value is not None:
+            self.timeLeapHealingCounter = value
+        return self
+
+    def getTimeLeapPastThreshold(self) -> Optional[TimeValue]:
+        """
+        Defines the maximum allowed negative difference between the current Local Time Base value and a newly received Global Time Base value.
+        """
+        return self.timeLeapPastThreshold
+
+    def setTimeLeapPastThreshold(self, value: Optional[TimeValue]) -> GlobalTimeSlave:
+        """
+        Defines the maximum allowed negative difference between the current Local Time Base value and a newly received Global Time Base value.
+
+        A None value is a no-op and does not overwrite an existing timeLeapPastThreshold.
+        """
+        if value is not None:
+            self.timeLeapPastThreshold = value
+        return self
 
 
-class GlobalTimeGateway(Identifiable):
-    pass
+class GlobalTimeCanSlave(GlobalTimeSlave):
+    """
+    This represents the specialization of the GlobalTimeSlave for the CAN communication.
+    """
+
+    # GlobalTimeCanSlave method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.9, p.864
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCrcValidated               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCrcValidated               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSequenceCounterJumpWidth   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSequenceCounterJumpWidth   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # Re-parented from the Identifiable stub base to GlobalTimeSlave per the Table 9.9 Base row
+    # (most-derived base GlobalTimeSlave); the class definition moved below GlobalTimeSlave so
+    # the Python name resolves. The reader/writer call the Table 9.5 base helpers
+    # (readGlobalTimeSlave / writeGlobalTimeSlave, which transitively own the Identifiable
+    # level) exactly once; the XSD GLOBAL-TIME-CAN-SLAVE group (AUTOSAR_00052.xsd l.64256)
+    # element order is CRC-VALIDATED then SEQUENCE-COUNTER-JUMP-WIDTH. Aggregator dispatch
+    # (GlobalTimeDomain.slave) is pending — GlobalTimeDomain is a later-wave class.
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Definition of whether or not validation of the CRC is supported.
+        self.crcValidated: Optional[GlobalTimeCrcValidationEnum] = None
+
+        # Specifies the maximum allowed gap of the sequence counter between two SYNC resp. two OFS messages.
+        self.sequenceCounterJumpWidth: Optional[PositiveInteger] = None
+
+    def getCrcValidated(self) -> Optional[GlobalTimeCrcValidationEnum]:
+        """
+        Definition of whether or not validation of the CRC is supported.
+        """
+        return self.crcValidated
+
+    def setCrcValidated(self, value: Optional[GlobalTimeCrcValidationEnum]) -> GlobalTimeCanSlave:
+        """
+        Definition of whether or not validation of the CRC is supported.
+
+        A None value is a no-op and does not overwrite an existing crcValidated.
+        """
+        if value is not None:
+            self.crcValidated = value
+        return self
+
+    def getSequenceCounterJumpWidth(self) -> Optional[PositiveInteger]:
+        """
+        Specifies the maximum allowed gap of the sequence counter between two SYNC resp. two OFS messages.
+        """
+        return self.sequenceCounterJumpWidth
+
+    def setSequenceCounterJumpWidth(self, value: Optional[PositiveInteger]) -> GlobalTimeCanSlave:
+        """
+        Specifies the maximum allowed gap of the sequence counter between two SYNC resp. two OFS messages.
+
+        A None value is a no-op and does not overwrite an existing sequenceCounterJumpWidth.
+        """
+        if value is not None:
+            self.sequenceCounterJumpWidth = value
+        return self
 
 
-class GlobalTimeMaster(Identifiable, ABC):
-    pass
+class GlobalTimeEthSlave(GlobalTimeSlave):
+    """
+    This represents the specialization of the GlobalTimeSlave for Ethernet communication.
+    """
+
+    # GlobalTimeEthSlave method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.13, p.867
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCrcValidated   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCrcValidated   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # Re-parented from the Identifiable stub base to GlobalTimeSlave per the Table 9.13 Base row
+    # (most-derived base GlobalTimeSlave); the class definition moved below GlobalTimeSlave so
+    # the Python name resolves. The reader/writer call the Table 9.5 base helpers
+    # (readGlobalTimeSlave / writeGlobalTimeSlave, which transitively own the Identifiable
+    # level) exactly once; the XSD GLOBAL-TIME-ETH-SLAVE group (AUTOSAR_00052.xsd l.64735)
+    # carries only the CRC-VALIDATED element. TIME-HARDWARE-CORRECTION-THRESHOLD is absent from
+    # Table 9.13 and carries atp.Status="removed" in the XSD — deprecated, not implemented.
+    # Aggregator dispatch (GlobalTimeDomain.slave) is pending — GlobalTimeDomain is a
+    # later-wave class.
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Definition of whether or not validation of the CRC is supported.
+        self.crcValidated: Optional[GlobalTimeCrcValidationEnum] = None
+
+    def getCrcValidated(self) -> Optional[GlobalTimeCrcValidationEnum]:
+        """
+        Definition of whether or not validation of the CRC is supported.
+        """
+        return self.crcValidated
+
+    def setCrcValidated(self, value: Optional[GlobalTimeCrcValidationEnum]) -> GlobalTimeEthSlave:
+        """
+        Definition of whether or not validation of the CRC is supported.
+
+        A None value is a no-op and does not overwrite an existing crcValidated.
+        """
+        if value is not None:
+            self.crcValidated = value
+        return self
+
+
+class GlobalTimeFrSlave(GlobalTimeSlave):
+    """
+    This represents the specialization of the GlobalTimeSlave for Flexray communication.
+    """
+
+    # GlobalTimeFrSlave method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.21, p.878
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCrcValidated               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCrcValidated               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSequenceCounterJumpWidth   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSequenceCounterJumpWidth   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # Re-parented from the Identifiable stub base to GlobalTimeSlave per the Table 9.21 Base row
+    # (most-derived base GlobalTimeSlave); the class definition moved below GlobalTimeSlave so
+    # the Python name resolves. The reader/writer call the Table 9.5 base helpers
+    # (readGlobalTimeSlave / writeGlobalTimeSlave, which transitively own the Identifiable
+    # level) exactly once; the XSD GLOBAL-TIME-FR-SLAVE group (AUTOSAR_00052.xsd l.64809)
+    # element order is CRC-VALIDATED then SEQUENCE-COUNTER-JUMP-WIDTH. Aggregator dispatch
+    # (GlobalTimeDomain.slave) is pending — GlobalTimeDomain is a later-wave class.
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Definition of whether or not validation of the CRC is supported.
+        self.crcValidated: Optional[GlobalTimeCrcValidationEnum] = None
+
+        # Specifies the maximum allowed gap of the sequence counter between two SYNC resp. two OFS messages.
+        self.sequenceCounterJumpWidth: Optional[PositiveInteger] = None
+
+    def getCrcValidated(self) -> Optional[GlobalTimeCrcValidationEnum]:
+        """
+        Definition of whether or not validation of the CRC is supported.
+        """
+        return self.crcValidated
+
+    def setCrcValidated(self, value: Optional[GlobalTimeCrcValidationEnum]) -> GlobalTimeFrSlave:
+        """
+        Definition of whether or not validation of the CRC is supported.
+
+        A None value is a no-op and does not overwrite an existing crcValidated.
+        """
+        if value is not None:
+            self.crcValidated = value
+        return self
+
+    def getSequenceCounterJumpWidth(self) -> Optional[PositiveInteger]:
+        """
+        Specifies the maximum allowed gap of the sequence counter between two SYNC resp. two OFS messages.
+        """
+        return self.sequenceCounterJumpWidth
+
+    def setSequenceCounterJumpWidth(self, value: Optional[PositiveInteger]) -> GlobalTimeFrSlave:
+        """
+        Specifies the maximum allowed gap of the sequence counter between two SYNC resp. two OFS messages.
+
+        A None value is a no-op and does not overwrite an existing sequenceCounterJumpWidth.
+        """
+        if value is not None:
+            self.sequenceCounterJumpWidth = value
+        return self
 
 
 class PortElementToCommunicationResourceMapping(Identifiable):
     pass
 
 
-class SOMEIPTransformationProps(Identifiable):
-    pass
+class UserDefinedGlobalTimeSlave(GlobalTimeSlave):
+    """
+    This represents the specialization of the GlobalTimeSlave for user defined communication.
+    """
 
+    # UserDefinedGlobalTimeSlave method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.24, p.879
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    #
+    # Re-parented from the Identifiable stub base to GlobalTimeSlave per the Table 9.24 Base
+    # row (most-derived base GlobalTimeSlave); the stub already sat below the base's
+    # definition, so the class definition stays in place. Table 9.24 has no own Attribute rows
+    # and the XSD USER-DEFINED-GLOBAL-TIME-SLAVE group (AUTOSAR_00052.xsd l.128845) has an
+    # empty sequence: the reader/writer call the Table 9.5 base helpers (readGlobalTimeSlave /
+    # writeGlobalTimeSlave, which transitively own the Identifiable level) exactly once.
+    # Aggregator dispatch (GlobalTimeDomain.slave) is pending — GlobalTimeDomain is a
+    # later-wave class.
 
-class UserDefinedGlobalTimeSlave(Identifiable):
-    pass
-
-
-class UserDefinedTransformationProps(Identifiable):
-    pass
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
 
 
 class DdsCpConsumedServiceInstance(DdsCpServiceInstance):
@@ -3780,16 +4507,210 @@ class DdsCpConsumedServiceInstance(DdsCpServiceInstance):
 
 
 class GlobalTimeCanMaster(GlobalTimeMaster):
-    pass
+    """
+    This represents the specialization of the GlobalTimeMaster for the CAN communication.
+    """
+
+    # GlobalTimeCanMaster method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.8, p.864
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCrcSecured               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCrcSecured               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSyncConfirmationTimeout  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSyncConfirmationTimeout  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # The reader/writer call the Table 9.4 base helpers (readGlobalTimeMaster /
+    # writeGlobalTimeMaster) exactly once; the XSD GLOBAL-TIME-CAN-MASTER group
+    # (AUTOSAR_00052.xsd l.64210) element order is CRC-SECURED then SYNC-CONFIRMATION-TIMEOUT.
+    # FOLLOW-UP-OFFSET is absent from Table 9.8 and carries atp.Status="removed" in the XSD —
+    # deprecated, not implemented. Aggregator dispatch (GlobalTimeDomain.globalTimeMaster) is
+    # pending — GlobalTimeDomain is a later-wave class.
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Definition of whether or not CRC is supported. This is only relevant for selected bus systems.
+        self.crcSecured: Optional[GlobalTimeCrcSupportEnum] = None
+
+        # This represents the value for the confirmation timeout. Unit: seconds.
+        self.syncConfirmationTimeout: Optional[TimeValue] = None
+
+    def getCrcSecured(self) -> Optional[GlobalTimeCrcSupportEnum]:
+        """
+        Definition of whether or not CRC is supported. This is only relevant for selected bus systems.
+        """
+        return self.crcSecured
+
+    def setCrcSecured(self, value: Optional[GlobalTimeCrcSupportEnum]) -> GlobalTimeCanMaster:
+        """
+        Definition of whether or not CRC is supported. This is only relevant for selected bus systems.
+
+        A None value is a no-op and does not overwrite an existing crcSecured.
+        """
+        if value is not None:
+            self.crcSecured = value
+        return self
+
+    def getSyncConfirmationTimeout(self) -> Optional[TimeValue]:
+        """
+        This represents the value for the confirmation timeout. Unit: seconds.
+        """
+        return self.syncConfirmationTimeout
+
+    def setSyncConfirmationTimeout(self, value: Optional[TimeValue]) -> GlobalTimeCanMaster:
+        """
+        This represents the value for the confirmation timeout. Unit: seconds.
+
+        A None value is a no-op and does not overwrite an existing syncConfirmationTimeout.
+        """
+        if value is not None:
+            self.syncConfirmationTimeout = value
+        return self
 
 
 class GlobalTimeEthMaster(GlobalTimeMaster):
-    pass
+    """
+    This represents the specialization of the GlobalTimeMaster for Ethernet communication.
+    """
+
+    # GlobalTimeEthMaster method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.11, p.866
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCrcSecured         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCrcSecured         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getHoldOverTime       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setHoldOverTime       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSubTlvConfig       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSubTlvConfig       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # The reader/writer call the Table 9.4 base helpers (readGlobalTimeMaster /
+    # writeGlobalTimeMaster) exactly once; the XSD GLOBAL-TIME-ETH-MASTER group
+    # (AUTOSAR_00052.xsd l.64689) element order is CRC-SECURED, HOLD-OVER-TIME then
+    # SUB-TLV-CONFIG. The aggregated EthTSynSubTlvConfig (Table 9.12, synced) rides in the
+    # <SUB-TLV-CONFIG> element named by the group and dispatches to the reusable
+    # readEthTSynSubTlvConfig / writeEthTSynSubTlvConfig helpers (emitted field by field under
+    # the group-named element, not the type's own tag) — the aggregator dispatch this class
+    # carried as pending is now wired. Aggregator dispatch (GlobalTimeDomain.globalTimeMaster)
+    # is still pending — GlobalTimeDomain is a later-wave class.
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Definition of whether or not CRC is supported. This is only relevant for selected bus systems.
+        self.crcSecured: Optional[GlobalTimeCrcSupportEnum] = None
+
+        # This attribute defines the timeout for transmission of Sync and Follow_Up messages on Master ports in absence of reception of Sync and Follow_Up messages on Slave port.
+        self.holdOverTime: Optional[TimeValue] = None
+
+        # Defines the subTLV fields which shall be included in the time sync message.
+        self.subTlvConfig: Optional[EthTSynSubTlvConfig] = None
+
+    def getCrcSecured(self) -> Optional[GlobalTimeCrcSupportEnum]:
+        """
+        Definition of whether or not CRC is supported. This is only relevant for selected bus systems.
+        """
+        return self.crcSecured
+
+    def setCrcSecured(self, value: Optional[GlobalTimeCrcSupportEnum]) -> GlobalTimeEthMaster:
+        """
+        Definition of whether or not CRC is supported. This is only relevant for selected bus systems.
+
+        A None value is a no-op and does not overwrite an existing crcSecured.
+        """
+        if value is not None:
+            self.crcSecured = value
+        return self
+
+    def getHoldOverTime(self) -> Optional[TimeValue]:
+        """
+        This attribute defines the timeout for transmission of Sync and Follow_Up messages on Master ports in absence of reception of Sync and Follow_Up messages on Slave port.
+        """
+        return self.holdOverTime
+
+    def setHoldOverTime(self, value: Optional[TimeValue]) -> GlobalTimeEthMaster:
+        """
+        This attribute defines the timeout for transmission of Sync and Follow_Up messages on Master ports in absence of reception of Sync and Follow_Up messages on Slave port.
+
+        A None value is a no-op and does not overwrite an existing holdOverTime.
+        """
+        if value is not None:
+            self.holdOverTime = value
+        return self
+
+    def getSubTlvConfig(self) -> Optional[EthTSynSubTlvConfig]:
+        """
+        Defines the subTLV fields which shall be included in the time sync message.
+        """
+        return self.subTlvConfig
+
+    def setSubTlvConfig(self, value: Optional[EthTSynSubTlvConfig]) -> GlobalTimeEthMaster:
+        """
+        Defines the subTLV fields which shall be included in the time sync message.
+
+        A None value is a no-op and does not overwrite an existing subTlvConfig.
+        """
+        if value is not None:
+            self.subTlvConfig = value
+        return self
 
 
 class GlobalTimeFrMaster(GlobalTimeMaster):
-    pass
+    """
+    This represents the specialization of the GlobalTimeMaster for Flexray communication.
+    """
+
+    # GlobalTimeFrMaster method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.20, p.877
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCrcSecured   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCrcSecured   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # The reader/writer call the Table 9.4 base helpers (readGlobalTimeMaster /
+    # writeGlobalTimeMaster) exactly once; the XSD GLOBAL-TIME-FR-MASTER group
+    # (AUTOSAR_00052.xsd l.64775) carries only the CRC-SECURED element. Aggregator dispatch
+    # (GlobalTimeDomain.globalTimeMaster) is pending — GlobalTimeDomain is a later-wave class.
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Definition of whether or not CRC is supported. This is only relevant for selected bus systems.
+        self.crcSecured: Optional[GlobalTimeCrcSupportEnum] = None
+
+    def getCrcSecured(self) -> Optional[GlobalTimeCrcSupportEnum]:
+        """
+        Definition of whether or not CRC is supported. This is only relevant for selected bus systems.
+        """
+        return self.crcSecured
+
+    def setCrcSecured(self, value: Optional[GlobalTimeCrcSupportEnum]) -> GlobalTimeFrMaster:
+        """
+        Definition of whether or not CRC is supported. This is only relevant for selected bus systems.
+
+        A None value is a no-op and does not overwrite an existing crcSecured.
+        """
+        if value is not None:
+            self.crcSecured = value
+        return self
 
 
 class UserDefinedGlobalTimeMaster(GlobalTimeMaster):
-    pass
+    """
+    This represents the specialization of the GlobalTimeMaster for user defined communication.
+    """
+
+    # UserDefinedGlobalTimeMaster method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.23, p.879
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    #
+    # Table 9.23 has no own Attribute rows and the XSD USER-DEFINED-GLOBAL-TIME-MASTER group
+    # (AUTOSAR_00052.xsd l.128818) has an empty sequence: the reader/writer call the Table 9.4
+    # base helpers (readGlobalTimeMaster / writeGlobalTimeMaster) exactly once and own only the
+    # base level. Aggregator dispatch (GlobalTimeDomain.globalTimeMaster) is pending —
+    # GlobalTimeDomain is a later-wave class.
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)

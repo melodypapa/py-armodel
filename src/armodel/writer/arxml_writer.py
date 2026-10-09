@@ -579,7 +579,19 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     SecurityEventContextData,
     FMFeatureDecomposition,
     AbstractGlobalTimeDomainProps,
+    BinaryManifestItemNumericalValue,
+    BinaryManifestItemPointerValue,
+    BinaryManifestItemValue,
+    CanGlobalTimeDomainProps,
     CalibrationParameterValue,
+    ClientServerOperationComProps,
+    CpSoftwareClusterCommunicationResourceProps,
+    DataComProps,
+    EthGlobalTimeDomainProps,
+    EthGlobalTimeManagedCouplingPort,
+    EthTSynCrcFlags,
+    EthTSynSubTlvConfig,
+    FrGlobalTimeDomainProps,
     RoleBasedResourceDependency,
     DiagnosticAbstractParameter,
     DiagnosticCommonProps,
@@ -621,6 +633,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.ViewMapSet import ViewM
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import Collection
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    BinaryManifestAddressableObject,
     FMAttributeDef,
     AggregationTailoring,
     ClassContentConditional,
@@ -644,6 +657,8 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     FMFeatureRestriction,
     FMFeatureSelection,
     BinaryManifestMetaDataField,
+    BinaryManifestResource,
+    CpSoftwareClusterCommunicationResource,
     CpSoftwareClusterResource,
     CpSoftwareClusterToResourceMapping,
     DdsCpConsumedServiceInstance,
@@ -662,11 +677,22 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticRoutineSubfunction,
     DiagnosticStartRoutine,
     DiagnosticStopRoutine,
+    GlobalTimeCanMaster,
+    GlobalTimeCanSlave,
+    GlobalTimeEthMaster,
+    GlobalTimeEthSlave,
+    GlobalTimeFrMaster,
+    GlobalTimeFrSlave,
+    GlobalTimeGateway,
+    GlobalTimeMaster,
+    GlobalTimeSlave,
     Identifiable,
     MultilanguageReferrable,
     Referrable,
     ShortNameFragment,
     SingleLanguageReferrable,
+    UserDefinedGlobalTimeMaster,
+    UserDefinedGlobalTimeSlave,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
     ARElement,
@@ -1394,13 +1420,16 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     EndToEndTransformationISignalProps,
     SOMEIPTransformationDescription,
     SOMEIPTransformationISignalProps,
+    SOMEIPTransformationProps,
     TlvDataIdDefinition,
     TlvDataIdDefinitionSet,
     TransformationDescription,
     TransformationISignalProps,
+    TransformationProps,
     TransformationTechnology,
     UserDefinedTransformationDescription,
     UserDefinedTransformationISignalProps,
+    UserDefinedTransformationProps,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import (
     CanTpAddress,
@@ -14729,6 +14758,23 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeARObject(element, props)
         self.writeVariationPointCapable(element, props)
 
+    def writeCanGlobalTimeDomainProps(self, element: ET.Element, props: CanGlobalTimeDomainProps):
+        # Populates the CAN-GLOBAL-TIME-DOMAIN-PROPS element created by the caller; the XSD
+        # CAN-GLOBAL-TIME-DOMAIN-PROPS group (AUTOSAR_00052.xsd l.15163) follows the
+        # ABSTRACT-GLOBAL-TIME-DOMAIN-PROPS group and wraps each ordered DataIDList attribute in a
+        # <...-DATA-ID-LISTS> element emitted only when non-empty.
+        self.writeAbstractGlobalTimeDomainProps(element, props)
+        for wrapper_key, item_key, data_id_lists in [
+            ("FUP-DATA-ID-LISTS", "FUP-DATA-ID-LIST", props.getFupDataIDLists()),
+            ("OFNS-DATA-ID-LISTS", "OFNS-DATA-ID-LIST", props.getOfnsDataIDLists()),
+            ("OFS-DATA-ID-LISTS", "OFS-DATA-ID-LIST", props.getOfsDataIDLists()),
+            ("SYNC-DATA-ID-LISTS", "SYNC-DATA-ID-LIST", props.getSyncDataIDLists()),
+        ]:
+            if len(data_id_lists) > 0:
+                wrapper = ET.SubElement(element, wrapper_key)
+                for value in data_id_lists:
+                    self.setChildElementOptionalPositiveInteger(wrapper, item_key, cast(Integer, value))
+
     def writeNetworkSegmentIdentification(self, element: ET.Element, props: NetworkSegmentIdentification):
         child_element = ET.SubElement(element, "NETWORK-SEGMENT-ID")
         self.writeARObject(child_element, props)
@@ -14741,6 +14787,290 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalTimeValue(child_element, "OFFSET-CORRECTION-JUMP-THRESHOLD", props.getOffsetCorrectionJumpThreshold())
         self.setChildElementOptionalTimeValue(child_element, "RATE-CORRECTION-MEASUREMENT-DURATION", props.getRateCorrectionMeasurementDuration())
         self.setChildElementOptionalPositiveInteger(child_element, "RATE-CORRECTIONS-PER-MEASUREMENT-DURATION", cast(Integer, props.getRateCorrectionsPerMeasurementDuration()))
+
+    def writeTransformationProps(self, element: ET.Element, props: TransformationProps):
+        # Populates the concrete subclass element (AP-SOMEIP-/SOMEIP-/USER-DEFINED-
+        # TRANSFORMATION-PROPS) created by the caller; the XSD TRANSFORMATION-PROPS group
+        # (AUTOSAR_00052.xsd l.125529) has an empty sequence, so the helper owns the
+        # Identifiable level only.
+        self.writeIdentifiable(element, props)
+
+    def writeSOMEIPTransformationProps(self, element: ET.Element, props: SOMEIPTransformationProps):
+        # Populates the SOMEIP-TRANSFORMATION-PROPS element created by the caller; the XSD
+        # SOMEIP-TRANSFORMATION-PROPS group (AUTOSAR_00052.xsd l.111546) follows the
+        # TRANSFORMATION-PROPS group: ALIGNMENT then the four SIZE-OF-*-LENGTH-FIELD elements.
+        self.writeTransformationProps(element, props)
+        self.setChildElementOptionalPositiveInteger(element, "ALIGNMENT", cast(Integer, props.getAlignment()))
+        self.setChildElementOptionalPositiveInteger(element, "SIZE-OF-ARRAY-LENGTH-FIELD", cast(Integer, props.getSizeOfArrayLengthField()))
+        self.setChildElementOptionalPositiveInteger(element, "SIZE-OF-STRING-LENGTH-FIELD", cast(Integer, props.getSizeOfStringLengthField()))
+        self.setChildElementOptionalPositiveInteger(element, "SIZE-OF-STRUCT-LENGTH-FIELD", cast(Integer, props.getSizeOfStructLengthField()))
+        self.setChildElementOptionalPositiveInteger(element, "SIZE-OF-UNION-LENGTH-FIELD", cast(Integer, props.getSizeOfUnionLengthField()))
+
+    def writeUserDefinedTransformationProps(self, element: ET.Element, props: UserDefinedTransformationProps):
+        # Populates the USER-DEFINED-TRANSFORMATION-PROPS element created by the caller; the
+        # XSD USER-DEFINED-TRANSFORMATION-PROPS group (AUTOSAR_00052.xsd l.129197) has an empty
+        # sequence, so the helper owns only the Identifiable level reached through
+        # writeTransformationProps.
+        self.writeTransformationProps(element, props)
+
+    def writeGlobalTimeSlave(self, element: ET.Element, slave: GlobalTimeSlave):
+        # Populates the concrete subclass element (GLOBAL-TIME-CAN-/ETH-/FR-/USER-DEFINED-
+        # GLOBAL-TIME-SLAVE) created by the caller. VARIATION-POINT is the last element of the
+        # XSD GLOBAL-TIME-SLAVE group (AUTOSAR_00052.xsd l.64988, xml.sequenceOffset=10000),
+        # so the generic emission inside writeIdentifiable is suppressed here and re-emitted
+        # after the class's own elements.
+        self.writeIdentifiable(element, slave, write_variation_point=False)
+        self.setChildElementOptionalRefType(element, "COMMUNICATION-CONNECTOR-REF", slave.getCommunicationConnectorRef())
+        self.setChildElementOptionalTimeValue(element, "FOLLOW-UP-TIMEOUT-VALUE", slave.getFollowUpTimeoutValue())
+        self.setChildElementOptionalLiteral(element, "ICV-VERIFICATION", slave.getIcvVerification())
+        self.setChildElementOptionalTimeValue(element, "TIME-LEAP-FUTURE-THRESHOLD", slave.getTimeLeapFutureThreshold())
+        self.setChildElementOptionalPositiveInteger(element, "TIME-LEAP-HEALING-COUNTER", cast(Integer, slave.getTimeLeapHealingCounter()))
+        self.setChildElementOptionalTimeValue(element, "TIME-LEAP-PAST-THRESHOLD", slave.getTimeLeapPastThreshold())
+        self.writeVariationPoint(element, slave.getVariationPoint())
+
+    def writeGlobalTimeMaster(self, element: ET.Element, master: GlobalTimeMaster):
+        # Populates the concrete subclass element (GLOBAL-TIME-CAN-/ETH-/FR-/USER-DEFINED-
+        # GLOBAL-TIME-MASTER) created by the caller. VARIATION-POINT is the last element of the
+        # XSD GLOBAL-TIME-MASTER group (AUTOSAR_00052.xsd l.64923, xml.sequenceOffset=10000),
+        # so the generic emission inside writeIdentifiable is suppressed here and re-emitted
+        # after the class's own elements.
+        self.writeIdentifiable(element, master, write_variation_point=False)
+        self.setChildElementOptionalRefType(element, "COMMUNICATION-CONNECTOR-REF", master.getCommunicationConnectorRef())
+        self.setChildElementOptionalLiteral(element, "ICV-SECURED", master.getIcvSecured())
+        self.setChildElementOptionalTimeValue(element, "IMMEDIATE-RESUME-TIME", master.getImmediateResumeTime())
+        self.setChildElementOptionalBooleanValue(element, "IS-SYSTEM-WIDE-GLOBAL-TIME-MASTER", master.getIsSystemWideGlobalTimeMaster())
+        self.setChildElementOptionalTimeValue(element, "SYNC-PERIOD", master.getSyncPeriod())
+        self.writeVariationPoint(element, master.getVariationPoint())
+
+    def writeGlobalTimeGateway(self, element: ET.Element, gateway: GlobalTimeGateway):
+        # VARIATION-POINT is the last element of the XSD GLOBAL-TIME-GATEWAY group
+        # (AUTOSAR_00052.xsd l.64849, xml.sequenceOffset=10000), so the generic emission inside
+        # writeIdentifiable is suppressed here and re-emitted after the class's own elements.
+        self.writeIdentifiable(element, gateway, write_variation_point=False)
+        self.setChildElementOptionalRefType(element, "HOST-REF", gateway.getHostRef())
+        self.setChildElementOptionalRefType(element, "MASTER-REF", gateway.getMasterRef())
+        self.setChildElementOptionalRefType(element, "SLAVE-REF", gateway.getSlaveRef())
+        self.writeVariationPoint(element, gateway.getVariationPoint())
+
+    def writeGlobalTimeCanMaster(self, element: ET.Element, master: GlobalTimeCanMaster):
+        # Populates the GLOBAL-TIME-CAN-MASTER element created by the caller; the XSD
+        # GLOBAL-TIME-CAN-MASTER group (AUTOSAR_00052.xsd l.64210) follows the
+        # GLOBAL-TIME-MASTER group: CRC-SECURED then SYNC-CONFIRMATION-TIMEOUT. The removed
+        # FOLLOW-UP-OFFSET element (atp.Status="removed", absent from Table 9.8) is not written.
+        self.writeGlobalTimeMaster(element, master)
+        self.setChildElementOptionalLiteral(element, "CRC-SECURED", master.getCrcSecured())
+        self.setChildElementOptionalTimeValue(element, "SYNC-CONFIRMATION-TIMEOUT", master.getSyncConfirmationTimeout())
+
+    def writeGlobalTimeCanSlave(self, element: ET.Element, slave: GlobalTimeCanSlave):
+        # Populates the GLOBAL-TIME-CAN-SLAVE element created by the caller; the XSD
+        # GLOBAL-TIME-CAN-SLAVE group (AUTOSAR_00052.xsd l.64256) follows the
+        # GLOBAL-TIME-SLAVE group: CRC-VALIDATED then SEQUENCE-COUNTER-JUMP-WIDTH.
+        self.writeGlobalTimeSlave(element, slave)
+        self.setChildElementOptionalLiteral(element, "CRC-VALIDATED", slave.getCrcValidated())
+        self.setChildElementOptionalPositiveInteger(element, "SEQUENCE-COUNTER-JUMP-WIDTH", cast(Integer, slave.getSequenceCounterJumpWidth()))
+
+    def writeGlobalTimeEthSlave(self, element: ET.Element, slave: GlobalTimeEthSlave):
+        # Populates the GLOBAL-TIME-ETH-SLAVE element created by the caller; the XSD
+        # GLOBAL-TIME-ETH-SLAVE group (AUTOSAR_00052.xsd l.64735) follows the
+        # GLOBAL-TIME-SLAVE group and carries only the CRC-VALIDATED element. The removed
+        # TIME-HARDWARE-CORRECTION-THRESHOLD element (atp.Status="removed", absent from
+        # Table 9.13) is not written.
+        self.writeGlobalTimeSlave(element, slave)
+        self.setChildElementOptionalLiteral(element, "CRC-VALIDATED", slave.getCrcValidated())
+
+    def writeGlobalTimeFrSlave(self, element: ET.Element, slave: GlobalTimeFrSlave):
+        # Populates the GLOBAL-TIME-FR-SLAVE element created by the caller; the XSD
+        # GLOBAL-TIME-FR-SLAVE group (AUTOSAR_00052.xsd l.64809) follows the
+        # GLOBAL-TIME-SLAVE group: CRC-VALIDATED then SEQUENCE-COUNTER-JUMP-WIDTH.
+        self.writeGlobalTimeSlave(element, slave)
+        self.setChildElementOptionalLiteral(element, "CRC-VALIDATED", slave.getCrcValidated())
+        self.setChildElementOptionalPositiveInteger(element, "SEQUENCE-COUNTER-JUMP-WIDTH", cast(Integer, slave.getSequenceCounterJumpWidth()))
+
+    def writeGlobalTimeFrMaster(self, element: ET.Element, master: GlobalTimeFrMaster):
+        # Populates the GLOBAL-TIME-FR-MASTER element created by the caller; the XSD
+        # GLOBAL-TIME-FR-MASTER group (AUTOSAR_00052.xsd l.64775) follows the
+        # GLOBAL-TIME-MASTER group and carries only the CRC-SECURED element.
+        self.writeGlobalTimeMaster(element, master)
+        self.setChildElementOptionalLiteral(element, "CRC-SECURED", master.getCrcSecured())
+
+    def writeUserDefinedGlobalTimeMaster(self, element: ET.Element, master: UserDefinedGlobalTimeMaster):
+        # Populates the USER-DEFINED-GLOBAL-TIME-MASTER element created by the caller; the XSD
+        # USER-DEFINED-GLOBAL-TIME-MASTER group (AUTOSAR_00052.xsd l.128818) follows the
+        # GLOBAL-TIME-MASTER group and has an empty sequence, so the helper owns only the base
+        # level reached through writeGlobalTimeMaster.
+        self.writeGlobalTimeMaster(element, master)
+
+    def writeUserDefinedGlobalTimeSlave(self, element: ET.Element, slave: UserDefinedGlobalTimeSlave):
+        # Populates the USER-DEFINED-GLOBAL-TIME-SLAVE element created by the caller; the XSD
+        # USER-DEFINED-GLOBAL-TIME-SLAVE group (AUTOSAR_00052.xsd l.128845) follows the
+        # GLOBAL-TIME-SLAVE group and has an empty sequence, so the helper owns only the base
+        # level reached through writeGlobalTimeSlave.
+        self.writeGlobalTimeSlave(element, slave)
+
+    def writeGlobalTimeEthMaster(self, element: ET.Element, master: GlobalTimeEthMaster):
+        # Populates the GLOBAL-TIME-ETH-MASTER element created by the caller; the XSD
+        # GLOBAL-TIME-ETH-MASTER group (AUTOSAR_00052.xsd l.64689) follows the
+        # GLOBAL-TIME-MASTER group: CRC-SECURED, HOLD-OVER-TIME then SUB-TLV-CONFIG. The
+        # aggregated EthTSynSubTlvConfig rides in the <SUB-TLV-CONFIG> element named by the
+        # group (not the type's own tag), so it is emitted here and populated field by field.
+        self.writeGlobalTimeMaster(element, master)
+        self.setChildElementOptionalLiteral(element, "CRC-SECURED", master.getCrcSecured())
+        self.setChildElementOptionalTimeValue(element, "HOLD-OVER-TIME", master.getHoldOverTime())
+        sub_tlv_config = master.getSubTlvConfig()
+        if sub_tlv_config is not None:
+            sub_tlv_config_element = ET.SubElement(element, "SUB-TLV-CONFIG")
+            self.writeARObject(sub_tlv_config_element, sub_tlv_config)
+            self.setChildElementOptionalBooleanValue(sub_tlv_config_element, "OFS-SUB-TLV", sub_tlv_config.getOfsSubTlv())
+            self.setChildElementOptionalBooleanValue(sub_tlv_config_element, "STATUS-SUB-TLV", sub_tlv_config.getStatusSubTlv())
+            self.setChildElementOptionalBooleanValue(sub_tlv_config_element, "TIME-SUB-TLV", sub_tlv_config.getTimeSubTlv())
+            self.setChildElementOptionalBooleanValue(sub_tlv_config_element, "USER-DATA-SUB-TLV", sub_tlv_config.getUserDataSubTlv())
+
+    def writeEthGlobalTimeManagedCouplingPort(self, element: ET.Element, port: EthGlobalTimeManagedCouplingPort):
+        child_element = ET.SubElement(element, "ETH-GLOBAL-TIME-MANAGED-COUPLING-PORT")
+        self.writeARObject(child_element, port)
+        self.setChildElementOptionalRefType(child_element, "COUPLING-PORT-REF", port.getCouplingPortRef())
+        self.setChildElementOptionalLiteral(child_element, "GLOBAL-TIME-PORT-ROLE", port.getGlobalTimePortRole())
+        self.setChildElementOptionalTimeValue(child_element, "GLOBAL-TIME-TX-PERIOD", port.getGlobalTimeTxPeriod())
+        self.setChildElementOptionalTimeValue(child_element, "PDELAY-LATENCY-THRESHOLD", port.getPdelayLatencyThreshold())
+        self.setChildElementOptionalTimeValue(child_element, "PDELAY-REQUEST-PERIOD", port.getPdelayRequestPeriod())
+        self.setChildElementOptionalTimeValue(child_element, "PDELAY-RESP-AND-RESP-FOLLOW-UP-TIMEOUT", port.getPdelayRespAndRespFollowUpTimeout())
+        self.setChildElementOptionalBooleanValue(child_element, "PDELAY-RESPONSE-ENABLED", port.getPdelayResponseEnabled())
+
+    def writeEthTSynSubTlvConfig(self, element: ET.Element, config: EthTSynSubTlvConfig):
+        child_element = ET.SubElement(element, "ETH-T-SYN-SUB-TLV-CONFIG")
+        self.writeARObject(child_element, config)
+        self.setChildElementOptionalBooleanValue(child_element, "OFS-SUB-TLV", config.getOfsSubTlv())
+        self.setChildElementOptionalBooleanValue(child_element, "STATUS-SUB-TLV", config.getStatusSubTlv())
+        self.setChildElementOptionalBooleanValue(child_element, "TIME-SUB-TLV", config.getTimeSubTlv())
+        self.setChildElementOptionalBooleanValue(child_element, "USER-DATA-SUB-TLV", config.getUserDataSubTlv())
+
+    def writeEthTSynCrcFlags(self, element: ET.Element, flags: EthTSynCrcFlags):
+        child_element = ET.SubElement(element, "ETH-T-SYN-CRC-FLAGS")
+        self.writeARObject(child_element, flags)
+        self.setChildElementOptionalBooleanValue(child_element, "CRC-CORRECTION-FIELD", flags.getCrcCorrectionField())
+        self.setChildElementOptionalBooleanValue(child_element, "CRC-DOMAIN-NUMBER", flags.getCrcDomainNumber())
+        self.setChildElementOptionalBooleanValue(child_element, "CRC-MESSAGE-LENGTH", flags.getCrcMessageLength())
+        self.setChildElementOptionalBooleanValue(child_element, "CRC-PRECISE-ORIGIN-TIMESTAMP", flags.getCrcPreciseOriginTimestamp())
+        self.setChildElementOptionalBooleanValue(child_element, "CRC-SEQUENCE-ID", flags.getCrcSequenceId())
+        self.setChildElementOptionalBooleanValue(child_element, "CRC-SOURCE-PORT-IDENTITY", flags.getCrcSourcePortIdentity())
+
+    def writeEthGlobalTimeDomainProps(self, element: ET.Element, props: EthGlobalTimeDomainProps):
+        # Populates the ETH-GLOBAL-TIME-DOMAIN-PROPS element created by the caller; the XSD
+        # ETH-GLOBAL-TIME-DOMAIN-PROPS group (AUTOSAR_00052.xsd l.55564) follows the
+        # ABSTRACT-GLOBAL-TIME-DOMAIN-PROPS group and wraps the ordered fupDataIDList attribute in a
+        # <FUP-DATA-ID-LISTS> element and the managedCouplingPort aggregation in a
+        # <MANAGED-COUPLING-PORTS> wrapper, each emitted only when non-empty. The aggregated
+        # EthTSynCrcFlags rides in the <CRC-FLAGS> element named by the group (not the type's own
+        # tag), so it is emitted here and populated field by field; the ports dispatch to
+        # writeEthGlobalTimeManagedCouplingPort.
+        self.writeAbstractGlobalTimeDomainProps(element, props)
+        crc_flags = props.getCrcFlags()
+        if crc_flags is not None:
+            crc_flags_element = ET.SubElement(element, "CRC-FLAGS")
+            self.writeARObject(crc_flags_element, crc_flags)
+            self.setChildElementOptionalBooleanValue(crc_flags_element, "CRC-CORRECTION-FIELD", crc_flags.getCrcCorrectionField())
+            self.setChildElementOptionalBooleanValue(crc_flags_element, "CRC-DOMAIN-NUMBER", crc_flags.getCrcDomainNumber())
+            self.setChildElementOptionalBooleanValue(crc_flags_element, "CRC-MESSAGE-LENGTH", crc_flags.getCrcMessageLength())
+            self.setChildElementOptionalBooleanValue(crc_flags_element, "CRC-PRECISE-ORIGIN-TIMESTAMP", crc_flags.getCrcPreciseOriginTimestamp())
+            self.setChildElementOptionalBooleanValue(crc_flags_element, "CRC-SEQUENCE-ID", crc_flags.getCrcSequenceId())
+            self.setChildElementOptionalBooleanValue(crc_flags_element, "CRC-SOURCE-PORT-IDENTITY", crc_flags.getCrcSourcePortIdentity())
+        self.setChildElementOptionalMacAddressString(element, "DESTINATION-PHYSICAL-ADDRESS", props.getDestinationPhysicalAddress())
+        fup_data_id_lists = props.getFupDataIDLists()
+        if len(fup_data_id_lists) > 0:
+            wrapper = ET.SubElement(element, "FUP-DATA-ID-LISTS")
+            for value in fup_data_id_lists:
+                self.setChildElementOptionalPositiveInteger(wrapper, "FUP-DATA-ID-LIST", cast(Integer, value))
+        managed_coupling_ports = props.getManagedCouplingPorts()
+        if len(managed_coupling_ports) > 0:
+            wrapper = ET.SubElement(element, "MANAGED-COUPLING-PORTS")
+            for port in managed_coupling_ports:
+                self.writeEthGlobalTimeManagedCouplingPort(wrapper, port)
+        self.setChildElementOptionalLiteral(element, "MESSAGE-COMPLIANCE", props.getMessageCompliance())
+        self.setChildElementOptionalPositiveInteger(element, "VLAN-PRIORITY", cast(Integer, props.getVlanPriority()))
+
+    def writeFrGlobalTimeDomainProps(self, element: ET.Element, props: FrGlobalTimeDomainProps):
+        # Populates the FR-GLOBAL-TIME-DOMAIN-PROPS element created by the caller; the XSD
+        # FR-GLOBAL-TIME-DOMAIN-PROPS group (AUTOSAR_00052.xsd l.62914) follows the
+        # ABSTRACT-GLOBAL-TIME-DOMAIN-PROPS group and wraps each ordered DataIDList attribute in a
+        # <...-DATA-ID-LISTS> element emitted only when non-empty.
+        self.writeAbstractGlobalTimeDomainProps(element, props)
+        for wrapper_key, item_key, data_id_lists in [
+            ("OFS-DATA-ID-LISTS", "OFS-DATA-ID-LIST", props.getOfsDataIDLists()),
+            ("SYNC-DATA-ID-LISTS", "SYNC-DATA-ID-LIST", props.getSyncDataIDLists()),
+        ]:
+            if len(data_id_lists) > 0:
+                wrapper = ET.SubElement(element, wrapper_key)
+                for value in data_id_lists:
+                    self.setChildElementOptionalPositiveInteger(wrapper, item_key, cast(Integer, value))
+
+    def writeCpSoftwareClusterCommunicationResourceProps(self, element: ET.Element, props: CpSoftwareClusterCommunicationResourceProps):
+        # Populates the concrete subclass element (CLIENT-SERVER-OPERATION-COM-PROPS /
+        # DATA-COM-PROPS) created by the caller; the XSD CP-SOFTWARE-CLUSTER-COMMUNICATION-RESOURCE-PROPS
+        # group (AUTOSAR_00052.xsd l.24290) has an empty sequence, so the helper owns the
+        # ARObject level only.
+        self.writeARObject(element, props)
+
+    def writeDataComProps(self, element: ET.Element, props: DataComProps):
+        # Populates the DATA-COM-PROPS element created by the caller; the XSD DATA-COM-PROPS group
+        # (AUTOSAR_00052.xsd l.26787) follows the (empty) CP-SOFTWARE-CLUSTER-COMMUNICATION-RESOURCE-PROPS
+        # group: DATA-CONSISTENCY-POLICY then SEND-INDICATION, both enumeration literals.
+        self.writeCpSoftwareClusterCommunicationResourceProps(element, props)
+        self.setChildElementOptionalLiteral(element, "DATA-CONSISTENCY-POLICY", props.getDataConsistencyPolicy())
+        self.setChildElementOptionalLiteral(element, "SEND-INDICATION", props.getSendIndication())
+
+    def writeClientServerOperationComProps(self, element: ET.Element, props: ClientServerOperationComProps):
+        # Populates the CLIENT-SERVER-OPERATION-COM-PROPS element created by the caller; the XSD
+        # CLIENT-SERVER-OPERATION-COM-PROPS group (AUTOSAR_00052.xsd l.17582) follows the (empty)
+        # CP-SOFTWARE-CLUSTER-COMMUNICATION-RESOURCE-PROPS group: QUEUE-LENGTH.
+        self.writeCpSoftwareClusterCommunicationResourceProps(element, props)
+        self.setChildElementOptionalPositiveInteger(element, "QUEUE-LENGTH", cast(Integer, props.getQueueLength()))
+
+    def writeBinaryManifestResource(self, element: ET.Element, resource: BinaryManifestResource):
+        # Populates the concrete subclass element (BINARY-MANIFEST-PROVIDE-RESOURCE /
+        # BINARY-MANIFEST-REQUIRE-RESOURCE) created by the caller; the XSD BINARY-MANIFEST-RESOURCE
+        # group (AUTOSAR_00052.xsd l.8886) orders GLOBAL-RESOURCE-ID, ITEMS, RESOURCE-REF. ITEMS
+        # children are emitted identity-only: BinaryManifestItem (Table 11.22) is an unsynced stub
+        # (Rule 0001.7 debt); the wrapper is written only when non-empty.
+        self.writeIdentifiable(element, resource)
+        self.setChildElementOptionalPositiveInteger(element, "GLOBAL-RESOURCE-ID", cast(Integer, resource.getGlobalResourceId()))
+        items = resource.getItems()
+        if len(items) > 0:
+            items_tag = ET.SubElement(element, "ITEMS")
+            for item in items:
+                item_element = ET.SubElement(items_tag, "BINARY-MANIFEST-ITEM")
+                self.writeIdentifiable(item_element, item)
+        self.setChildElementOptionalRefType(element, "RESOURCE-REF", resource.getResourceRef())
+
+    def writeBinaryManifestAddressableObject(self, element: ET.Element, obj: BinaryManifestAddressableObject):
+        # Populates the concrete subclass element (BINARY-MANIFEST-ITEM /
+        # BINARY-MANIFEST-META-DATA-FIELD) created by the caller; the XSD
+        # BINARY-MANIFEST-ADDRESSABLE-OBJECT group (AUTOSAR_00052.xsd l.8552) orders ADDRESS then
+        # SYMBOL after the Identifiable level.
+        self.writeIdentifiable(element, obj)
+        self.setChildElementOptionalAddress(element, "ADDRESS", obj.getAddress())
+        self.setChildElementOptionalSymbolString(element, "SYMBOL", obj.getSymbol())
+
+    def writeBinaryManifestItemValue(self, element: ET.Element, value: BinaryManifestItemValue):
+        # Populates the concrete subclass element (BINARY-MANIFEST-ITEM-NUMERICAL-VALUE /
+        # BINARY-MANIFEST-ITEM-POINTER-VALUE) created by the caller; the XSD
+        # BINARY-MANIFEST-ITEM-VALUE group (AUTOSAR_00052.xsd l.8763) has an empty sequence, so the
+        # helper owns the ARObject level only.
+        self.writeARObject(element, value)
+
+    def writeBinaryManifestItemNumericalValue(self, element: ET.Element, value: BinaryManifestItemNumericalValue):
+        # Populates the BINARY-MANIFEST-ITEM-NUMERICAL-VALUE element created by the caller; the XSD
+        # BINARY-MANIFEST-ITEM-NUMERICAL-VALUE group (AUTOSAR_00052.xsd l.8697) follows the (empty)
+        # BINARY-MANIFEST-ITEM-VALUE group: VALUE.
+        self.writeBinaryManifestItemValue(element, value)
+        self.setChildElementOptionalNumerical(element, "VALUE", value.getValue())
+
+    def writeBinaryManifestItemPointerValue(self, element: ET.Element, value: BinaryManifestItemPointerValue):
+        # Populates the BINARY-MANIFEST-ITEM-POINTER-VALUE element created by the caller; the XSD
+        # BINARY-MANIFEST-ITEM-POINTER-VALUE group (AUTOSAR_00052.xsd l.8727) follows the (empty)
+        # BINARY-MANIFEST-ITEM-VALUE group: ADDRESS then SYMBOL.
+        self.writeBinaryManifestItemValue(element, value)
+        self.setChildElementOptionalAddress(element, "ADDRESS", value.getAddress())
+        self.setChildElementOptionalSymbolString(element, "SYMBOL", value.getSymbol())
 
     def setGlobalTimeProps(self, element: ET.Element, key: str, props: Optional[GlobalTimeCouplingPortProps]):
         if props is not None:
@@ -18182,6 +18512,23 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.writeRoleBasedResourceDependency(dep_element, dependency)
         self.setChildElementOptionalPositiveInteger(element, "GLOBAL-RESOURCE-ID", cast(Integer, resource.getGlobalResourceId()))
         self.setChildElementOptionalBooleanValue(element, "IS-MANDATORY", resource.getIsMandatory())
+
+    def writeCpSoftwareClusterCommunicationResource(self, element: ET.Element, resource: CpSoftwareClusterCommunicationResource):
+        # Populates the CP-SOFTWARE-CLUSTER-COMMUNICATION-RESOURCE element created by the caller;
+        # the XSD CP-SOFTWARE-CLUSTER-COMMUNICATION-RESOURCE group (AUTOSAR_00052.xsd l.24239)
+        # orders COM-PROPS (atp.Status="removed", not modeled) then COMMUNICATION-RESOURCE-PROPS,
+        # a 0..1 wrapper whose inner choice names the concrete props element.
+        self.logger.debug("Write CpSoftwareClusterCommunicationResource %s" % resource.getShortName())
+        self.writeCpSoftwareClusterResource(element, resource)
+        props = resource.getCommunicationResourceProps()
+        if props is not None:
+            communication_resource_props_element = ET.SubElement(element, "COMMUNICATION-RESOURCE-PROPS")
+            if isinstance(props, ClientServerOperationComProps):
+                client_server_element = ET.SubElement(communication_resource_props_element, "CLIENT-SERVER-OPERATION-COM-PROPS")
+                self.writeClientServerOperationComProps(client_server_element, props)
+            elif isinstance(props, DataComProps):
+                data_com_element = ET.SubElement(communication_resource_props_element, "DATA-COM-PROPS")
+                self.writeDataComProps(data_com_element, props)
 
     def writeDiagnosticEventToTroubleCodeJ1939Mapping(self, element: ET.Element, mapping: DiagnosticEventToTroubleCodeJ1939Mapping):
         self.logger.debug("Write DiagnosticEventToTroubleCodeJ1939Mapping %s" % mapping.getShortName())

@@ -12,10 +12,17 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import TextVal
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     AbstractGlobalTimeDomainProps,
     ARObject,
+    BinaryManifestItemNumericalValue,
+    BinaryManifestItemPointerValue,
+    BinaryManifestItemValue,
     BusMirrorCanIdRangeMapping,
     BusMirrorCanIdToCanIdMapping,
     BusMirrorLinPidToCanIdMapping,
     CalibrationParameterValue,
+    CanGlobalTimeDomainProps,
+    ClientServerOperationComProps,
+    CpSoftwareClusterCommunicationResourceProps,
+    DataComProps,
     DdsCpProvidedServiceInstance,
     DdsCpServiceInstanceEvent,
     DdsCpServiceInstanceOperation,
@@ -52,16 +59,23 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticTroubleCodeObd,
     DiagnosticTroubleCodeProps,
     DiagnosticTroubleCodeUds,
+    EthGlobalTimeDomainProps,
+    EthGlobalTimeManagedCouplingPort,
+    EthTSynCrcFlags,
+    EthTSynSubTlvConfig,
     EventObdReadinessGroup,
+    FrGlobalTimeDomainProps,
     GlobalTimeCorrectionProps,
     NetworkSegmentIdentification,
     PhysicalDimensionMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import DiagnosticDebounceAlgorithmProps, DiagnosticFunctionInhibitSource, DiagnosticParameterElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    Address,
     AREnum,
     Boolean,
     ByteOrderEnum,
+    DataConsistencyPolicyEnum,
     DateTime,
     DdsDestinationOrderKindEnum,
     DdsDurabilityKindEnum,
@@ -85,11 +99,17 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticTypeOfFreezeFrameRecordNumerationEnum,
     DiagnosticUdsSeverityEnum,
     DiagnosticWwhObdDtcClassEnum,
+    EthGlobalTimeMessageFormatEnum,
     Float,
+    GlobalTimePortRoleEnum,
+    MacAddressString,
     NameToken,
+    Numerical,
     PositiveInteger,
     RefType,
+    SendIndicationEnum,
     String,
+    SymbolString,
     TimeValue,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
@@ -4962,3 +4982,1631 @@ class TestDdsResourceLimits:
         assert inspect.cleandoc(DdsResourceLimits.setMaxSamples.__doc__) == (self.MAX_SAMPLES_NOTE + none_no_op % "maxSamples")
         assert inspect.cleandoc(DdsResourceLimits.getMaxSamplesPerInstance.__doc__) == self.MAX_SAMPLES_PER_INSTANCE_NOTE
         assert inspect.cleandoc(DdsResourceLimits.setMaxSamplesPerInstance.__doc__) == (self.MAX_SAMPLES_PER_INSTANCE_NOTE + none_no_op % "maxSamplesPerInstance")
+
+
+class TestEthGlobalTimeManagedCouplingPort:
+    """
+    Test class for EthGlobalTimeManagedCouplingPort functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.17, p.875
+    """
+
+    CLASS_NOTE = "Specifies a CouplingPort which is managed by an Ethernet Global Time Domain."
+    COUPLING_PORT_REF_NOTE = "Defines which CouplingPort is managed by this EthGlobalTimeManagedCouplingPort."
+    GLOBAL_TIME_PORT_ROLE_NOTE = "This attribute defines the port behavior."
+    GLOBAL_TIME_TX_PERIOD_NOTE = "This attribute defines the TX period in seconds"
+    PDELAY_LATENCY_THRESHOLD_NOTE = "Threshold for calculated Pdelay. If a measured Pdelay exceeds pdelayLatencyThreshold, the measured Pdelay value is discarded."
+    PDELAY_REQUEST_PERIOD_NOTE = "Defines the period for the pdelay request messages."
+    PDELAY_RESP_AND_RESP_FOLLOW_UP_TIMEOUT_NOTE = "Timeout value for Pdelay_Resp and Pdelay_Resp_Follow_Up after a Pdelay_Req has been transmitted resp. a Pdelay_Resp has been received. A value of 0 or not defining this attribute deactivates this timeout observation."
+    PDELAY_RESPONSE_ENABLED_NOTE = "Defines whether PDELAY RESPONSE and PDELAY RESPONSE FOLLOW UP shall be sent on this Coupling Port."
+
+    def _create_object(self) -> EthGlobalTimeManagedCouplingPort:
+        return EthGlobalTimeManagedCouplingPort()
+
+    def test_initialization(self):
+        """
+        Test that a new EthGlobalTimeManagedCouplingPort initializes all attributes to their defaults.
+        """
+        obj = self._create_object()
+
+        assert obj.getChecksum() is None
+        assert obj.getTimestamp() is None
+        assert obj.getCouplingPortRef() is None
+        assert obj.getGlobalTimePortRole() is None
+        assert obj.getGlobalTimeTxPeriod() is None
+        assert obj.getPdelayLatencyThreshold() is None
+        assert obj.getPdelayRequestPeriod() is None
+        assert obj.getPdelayRespAndRespFollowUpTimeout() is None
+        assert obj.getPdelayResponseEnabled() is None
+
+    def test_is_ar_object_subclass(self):
+        """
+        Test that EthGlobalTimeManagedCouplingPort derives from ARObject per the Table 9.17 Base row.
+        """
+        assert issubclass(EthGlobalTimeManagedCouplingPort, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(EthGlobalTimeManagedCouplingPort.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert EthGlobalTimeManagedCouplingPort.__init__.__doc__ is None
+
+    def test_member_order_follows_spec_rows(self):
+        """
+        Test that the accessors follow the Table 9.17 displayed row order (getter first per attribute).
+        """
+        methods = [name for name, value in EthGlobalTimeManagedCouplingPort.__dict__.items() if callable(value) and not name.startswith("_")]
+        assert methods == [
+            "getCouplingPortRef",
+            "setCouplingPortRef",
+            "getGlobalTimePortRole",
+            "setGlobalTimePortRole",
+            "getGlobalTimeTxPeriod",
+            "setGlobalTimeTxPeriod",
+            "getPdelayLatencyThreshold",
+            "setPdelayLatencyThreshold",
+            "getPdelayRequestPeriod",
+            "setPdelayRequestPeriod",
+            "getPdelayRespAndRespFollowUpTimeout",
+            "setPdelayRespAndRespFollowUpTimeout",
+            "getPdelayResponseEnabled",
+            "setPdelayResponseEnabled",
+        ]
+
+    def test_annotations_are_optional_typed(self):
+        """
+        Test that the accessors carry the spec types (0..1 rows).
+        """
+        hints = typing.get_type_hints(EthGlobalTimeManagedCouplingPort.getCouplingPortRef)
+        assert hints.get("return") == typing.Optional[RefType]
+        hints = typing.get_type_hints(EthGlobalTimeManagedCouplingPort.setCouplingPortRef)
+        assert hints.get("value") == typing.Optional[RefType]
+        assert hints.get("return") is EthGlobalTimeManagedCouplingPort
+
+        hints = typing.get_type_hints(EthGlobalTimeManagedCouplingPort.getGlobalTimePortRole)
+        assert hints.get("return") == typing.Optional[GlobalTimePortRoleEnum]
+        hints = typing.get_type_hints(EthGlobalTimeManagedCouplingPort.getGlobalTimeTxPeriod)
+        assert hints.get("return") == typing.Optional[TimeValue]
+        hints = typing.get_type_hints(EthGlobalTimeManagedCouplingPort.getPdelayLatencyThreshold)
+        assert hints.get("return") == typing.Optional[TimeValue]
+        hints = typing.get_type_hints(EthGlobalTimeManagedCouplingPort.getPdelayRequestPeriod)
+        assert hints.get("return") == typing.Optional[TimeValue]
+        hints = typing.get_type_hints(EthGlobalTimeManagedCouplingPort.getPdelayRespAndRespFollowUpTimeout)
+        assert hints.get("return") == typing.Optional[TimeValue]
+        hints = typing.get_type_hints(EthGlobalTimeManagedCouplingPort.getPdelayResponseEnabled)
+        assert hints.get("return") == typing.Optional[Boolean]
+
+    def test_get_set_coupling_port_ref(self):
+        """
+        Test getCouplingPortRef and setCouplingPortRef round-trip and None no-op.
+        """
+        obj = self._create_object()
+
+        value = RefType()
+        value.setValue("/Cluster/CouplingPort0")
+        result = obj.setCouplingPortRef(value)
+        assert result is obj
+        assert obj.getCouplingPortRef() is value
+        assert obj.getCouplingPortRef().getValue() == "/Cluster/CouplingPort0"
+
+        result = obj.setCouplingPortRef(None)
+        assert result is obj
+        assert obj.getCouplingPortRef() is value
+
+    def test_get_set_global_time_port_role(self):
+        """
+        Test getGlobalTimePortRole and setGlobalTimePortRole round-trip and None no-op.
+        """
+        obj = self._create_object()
+
+        value = GlobalTimePortRoleEnum()
+        value.setValue(GlobalTimePortRoleEnum.TIME_MASTER)
+        result = obj.setGlobalTimePortRole(value)
+        assert result is obj
+        assert obj.getGlobalTimePortRole() is value
+        assert obj.getGlobalTimePortRole().getValue() == GlobalTimePortRoleEnum.TIME_MASTER
+
+        result = obj.setGlobalTimePortRole(None)
+        assert result is obj
+        assert obj.getGlobalTimePortRole() is value
+
+    def test_get_set_time_valued_attributes(self):
+        """
+        Test the TimeValue getter/setter pairs round-trip and None no-op.
+        """
+        obj = self._create_object()
+
+        tx_period = TimeValue().setValue("0.25")
+        result = obj.setGlobalTimeTxPeriod(tx_period)
+        assert result is obj
+        assert obj.getGlobalTimeTxPeriod() is tx_period
+
+        latency = TimeValue().setValue("0.001")
+        result = obj.setPdelayLatencyThreshold(latency)
+        assert result is obj
+        assert obj.getPdelayLatencyThreshold() is latency
+
+        request = TimeValue().setValue("1.0")
+        result = obj.setPdelayRequestPeriod(request)
+        assert result is obj
+        assert obj.getPdelayRequestPeriod() is request
+
+        timeout = TimeValue().setValue("0.5")
+        result = obj.setPdelayRespAndRespFollowUpTimeout(timeout)
+        assert result is obj
+        assert obj.getPdelayRespAndRespFollowUpTimeout() is timeout
+
+        result = obj.setGlobalTimeTxPeriod(None)
+        assert result is obj
+        assert obj.getGlobalTimeTxPeriod() is tx_period
+
+    def test_get_set_pdelay_response_enabled(self):
+        """
+        Test getPdelayResponseEnabled and setPdelayResponseEnabled round-trip and None no-op.
+        """
+        obj = self._create_object()
+
+        value = Boolean()
+        value.setValue(True)
+        result = obj.setPdelayResponseEnabled(value)
+        assert result is obj
+        assert obj.getPdelayResponseEnabled() is value
+
+        result = obj.setPdelayResponseEnabled(None)
+        assert result is obj
+        assert obj.getPdelayResponseEnabled() is value
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        assert inspect.cleandoc(EthGlobalTimeManagedCouplingPort.getCouplingPortRef.__doc__) == self.COUPLING_PORT_REF_NOTE
+        assert inspect.cleandoc(EthGlobalTimeManagedCouplingPort.setCouplingPortRef.__doc__) == (
+            self.COUPLING_PORT_REF_NOTE + "\n\nA None value is a no-op and does not overwrite an existing couplingPortRef."
+        )
+        assert inspect.cleandoc(EthGlobalTimeManagedCouplingPort.getGlobalTimePortRole.__doc__) == self.GLOBAL_TIME_PORT_ROLE_NOTE
+        assert inspect.cleandoc(EthGlobalTimeManagedCouplingPort.setGlobalTimePortRole.__doc__) == (
+            self.GLOBAL_TIME_PORT_ROLE_NOTE + "\n\nA None value is a no-op and does not overwrite an existing globalTimePortRole."
+        )
+        assert inspect.cleandoc(EthGlobalTimeManagedCouplingPort.getGlobalTimeTxPeriod.__doc__) == self.GLOBAL_TIME_TX_PERIOD_NOTE
+        assert inspect.cleandoc(EthGlobalTimeManagedCouplingPort.setGlobalTimeTxPeriod.__doc__) == (
+            self.GLOBAL_TIME_TX_PERIOD_NOTE + "\n\nA None value is a no-op and does not overwrite an existing globalTimeTxPeriod."
+        )
+        assert inspect.cleandoc(EthGlobalTimeManagedCouplingPort.getPdelayLatencyThreshold.__doc__) == self.PDELAY_LATENCY_THRESHOLD_NOTE
+        assert inspect.cleandoc(EthGlobalTimeManagedCouplingPort.setPdelayLatencyThreshold.__doc__) == (
+            self.PDELAY_LATENCY_THRESHOLD_NOTE + "\n\nA None value is a no-op and does not overwrite an existing pdelayLatencyThreshold."
+        )
+        assert inspect.cleandoc(EthGlobalTimeManagedCouplingPort.getPdelayRequestPeriod.__doc__) == self.PDELAY_REQUEST_PERIOD_NOTE
+        assert inspect.cleandoc(EthGlobalTimeManagedCouplingPort.setPdelayRequestPeriod.__doc__) == (
+            self.PDELAY_REQUEST_PERIOD_NOTE + "\n\nA None value is a no-op and does not overwrite an existing pdelayRequestPeriod."
+        )
+        assert inspect.cleandoc(EthGlobalTimeManagedCouplingPort.getPdelayRespAndRespFollowUpTimeout.__doc__) == self.PDELAY_RESP_AND_RESP_FOLLOW_UP_TIMEOUT_NOTE
+        assert inspect.cleandoc(EthGlobalTimeManagedCouplingPort.setPdelayRespAndRespFollowUpTimeout.__doc__) == (
+            self.PDELAY_RESP_AND_RESP_FOLLOW_UP_TIMEOUT_NOTE + "\n\nA None value is a no-op and does not overwrite an existing pdelayRespAndRespFollowUpTimeout."
+        )
+        assert inspect.cleandoc(EthGlobalTimeManagedCouplingPort.getPdelayResponseEnabled.__doc__) == self.PDELAY_RESPONSE_ENABLED_NOTE
+        assert inspect.cleandoc(EthGlobalTimeManagedCouplingPort.setPdelayResponseEnabled.__doc__) == (
+            self.PDELAY_RESPONSE_ENABLED_NOTE + "\n\nA None value is a no-op and does not overwrite an existing pdelayResponseEnabled."
+        )
+
+
+class TestEthTSynSubTlvConfig:
+    """
+    Test class for EthTSynSubTlvConfig functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.12, p.867
+    """
+
+    CLASS_NOTE = "Defines the subTLV fields which shall be included in the time sync message."
+    OFS_SUB_TLV_NOTE = "Defines whether an AUTOSAR Follow_Up TLV OFS Sub-TLV is used."
+    STATUS_SUB_TLV_NOTE = "Defines whether an AUTOSAR Follow_Up TLV Status Sub-TLV is used."
+    TIME_SUB_TLV_NOTE = "Defines whether an AUTOSAR Follow_Up TLV Time Sub-TLV is used."
+    USER_DATA_SUB_TLV_NOTE = "Defines whether an AUTOSAR Follow_Up TLV UserData Sub-TLV is used."
+
+    def _create_object(self) -> EthTSynSubTlvConfig:
+        return EthTSynSubTlvConfig()
+
+    def test_initialization(self):
+        """
+        Test that a new EthTSynSubTlvConfig initializes all attributes to their defaults.
+        """
+        obj = self._create_object()
+
+        assert obj.getChecksum() is None
+        assert obj.getTimestamp() is None
+        assert obj.getOfsSubTlv() is None
+        assert obj.getStatusSubTlv() is None
+        assert obj.getTimeSubTlv() is None
+        assert obj.getUserDataSubTlv() is None
+
+    def test_is_ar_object_subclass(self):
+        """
+        Test that EthTSynSubTlvConfig derives from ARObject per the Table 9.12 Base row.
+        """
+        assert issubclass(EthTSynSubTlvConfig, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(EthTSynSubTlvConfig.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert EthTSynSubTlvConfig.__init__.__doc__ is None
+
+    def test_member_order_follows_spec_rows(self):
+        """
+        Test that the accessors follow the Table 9.12 displayed row order (getter first per attribute).
+        """
+        methods = [name for name, value in EthTSynSubTlvConfig.__dict__.items() if callable(value) and not name.startswith("_")]
+        assert methods == [
+            "getOfsSubTlv",
+            "setOfsSubTlv",
+            "getStatusSubTlv",
+            "setStatusSubTlv",
+            "getTimeSubTlv",
+            "setTimeSubTlv",
+            "getUserDataSubTlv",
+            "setUserDataSubTlv",
+        ]
+
+    def test_annotations_are_optional_typed(self):
+        """
+        Test that the accessors carry the spec Boolean type (0..1 rows).
+        """
+        for getter, setter in [
+            (EthTSynSubTlvConfig.getOfsSubTlv, EthTSynSubTlvConfig.setOfsSubTlv),
+            (EthTSynSubTlvConfig.getStatusSubTlv, EthTSynSubTlvConfig.setStatusSubTlv),
+            (EthTSynSubTlvConfig.getTimeSubTlv, EthTSynSubTlvConfig.setTimeSubTlv),
+            (EthTSynSubTlvConfig.getUserDataSubTlv, EthTSynSubTlvConfig.setUserDataSubTlv),
+        ]:
+            hints = typing.get_type_hints(getter)
+            assert hints.get("return") == typing.Optional[Boolean]
+            hints = typing.get_type_hints(setter)
+            assert hints.get("value") == typing.Optional[Boolean]
+            assert hints.get("return") is EthTSynSubTlvConfig
+
+    def test_get_set_sub_tlv_flags(self):
+        """
+        Test the four getter/setter pairs round-trip and None no-op.
+        """
+        obj = self._create_object()
+
+        ofs = Boolean().setValue(True)
+        result = obj.setOfsSubTlv(ofs)
+        assert result is obj
+        assert obj.getOfsSubTlv() is ofs
+
+        status = Boolean().setValue(False)
+        result = obj.setStatusSubTlv(status)
+        assert result is obj
+        assert obj.getStatusSubTlv() is status
+
+        time = Boolean().setValue(True)
+        result = obj.setTimeSubTlv(time)
+        assert result is obj
+        assert obj.getTimeSubTlv() is time
+
+        user_data = Boolean().setValue(True)
+        result = obj.setUserDataSubTlv(user_data)
+        assert result is obj
+        assert obj.getUserDataSubTlv() is user_data
+
+        result = obj.setOfsSubTlv(None)
+        assert result is obj
+        assert obj.getOfsSubTlv() is ofs
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        assert inspect.cleandoc(EthTSynSubTlvConfig.getOfsSubTlv.__doc__) == self.OFS_SUB_TLV_NOTE
+        assert inspect.cleandoc(EthTSynSubTlvConfig.setOfsSubTlv.__doc__) == (self.OFS_SUB_TLV_NOTE + "\n\nA None value is a no-op and does not overwrite an existing ofsSubTlv.")
+        assert inspect.cleandoc(EthTSynSubTlvConfig.getStatusSubTlv.__doc__) == self.STATUS_SUB_TLV_NOTE
+        assert inspect.cleandoc(EthTSynSubTlvConfig.setStatusSubTlv.__doc__) == (self.STATUS_SUB_TLV_NOTE + "\n\nA None value is a no-op and does not overwrite an existing statusSubTlv.")
+        assert inspect.cleandoc(EthTSynSubTlvConfig.getTimeSubTlv.__doc__) == self.TIME_SUB_TLV_NOTE
+        assert inspect.cleandoc(EthTSynSubTlvConfig.setTimeSubTlv.__doc__) == (self.TIME_SUB_TLV_NOTE + "\n\nA None value is a no-op and does not overwrite an existing timeSubTlv.")
+        assert inspect.cleandoc(EthTSynSubTlvConfig.getUserDataSubTlv.__doc__) == self.USER_DATA_SUB_TLV_NOTE
+        assert inspect.cleandoc(EthTSynSubTlvConfig.setUserDataSubTlv.__doc__) == (self.USER_DATA_SUB_TLV_NOTE + "\n\nA None value is a no-op and does not overwrite an existing userDataSubTlv.")
+
+
+class TestEthTSynCrcFlags:
+    """
+    Test class for EthTSynCrcFlags functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.15, p.868
+    """
+
+    CLASS_NOTE = "Defines the fields of the message which shall be taken into account for CRC calculation and verification."
+    CRC_CORRECTION_FIELD_NOTE = "CorrectionField from the Follow_Up Message Header shall be included in CRC calculation."
+    CRC_DOMAIN_NUMBER_NOTE = "DomainNumber from the Follow_Up Message Header shall be included in CRC calculation."
+    CRC_MESSAGE_LENGTH_NOTE = "MessageLength from the Follow_Up Message Header shall be included in CRC calculation."
+    CRC_PRECISE_ORIGIN_TIMESTAMP_NOTE = "PreciseOriginTimestamp from the Follow_Up Message Field shall be included in CRC calculation."
+    CRC_SEQUENCE_ID_NOTE = "SequenceId from the Follow_Up Message Header shall be included in CRC calculation."
+    CRC_SOURCE_PORT_IDENTITY_NOTE = "SourcePortIdentity from the Follow_Up Message Header shall be included in CRC calculation."
+
+    def _create_object(self) -> EthTSynCrcFlags:
+        return EthTSynCrcFlags()
+
+    def test_initialization(self):
+        """
+        Test that a new EthTSynCrcFlags initializes all attributes to their defaults.
+        """
+        obj = self._create_object()
+
+        assert obj.getChecksum() is None
+        assert obj.getTimestamp() is None
+        assert obj.getCrcCorrectionField() is None
+        assert obj.getCrcDomainNumber() is None
+        assert obj.getCrcMessageLength() is None
+        assert obj.getCrcPreciseOriginTimestamp() is None
+        assert obj.getCrcSequenceId() is None
+        assert obj.getCrcSourcePortIdentity() is None
+
+    def test_is_ar_object_subclass(self):
+        """
+        Test that EthTSynCrcFlags derives from ARObject per the Table 9.15 Base row.
+        """
+        assert issubclass(EthTSynCrcFlags, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(EthTSynCrcFlags.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert EthTSynCrcFlags.__init__.__doc__ is None
+
+    def test_member_order_follows_spec_rows(self):
+        """
+        Test that the accessors follow the Table 9.15 displayed row order (getter first per attribute).
+        """
+        methods = [name for name, value in EthTSynCrcFlags.__dict__.items() if callable(value) and not name.startswith("_")]
+        assert methods == [
+            "getCrcCorrectionField",
+            "setCrcCorrectionField",
+            "getCrcDomainNumber",
+            "setCrcDomainNumber",
+            "getCrcMessageLength",
+            "setCrcMessageLength",
+            "getCrcPreciseOriginTimestamp",
+            "setCrcPreciseOriginTimestamp",
+            "getCrcSequenceId",
+            "setCrcSequenceId",
+            "getCrcSourcePortIdentity",
+            "setCrcSourcePortIdentity",
+        ]
+
+    def test_annotations_are_optional_typed(self):
+        """
+        Test that the accessors carry the spec Boolean type (0..1 rows).
+        """
+        for getter, setter in [
+            (EthTSynCrcFlags.getCrcCorrectionField, EthTSynCrcFlags.setCrcCorrectionField),
+            (EthTSynCrcFlags.getCrcDomainNumber, EthTSynCrcFlags.setCrcDomainNumber),
+            (EthTSynCrcFlags.getCrcMessageLength, EthTSynCrcFlags.setCrcMessageLength),
+            (EthTSynCrcFlags.getCrcPreciseOriginTimestamp, EthTSynCrcFlags.setCrcPreciseOriginTimestamp),
+            (EthTSynCrcFlags.getCrcSequenceId, EthTSynCrcFlags.setCrcSequenceId),
+            (EthTSynCrcFlags.getCrcSourcePortIdentity, EthTSynCrcFlags.setCrcSourcePortIdentity),
+        ]:
+            hints = typing.get_type_hints(getter)
+            assert hints.get("return") == typing.Optional[Boolean]
+            hints = typing.get_type_hints(setter)
+            assert hints.get("value") == typing.Optional[Boolean]
+            assert hints.get("return") is EthTSynCrcFlags
+
+    def test_get_set_crc_flags(self):
+        """
+        Test the six getter/setter pairs round-trip and None no-op.
+        """
+        obj = self._create_object()
+
+        correction = Boolean().setValue(True)
+        result = obj.setCrcCorrectionField(correction)
+        assert result is obj
+        assert obj.getCrcCorrectionField() is correction
+
+        domain = Boolean().setValue(True)
+        result = obj.setCrcDomainNumber(domain)
+        assert result is obj
+        assert obj.getCrcDomainNumber() is domain
+
+        length = Boolean().setValue(False)
+        result = obj.setCrcMessageLength(length)
+        assert result is obj
+        assert obj.getCrcMessageLength() is length
+
+        timestamp = Boolean().setValue(True)
+        result = obj.setCrcPreciseOriginTimestamp(timestamp)
+        assert result is obj
+        assert obj.getCrcPreciseOriginTimestamp() is timestamp
+
+        sequence = Boolean().setValue(True)
+        result = obj.setCrcSequenceId(sequence)
+        assert result is obj
+        assert obj.getCrcSequenceId() is sequence
+
+        port = Boolean().setValue(True)
+        result = obj.setCrcSourcePortIdentity(port)
+        assert result is obj
+        assert obj.getCrcSourcePortIdentity() is port
+
+        result = obj.setCrcCorrectionField(None)
+        assert result is obj
+        assert obj.getCrcCorrectionField() is correction
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        assert inspect.cleandoc(EthTSynCrcFlags.getCrcCorrectionField.__doc__) == self.CRC_CORRECTION_FIELD_NOTE
+        assert inspect.cleandoc(EthTSynCrcFlags.setCrcCorrectionField.__doc__) == (
+            self.CRC_CORRECTION_FIELD_NOTE + "\n\nA None value is a no-op and does not overwrite an existing crcCorrectionField."
+        )
+        assert inspect.cleandoc(EthTSynCrcFlags.getCrcDomainNumber.__doc__) == self.CRC_DOMAIN_NUMBER_NOTE
+        assert inspect.cleandoc(EthTSynCrcFlags.setCrcDomainNumber.__doc__) == (self.CRC_DOMAIN_NUMBER_NOTE + "\n\nA None value is a no-op and does not overwrite an existing crcDomainNumber.")
+        assert inspect.cleandoc(EthTSynCrcFlags.getCrcMessageLength.__doc__) == self.CRC_MESSAGE_LENGTH_NOTE
+        assert inspect.cleandoc(EthTSynCrcFlags.setCrcMessageLength.__doc__) == (self.CRC_MESSAGE_LENGTH_NOTE + "\n\nA None value is a no-op and does not overwrite an existing crcMessageLength.")
+        assert inspect.cleandoc(EthTSynCrcFlags.getCrcPreciseOriginTimestamp.__doc__) == self.CRC_PRECISE_ORIGIN_TIMESTAMP_NOTE
+        assert inspect.cleandoc(EthTSynCrcFlags.setCrcPreciseOriginTimestamp.__doc__) == (
+            self.CRC_PRECISE_ORIGIN_TIMESTAMP_NOTE + "\n\nA None value is a no-op and does not overwrite an existing crcPreciseOriginTimestamp."
+        )
+        assert inspect.cleandoc(EthTSynCrcFlags.getCrcSequenceId.__doc__) == self.CRC_SEQUENCE_ID_NOTE
+        assert inspect.cleandoc(EthTSynCrcFlags.setCrcSequenceId.__doc__) == (self.CRC_SEQUENCE_ID_NOTE + "\n\nA None value is a no-op and does not overwrite an existing crcSequenceId.")
+        assert inspect.cleandoc(EthTSynCrcFlags.getCrcSourcePortIdentity.__doc__) == self.CRC_SOURCE_PORT_IDENTITY_NOTE
+        assert inspect.cleandoc(EthTSynCrcFlags.setCrcSourcePortIdentity.__doc__) == (
+            self.CRC_SOURCE_PORT_IDENTITY_NOTE + "\n\nA None value is a no-op and does not overwrite an existing crcSourcePortIdentity."
+        )
+
+
+class TestCanGlobalTimeDomainProps:
+    """
+    Test class for CanGlobalTimeDomainProps functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.10, p.864
+    """
+
+    CLASS_NOTE = "Enables the definition of Can Global Time specific properties."
+    FUP_DATA_ID_LIST_NOTE = "The DataIDList for FUP messages to calculate CRC."
+    OFNS_DATA_ID_LIST_NOTE = "The DataIDList for OFNS messages to calculate CRC."
+    OFS_DATA_ID_LIST_NOTE = "The DataIDList for OFS messages to calculate CRC."
+    SYNC_DATA_ID_LIST_NOTE = "The DataIDList for SYNC messages to calculate CRC."
+
+    def _create_object(self) -> CanGlobalTimeDomainProps:
+        return CanGlobalTimeDomainProps()
+
+    def test_initialization(self):
+        """
+        Test that a new CanGlobalTimeDomainProps initializes all attributes to their defaults.
+        """
+        obj = self._create_object()
+
+        assert obj.getChecksum() is None
+        assert obj.getTimestamp() is None
+        assert obj.getVariationPoint() is None
+        assert obj.getFupDataIDLists() == []
+        assert obj.getOfnsDataIDLists() == []
+        assert obj.getOfsDataIDLists() == []
+        assert obj.getSyncDataIDLists() == []
+
+    def test_is_abstract_global_time_domain_props_subclass(self):
+        """
+        Test that CanGlobalTimeDomainProps derives from AbstractGlobalTimeDomainProps per the
+        Table 9.10 Base row (ARObject, AbstractGlobalTimeDomainProps — most-derived
+        AbstractGlobalTimeDomainProps).
+        """
+        assert issubclass(CanGlobalTimeDomainProps, AbstractGlobalTimeDomainProps)
+        assert issubclass(CanGlobalTimeDomainProps, VariationPointCapable)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(CanGlobalTimeDomainProps.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert CanGlobalTimeDomainProps.__init__.__doc__ is None
+
+    def test_member_order_follows_spec_rows(self):
+        """
+        Test that the accessors follow the Table 9.10 displayed row order (mutator first per attribute).
+        """
+        methods = [name for name, value in CanGlobalTimeDomainProps.__dict__.items() if callable(value) and not name.startswith("_")]
+        assert methods == [
+            "addFupDataIDList",
+            "getFupDataIDLists",
+            "addOfnsDataIDList",
+            "getOfnsDataIDLists",
+            "addOfsDataIDList",
+            "getOfsDataIDLists",
+            "addSyncDataIDList",
+            "getSyncDataIDLists",
+        ]
+
+    def test_annotations_are_list_typed(self):
+        """
+        Test that the accessors carry the spec PositiveInteger list type (0..16 rows).
+        """
+        hints = typing.get_type_hints(CanGlobalTimeDomainProps.addFupDataIDList)
+        assert hints.get("value") == typing.Optional[PositiveInteger]
+        assert hints.get("return") is CanGlobalTimeDomainProps
+        for getter in [
+            CanGlobalTimeDomainProps.getFupDataIDLists,
+            CanGlobalTimeDomainProps.getOfnsDataIDLists,
+            CanGlobalTimeDomainProps.getOfsDataIDLists,
+            CanGlobalTimeDomainProps.getSyncDataIDLists,
+        ]:
+            hints = typing.get_type_hints(getter)
+            assert hints.get("return") == typing.List[PositiveInteger]
+
+    def test_add_get_fup_data_id_lists(self):
+        """
+        Test addFupDataIDList and getFupDataIDLists append, round-trip and None no-op.
+        """
+        obj = self._create_object()
+
+        first = PositiveInteger().setValue("1")
+        second = PositiveInteger().setValue("2")
+
+        result = obj.addFupDataIDList(None)
+        assert result is obj
+        assert obj.getFupDataIDLists() == []
+
+        result = obj.addFupDataIDList(first)
+        assert result is obj
+        result = obj.addFupDataIDList(second)
+        assert result is obj
+
+        data_id_lists = obj.getFupDataIDLists()
+        assert len(data_id_lists) == 2
+        assert data_id_lists[0] is first
+        assert data_id_lists[1] is second
+        assert data_id_lists[0].getValue() == 1
+        assert data_id_lists[1].getValue() == 2
+
+    def test_add_get_ofns_ofs_sync_data_id_lists(self):
+        """
+        Test the remaining DataIDList accessor pairs append, round-trip and None no-op.
+        """
+        obj = self._create_object()
+
+        ofns = PositiveInteger().setValue("3")
+        result = obj.addOfnsDataIDList(ofns)
+        assert result is obj
+        assert obj.getOfnsDataIDLists() == [ofns]
+        assert obj.getOfnsDataIDLists()[0].getValue() == 3
+
+        ofs = PositiveInteger().setValue("4")
+        result = obj.addOfsDataIDList(ofs)
+        assert result is obj
+        assert obj.getOfsDataIDLists() == [ofs]
+        assert obj.getOfsDataIDLists()[0].getValue() == 4
+
+        sync = PositiveInteger().setValue("5")
+        result = obj.addSyncDataIDList(sync)
+        assert result is obj
+        assert obj.getSyncDataIDLists() == [sync]
+        assert obj.getSyncDataIDLists()[0].getValue() == 5
+
+        result = obj.addOfnsDataIDList(None)
+        assert result is obj
+        assert len(obj.getOfnsDataIDLists()) == 1
+
+    def test_variation_point_base_accessors(self):
+        """
+        Exercise the inherited VariationPointCapable accessors: chaining, round-trip, None no-op.
+        """
+        obj = self._create_object()
+
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
+
+        variation_point = VariationPoint()
+        assert obj.setVariationPoint(variation_point) is obj
+        assert obj.getVariationPoint() is variation_point
+
+        obj.setVariationPoint(None)
+        assert obj.getVariationPoint() is variation_point
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and adder docstrings carry the spec Note verbatim (adder + None-no-op sentence).
+        """
+        assert inspect.cleandoc(CanGlobalTimeDomainProps.addFupDataIDList.__doc__) == (self.FUP_DATA_ID_LIST_NOTE + "\n\nA None value is a no-op and does not append to fupDataIDLists.")
+        assert inspect.cleandoc(CanGlobalTimeDomainProps.getFupDataIDLists.__doc__) == self.FUP_DATA_ID_LIST_NOTE
+        assert inspect.cleandoc(CanGlobalTimeDomainProps.addOfnsDataIDList.__doc__) == (self.OFNS_DATA_ID_LIST_NOTE + "\n\nA None value is a no-op and does not append to ofnsDataIDLists.")
+        assert inspect.cleandoc(CanGlobalTimeDomainProps.getOfnsDataIDLists.__doc__) == self.OFNS_DATA_ID_LIST_NOTE
+        assert inspect.cleandoc(CanGlobalTimeDomainProps.addOfsDataIDList.__doc__) == (self.OFS_DATA_ID_LIST_NOTE + "\n\nA None value is a no-op and does not append to ofsDataIDLists.")
+        assert inspect.cleandoc(CanGlobalTimeDomainProps.getOfsDataIDLists.__doc__) == self.OFS_DATA_ID_LIST_NOTE
+        assert inspect.cleandoc(CanGlobalTimeDomainProps.addSyncDataIDList.__doc__) == (self.SYNC_DATA_ID_LIST_NOTE + "\n\nA None value is a no-op and does not append to syncDataIDLists.")
+        assert inspect.cleandoc(CanGlobalTimeDomainProps.getSyncDataIDLists.__doc__) == self.SYNC_DATA_ID_LIST_NOTE
+
+
+class TestEthGlobalTimeDomainProps:
+    """
+    Test class for EthGlobalTimeDomainProps functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.14, p.867
+    """
+
+    CLASS_NOTE = "Enables the definition of Ethernet Global Time specific properties."
+    CLASS_CONSTRAINT = "[constr_9311] Existence of EthGlobalTimeDomainProps.messageCompliance: For each EthGlobalTimeDomainProps, the attribute messageCompliance shall exist at the time when the System Description is complete."
+    CRC_FLAGS_NOTE = "Defines the fields of the message which shall be taken into account for CRC calculation and verification."
+    DESTINATION_PHYSICAL_ADDRESS_NOTE = "Defines the MAC multicast address the Ethernet time sync messages are communicated on."
+    FUP_DATA_ID_LIST_NOTE = "The DataIDList for FUP messages to calculate CRC."
+    MANAGED_COUPLING_PORT_NOTE = "Collection of CouplingPorts which are managed in the scope of this Ethernet GlobalTimeDomain."
+    MESSAGE_COMPLIANCE_NOTE = "Defines the compliance of the Ethernet time sync messages to specific standards."
+    VLAN_PRIORITY_NOTE = "Defines which VLAN priority shall be assigned to a time sync message in case the message is sent using a VLAN tag."
+
+    def _create_object(self) -> EthGlobalTimeDomainProps:
+        return EthGlobalTimeDomainProps()
+
+    def test_initialization(self):
+        """
+        Test that a new EthGlobalTimeDomainProps initializes all attributes to their defaults.
+        """
+        obj = self._create_object()
+
+        assert obj.getChecksum() is None
+        assert obj.getTimestamp() is None
+        assert obj.getVariationPoint() is None
+        assert obj.getCrcFlags() is None
+        assert obj.getDestinationPhysicalAddress() is None
+        assert obj.getFupDataIDLists() == []
+        assert obj.getManagedCouplingPorts() == []
+        assert obj.getMessageCompliance() is None
+        assert obj.getVlanPriority() is None
+
+    def test_is_abstract_global_time_domain_props_subclass(self):
+        """
+        Test that EthGlobalTimeDomainProps derives from AbstractGlobalTimeDomainProps per the
+        Table 9.14 Base row (ARObject, AbstractGlobalTimeDomainProps — most-derived
+        AbstractGlobalTimeDomainProps).
+        """
+        assert issubclass(EthGlobalTimeDomainProps, AbstractGlobalTimeDomainProps)
+        assert issubclass(EthGlobalTimeDomainProps, VariationPointCapable)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim plus the class-level constr_9311 row.
+        """
+        assert inspect.cleandoc(EthGlobalTimeDomainProps.__doc__) == (self.CLASS_NOTE + "\n\n" + self.CLASS_CONSTRAINT)
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert EthGlobalTimeDomainProps.__init__.__doc__ is None
+
+    def test_member_order_follows_spec_rows(self):
+        """
+        Test that the accessors follow the Table 9.14 displayed row order (getter first for scalars,
+        mutator first for lists).
+        """
+        methods = [name for name, value in EthGlobalTimeDomainProps.__dict__.items() if callable(value) and not name.startswith("_")]
+        assert methods == [
+            "getCrcFlags",
+            "setCrcFlags",
+            "getDestinationPhysicalAddress",
+            "setDestinationPhysicalAddress",
+            "addFupDataIDList",
+            "getFupDataIDLists",
+            "addManagedCouplingPort",
+            "getManagedCouplingPorts",
+            "getMessageCompliance",
+            "setMessageCompliance",
+            "getVlanPriority",
+            "setVlanPriority",
+        ]
+
+    def test_annotations_are_spec_typed(self):
+        """
+        Test that the accessors carry the spec types (Table 9.14 Type column).
+        """
+        hints = typing.get_type_hints(EthGlobalTimeDomainProps.getCrcFlags)
+        assert hints.get("return") == typing.Optional[EthTSynCrcFlags]
+        hints = typing.get_type_hints(EthGlobalTimeDomainProps.setCrcFlags)
+        assert hints.get("value") == typing.Optional[EthTSynCrcFlags]
+        assert hints.get("return") is EthGlobalTimeDomainProps
+
+        hints = typing.get_type_hints(EthGlobalTimeDomainProps.getDestinationPhysicalAddress)
+        assert hints.get("return") == typing.Optional[MacAddressString]
+        hints = typing.get_type_hints(EthGlobalTimeDomainProps.setDestinationPhysicalAddress)
+        assert hints.get("value") == typing.Optional[MacAddressString]
+        assert hints.get("return") is EthGlobalTimeDomainProps
+
+        hints = typing.get_type_hints(EthGlobalTimeDomainProps.addFupDataIDList)
+        assert hints.get("value") == typing.Optional[PositiveInteger]
+        assert hints.get("return") is EthGlobalTimeDomainProps
+        hints = typing.get_type_hints(EthGlobalTimeDomainProps.getFupDataIDLists)
+        assert hints.get("return") == typing.List[PositiveInteger]
+
+        hints = typing.get_type_hints(EthGlobalTimeDomainProps.addManagedCouplingPort)
+        assert hints.get("value") == typing.Optional[EthGlobalTimeManagedCouplingPort]
+        assert hints.get("return") is EthGlobalTimeDomainProps
+        hints = typing.get_type_hints(EthGlobalTimeDomainProps.getManagedCouplingPorts)
+        assert hints.get("return") == typing.List[EthGlobalTimeManagedCouplingPort]
+
+        hints = typing.get_type_hints(EthGlobalTimeDomainProps.getMessageCompliance)
+        assert hints.get("return") == typing.Optional[EthGlobalTimeMessageFormatEnum]
+        hints = typing.get_type_hints(EthGlobalTimeDomainProps.setMessageCompliance)
+        assert hints.get("value") == typing.Optional[EthGlobalTimeMessageFormatEnum]
+        assert hints.get("return") is EthGlobalTimeDomainProps
+
+        hints = typing.get_type_hints(EthGlobalTimeDomainProps.getVlanPriority)
+        assert hints.get("return") == typing.Optional[PositiveInteger]
+        hints = typing.get_type_hints(EthGlobalTimeDomainProps.setVlanPriority)
+        assert hints.get("value") == typing.Optional[PositiveInteger]
+        assert hints.get("return") is EthGlobalTimeDomainProps
+
+    def test_get_set_crc_flags(self):
+        """
+        Test setCrcFlags and getCrcFlags round-trip and None no-op.
+        """
+        obj = self._create_object()
+
+        flags = EthTSynCrcFlags()
+        flags.setCrcSequenceId(Boolean().setValue("true"))
+
+        result = obj.setCrcFlags(None)
+        assert result is obj
+        assert obj.getCrcFlags() is None
+
+        result = obj.setCrcFlags(flags)
+        assert result is obj
+        assert obj.getCrcFlags() is flags
+
+        obj.setCrcFlags(None)
+        assert obj.getCrcFlags() is flags
+
+    def test_get_set_destination_physical_address(self):
+        """
+        Test setDestinationPhysicalAddress and getDestinationPhysicalAddress round-trip and None no-op.
+        """
+        obj = self._create_object()
+
+        address = MacAddressString().setValue("01:80:C2:00:00:0E")
+
+        result = obj.setDestinationPhysicalAddress(None)
+        assert result is obj
+        assert obj.getDestinationPhysicalAddress() is None
+
+        result = obj.setDestinationPhysicalAddress(address)
+        assert result is obj
+        assert obj.getDestinationPhysicalAddress() is address
+        assert obj.getDestinationPhysicalAddress().getValue() == "01:80:C2:00:00:0E"
+
+        obj.setDestinationPhysicalAddress(None)
+        assert obj.getDestinationPhysicalAddress() is address
+
+    def test_add_get_fup_data_id_lists(self):
+        """
+        Test addFupDataIDList and getFupDataIDLists append, round-trip and None no-op.
+        """
+        obj = self._create_object()
+
+        first = PositiveInteger().setValue("1")
+        second = PositiveInteger().setValue("2")
+
+        result = obj.addFupDataIDList(None)
+        assert result is obj
+        assert obj.getFupDataIDLists() == []
+
+        result = obj.addFupDataIDList(first)
+        assert result is obj
+        result = obj.addFupDataIDList(second)
+        assert result is obj
+
+        data_id_lists = obj.getFupDataIDLists()
+        assert len(data_id_lists) == 2
+        assert data_id_lists[0] is first
+        assert data_id_lists[1] is second
+        assert data_id_lists[0].getValue() == 1
+        assert data_id_lists[1].getValue() == 2
+
+    def test_add_get_managed_coupling_ports(self):
+        """
+        Test addManagedCouplingPort and getManagedCouplingPorts append, round-trip and None no-op.
+        """
+        obj = self._create_object()
+
+        first = EthGlobalTimeManagedCouplingPort()
+        first.setCouplingPortRef(RefType().setValue("/CouplingPort/First"))
+        second = EthGlobalTimeManagedCouplingPort()
+        second.setCouplingPortRef(RefType().setValue("/CouplingPort/Second"))
+
+        result = obj.addManagedCouplingPort(None)
+        assert result is obj
+        assert obj.getManagedCouplingPorts() == []
+
+        result = obj.addManagedCouplingPort(first)
+        assert result is obj
+        result = obj.addManagedCouplingPort(second)
+        assert result is obj
+
+        ports = obj.getManagedCouplingPorts()
+        assert len(ports) == 2
+        assert ports[0] is first
+        assert ports[1] is second
+        assert ports[0].getCouplingPortRef().getValue() == "/CouplingPort/First"
+        assert ports[1].getCouplingPortRef().getValue() == "/CouplingPort/Second"
+
+    def test_get_set_message_compliance(self):
+        """
+        Test setMessageCompliance and getMessageCompliance round-trip and None no-op.
+        """
+        obj = self._create_object()
+
+        compliance = EthGlobalTimeMessageFormatEnum().setValue(EthGlobalTimeMessageFormatEnum.IEEE802_1AS)
+
+        result = obj.setMessageCompliance(None)
+        assert result is obj
+        assert obj.getMessageCompliance() is None
+
+        result = obj.setMessageCompliance(compliance)
+        assert result is obj
+        assert obj.getMessageCompliance() is compliance
+        assert obj.getMessageCompliance().getValue() == EthGlobalTimeMessageFormatEnum.IEEE802_1AS
+
+        obj.setMessageCompliance(None)
+        assert obj.getMessageCompliance() is compliance
+
+    def test_get_set_vlan_priority(self):
+        """
+        Test setVlanPriority and getVlanPriority round-trip and None no-op.
+        """
+        obj = self._create_object()
+
+        priority = PositiveInteger().setValue("5")
+
+        result = obj.setVlanPriority(None)
+        assert result is obj
+        assert obj.getVlanPriority() is None
+
+        result = obj.setVlanPriority(priority)
+        assert result is obj
+        assert obj.getVlanPriority() is priority
+        assert obj.getVlanPriority().getValue() == 5
+
+        obj.setVlanPriority(None)
+        assert obj.getVlanPriority() is priority
+
+    def test_variation_point_base_accessors(self):
+        """
+        Exercise the inherited VariationPointCapable accessors: chaining, round-trip, None no-op.
+        """
+        obj = self._create_object()
+
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
+
+        variation_point = VariationPoint()
+        assert obj.setVariationPoint(variation_point) is obj
+        assert obj.getVariationPoint() is variation_point
+
+        obj.setVariationPoint(None)
+        assert obj.getVariationPoint() is variation_point
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter/setter/adder docstrings carry the spec Note verbatim (setter/adder + None-no-op sentence).
+        """
+        assert inspect.cleandoc(EthGlobalTimeDomainProps.getCrcFlags.__doc__) == self.CRC_FLAGS_NOTE
+        assert inspect.cleandoc(EthGlobalTimeDomainProps.setCrcFlags.__doc__) == (self.CRC_FLAGS_NOTE + "\n\nA None value is a no-op and does not overwrite an existing crcFlags.")
+        assert inspect.cleandoc(EthGlobalTimeDomainProps.getDestinationPhysicalAddress.__doc__) == self.DESTINATION_PHYSICAL_ADDRESS_NOTE
+        assert inspect.cleandoc(EthGlobalTimeDomainProps.setDestinationPhysicalAddress.__doc__) == (
+            self.DESTINATION_PHYSICAL_ADDRESS_NOTE + "\n\nA None value is a no-op and does not overwrite an existing destinationPhysicalAddress."
+        )
+        assert inspect.cleandoc(EthGlobalTimeDomainProps.addFupDataIDList.__doc__) == (self.FUP_DATA_ID_LIST_NOTE + "\n\nA None value is a no-op and does not append to fupDataIDLists.")
+        assert inspect.cleandoc(EthGlobalTimeDomainProps.getFupDataIDLists.__doc__) == self.FUP_DATA_ID_LIST_NOTE
+        assert inspect.cleandoc(EthGlobalTimeDomainProps.addManagedCouplingPort.__doc__) == (
+            self.MANAGED_COUPLING_PORT_NOTE + "\n\nA None value is a no-op and does not append to managedCouplingPorts."
+        )
+        assert inspect.cleandoc(EthGlobalTimeDomainProps.getManagedCouplingPorts.__doc__) == self.MANAGED_COUPLING_PORT_NOTE
+        assert inspect.cleandoc(EthGlobalTimeDomainProps.getMessageCompliance.__doc__) == self.MESSAGE_COMPLIANCE_NOTE
+        assert inspect.cleandoc(EthGlobalTimeDomainProps.setMessageCompliance.__doc__) == (
+            self.MESSAGE_COMPLIANCE_NOTE + "\n\nA None value is a no-op and does not overwrite an existing messageCompliance."
+        )
+        assert inspect.cleandoc(EthGlobalTimeDomainProps.getVlanPriority.__doc__) == self.VLAN_PRIORITY_NOTE
+        assert inspect.cleandoc(EthGlobalTimeDomainProps.setVlanPriority.__doc__) == (self.VLAN_PRIORITY_NOTE + "\n\nA None value is a no-op and does not overwrite an existing vlanPriority.")
+
+
+class TestFrGlobalTimeDomainProps:
+    """
+    Test class for FrGlobalTimeDomainProps functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.22, p.878
+    """
+
+    CLASS_NOTE = "Enables the definition of Flexray GlobalTime specific properties."
+    OFS_DATA_ID_LIST_NOTE = "The DataIDList for OFS messages to calculate CRC."
+    SYNC_DATA_ID_LIST_NOTE = "The DataIDList for SYNC messages to calculate CRC."
+
+    def _create_object(self) -> FrGlobalTimeDomainProps:
+        return FrGlobalTimeDomainProps()
+
+    def test_initialization(self):
+        """
+        Test that a new FrGlobalTimeDomainProps initializes all attributes to their defaults.
+        """
+        obj = self._create_object()
+
+        assert obj.getChecksum() is None
+        assert obj.getTimestamp() is None
+        assert obj.getVariationPoint() is None
+        assert obj.getOfsDataIDLists() == []
+        assert obj.getSyncDataIDLists() == []
+
+    def test_is_abstract_global_time_domain_props_subclass(self):
+        """
+        Test that FrGlobalTimeDomainProps derives from AbstractGlobalTimeDomainProps per the
+        Table 9.22 Base row (ARObject, AbstractGlobalTimeDomainProps — most-derived
+        AbstractGlobalTimeDomainProps).
+        """
+        assert issubclass(FrGlobalTimeDomainProps, AbstractGlobalTimeDomainProps)
+        assert issubclass(FrGlobalTimeDomainProps, VariationPointCapable)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(FrGlobalTimeDomainProps.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert FrGlobalTimeDomainProps.__init__.__doc__ is None
+
+    def test_member_order_follows_spec_rows(self):
+        """
+        Test that the accessors follow the Table 9.22 displayed row order (mutator first per attribute).
+        """
+        methods = [name for name, value in FrGlobalTimeDomainProps.__dict__.items() if callable(value) and not name.startswith("_")]
+        assert methods == [
+            "addOfsDataIDList",
+            "getOfsDataIDLists",
+            "addSyncDataIDList",
+            "getSyncDataIDLists",
+        ]
+
+    def test_annotations_are_list_typed(self):
+        """
+        Test that the accessors carry the spec PositiveInteger list type (0..16 rows).
+        """
+        hints = typing.get_type_hints(FrGlobalTimeDomainProps.addOfsDataIDList)
+        assert hints.get("value") == typing.Optional[PositiveInteger]
+        assert hints.get("return") is FrGlobalTimeDomainProps
+        for getter in [FrGlobalTimeDomainProps.getOfsDataIDLists, FrGlobalTimeDomainProps.getSyncDataIDLists]:
+            hints = typing.get_type_hints(getter)
+            assert hints.get("return") == typing.List[PositiveInteger]
+
+    def test_add_get_ofs_sync_data_id_lists(self):
+        """
+        Test addOfsDataIDList and addSyncDataIDList append, round-trip and None no-op.
+        """
+        obj = self._create_object()
+
+        ofs = PositiveInteger().setValue("3")
+        result = obj.addOfsDataIDList(ofs)
+        assert result is obj
+        assert obj.getOfsDataIDLists() == [ofs]
+        assert obj.getOfsDataIDLists()[0].getValue() == 3
+
+        sync = PositiveInteger().setValue("5")
+        result = obj.addSyncDataIDList(sync)
+        assert result is obj
+        assert obj.getSyncDataIDLists() == [sync]
+        assert obj.getSyncDataIDLists()[0].getValue() == 5
+
+        result = obj.addOfsDataIDList(None)
+        assert result is obj
+        assert len(obj.getOfsDataIDLists()) == 1
+
+        result = obj.addSyncDataIDList(None)
+        assert result is obj
+        assert len(obj.getSyncDataIDLists()) == 1
+
+    def test_variation_point_base_accessors(self):
+        """
+        Exercise the inherited VariationPointCapable accessors: chaining, round-trip, None no-op.
+        """
+        obj = self._create_object()
+
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
+
+        variation_point = VariationPoint()
+        assert obj.setVariationPoint(variation_point) is obj
+        assert obj.getVariationPoint() is variation_point
+
+        obj.setVariationPoint(None)
+        assert obj.getVariationPoint() is variation_point
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and adder docstrings carry the spec Note verbatim (adder + None-no-op sentence).
+        """
+        assert inspect.cleandoc(FrGlobalTimeDomainProps.addOfsDataIDList.__doc__) == (self.OFS_DATA_ID_LIST_NOTE + "\n\nA None value is a no-op and does not append to ofsDataIDLists.")
+        assert inspect.cleandoc(FrGlobalTimeDomainProps.getOfsDataIDLists.__doc__) == self.OFS_DATA_ID_LIST_NOTE
+        assert inspect.cleandoc(FrGlobalTimeDomainProps.addSyncDataIDList.__doc__) == (self.SYNC_DATA_ID_LIST_NOTE + "\n\nA None value is a no-op and does not append to syncDataIDLists.")
+        assert inspect.cleandoc(FrGlobalTimeDomainProps.getSyncDataIDLists.__doc__) == self.SYNC_DATA_ID_LIST_NOTE
+
+
+class TestCpSoftwareClusterCommunicationResourceProps:
+    """
+    Test class for CpSoftwareClusterCommunicationResourceProps functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 11.9, p.902
+    """
+
+    CLASS_NOTE = "Communication properties for cross cluster communication."
+
+    def _create_object(self) -> CpSoftwareClusterCommunicationResourceProps:
+        class ConcreteComProps(CpSoftwareClusterCommunicationResourceProps):
+            pass
+
+        return ConcreteComProps()
+
+    def test_cannot_instantiate_abstract(self):
+        """
+        Test that the abstract Table 11.9 class cannot be instantiated directly.
+        """
+        with pytest.raises(TypeError):
+            CpSoftwareClusterCommunicationResourceProps()
+
+    def test_concrete_subclass_initialization(self):
+        """
+        Test that a concrete subclass initializes the inherited ARObject state to its defaults
+        (Table 11.9 declares no Attribute rows of its own).
+        """
+        obj = self._create_object()
+
+        assert obj.getChecksum() is None
+        assert obj.getTimestamp() is None
+
+    def test_is_ar_object_subclass(self):
+        """
+        Test that CpSoftwareClusterCommunicationResourceProps derives from ARObject per the
+        Table 11.9 Base row (ARObject — most-derived, the class is abstract).
+        """
+        import abc
+
+        assert issubclass(CpSoftwareClusterCommunicationResourceProps, ARObject)
+        assert issubclass(CpSoftwareClusterCommunicationResourceProps, abc.ABC)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(CpSoftwareClusterCommunicationResourceProps.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert CpSoftwareClusterCommunicationResourceProps.__init__.__doc__ is None
+
+
+class TestDataComProps:
+    """
+    Test class for DataComProps functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 11.10, p.903
+    """
+
+    CLASS_NOTE = "Represents a single resource required or provided by a CP Software Cluster which relates to the port based communication on VFB level."
+    DATA_CONSISTENCY_POLICY_NOTE = (
+        "This attribute defines requirements on the data consistency mechanism in the cross cluster communication. If the attribute is not set, the default value consistencyMechanismRequired applies."
+    )
+    SEND_INDICATION_NOTE = "Send indication behavior for last-is-the best data communication."
+
+    def _create_object(self) -> DataComProps:
+        return DataComProps()
+
+    def test_initialization(self):
+        """
+        Test that a new DataComProps initializes all attributes to their defaults.
+        """
+        obj = self._create_object()
+
+        assert obj.getChecksum() is None
+        assert obj.getTimestamp() is None
+        assert obj.getDataConsistencyPolicy() is None
+        assert obj.getSendIndication() is None
+
+    def test_is_cp_software_cluster_communication_resource_props_subclass(self):
+        """
+        Test that DataComProps derives from CpSoftwareClusterCommunicationResourceProps per the
+        Table 11.10 Base row (ARObject, CpSoftwareClusterCommunicationResourceProps — most-derived
+        CpSoftwareClusterCommunicationResourceProps).
+        """
+        assert issubclass(DataComProps, CpSoftwareClusterCommunicationResourceProps)
+        assert issubclass(DataComProps, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(DataComProps.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DataComProps.__init__.__doc__ is None
+
+    def test_member_order_follows_spec_rows(self):
+        """
+        Test that the accessors follow the Table 11.10 displayed row order (getter first per attribute).
+        """
+        methods = [name for name, value in DataComProps.__dict__.items() if callable(value) and not name.startswith("_")]
+        assert methods == [
+            "getDataConsistencyPolicy",
+            "setDataConsistencyPolicy",
+            "getSendIndication",
+            "setSendIndication",
+        ]
+
+    def test_annotations_are_spec_typed(self):
+        """
+        Test that the accessors carry the spec enum types (Table 11.10 Type column).
+        """
+        hints = typing.get_type_hints(DataComProps.getDataConsistencyPolicy)
+        assert hints.get("return") == typing.Optional[DataConsistencyPolicyEnum]
+        hints = typing.get_type_hints(DataComProps.setDataConsistencyPolicy)
+        assert hints.get("value") == typing.Optional[DataConsistencyPolicyEnum]
+        assert hints.get("return") is DataComProps
+
+        hints = typing.get_type_hints(DataComProps.getSendIndication)
+        assert hints.get("return") == typing.Optional[SendIndicationEnum]
+        hints = typing.get_type_hints(DataComProps.setSendIndication)
+        assert hints.get("value") == typing.Optional[SendIndicationEnum]
+        assert hints.get("return") is DataComProps
+
+    def test_get_set_data_consistency_policy(self):
+        """
+        Test setDataConsistencyPolicy and getDataConsistencyPolicy round-trip and None no-op.
+        """
+        obj = self._create_object()
+
+        policy = DataConsistencyPolicyEnum().setValue(DataConsistencyPolicyEnum.CONSISTENCY_MECHANISM_REQUIRED)
+
+        result = obj.setDataConsistencyPolicy(None)
+        assert result is obj
+        assert obj.getDataConsistencyPolicy() is None
+
+        result = obj.setDataConsistencyPolicy(policy)
+        assert result is obj
+        assert obj.getDataConsistencyPolicy() is policy
+        assert obj.getDataConsistencyPolicy().getValue() == DataConsistencyPolicyEnum.CONSISTENCY_MECHANISM_REQUIRED
+
+        obj.setDataConsistencyPolicy(None)
+        assert obj.getDataConsistencyPolicy() is policy
+
+    def test_get_set_send_indication(self):
+        """
+        Test setSendIndication and getSendIndication round-trip and None no-op.
+        """
+        obj = self._create_object()
+
+        indication = SendIndicationEnum().setValue(SendIndicationEnum.ANY_SEND_OPERATION)
+
+        result = obj.setSendIndication(None)
+        assert result is obj
+        assert obj.getSendIndication() is None
+
+        result = obj.setSendIndication(indication)
+        assert result is obj
+        assert obj.getSendIndication() is indication
+        assert obj.getSendIndication().getValue() == SendIndicationEnum.ANY_SEND_OPERATION
+
+        obj.setSendIndication(None)
+        assert obj.getSendIndication() is indication
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter/setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DataComProps.getDataConsistencyPolicy.__doc__) == self.DATA_CONSISTENCY_POLICY_NOTE
+        assert inspect.cleandoc(DataComProps.setDataConsistencyPolicy.__doc__) == (
+            self.DATA_CONSISTENCY_POLICY_NOTE + "\n\nA None value is a no-op and does not overwrite an existing dataConsistencyPolicy."
+        )
+        assert inspect.cleandoc(DataComProps.getSendIndication.__doc__) == self.SEND_INDICATION_NOTE
+        assert inspect.cleandoc(DataComProps.setSendIndication.__doc__) == (self.SEND_INDICATION_NOTE + "\n\nA None value is a no-op and does not overwrite an existing sendIndication.")
+
+
+class TestClientServerOperationComProps:
+    """
+    Test class for ClientServerOperationComProps functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 11.12, p.903
+    """
+
+    CLASS_NOTE = "Defines additional attributes for the implementation of Client Server communication between software clusters"
+    QUEUE_LENGTH_NOTE = "Length of call request queue on the server side. The queue is implemented by the SwCluC. The value shall be greater or equal to 1. Setting the value of queueLength to 1 implies that incoming requests are rejected while another request that arrived earlier is being processed."
+
+    def _create_object(self) -> ClientServerOperationComProps:
+        return ClientServerOperationComProps()
+
+    def test_initialization(self):
+        """
+        Test that a new ClientServerOperationComProps initializes all attributes to their defaults.
+        """
+        obj = self._create_object()
+
+        assert obj.getChecksum() is None
+        assert obj.getTimestamp() is None
+        assert obj.getQueueLength() is None
+
+    def test_is_cp_software_cluster_communication_resource_props_subclass(self):
+        """
+        Test that ClientServerOperationComProps derives from CpSoftwareClusterCommunicationResourceProps
+        per the Table 11.12 Base row (ARObject, CpSoftwareClusterCommunicationResourceProps —
+        most-derived CpSoftwareClusterCommunicationResourceProps).
+        """
+        assert issubclass(ClientServerOperationComProps, CpSoftwareClusterCommunicationResourceProps)
+        assert issubclass(ClientServerOperationComProps, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim (the Table 11.12 Note carries no
+        trailing period).
+        """
+        assert inspect.cleandoc(ClientServerOperationComProps.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert ClientServerOperationComProps.__init__.__doc__ is None
+
+    def test_member_order_follows_spec_rows(self):
+        """
+        Test that the accessors follow the Table 11.12 displayed row order (getter first per attribute).
+        """
+        methods = [name for name, value in ClientServerOperationComProps.__dict__.items() if callable(value) and not name.startswith("_")]
+        assert methods == [
+            "getQueueLength",
+            "setQueueLength",
+        ]
+
+    def test_annotations_are_spec_typed(self):
+        """
+        Test that the accessors carry the spec PositiveInteger type (Table 11.12 Type column).
+        """
+        hints = typing.get_type_hints(ClientServerOperationComProps.getQueueLength)
+        assert hints.get("return") == typing.Optional[PositiveInteger]
+        hints = typing.get_type_hints(ClientServerOperationComProps.setQueueLength)
+        assert hints.get("value") == typing.Optional[PositiveInteger]
+        assert hints.get("return") is ClientServerOperationComProps
+
+    def test_get_set_queue_length(self):
+        """
+        Test setQueueLength and getQueueLength round-trip and None no-op.
+        """
+        obj = self._create_object()
+
+        queue_length = PositiveInteger().setValue("3")
+
+        result = obj.setQueueLength(None)
+        assert result is obj
+        assert obj.getQueueLength() is None
+
+        result = obj.setQueueLength(queue_length)
+        assert result is obj
+        assert obj.getQueueLength() is queue_length
+        assert obj.getQueueLength().getValue() == 3
+
+        obj.setQueueLength(None)
+        assert obj.getQueueLength() is queue_length
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter/setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        assert inspect.cleandoc(ClientServerOperationComProps.getQueueLength.__doc__) == self.QUEUE_LENGTH_NOTE
+        assert inspect.cleandoc(ClientServerOperationComProps.setQueueLength.__doc__) == (self.QUEUE_LENGTH_NOTE + "\n\nA None value is a no-op and does not overwrite an existing queueLength.")
+
+
+class TestBinaryManifestItemValue:
+    """
+    Test class for BinaryManifestItemValue functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 11.25, p.922
+    (abstract; Table 11.25 declares no Attribute rows — the concrete subclasses
+    BinaryManifestItemNumericalValue and BinaryManifestItemPointerValue carry the XML content,
+    exercised in their own test classes.)
+    """
+
+    CLASS_NOTE = "This meta-class has the ability to act as an abstract base class for values of binary manifest item."
+
+    def _create_object(self) -> BinaryManifestItemValue:
+        class ConcreteItemValue(BinaryManifestItemValue):
+            pass
+
+        return ConcreteItemValue()
+
+    def test_cannot_instantiate_abstract(self):
+        """
+        BinaryManifestItemValue is abstract per Table 11.25 and cannot be instantiated directly.
+        """
+        with pytest.raises(TypeError):
+            BinaryManifestItemValue()
+
+    def test_is_ar_object_subclass(self):
+        """
+        Test that BinaryManifestItemValue derives from ARObject per the Table 11.25 Base row
+        (ARObject — most-derived, the class is abstract).
+        """
+        import abc
+
+        assert issubclass(BinaryManifestItemValue, ARObject)
+        assert issubclass(BinaryManifestItemValue, abc.ABC)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(BinaryManifestItemValue.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert BinaryManifestItemValue.__init__.__doc__ is None
+
+    def test_table_declares_no_attribute_rows(self):
+        """
+        Test that the class declares no own accessors (Table 11.25 Attribute row is '-').
+        """
+        methods = [name for name, value in BinaryManifestItemValue.__dict__.items() if callable(value) and not name.startswith("_")]
+        assert methods == []
+
+    def test_concrete_subclass_initialization(self):
+        """
+        Test that a concrete subclass initializes the inherited ARObject state to its defaults.
+        """
+        obj = self._create_object()
+
+        assert obj.getChecksum() is None
+        assert obj.getTimestamp() is None
+
+
+class TestBinaryManifestItemNumericalValue:
+    """
+    Test class for BinaryManifestItemNumericalValue functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 11.26, p.922
+    """
+
+    CLASS_NOTE_WITH_CONSTRAINTS = (
+        "This meta-class has the ability to provide a numerical value for a binary manifest item.\n"
+        "\n"
+        "[constr_5202] Existence of attribute BinaryManifestItemNumericalValue.value: For each BinaryManifestItemNumericalValue, attribute value shall exist at the time when the definition of binary object metadata is finished."
+    )
+    VALUE_NOTE = "This attribute specifies the actual numerical value to be used in the binary manifest handle."
+
+    def _create_object(self) -> BinaryManifestItemNumericalValue:
+        return BinaryManifestItemNumericalValue()
+
+    def test_initialization(self):
+        """
+        Test that a new BinaryManifestItemNumericalValue initializes all attributes to their defaults.
+        """
+        obj = self._create_object()
+
+        assert obj.getChecksum() is None
+        assert obj.getTimestamp() is None
+        assert obj.getValue() is None
+
+    def test_is_binary_manifest_item_value_subclass(self):
+        """
+        Test that BinaryManifestItemNumericalValue derives from BinaryManifestItemValue per the
+        Table 11.26 Base row (ARObject, BinaryManifestItemValue — most-derived
+        BinaryManifestItemValue).
+        """
+        assert issubclass(BinaryManifestItemNumericalValue, BinaryManifestItemValue)
+        assert issubclass(BinaryManifestItemNumericalValue, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim plus the class-level constr row.
+        """
+        assert inspect.cleandoc(BinaryManifestItemNumericalValue.__doc__) == self.CLASS_NOTE_WITH_CONSTRAINTS
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert BinaryManifestItemNumericalValue.__init__.__doc__ is None
+
+    def test_member_order_follows_spec_rows(self):
+        """
+        Test that the accessors follow the Table 11.26 displayed row order (getter first per attribute).
+        """
+        methods = [name for name, value in BinaryManifestItemNumericalValue.__dict__.items() if callable(value) and not name.startswith("_")]
+        assert methods == [
+            "getValue",
+            "setValue",
+        ]
+
+    def test_annotations_are_spec_typed(self):
+        """
+        Test that the accessors carry the spec Numerical type (Table 11.26 Type column).
+        """
+        hints = typing.get_type_hints(BinaryManifestItemNumericalValue.getValue)
+        assert hints.get("return") == typing.Optional[Numerical]
+        hints = typing.get_type_hints(BinaryManifestItemNumericalValue.setValue)
+        assert hints.get("value") == typing.Optional[Numerical]
+        assert hints.get("return") is BinaryManifestItemNumericalValue
+
+    def test_get_set_value(self):
+        """
+        Test setValue and getValue round-trip and None no-op.
+        """
+        obj = self._create_object()
+
+        value = Numerical().setValue("4096")
+
+        result = obj.setValue(None)
+        assert result is obj
+        assert obj.getValue() is None
+
+        result = obj.setValue(value)
+        assert result is obj
+        assert obj.getValue() is value
+        assert obj.getValue().getValue() == 4096
+
+        obj.setValue(None)
+        assert obj.getValue() is value
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter/setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        assert inspect.cleandoc(BinaryManifestItemNumericalValue.getValue.__doc__) == self.VALUE_NOTE
+        assert inspect.cleandoc(BinaryManifestItemNumericalValue.setValue.__doc__) == (self.VALUE_NOTE + "\n\nA None value is a no-op and does not overwrite an existing value.")
+
+
+class TestBinaryManifestItemPointerValue:
+    """
+    Test class for BinaryManifestItemPointerValue functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 11.27, p.922
+    """
+
+    CLASS_NOTE_WITH_CONSTRAINTS = (
+        "This meta-class has the ability to provide a value for a pointer in the context of a binary manifest item.\n"
+        "\n"
+        "[constr_5218] Existence of attribute BinaryManifestItemPointerValue.address: For each BinaryManifestItemPointerValue, attribute address shall exist at the time when the definition of binary object metadata is finished.\n"
+        "\n"
+        "[constr_5203] Existence of attribute BinaryManifestItemPointerValue.symbol: For each BinaryManifestItemPointerValue, attribute symbol shall exist at the time when the definition of binary object meta-data is finished."
+    )
+    ADDRESS_NOTE = "This attribute represents the address value of the enclosing pointer value."
+    SYMBOL_NOTE = "This attribute represents the symbol associated with the binary manifest handle."
+
+    def _create_object(self) -> BinaryManifestItemPointerValue:
+        return BinaryManifestItemPointerValue()
+
+    def test_initialization(self):
+        """
+        Test that a new BinaryManifestItemPointerValue initializes all attributes to their defaults.
+        """
+        obj = self._create_object()
+
+        assert obj.getChecksum() is None
+        assert obj.getTimestamp() is None
+        assert obj.getAddress() is None
+        assert obj.getSymbol() is None
+
+    def test_is_binary_manifest_item_value_subclass(self):
+        """
+        Test that BinaryManifestItemPointerValue derives from BinaryManifestItemValue per the
+        Table 11.27 Base row (ARObject, BinaryManifestItemValue — most-derived
+        BinaryManifestItemValue).
+        """
+        assert issubclass(BinaryManifestItemPointerValue, BinaryManifestItemValue)
+        assert issubclass(BinaryManifestItemPointerValue, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim plus the class-level constr rows.
+        """
+        assert inspect.cleandoc(BinaryManifestItemPointerValue.__doc__) == self.CLASS_NOTE_WITH_CONSTRAINTS
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert BinaryManifestItemPointerValue.__init__.__doc__ is None
+
+    def test_member_order_follows_spec_rows(self):
+        """
+        Test that the accessors follow the Table 11.27 displayed row order (getter first per attribute).
+        """
+        methods = [name for name, value in BinaryManifestItemPointerValue.__dict__.items() if callable(value) and not name.startswith("_")]
+        assert methods == [
+            "getAddress",
+            "setAddress",
+            "getSymbol",
+            "setSymbol",
+        ]
+
+    def test_annotations_are_spec_typed(self):
+        """
+        Test that the accessors carry the Table 11.27 Type column types (Address 0..1, SymbolString 0..1).
+        """
+        hints = typing.get_type_hints(BinaryManifestItemPointerValue.getAddress)
+        assert hints.get("return") == typing.Optional[Address]
+        hints = typing.get_type_hints(BinaryManifestItemPointerValue.setAddress)
+        assert hints.get("value") == typing.Optional[Address]
+        assert hints.get("return") is BinaryManifestItemPointerValue
+
+        hints = typing.get_type_hints(BinaryManifestItemPointerValue.getSymbol)
+        assert hints.get("return") == typing.Optional[SymbolString]
+        hints = typing.get_type_hints(BinaryManifestItemPointerValue.setSymbol)
+        assert hints.get("value") == typing.Optional[SymbolString]
+        assert hints.get("return") is BinaryManifestItemPointerValue
+
+    def test_get_set_address(self):
+        """
+        Test setAddress and getAddress round-trip and None no-op.
+        """
+        obj = self._create_object()
+
+        address = Address().setValue("0x0000B000")
+
+        result = obj.setAddress(None)
+        assert result is obj
+        assert obj.getAddress() is None
+
+        result = obj.setAddress(address)
+        assert result is obj
+        assert obj.getAddress() is address
+        assert obj.getAddress().getValue() == "0x0000B000"
+
+        obj.setAddress(None)
+        assert obj.getAddress() is address
+
+    def test_get_set_symbol(self):
+        """
+        Test setSymbol and getSymbol round-trip and None no-op.
+        """
+        obj = self._create_object()
+
+        symbol = SymbolString().setValue("PointerTarget")
+
+        result = obj.setSymbol(None)
+        assert result is obj
+        assert obj.getSymbol() is None
+
+        result = obj.setSymbol(symbol)
+        assert result is obj
+        assert obj.getSymbol() is symbol
+        assert obj.getSymbol().getValue() == "PointerTarget"
+
+        obj.setSymbol(None)
+        assert obj.getSymbol() is symbol
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter/setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        assert inspect.cleandoc(BinaryManifestItemPointerValue.getAddress.__doc__) == self.ADDRESS_NOTE
+        assert inspect.cleandoc(BinaryManifestItemPointerValue.setAddress.__doc__) == (self.ADDRESS_NOTE + "\n\nA None value is a no-op and does not overwrite an existing address.")
+        assert inspect.cleandoc(BinaryManifestItemPointerValue.getSymbol.__doc__) == self.SYMBOL_NOTE
+        assert inspect.cleandoc(BinaryManifestItemPointerValue.setSymbol.__doc__) == (self.SYMBOL_NOTE + "\n\nA None value is a no-op and does not overwrite an existing symbol.")
