@@ -933,26 +933,30 @@ class LLongName(MixedContentForLongName, LanguageSpecific):
 
     # LLongName method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.8, p.62
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getBlueprintValue    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] setBlueprintValue    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBlueprintValue    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBlueprintValue    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # (blueprintValue is the BLUEPRINT-VALUE XML attribute on the L-4 element — reader readLLongName, writer setLLongName)
 
     def __init__(self):
         super().__init__()
 
-        # This represents a description that documents how the value shall be defined when deriving objects from the blueprint.
-        self.blueprintValue: Optional[str] = None
+        # This represents a description that documents how the value shall be defined when deriving objects from the blueprint. Tags: atp.Status=draft xml.attribute=true
+        self.blueprintValue: Optional[String] = None
 
-    def getBlueprintValue(self) -> Optional[str]:
+    def getBlueprintValue(self) -> Optional[String]:
         """
-        This represents a description that documents how the value shall be defined when deriving objects from the blueprint.
+        This represents a description that documents how the value shall be defined when deriving objects from the blueprint. Tags: atp.Status=draft xml.attribute=true
         """
         return self.blueprintValue
 
-    def setBlueprintValue(self, value: Optional[str]) -> LLongName:
+    def setBlueprintValue(self, value: Optional[String]) -> LLongName:
         """
-        This represents a description that documents how the value shall be defined when deriving objects from the blueprint. A None value is a no-op and does not overwrite an existing blueprintValue.
+        This represents a description that documents how the value shall be defined when deriving objects from the blueprint. Tags: atp.Status=draft xml.attribute=true
+
+        A None value is a no-op and does not overwrite an existing blueprintValue.
         """
         if value is not None:
             self.blueprintValue = value

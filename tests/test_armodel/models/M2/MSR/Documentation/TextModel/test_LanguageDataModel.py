@@ -434,16 +434,32 @@ class TestLLongName:
         assert l_long_name.getTt() == tt
 
     def test_l_long_name_blueprint_value_methods(self):
-        """Test the blueprintValue getter and setter."""
+        """Test the blueprintValue getter and setter (Table 4.8 attribute row)."""
         l_long_name = LLongName()
-        value = "StringName"
+        value = String().setValue("This is the long name.")
 
         result = l_long_name.setBlueprintValue(value)
-        assert l_long_name.getBlueprintValue() == value
+        assert l_long_name.getBlueprintValue() is value
         assert result == l_long_name
 
         l_long_name.setBlueprintValue(None)
-        assert l_long_name.getBlueprintValue() == value
+        assert l_long_name.getBlueprintValue() is value
+
+    def test_l_long_name_blueprint_value_annotation_is_optional(self):
+        """Accessors must carry Optional[String] hints per Rule 0003 and chain via LLongName."""
+        getter_hints = get_type_hints(LLongName.getBlueprintValue)
+        setter_hints = get_type_hints(LLongName.setBlueprintValue)
+
+        assert getter_hints["return"] == Optional[String]
+        assert setter_hints["value"] == Optional[String]
+        assert setter_hints["return"] == LLongName
+
+    def test_l_long_name_docstring_verbatim(self):
+        """Docstring must equal the spec Note from Table 4.8 verbatim."""
+        import inspect
+
+        expected = "MixedContentForLongNames in one particular language. The language is denoted in the attribute l."
+        assert inspect.cleandoc(LLongName.__doc__) == expected
 
 
 class TestWhitespaceControlled:
