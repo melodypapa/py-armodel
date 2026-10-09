@@ -23,10 +23,10 @@ class AutoCollectEnum(AREnum):
 
     # AutoCollectEnum method parity checklist:
     # Spec: R23-11/AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 13.2, p.399 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on Collection.autoCollect
     # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # Spec verified: R23-11
 
     # All objects being referenced (recursively) from the objects mentioned directly in the collection are also considered as part of the collection. Tags: atp.EnumerationLiteralIndex=0
     REF_ALL = "REF-ALL"
