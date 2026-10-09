@@ -6,8 +6,8 @@ from typing import List, Optional, TYPE_CHECKING, cast
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Describable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, ARLiteral, PositiveInteger, Boolean, ByteOrderEnum
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, RefType, String
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, PositiveInteger, Boolean, ByteOrderEnum
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DiagPduType, Integer, RefType, String
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TimeValue, UnlimitedInteger
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
@@ -36,17 +36,16 @@ class PduToFrameMapping(Identifiable, VariationPointCapable):
 
     # PduToFrameMapping method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.29, p.347
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getPackingByteOrder             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setPackingByteOrder             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPduRef                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setPduRef                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getStartPosition                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setStartPosition                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getUpdateIndicationBitPosition  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setUpdateIndicationBitPosition  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getPackingByteOrder             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPackingByteOrder             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPduRef                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPduRef                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getStartPosition                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setStartPosition                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getUpdateIndicationBitPosition  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUpdateIndicationBitPosition  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -57,10 +56,10 @@ class PduToFrameMapping(Identifiable, VariationPointCapable):
         # Reference to a I-Pdu, N-Pdu or NmPdu that is transmitted in the Frame.
         self.pduRef: Optional[RefType] = None
 
-        # This attribute describes the bitposition of a Pdu within a Frame. Please note that the absolute position of the Pdu in the Frame is determined by the definition of the packingByteOrder attribute. If Big Endian is specified, the start position indicates the bit position of the most significant bit in the Frame. If Little Endian is specified, the start position indicates the bit position of the least significant bit in the Frame. The bit counting in byte 0 starts with bit 0 (least significant bit). The most significant bit in byte 0 is bit 7. The Pdus are byte aligned in a Frame and only the values 0, 8, 16, 24,... (for little endian) and 7, 15, 23, ... (for big endian) are allowed.
+        # This attribute describes the bitposition of a Pdu within a Frame. Please note that the absolute position of the Pdu in the Frame is determined by the definition of the packingByte Order attribute. If Big Endian is specified, the start position indicates the bit position of the most significant bit in the Frame. If Little Endian is specified, the start position indicates the bit position of the least significant bit in the Frame. The bit counting in byte 0 starts with bit 0 (least significant bit). The most significant bit in byte 0 is bit 7. The Pdus are byte aligned in a Frame and only the values 0, 8, 16, 24,... (for little endian) and 7, 15, 23, ... (for big endian) are allowed.
         self.startPosition: Optional[Integer] = None
 
-        # Indication to the receivers that the corresponding Pdu was updated by the sender. This attribute describes the position of the update bit in the frame that aggregates this PDUToFrameMapping. Length is always one bit. Note that the exact bit position of the updateIndicationBitPosition is linked to the value of the attribute packingByteOrder because the method of finding the bit position is different for the values mostSignificantByteFirst and mostSignificantByteLast. This means that if the value of packingByteOrder is changed while the value of updateIndicationBitPosition remains unchanged the exact bit position of updateIndicationBitPosition within the enclosing Frame still undergoes a change. This attribute denotes the least significant bit for "Little Endian" and the most significant bit for "Big Endian".
+        # Indication to the receivers that the corresponding Pdu was updated by the sender. This attribute describes the position of the update bit in the frame that aggregates this PDUToFrameMapping. Length is always one bit. Note that the exact bit position of the updateIndicationBit Position is linked to the value of the attribute packingByte Order because the method of finding the bit position is different for the values mostSignificantByteFirst and most SignificantByteLast. This means that if the value of packingByteOrder is changed while the value of update IndicationBitPosition remains unchanged the exact bit position of updateIndicationBitPosition within the enclosing Frame still undergoes a change. This attribute denotes the least significant bit for "Little Endian" and the most significant bit for "Big Endian"
         self.updateIndicationBitPosition: Optional[Integer] = None
 
     def getPackingByteOrder(self) -> Optional[ByteOrderEnum]:
@@ -95,13 +94,13 @@ class PduToFrameMapping(Identifiable, VariationPointCapable):
 
     def getStartPosition(self) -> Optional[Integer]:
         """
-        This attribute describes the bitposition of a Pdu within a Frame. Please note that the absolute position of the Pdu in the Frame is determined by the definition of the packingByteOrder attribute. If Big Endian is specified, the start position indicates the bit position of the most significant bit in the Frame. If Little Endian is specified, the start position indicates the bit position of the least significant bit in the Frame. The bit counting in byte 0 starts with bit 0 (least significant bit). The most significant bit in byte 0 is bit 7. The Pdus are byte aligned in a Frame and only the values 0, 8, 16, 24,... (for little endian) and 7, 15, 23, ... (for big endian) are allowed.
+        This attribute describes the bitposition of a Pdu within a Frame. Please note that the absolute position of the Pdu in the Frame is determined by the definition of the packingByte Order attribute. If Big Endian is specified, the start position indicates the bit position of the most significant bit in the Frame. If Little Endian is specified, the start position indicates the bit position of the least significant bit in the Frame. The bit counting in byte 0 starts with bit 0 (least significant bit). The most significant bit in byte 0 is bit 7. The Pdus are byte aligned in a Frame and only the values 0, 8, 16, 24,... (for little endian) and 7, 15, 23, ... (for big endian) are allowed.
         """
         return self.startPosition
 
     def setStartPosition(self, value: Optional[Integer]) -> PduToFrameMapping:
         """
-        This attribute describes the bitposition of a Pdu within a Frame. Please note that the absolute position of the Pdu in the Frame is determined by the definition of the packingByteOrder attribute. If Big Endian is specified, the start position indicates the bit position of the most significant bit in the Frame. If Little Endian is specified, the start position indicates the bit position of the least significant bit in the Frame. The bit counting in byte 0 starts with bit 0 (least significant bit). The most significant bit in byte 0 is bit 7. The Pdus are byte aligned in a Frame and only the values 0, 8, 16, 24,... (for little endian) and 7, 15, 23, ... (for big endian) are allowed.
+        This attribute describes the bitposition of a Pdu within a Frame. Please note that the absolute position of the Pdu in the Frame is determined by the definition of the packingByte Order attribute. If Big Endian is specified, the start position indicates the bit position of the most significant bit in the Frame. If Little Endian is specified, the start position indicates the bit position of the least significant bit in the Frame. The bit counting in byte 0 starts with bit 0 (least significant bit). The most significant bit in byte 0 is bit 7. The Pdus are byte aligned in a Frame and only the values 0, 8, 16, 24,... (for little endian) and 7, 15, 23, ... (for big endian) are allowed.
         A None value is a no-op and does not overwrite an existing startPosition.
         """
         if value is not None:
@@ -110,13 +109,13 @@ class PduToFrameMapping(Identifiable, VariationPointCapable):
 
     def getUpdateIndicationBitPosition(self) -> Optional[Integer]:
         """
-        Indication to the receivers that the corresponding Pdu was updated by the sender. This attribute describes the position of the update bit in the frame that aggregates this PDUToFrameMapping. Length is always one bit. Note that the exact bit position of the updateIndicationBitPosition is linked to the value of the attribute packingByteOrder because the method of finding the bit position is different for the values mostSignificantByteFirst and mostSignificantByteLast. This means that if the value of packingByteOrder is changed while the value of updateIndicationBitPosition remains unchanged the exact bit position of updateIndicationBitPosition within the enclosing Frame still undergoes a change. This attribute denotes the least significant bit for "Little Endian" and the most significant bit for "Big Endian".
+        Indication to the receivers that the corresponding Pdu was updated by the sender. This attribute describes the position of the update bit in the frame that aggregates this PDUToFrameMapping. Length is always one bit. Note that the exact bit position of the updateIndicationBit Position is linked to the value of the attribute packingByte Order because the method of finding the bit position is different for the values mostSignificantByteFirst and most SignificantByteLast. This means that if the value of packingByteOrder is changed while the value of update IndicationBitPosition remains unchanged the exact bit position of updateIndicationBitPosition within the enclosing Frame still undergoes a change. This attribute denotes the least significant bit for "Little Endian" and the most significant bit for "Big Endian"
         """
         return self.updateIndicationBitPosition
 
     def setUpdateIndicationBitPosition(self, value: Optional[Integer]) -> PduToFrameMapping:
         """
-        Indication to the receivers that the corresponding Pdu was updated by the sender. This attribute describes the position of the update bit in the frame that aggregates this PDUToFrameMapping. Length is always one bit. Note that the exact bit position of the updateIndicationBitPosition is linked to the value of the attribute packingByteOrder because the method of finding the bit position is different for the values mostSignificantByteFirst and mostSignificantByteLast. This means that if the value of packingByteOrder is changed while the value of updateIndicationBitPosition remains unchanged the exact bit position of updateIndicationBitPosition within the enclosing Frame still undergoes a change. This attribute denotes the least significant bit for "Little Endian" and the most significant bit for "Big Endian".
+        Indication to the receivers that the corresponding Pdu was updated by the sender. This attribute describes the position of the update bit in the frame that aggregates this PDUToFrameMapping. Length is always one bit. Note that the exact bit position of the updateIndicationBit Position is linked to the value of the attribute packingByte Order because the method of finding the bit position is different for the values mostSignificantByteFirst and most SignificantByteLast. This means that if the value of packingByteOrder is changed while the value of update IndicationBitPosition remains unchanged the exact bit position of updateIndicationBitPosition within the enclosing Frame still undergoes a change. This attribute denotes the least significant bit for "Little Endian" and the most significant bit for "Big Endian"
         A None value is a no-op and does not overwrite an existing updateIndicationBitPosition.
         """
         if value is not None:
@@ -127,18 +126,16 @@ class PduToFrameMapping(Identifiable, VariationPointCapable):
 class Frame(FibexElement, ABC):
     """
     Data frame which is sent over a communication medium. This element describes the pure Layout of a frame sent on a channel.
-    Data frame which is sent over a communication medium. This element describes the pure Layout of a frame sent on a channel.
     """
 
     # Frame method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.78, p.418
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getFrameLength            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setFrameLength            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] createPduToFrameMapping   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPduToFrameMappings     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getFrameLength            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFrameLength            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createPduToFrameMapping   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPduToFrameMappings     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is Frame:
@@ -149,7 +146,7 @@ class Frame(FibexElement, ABC):
         # The used length (in bytes) of the referencing frame. Should not be confused with a static byte length reserved for each frame by some platforms (e.g. FlexRay). The frameLength of zero bytes is allowed. Please consider also TPS_SYST_02255.
         self.frameLength: Optional[Integer] = None
 
-        # A frames layout as a sequence of Pdus. atpVariation: The content of a frame can be variable. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=pduToFrameMapping.shortName, pduToFrameMapping.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        # A frames layout as a sequence of Pdus. atpVariation: The content of a frame can be variable. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=pduToFrameMapping.shortName, pduTo FrameMapping.variationPoint.shortLabel vh.latestBindingTime=postBuild
         self.pduToFrameMappings: List[PduToFrameMapping] = []
 
     def getFrameLength(self) -> Optional[Integer]:
@@ -168,6 +165,9 @@ class Frame(FibexElement, ABC):
         return self
 
     def createPduToFrameMapping(self, short_name: str) -> PduToFrameMapping:
+        """
+        A frames layout as a sequence of Pdus. atpVariation: The content of a frame can be variable. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=pduToFrameMapping.shortName, pduTo FrameMapping.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
         if not self.IsReferrableElementExists(short_name, PduToFrameMapping):
             mapping = PduToFrameMapping(self, short_name)
             self.addReferrableElement(mapping)
@@ -175,7 +175,10 @@ class Frame(FibexElement, ABC):
         return cast(PduToFrameMapping, self.getReferrableElement(short_name, PduToFrameMapping))
 
     def getPduToFrameMappings(self) -> List[PduToFrameMapping]:
-        return list(sorted([a for a in self.referrableElements if isinstance(a, PduToFrameMapping)], key=lambda o: o.short_name))
+        """
+        A frames layout as a sequence of Pdus. atpVariation: The content of a frame can be variable. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=pduToFrameMapping.shortName, pduTo FrameMapping.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
+        return self.pduToFrameMappings
 
 
 class ContainedIPduCollectionSemanticsEnum(AREnum):
@@ -468,21 +471,22 @@ class ContainedIPduProps(ARObject):
 class ISignalGroup(FibexElement):
     """
     SignalGroup of the Interaction Layer. The RTE supports a "signal fan-out" where the same System Signal Group is sent in different SignalIPdus to multiple receivers. An ISignalGroup refers to a set of ISignals that shall always be kept together. A ISignalGroup represents a COM Signal Group. Therefore it is recommended to put the ISignalGroup in the same Package as ISignals (see atp.recommendedPackage) Tags: atp.recommendedPackage=ISignalGroup
+
+    [constr_9225] Existence of ISignalGroup.systemSignalGroup: For each ISignalGroup, the reference to SystemSignalGroup in the role systemSignalGroup shall exist at the time when the System Description is complete.
     """
 
     # ISignalGroup method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.12, p.324
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getComBasedSignalGroupTransformationRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setComBasedSignalGroupTransformationRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getISignalRefs               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addISignalRef                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSystemSignalGroupRef      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSystemSignalGroupRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTransformationISignalProps [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addTransformationISignalProps [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getComBasedSignalGroupTransformationRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setComBasedSignalGroupTransformationRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getISignalRefs                            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addISignalRef                             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSystemSignalGroupRef                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSystemSignalGroupRef                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTransformationISignalProps             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addTransformationISignalProps             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
@@ -520,11 +524,13 @@ class ISignalGroup(FibexElement):
         """
         return self.iSignalRefs
 
-    def addISignalRef(self, value: RefType) -> ISignalGroup:
+    def addISignalRef(self, value: Optional[RefType]) -> ISignalGroup:
         """
         Reference to a set of ISignals that shall always be kept together.
+        A None value is a no-op and is not appended to iSignalRefs.
         """
-        self.iSignalRefs.append(value)
+        if value is not None:
+            self.iSignalRefs.append(value)
         return self
 
     def getSystemSignalGroupRef(self) -> Optional[RefType]:
@@ -548,11 +554,13 @@ class ISignalGroup(FibexElement):
         """
         return self.transformationISignalProps
 
-    def addTransformationISignalProps(self, value: TransformationISignalProps) -> ISignalGroup:
+    def addTransformationISignalProps(self, value: Optional[TransformationISignalProps]) -> ISignalGroup:
         """
         A transformer chain consists of an ordered list of transformers. The ISignalGroup specific configuration properties for each transformer are defined in the TransformationISignalProps class. The transformer configuration properties that are common for all ISignal Groups are described in the TransformationTechnology class. Stereotypes: atpSplitable Tags: atp.Splitkey=transformationISignalProps
+        A None value is a no-op and is not appended to transformationISignalProps.
         """
-        self.transformationISignalProps.append(value)
+        if value is not None:
+            self.transformationISignalProps.append(value)
         return self
 
 
@@ -674,17 +682,20 @@ class ISignalIPduGroup(FibexElement):
 class Pdu(FibexElement, ABC):
     """
     Collection of all Pdus that can be routed through a bus interface.
+
+    [constr_5249] Existence of Pdu.length: For each Pdu, the attribute length shall exist at the time when the System Description is complete.
+    [constr_5321] Value range of Pdu.length: The value of Pdu.length shall be in the range of 0..4294967295 Bytes.
+    [constr_3448] Restriction for usage of Pdu.hasDynamicLength: The Pdu.hasDynamicLength attribute is only relevant for UserDefinedPdus, UserDefinedIPdus, J1939DcmIPdus.
     """
 
     # Pdu method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.17, p.340
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] setHasDynamicLength          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getHasDynamicLength          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setLength                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getLength                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getHasDynamicLength [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setHasDynamicLength [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getLength           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setLength           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is Pdu:
@@ -698,6 +709,12 @@ class Pdu(FibexElement, ABC):
         # Pdu length in bytes. In case of dynamic length IPdus (containing a dynamical length signal), this value indicates the maximum data length. It should be noted that in former AUTOSAR releases (Rel 2.1, Rel 3.0, Rel 3.1, Rel 4.0 Rev. 1) this parameter was defined in bits. The Pdu length of zero bytes is allowed.
         self.length: Optional[UnlimitedInteger] = None
 
+    def getHasDynamicLength(self) -> Optional[Boolean]:
+        """
+        This attribute defines whether the Pdu has dynamic length (true) or not (false). Please note that the usage of this attribute is restricted by [constr_3448].
+        """
+        return self.hasDynamicLength
+
     def setHasDynamicLength(self, value: Optional[Boolean]) -> Pdu:
         """
         This attribute defines whether the Pdu has dynamic length (true) or not (false). Please note that the usage of this attribute is restricted by [constr_3448].
@@ -707,11 +724,11 @@ class Pdu(FibexElement, ABC):
             self.hasDynamicLength = value
         return self
 
-    def getHasDynamicLength(self) -> Optional[Boolean]:
+    def getLength(self) -> Optional[UnlimitedInteger]:
         """
-        This attribute defines whether the Pdu has dynamic length (true) or not (false). Please note that the usage of this attribute is restricted by [constr_3448].
+        Pdu length in bytes. In case of dynamic length IPdus (containing a dynamical length signal), this value indicates the maximum data length. It should be noted that in former AUTOSAR releases (Rel 2.1, Rel 3.0, Rel 3.1, Rel 4.0 Rev. 1) this parameter was defined in bits. The Pdu length of zero bytes is allowed.
         """
-        return self.hasDynamicLength
+        return self.length
 
     def setLength(self, value: Optional[UnlimitedInteger]) -> Pdu:
         """
@@ -722,12 +739,6 @@ class Pdu(FibexElement, ABC):
             self.length = value
         return self
 
-    def getLength(self) -> Optional[UnlimitedInteger]:
-        """
-        Pdu length in bytes. In case of dynamic length IPdus (containing a dynamical length signal), this value indicates the maximum data length. It should be noted that in former AUTOSAR releases (Rel 2.1, Rel 3.0, Rel 3.1, Rel 4.0 Rev. 1) this parameter was defined in bits. The Pdu length of zero bytes is allowed.
-        """
-        return self.length
-
 
 class IPdu(Pdu, ABC):
     """
@@ -736,11 +747,10 @@ class IPdu(Pdu, ABC):
 
     # IPdu method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.18, p.341
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getContainedIPduProps     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setContainedIPduProps     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getContainedIPduProps  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setContainedIPduProps  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is IPdu:
@@ -770,40 +780,38 @@ class IPdu(Pdu, ABC):
 class SecureCommunicationProps(ARObject):
     """
     This meta-class contains configuration settings that are specific for an individual SecuredIPdu.
+
+    [constr_9205] Existence of SecureCommunicationProps.dataId: For each SecureCommunicationProps, the attribute dataId shall exist at the time when the System Description is complete.
     """
 
     # SecureCommunicationProps method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.44, p.369
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getAuthDataFreshnessLength             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setAuthDataFreshnessLength             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getAuthDataFreshnessStartPosition      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setAuthDataFreshnessStartPosition      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getAuthenticationBuildAttempts         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setAuthenticationBuildAttempts         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getAuthenticationRetries               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setAuthenticationRetries               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getDataId                              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDataId                              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getFreshnessValueId                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setFreshnessValueId                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMessageLinkLength                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMessageLinkLength                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMessageLinkPosition                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMessageLinkPosition                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSecondaryFreshnessValueId           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSecondaryFreshnessValueId           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSecuredAreaLength                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSecuredAreaLength                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSecuredAreaOffset                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSecuredAreaOffset                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAuthDataFreshnessLength        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAuthDataFreshnessLength        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAuthDataFreshnessStartPosition [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAuthDataFreshnessStartPosition [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAuthenticationBuildAttempts    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAuthenticationBuildAttempts    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAuthenticationRetries          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAuthenticationRetries          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDataId                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataId                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFreshnessValueId               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFreshnessValueId               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMessageLinkLength              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMessageLinkLength              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMessageLinkPosition            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMessageLinkPosition            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSecondaryFreshnessValueId      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSecondaryFreshnessValueId      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSecuredAreaLength              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSecuredAreaLength              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSecuredAreaOffset              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSecuredAreaOffset              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
-        """
-        Initializes the SecureCommunicationProps.
-        """
         super().__init__()
 
         # This attribute defines the length in bits of the authentic PDU data that is passed to the SWC that verifies and generates the Freshness.
@@ -1230,25 +1238,28 @@ class TransferPropertyEnum(AREnum):
 class ISignalToIPduMapping(Identifiable, VariationPointCapable):
     """
     An ISignalToIPduMapping describes the mapping of ISignals to ISignalIPdus and defines the position of the ISignal within an ISignalIPdu.
+
+    [constr_5322] Value range of ISignalToIPduMapping.startPosition: The value of ISignalToIPduMapping.startPosition shall be in the range of 0..4294967295 Bits.
+    [constr_5323] Value range of ISignalToIPduMapping.updateIndicationBitPosition: The value of ISignalToIPduMapping.updateIndicationBitPosition shall be in the range of 0..4294967295 Bits.
+    [constr_3514] No two ISignalToIPduMappings shall reference the identical ISignal: No two ISignalToIPduMappings shall reference the identical ISignal in the role iSignal in the scope of one System.
     """
 
     # ISignalToIPduMapping method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.14, p.326
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getISignalRef                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setISignalRef                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getISignalGroupRef           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setISignalGroupRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPackingByteOrder          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setPackingByteOrder          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getStartPosition             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setStartPosition             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTransferProperty          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTransferProperty          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getUpdateIndicationBitPosition [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setUpdateIndicationBitPosition [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getISignalRef                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setISignalRef                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getISignalGroupRef             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setISignalGroupRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPackingByteOrder            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPackingByteOrder            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getStartPosition               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setStartPosition               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTransferProperty            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTransferProperty            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getUpdateIndicationBitPosition [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUpdateIndicationBitPosition [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -1268,7 +1279,7 @@ class ISignalToIPduMapping(Identifiable, VariationPointCapable):
         # Defines how the referenced ISignal contributes to the send triggering of the ISignalIPdu.
         self.transferProperty: Optional[TransferPropertyEnum] = None
 
-        # The UpdateIndicationBit indicates to the receivers that the signal (or the signal group) was updated by the sender. Length is always one bit. The UpdateIndicationBitPosition attribute describes the position of the update bit within the SignalIPdu. For Signals of a ISignalGroup this attribute is irrelevant and shall be ignored. Note that the exact bit position of the updateIndicationBitPosition is linked to the value of the attribute packingByteOrder because the method of finding the bit position is different for the values mostSignificantByteFirst and mostSignificantByteLast. This means that if the value of packingByteOrder is changed while the value of updateIndicationBitPosition remains unchanged the exact bit position of updateIndicationBitPosition within the enclosing ISignalIPdu still undergoes a change. This attribute denotes the least significant bit for "Little Endian" and the most significant bit for "Big Endian" packed signals within the IPdu (see the description of the packingByteOrder attribute). In AUTOSAR the bit counting is always set to "sawtooth" and the bit order is set to "Decreasing". The bit counting in byte 0 starts with bit 0 (least significant bit). The most significant bit in byte 0 is bit 7.
+        # The UpdateIndicationBit indicates to the receivers that the signal (or the signal group) was updated by the sender. Length is always one bit. The UpdateIndicationBitPosition attribute describes the position of the update bit within the SignalIPdu. For Signals of a ISignalGroup this attribute is irrelevant and shall be ignored. Note that the exact bit position of the updateIndicationBit Position is linked to the value of the attribute packingByte Order because the method of finding the bit position is different for the values mostSignificantByteFirst and most SignificantByteLast. This means that if the value of packingByteOrder is changed while the value of update IndicationBitPosition remains unchanged the exact bit position of updateIndicationBitPosition within the enclosing ISignalIPdu still undergoes a change. This attribute denotes the least significant bit for "Little Endian" and the most significant bit for "Big Endian" packed signals within the IPdu (see the description of the packingByteOrder attribute). In AUTOSAR the bit counting is always set to "sawtooth" and the bit order is set to "Decreasing". The bit counting in byte 0 starts with bit 0 (least significant bit). The most significant bit in byte 0 is bit 7.
         self.updateIndicationBitPosition: Optional[UnlimitedInteger] = None
 
     def getISignalRef(self) -> Optional[RefType]:
@@ -1348,13 +1359,13 @@ class ISignalToIPduMapping(Identifiable, VariationPointCapable):
 
     def getUpdateIndicationBitPosition(self) -> Optional[UnlimitedInteger]:
         """
-        The UpdateIndicationBit indicates to the receivers that the signal (or the signal group) was updated by the sender. Length is always one bit. The UpdateIndicationBitPosition attribute describes the position of the update bit within the SignalIPdu. For Signals of a ISignalGroup this attribute is irrelevant and shall be ignored. Note that the exact bit position of the updateIndicationBitPosition is linked to the value of the attribute packingByteOrder because the method of finding the bit position is different for the values mostSignificantByteFirst and mostSignificantByteLast. This means that if the value of packingByteOrder is changed while the value of updateIndicationBitPosition remains unchanged the exact bit position of updateIndicationBitPosition within the enclosing ISignalIPdu still undergoes a change. This attribute denotes the least significant bit for "Little Endian" and the most significant bit for "Big Endian" packed signals within the IPdu (see the description of the packingByteOrder attribute). In AUTOSAR the bit counting is always set to "sawtooth" and the bit order is set to "Decreasing". The bit counting in byte 0 starts with bit 0 (least significant bit). The most significant bit in byte 0 is bit 7.
+        The UpdateIndicationBit indicates to the receivers that the signal (or the signal group) was updated by the sender. Length is always one bit. The UpdateIndicationBitPosition attribute describes the position of the update bit within the SignalIPdu. For Signals of a ISignalGroup this attribute is irrelevant and shall be ignored. Note that the exact bit position of the updateIndicationBit Position is linked to the value of the attribute packingByte Order because the method of finding the bit position is different for the values mostSignificantByteFirst and most SignificantByteLast. This means that if the value of packingByteOrder is changed while the value of update IndicationBitPosition remains unchanged the exact bit position of updateIndicationBitPosition within the enclosing ISignalIPdu still undergoes a change. This attribute denotes the least significant bit for "Little Endian" and the most significant bit for "Big Endian" packed signals within the IPdu (see the description of the packingByteOrder attribute). In AUTOSAR the bit counting is always set to "sawtooth" and the bit order is set to "Decreasing". The bit counting in byte 0 starts with bit 0 (least significant bit). The most significant bit in byte 0 is bit 7.
         """
         return self.updateIndicationBitPosition
 
     def setUpdateIndicationBitPosition(self, value: Optional[UnlimitedInteger]) -> ISignalToIPduMapping:
         """
-        The UpdateIndicationBit indicates to the receivers that the signal (or the signal group) was updated by the sender. Length is always one bit. The UpdateIndicationBitPosition attribute describes the position of the update bit within the SignalIPdu. For Signals of a ISignalGroup this attribute is irrelevant and shall be ignored. Note that the exact bit position of the updateIndicationBitPosition is linked to the value of the attribute packingByteOrder because the method of finding the bit position is different for the values mostSignificantByteFirst and mostSignificantByteLast. This means that if the value of packingByteOrder is changed while the value of updateIndicationBitPosition remains unchanged the exact bit position of updateIndicationBitPosition within the enclosing ISignalIPdu still undergoes a change. This attribute denotes the least significant bit for "Little Endian" and the most significant bit for "Big Endian" packed signals within the IPdu (see the description of the packingByteOrder attribute). In AUTOSAR the bit counting is always set to "sawtooth" and the bit order is set to "Decreasing". The bit counting in byte 0 starts with bit 0 (least significant bit). The most significant bit in byte 0 is bit 7.
+        The UpdateIndicationBit indicates to the receivers that the signal (or the signal group) was updated by the sender. Length is always one bit. The UpdateIndicationBitPosition attribute describes the position of the update bit within the SignalIPdu. For Signals of a ISignalGroup this attribute is irrelevant and shall be ignored. Note that the exact bit position of the updateIndicationBit Position is linked to the value of the attribute packingByte Order because the method of finding the bit position is different for the values mostSignificantByteFirst and most SignificantByteLast. This means that if the value of packingByteOrder is changed while the value of update IndicationBitPosition remains unchanged the exact bit position of updateIndicationBitPosition within the enclosing ISignalIPdu still undergoes a change. This attribute denotes the least significant bit for "Little Endian" and the most significant bit for "Big Endian" packed signals within the IPdu (see the description of the packingByteOrder attribute). In AUTOSAR the bit counting is always set to "sawtooth" and the bit order is set to "Decreasing". The bit counting in byte 0 starts with bit 0 (least significant bit). The most significant bit in byte 0 is bit 7.
         A None value is a no-op and does not overwrite an existing updateIndicationBitPosition.
         """
         if value is not None:
@@ -1365,26 +1376,28 @@ class ISignalToIPduMapping(Identifiable, VariationPointCapable):
 class NmPdu(Pdu):
     """
     Network Management Pdu Tags: atp.recommendedPackage=Pdus
+
+    [constr_5385] Reception of UserData inside of a NmPdu by Applications is not supported: A SystemSignal that is referenced by an ISignal that in turn is mapped via an ISignalToIPduMapping into a NmPdu shall not be mapped by a DataMapping that references a RPortPrototype with the contextPort reference in the VariableDataPrototypeInSystemInstanceRef that the DataMapping aggregates.
+    [constr_3073] nmVoteInformation only valid for FrNm: The nmVoteInformation attribute is only valid for FrNm.
     """
 
     # NmPdu method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.20, p.343
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getISignalToIPduMappings     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createISignalToIPduMapping   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getNmDataInformation         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setNmDataInformation         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getNmVoteInformation         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setNmVoteInformation         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getUnusedBitPattern          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setUnusedBitPattern          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createISignalToIPduMapping   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getISignalToIPduMappings     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getNmDataInformation         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmDataInformation         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNmVoteInformation         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmVoteInformation         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getUnusedBitPattern          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUnusedBitPattern          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        # This optional aggregation is used to describe NmUserData that is transmitted in the NmPdu. The counting of the startPosition starts at the beginning of the NmPdu regardless whether Cbv or Nid are used.
+        # This optional aggregation is used to describe NmUser Data that is transmitted in the NmPdu. The counting of the startPosition starts at the beginning of the NmPdu regardless whether Cbv or Nid are used.
         self.iSignalToIPduMappings: List[ISignalToIPduMapping] = []
 
         # Defines if the Pdu contains NM Data. If the NmPdu does not aggregate any ISignalToIPduMappings it still may contain UserData that is set via Nm_SetUserData(). If the ISignalToIPduMapping exists then the nmDataInformation attribute shall be ignored.
@@ -1393,24 +1406,24 @@ class NmPdu(Pdu):
         # Defines if the Pdu contains NM Vote information.
         self.nmVoteInformation: Optional[Boolean] = None
 
-        # AUTOSAR COM is filling not used areas of an Pdu with this bit-pattern. This attribute can only be used if the nmDataInformation attribute is set to true.
+        # AUTOSAR COM is filling not used areas of an Pdu with this bit-pattern. This attribute can only be used if the nm DataInformation attribute is set to true.
         self.unusedBitPattern: Optional[Integer] = None
-
-    def getISignalToIPduMappings(self) -> List[ISignalToIPduMapping]:
-        """
-        This optional aggregation is used to describe NmUserData that is transmitted in the NmPdu. The counting of the startPosition starts at the beginning of the NmPdu regardless whether Cbv or Nid are used.
-        """
-        return self.iSignalToIPduMappings
 
     def createISignalToIPduMapping(self, short_name: str) -> ISignalToIPduMapping:
         """
-        This optional aggregation is used to describe NmUserData that is transmitted in the NmPdu. The counting of the startPosition starts at the beginning of the NmPdu regardless whether Cbv or Nid are used.
+        This optional aggregation is used to describe NmUser Data that is transmitted in the NmPdu. The counting of the startPosition starts at the beginning of the NmPdu regardless whether Cbv or Nid are used.
         """
         if not self.IsReferrableElementExists(short_name, ISignalToIPduMapping):
             mapping = ISignalToIPduMapping(self, short_name)
             self.addReferrableElement(mapping)
             self.iSignalToIPduMappings.append(mapping)
         return cast(ISignalToIPduMapping, self.getReferrableElement(short_name, ISignalToIPduMapping))
+
+    def getISignalToIPduMappings(self) -> List[ISignalToIPduMapping]:
+        """
+        This optional aggregation is used to describe NmUser Data that is transmitted in the NmPdu. The counting of the startPosition starts at the beginning of the NmPdu regardless whether Cbv or Nid are used.
+        """
+        return self.iSignalToIPduMappings
 
     def getNmDataInformation(self) -> Optional[Boolean]:
         """
@@ -1444,13 +1457,13 @@ class NmPdu(Pdu):
 
     def getUnusedBitPattern(self) -> Optional[Integer]:
         """
-        AUTOSAR COM is filling not used areas of an Pdu with this bit-pattern. This attribute can only be used if the nmDataInformation attribute is set to true.
+        AUTOSAR COM is filling not used areas of an Pdu with this bit-pattern. This attribute can only be used if the nm DataInformation attribute is set to true.
         """
         return self.unusedBitPattern
 
     def setUnusedBitPattern(self, value: Optional[Integer]) -> NmPdu:
         """
-        AUTOSAR COM is filling not used areas of an Pdu with this bit-pattern. This attribute can only be used if the nmDataInformation attribute is set to true.
+        AUTOSAR COM is filling not used areas of an Pdu with this bit-pattern. This attribute can only be used if the nm DataInformation attribute is set to true.
         A None value is a no-op and does not overwrite an existing unusedBitPattern.
         """
         if value is not None:
@@ -1465,9 +1478,8 @@ class NPdu(IPdu):
 
     # NPdu method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.21, p.343
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -1475,25 +1487,37 @@ class NPdu(IPdu):
 
 class DcmIPdu(IPdu):
     """
-    Represents a Diagnostic Communication Management Interaction Protocol Data Unit (IPDU)
-    used for diagnostic communication in the AUTOSAR system.
+    Represents the IPdus handled by Dcm. Tags: atp.recommendedPackage=Pdus
+
+    [constr_9194] Existence of DcmIPdu.diagPduType: For each DcmIPdu, the attribute diagPduType shall exist at the time when the System Description is complete.
     """
 
     # DcmIPdu method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getDiagPduType               [x] impl  [ ] docstring  [ ] test
-    # [ ] setDiagPduType               [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.22, p.343
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDiagPduType  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDiagPduType  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.diagPduType: Optional[ARLiteral] = None
+        # Attribute is used to distinguish a request from a response.
+        self.diagPduType: Optional[DiagPduType] = None
 
-    def getDiagPduType(self):
+    def getDiagPduType(self) -> Optional[DiagPduType]:
+        """
+        Attribute is used to distinguish a request from a response.
+        """
         return self.diagPduType
 
-    def setDiagPduType(self, value):
-        self.diagPduType = value
+    def setDiagPduType(self, value: Optional[DiagPduType]) -> DcmIPdu:
+        """
+        Attribute is used to distinguish a request from a response.
+        A None value is a no-op and does not overwrite an existing diagPduType.
+        """
+        if value is not None:
+            self.diagPduType = value
         return self
 
 
@@ -1504,13 +1528,12 @@ class IPduTiming(Describable, VariationPointCapable):
 
     # IPduTiming method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.30, p.348
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getMinimumDelay              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMinimumDelay              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTransmissionModeDeclaration [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTransmissionModeDeclaration [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getMinimumDelay                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMinimumDelay                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTransmissionModeDeclaration [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTransmissionModeDeclaration [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -1554,20 +1577,19 @@ class IPduTiming(Describable, VariationPointCapable):
 
 class ISignalIPdu(IPdu):
     """
-    Represents the IPdus handled by Com. The ISignalIPdu assembled and disassembled in AUTOSAR COM consists of one or more signals. In case no multiplexing is performed this IPdu is routed to/from the Interface Layer. A maximum of one dynamic length signal per IPdu is allowed.
+    Represents the IPdus handled by Com. The ISignalIPdu assembled and disassembled in AUTOSAR COM consists of one or more signals. In case no multiplexing is performed this IPdu is routed to/from the Interface Layer. A maximum of one dynamic length signal per IPdu is allowed. Tags: atp.recommendedPackage=Pdus
     """
 
     # ISignalIPdu method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.19, p.342
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getIPduTimingSpecification  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setIPduTimingSpecification  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getISignalToPduMappings     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createISignalToPduMappings  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getUnusedBitPattern         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setUnusedBitPattern         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getIPduTimingSpecification  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIPduTimingSpecification  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createISignalToPduMapping   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getISignalToPduMappings     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getUnusedBitPattern         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUnusedBitPattern         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -1596,13 +1618,7 @@ class ISignalIPdu(IPdu):
             self.iPduTimingSpecification = value
         return self
 
-    def getISignalToPduMappings(self) -> List[ISignalToIPduMapping]:
-        """
-        Definition of SignalToIPduMappings included in the Signal IPdu. atpVariation: The content of a PDU can be variable. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=iSignalToPduMapping.shortName, iSignalTo PduMapping.variationPoint.shortLabel vh.latestBindingTime=postBuild
-        """
-        return self.iSignalToPduMappings
-
-    def createISignalToPduMappings(self, short_name: str) -> ISignalToIPduMapping:
+    def createISignalToPduMapping(self, short_name: str) -> ISignalToIPduMapping:
         """
         Definition of SignalToIPduMappings included in the Signal IPdu. atpVariation: The content of a PDU can be variable. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=iSignalToPduMapping.shortName, iSignalTo PduMapping.variationPoint.shortLabel vh.latestBindingTime=postBuild
         """
@@ -1611,6 +1627,12 @@ class ISignalIPdu(IPdu):
             self.addReferrableElement(mapping)
             self.iSignalToPduMappings.append(mapping)
         return cast(ISignalToIPduMapping, self.getReferrableElement(short_name, ISignalToIPduMapping))
+
+    def getISignalToPduMappings(self) -> List[ISignalToIPduMapping]:
+        """
+        Definition of SignalToIPduMappings included in the Signal IPdu. atpVariation: The content of a PDU can be variable. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=iSignalToPduMapping.shortName, iSignalTo PduMapping.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
+        return self.iSignalToPduMappings
 
     def getUnusedBitPattern(self) -> Optional[Integer]:
         """
@@ -1635,8 +1657,9 @@ class ISignalTypeEnum(AREnum):
 
     # ISignalTypeEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.9, p.322
-    # Spec verified: R23-11
-    # (no methods)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on ISignal.iSignalType
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # ISignal shall be interpreted as an array (UINT8_N, UINT8_DYN) Tags: atp.EnumerationLiteralIndex=0
     ARRAY = "ARRAY"
@@ -1645,12 +1668,7 @@ class ISignalTypeEnum(AREnum):
     PRIMITIVE = "PRIMITIVE"
 
     def __init__(self):
-        super().__init__(
-            (
-                ISignalTypeEnum.ARRAY,
-                ISignalTypeEnum.PRIMITIVE,
-            )
-        )
+        super().__init__([ISignalTypeEnum.ARRAY, ISignalTypeEnum.PRIMITIVE])
 
 
 class ISignalProps(ARObject):
@@ -1660,16 +1678,12 @@ class ISignalProps(ARObject):
 
     # ISignalProps method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.10, p.323
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                                         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getHandleOutOfRange                             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setHandleOutOfRange                             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getHandleOutOfRange  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setHandleOutOfRange  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
-        """
-        Initializes the ISignalProps.
-        """
         super().__init__()
 
         # This attribute defines the outOfRangeHandling for received and sent signals.
@@ -1698,46 +1712,42 @@ class ISignal(FibexElement):
 
     # ISignal method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.7, p.321
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                                         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getDataTransformationRef                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDataTransformationRef                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getDataTypePolicy                                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDataTypePolicy                                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getInitValue                                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setInitValue                                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getISignalProps                                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setISignalProps                                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getISignalType                                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setISignalType                                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getLength                                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setLength                                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getNetworkRepresentationProps                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setNetworkRepresentationProps                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSystemSignalRef                               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSystemSignalRef                               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTimeoutSubstitutionValue                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTimeoutSubstitutionValue                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] addTransformationISignalProps                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTransformationISignalProps                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDataTransformationRef                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataTransformationRef                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDataTypePolicy                           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataTypePolicy                           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getInitValue                                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setInitValue                                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getISignalProps                             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setISignalProps                             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getISignalType                              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setISignalType                              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getLength                                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setLength                                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNetworkRepresentationProps               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNetworkRepresentationProps               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSystemSignalRef                          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSystemSignalRef                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeoutSubstitutionValue                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeoutSubstitutionValue                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addTransformationISignalProps               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTransformationISignalProps               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the ISignal.
-        """
         super().__init__(parent, short_name)
 
-        # Optional reference to a DataTransformation which represents the transformer chain that is used to transform the data that shall be placed inside this ISignal.
+        # Optional reference to a DataTransformation which represents the transformer chain that is used to transform the data that shall be placed inside this ISignal. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=dataTransformation.dataTransformation, dataTransformation.variationPoint.shortLabel vh.latestBindingTime=codeGenerationTime
         self.dataTransformationRef: Optional[RefType] = None
 
         # With the aggregation of SwDataDefProps an ISignal specifies how it is represented on the network. This representation follows a particular policy. Note that this causes some redundancy which is intended and can be used to support flexible development methodology as well as subsequent integrity checks. If the policy "networkRepresentationFromComSpec" is chosen the network representation from the ComSpec that is aggregated by the PortPrototype shall be used. If the "override" policy is chosen the requirements specified in the PortInterface and in the ComSpec are not fulfilled by the networkRepresentationProps. In case the System Description doesn't use a complete Software Component Description (VFB View) the "legacy" policy can be chosen.
         self.dataTypePolicy: Optional[DataTypePolicyEnum] = None
 
-        # Optional definition of a ISignal's initValue in case the System Description doesn't use a complete Software Component Description (VFB View). This supports the inclusion of legacy system signals. This value can be used to configure the Signal's "Init Value". If a full DataMapping exist for the SystemSignal this information may be available from a configured SenderComSpec and ReceiverComSpec. In this case the initvalues in SenderComSpec and/or ReceiverComSpec override this optional value specification. Further restrictions apply from the RTE specification.
+        # Optional definition of a ISignal's initValue in case the System Description doesn't use a complete Software Component Description (VFB View). This supports the inclusion of legacy system signals. This value can be used to configure the Signal's "Init Value". If a full DataMapping exist for the SystemSignal this information may be available from a configured Sender ComSpec and ReceiverComSpec. In this case the initvalues in SenderComSpec and/or ReceiverComSpec override this optional value specification. Further restrictions apply from the RTE specification.
         self.initValue: Optional[ValueSpecification] = None
 
-        # Additional optional ISignal properties that may be stored in different files.
+        # Additional optional ISignal properties that may be stored in different files. Stereotypes: atpSplitable Tags: atp.Splitkey=iSignalProps
         self.iSignalProps: Optional[ISignalProps] = None
 
         # This attribute defines whether this iSignal is an array that results in a UINT8_N / UINT8_DYN ComSignalType in the COM configuration or a primitive type.
@@ -1746,7 +1756,7 @@ class ISignal(FibexElement):
         # Size of the signal in bits. The size needs to be derived from the mapped VariableDataPrototype according to the mapping of primitive DataTypes to BaseTypes as used in the RTE. Indicates maximum size for dynamic length signals. The ISignal length of zero bits is allowed.
         self.length: Optional[UnlimitedInteger] = None
 
-        # Specification of the actual network representation. The usage of SwDataDefProps for this purpose is restricted to the attributes compuMethod and baseType. The optional baseType attributes "memAllignment" and "byteOrder" shall not be used. The attribute "dataTypePolicy" in the SystemTemplate element defines whether this network representation shall be ignored and the information shall be taken over from the network representation of the ComSpec. If "override" is chosen by the system integrator the network representation can violate against the requirements defined in the PortInterface and in the network representation of the ComSpec. In case that the System Description doesn't use a complete Software Component Description (VFB View) this element is used to configure "ComSignalDataInvalidValue" and the Data Semantics.
+        # Specification of the actual network representation. The usage of SwDataDefProps for this purpose is restricted to the attributes compuMethod and baseType. The optional baseType attributes "memAllignment" and "byteOrder" shall not be used. The attribute "dataTypePolicy" in the SystemTemplate element defines whether this network representation shall be ignored and the information shall be taken over from the network representation of the ComSpec. If "override" is chosen by the system integrator the network representation can violate against the requirements defined in the PortInterface and in the network representation of the ComSpec. In case that the System Description doesn't use a complete Software Component Description (VFB View) this element is used to configure "ComSignalDataInvalid Value" and the Data Semantics. Stereotypes: atpSplitable Tags: atp.Splitkey=networkRepresentationProps
         self.networkRepresentationProps: Optional[SwDataDefProps] = None
 
         # Reference to the System Signal that is supposed to be transmitted in the ISignal.
@@ -1755,18 +1765,18 @@ class ISignal(FibexElement):
         # Defines and enables the ComTimeoutSubstituition for this ISignal.
         self.timeoutSubstitutionValue: Optional[ValueSpecification] = None
 
-        # A transformer chain consists of an ordered list of transformers. The ISignal specific configuration properties for each transformer are defined in the TransformationISignalProps class. The transformer configuration properties that are common for all ISignals are described in the TransformationTechnology class.
+        # A transformer chain consists of an ordered list of transformers. The ISignal specific configuration properties for each transformer are defined in the TransformationISignalProps class. The transformer configuration properties that are common for all ISignals are described in the TransformationTechnology class. Stereotypes: atpSplitable Tags: atp.Splitkey=transformationISignalProps
         self.transformationISignalProps: List[TransformationISignalProps] = []
 
     def getDataTransformationRef(self) -> Optional[RefType]:
         """
-        Optional reference to a DataTransformation which represents the transformer chain that is used to transform the data that shall be placed inside this ISignal.
+        Optional reference to a DataTransformation which represents the transformer chain that is used to transform the data that shall be placed inside this ISignal. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=dataTransformation.dataTransformation, dataTransformation.variationPoint.shortLabel vh.latestBindingTime=codeGenerationTime
         """
         return self.dataTransformationRef
 
     def setDataTransformationRef(self, value: Optional[RefType]) -> ISignal:
         """
-        Optional reference to a DataTransformation which represents the transformer chain that is used to transform the data that shall be placed inside this ISignal.
+        Optional reference to a DataTransformation which represents the transformer chain that is used to transform the data that shall be placed inside this ISignal. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=dataTransformation.dataTransformation, dataTransformation.variationPoint.shortLabel vh.latestBindingTime=codeGenerationTime
         A None value is a no-op and does not overwrite an existing dataTransformationRef.
         """
         if value is not None:
@@ -1790,13 +1800,13 @@ class ISignal(FibexElement):
 
     def getInitValue(self) -> Optional[ValueSpecification]:
         """
-        Optional definition of a ISignal's initValue in case the System Description doesn't use a complete Software Component Description (VFB View). This supports the inclusion of legacy system signals. This value can be used to configure the Signal's "Init Value". If a full DataMapping exist for the SystemSignal this information may be available from a configured SenderComSpec and ReceiverComSpec. In this case the initvalues in SenderComSpec and/or ReceiverComSpec override this optional value specification. Further restrictions apply from the RTE specification.
+        Optional definition of a ISignal's initValue in case the System Description doesn't use a complete Software Component Description (VFB View). This supports the inclusion of legacy system signals. This value can be used to configure the Signal's "Init Value". If a full DataMapping exist for the SystemSignal this information may be available from a configured Sender ComSpec and ReceiverComSpec. In this case the initvalues in SenderComSpec and/or ReceiverComSpec override this optional value specification. Further restrictions apply from the RTE specification.
         """
         return self.initValue
 
     def setInitValue(self, value: Optional[ValueSpecification]) -> ISignal:
         """
-        Optional definition of a ISignal's initValue in case the System Description doesn't use a complete Software Component Description (VFB View). This supports the inclusion of legacy system signals. This value can be used to configure the Signal's "Init Value". If a full DataMapping exist for the SystemSignal this information may be available from a configured SenderComSpec and ReceiverComSpec. In this case the initvalues in SenderComSpec and/or ReceiverComSpec override this optional value specification. Further restrictions apply from the RTE specification.
+        Optional definition of a ISignal's initValue in case the System Description doesn't use a complete Software Component Description (VFB View). This supports the inclusion of legacy system signals. This value can be used to configure the Signal's "Init Value". If a full DataMapping exist for the SystemSignal this information may be available from a configured Sender ComSpec and ReceiverComSpec. In this case the initvalues in SenderComSpec and/or ReceiverComSpec override this optional value specification. Further restrictions apply from the RTE specification.
         A None value is a no-op and does not overwrite an existing initValue.
         """
         if value is not None:
@@ -1805,13 +1815,13 @@ class ISignal(FibexElement):
 
     def getISignalProps(self) -> Optional[ISignalProps]:
         """
-        Additional optional ISignal properties that may be stored in different files.
+        Additional optional ISignal properties that may be stored in different files. Stereotypes: atpSplitable Tags: atp.Splitkey=iSignalProps
         """
         return self.iSignalProps
 
     def setISignalProps(self, value: Optional[ISignalProps]) -> ISignal:
         """
-        Additional optional ISignal properties that may be stored in different files.
+        Additional optional ISignal properties that may be stored in different files. Stereotypes: atpSplitable Tags: atp.Splitkey=iSignalProps
         A None value is a no-op and does not overwrite an existing iSignalProps.
         """
         if value is not None:
@@ -1850,13 +1860,13 @@ class ISignal(FibexElement):
 
     def getNetworkRepresentationProps(self) -> Optional[SwDataDefProps]:
         """
-        Specification of the actual network representation. The usage of SwDataDefProps for this purpose is restricted to the attributes compuMethod and baseType. The optional baseType attributes "memAllignment" and "byteOrder" shall not be used. The attribute "dataTypePolicy" in the SystemTemplate element defines whether this network representation shall be ignored and the information shall be taken over from the network representation of the ComSpec. If "override" is chosen by the system integrator the network representation can violate against the requirements defined in the PortInterface and in the network representation of the ComSpec. In case that the System Description doesn't use a complete Software Component Description (VFB View) this element is used to configure "ComSignalDataInvalidValue" and the Data Semantics.
+        Specification of the actual network representation. The usage of SwDataDefProps for this purpose is restricted to the attributes compuMethod and baseType. The optional baseType attributes "memAllignment" and "byteOrder" shall not be used. The attribute "dataTypePolicy" in the SystemTemplate element defines whether this network representation shall be ignored and the information shall be taken over from the network representation of the ComSpec. If "override" is chosen by the system integrator the network representation can violate against the requirements defined in the PortInterface and in the network representation of the ComSpec. In case that the System Description doesn't use a complete Software Component Description (VFB View) this element is used to configure "ComSignalDataInvalid Value" and the Data Semantics. Stereotypes: atpSplitable Tags: atp.Splitkey=networkRepresentationProps
         """
         return self.networkRepresentationProps
 
     def setNetworkRepresentationProps(self, value: Optional[SwDataDefProps]) -> ISignal:
         """
-        Specification of the actual network representation. The usage of SwDataDefProps for this purpose is restricted to the attributes compuMethod and baseType. The optional baseType attributes "memAllignment" and "byteOrder" shall not be used. The attribute "dataTypePolicy" in the SystemTemplate element defines whether this network representation shall be ignored and the information shall be taken over from the network representation of the ComSpec. If "override" is chosen by the system integrator the network representation can violate against the requirements defined in the PortInterface and in the network representation of the ComSpec. In case that the System Description doesn't use a complete Software Component Description (VFB View) this element is used to configure "ComSignalDataInvalidValue" and the Data Semantics.
+        Specification of the actual network representation. The usage of SwDataDefProps for this purpose is restricted to the attributes compuMethod and baseType. The optional baseType attributes "memAllignment" and "byteOrder" shall not be used. The attribute "dataTypePolicy" in the SystemTemplate element defines whether this network representation shall be ignored and the information shall be taken over from the network representation of the ComSpec. If "override" is chosen by the system integrator the network representation can violate against the requirements defined in the PortInterface and in the network representation of the ComSpec. In case that the System Description doesn't use a complete Software Component Description (VFB View) this element is used to configure "ComSignalDataInvalid Value" and the Data Semantics. Stereotypes: atpSplitable Tags: atp.Splitkey=networkRepresentationProps
         A None value is a no-op and does not overwrite an existing networkRepresentationProps.
         """
         if value is not None:
@@ -1895,7 +1905,9 @@ class ISignal(FibexElement):
 
     def addTransformationISignalProps(self, value: Optional[TransformationISignalProps]) -> ISignal:
         """
-        A transformer chain consists of an ordered list of transformers. The ISignal specific configuration properties for each transformer are defined in the TransformationISignalProps class. The transformer configuration properties that are common for all ISignals are described in the TransformationTechnology class.
+        A transformer chain consists of an ordered list of transformers. The ISignal specific configuration properties for each transformer are defined in the TransformationISignalProps class. The transformer configuration properties that are common for all ISignals are described in the TransformationTechnology class. Stereotypes: atpSplitable Tags: atp.Splitkey=transformationISignalProps
+
+        A None value is a no-op and does not append a transformationISignalProps.
         """
         if value is not None:
             self.transformationISignalProps.append(value)
@@ -1903,7 +1915,7 @@ class ISignal(FibexElement):
 
     def getTransformationISignalProps(self) -> List[TransformationISignalProps]:
         """
-        A transformer chain consists of an ordered list of transformers. The ISignal specific configuration properties for each transformer are defined in the TransformationISignalProps class. The transformer configuration properties that are common for all ISignals are described in the TransformationTechnology class.
+        A transformer chain consists of an ordered list of transformers. The ISignal specific configuration properties for each transformer are defined in the TransformationISignalProps class. The transformer configuration properties that are common for all ISignals are described in the TransformationTechnology class. Stereotypes: atpSplitable Tags: atp.Splitkey=transformationISignalProps
         """
         return self.transformationISignalProps
 
@@ -1911,23 +1923,24 @@ class ISignal(FibexElement):
 class PduTriggering(Identifiable, VariationPointCapable):
     """
     The PduTriggering describes on which channel the IPdu is transmitted. The Pdu routing by the PduR is only allowed for subclasses of IPdu. Depending on its relation to entities such channels and clusters it can be unambiguously deduced whether a fan-out is handled by the Pdu router or the Bus Interface. If the fan-out is specified between different clusters it shall be handled by the Pdu Router. If the fan-out is specified between different channels of the same cluster it shall be handled by the Bus Interface.
+
+    [constr_9198] Existence of PduTriggering.iPdu: For each PduTriggering, the reference to Pdu in the role iPdu shall exist at the time when the System Description is complete.
     """
 
     # PduTriggering method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.31, p.349
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getIPduRef                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setIPduRef                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getIPduPortRefs              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addIPduPortRef               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getISignalTriggeringRefs     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addISignalTriggeringRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSecOcCryptoMappingRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSecOcCryptoMappingRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTriggerIPduSendConditions [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addTriggerIPduSendCondition  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getIPduRef                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIPduRef                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIPduPortRefs              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addIPduPortRef               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getISignalTriggeringRefs     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addISignalTriggeringRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSecOcCryptoMappingRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSecOcCryptoMappingRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTriggerIPduSendConditions [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addTriggerIPduSendCondition  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -1938,13 +1951,13 @@ class PduTriggering(Identifiable, VariationPointCapable):
         # References to the IPduPort on every ECU of the system which sends and/or receives the I-PDU. References for both the sender and the receiver side shall be included when the system is completely defined.
         self.iPduPortRefs: List[RefType] = []
 
-        # This reference provides the relationship to the ISignalTriggerings that are implemented by the PduTriggering. The reference is optional since no ISignalTriggering can be defined for DCM and Multiplexed Pdus. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=iSignalTriggering.iSignalTriggering, iSignalTriggering.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        # This reference provides the relationship to the ISignal Triggerings that are implemented by the PduTriggering. The reference is optional since no ISignalTriggering can be defined for DCM and Multiplexed Pdus. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=iSignalTriggering.iSignalTriggering, iSignal Triggering.variationPoint.shortLabel vh.latestBindingTime=postBuild
         self.iSignalTriggeringRefs: List[RefType] = []
 
-        # This reference identifies the crypto profile applicable to the usage (send, receive) of the also referenced Secured IPdu. Obviously, this reference is only applicable if the Pdutriggering also references a SecuredIPdu in the role iPdu.
+        # This reference identifies the crypto profile applicable to the usage (send, receive) of the also referenced Secured IPdu. Obviously, this reference is only applicable if the Pdutriggering also references a SecuredIPdu in the role i Pdu.
         self.secOcCryptoMappingRef: Optional[RefType] = None
 
-        # Defines the trigger for the Com_TriggerIPDUSend API call. Only if all defined TriggerIPduSendConditions evaluate to true (AND associated) the Com_TriggerIPDUSend API shall be called.
+        # Defines the trigger for the Com_TriggerIPDUSend API call. Only if all defined TriggerIPduSendConditions evaluate to true (AND associated) the Com_Trigger IPDUSend API shall be called.
         self.triggerIPduSendConditions: List[TriggerIPduSendCondition] = []
 
     def getIPduRef(self) -> Optional[RefType]:
@@ -1978,13 +1991,13 @@ class PduTriggering(Identifiable, VariationPointCapable):
 
     def getISignalTriggeringRefs(self) -> List[RefType]:
         """
-        This reference provides the relationship to the ISignalTriggerings that are implemented by the PduTriggering. The reference is optional since no ISignalTriggering can be defined for DCM and Multiplexed Pdus. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=iSignalTriggering.iSignalTriggering, iSignalTriggering.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        This reference provides the relationship to the ISignal Triggerings that are implemented by the PduTriggering. The reference is optional since no ISignalTriggering can be defined for DCM and Multiplexed Pdus. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=iSignalTriggering.iSignalTriggering, iSignal Triggering.variationPoint.shortLabel vh.latestBindingTime=postBuild
         """
         return self.iSignalTriggeringRefs
 
     def addISignalTriggeringRef(self, value: Optional[RefType]) -> PduTriggering:
         """
-        This reference provides the relationship to the ISignalTriggerings that are implemented by the PduTriggering. The reference is optional since no ISignalTriggering can be defined for DCM and Multiplexed Pdus. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=iSignalTriggering.iSignalTriggering, iSignalTriggering.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        This reference provides the relationship to the ISignal Triggerings that are implemented by the PduTriggering. The reference is optional since no ISignalTriggering can be defined for DCM and Multiplexed Pdus. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=iSignalTriggering.iSignalTriggering, iSignal Triggering.variationPoint.shortLabel vh.latestBindingTime=postBuild
         """
         if value is not None:
             self.iSignalTriggeringRefs.append(value)
@@ -1992,13 +2005,13 @@ class PduTriggering(Identifiable, VariationPointCapable):
 
     def getSecOcCryptoMappingRef(self) -> Optional[RefType]:
         """
-        This reference identifies the crypto profile applicable to the usage (send, receive) of the also referenced Secured IPdu. Obviously, this reference is only applicable if the Pdutriggering also references a SecuredIPdu in the role iPdu.
+        This reference identifies the crypto profile applicable to the usage (send, receive) of the also referenced Secured IPdu. Obviously, this reference is only applicable if the Pdutriggering also references a SecuredIPdu in the role i Pdu.
         """
         return self.secOcCryptoMappingRef
 
     def setSecOcCryptoMappingRef(self, value: Optional[RefType]) -> PduTriggering:
         """
-        This reference identifies the crypto profile applicable to the usage (send, receive) of the also referenced Secured IPdu. Obviously, this reference is only applicable if the Pdutriggering also references a SecuredIPdu in the role iPdu.
+        This reference identifies the crypto profile applicable to the usage (send, receive) of the also referenced Secured IPdu. Obviously, this reference is only applicable if the Pdutriggering also references a SecuredIPdu in the role i Pdu.
         A None value is a no-op and does not overwrite an existing secOcCryptoMappingRef.
         """
         if value is not None:
@@ -2007,13 +2020,13 @@ class PduTriggering(Identifiable, VariationPointCapable):
 
     def getTriggerIPduSendConditions(self) -> List[TriggerIPduSendCondition]:
         """
-        Defines the trigger for the Com_TriggerIPDUSend API call. Only if all defined TriggerIPduSendConditions evaluate to true (AND associated) the Com_TriggerIPDUSend API shall be called.
+        Defines the trigger for the Com_TriggerIPDUSend API call. Only if all defined TriggerIPduSendConditions evaluate to true (AND associated) the Com_Trigger IPDUSend API shall be called.
         """
         return self.triggerIPduSendConditions
 
     def addTriggerIPduSendCondition(self, value: Optional[TriggerIPduSendCondition]) -> PduTriggering:
         """
-        Defines the trigger for the Com_TriggerIPDUSend API call. Only if all defined TriggerIPduSendConditions evaluate to true (AND associated) the Com_TriggerIPDUSend API shall be called.
+        Defines the trigger for the Com_TriggerIPDUSend API call. Only if all defined TriggerIPduSendConditions evaluate to true (AND associated) the Com_Trigger IPDUSend API shall be called.
         """
         if value is not None:
             self.triggerIPduSendConditions.append(value)
@@ -2429,13 +2442,12 @@ class SystemSignalGroup(ARElement):
 
     # SystemSignalGroup method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.13, p.324
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getSystemSignalRefs           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addSystemSignalRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTransformingSystemSignalRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTransformingSystemSignalRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getSystemSignalRefs           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addSystemSignalRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTransformingSystemSignalRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTransformingSystemSignalRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -2452,11 +2464,13 @@ class SystemSignalGroup(ARElement):
         """
         return self.systemSignalRefs
 
-    def addSystemSignalRef(self, value: RefType) -> SystemSignalGroup:
+    def addSystemSignalRef(self, value: Optional[RefType]) -> SystemSignalGroup:
         """
         Reference to a set of SystemSignals that shall always be kept together.
+        A None value is a no-op and does not extend the systemSignalRefs.
         """
-        self.systemSignalRefs.append(value)
+        if value is not None:
+            self.systemSignalRefs.append(value)
         return self
 
     def getTransformingSystemSignalRef(self) -> Optional[RefType]:
@@ -2482,15 +2496,14 @@ class ISignalTriggering(Identifiable, VariationPointCapable):
 
     # ISignalTriggering method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.16, p.330
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getISignalRef             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setISignalRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getISignalGroupRef        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setISignalGroupRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] addISignalPortRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getISignalPortRefs        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getISignalRef      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setISignalRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getISignalGroupRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setISignalGroupRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addISignalPortRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getISignalPortRefs [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -3058,23 +3071,19 @@ class GeneralPurposeIPdu(IPdu):
 
 class SecureCommunicationPropsSet(FibexElement):
     """
-    Collection of properties used to configure SecuredIPdus.
+    Collection of properties used to configure SecuredIPdus. Tags: atp.recommendedPackage=SecureCommunicationPropsSet
     """
 
     # SecureCommunicationPropsSet method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.45, p.370
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                                         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] createSecureCommunicationAuthenticationProps     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getAuthenticationProps                           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createSecureCommunicationFreshnessProps          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getFreshnessProps                                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createSecureCommunicationAuthenticationProps [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAuthenticationProps                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createSecureCommunicationFreshnessProps      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFreshnessProps                            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the SecureCommunicationPropsSet.
-        """
         super().__init__(parent, short_name)
 
         # Authentication properties used to configure Secured IPdus.
@@ -3193,16 +3202,12 @@ class SecureCommunicationAuthenticationProps(Identifiable):
 
     # SecureCommunicationAuthenticationProps method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.47, p.371
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getAuthInfoTxLength            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setAuthInfoTxLength            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAuthInfoTxLength  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAuthInfoTxLength  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the SecureCommunicationAuthenticationProps.
-        """
         super().__init__(parent, short_name)
 
         # This attribute defines the length in bits of the authentication code to be included in the payload of the authenticated Pdu.
@@ -3231,24 +3236,20 @@ class SecureCommunicationFreshnessProps(Identifiable):
 
     # SecureCommunicationFreshnessProps method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.46, p.371
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getFreshnessCounterSyncAttempts            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setFreshnessCounterSyncAttempts            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getFreshnessTimestampTimePeriodFactor      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setFreshnessTimestampTimePeriodFactor      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getFreshnessValueLength                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setFreshnessValueLength                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getFreshnessValueTxLength                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setFreshnessValueTxLength                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getUseFreshnessTimestamp                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setUseFreshnessTimestamp                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getFreshnessCounterSyncAttempts         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFreshnessCounterSyncAttempts         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFreshnessTimestampTimePeriodFactor   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFreshnessTimestampTimePeriodFactor   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFreshnessValueLength                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFreshnessValueLength                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFreshnessValueTxLength               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFreshnessValueTxLength               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getUseFreshnessTimestamp                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUseFreshnessTimestamp                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the SecureCommunicationFreshnessProps.
-        """
         super().__init__(parent, short_name)
 
         # This attribute defines the number of Freshness Counter re-synchronization attempts when a verification failed for a Secured I-PDU. If the value is zero, there will be no additional verification attempt to synchronize with a potentially better fitting Freshness Counter value. This attribute is only applicable if useFreshnessTimestamp is FALSE.
@@ -3615,4 +3616,36 @@ class ISignalPort(CommConnectorPort):
 
 
 class J1939DcmIPdu(IPdu):
-    pass
+    """
+    Represents the IPdus handled by J1939Dcm. Tags: atp.recommendedPackage=Pdus
+
+    [constr_3096] Allowed values for diagnosticMessageType: The allowed values of diagnosticMessageType range from 1..57.
+    """
+
+    # J1939DcmIPdu method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.24, p.344
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDiagnosticMessageType   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDiagnosticMessageType   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This attribute is used to identify the actual DMx message, e.g 1 means DM01, etc.
+        self.diagnosticMessageType: Optional[PositiveInteger] = None
+
+    def getDiagnosticMessageType(self) -> Optional[PositiveInteger]:
+        """
+        This attribute is used to identify the actual DMx message, e.g 1 means DM01, etc.
+        """
+        return self.diagnosticMessageType
+
+    def setDiagnosticMessageType(self, value: Optional[PositiveInteger]) -> J1939DcmIPdu:
+        """
+        This attribute is used to identify the actual DMx message, e.g 1 means DM01, etc.
+        A None value is a no-op and does not overwrite an existing diagnosticMessageType.
+        """
+        if value is not None:
+            self.diagnosticMessageType = value
+        return self

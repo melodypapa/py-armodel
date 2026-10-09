@@ -23,6 +23,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ByteOrderEnum,
     CategoryString,
     CIdentifier,
+    CryptoServiceKeyGenerationEnum,
     CseCodeType,
     DataConsistencyPolicyEnum,
     DateTime,
@@ -63,6 +64,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticTypeOfFreezeFrameRecordNumerationEnum,
     DiagnosticUdsSeverityEnum,
     DiagnosticWwhObdDtcClassEnum,
+    DiagPduType,
     DiagRequirementIdString,
     DisplayFormatString,
     EthGlobalTimeMessageFormatEnum,
@@ -534,6 +536,49 @@ class TestCseCodeType:
 
         cse_zero = CseCodeType().setValue("0")
         assert cse_zero.getValue() == "0"
+
+
+class TestCryptoServiceKeyGenerationEnum:
+    """
+    Test class for CryptoServiceKeyGenerationEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.52, p.378
+    """
+
+    def test_initialization(self):
+        """
+        Test CryptoServiceKeyGenerationEnum initialization with the spec literals in XSD facet order.
+        """
+        enum = CryptoServiceKeyGenerationEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == [
+            CryptoServiceKeyGenerationEnum.KEY_DERIVATION,
+            CryptoServiceKeyGenerationEnum.KEY_STORAGE,
+        ]
+
+    def test_enum_values(self):
+        """
+        Test CryptoServiceKeyGenerationEnum member values.
+        """
+        enum = CryptoServiceKeyGenerationEnum()
+
+        assert CryptoServiceKeyGenerationEnum.KEY_DERIVATION == "KEY-DERIVATION"
+        assert CryptoServiceKeyGenerationEnum.KEY_STORAGE == "KEY-STORAGE"
+
+        assert enum.validateEnumValue("KEY-DERIVATION") is True
+        assert enum.validateEnumValue("KEY-STORAGE") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test CryptoServiceKeyGenerationEnum instantiability and getValue.
+        """
+        enum = CryptoServiceKeyGenerationEnum()
+        enum.setValue(CryptoServiceKeyGenerationEnum.KEY_DERIVATION)
+
+        assert enum.getValue() == CryptoServiceKeyGenerationEnum.KEY_DERIVATION
 
 
 class TestDisplayFormatString:
@@ -2505,6 +2550,49 @@ class TestDiagnosticResponseOnEventActionEnum:
         enum.setValue(DiagnosticResponseOnEventActionEnum.ON_CHANGE_OF_DATA_IDENTIFIER)
 
         assert enum.getValue() == DiagnosticResponseOnEventActionEnum.ON_CHANGE_OF_DATA_IDENTIFIER
+
+
+class TestDiagPduType:
+    """
+    Test class for DiagPduType functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.23, p.344
+    """
+
+    def test_initialization(self):
+        """
+        Test DiagPduType initialization with the spec literals in XSD facet order.
+        """
+        enum = DiagPduType()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == [
+            DiagPduType.DIAG_REQUEST,
+            DiagPduType.DIAG_RESPONSE,
+        ]
+
+    def test_enum_values(self):
+        """
+        Test DiagPduType member values.
+        """
+        enum = DiagPduType()
+
+        assert DiagPduType.DIAG_REQUEST == "DIAG-REQUEST"
+        assert DiagPduType.DIAG_RESPONSE == "DIAG-RESPONSE"
+
+        assert enum.validateEnumValue("DIAG-REQUEST") is True
+        assert enum.validateEnumValue("DIAG-RESPONSE") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test DiagPduType instantiability and getValue.
+        """
+        enum = DiagPduType()
+        enum.setValue(DiagPduType.DIAG_REQUEST)
+
+        assert enum.getValue() == DiagPduType.DIAG_REQUEST
 
 
 class TestDiagnosticClearDtcLimitationEnum:

@@ -668,7 +668,14 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ShortNameFragment,
     SingleLanguageReferrable,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement, CalibrationParameterValueSet, PhysicalDimensionMappingSet
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+    CalibrationParameterValueSet,
+    CryptoServiceKey,
+    CryptoServiceQueue,
+    GeneralPurposeConnection,
+    PhysicalDimensionMappingSet,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultidimensionalTime import MultidimensionalTime
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
@@ -1258,6 +1265,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommu
     ISignalPort,
     ISignalToIPduMapping,
     ISignalTriggering,
+    J1939DcmIPdu,
     MultiplexedIPdu,
     MultiplexedPart,
     NmPdu,
@@ -10760,7 +10768,7 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeFrame(self, element: ET.Element, frame: Frame):
         self.writeIdentifiable(element, frame)
-        self.setChildElementOptionalNumericalValue(element, "FRAME-LENGTH", frame.frameLength)
+        self.setChildElementOptionalIntegerValue(element, "FRAME-LENGTH", frame.getFrameLength())
         self.writePduToFrameMappings(element, frame)
 
     def writeLinUnconditionalFrame(self, element: ET.Element, frame: LinUnconditionalFrame):
@@ -11064,13 +11072,14 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeISignalToIPduMapping(self, element: ET.Element, mapping: ISignalToIPduMapping):
         if mapping is not None:
             child_element = ET.SubElement(element, "I-SIGNAL-TO-I-PDU-MAPPING")
-            self.writeIdentifiable(child_element, mapping)
-            self.setChildElementOptionalRefType(child_element, "I-SIGNAL-REF", mapping.getISignalRef())
+            self.writeIdentifiable(child_element, mapping, write_variation_point=False)
             self.setChildElementOptionalRefType(child_element, "I-SIGNAL-GROUP-REF", mapping.getISignalGroupRef())
+            self.setChildElementOptionalRefType(child_element, "I-SIGNAL-REF", mapping.getISignalRef())
             self._writeEnumToken(child_element, "PACKING-BYTE-ORDER", mapping.getPackingByteOrder(), BYTE_ORDER_XML_MAP)
-            self.setChildElementOptionalIntegerValue(child_element, "START-POSITION", mapping.getStartPosition())
+            self.setChildElementOptionalUnlimitedInteger(child_element, "START-POSITION", mapping.getStartPosition())
             self.setChildElementOptionalLiteral(child_element, "TRANSFER-PROPERTY", mapping.getTransferProperty())
-            self.setChildElementOptionalNumericalValue(child_element, "UPDATE-INDICATION-BIT-POSITION", mapping.getUpdateIndicationBitPosition())
+            self.setChildElementOptionalUnlimitedInteger(child_element, "UPDATE-INDICATION-BIT-POSITION", mapping.getUpdateIndicationBitPosition())
+            self.writeVariationPointCapable(child_element, mapping)
 
     def writeNmPduISignalToIPduMappings(self, element: ET.Element, pdu: NmPdu):
         mappings = pdu.getISignalToIPduMappings()
@@ -11094,7 +11103,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeNPdu(self, element: ET.Element, pdu: NPdu):
         self.logger.debug("Write NPdu <%s>" % pdu.getShortName())
         child_element = ET.SubElement(element, "N-PDU")
-        self.writePdu(child_element, pdu)
+        self.writeIPdu(child_element, pdu)
 
     def writeDcmIPdu(self, element: ET.Element, pdu: DcmIPdu):
         self.logger.debug("Write DcmIPdu <%s>" % pdu.getShortName())
@@ -11102,9 +11111,16 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeIPdu(child_element, pdu)
         self.setChildElementOptionalLiteral(child_element, "DIAG-PDU-TYPE", pdu.getDiagPduType())
 
+    def writeJ1939DcmIPdu(self, element: ET.Element, pdu: J1939DcmIPdu):
+        self.logger.debug("Write J1939DcmIPdu <%s>" % pdu.getShortName())
+        child_element = ET.SubElement(element, "J-1939-DCM-I-PDU")
+        self.writeIPdu(child_element, pdu)
+        self.setChildElementOptionalPositiveInteger(child_element, "DIAGNOSTIC-MESSAGE-TYPE", cast(Integer, pdu.getDiagnosticMessageType()))
+
     def setSecureCommunicationProps(self, element: ET.Element, key: str, props: Optional[SecureCommunicationProps]):
         if props is not None:
             child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, props)
             self.setChildElementOptionalPositiveInteger(child_element, "AUTH-DATA-FRESHNESS-LENGTH", cast(Integer, props.getAuthDataFreshnessLength()))
             self.setChildElementOptionalPositiveInteger(child_element, "AUTH-DATA-FRESHNESS-START-POSITION", cast(Integer, props.getAuthDataFreshnessStartPosition()))  # noqa E501
             self.setChildElementOptionalPositiveInteger(child_element, "AUTHENTICATION-BUILD-ATTEMPTS", cast(Integer, props.getAuthenticationBuildAttempts()))
@@ -12103,7 +12119,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeISignalTriggering(self, element: ET.Element, triggering: ISignalTriggering):
         self.logger.debug("Write ISignalTriggering %s" % triggering.getShortName())
         child_element = ET.SubElement(element, "I-SIGNAL-TRIGGERING")
-        self.writeIdentifiable(child_element, triggering)
+        self.writeIdentifiable(child_element, triggering, write_variation_point=False)
         self.setChildElementOptionalRefType(child_element, "I-SIGNAL-GROUP-REF", triggering.getISignalGroupRef())
         ref_list = triggering.getISignalPortRefs()
         if len(ref_list) > 0:
@@ -12111,11 +12127,12 @@ class ARXMLWriter(AbstractARXMLWriter):
             for ref in ref_list:
                 self.setChildElementOptionalRefType(i_signal_port_refs_tag, "I-SIGNAL-PORT-REF", ref)
         self.setChildElementOptionalRefType(child_element, "I-SIGNAL-REF", triggering.getISignalRef())
+        self.writeVariationPointCapable(child_element, triggering)
 
     def writePduTriggering(self, element: ET.Element, triggering: PduTriggering):
         self.logger.debug("Write PduTriggering %s" % triggering.getShortName())
         child_element = ET.SubElement(element, "PDU-TRIGGERING")
-        self.writeIdentifiable(child_element, triggering)
+        self.writeIdentifiable(child_element, triggering, write_variation_point=False)
         ref_list = triggering.getIPduPortRefs()
         if len(ref_list) > 0:
             i_pdu_port_refs_tag = ET.SubElement(child_element, "I-PDU-PORT-REFS")
@@ -12139,6 +12156,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeTriggerIPduSendCondition(conditions_tag, condition)
                 else:
                     self.notImplemented("Unsupported TriggerIPduSendCondition <%s>" % type(condition))
+        self.writeVariationPointCapable(child_element, triggering)
 
     def writeTriggerIPduSendCondition(self, element: ET.Element, condition: TriggerIPduSendCondition):
         child_element = ET.SubElement(element, "TRIGGER-I-PDU-SEND-CONDITION")
@@ -16128,6 +16146,32 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalString(child_element, "ALGORITHM-MODE", primitive.getAlgorithmMode())
         self.setChildElementOptionalString(child_element, "ALGORITHM-SECONDARY-FAMILY", primitive.getAlgorithmSecondaryFamily())
 
+    def writeCryptoServiceKey(self, element: ET.Element, key: CryptoServiceKey):
+        self.logger.debug("writeCryptoServiceKey %s" % key.getShortName())
+        child_element = ET.SubElement(element, "CRYPTO-SERVICE-KEY")
+        self.writeIdentifiable(child_element, key)
+        self.setChildElementOptionalString(child_element, "ALGORITHM-FAMILY", key.getAlgorithmFamily())
+        self.setChildValueSpecification(child_element, "DEVELOPMENT-VALUE", key.getDevelopmentValue())
+        self.setChildElementOptionalLiteral(child_element, "KEY-GENERATION", key.getKeyGeneration())
+        self.setChildElementOptionalString(child_element, "KEY-STORAGE-TYPE", key.getKeyStorageType())
+        self.setChildElementOptionalPositiveInteger(child_element, "LENGTH", cast(Integer, key.getLength()))
+
+    def writeCryptoServiceQueue(self, element: ET.Element, queue: CryptoServiceQueue):
+        self.logger.debug("writeCryptoServiceQueue %s" % queue.getShortName())
+        child_element = ET.SubElement(element, "CRYPTO-SERVICE-QUEUE")
+        self.writeIdentifiable(child_element, queue)
+        self.setChildElementOptionalPositiveInteger(child_element, "QUEUE-SIZE", cast(Integer, queue.getQueueSize()))
+
+    def writeGeneralPurposeConnection(self, element: ET.Element, connection: GeneralPurposeConnection):
+        self.logger.debug("writeGeneralPurposeConnection %s" % connection.getShortName())
+        child_element = ET.SubElement(element, "GENERAL-PURPOSE-CONNECTION")
+        self.writeIdentifiable(child_element, connection)
+        refs = connection.getPduTriggeringRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(child_element, "PDU-TRIGGERING-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "PDU-TRIGGERING-REF", ref)
+
     def writeSecOcCryptoServiceMapping(self, element: ET.Element, mapping: SecOcCryptoServiceMapping):
         self.writeIdentifiable(element, mapping)
         self.setChildElementOptionalRefType(element, "AUTHENTICATION-REF", mapping.getAuthenticationRef())
@@ -16872,19 +16916,20 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeIdentifiable(child_element, signal)
         self.writeISignalDataTransformation(child_element, signal)
         self.setChildElementOptionalLiteral(child_element, "DATA-TYPE-POLICY", signal.getDataTypePolicy())
+        self.writeISignalProps(child_element, signal)
         self.setChildElementOptionalLiteral(child_element, "I-SIGNAL-TYPE", signal.getISignalType())
         self.setChildValueSpecification(child_element, "INIT-VALUE", signal.getInitValue())
         self.setChildElementOptionalNumericalValue(child_element, "LENGTH", signal.getLength())
         self.setSwDataDefProps(child_element, "NETWORK-REPRESENTATION-PROPS", signal.getNetworkRepresentationProps())
         self.setChildElementOptionalRefType(child_element, "SYSTEM-SIGNAL-REF", signal.getSystemSignalRef())
         self.setChildValueSpecification(child_element, "TIMEOUT-SUBSTITUTION-VALUE", signal.getTimeoutSubstitutionValue())
-        self.writeISignalProps(child_element, signal)
         self.writeISignalTransformationISignalProps(child_element, signal)
 
     def writeISignalProps(self, element: ET.Element, signal: ISignal):
         props = signal.getISignalProps()
         if props is not None:
             child_element = ET.SubElement(element, "I-SIGNAL-PROPS")
+            self.writeARObject(child_element, props)
             self._writeEnumToken(child_element, "HANDLE-OUT-OF-RANGE", props.getHandleOutOfRange(), HANDLE_OUT_OF_RANGE_XML_MAP)
 
     def writeISignalDataTransformation(self, element: ET.Element, signal: ISignal):
@@ -19673,7 +19718,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writePdu(self, element: ET.Element, pdu: Pdu):
         self.writeIdentifiable(element, pdu)
         self.setChildElementOptionalBooleanValue(element, "HAS-DYNAMIC-LENGTH", pdu.getHasDynamicLength())
-        self.setChildElementOptionalNumericalValue(element, "LENGTH", pdu.getLength())
+        self.setChildElementOptionalUnlimitedInteger(element, "LENGTH", pdu.getLength())
 
     def writeContainedIPduProps(self, element: ET.Element, props: Optional[ContainedIPduProps]):
         if props is not None:
@@ -20186,14 +20231,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         if len(mappings) > 0:
             mappings_tag = ET.SubElement(element, "I-SIGNAL-TO-PDU-MAPPINGS")
             for mapping in mappings:
-                child_element = ET.SubElement(mappings_tag, "I-SIGNAL-TO-I-PDU-MAPPING")
-                self.writeIdentifiable(child_element, mapping)
-                self.setChildElementOptionalRefType(child_element, "I-SIGNAL-REF", mapping.getISignalRef())
-                self.setChildElementOptionalRefType(child_element, "I-SIGNAL-GROUP-REF", mapping.getISignalGroupRef())
-                self._writeEnumToken(child_element, "PACKING-BYTE-ORDER", mapping.getPackingByteOrder(), BYTE_ORDER_XML_MAP)
-                self.setChildElementOptionalNumericalValue(child_element, "START-POSITION", mapping.getStartPosition())
-                self.setChildElementOptionalLiteral(child_element, "TRANSFER-PROPERTY", mapping.getTransferProperty())
-                self.setChildElementOptionalNumericalValue(child_element, "UPDATE-INDICATION-BIT-POSITION", mapping.getUpdateIndicationBitPosition())
+                self.writeISignalToIPduMapping(mappings_tag, mapping)
 
     def setDataFilter(self, element: ET.Element, key: str, filter: Optional[DataFilter]):
         if filter is not None:
@@ -20272,18 +20310,22 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setTransmissionModeTiming(child_element, "TRANSMISSION-MODE-FALSE-TIMING", decl.getTransmissionModeFalseTiming())
             self.setTransmissionModeTiming(child_element, "TRANSMISSION-MODE-TRUE-TIMING", decl.getTransmissionModeTrueTiming())
 
+    def writeIPduTiming(self, element: ET.Element, timing: IPduTiming):
+        self.writeDescribable(element, timing)
+        self.setChildElementOptionalTimeValue(element, "MINIMUM-DELAY", timing.getMinimumDelay())
+        self.setTransmissionModeDeclaration(element, "TRANSMISSION-MODE-DECLARATION", timing.getTransmissionModeDeclaration())
+        self.writeVariationPointCapable(element, timing)
+
     def setISignalIPduIPduTimingSpecification(self, element: ET.Element, timing: Optional[IPduTiming]):
         if timing is not None:
             spec_tag = ET.SubElement(element, "I-PDU-TIMING-SPECIFICATIONS")
             child_element = ET.SubElement(spec_tag, "I-PDU-TIMING")
-            self.setChildElementOptionalTimeValue(child_element, "MINIMUM-DELAY", timing.getMinimumDelay())
-            self.setTransmissionModeDeclaration(child_element, "TRANSMISSION-MODE-DECLARATION", timing.getTransmissionModeDeclaration())
+            self.writeIPduTiming(child_element, timing)
 
     def writeISignalIPdu(self, element: ET.Element, ipdu: ISignalIPdu):
         self.logger.debug("ISignalIPdu %s" % ipdu.getShortName())
         child_element = ET.SubElement(element, "I-SIGNAL-I-PDU")
-        self.writeIdentifiable(child_element, ipdu)
-        self.setChildElementOptionalNumericalValue(child_element, "LENGTH", ipdu.getLength())
+        self.writeIPdu(child_element, ipdu)
         self.setISignalIPduIPduTimingSpecification(child_element, ipdu.getIPduTimingSpecification())
         self.writeISignalToPduMappings(child_element, ipdu)
         self.setChildElementOptionalIntegerValue(child_element, "UNUSED-BIT-PATTERN", ipdu.getUnusedBitPattern())
@@ -20714,6 +20756,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeNPdu(element, ar_element)
         elif isinstance(ar_element, DcmIPdu):
             self.writeDcmIPdu(element, ar_element)
+        elif isinstance(ar_element, J1939DcmIPdu):
+            self.writeJ1939DcmIPdu(element, ar_element)
         elif isinstance(ar_element, SecuredIPdu):
             self.writeSecuredIPdu(element, ar_element)
         elif isinstance(ar_element, ContainerIPdu):
@@ -21033,6 +21077,12 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeIPSecConfigProps(element, ar_element)
         elif isinstance(ar_element, CryptoServicePrimitive):
             self.writeCryptoServicePrimitive(element, ar_element)
+        elif isinstance(ar_element, CryptoServiceKey):
+            self.writeCryptoServiceKey(element, ar_element)
+        elif isinstance(ar_element, CryptoServiceQueue):
+            self.writeCryptoServiceQueue(element, ar_element)
+        elif isinstance(ar_element, GeneralPurposeConnection):
+            self.writeGeneralPurposeConnection(element, ar_element)
         elif isinstance(ar_element, SoAdRoutingGroup):
             self.writeSoAdRoutingGroup(element, ar_element)
         elif isinstance(ar_element, CanXlProps):

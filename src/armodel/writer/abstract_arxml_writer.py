@@ -33,6 +33,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     String,
     SymbolString,
     TimeValue,
+    UnlimitedInteger,
     UriString,
     VerbatimString,
 )
@@ -143,6 +144,9 @@ class AbstractARXMLWriter(ABC):
         self.setChildElementOptionalNumericalValue(element, key, value)
 
     def setChildElementOptionalPositiveUnlimitedInteger(self, element: ET.Element, key: str, value: Optional[PositiveUnlimitedInteger]):
+        self.setChildElementOptionalNumericalValue(element, key, value)
+
+    def setChildElementOptionalUnlimitedInteger(self, element: ET.Element, key: str, value: Optional[UnlimitedInteger]):
         self.setChildElementOptionalNumericalValue(element, key, value)
 
     def setChildElementOptionalNameToken(self, element: ET.Element, key: str, value: Optional[NameToken]):
