@@ -58,6 +58,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     GlobalTimeCanMaster,
     GlobalTimeCanSlave,
     GlobalTimeEthMaster,
+    GlobalTimeEthSlave,
     GlobalTimeGateway,
     GlobalTimeMaster,
     GlobalTimeSlave,
@@ -4095,3 +4096,123 @@ class TestGlobalTimeEthMaster:
         assert inspect.cleandoc(GlobalTimeEthMaster.setHoldOverTime.__doc__) == (self.HOLD_OVER_TIME_NOTE + "\n\nA None value is a no-op and does not overwrite an existing holdOverTime.")
         assert inspect.cleandoc(GlobalTimeEthMaster.getSubTlvConfig.__doc__) == self.SUB_TLV_CONFIG_NOTE
         assert inspect.cleandoc(GlobalTimeEthMaster.setSubTlvConfig.__doc__) == (self.SUB_TLV_CONFIG_NOTE + "\n\nA None value is a no-op and does not overwrite an existing subTlvConfig.")
+
+
+class TestGlobalTimeEthSlave:
+    """
+    Test class for GlobalTimeEthSlave functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.13, p.867
+    (concrete; the Table 9.13 Base row's most-derived class is GlobalTimeSlave — re-parented
+    from the Identifiable stub base.)
+    """
+
+    CLASS_NOTE = "This represents the specialization of the GlobalTimeSlave for Ethernet communication."
+    CRC_VALIDATED_NOTE = "Definition of whether or not validation of the CRC is supported."
+
+    def _create_slave(self) -> GlobalTimeEthSlave:
+        return GlobalTimeEthSlave(AUTOSAR.getInstance(), "ethSlave")
+
+    def test_is_global_time_slave_subclass(self):
+        """
+        Test that GlobalTimeEthSlave derives from GlobalTimeSlave per the Table 9.13 Base row
+        (ARObject, GlobalTimeSlave, Identifiable, MultilanguageReferrable, Referrable —
+        most-derived GlobalTimeSlave).
+        """
+        assert issubclass(GlobalTimeEthSlave, GlobalTimeSlave)
+        assert issubclass(GlobalTimeEthSlave, Identifiable)
+        assert issubclass(GlobalTimeEthSlave, VariationPointCapable)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(GlobalTimeEthSlave.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert GlobalTimeEthSlave.__init__.__doc__ is None
+
+    def test_member_order_follows_spec_rows(self):
+        """
+        Test that the accessors follow the Table 9.13 displayed row order (getter first per attribute).
+        """
+        methods = [name for name, value in GlobalTimeEthSlave.__dict__.items() if callable(value) and not name.startswith("_")]
+        assert methods == [
+            "getCrcValidated",
+            "setCrcValidated",
+        ]
+
+    def test_initialization_defaults(self):
+        """
+        Test that the instance initializes all own and inherited attributes to their defaults.
+        """
+        obj = self._create_slave()
+
+        assert obj.getShortName() == "ethSlave"
+        assert obj.getChecksum() is None
+        assert obj.getCrcValidated() is None
+        assert obj.getCommunicationConnectorRef() is None
+        assert obj.getFollowUpTimeoutValue() is None
+        assert obj.getIcvVerification() is None
+        assert obj.getTimeLeapFutureThreshold() is None
+        assert obj.getTimeLeapHealingCounter() is None
+        assert obj.getTimeLeapPastThreshold() is None
+        assert obj.getVariationPoint() is None
+
+    def test_annotations_are_optional_typed(self):
+        """
+        Test that the accessors carry the spec types (0..1 rows).
+        """
+        hints = typing.get_type_hints(GlobalTimeEthSlave.getCrcValidated)
+        assert hints.get("return") == typing.Optional[GlobalTimeCrcValidationEnum]
+        hints = typing.get_type_hints(GlobalTimeEthSlave.setCrcValidated)
+        assert hints.get("value") == typing.Optional[GlobalTimeCrcValidationEnum]
+        assert hints.get("return") is GlobalTimeEthSlave
+
+    def test_get_set_crc_validated(self):
+        """
+        Test getCrcValidated and setCrcValidated round-trip and None no-op.
+        """
+        obj = self._create_slave()
+
+        value = GlobalTimeCrcValidationEnum()
+        value.setValue(GlobalTimeCrcValidationEnum.CRC_VALIDATED)
+        result = obj.setCrcValidated(value)
+        assert result is obj
+        assert obj.getCrcValidated() is value
+        assert obj.getCrcValidated().getValue() == GlobalTimeCrcValidationEnum.CRC_VALIDATED
+
+        result = obj.setCrcValidated(None)
+        assert result is obj
+        assert obj.getCrcValidated() is value
+
+    def test_inherited_base_accessors(self):
+        """
+        Exercise the inherited GlobalTimeSlave accessors: chaining, round-trip, None no-op.
+        """
+        obj = self._create_slave()
+
+        follow_up = TimeValue()
+        follow_up.setValue("0.05")
+        assert obj.setFollowUpTimeoutValue(follow_up) is obj
+        assert obj.getFollowUpTimeoutValue() is follow_up
+
+        obj.setFollowUpTimeoutValue(None)
+        assert obj.getFollowUpTimeoutValue() is follow_up
+
+        variation_point = VariationPoint()
+        assert obj.setVariationPoint(variation_point) is obj
+        assert obj.getVariationPoint() is variation_point
+
+        obj.setVariationPoint(None)
+        assert obj.getVariationPoint() is variation_point
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        assert inspect.cleandoc(GlobalTimeEthSlave.getCrcValidated.__doc__) == self.CRC_VALIDATED_NOTE
+        assert inspect.cleandoc(GlobalTimeEthSlave.setCrcValidated.__doc__) == (self.CRC_VALIDATED_NOTE + "\n\nA None value is a no-op and does not overwrite an existing crcValidated.")

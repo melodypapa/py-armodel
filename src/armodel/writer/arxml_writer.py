@@ -620,6 +620,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     GlobalTimeCanMaster,
     GlobalTimeCanSlave,
     GlobalTimeEthMaster,
+    GlobalTimeEthSlave,
     GlobalTimeGateway,
     GlobalTimeMaster,
     GlobalTimeSlave,
@@ -13874,6 +13875,15 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeGlobalTimeSlave(element, slave)
         self.setChildElementOptionalLiteral(element, "CRC-VALIDATED", slave.getCrcValidated())
         self.setChildElementOptionalPositiveInteger(element, "SEQUENCE-COUNTER-JUMP-WIDTH", cast(Integer, slave.getSequenceCounterJumpWidth()))
+
+    def writeGlobalTimeEthSlave(self, element: ET.Element, slave: GlobalTimeEthSlave):
+        # Populates the GLOBAL-TIME-ETH-SLAVE element created by the caller; the XSD
+        # GLOBAL-TIME-ETH-SLAVE group (AUTOSAR_00052.xsd l.64735) follows the
+        # GLOBAL-TIME-SLAVE group and carries only the CRC-VALIDATED element. The removed
+        # TIME-HARDWARE-CORRECTION-THRESHOLD element (atp.Status="removed", absent from
+        # Table 9.13) is not written.
+        self.writeGlobalTimeSlave(element, slave)
+        self.setChildElementOptionalLiteral(element, "CRC-VALIDATED", slave.getCrcValidated())
 
     def writeGlobalTimeEthMaster(self, element: ET.Element, master: GlobalTimeEthMaster):
         # Populates the GLOBAL-TIME-ETH-MASTER element created by the caller; the XSD

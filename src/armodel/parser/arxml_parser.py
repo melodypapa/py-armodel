@@ -777,6 +777,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     GlobalTimeCanMaster,
     GlobalTimeCanSlave,
     GlobalTimeEthMaster,
+    GlobalTimeEthSlave,
     GlobalTimeGateway,
     GlobalTimeMaster,
     GlobalTimeSlave,
@@ -16378,6 +16379,20 @@ class ARXMLParser(AbstractARXMLParser):
             crc_validated.setValue(literal.getValue())
             slave.setCrcValidated(crc_validated)
         slave.setSequenceCounterJumpWidth(self.getChildElementOptionalPositiveInteger(element, "SEQUENCE-COUNTER-JUMP-WIDTH"))
+        return slave
+
+    def readGlobalTimeEthSlave(self, element: ET.Element, slave: GlobalTimeEthSlave) -> GlobalTimeEthSlave:
+        # The XSD GLOBAL-TIME-ETH-SLAVE group (AUTOSAR_00052.xsd l.64735) follows the
+        # GLOBAL-TIME-SLAVE group and carries only the CRC-VALIDATED element. The removed
+        # TIME-HARDWARE-CORRECTION-THRESHOLD element (atp.Status="removed", absent from
+        # Table 9.13) is not read.
+        # readGlobalTimeSlave transitively owns the Identifiable level.
+        self.readGlobalTimeSlave(element, slave)
+        literal = self.getChildElementOptionalLiteral(element, "CRC-VALIDATED")
+        if literal is not None:
+            crc_validated = GlobalTimeCrcValidationEnum()
+            crc_validated.setValue(literal.getValue())
+            slave.setCrcValidated(crc_validated)
         return slave
 
     def readGlobalTimeEthMaster(self, element: ET.Element, master: GlobalTimeEthMaster) -> GlobalTimeEthMaster:

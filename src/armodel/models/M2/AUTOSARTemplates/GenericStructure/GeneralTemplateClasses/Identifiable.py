@@ -2344,10 +2344,6 @@ class DdsCpQosProfile(Identifiable):
         return self
 
 
-class GlobalTimeEthSlave(Identifiable):
-    pass
-
-
 class GlobalTimeFrSlave(Identifiable):
     pass
 
@@ -2779,6 +2775,51 @@ class GlobalTimeCanSlave(GlobalTimeSlave):
         """
         if value is not None:
             self.sequenceCounterJumpWidth = value
+        return self
+
+
+class GlobalTimeEthSlave(GlobalTimeSlave):
+    """
+    This represents the specialization of the GlobalTimeSlave for Ethernet communication.
+    """
+
+    # GlobalTimeEthSlave method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.13, p.867
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCrcValidated   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCrcValidated   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # Re-parented from the Identifiable stub base to GlobalTimeSlave per the Table 9.13 Base row
+    # (most-derived base GlobalTimeSlave); the class definition moved below GlobalTimeSlave so
+    # the Python name resolves. The reader/writer call the Table 9.5 base helpers
+    # (readGlobalTimeSlave / writeGlobalTimeSlave, which transitively own the Identifiable
+    # level) exactly once; the XSD GLOBAL-TIME-ETH-SLAVE group (AUTOSAR_00052.xsd l.64735)
+    # carries only the CRC-VALIDATED element. TIME-HARDWARE-CORRECTION-THRESHOLD is absent from
+    # Table 9.13 and carries atp.Status="removed" in the XSD — deprecated, not implemented.
+    # Aggregator dispatch (GlobalTimeDomain.slave) is pending — GlobalTimeDomain is a
+    # later-wave class.
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Definition of whether or not validation of the CRC is supported.
+        self.crcValidated: Optional[GlobalTimeCrcValidationEnum] = None
+
+    def getCrcValidated(self) -> Optional[GlobalTimeCrcValidationEnum]:
+        """
+        Definition of whether or not validation of the CRC is supported.
+        """
+        return self.crcValidated
+
+    def setCrcValidated(self, value: Optional[GlobalTimeCrcValidationEnum]) -> GlobalTimeEthSlave:
+        """
+        Definition of whether or not validation of the CRC is supported.
+
+        A None value is a no-op and does not overwrite an existing crcValidated.
+        """
+        if value is not None:
+            self.crcValidated = value
         return self
 
 
