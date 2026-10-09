@@ -632,6 +632,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ShortNameFragment,
     SingleLanguageReferrable,
     UserDefinedGlobalTimeMaster,
+    UserDefinedGlobalTimeSlave,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement, CalibrationParameterValueSet, PhysicalDimensionMappingSet
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultidimensionalTime import MultidimensionalTime
@@ -13909,6 +13910,13 @@ class ARXMLWriter(AbstractARXMLWriter):
         # GLOBAL-TIME-MASTER group and has an empty sequence, so the helper owns only the base
         # level reached through writeGlobalTimeMaster.
         self.writeGlobalTimeMaster(element, master)
+
+    def writeUserDefinedGlobalTimeSlave(self, element: ET.Element, slave: UserDefinedGlobalTimeSlave):
+        # Populates the USER-DEFINED-GLOBAL-TIME-SLAVE element created by the caller; the XSD
+        # USER-DEFINED-GLOBAL-TIME-SLAVE group (AUTOSAR_00052.xsd l.128845) follows the
+        # GLOBAL-TIME-SLAVE group and has an empty sequence, so the helper owns only the base
+        # level reached through writeGlobalTimeSlave.
+        self.writeGlobalTimeSlave(element, slave)
 
     def writeGlobalTimeEthMaster(self, element: ET.Element, master: GlobalTimeEthMaster):
         # Populates the GLOBAL-TIME-ETH-MASTER element created by the caller; the XSD

@@ -2907,8 +2907,27 @@ class SomeipTpChannel(Identifiable):
     pass
 
 
-class UserDefinedGlobalTimeSlave(Identifiable):
-    pass
+class UserDefinedGlobalTimeSlave(GlobalTimeSlave):
+    """
+    This represents the specialization of the GlobalTimeSlave for user defined communication.
+    """
+
+    # UserDefinedGlobalTimeSlave method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.24, p.879
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    #
+    # Re-parented from the Identifiable stub base to GlobalTimeSlave per the Table 9.24 Base
+    # row (most-derived base GlobalTimeSlave); the stub already sat below the base's
+    # definition, so the class definition stays in place. Table 9.24 has no own Attribute rows
+    # and the XSD USER-DEFINED-GLOBAL-TIME-SLAVE group (AUTOSAR_00052.xsd l.128845) has an
+    # empty sequence: the reader/writer call the Table 9.5 base helpers (readGlobalTimeSlave /
+    # writeGlobalTimeSlave, which transitively own the Identifiable level) exactly once.
+    # Aggregator dispatch (GlobalTimeDomain.slave) is pending — GlobalTimeDomain is a
+    # later-wave class.
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
 
 
 class DdsCpConsumedServiceInstance(DdsCpServiceInstance):

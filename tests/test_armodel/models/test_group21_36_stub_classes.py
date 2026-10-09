@@ -3244,7 +3244,7 @@ STUBS = [
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable",
         "UserDefinedGlobalTimeSlave",
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable",
-        "Identifiable",
+        "GlobalTimeSlave",
     ),
     (
         "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.CddSupport",

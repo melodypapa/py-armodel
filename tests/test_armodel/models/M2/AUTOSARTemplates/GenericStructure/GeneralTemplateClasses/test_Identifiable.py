@@ -70,6 +70,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ShortNameFragment,
     SingleLanguageReferrable,
     UserDefinedGlobalTimeMaster,
+    UserDefinedGlobalTimeSlave,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Address,
@@ -4559,6 +4560,88 @@ class TestUserDefinedGlobalTimeMaster:
 
         obj.setSyncPeriod(None)
         assert obj.getSyncPeriod() is sync_period
+
+        variation_point = VariationPoint()
+        assert obj.setVariationPoint(variation_point) is obj
+        assert obj.getVariationPoint() is variation_point
+
+        obj.setVariationPoint(None)
+        assert obj.getVariationPoint() is variation_point
+
+
+class TestUserDefinedGlobalTimeSlave:
+    """
+    Test class for UserDefinedGlobalTimeSlave functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.24, p.879
+    (concrete; the Table 9.24 Base row's most-derived class is GlobalTimeSlave — re-parented
+    from the Identifiable stub base; the table has no own Attribute rows and the XSD
+    USER-DEFINED-GLOBAL-TIME-SLAVE group has an empty sequence.)
+    """
+
+    CLASS_NOTE = "This represents the specialization of the GlobalTimeSlave for user defined communication."
+
+    def _create_slave(self) -> UserDefinedGlobalTimeSlave:
+        return UserDefinedGlobalTimeSlave(AUTOSAR.getInstance(), "userDefinedSlave")
+
+    def test_is_global_time_slave_subclass(self):
+        """
+        Test that UserDefinedGlobalTimeSlave derives from GlobalTimeSlave per the Table 9.24
+        Base row (ARObject, GlobalTimeSlave, Identifiable, MultilanguageReferrable,
+        Referrable — most-derived GlobalTimeSlave).
+        """
+        assert issubclass(UserDefinedGlobalTimeSlave, GlobalTimeSlave)
+        assert issubclass(UserDefinedGlobalTimeSlave, Identifiable)
+        assert issubclass(UserDefinedGlobalTimeSlave, VariationPointCapable)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(UserDefinedGlobalTimeSlave.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert UserDefinedGlobalTimeSlave.__init__.__doc__ is None
+
+    def test_member_order_follows_spec_rows(self):
+        """
+        Test that the class declares no own accessors (Table 9.24 has no Attribute rows).
+        """
+        methods = [name for name, value in UserDefinedGlobalTimeSlave.__dict__.items() if callable(value) and not name.startswith("_")]
+        assert methods == []
+
+    def test_initialization_defaults(self):
+        """
+        Test that the instance initializes all inherited attributes to their defaults.
+        """
+        obj = self._create_slave()
+
+        assert obj.getShortName() == "userDefinedSlave"
+        assert obj.getChecksum() is None
+        assert obj.getCommunicationConnectorRef() is None
+        assert obj.getFollowUpTimeoutValue() is None
+        assert obj.getIcvVerification() is None
+        assert obj.getTimeLeapFutureThreshold() is None
+        assert obj.getTimeLeapHealingCounter() is None
+        assert obj.getTimeLeapPastThreshold() is None
+        assert obj.getVariationPoint() is None
+
+    def test_inherited_base_accessors(self):
+        """
+        Exercise the inherited GlobalTimeSlave accessors: chaining, round-trip, None no-op.
+        """
+        obj = self._create_slave()
+
+        follow_up = TimeValue()
+        follow_up.setValue("0.05")
+        assert obj.setFollowUpTimeoutValue(follow_up) is obj
+        assert obj.getFollowUpTimeoutValue() is follow_up
+
+        obj.setFollowUpTimeoutValue(None)
+        assert obj.getFollowUpTimeoutValue() is follow_up
 
         variation_point = VariationPoint()
         assert obj.setVariationPoint(variation_point) is obj
