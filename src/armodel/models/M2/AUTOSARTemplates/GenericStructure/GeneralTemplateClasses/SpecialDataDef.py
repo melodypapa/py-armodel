@@ -96,6 +96,7 @@ class SdgClass(SdgElementWithGid, Identifiable):
     # [x] setExtendsMetaClass   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] addSdgConstraintRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getSdgConstraintRefs  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # Spec verified: R23-11
 
     def __init__(self, parent, short_name: str):
         super().__init__(parent, short_name)
