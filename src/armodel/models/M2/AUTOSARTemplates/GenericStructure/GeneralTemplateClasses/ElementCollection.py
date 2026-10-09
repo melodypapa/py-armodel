@@ -68,6 +68,7 @@ class Collection(Identifiable):
 
     # Collection method parity checklist:
     # Spec: R23-11/AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 13.1, p.399 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getAutoCollect             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -84,7 +85,6 @@ class Collection(Identifiable):
     # [x] addSourceElementRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getSourceInstanceIRefs     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] addSourceInstanceIRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # Spec verified: R23-11
 
     def __init__(self, parent, short_name: str):
         super().__init__(parent, short_name)
