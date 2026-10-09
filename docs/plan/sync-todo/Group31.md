@@ -1367,15 +1367,45 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `Frame` — FibexElement — R23-11 CP_TPS_SystemTemplate Table 6.78, p.418
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - Note: legacy 5-col checklist + stale `# Spec verified: R23-11` removed at entry
+    (Rule 0023 removal + audit_stamped_classes baseline refresh — Frame left the
+    known-failing set). Own table = CP_TPS SystemTemplate Table 6.78, p.418; class
+    is abstract ("Frame (abstract)"); Base most-derived = `FibexElement` (stamped,
+    no own attrs, owns no reader/writer helpers → one base call per side =
+    readIdentifiable/writeIdentifiable, audit BASE clean). 2 attrs in displayed
+    order: frameLength (Integer, 0..1, attr), pduToFrameMapping (PduToFrameMapping,
+    `*`, aggr; atpVariation tail kept verbatim incl. the markdown wrap artifact
+    "pduTo FrameMapping."). XSD group FRAME (AUTOSAR_00052.xsd l.62960):
+    FRAME-LENGTH → PDU-TO-FRAME-MAPPINGS wrapper (unbounded PDU-TO-FRAME-MAPPING
+    choice) — matches displayed order; no atp.Status=removed elements. Placement
+    verified (Rule 0007, non-leaf package → __init__.py).
+  - [x] Step 2 — Write model class unit test (Red)
+  - Red = insertion-order assertion on getPduToFrameMappings (the registry-sorted
+    view failed it); the abstract-guard test passed as expected.
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - Red justification: per-class parser/writer tests placed + entry audit FAIL
+    (ROWS/STAMP legacy bar); round-trip content already passed (readFrame/
+    writeFrame pre-existed) — sanctioned honest-Red convention.
+  - [x] Step 6 — Update parser & writer (Green)
+  - Reader populates via setFrameLength mutator (was direct field assignment);
+    writer reads getFrameLength() via setChildElementOptionalIntegerValue (matched
+    IntegerValue pair with the reader helper — was a NumericalValue cross-type);
+    exactly one base call per side kept.
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - Deviation: none — no naming/type/missing rows, no Rule 0001.10 placeholders;
+    referenced types (Integer, PduToFrameMapping, FibexElement) exist and are
+    synced. Reconcile from the PduToFrameMapping session (a8e5ac35e) DONE:
+    getPduToFrameMappings returns the dedicated pduToFrameMappings field
+    (insertion order) instead of filtering referrableElements (Rule 0004);
+    writePduToFrameMappings unchanged (reads the getter). Concrete-subclass
+    dispatch (CanFrame/FlexrayFrame/GenericEthernetFrame/LinUnconditionalFrame)
+    already chains readFrame/writeFrame — the LinFrame family inherits clean
+    helpers for its Rule 0025 chaining.
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-08 (23707 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 417c1d005
 
 - [ ] `LinFrame` — Frame — R23-11 CP_TPS_SystemTemplate Table 6.87, p.428
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Lin/LinCommunication.py

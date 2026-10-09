@@ -13,8 +13,8 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | [x] Done | 852 | 44.8% |
 | [x] Deferred | 42 | 2.2% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 839 | 44.1% |
-| [ ] Implemented | 27 | 1.4% |
+| [ ] Deferred | 840 | 44.2% |
+| [ ] Implemented | 26 | 1.4% |
 | [ ] Created | 142 | 7.5% |
 | [ ] Pending | 0 | 0.0% |
 
@@ -965,7 +965,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `FormulaExpression`                                     | [x] Done    | 88ed82bed3                               | Group8           |
 | `FrArTpAckType`                                         | [ ] Deferred| N/A                                      | Group33          |
 | `FrGlobalTimeDomainProps`                               | [ ] Created | N/A                                      | Group34          |
-| `Frame`                                                 | [ ] Implemented| N/A                                      | Group31          |
+| `Frame`                                                 | [ ] Deferred| 417c1d0055                               | Group31          |
 | `FrameEnum`                                             | [x] Done    | 531991e029                               | Group3           |
 | `FrameMapping`                                          | [x] Done    | a5f62ee06d                               | Group17          |
 | `FramePid`                                              | [ ] Implemented| N/A                                      | Group31          |
