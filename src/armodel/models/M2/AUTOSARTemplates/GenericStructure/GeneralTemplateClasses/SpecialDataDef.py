@@ -29,6 +29,7 @@ class SdgElementWithGid(ARObject, ABC):
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] getGid    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setGid    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # Spec verified: R23-11
 
     # Class-level default — the ONLY initialization (VariationPointCapable mixin
     # pattern): the repo's Referrable.__init__ calls ARObject.__init__ directly
