@@ -11,11 +11,11 @@ for a human 9b that may never audit it.
 Only stamped classes are gated. A class with no marker is legitimately mid-queue
 (Steps 1-8 done, awaiting 9b), so failing it would punish correct behaviour.
 
-Usage:
-    python scripts/audit_stamped_classes.py                 # human report, exit 1 on any failure
-    python scripts/audit_stamped_classes.py --json
-    python scripts/audit_stamped_classes.py --baseline tests/test_armodel/models/stamped_audit_baseline.txt
-    python scripts/audit_stamped_classes.py --write-baseline tests/test_armodel/models/stamped_audit_baseline.txt
+Usage (run from the repo root):
+    python .agents/skills/sync-autosar-class/audit_stamped_classes.py                 # human report, exit 1 on any failure
+    python .agents/skills/sync-autosar-class/audit_stamped_classes.py --json
+    python .agents/skills/sync-autosar-class/audit_stamped_classes.py --baseline tests/test_armodel/models/stamped_audit_baseline.txt
+    python .agents/skills/sync-autosar-class/audit_stamped_classes.py --write-baseline tests/test_armodel/models/stamped_audit_baseline.txt
 """
 
 from __future__ import annotations
@@ -28,9 +28,10 @@ import sys
 from pathlib import Path
 from typing import Dict, List, Optional, Set, Tuple
 
-ROOT = Path(__file__).resolve().parent.parent
+SKILL_DIR = Path(__file__).resolve().parent
+ROOT = SKILL_DIR.parents[2]
 MODELS_DIR = ROOT / "src" / "armodel" / "models"
-SKILL_SCRIPT = ROOT / ".claude" / "skills" / "sync-autosar-class" / "audit_class.py"
+SKILL_SCRIPT = SKILL_DIR / "audit_class.py"
 
 MARKERS = ("# Spec verified:", "# XSD verified:")
 
