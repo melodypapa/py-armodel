@@ -189,7 +189,7 @@ pending that confirmation.
     2026-10-09 (Rule 0026 audit vs source: all 9a automated + 9b manual checks green;
     `# Spec verified: R23-11` marker written); sync commit f7d552948
 
-- [ ] `SdgClass` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.26, p.100
+- [x] `SdgClass` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.26, p.100
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/SpecialDataDef.py
   - [x] Step 1 — Sync members & description from spec
     - note (Step 1): Table 4.26 (leading-caption page-split — attr rows in the continuation block, p.100 via pdf_page.py); Base row lists both SdgElementWithGid and Identifiable → dual inheritance SdgClass(SdgElementWithGid, Identifiable); attrs extendsMetaClass (MetaClassName, 0..1, attr → Optional[str]), caption (Boolean, 0..1, attr), attribute (SdgAttribute, *, aggr, ordered → attributes + addAttribute), sdgConstraint (TraceableText, *, ref → sdgConstraintRefs).
@@ -219,9 +219,10 @@ pending that confirmation.
     - note (Step 7): 6-column block + release column; marker withheld (batch mode).
   - [x] Step 8 — Deviations
     - note (Step 8): extendsMetaClass typed Optional[str] (MetaClassName primitive has no src class); sdgConstraint typed List[RefType] (TraceableText ditto); SdgReference carries NO gid per its Base row/XSD group.
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (362 passed / 0 failed
-    family suites; 14,043 passed / 0 failed models+parser+writer sweep); 9b deferred to
-    batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (362 passed / 0 failed
+    family suites; 14,043 passed / 0 failed models+parser+writer sweep); 9b confirmed
+    2026-10-09 (Rule 0026 audit vs source: all 9a automated + 9b manual checks green;
+    `# Spec verified: R23-11` marker written); sync commit cfa7402de
 
 - [ ] `SdgAttribute` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.27, p.100
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/SpecialDataDef.py
