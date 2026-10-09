@@ -3292,7 +3292,29 @@ class GlobalTimePortRoleEnum(AREnum):
 
 
 class LinChecksumType(AREnum):
-    pass
+    """
+    Use of classic or enhanced checksum is managed by the master node and it is determined per frame identifier;
+    """
+
+    # LinChecksumType method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.89, p.428
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on LinFrameTriggering.linChecksum
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # Classic in communication with LIN 1.3 slave nodes Tags: atp.EnumerationLiteralIndex=0
+    CLASSIC = "CLASSIC"
+
+    # Enhanced in communication with LIN 2.0 slave nodes. Tags: atp.EnumerationLiteralIndex=1
+    ENHANCED = "ENHANCED"
+
+    def __init__(self):
+        super().__init__(
+            [
+                LinChecksumType.CLASSIC,
+                LinChecksumType.ENHANCED,
+            ]
+        )
 
 
 class MaximumMessageLengthType(AREnum):
