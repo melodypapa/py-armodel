@@ -130,7 +130,7 @@ class Test_FibexCoreCommunication:
             Frame(parent, "test_frame")
 
     def test_Frame_methods(self):
-        """Test Frame abstract class methods."""
+        """Test Frame abstract class methods against Table 6.78."""
 
         class ConcreteFrame(Frame):
             def __init__(self, parent, short_name):
@@ -144,20 +144,38 @@ class Test_FibexCoreCommunication:
         assert frame.getPduToFrameMappings() == []
 
         # Test setter/getter methods with method chaining
-        frame.setFrameLength(100)
-        assert frame.getFrameLength() == 100
-        assert frame == frame.setFrameLength(100)  # Test method chaining
+        frame_length = Integer()
+        frame_length.setValue("100")
+        frame.setFrameLength(frame_length)
+        assert frame.getFrameLength().getValue() == 100
+        assert frame == frame.setFrameLength(frame_length)  # Test method chaining
+        # None is a no-op and does not overwrite an existing frameLength
+        assert frame == frame.setFrameLength(None)
+        assert frame.getFrameLength().getValue() == 100
 
         # Test PduToFrameMapping creation methods
         mapping = frame.createPduToFrameMapping("test_mapping")
         assert isinstance(mapping, PduToFrameMapping)
+        assert isinstance(mapping, Identifiable)
         assert len(frame.getPduToFrameMappings()) == 1
-        mapping.setPduRef(object())
-        assert frame.getPduToFrameMappings()[0].getPduRef() == mapping.getPduRef()
+        pdu_ref = RefType()
+        pdu_ref.setValue("/Pdu/test_pdu")
+        mapping.setPduRef(pdu_ref)
+        assert frame.getPduToFrameMappings()[0].getPduRef().getValue() == "/Pdu/test_pdu"
 
         # Try creating the same mapping again (should return existing)
         mapping2 = frame.createPduToFrameMapping("test_mapping")
         assert mapping == mapping2  # Should return the same instance
+
+        # getPduToFrameMappings returns the dedicated pduToFrameMappings field
+        # in insertion order (Rule 0004), not a registry view sorted by short name
+        bravo = frame.createPduToFrameMapping("bravo")
+        alpha = frame.createPduToFrameMapping("alpha")
+        mappings = frame.getPduToFrameMappings()
+        assert mappings[0] is mapping
+        assert mappings[1] is bravo
+        assert mappings[2] is alpha
+        assert len(mappings) == 3
 
     def test_ContainedIPduProps(self):
         """Test ContainedIPduProps class functionality."""
