@@ -10,7 +10,7 @@ Input class: ApplicationRecordDataType · Generated: 2026-10-10 · Queue order =
 
 ## Queue (dependency-first)
 
-- [ ] `ApplicationRecordDataType` (input · R23-11 markdown · Table 5.12, p.261)
+- [x] `ApplicationRecordDataType` (input · R23-11 markdown · Table 5.12, p.261 · commit 348b98513)
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Datatype/Datatypes.py
   - Note: own Table 5.12, p.261 — concrete `Class`, one `Attribute` row: `element (ordered)` |
     `ApplicationRecordElement` | `*` | `aggr`. Most-derived base = `ApplicationCompositeDataType`
