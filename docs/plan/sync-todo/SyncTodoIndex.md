@@ -92,52 +92,52 @@ Status: **75/75** completed
 
 Status: **44/44** completed
 
-| Class Name                                              | Status    | Commit ID  |
-| ------------------------------------------------------- | --------- | ---------- |
-| `PortInterfaceMappingSet`                               | [x] Done  | 5aa1b7460c |
-| `MetaDataItem`                                          | [x] Done  | e69a025254 |
-| `MetaDataItemSet`                                       | [x] Done  | e69a025254 |
-| `ApplicationCompositeElementInPortInterfaceInstanceRef` | [x] Done  | 399b647757 |
-| `SymbolProps`                                           | [x] Done  | 2d21a9108b |
-| `PPortPrototype`                                        | [x] Done  | 0927333086 |
-| `RPortPrototype`                                        | [x] Done  | 2cd6f3c46e |
-| `PRPortPrototype`                                       | [x] Done  | 043de7436d |
-| `PortGroup`                                             | [x] Done  | d6512dbbec |
-| `InnerPortGroupInCompositionInstanceRef`                | [x] Done  | 919fbc0d11 |
-| `RTEEvent`                                              | [x] Done  | f0483d5732 |
-| `ServerCallPoint`                                       | [x] Done  | 774620a3b1 |
-| `VariableDataPrototype`                                 | [x] Done  | d3b5d680e2 |
-| `PerInstanceMemory`                                     | [x] Done  | f35aa0cd0a |
-| `PortInCompositionTypeInstanceRef`                      | [x] Done  | a6d84b2601 |
-| `AssemblySwConnector`                                   | [x] Done  | 2a104a061c |
-| `DataTypeMappingSet`                                    | [x] Done  | 21ab486b53 |
-| `ApplicationDataType`                                   | [x] Done  | b8d0878d98 |
-| `ApplicationCompositeElementDataPrototype`              | [x] Done  | 031d5c7848 |
-| `InitEvent`                                             | [x] Done  | 64ab725d50 |
-| `BackgroundEvent`                                       | [x] Done  | 27b88a942c |
-| `SynchronousServerCallPoint`                            | [x] Done  | 9182987d97 |
-| `AsynchronousServerCallPoint`                           | [x] Done  | 3223dde420 |
-| `AsynchronousServerCallResultPoint`                     | [x] Done  | 724f490c7a |
-| `VariableInAtomicSwcInstanceRef`                        | [x] Done  | 0369005450 |
-| `VariableInAtomicSWCTypeInstanceRef`                    | [x] Done  | c8ac9ef7de |
-| `ArVariableInImplementationDataInstanceRef`             | [x] Done  | 910009eecc |
-| `DelegationSwConnector`                                 | [x] Done  | 503344170e |
-| `ApplicationPrimitiveDataType`                          | [x] Done  | 4a9ccae9b8 |
-| `ApplicationCompositeDataType`                          | [x] Done  | de9d3fe0a4 |
-| `ApplicationRecordElement`                              | [x] Done  | ae4ed75065 |
-| `RunnableEntityArgument`                                | [x] Done  | 3857c2a435 |
-| `ExternalTriggeringPointIdent`                          | [x] Done  | c04ca0f5b3 |
-| `PortDefinedArgumentValue`                              | [x] Done  | 7fc79e4b73 |
-| `CompositionSwComponentType`                            | [x] Done  | 6b46fb26a9 |
-| `ApplicationRecordDataType`                             | [x] Done* | 0a06e0fae3 |
-| `DataTransformationErrorHandlingEnum`                   | [x] Done  | 7fc79e4b73 |
-| `DataTransformationStatusForwardingEnum`                | [x] Done  | 7c67628122 |
-| `SwcSupportedFeature`                                   | [x] Done  | 7c67628122 |
-| `CommunicationBufferLocking`                            | [x] Done  | 7c67628122 |
-| `SupportBufferLockingEnum`                              | [x] Done  | 7c67628122 |
-| `PortAPIOption`                                         | [x] Done  | 7c67628122 |
-| `IncludedModeDeclarationGroupSet`                       | [x] Done  | b9ac782d1e |
-| `SwcInternalBehavior`                                   | [x] Done  | 4043dc013a |
+| Class Name                                              | Status   | Commit ID  |
+| ------------------------------------------------------- | -------- | ---------- |
+| `PortInterfaceMappingSet`                               | [x] Done | 5aa1b7460c |
+| `MetaDataItem`                                          | [x] Done | e69a025254 |
+| `MetaDataItemSet`                                       | [x] Done | e69a025254 |
+| `ApplicationCompositeElementInPortInterfaceInstanceRef` | [x] Done | 399b647757 |
+| `SymbolProps`                                           | [x] Done | 2d21a9108b |
+| `PPortPrototype`                                        | [x] Done | 0927333086 |
+| `RPortPrototype`                                        | [x] Done | 2cd6f3c46e |
+| `PRPortPrototype`                                       | [x] Done | 043de7436d |
+| `PortGroup`                                             | [x] Done | d6512dbbec |
+| `InnerPortGroupInCompositionInstanceRef`                | [x] Done | 919fbc0d11 |
+| `RTEEvent`                                              | [x] Done | f0483d5732 |
+| `ServerCallPoint`                                       | [x] Done | 774620a3b1 |
+| `VariableDataPrototype`                                 | [x] Done | d3b5d680e2 |
+| `PerInstanceMemory`                                     | [x] Done | f35aa0cd0a |
+| `PortInCompositionTypeInstanceRef`                      | [x] Done | a6d84b2601 |
+| `AssemblySwConnector`                                   | [x] Done | 2a104a061c |
+| `DataTypeMappingSet`                                    | [x] Done | 21ab486b53 |
+| `ApplicationDataType`                                   | [x] Done | b8d0878d98 |
+| `ApplicationCompositeElementDataPrototype`              | [x] Done | 031d5c7848 |
+| `InitEvent`                                             | [x] Done | 64ab725d50 |
+| `BackgroundEvent`                                       | [x] Done | 27b88a942c |
+| `SynchronousServerCallPoint`                            | [x] Done | 9182987d97 |
+| `AsynchronousServerCallPoint`                           | [x] Done | 3223dde420 |
+| `AsynchronousServerCallResultPoint`                     | [x] Done | 724f490c7a |
+| `VariableInAtomicSwcInstanceRef`                        | [x] Done | 0369005450 |
+| `VariableInAtomicSWCTypeInstanceRef`                    | [x] Done | c8ac9ef7de |
+| `ArVariableInImplementationDataInstanceRef`             | [x] Done | 910009eecc |
+| `DelegationSwConnector`                                 | [x] Done | 503344170e |
+| `ApplicationPrimitiveDataType`                          | [x] Done | 4a9ccae9b8 |
+| `ApplicationCompositeDataType`                          | [x] Done | de9d3fe0a4 |
+| `ApplicationRecordElement`                              | [x] Done | ae4ed75065 |
+| `RunnableEntityArgument`                                | [x] Done | 3857c2a435 |
+| `ExternalTriggeringPointIdent`                          | [x] Done | c04ca0f5b3 |
+| `PortDefinedArgumentValue`                              | [x] Done | 7fc79e4b73 |
+| `CompositionSwComponentType`                            | [x] Done | 6b46fb26a9 |
+| `ApplicationRecordDataType`                             | [x] Done | 0a06e0fae3 |
+| `DataTransformationErrorHandlingEnum`                   | [x] Done | 7fc79e4b73 |
+| `DataTransformationStatusForwardingEnum`                | [x] Done | 7c67628122 |
+| `SwcSupportedFeature`                                   | [x] Done | 7c67628122 |
+| `CommunicationBufferLocking`                            | [x] Done | 7c67628122 |
+| `SupportBufferLockingEnum`                              | [x] Done | 7c67628122 |
+| `PortAPIOption`                                         | [x] Done | 7c67628122 |
+| `IncludedModeDeclarationGroupSet`                       | [x] Done | b9ac782d1e |
+| `SwcInternalBehavior`                                   | [x] Done | 4043dc013a |
 
 ## Group3
 

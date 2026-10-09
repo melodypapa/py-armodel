@@ -5232,7 +5232,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalBooleanValue(child_element, "IS-OPTIONAL", prototype.getIsOptional())
 
     def writeApplicationRecordDataTypeElements(self, element: ET.Element, data_type: ApplicationRecordDataType):
-        record_elements = data_type.getApplicationRecordElements()
+        record_elements = data_type.getElements()
         if len(record_elements) > 0:
             child_element = ET.SubElement(element, "ELEMENTS")
             for record_element in record_elements:

@@ -2230,7 +2230,41 @@ class TestDataTypeAndCompuHandlers:
             root_tag="APPLICATION-RECORD-DATA-TYPE",
         )
         parser.readApplicationRecordDataType(element, data_type)
-        assert len(data_type.getApplicationRecordElements()) == 1
+        assert len(data_type.getElements()) == 1
+
+    def test_readApplicationRecordDataType_element_field_values(self, parser):
+        from armodel.models import ApplicationRecordDataType
+
+        data_type = ApplicationRecordDataType(parent=_autosar_root(), short_name="ardt")
+        element = _snip(
+            "<SHORT-NAME>ardt</SHORT-NAME>"
+            "<ELEMENTS>"
+            "<APPLICATION-RECORD-ELEMENT>"
+            "<SHORT-NAME>X</SHORT-NAME>"
+            "<TYPE-TREF DEST='APPLICATION-PRIMITIVE-DATA-TYPE'>/apt</TYPE-TREF>"
+            "<IS-OPTIONAL>true</IS-OPTIONAL>"
+            "</APPLICATION-RECORD-ELEMENT>"
+            "<APPLICATION-RECORD-ELEMENT><SHORT-NAME>Y</SHORT-NAME></APPLICATION-RECORD-ELEMENT>"
+            "</ELEMENTS>",
+            root_tag="APPLICATION-RECORD-DATA-TYPE",
+        )
+        parser.readApplicationRecordDataType(element, data_type)
+
+        elements = data_type.getElements()
+        assert [e.getShortName() for e in elements] == ["X", "Y"]
+        assert elements[0].getTypeTRef().getValue() == "/apt"
+        assert elements[0].getTypeTRef().getDest() == "APPLICATION-PRIMITIVE-DATA-TYPE"
+        assert elements[0].getIsOptional().getValue() is True
+        assert elements[1].getTypeTRef() is None
+        assert elements[1].getIsOptional() is None
+
+    def test_readApplicationRecordDataType_without_elements(self, parser):
+        from armodel.models import ApplicationRecordDataType
+
+        data_type = ApplicationRecordDataType(parent=_autosar_root(), short_name="ardt")
+        element = _snip("<SHORT-NAME>ardt</SHORT-NAME>", root_tag="APPLICATION-RECORD-DATA-TYPE")
+        parser.readApplicationRecordDataType(element, data_type)
+        assert data_type.getElements() == []
 
     def test_readApplicationRecordElement_is_optional(self, parser):
         from armodel.models import ApplicationRecordElement

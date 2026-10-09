@@ -35,6 +35,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     String,
     VerbatimString,
 )
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationRecordDataType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import AutosarParameterRef, AutosarVariableRef
 from armodel.models.M2.MSR.AsamHdo.BaseTypes import BaseTypeDirectDefinition
 from armodel.models.M2.MSR.AsamHdo.ComputationMethod import (
@@ -879,7 +880,7 @@ class TestApplicationRecordDataTypeWriter:
         pkg = autosar.createARPackage("AppPkg")
         record = pkg.createApplicationRecordDataType("WithBad")
 
-        record.recordElements.append("not-an-element")
+        record.elements.append("not-an-element")
 
         parent = _parent()
         w.writeApplicationRecordDataType(parent, record)
@@ -887,6 +888,96 @@ class TestApplicationRecordDataTypeWriter:
         child = parent[0]
         assert child.tag == "APPLICATION-RECORD-DATA-TYPE"
         assert child.find("ELEMENTS") is not None
+
+    def test_write_application_record_data_type_element_field_values(self, writer):
+        autosar = AUTOSAR.getInstance()
+        pkg = autosar.createARPackage("AppPkg")
+        record = pkg.createApplicationRecordDataType("Point")
+        x = record.createApplicationRecordElement("X")
+        x.setTypeTRef(_ref("APPLICATION-PRIMITIVE-DATA-TYPE", "/apt"))
+        x.setIsOptional(Boolean().setValue(True))
+        y = record.createApplicationRecordElement("Y")
+        y.setTypeTRef(_ref("APPLICATION-RECORD-DATA-TYPE", "/apt2"))
+
+        parent = _parent()
+        writer.writeApplicationRecordDataType(parent, record)
+
+        elements = parent[0].find("ELEMENTS")
+        assert elements is not None
+        written = elements.findall("APPLICATION-RECORD-ELEMENT")
+        assert [e.find("SHORT-NAME").text for e in written] == ["X", "Y"]
+        assert written[0].find("TYPE-TREF").text == "/apt"
+        assert written[0].find("TYPE-TREF").get("DEST") == "APPLICATION-PRIMITIVE-DATA-TYPE"
+        assert written[0].find("IS-OPTIONAL").text == "true"
+        assert written[1].find("TYPE-TREF").text == "/apt2"
+        assert written[1].find("TYPE-TREF").get("DEST") == "APPLICATION-RECORD-DATA-TYPE"
+        assert written[1].find("IS-OPTIONAL") is None
+
+    def test_application_record_data_type_round_trip_preserves_element_fields(self):
+        import os
+        import tempfile
+
+        from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR as _AUTOSAR
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        _AUTOSAR.getInstance().setARRelease("R23-11")
+        document = _AUTOSAR.getInstance()
+        document.clear()
+        pkg = document.createARPackage("AUTOSAR")
+        record_type = pkg.createApplicationRecordDataType("Point")
+        x = record_type.createApplicationRecordElement("X")
+        x.setTypeTRef(_ref("APPLICATION-PRIMITIVE-DATA-TYPE", "/AUTOSAR/apt"))
+        x.setIsOptional(Boolean().setValue(True))
+        y = record_type.createApplicationRecordElement("Y")
+        y.setTypeTRef(_ref("APPLICATION-PRIMITIVE-DATA-TYPE", "/AUTOSAR/apt2"))
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+
+            document_2 = _AUTOSAR.getInstance()
+            document_2.clear()
+            ARXMLParser().load(file_path, document_2)
+
+            record_type_2 = document_2.getARPackages()[0].getApplicationDataType()[0]
+            assert isinstance(record_type_2, ApplicationRecordDataType)
+            elements = record_type_2.getElements()
+            assert [e.getShortName() for e in elements] == ["X", "Y"]
+            assert elements[0].getTypeTRef().getValue() == "/AUTOSAR/apt"
+            assert elements[0].getTypeTRef().getDest() == "APPLICATION-PRIMITIVE-DATA-TYPE"
+            assert elements[0].getIsOptional().getValue() is True
+            assert elements[1].getTypeTRef().getValue() == "/AUTOSAR/apt2"
+            assert elements[1].getIsOptional() is None
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+    def test_application_record_data_type_round_trip_without_elements(self):
+        import os
+        import tempfile
+
+        from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR as _AUTOSAR
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        _AUTOSAR.getInstance().setARRelease("R23-11")
+        document = _AUTOSAR.getInstance()
+        document.clear()
+        pkg = document.createARPackage("AUTOSAR")
+        pkg.createApplicationRecordDataType("Empty")
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+
+            document_2 = _AUTOSAR.getInstance()
+            document_2.clear()
+            ARXMLParser().load(file_path, document_2)
+
+            record_type_2 = document_2.getARPackages()[0].getApplicationDataType()[0]
+            assert record_type_2.getElements() == []
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
 
 
 class TestSetApplicationCompositeDataTypeWriter:

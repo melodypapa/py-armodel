@@ -1015,13 +1015,11 @@ No deviations — the single Table 4.96 attribute modeled with full reader/write
 | — *(missing)* | `—` | `-` | ``-`` | - | missing |
 
 ## `ApplicationRecordDataType`
-- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** —
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 261
 - **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::Datatype::Datatypes`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Datatype/Datatypes.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `element(ordered)` | ``ApplicationRecord Element`` | aggr | missing |
+No deviations — Table 5.12's sole Attribute row `element (ordered)` (`ApplicationRecordElement`, `*`, `aggr`) is modeled as the dedicated typed list field `elements` (Rule 0001.5 verbatim base name, pluralized per Rule 0001.4) with `createApplicationRecordElement` / `getElements` (Rule 0001.6 create shape for a `Referrable` child, mutator first per Rule 0001.11) and full reader (`readApplicationRecordDataTypeElements`) + writer (`writeApplicationRecordDataTypeElements`) coverage on the `ELEMENTS/APPLICATION-RECORD-ELEMENT` wrapper. Resolved 2026-10-10 — the former `missing` row was the deviation recorded by Group2.md:387 when the class was skipped rather than renamed.
 
 ## `DelegationSwConnector`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** —

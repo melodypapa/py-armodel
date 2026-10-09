@@ -10,8 +10,8 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 859 | 45.0% |
-| [x] Deferred | 40 | 2.1% |
+| [x] Done | 860 | 45.0% |
+| [x] Deferred | 39 | 2.0% |
 | [x] Retired | 0 | 0.0% |
 | [ ] Deferred | 976 | 51.1% |
 | [ ] Implemented | 20 | 1.0% |
@@ -84,7 +84,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `ApplicationPartition`                                  | [ ] Deferred| 9241a3d9f5                               | Group30          |
 | `ApplicationPartitionToEcuPartitionMapping`             | [x] Done    | baccb40d25                               | Group18          |
 | `ApplicationPrimitiveDataType`                          | [x] Done    | 4a9ccae9b8                               | Group2           |
-| `ApplicationRecordDataType`                             | [x] Deferred| 0a06e0fae3                               | Group2           |
+| `ApplicationRecordDataType`                             | [x] Done    | 0a06e0fae3                               | Group2           |
 | `ApplicationRecordElement`                              | [x] Done    | ae4ed75065                               | Group2           |
 | `ApplicationRuleBasedValueSpecification`                | [ ] Deferred| 1e72f8e31d                               | Group28          |
 | `ApplicationSwComponentType`                            | [ ] Deferred| 31ce617eb9                               | Group27          |

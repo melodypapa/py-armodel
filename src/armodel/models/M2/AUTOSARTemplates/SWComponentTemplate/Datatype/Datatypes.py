@@ -185,30 +185,40 @@ class ApplicationArrayDataType(ApplicationCompositeDataType):
 
 class ApplicationRecordDataType(ApplicationCompositeDataType):
     """
-    An application data type which can be decomposed into prototypes of other application data types.
+    An application data type which can be decomposed into prototypes of other application data types. Tags: atp.recommendedPackage=ApplicationDataTypes
+
+    [constr_1908] Existence of attribute ApplicationRecordDataType.element: For each ApplicationRecordDataType, the aggregation of ApplicationRecordElement in the role element shall exist at the time when the RTE is generated.
     """
 
     # ApplicationRecordDataType method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.12, p.261 (R23-11)
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.12, p.261
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] createApplicationRecordElement [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getApplicationRecordElements   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getElements                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.recordElements: List[ApplicationRecordElement] = []
+        # Specifies an element of a record. The aggregation of ApplicationRecordElement is subject to variability with the purpose to support the conditional existence of elements inside a ApplicationrecordData Type. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=element.shortName, element.variation Point.shortLabel vh.latestBindingTime=preCompileTime
+        self.elements: List[ApplicationRecordElement] = []
 
     def createApplicationRecordElement(self, short_name: str) -> ApplicationRecordElement:
+        """
+        Specifies an element of a record. The aggregation of ApplicationRecordElement is subject to variability with the purpose to support the conditional existence of elements inside a ApplicationrecordData Type. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=element.shortName, element.variation Point.shortLabel vh.latestBindingTime=preCompileTime
+        """
         if not self.IsReferrableElementExists(short_name, ApplicationRecordElement):
             record_element = ApplicationRecordElement(self, short_name)
             self.addReferrableElement(record_element)
-            self.recordElements.append(record_element)
+            self.elements.append(record_element)
         return cast(ApplicationRecordElement, self.getReferrableElement(short_name, ApplicationRecordElement))
 
-    def getApplicationRecordElements(self) -> List[ApplicationRecordElement]:
-        return self.recordElements
+    def getElements(self) -> List[ApplicationRecordElement]:
+        """
+        Specifies an element of a record. The aggregation of ApplicationRecordElement is subject to variability with the purpose to support the conditional existence of elements inside a ApplicationrecordData Type. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=element.shortName, element.variation Point.shortLabel vh.latestBindingTime=preCompileTime
+        """
+        return self.elements
 
 
 class DataTypeMap(ARObject):
