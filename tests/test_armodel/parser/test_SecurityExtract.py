@@ -4,13 +4,6 @@ import re
 import xml.etree.ElementTree as ET
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
-    IdsDesign,
-    IdsmInstance,
-    SecurityEventContextMappingBswModule,
-    SecurityEventDefinition,
-    SecurityEventFilterChain,
-)
 from armodel.parser.arxml_parser import ARXMLParser
 
 

@@ -2844,7 +2844,7 @@ class SeverityEnum(AREnum):
     # (no methods) — serialized as value form on the consuming class attribute
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
-        # The severity level error.
+    # The severity level error.
     ERROR = "ERROR"
 
     # The severity level info.
@@ -2882,7 +2882,7 @@ class DataExchangePointKind(AREnum):
     # (no methods) — serialized as value form on the consuming class attribute
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
-        # The DataExchangePoint represents the agreed content between producer and consumer.
+    # The DataExchangePoint represents the agreed content between producer and consumer.
     AGREED = "AGREED"
 
     # The DataExchangePoint represents the view of a consumer.
@@ -2920,7 +2920,7 @@ class DefaultValueApplicationStrategyEnum(AREnum):
     # (no methods) — serialized as value form on the consuming class attribute
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
-        # The default value shall be applied if the revision is updated.
+    # The default value shall be applied if the revision is updated.
     DEFAULT_IF_REVISION_UPDATE = "DEFAULT-IF-REVISION-UPDATE"
 
     # The default value shall be applied if the value is undefined.
@@ -3275,4 +3275,3 @@ class SendIndicationEnum(AREnum):
                 SendIndicationEnum.NONE,
             ]
         )
-

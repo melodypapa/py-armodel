@@ -217,8 +217,6 @@ class ValueRestrictionWithSeverity(AbstractValueRestriction):
         super().__init__()
 
 
-
-
 class AbstractVariationRestriction(ARObject, ABC):
     """
     Defines constraints on the usage of variation and on the valid binding times.
@@ -308,5 +306,3 @@ class VariationRestrictionWithSeverity(AbstractVariationRestriction):
             raise TypeError("VariationRestrictionWithSeverity is an abstract class.")
 
         super().__init__()
-
-

@@ -562,17 +562,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import AtpMixedString
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    AbstractCondition,
-    AggregationCondition,
-    Baseline,
-    ClassTailoring,
-    DataFormatTailoring,
-    InvertCondition,
     MultiplicityRestrictionWithSeverity,
-    PrimitiveAttributeCondition,
-    ReferenceCondition,
-    SpecificationScope,
-    TextualCondition,
     AggregationCondition,
     Baseline,
     DataFormatTailoring,
@@ -647,7 +637,29 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (
     EvaluatedVariantSet,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, DataExchangePoint, SecurityEventContextMapping, SecurityEventFilterChain, SecurityEventDefinition, SecurityEventContextMappingFunctionalCluster, SecurityEventContextMappingCommConnector, SecurityEventContextMappingBswModule, SecurityEventContextMappingApplication, IdsmInstance, IdsDesign, LogAndTraceMessageCollectionSet, PostBuildVariantCriterionValueSet, IdsmProperties, CalibrationParameterValueSet, FMFeature, FMFeatureMap, FMFeatureModel, FMFeatureSelectionSet, PhysicalDimensionMappingSet, ReferenceBase
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARPackage,
+    DataExchangePoint,
+    SecurityEventContextMapping,
+    SecurityEventFilterChain,
+    SecurityEventDefinition,
+    SecurityEventContextMappingFunctionalCluster,
+    SecurityEventContextMappingCommConnector,
+    SecurityEventContextMappingBswModule,
+    SecurityEventContextMappingApplication,
+    IdsmInstance,
+    IdsDesign,
+    LogAndTraceMessageCollectionSet,
+    PostBuildVariantCriterionValueSet,
+    IdsmProperties,
+    CalibrationParameterValueSet,
+    FMFeature,
+    FMFeatureMap,
+    FMFeatureModel,
+    FMFeatureSelectionSet,
+    PhysicalDimensionMappingSet,
+    ReferenceBase,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import AclObjectSet, AclOperation, AclPermission, AclRole
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import DiagnosticCustomServiceInstance, DiagnosticMapping
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
@@ -778,8 +790,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     PrimitiveAttributeTailoring,
     ReferenceTailoring,
     SpecificationDocumentScope,
-
-    AbstractSecurityEventFilter,
     SecurityEventAggregationFilter,
     SecurityEventContextProps,
     SecurityEventOneEveryNFilter,
@@ -816,6 +826,8 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Referrable,
     ShortNameFragment,
     SingleLanguageReferrable,
+    AbstractClassTailoring,
+    SdgTailoring,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultidimensionalTime import MultidimensionalTime
@@ -898,6 +910,8 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ViewTokens,
     SecurityEventReportingModeEnum,
     DataExchangePointKind,
+    SecurityEventContextDataSourceEnum,
+    DefaultValueApplicationStrategyEnum,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.LifeCycles import LifeCycleInfo, LifeCycleInfoSet, LifeCyclePeriod
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (
@@ -2685,7 +2699,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, definition)
         event_symbol_name = self.find(element, "EVENT-SYMBOL-NAME")
         if event_symbol_name is not None:
-            definition.setEventSymbolName(self.readSymbolProps(event_symbol_name, SymbolProps()))
+            definition.setEventSymbolName(self.readSymbolProps(event_symbol_name, SymbolProps(definition, self.getShortName(event_symbol_name))))
         definition.setId(self.getChildElementOptionalPositiveInteger(element, "ID"))
         return definition
 
@@ -2708,7 +2722,9 @@ class ARXMLParser(AbstractARXMLParser):
     def readIdsDesign(self, element: ET.Element, ids_design: IdsDesign) -> IdsDesign:
         self.readIdentifiable(element, ids_design)
         for child_element in self.findall(element, "ELEMENTS/IDS-COMMON-ELEMENT-REF-CONDITIONAL"):
-            ids_design.addElementRef(self.getChildElementOptionalRefType(child_element, "IDS-COMMON-ELEMENT-REF"))
+            element_ref = self.getChildElementOptionalRefType(child_element, "IDS-COMMON-ELEMENT-REF")
+            if element_ref is not None:
+                ids_design.addElementRef(element_ref)
         return ids_design
 
     def readIdsmInstance(self, element: ET.Element, idsm_instance: IdsmInstance) -> IdsmInstance:
@@ -2723,7 +2739,9 @@ class ARXMLParser(AbstractARXMLParser):
         idsm_instance.setIdsmInstanceId(self.getChildElementOptionalPositiveInteger(element, "IDSM-INSTANCE-ID"))
         idsm_instance.setIdsmModuleInstantiationRef(self.getChildElementOptionalRefType(element, "IDSM-MODULE-INSTANTIATION-REF"))
         for child_element in self.findall(element, "RATE-LIMITATION-FILTERS/IDSM-RATE-LIMITATION-REF-CONDITIONAL"):
-            idsm_instance.addRateLimitationFilterRef(self.getChildElementOptionalRefType(child_element, "IDSM-RATE-LIMITATION-REF"))
+            rate_limitation_ref = self.getChildElementOptionalRefType(child_element, "IDSM-RATE-LIMITATION-REF")
+            if rate_limitation_ref is not None:
+                idsm_instance.addRateLimitationFilterRef(rate_limitation_ref)
         signature_support_ap = self.find(element, "SIGNATURE-SUPPORT-AP")
         if signature_support_ap is not None:
             idsm_instance.setSignatureSupportAp(self.readIdsmSignatureSupportAp(signature_support_ap, IdsmSignatureSupportAp()))
@@ -2732,11 +2750,14 @@ class ARXMLParser(AbstractARXMLParser):
             idsm_instance.setSignatureSupportCp(self.readIdsmSignatureSupportCp(signature_support_cp, IdsmSignatureSupportCp()))
         idsm_instance.setTimestampFormat(self.getChildElementOptionalString(element, "TIMESTAMP-FORMAT"))
         for child_element in self.findall(element, "TRAFFIC-LIMITATION-FILTERS/IDSM-TRAFFIC-LIMITATION-REF-CONDITIONAL"):
-            idsm_instance.addTrafficLimitationFilterRef(self.getChildElementOptionalRefType(child_element, "IDSM-TRAFFIC-LIMITATION-REF"))
+            traffic_limitation_ref = self.getChildElementOptionalRefType(child_element, "IDSM-TRAFFIC-LIMITATION-REF")
+            if traffic_limitation_ref is not None:
+                idsm_instance.addTrafficLimitationFilterRef(traffic_limitation_ref)
         return idsm_instance
 
-    def readConditionByTag(self, element: ET.Element) -> Optional[AbstractCondition]:
+    def readConditionByTag(self, element: ET.Element) -> Optional[Any]:
         tag_name = self.getTagName(element)
+        condition: Any = None
         if tag_name == "AGGREGATION-CONDITION":
             condition = AggregationCondition()
             self.readAggregationCondition(element, condition)
@@ -2758,18 +2779,6 @@ class ARXMLParser(AbstractARXMLParser):
             self.readTextualCondition(element, condition)
             return condition
         return None
-
-    def writeConditionByType(self, parent_element, condition) -> None:
-        if isinstance(condition, AggregationCondition):
-            self.writeAggregationCondition(parent_element, condition)
-        elif isinstance(condition, InvertCondition):
-            self.writeInvertCondition(parent_element, condition)
-        elif isinstance(condition, PrimitiveAttributeCondition):
-            self.writePrimitiveAttributeCondition(parent_element, condition)
-        elif isinstance(condition, ReferenceCondition):
-            self.writeReferenceCondition(parent_element, condition)
-        elif isinstance(condition, TextualCondition):
-            self.writeTextualCondition(parent_element, condition)
 
     def readAggregationCondition(self, element: ET.Element, condition: AggregationCondition) -> AggregationCondition:
         self.readARObject(element, condition)
@@ -2832,7 +2841,7 @@ class ARXMLParser(AbstractARXMLParser):
             scope.addTailoringRef(ref)
         return scope
 
-    def readClassTailoringContents(self, element: ET.Element, class_tailoring: ClassTailoring) -> ClassTailoring:
+    def readClassTailoringContents(self, element: ET.Element, class_tailoring: Any) -> Any:
         multiplicity_restriction = self.find(element, "MULTIPLICITY-RESTRICTION")
         if multiplicity_restriction is not None:
             class_tailoring.setMultiplicityRestriction(self.readMultiplicityRestrictionWithSeverity(multiplicity_restriction, MultiplicityRestrictionWithSeverity()))
@@ -2853,7 +2862,8 @@ class ARXMLParser(AbstractARXMLParser):
         self.readARObject(element, restriction)
         valid_binding_time = self.getChildElementOptionalLiteral(element, "VALID-BINDING-TIME")
         if valid_binding_time is not None:
-            restriction.setValidBindingTime(FullBindingTimeEnum().setValue(valid_binding_time.getValue()))
+            valid_binding_times = [FullBindingTimeEnum().setValue(valid_binding_time.getValue())]
+            restriction.setValidBindingTimes(valid_binding_times)
         return restriction
 
     def readClassContentConditional(self, element: ET.Element, content: ClassContentConditional) -> ClassContentConditional:
@@ -2862,7 +2872,7 @@ class ARXMLParser(AbstractARXMLParser):
             content.setCondition(self.readConditionByTag(child_element))
         for child_element in self.findall(element, "ATTRIBUTE-TAILORINGS/*"):
             tag_name = self.getTagName(child_element)
-            tailoring = None
+            tailoring: Any = None
             if tag_name == "PRIMITIVE-ATTRIBUTE-TAILORING":
                 tailoring = PrimitiveAttributeTailoring(content, self.getShortName(child_element))
                 self.readPrimitiveAttributeTailoring(child_element, tailoring)
@@ -2873,6 +2883,7 @@ class ARXMLParser(AbstractARXMLParser):
                 tailoring = ReferenceTailoring(content, self.getShortName(child_element))
                 self.readReferenceTailoring(child_element, tailoring)
             if tailoring is not None:
+                self.readIdentifiable(child_element, tailoring)
                 content.addAttributeTailoring(tailoring)
         for child_element in self.findall(element, "CONSTRAINT-TAILORINGS/CONSTRAINT-TAILORING"):
             tailoring = ConstraintTailoring(content, self.getShortName(child_element))
@@ -2906,6 +2917,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, tailoring)
         for child_element in self.findall(element, "TYPE-TAILORINGS/*"):
             tag_name = self.getTagName(child_element)
+            class_tailoring: Any
             if tag_name == "ABSTRACT-CLASS-TAILORING":
                 class_tailoring = AbstractClassTailoring(tailoring, self.getShortName(child_element))
             elif tag_name == "CONCRETE-CLASS-TAILORING":
@@ -2920,6 +2932,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, tailoring)
         for child_element in self.findall(element, "TYPE-TAILORINGS/*"):
             tag_name = self.getTagName(child_element)
+            class_tailoring: Any
             if tag_name == "ABSTRACT-CLASS-TAILORING":
                 class_tailoring = AbstractClassTailoring(tailoring, self.getShortName(child_element))
             elif tag_name == "CONCRETE-CLASS-TAILORING":
@@ -2950,6 +2963,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readARObject(element, tailoring)
         for child_element in self.findall(element, "CLASS-TAILORINGS/*"):
             tag_name = self.getTagName(child_element)
+            class_tailoring: Any
             if tag_name == "ABSTRACT-CLASS-TAILORING":
                 class_tailoring = AbstractClassTailoring(tailoring, self.getShortName(child_element))
             elif tag_name == "CONCRETE-CLASS-TAILORING":
@@ -2984,13 +2998,13 @@ class ARXMLParser(AbstractARXMLParser):
     def readIdsmProperties(self, element: ET.Element, idsm_properties: IdsmProperties) -> IdsmProperties:
         self.readIdentifiable(element, idsm_properties)
         for child_element in self.findall(element, "RATE-LIMITATION-FILTERS/IDSM-RATE-LIMITATION"):
-            limitation = IdsmRateLimitation(idsm_properties, self.getShortName(child_element))
-            self.readIdsmRateLimitation(child_element, limitation)
-            idsm_properties.addRateLimitationFilter(limitation)
+            rate_limitation = IdsmRateLimitation(idsm_properties, self.getShortName(child_element))
+            self.readIdsmRateLimitation(child_element, rate_limitation)
+            idsm_properties.addRateLimitationFilter(rate_limitation)
         for child_element in self.findall(element, "TRAFFIC-LIMITATION-FILTERS/IDSM-TRAFFIC-LIMITATION"):
-            limitation = IdsmTrafficLimitation(idsm_properties, self.getShortName(child_element))
-            self.readIdsmTrafficLimitation(child_element, limitation)
-            idsm_properties.addTrafficLimitationFilter(limitation)
+            traffic_limitation = IdsmTrafficLimitation(idsm_properties, self.getShortName(child_element))
+            self.readIdsmTrafficLimitation(child_element, traffic_limitation)
+            idsm_properties.addTrafficLimitationFilter(traffic_limitation)
         return idsm_properties
 
     def getBindingTimeEnumElement(self, element: ET.Element, key: str) -> Optional[BindingTimeEnum]:
@@ -20149,17 +20163,17 @@ class ARXMLParser(AbstractARXMLParser):
                 idsm_instance = parent.createIdsmInstance(self.getShortName(child_element))
                 self.readIdsmInstance(child_element, idsm_instance)
             elif tag_name == "SECURITY-EVENT-CONTEXT-MAPPING-BSW-MODULE":
-                mapping = parent.createSecurityEventContextMappingBswModule(self.getShortName(child_element))
-                self.readSecurityEventContextMappingBswModule(child_element, mapping)
+                sec_mapping = parent.createSecurityEventContextMappingBswModule(self.getShortName(child_element))
+                self.readSecurityEventContextMappingBswModule(child_element, sec_mapping)
             elif tag_name == "SECURITY-EVENT-CONTEXT-MAPPING-FUNCTIONAL-CLUSTER":
-                mapping = parent.createSecurityEventContextMappingFunctionalCluster(self.getShortName(child_element))
-                self.readSecurityEventContextMappingFunctionalCluster(child_element, mapping)
+                fc_mapping = parent.createSecurityEventContextMappingFunctionalCluster(self.getShortName(child_element))
+                self.readSecurityEventContextMappingFunctionalCluster(child_element, fc_mapping)
             elif tag_name == "SECURITY-EVENT-CONTEXT-MAPPING-COMM-CONNECTOR":
-                mapping = parent.createSecurityEventContextMappingCommConnector(self.getShortName(child_element))
-                self.readSecurityEventContextMappingCommConnector(child_element, mapping)
+                cc_mapping = parent.createSecurityEventContextMappingCommConnector(self.getShortName(child_element))
+                self.readSecurityEventContextMappingCommConnector(child_element, cc_mapping)
             elif tag_name == "SECURITY-EVENT-CONTEXT-MAPPING-APPLICATION":
-                mapping = parent.createSecurityEventContextMappingApplication(self.getShortName(child_element))
-                self.readSecurityEventContextMappingApplication(child_element, mapping)
+                app_mapping = parent.createSecurityEventContextMappingApplication(self.getShortName(child_element))
+                self.readSecurityEventContextMappingApplication(child_element, app_mapping)
             elif tag_name == "POST-BUILD-VARIANT-CRITERION-VALUE-SET":
                 value_set = parent.createPostBuildVariantCriterionValueSet(self.getShortName(child_element))
                 self.readPostBuildVariantCriterionValueSet(child_element, value_set)

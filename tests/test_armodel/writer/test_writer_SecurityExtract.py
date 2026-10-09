@@ -1,14 +1,13 @@
 """Writer round-trip tests for the SecurityExtractTemplate ARElements."""
 
-import re
 import xml.etree.ElementTree as ET
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    IdsDesign,
     SecurityEventContextMappingBswModule,
     SecurityEventDefinition,
     SecurityEventFilterChain,
-    IdsDesign,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     SecurityEventAggregationFilter,

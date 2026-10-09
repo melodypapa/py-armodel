@@ -32,7 +32,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Enumerations import BindingTimeEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AnyVersionString,
-    Boolean,
     CategoryString,
     DiagnosticDebounceBehaviorEnum,
     FMFeatureSelectionState,
@@ -60,6 +59,7 @@ if TYPE_CHECKING:
     from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import SecurityEventContextData
     from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import AbstractCondition, ClassTailoring
     from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ModelRestrictionTypes import ValueRestrictionWithSeverity
+    from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import MultiplicityRestrictionWithSeverity, VariationRestrictionWithSeverity
     from armodel.models.M2.MSR.AsamHdo.AdminData import AdminData
     from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName, MultiLanguageOverviewParagraph
     from armodel.models.M2.MSR.Documentation.TextModel.SingleLanguageData import SingleLanguageLongName
@@ -699,7 +699,6 @@ class SpecElementReference(Identifiable, ABC):
         super().__init__(parent, short_name)
 
 
-
 class DataFormatElementReference(SpecElementReference, ABC):
     """
     This meta-class represents the ability to reference an element of the data format. Tags: atp.Recommendation=FOR_STANDARDIZATION
@@ -715,7 +714,6 @@ class DataFormatElementReference(SpecElementReference, ABC):
             raise TypeError("DataFormatElementReference is an abstract class.")
 
         super().__init__(parent, short_name)
-
 
 
 class AbstractClassTailoring(Identifiable):
@@ -792,7 +790,6 @@ class AbstractClassTailoring(Identifiable):
         return self
 
 
-
 class DataFormatElementScope(DataFormatElementReference, ABC):
     """
     This meta-class represents the ability to define the scope within the data format that is subject of a tailoring. Tags: atp.Recommendation=FOR_STANDARDIZATION
@@ -810,7 +807,6 @@ class DataFormatElementScope(DataFormatElementReference, ABC):
         super().__init__(parent, short_name)
 
 
-
 class AttributeTailoring(DataFormatElementScope, ABC):
     """
     This meta-class represents the ability to tailor attributes. Tags: atp.Recommendation=FOR_STANDARDIZATION
@@ -826,7 +822,6 @@ class AttributeTailoring(DataFormatElementScope, ABC):
             raise TypeError("AttributeTailoring is an abstract class.")
 
         super().__init__(parent, short_name)
-
 
 
 class AggregationTailoring(AttributeTailoring):
@@ -859,8 +854,6 @@ class AggregationTailoring(AttributeTailoring):
         Local class tailoring which is applied if the content is contained by this aggregation.
         """
         return self.typeTailorings
-
-
 
 
 class ClassContentConditional(Identifiable):
@@ -952,8 +945,6 @@ class ClassContentConditional(Identifiable):
         return self.sdgTailorings
 
 
-
-
 class ConcreteClassTailoring(Identifiable):
     """
     This meta-class represents the ability to tailor a concrete class. Tags: atp.Recommendation=FOR_STANDARDIZATION
@@ -1028,7 +1019,6 @@ class ConcreteClassTailoring(Identifiable):
         return self
 
 
-
 class ConstraintTailoring(DataFormatElementScope):
     """
     This meta-class represents the ability to tailor constraints. Tags: atp.Recommendation=FOR_STANDARDIZATION
@@ -1041,7 +1031,6 @@ class ConstraintTailoring(DataFormatElementScope):
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
-
 
 
 class CpSoftwareClusterResource(Identifiable):
@@ -1734,7 +1723,6 @@ class SpecElementScope(SpecElementReference, ABC):
         super().__init__(parent, short_name)
 
 
-
 class DocumentElementScope(SpecElementScope):
     """
     This meta-class represents the scope of an element within a specification document.
@@ -1786,8 +1774,6 @@ class DocumentElementScope(SpecElementScope):
         Data Format Element that is implied by this element in the specification. Used to share one rationale for more tailorings.
         """
         return self.tailoringRefs
-
-
 
 
 class FMAttributeDef(Identifiable):
@@ -2782,8 +2768,6 @@ class PrimitiveAttributeTailoring(AttributeTailoring):
         return self
 
 
-
-
 class ReferenceTailoring(AttributeTailoring):
     """
     This meta-class represents the ability to tailor a reference of a class. Tags: atp.Recommendation=FOR_STANDARDIZATION
@@ -2816,8 +2800,6 @@ class ReferenceTailoring(AttributeTailoring):
         return self.typeTailorings
 
 
-
-
 class SdgTailoring(DataFormatElementScope):
     """
     This meta-class represents the ability to tailor SpecialDataGroups. Tags: atp.Recommendation=FOR_STANDARDIZATION
@@ -2830,7 +2812,6 @@ class SdgTailoring(DataFormatElementScope):
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
-
 
 
 class SpecificationDocumentScope(SpecElementScope):
@@ -2884,8 +2865,6 @@ class SpecificationDocumentScope(SpecElementScope):
         An element with a name or ID that is specified in the Specification Document.
         """
         return self.documentElementScopes
-
-
 
 
 class BinaryManifestItem(Identifiable):

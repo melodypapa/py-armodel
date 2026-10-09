@@ -3,10 +3,9 @@ This module contains tests for the VariationRestrictionWithSeverity class.
 """
 
 import pytest
+
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ModelRestrictionTypes import VariationRestrictionWithSeverity
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ModelRestrictionTypes import AbstractVariationRestriction
 
 
 class TestVariationRestrictionWithSeverity:

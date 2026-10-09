@@ -17,8 +17,8 @@ if TYPE_CHECKING:
     )
     from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import ValueSpecification
     from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import DiagnosticParameterIdent
-    from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ModelRestrictionTypes import MultiplicityRestrictionWithSeverity, VariationRestrictionWithSeverity
-    from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ModelRestrictionTypes import MultiplicityRestrictionWithSeverity, VariationRestrictionWithSeverity
+    from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ClassContentConditional, ConstraintTailoring, SpecificationDocumentScope
+    from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ModelRestrictionTypes import VariationRestrictionWithSeverity
     from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import DiagnosticDataElement, DiagnosticDebounceAlgorithmProps, DiagnosticFunctionInhibitSource
 
 
@@ -112,6 +112,7 @@ class AbstractCondition(ARObject, ABC):
 
         super().__init__()
 
+
 class AbstractMultiplicityRestriction(ARObject, ABC):
     """
     This meta-class represents the ability to specify multiplicity restrictions for the current context. Tags: atp.Recommendation=FOR_STANDARDIZATION
@@ -128,6 +129,7 @@ class AbstractMultiplicityRestriction(ARObject, ABC):
 
         super().__init__()
 
+
 class AttributeCondition(AbstractCondition, ABC):
     """
     This meta-class represents the ability to define rules on attributes of a class. Tags: atp.Recommendation=FOR_STANDARDIZATION
@@ -143,6 +145,7 @@ class AttributeCondition(AbstractCondition, ABC):
             raise TypeError("AttributeCondition is an abstract class.")
 
         super().__init__()
+
 
 class AggregationCondition(AttributeCondition):
     """
@@ -177,8 +180,6 @@ class AggregationCondition(AttributeCondition):
         if value is not None:
             self.aggregationRef = value
         return self
-
-
 
 
 class Baseline(ARObject):
@@ -247,8 +248,6 @@ class Baseline(ARObject):
         Specifies a combination of revisions of AUTOSAR standards that are used as the specification baseline of this Data Exchange Point. All standard revisions referenced by a DataExchangePoint shall use the same AUTOSAR release.
         """
         return self.standardRevisions
-
-
 
 
 class CalibrationParameterValue(ARObject, VariationPointCapable):
@@ -420,6 +419,7 @@ class ClientServerOperationBlueprintMapping(ARObject):
 
     def __init__(self):
         super().__init__()
+
 
 class DiagnosticAbstractParameter(ARObject, ABC):
     """
@@ -2661,8 +2661,6 @@ class InvertCondition(AbstractCondition):
         return self
 
 
-
-
 class MultiplicityRestrictionWithSeverity(AbstractMultiplicityRestriction):
     """
     This meta-class represents the ability to specify multiplicity restrictions with a severity. Tags: atp.Recommendation=FOR_STANDARDIZATION
@@ -2767,8 +2765,6 @@ class PrimitiveAttributeCondition(AttributeCondition):
         return self
 
 
-
-
 class ReferenceCondition(AttributeCondition):
     """
     This meta-class represents the ability to define a rule on a reference of a class. Tags: atp.Recommendation=FOR_STANDARDIZATION
@@ -2804,8 +2800,6 @@ class ReferenceCondition(AttributeCondition):
         return self
 
 
-
-
 class RestrictionWithSeverity(ARObject, ABC):
     """
     This meta-class represents the ability to specify restrictions that shall be evaluated together with a severity. Tags: atp.Recommendation=FOR_STANDARDIZATION
@@ -2821,6 +2815,7 @@ class RestrictionWithSeverity(ARObject, ABC):
             raise TypeError("RestrictionWithSeverity is an abstract class.")
 
         super().__init__()
+
 
 class RoleBasedResourceDependency(ARObject):
     """This class specifies a dependency between CpSoftwareClusterResources."""
@@ -2906,8 +2901,6 @@ class SpecificationScope(ARObject):
         return self.specificationDocumentScopes
 
 
-
-
 class TextualCondition(AbstractCondition):
     """
     This meta-class represents the ability to define a rule expressed as free text. Tags: atp.Recommendation=FOR_STANDARDIZATION
@@ -2920,6 +2913,7 @@ class TextualCondition(AbstractCondition):
 
     def __init__(self):
         super().__init__()
+
 
 class AbstractGlobalTimeDomainProps(ARObject, VariationPointCapable):
     """
@@ -4294,14 +4288,6 @@ class GlobalTimeSlave(ARObject, ABC):
     pass
 
 
-class IdsmInstance(ARObject):
-    pass
-
-
-class IdsmTrafficLimitation(ARObject):
-    pass
-
-
 class NetworkSegmentIdentification(ARObject):
     """
     This meta-class represents the ability to identify the PhysicalChannel on a system scope in a numerical way. One possible application of this approach is the Time Validation.
@@ -4339,30 +4325,6 @@ class NetworkSegmentIdentification(ARObject):
         if value is not None:
             self.networkSegmentId = value
         return self
-
-
-class SecurityEventAggregationFilter(ARObject):
-    pass
-
-
-class SecurityEventContextMapping(ARObject, ABC):
-    pass
-
-
-class SecurityEventContextMappingCommConnector(ARObject):
-    pass
-
-
-class SecurityEventContextProps(ARObject):
-    pass
-
-
-class SecurityEventFilterChain(ARObject):
-    pass
-
-
-class SecurityEventStateFilter(ARObject):
-    pass
 
 
 class TransformationProps(ARObject, ABC):

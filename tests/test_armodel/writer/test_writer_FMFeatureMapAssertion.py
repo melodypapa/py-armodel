@@ -1,6 +1,5 @@
 """Writer tests for the FM-SYSCOND element."""
 
-import re
 import xml.etree.ElementTree as ET
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR

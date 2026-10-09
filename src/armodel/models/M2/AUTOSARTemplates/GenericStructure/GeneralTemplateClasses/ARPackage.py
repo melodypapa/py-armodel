@@ -13,6 +13,26 @@ from typing import TYPE_CHECKING
 from abc import ABC
 
 if TYPE_CHECKING:
+    from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+        Baseline,
+        DataFormatTailoring,
+        IdsmSignatureSupportAp,
+        IdsmSignatureSupportCp,
+        SpecificationScope,
+        SymbolProps,
+    )
+    from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+        BlockState,
+        SecurityEventAggregationFilter,
+        SecurityEventContextProps,
+        SecurityEventOneEveryNFilter,
+        SecurityEventStateFilter,
+        SecurityEventThresholdFilter,
+    )
+    from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+        DataExchangePointKind,
+    )
+
     # ApplicationDeferredDataType is bound at runtime by the PEP 562 __getattr__ below
     # (AbstractPlatform closes an import cycle), so it is imported here for typing only.
     from armodel.models.M2.AUTOSARTemplates.AbstractPlatform import ApplicationDeferredDataType, ApplicationInterface
@@ -119,6 +139,14 @@ def __getattr__(name):
 
 
 __all__ = [
+    "IdsCommonElement",
+    "IdsMapping",
+    "IdsmProperties",
+    "IdsmInstance",
+    "SecurityEventFilterChain",
+    "SecurityEventContextMapping",
+    "SecurityEventContextMappingCommConnector",
+    "DataExchangePoint",
     "ViewMapSet",
     "SwAxisType",
     "SecurityEventDefinition",
@@ -2364,8 +2392,6 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(timing)
         return cast(VfbTiming, self.getReferrableElement(short_name, VfbTiming))
 
-
-
     def createIdsDesign(self, short_name: str) -> IdsDesign:
 
         if not self.IsReferrableElementExists(short_name, IdsDesign):
@@ -2421,6 +2447,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
             mapping = SecurityEventContextMappingApplication(self, short_name)
             self.addReferrableElement(mapping)
         return cast(SecurityEventContextMappingApplication, self.getReferrableElement(short_name, SecurityEventContextMappingApplication))
+
     def createLogAndTraceMessageCollectionSet(self, short_name: str) -> LogAndTraceMessageCollectionSet:
 
         if not self.IsReferrableElementExists(short_name, LogAndTraceMessageCollectionSet):
@@ -2456,7 +2483,6 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(feature)
         return cast(FMFeature, self.getReferrableElement(short_name, FMFeature))
 
-
     def createFMFeatureModel(self, short_name: str) -> FMFeatureModel:
 
         if not self.IsReferrableElementExists(short_name, FMFeatureModel):
@@ -2464,14 +2490,12 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(feature_model)
         return cast(FMFeatureModel, self.getReferrableElement(short_name, FMFeatureModel))
 
-
     def createFMFeatureSelectionSet(self, short_name: str) -> FMFeatureSelectionSet:
 
         if not self.IsReferrableElementExists(short_name, FMFeatureSelectionSet):
             selection_set = FMFeatureSelectionSet(self, short_name)
             self.addReferrableElement(selection_set)
         return cast(FMFeatureSelectionSet, self.getReferrableElement(short_name, FMFeatureSelectionSet))
-
 
     def createFMFeatureMap(self, short_name: str) -> FMFeatureMap:
 
@@ -5904,8 +5928,6 @@ class DataExchangePoint(ARElement):
         if value is not None:
             self.dataFormatTailoring = value
         return self
-
-
 
 
 class DiagnosticAbstractAliasEvent(ARElement, ABC):

@@ -1,6 +1,5 @@
 """Writer tests for the IdsM signature-support and security-event-context-data elements."""
 
-import re
 import xml.etree.ElementTree as ET
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import IdsmSignatureSupportAp, IdsmSignatureSupportCp, SecurityEventContextData

@@ -1,6 +1,5 @@
 """Writer tests for the LOG-AND-TRACE-MESSAGE-COLLECTION-SET element."""
 
-import re
 import xml.etree.ElementTree as ET
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR

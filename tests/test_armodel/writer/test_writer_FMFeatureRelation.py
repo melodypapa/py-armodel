@@ -1,6 +1,5 @@
 """Writer tests for the FM-FEATURE-RELATION element."""
 
-import re
 import xml.etree.ElementTree as ET
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR

@@ -426,7 +426,27 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (
     EvaluatedVariantSet,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, DataExchangePoint, SecurityEventContextMapping, SecurityEventFilterChain, SecurityEventDefinition, SecurityEventContextMappingFunctionalCluster, SecurityEventContextMappingCommConnector, SecurityEventContextMappingBswModule, SecurityEventContextMappingApplication, IdsmInstance, IdsDesign, LogAndTraceMessageCollectionSet, PostBuildVariantCriterionValueSet, IdsmProperties, FMFeature, FMFeatureMap, FMFeatureModel, FMFeatureSelectionSet, ReferenceBase
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARPackage,
+    DataExchangePoint,
+    SecurityEventContextMapping,
+    SecurityEventFilterChain,
+    SecurityEventDefinition,
+    SecurityEventContextMappingFunctionalCluster,
+    SecurityEventContextMappingCommConnector,
+    SecurityEventContextMappingBswModule,
+    SecurityEventContextMappingApplication,
+    IdsmInstance,
+    IdsDesign,
+    LogAndTraceMessageCollectionSet,
+    PostBuildVariantCriterionValueSet,
+    IdsmProperties,
+    FMFeature,
+    FMFeatureMap,
+    FMFeatureModel,
+    FMFeatureSelectionSet,
+    ReferenceBase,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import AclObjectSet, AclOperation, AclPermission, AclRole
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import DiagnosticCustomServiceInstance, DiagnosticMapping
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
@@ -605,13 +625,11 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     AggregationTailoring,
     ClassContentConditional,
     AbstractClassTailoring,
-    ConstraintTailoring,
     ConcreteClassTailoring,
     DocumentElementScope,
     PrimitiveAttributeTailoring,
     ReferenceTailoring,
     SpecificationDocumentScope,
-
     SecurityEventAggregationFilter,
     SecurityEventContextProps,
     SecurityEventOneEveryNFilter,
@@ -662,9 +680,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Limit,
     RefType,
     Integer,
-    SecurityEventReportingModeEnum,
-    DataExchangePointKind,
-    DefaultValueApplicationStrategyEnum,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.LifeCycles import LifeCycleInfo, LifeCycleInfoSet, LifeCyclePeriod
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (
@@ -2145,7 +2160,6 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalRefType(child_element, "DEFINITION-REF", value.getDefinitionRef())
             self.setChildElementOptionalNumericalValue(child_element, "VALUE", value.getValue())
 
-
     def writeFMFeatureDecomposition(self, element: ET.Element, decomposition: FMFeatureDecomposition):
         if decomposition is not None:
             child_element = ET.SubElement(element, "FM-FEATURE-DECOMPOSITION")
@@ -2159,7 +2173,6 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalPositiveInteger(child_element, "MAX", decomposition.getMax())
             self.setChildElementOptionalPositiveInteger(child_element, "MIN", decomposition.getMin())
 
-
     def writeFMAttributeDef(self, element: ET.Element, attribute_def: FMAttributeDef):
         if attribute_def is not None:
             child_element = ET.SubElement(element, "FM-ATTRIBUTE-DEF")
@@ -2168,13 +2181,13 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildLimitElement(child_element, "MAX", attribute_def.getMax())
             self.setChildLimitElement(child_element, "MIN", attribute_def.getMin())
 
-
     def writeFMFeatureRestriction(self, element: ET.Element, restriction: FMFeatureRestriction):
         if restriction is not None:
             child_element = ET.SubElement(element, "FM-FEATURE-RESTRICTION")
             self.writeIdentifiable(child_element, restriction)
-            self.writeFMConditionByFeaturesAndAttributes(child_element, restriction.getRestriction(), key="RESTRICTION")
-
+            restriction_condition = restriction.getRestriction()
+            if restriction_condition is not None:
+                self.writeFMConditionByFeaturesAndAttributes(child_element, restriction_condition, key="RESTRICTION")
 
     def writeFMFeatureRelation(self, element: ET.Element, relation: FMFeatureRelation):
         if relation is not None:
@@ -2185,8 +2198,9 @@ class ARXMLWriter(AbstractARXMLWriter):
                 refs_tag = ET.SubElement(child_element, "FEATURE-REFS")
                 for ref in refs:
                     self.setChildElementOptionalRefType(refs_tag, "FEATURE-REF", ref)
-            self.writeFMConditionByFeaturesAndAttributes(child_element, relation.getRestriction(), key="RESTRICTION")
-
+            relation_restriction = relation.getRestriction()
+            if relation_restriction is not None:
+                self.writeFMConditionByFeaturesAndAttributes(child_element, relation_restriction, key="RESTRICTION")
 
     def writeFMFeatureSelection(self, element: ET.Element, selection: FMFeatureSelection):
         if selection is not None:
@@ -2201,7 +2215,6 @@ class ARXMLWriter(AbstractARXMLWriter):
                 values_tag = ET.SubElement(child_element, "ATTRIBUTE-VALUES")
                 for value in attribute_values:
                     self.writeFMAttributeValue(values_tag, value)
-
 
     def writePostBuildVariantCriterionValueSet(self, element: ET.Element, value_set: PostBuildVariantCriterionValueSet):
         if value_set is not None:
@@ -2269,7 +2282,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 datas_tag = ET.SubElement(child_element, "CONTEXT-DATAS")
                 self.writeSecurityEventContextData(datas_tag, context_data)
             self.setChildElementOptionalLiteral(child_element, "DEFAULT-REPORTING-MODE", props.getDefaultReportingMode())
-            self.setChildElementOptionalLiteral(child_element, "PERSISTENT-STORAGE", props.getPersistentStorage())
+            self.setChildElementOptionalBooleanValue(child_element, "PERSISTENT-STORAGE", props.getPersistentStorage())
             security_event_ref = props.getSecurityEventRef()
             if security_event_ref is not None:
                 events_tag = ET.SubElement(child_element, "SECURITY-EVENTS")
@@ -2301,14 +2314,16 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "SECURITY-EVENT-CONTEXT-MAPPING-BSW-MODULE")
             self.writeIdentifiable(child_element, mapping)
             self.writeSecurityEventContextMappingContents(child_element, mapping)
-            self.setChildElementOptionalStringValue(child_element, "AFFECTED-BSW-MODULE", mapping.getAffectedBswModule())
+            affected_bsw_module = mapping.getAffectedBswModule()
+            self.setChildElementOptionalStringValue(child_element, "AFFECTED-BSW-MODULE", affected_bsw_module.getValue() if affected_bsw_module is not None else None)
 
     def writeSecurityEventContextMappingFunctionalCluster(self, element: ET.Element, mapping: SecurityEventContextMappingFunctionalCluster):
         if mapping is not None:
             child_element = ET.SubElement(element, "SECURITY-EVENT-CONTEXT-MAPPING-FUNCTIONAL-CLUSTER")
             self.writeIdentifiable(child_element, mapping)
             self.writeSecurityEventContextMappingContents(child_element, mapping)
-            self.setChildElementOptionalStringValue(child_element, "AFFECTED-FUNCTIONAL-CLUSTER", mapping.getAffectedFunctionalCluster())
+            affected_functional_cluster = mapping.getAffectedFunctionalCluster()
+            self.setChildElementOptionalStringValue(child_element, "AFFECTED-FUNCTIONAL-CLUSTER", affected_functional_cluster.getValue() if affected_functional_cluster is not None else None)
 
     def writeSecurityEventContextMappingCommConnector(self, element: ET.Element, mapping: SecurityEventContextMappingCommConnector):
         if mapping is not None:
@@ -2326,7 +2341,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "SECURITY-EVENT-CONTEXT-MAPPING-APPLICATION")
             self.writeIdentifiable(child_element, mapping)
             self.writeSecurityEventContextMappingContents(child_element, mapping)
-            self.setChildElementOptionalStringValue(child_element, "AFFECTED-APPLICATION", mapping.getAffectedApplication())
+            affected_application = mapping.getAffectedApplication()
+            self.setChildElementOptionalStringValue(child_element, "AFFECTED-APPLICATION", affected_application.getValue() if affected_application is not None else None)
 
     def writeSecurityEventDefinition(self, element: ET.Element, definition: SecurityEventDefinition):
         if definition is not None:
@@ -2342,10 +2358,18 @@ class ARXMLWriter(AbstractARXMLWriter):
         if filter_chain is not None:
             child_element = ET.SubElement(element, "SECURITY-EVENT-FILTER-CHAIN")
             self.writeIdentifiable(child_element, filter_chain)
-            self.writeSecurityEventAggregationFilter(child_element, filter_chain.getAggregation(), key="AGGREGATION")
-            self.writeSecurityEventOneEveryNFilter(child_element, filter_chain.getOneEveryN(), key="ONE-EVERY-N")
-            self.writeSecurityEventStateFilter(child_element, filter_chain.getState(), key="STATE")
-            self.writeSecurityEventThresholdFilter(child_element, filter_chain.getThreshold(), key="THRESHOLD")
+            aggregation = filter_chain.getAggregation()
+            if aggregation is not None:
+                self.writeSecurityEventAggregationFilter(child_element, aggregation, key="AGGREGATION")
+            one_every_n = filter_chain.getOneEveryN()
+            if one_every_n is not None:
+                self.writeSecurityEventOneEveryNFilter(child_element, one_every_n, key="ONE-EVERY-N")
+            state = filter_chain.getState()
+            if state is not None:
+                self.writeSecurityEventStateFilter(child_element, state, key="STATE")
+            threshold = filter_chain.getThreshold()
+            if threshold is not None:
+                self.writeSecurityEventThresholdFilter(child_element, threshold, key="THRESHOLD")
 
     def writeIdsDesign(self, element: ET.Element, ids_design: IdsDesign):
         if ids_design is not None:
@@ -2383,7 +2407,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.setChildElementOptionalRefType(conditional, "IDSM-RATE-LIMITATION-REF", ref)
             self.writeIdsmSignatureSupportAp(child_element, idsm_instance.getSignatureSupportAp(), key="SIGNATURE-SUPPORT-AP")
             self.writeIdsmSignatureSupportCp(child_element, idsm_instance.getSignatureSupportCp(), key="SIGNATURE-SUPPORT-CP")
-            self.setChildElementOptionalStringValue(child_element, "TIMESTAMP-FORMAT", idsm_instance.getTimestampFormat())
+            timestamp_format = idsm_instance.getTimestampFormat()
+            self.setChildElementOptionalStringValue(child_element, "TIMESTAMP-FORMAT", timestamp_format.getValue() if timestamp_format is not None else None)
             traffic_limitation_filter_refs = idsm_instance.getTrafficLimitationFilterRefs()
             if len(traffic_limitation_filter_refs) > 0:
                 filters_tag = ET.SubElement(child_element, "TRAFFIC-LIMITATION-FILTERS")
@@ -2423,7 +2448,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "TEXTUAL-CONDITION")
             self.writeARObject(child_element, condition)
 
-    def writeBaseline(self, element: ET.Element, baseline: Baseline):
+    def writeBaseline(self, element: ET.Element, baseline: Optional[Baseline]):
         if baseline is not None:
             child_element = ET.SubElement(element, "REFERENCED-BASELINE")
             self.writeARObject(child_element, baseline)
@@ -2445,7 +2470,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 for ref in refs:
                     self.setChildElementOptionalRefType(refs_tag, "CUSTOM-SDG-DEF-REF", ref)
 
-    def writeSpecificationScope(self, element: ET.Element, specification_scope: SpecificationScope, key: str = "SPECIFICATION-SCOPE"):
+    def writeSpecificationScope(self, element: ET.Element, specification_scope: Optional[SpecificationScope], key: str = "SPECIFICATION-SCOPE"):
         if specification_scope is not None:
             child_element = ET.SubElement(element, key)
             self.writeARObject(child_element, specification_scope)
@@ -2479,7 +2504,9 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeClassTailoringContents(self, element: ET.Element, class_tailoring: ClassTailoring):
         self.writeMultiplicityRestrictionWithSeverity(element, class_tailoring.getMultiplicityRestriction(), key="MULTIPLICITY-RESTRICTION")
-        self.writeVariationRestrictionWithSeverity(element, class_tailoring.getVariationRestriction(), key="VARIATION-RESTRICTION")
+        variation_restriction = class_tailoring.getVariationRestriction()
+        if variation_restriction is not None:
+            self.writeVariationRestrictionWithSeverity(element, variation_restriction, key="VARIATION-RESTRICTION")
         class_contents = class_tailoring.getClassContents()
         if len(class_contents) > 0:
             contents_tag = ET.SubElement(element, "CLASS-CONTENTS")
@@ -2487,16 +2514,18 @@ class ARXMLWriter(AbstractARXMLWriter):
                 content_element = ET.SubElement(contents_tag, "CLASS-CONTENT-CONDITIONAL")
                 self.writeClassContentConditional(content_element, content)
 
-    def writeMultiplicityRestrictionWithSeverity(self, element: ET.Element, restriction: MultiplicityRestrictionWithSeverity, key: str = "MULTIPLICITY-RESTRICTION-WITH-SEVERITY"):
+    def writeMultiplicityRestrictionWithSeverity(self, element: ET.Element, restriction: Optional[MultiplicityRestrictionWithSeverity], key: str = "MULTIPLICITY-RESTRICTION-WITH-SEVERITY"):
         if restriction is not None:
             child_element = ET.SubElement(element, key)
             self.writeARObject(child_element, restriction)
 
-    def writeVariationRestrictionWithSeverity(self, element: ET.Element, restriction: VariationRestrictionWithSeverity, key: str = "VARIATION-RESTRICTION-WITH-SEVERITY"):
+    def writeVariationRestrictionWithSeverity(self, element: ET.Element, restriction: Optional[VariationRestrictionWithSeverity], key: str = "VARIATION-RESTRICTION-WITH-SEVERITY"):
         if restriction is not None:
             child_element = ET.SubElement(element, key)
             self.writeARObject(child_element, restriction)
-            self.setChildElementOptionalLiteral(child_element, "VALID-BINDING-TIME", restriction.getValidBindingTime())
+            valid_binding_times = restriction.getValidBindingTimes()
+            if valid_binding_times:
+                self.setChildElementOptionalLiteral(child_element, "VALID-BINDING-TIME", valid_binding_times[0])
 
     def writeClassContentConditional(self, element: ET.Element, content: ClassContentConditional):
         if content is not None:
@@ -2509,25 +2538,25 @@ class ARXMLWriter(AbstractARXMLWriter):
             attribute_tailorings = content.getAttributeTailorings()
             if len(attribute_tailorings) > 0:
                 tailorings_tag = ET.SubElement(child_element, "ATTRIBUTE-TAILORINGS")
-                for tailoring in attribute_tailorings:
-                    if isinstance(tailoring, PrimitiveAttributeTailoring):
-                        self.writePrimitiveAttributeTailoring(tailorings_tag, tailoring)
-                    elif isinstance(tailoring, AggregationTailoring):
-                        self.writeAggregationTailoring(tailorings_tag, tailoring)
-                    elif isinstance(tailoring, ReferenceTailoring):
-                        self.writeReferenceTailoring(tailorings_tag, tailoring)
+                for attribute_tailoring_item in attribute_tailorings:
+                    if isinstance(attribute_tailoring_item, PrimitiveAttributeTailoring):
+                        self.writePrimitiveAttributeTailoring(tailorings_tag, attribute_tailoring_item)
+                    elif isinstance(attribute_tailoring_item, AggregationTailoring):
+                        self.writeAggregationTailoring(tailorings_tag, attribute_tailoring_item)
+                    elif isinstance(attribute_tailoring_item, ReferenceTailoring):
+                        self.writeReferenceTailoring(tailorings_tag, attribute_tailoring_item)
             constraint_tailorings = content.getConstraintTailorings()
             if len(constraint_tailorings) > 0:
                 tailorings_tag = ET.SubElement(child_element, "CONSTRAINT-TAILORINGS")
-                for tailoring in constraint_tailorings:
+                for constraint_tailoring_item in constraint_tailorings:
                     tailoring_element = ET.SubElement(tailorings_tag, "CONSTRAINT-TAILORING")
-                    self.writeIdentifiable(tailoring_element, tailoring)
+                    self.writeIdentifiable(tailoring_element, constraint_tailoring_item)
             sdg_tailorings = content.getSdgTailorings()
             if len(sdg_tailorings) > 0:
                 tailorings_tag = ET.SubElement(child_element, "SDG-TAILORINGS")
-                for tailoring in sdg_tailorings:
+                for sdg_tailoring_item in sdg_tailorings:
                     tailoring_element = ET.SubElement(tailorings_tag, "SDG-TAILORING")
-                    self.writeIdentifiable(tailoring_element, tailoring)
+                    self.writeIdentifiable(tailoring_element, sdg_tailoring_item)
 
     def writePrimitiveAttributeTailoring(self, element: ET.Element, tailoring: PrimitiveAttributeTailoring):
         if tailoring is not None:
@@ -2548,7 +2577,19 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, key)
             self.writeARObject(child_element, restriction)
 
-    def writeClassTailoringByType(self, parent_element, class_tailoring) -> None:
+    def writeConditionByType(self, parent_element: ET.Element, condition: Any) -> None:
+        if isinstance(condition, AggregationCondition):
+            self.writeAggregationCondition(parent_element, condition)
+        elif isinstance(condition, InvertCondition):
+            self.writeInvertCondition(parent_element, condition)
+        elif isinstance(condition, PrimitiveAttributeCondition):
+            self.writePrimitiveAttributeCondition(parent_element, condition)
+        elif isinstance(condition, ReferenceCondition):
+            self.writeReferenceCondition(parent_element, condition)
+        elif isinstance(condition, TextualCondition):
+            self.writeTextualCondition(parent_element, condition)
+
+    def writeClassTailoringByType(self, parent_element: ET.Element, class_tailoring: Any) -> None:
         if isinstance(class_tailoring, AbstractClassTailoring):
             child_element = ET.SubElement(parent_element, "ABSTRACT-CLASS-TAILORING")
         elif isinstance(class_tailoring, ConcreteClassTailoring):
@@ -2578,7 +2619,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 for class_tailoring in type_tailorings:
                     self.writeClassTailoringByType(types_tag, class_tailoring)
 
-    def writeDataFormatTailoring(self, element: ET.Element, tailoring: DataFormatTailoring, key: str = "DATA-FORMAT-TAILORING"):
+    def writeDataFormatTailoring(self, element: ET.Element, tailoring: Optional[DataFormatTailoring], key: str = "DATA-FORMAT-TAILORING"):
         if tailoring is not None:
             child_element = ET.SubElement(element, key)
             self.writeARObject(child_element, tailoring)
@@ -2603,14 +2644,14 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeSpecificationScope(child_element, data_exchange_point.getSpecificationScope(), key="SPECIFICATION-SCOPE")
             self.writeDataFormatTailoring(child_element, data_exchange_point.getDataFormatTailoring(), key="DATA-FORMAT-TAILORING")
 
-    def writeIdsmSignatureSupportAp(self, element: ET.Element, signature_support: IdsmSignatureSupportAp, key: str = "SIGNATURE-SUPPORT-AP"):
+    def writeIdsmSignatureSupportAp(self, element: ET.Element, signature_support: Optional[IdsmSignatureSupportAp], key: str = "SIGNATURE-SUPPORT-AP"):
         if signature_support is not None:
             child_element = ET.SubElement(element, key)
             self.writeARObject(child_element, signature_support)
             self.setChildElementOptionalString(child_element, "CRYPTO-PRIMITIVE", signature_support.getCryptoPrimitive())
             self.setChildElementOptionalRefType(child_element, "KEY-SLOT-REF", signature_support.getKeySlotRef())
 
-    def writeIdsmSignatureSupportCp(self, element: ET.Element, signature_support: IdsmSignatureSupportCp, key: str = "SIGNATURE-SUPPORT-CP"):
+    def writeIdsmSignatureSupportCp(self, element: ET.Element, signature_support: Optional[IdsmSignatureSupportCp], key: str = "SIGNATURE-SUPPORT-CP"):
         if signature_support is not None:
             child_element = ET.SubElement(element, key)
             self.writeARObject(child_element, signature_support)
@@ -2635,8 +2676,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             traffic_limitations = idsm_properties.getTrafficLimitationFilters()
             if len(traffic_limitations) > 0:
                 traffic_tag = ET.SubElement(child_element, "TRAFFIC-LIMITATION-FILTERS")
-                for limitation in traffic_limitations:
-                    self.writeIdsmTrafficLimitation(traffic_tag, limitation)
+                for traffic_limitation in traffic_limitations:
+                    self.writeIdsmTrafficLimitation(traffic_tag, traffic_limitation)
 
     def writeIdsmRateLimitation(self, element: ET.Element, limitation: IdsmRateLimitation):
         if limitation is not None:
@@ -2656,14 +2697,17 @@ class ARXMLWriter(AbstractARXMLWriter):
         if condition is not None:
             child_element = ET.SubElement(element, "FM-FEATURE-MAP-CONDITION")
             self.writeIdentifiable(child_element, condition)
-            self.writeFMConditionByFeaturesAndAttributes(child_element, condition.getFmCond(), key="FM-COND")
+            fm_cond = condition.getFmCond()
+            if fm_cond is not None:
+                self.writeFMConditionByFeaturesAndAttributes(child_element, fm_cond, key="FM-COND")
 
     def writeFMFeatureMapAssertion(self, element: ET.Element, assertion: FMFeatureMapAssertion):
         if assertion is not None:
             child_element = ET.SubElement(element, "FM-FEATURE-MAP-ASSERTION")
             self.writeIdentifiable(child_element, assertion)
-            self.writeFMConditionByFeaturesAndSwSystemconsts(child_element, assertion.getFmSyscond(), key="FM-SYSCOND")
-
+            fm_syscond = assertion.getFmSyscond()
+            if fm_syscond is not None:
+                self.writeFMConditionByFeaturesAndSwSystemconsts(child_element, fm_syscond, key="FM-SYSCOND")
 
     def writeFMFeatureMapElement(self, element: ET.Element, map_element: FMFeatureMapElement):
         if map_element is not None:
@@ -2689,7 +2733,6 @@ class ARXMLWriter(AbstractARXMLWriter):
                 refs_tag = ET.SubElement(child_element, "SW-SYSTEMCONSTANT-VALUE-SET-REFS")
                 for ref in refs:
                     self.setChildElementOptionalRefType(refs_tag, "SW-SYSTEMCONSTANT-VALUE-SET-REF", ref)
-
 
     def writeFMFeature(self, element: ET.Element, feature: FMFeature):
         if feature is not None:
@@ -2718,7 +2761,6 @@ class ARXMLWriter(AbstractARXMLWriter):
                 for restriction in restrictions:
                     self.writeFMFeatureRestriction(restrictions_tag, restriction)
 
-
     def writeFMFeatureModel(self, element: ET.Element, feature_model: FMFeatureModel):
         if feature_model is not None:
             child_element = ET.SubElement(element, "FM-FEATURE-MODEL")
@@ -2729,7 +2771,6 @@ class ARXMLWriter(AbstractARXMLWriter):
                 for ref in refs:
                     self.setChildElementOptionalRefType(refs_tag, "FEATURE-REF", ref)
             self.setChildElementOptionalRefType(child_element, "ROOT-REF", feature_model.getRootRef())
-
 
     def writeFMFeatureSelectionSet(self, element: ET.Element, selection_set: FMFeatureSelectionSet):
         if selection_set is not None:
@@ -2750,7 +2791,6 @@ class ARXMLWriter(AbstractARXMLWriter):
                 selections_tag = ET.SubElement(child_element, "SELECTIONS")
                 for selection in selections:
                     self.writeFMFeatureSelection(selections_tag, selection)
-
 
     def writeFMFeatureMap(self, element: ET.Element, feature_map: FMFeatureMap):
         if feature_map is not None:
