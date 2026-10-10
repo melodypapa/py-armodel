@@ -70,25 +70,24 @@ class ExecutableEntity(Identifiable, ABC):
 
     # ExecutableEntity method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.3, p.70
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] createActivationReason           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getActivationReasons             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addActivationReason              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getCanEnterRefs                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addCanEnterRef                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getExclusiveAreaNestingOrderRefs [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addExclusiveAreaNestingOrderRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMinimumStartInterval          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMinimumStartInterval          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] minimumStartIntervalMs           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getReentrancyLevel               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setReentrancyLevel               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getRunsInsideRefs                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addRunsInsideRef                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSwAddrMethodRef               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSwAddrMethodRef               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createActivationReason           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getActivationReasons             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addActivationReason              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCanEnterRefs                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addCanEnterRef                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getExclusiveAreaNestingOrderRefs [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addExclusiveAreaNestingOrderRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMinimumStartInterval          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMinimumStartInterval          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] minimumStartIntervalMs           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getReentrancyLevel               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setReentrancyLevel               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRunsInsideRefs                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addRunsInsideRef                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwAddrMethodRef               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwAddrMethodRef               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is ExecutableEntity:
