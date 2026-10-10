@@ -72,10 +72,11 @@ class AbstractValueRestriction(ARObject, ABC):
     # [x] getPattern       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setPattern       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
-    # Class-level defaults — the ONLY initialization. The repo's Referrable.__init__
-    # calls ARObject.__init__ directly (bypassing super()), so an __init__ here may
-    # never run under combined inheritance (e.g. SdgPrimitiveAttribute). This mirrors
-    # the VariationPointCapable mixin pattern (StereotypeMixins.py).
+    # Class-level defaults — the ONLY initialization (VariationPointCapable mixin
+    # pattern, StereotypeMixins.py): no __init__ here. Referrable dispatches
+    # cooperatively, so an __init__ WOULD run under combined inheritance
+    # (e.g. SdgPrimitiveAttribute) — none is needed: every default is immutable
+    # (Optional[...] = None), so sharing them across instances carries no hazard.
     max: Optional[Limit] = None
     maxLength: Optional[PositiveInteger] = None
     min: Optional[Limit] = None
