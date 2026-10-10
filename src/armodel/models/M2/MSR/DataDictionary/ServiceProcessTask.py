@@ -14,15 +14,14 @@ class SwServiceArg(Identifiable, VariationPointCapable):
 
     # SwServiceArg method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 4.6, p.38
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getDirection            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDirection            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSwArraysize          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSwArraysize          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSwDataDefProps       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSwDataDefProps       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDirection            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDirection            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwArraysize          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwArraysize          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwDataDefProps       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwDataDefProps       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -84,7 +83,7 @@ class SwServiceArg(Identifiable, VariationPointCapable):
 
     def getSwDataDefProps(self) -> Optional[SwDataDefProps]:
         """
-        Data properties of this SwServiceArg.
+        Data properties of this SwServiceArg. Stereotypes: atpSplitable Tags: atp.Splitkey=swDataDefProps xml.sequenceOffset=30
 
         Returns:
             Optional[SwDataDefProps]: The swDataDefProps
@@ -93,7 +92,7 @@ class SwServiceArg(Identifiable, VariationPointCapable):
 
     def setSwDataDefProps(self, value: Optional[SwDataDefProps]) -> "SwServiceArg":
         """
-        Data properties of this SwServiceArg. A None value is a no-op and does not overwrite an existing swDataDefProps.
+        Data properties of this SwServiceArg. Stereotypes: atpSplitable Tags: atp.Splitkey=swDataDefProps xml.sequenceOffset=30 A None value is a no-op and does not overwrite an existing swDataDefProps.
 
         Args:
             value: The swDataDefProps to set
