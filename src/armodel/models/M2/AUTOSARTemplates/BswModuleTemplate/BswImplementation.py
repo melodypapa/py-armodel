@@ -11,25 +11,24 @@ from typing import List, Optional
 
 
 class BswImplementation(Implementation):
-    """Contains the implementation specific information in addition to the generic specification (BswModule Description and BswBehavior). It is possible to have several different BswImplementations referring to the same BswBehavior."""
+    """Contains the implementation specific information in addition to the generic specification (BswModule Description and BswBehavior). It is possible to have several different BswImplementations referring to the same BswBehavior. Tags: atp.recommendedPackage=BswImplementations"""
 
     # BswImplementation method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 6.1, p.120
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getArReleaseVersion             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setArReleaseVersion             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getBehaviorRef                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setBehaviorRef                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPreconfiguredConfigurationRefs [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addPreconfiguredConfigurationRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getRecommendedConfigurationRefs [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addRecommendedConfigurationRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getVendorApiInfix               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setVendorApiInfix               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getVendorSpecificModuleDefRefs  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addVendorSpecificModuleDefRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getArReleaseVersion              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setArReleaseVersion              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getBehaviorRef                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBehaviorRef                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPreconfiguredConfigurationRefs [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addPreconfiguredConfigurationRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRecommendedConfigurationRefs  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addRecommendedConfigurationRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVendorApiInfix                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setVendorApiInfix                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVendorSpecificModuleDefRefs   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addVendorSpecificModuleDefRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
