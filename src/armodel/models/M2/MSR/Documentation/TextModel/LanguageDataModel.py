@@ -464,6 +464,7 @@ class MixedContentForLongName(ARObject, AtpMixedString, ABC):
 
     # MixedContentForLongName method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.9, p.63
+    # Spec verified: R23-11 (2026-10-10, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getE         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -485,30 +486,32 @@ class MixedContentForLongName(ARObject, AtpMixedString, ABC):
 
         super().__init__()
 
-        # This is emphasized text.
+        # This is emphasized text Tags: xml.sequenceOffset=40
         self.e: Optional[EmphasisText] = None
 
-        # This is an index entry.
+        # This is an index entry. Tags: xml.sequenceOffset=70
         self.ie: Optional[IndexEntry] = None
 
-        # This is subscript text.
+        # This is subscript text. Tags: xml.sequenceOffset=60
         self.sub: Optional[Superscript] = None
 
-        # This is superscript text.
+        # This is superscript text. Tags: xml.sequenceOffset=50
         self.sup: Optional[Superscript] = None
 
-        # This is a technical term.
+        # This is a technical term. Tags: xml.sequenceOffset=30
         self.tt: Optional[Tt] = None
 
     def getE(self) -> Optional[EmphasisText]:
         """
-        This is emphasized text.
+        This is emphasized text Tags: xml.sequenceOffset=40
         """
         return self.e
 
     def setE(self, value: Optional[EmphasisText]) -> MixedContentForLongName:
         """
-        This is emphasized text. A None value is a no-op and does not overwrite an existing e.
+        This is emphasized text Tags: xml.sequenceOffset=40
+
+        A None value is a no-op and does not overwrite an existing e.
         """
         if value is not None:
             self.e = value
@@ -516,13 +519,15 @@ class MixedContentForLongName(ARObject, AtpMixedString, ABC):
 
     def getIe(self) -> Optional[IndexEntry]:
         """
-        This is an index entry.
+        This is an index entry. Tags: xml.sequenceOffset=70
         """
         return self.ie
 
     def setIe(self, value: Optional[IndexEntry]) -> MixedContentForLongName:
         """
-        This is an index entry. A None value is a no-op and does not overwrite an existing ie.
+        This is an index entry. Tags: xml.sequenceOffset=70
+
+        A None value is a no-op and does not overwrite an existing ie.
         """
         if value is not None:
             self.ie = value
@@ -530,13 +535,15 @@ class MixedContentForLongName(ARObject, AtpMixedString, ABC):
 
     def getSub(self) -> Optional[Superscript]:
         """
-        This is subscript text.
+        This is subscript text. Tags: xml.sequenceOffset=60
         """
         return self.sub
 
     def setSub(self, value: Optional[Superscript]) -> MixedContentForLongName:
         """
-        This is subscript text. A None value is a no-op and does not overwrite an existing sub.
+        This is subscript text. Tags: xml.sequenceOffset=60
+
+        A None value is a no-op and does not overwrite an existing sub.
         """
         if value is not None:
             self.sub = value
@@ -544,13 +551,15 @@ class MixedContentForLongName(ARObject, AtpMixedString, ABC):
 
     def getSup(self) -> Optional[Superscript]:
         """
-        This is superscript text.
+        This is superscript text. Tags: xml.sequenceOffset=50
         """
         return self.sup
 
     def setSup(self, value: Optional[Superscript]) -> MixedContentForLongName:
         """
-        This is superscript text. A None value is a no-op and does not overwrite an existing sup.
+        This is superscript text. Tags: xml.sequenceOffset=50
+
+        A None value is a no-op and does not overwrite an existing sup.
         """
         if value is not None:
             self.sup = value
@@ -558,13 +567,15 @@ class MixedContentForLongName(ARObject, AtpMixedString, ABC):
 
     def getTt(self) -> Optional[Tt]:
         """
-        This is a technical term.
+        This is a technical term. Tags: xml.sequenceOffset=30
         """
         return self.tt
 
     def setTt(self, value: Optional[Tt]) -> MixedContentForLongName:
         """
-        This is a technical term. A None value is a no-op and does not overwrite an existing tt.
+        This is a technical term. Tags: xml.sequenceOffset=30
+
+        A None value is a no-op and does not overwrite an existing tt.
         """
         if value is not None:
             self.tt = value

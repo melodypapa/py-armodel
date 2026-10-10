@@ -10,8 +10,8 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 859 | 45.0% |
-| [x] Deferred | 40 | 2.1% |
+| [x] Done | 861 | 45.1% |
+| [x] Deferred | 38 | 2.0% |
 | [x] Retired | 0 | 0.0% |
 | [ ] Deferred | 989 | 51.8% |
 | [ ] Implemented | 10 | 0.5% |
@@ -84,7 +84,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `ApplicationPartition`                                  | [ ] Deferred| 9241a3d9f5                               | Group30          |
 | `ApplicationPartitionToEcuPartitionMapping`             | [x] Done    | baccb40d25                               | Group18          |
 | `ApplicationPrimitiveDataType`                          | [x] Done    | 4a9ccae9b8                               | Group2           |
-| `ApplicationRecordDataType`                             | [x] Deferred| 0a06e0fae3                               | Group2           |
+| `ApplicationRecordDataType`                             | [x] Done    | 0a06e0fae3                               | Group2           |
 | `ApplicationRecordElement`                              | [x] Done    | ae4ed75065                               | Group2           |
 | `ApplicationRuleBasedValueSpecification`                | [ ] Deferred| 1e72f8e31d                               | Group28          |
 | `ApplicationSwComponentType`                            | [ ] Deferred| 31ce617eb9                               | Group27          |
@@ -1258,7 +1258,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `MetaDataItemSet`                                       | [x] Done    | e69a025254                               | Group2           |
 | `MimeTypeString`                                        | [x] Done    | 01cc23df4e                               | Group3           |
 | `MirroringProtocolEnum`                                 | [ ] Deferred| N/A                                      | Group33          |
-| `MixedContentForLongName`                               | [x] Deferred| N/A                                      | Group21          |
+| `MixedContentForLongName`                               | [x] Done    | fdc7811f86                               | Group21          |
 | `MixedContentForOverviewParagraph`                      | [x] Done    | 18b494eba5                               | Group8           |
 | `MixedContentForParagraph`                              | [x] Done    | bf9114cb01                               | Group3           |
 | `MixedContentForPlainText`                              | [x] Done    | 4a95d1d305                               | Group8           |

@@ -64,18 +64,149 @@ pending that confirmation.
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b)
   - note: 9b confirmed 2026-10-09 (Rule 0026 audit vs source). The prior "short-circuit" note was STALE — the `# Spec verified:` marker was NOT present in src, and blueprintValue had drifted: dropped `Tags:` tail (atp.Status=draft xml.attribute=true), wrong type `Optional[str]` (spec `String`), and NO reader/writer coverage of BLUEPRINT-VALUE (silent round-trip loss). Fixed to verbatim parity with the stamped sibling LOverviewParagraph: restored Tags tail on inline/getter/setter, retyped `Optional[String]`, added BLUEPRINT-VALUE read in readLLongName + write in setLLongName (XSD L-LONG-NAME attributeGroup confirms it on L-4). Re-audited clean; marker written (sync commit c09bc8067).
-- [x] `MixedContentForLongName` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.9, p.63 — already verified (short-circuit 2026-09-30)
+- [x] `MixedContentForLongName` (input · R23-11 markdown · Table 4.9, p.63 · fdc7811f8)
   - module: M2/MSR/Documentation/TextModel/LanguageDataModel.py
+  - Note: row reopened 2026-10-10. The prior "already verified (short-circuit
+    2026-09-30)" note was **STALE** — `# Spec verified: R23-11` was **not** present
+    in src (same defect as the `Identifier` / `LLongName` rows above). Unstamped ⇒
+    sync from the beginning (Rule 0012.1 / Rule 0026).
   - [x] Step 1 — Sync members & description from spec
+    - note (Step 1): `AUTOSAR_FO_TPS_GenericStructureTemplate.md` L1747-1758,
+      **Table 4.9, p.63** (pdf_page.py: `R23-11/AUTOSAR_FO_TPS_GenericStructureTemplate.pdf
+      | Table 4.9: MixedContentForLongName | p.63`). R4.3.1 also carries it
+      (Table 4.12, p.62) but Rule 0016.3 does **not** apply — the R23-11 table exists.
+      Kind = **Class** (not Enumeration): Class row `<<atpMixedString>> MixedContentForLongName
+      (abstract)`; Package `M2::MSR::Documentation::TextModel::InlineTextModel`;
+      Base `ARObject`; Subclasses `LLongName, SingleLanguageLongName` (both in src).
+      Class Note already verbatim in the class docstring ✓. Base ⇒
+      `(ARObject, AtpMixedString, ABC)` + `type(self) is …` guard — mixin justified by
+      the Class-row stereotype **and** XSD `MIXED-CONTENT-FOR-LONG-NAME`
+      (`AUTOSAR_00052.xsd` L81286-81330) `appinfo stereotypes="atpMixedString,atpObject"`;
+      its `<xsd:documentation>` is byte-identical to the Note.
+      5 Attribute rows in displayed order, **all Mult. `1` ⇒ `Optional[T]`**:
+      `e` EmphasisText aggr "This is emphasized text Tags: xml.sequenceOffset=40";
+      `ie` IndexEntry aggr "This is an index entry. Tags: xml.sequenceOffset=70";
+      `sub` Superscript attr "This is subscript text. Tags: xml.sequenceOffset=60";
+      `sup` Superscript attr "This is superscript text. Tags: xml.sequenceOffset=50";
+      `tt` Tt aggr "This is a technical term. Tags: xml.sequenceOffset=30".
+      XSD child elements TT/E/SUP/SUB/IE ⇒ reader/writer XML order (Rule 0011, independent
+      of member order). Member types `EmphasisText`/`IndexEntry`/`Superscript`/`Tt` all exist.
   - [x] Step 2 — Write model class unit test (Red)
+    - note (Step 2): **new `TestMixedContentForLongName`** added to
+      `tests/test_armodel/models/M2/MSR/Documentation/TextModel/test_LanguageDataModel.py`
+      (the class had **no** model test of its own — every sibling abstract class in this
+      module has one: `TestMixedContentForOverviewParagraph`, `TestMixedContentForParagraph`,
+      `TestMixedContentForPlainText`, `TestWhitespaceControlled`; `e/ie/sub/sup/tt` were
+      only covered indirectly via `TestLLongName`). 7 tests: abstract guard + `__init__`
+      defaults, base anchoring, class Note verbatim, per-attribute Note verbatim
+      (`__init__` comment + getter + setter, `Tags:` tail included), typed getter/setter
+      round-trip + None no-op, mixin accessors, `get_type_hints` quota shape.
+      **Red**: `test_member_notes_verbatim` fails — the source drops the
+      `Tags: xml.sequenceOffset=NN` tail from all five Notes (`# This is emphasized text Tags: xml.sequenceOffset=40`
+      not found). 1 failed, 6 passed.
   - [x] Step 3 — Implement model class (Green)
+    - note (Step 3): model contract re-verified against Table 4.9 — **no field or accessor
+      change needed**: 5 `Optional[T]` PEP 526 members in spec row order `e/ie/sub/sup/tt`
+      (all Mult. `1`), 10 accessors `getX`/`setX` in per-attribute order with getter-first
+      pairing + None-no-op guards + `self` chaining, `get_type_hints` shape matches quota,
+      base `(ARObject, AtpMixedString, ABC)` + TypeError guard. 6 passed
+      (`-k "not member_notes_verbatim"`); the single remaining Red is the docstring subset
+      that Step 4 owns.
   - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    - note (Step 4): full wipe of the class docstring, all 10 accessor docstrings and all
+      5 inline `__init__` member comments (Rule 0012.2.3), then rewritten from the Table 4.9
+      `Note` cells. **Fix**: every attribute Note had lost its `Tags: xml.sequenceOffset=NN`
+      tail, and `e` had gained a period the spec does not have (spec reads
+      "This is emphasized text Tags: xml.sequenceOffset=40" — no full stop). Rewritten as
+      inline comment + getter docstring + setter docstring (Note, blank line, then the
+      None-no-op behaviour sentence — same shape as the stamped `LLongName.setBlueprintValue`).
+      Class Note re-copied verbatim (unchanged). Verified by **diff** against the markdown
+      (script-bound to the Table 4.9 block only): all 5 rows OK on `__init__` comment +
+      getter + setter; types/mult/kind cross-checked `EmphasisText/IndexEntry/Superscript/
+      Superscript/Tt`, all `1` ⇒ `Optional[T]`. XSD `AUTOSAR_00052.xsd` L81294-81327 agrees
+      on the offsets (TT 30, E 40, SUP 50, SUB 60, IE 70). `TextModel` suite **179 passed**.
   - [x] Step 5 — Write reader/writer round-trip test (Red)
+    - note (Step 5): **no Red observable** — the reader/writer already covered the group
+      correctly; nothing to fix (same shape as `ReferrableSubtypesEnum` Step 2). The real
+      gap was that **nothing pinned it**: the existing `test_l_long_name.py` pair only
+      covered `BLUEPRINT-VALUE` + element text, while the checklist claimed `reader [x]` /
+      `writer [x]` for all five Table 4.9 attributes. Added 5 tests —
+      parser `tests/test_armodel/parser/test_l_long_name.py::TestLLongNameParser`:
+      `test_read_mixed_content_group_populates_e_ie_tt_sup_sub` (asserts field **values**
+      of all five, not `len`), `test_read_mixed_content_group_leaves_unset_attributes_none`;
+      writer `tests/test_armodel/writer/test_l_long_name.py::TestMixedContentForLongNameWriter`:
+      `test_write_emits_group_elements_and_attributes`, `test_write_omits_group_when_unset`
+      (empty case), `test_mixed_content_write_read_roundtrip` (set → write → re-read,
+      asserting `tt.value`/`tt.type`, `e.value`, `ie.value`, `sup`, `sub`).
+      **10 passed** across the two files.
   - [x] Step 6 — Update parser & writer (Green)
+    - note (Step 6): **no parser/writer change needed** — `readMixedContentForLongName`
+      (`arxml_parser.py` L3261) already sets all five via mutators and calls `readARObject`
+      (Rule 0025 satisfied); `writeMixedContentForLongName` (`arxml_writer.py` L2962) already
+      reads all five via getters and calls `writeARObject`. Name pairs matched 1:1
+      (Rule 0013.2). Confirmed **independently on both sides** (Rule 0025): the writer
+      calling `writeARObject` was not used to infer the reader. No chained
+      `set`/`create`/`add` on a receiver (Rule 0013) — the `grep` hits in this file are
+      all pre-existing `obj.setX(Type().setValue(...))` constructor-nesting, not chains.
+      Round-trip proven lossless by the new tests.
   - [x] Step 7 — Update checklist comment
+    - note (Step 7): **no change needed** — the block was already current 6-column format
+      (`impl / docstring / test / reader / writer / release`, `[—]` where no XML element),
+      11 rows in source order in one contiguous run above `__init__` (Rule 0024), and
+      `# Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.9, p.63` in canonical
+      single-corpus form (Rule 0023 not triggered). `audit_class.py` BLOCK/ROWS/SPECLINE/
+      CITATION/SPACING all clean. **`# Spec verified:` marker deliberately withheld** — it is
+      written only in Step 9b after user confirmation (Rule 0012.1). The `test` column is
+      now genuinely true: `TestMixedContentForLongName` did not exist before this pass.
   - [x] Step 8 — Deviations
+    - note (Step 8): no `naming` / `type` / `missing` deviation rows — the field-to-spec
+      cross-check passes **in both directions** (every field traces to a Table 4.9 row;
+      every Table 4.9 row has a field + accessor pair + reader + writer). Accepted
+      deviations, all pre-existing and family-consistent, carried to 9b for confirmation:
+      1. **Rule 0007 package location** — spec `Package` row is
+         `M2::MSR::Documentation::TextModel::InlineTextModel`, but the class lives in
+         `LanguageDataModel.py`; no `InlineTextModel.py` exists in this package. Accepted
+         family placement, recorded the same way for the identical situation in Group8
+         (`MixedContentForOverviewParagraph`, same spec Package, `# Spec verified: R23-11`).
+      2. **Rule 0021 `AtpMixedString` mixin** — mandated by the Class-row stereotype
+         `<<atpMixedString>>` **and** XSD `MIXED-CONTENT-FOR-LONG-NAME`
+         (`AUTOSAR_00052.xsd` L81291) `appinfo stereotypes="atpMixedString,atpObject"`;
+         the concrete `value` member is therefore **not** modeled (stereotype-inherent text
+         rides the mixin, no spec row). Rule 0021's "scope boundary" bullet names this
+         family as out of scope, but that text is dated **2026-09-25**, predating the
+         **user-directed 2026-09-27** unification recorded in Group3.md — the whole family
+         (`MixedContentForOverviewParagraph`, `MixedContentForUnitNames`,
+         `MixedContentForPlainText`, `MixedContentForVerbatim`) is stamped in this shape.
+      3. **Writer element order** — `writeMixedContentForLongName` emits `E`, `IE`, `TT`
+         (spec row order), not XSD `sequenceOffset` order (`TT` 30, `E` 40, `IE` 70).
+         Immaterial: the group is `<xsd:choice maxOccurs="unbounded">`, so order is
+         unconstrained and round-trip is lossless; and it matches the stamped sibling
+         `writeMixedContentForOverviewParagraph`, which likewise emits in row order.
+         Flagged for 9b rather than changed, to avoid diverging from the stamped family.
+      No missing referenced classes: `EmphasisText` (Table 9.34), `IndexEntry` (9.36),
+      `Superscript` (9.38) and `Tt` (9.39) all exist in `InlineTextElements.py`. **They are
+      themselves unstamped** (same stale `[x]` short-circuit as this row) and carry
+      paraphrase docstrings — flagged at 9b; not fixed here (one class per session,
+      Rule 0017.1).
   - [x] Step 9 — Verify (9a) + confirm (9b)
-  - note: already-verified short-circuit 2026-09-30 (Group21 header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
+    - note (Step 9): **9a** — full suite **25,826 passed / 1067 skipped** (integration
+      round-trip included); `ruff check src/armodel tests` clean; `black --check` (200 cols)
+      clean; `flake8 --select=E9,F63,F7,F82` clean; `mypy` **Success, 279 source files**;
+      member-annotation gate (Rule 0022) 3 passed; set-based checklist-vs-methods script
+      green (11 rows, all methods covered, no `# type:`); `audit_class.py` PASS on
+      BLOCK/ROWS/SPECLINE/CITATION/SPACING/DOCTAIL/BASE.
+      **9b** — all 14 gate items presented and **confirmed by the user 2026-10-10**;
+      marker `# Spec verified: R23-11 (2026-10-10, user 9b confirmation)` written
+      immediately after the `# Spec:` line (Rule 0012.1). Post-stamp audit re-run: STAMP
+      clean, `=> PASS`. Sync commit **fdc7811f8**.
+    - note (open, not this row): the four member types `EmphasisText` (Table 9.34),
+      `IndexEntry` (9.36), `Superscript` (9.38) and `Tt` (9.39) are **themselves unstamped**
+      (same stale `[x]` short-circuit), carry paraphrase docstrings
+      (e.g. `IndexEntry.getValue` = "Gets the text content of the index entry.") and declare
+      bare-`T` single-valued fields (`self.value: String = None`). Rule 0006.1 requires
+      member-type docstrings to be verbatim before the consuming class is stamped; the user
+      confirmed the stamp scoped to this class's own table anyway. **Those rows are still
+      owed a real sync pass** — see their rows further down this file.
 - [x] `Referrable` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.10, p.63 — already verified (short-circuit 2026-09-30)
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
   - [x] Step 1 — Sync members & description from spec

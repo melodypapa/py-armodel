@@ -5,7 +5,7 @@ Tests cover all classes and methods in the Datatypes.py file to achieve 100% tes
 
 import inspect
 import typing
-from typing import Optional
+from typing import List, Optional
 
 import pytest
 
@@ -16,6 +16,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, RefType, String
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ApplicationRecordElement
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import (
     ApplicationArrayDataType,
     ApplicationCompositeDataType,
@@ -254,23 +255,37 @@ class TestApplicationArrayDataType:
 
 
 class TestApplicationRecordDataType:
-    """Test class for ApplicationRecordDataType class."""
+    """Test class for ApplicationRecordDataType (Table 5.12, R23-11)."""
 
-    def test_application_record_data_type_spec_contract(self):
+    ATTRIBUTE_NOTE = (
+        "Specifies an element of a record. The aggregation of ApplicationRecordElement is subject to variability "
+        "with the purpose to support the conditional existence of elements inside a ApplicationrecordData Type. "
+        "Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=element.shortName, element.variation Point.shortLabel "
+        "vh.latestBindingTime=preCompileTime"
+    )
+
+    def test_base_shape(self):
+        assert ApplicationRecordDataType.__bases__[0] is ApplicationCompositeDataType
+        signature = inspect.signature(ApplicationRecordDataType.__init__)
+        assert list(signature.parameters.keys()) == ["self", "parent", "short_name"]
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
-        record_type = ApplicationRecordDataType(ar_root, "Record")
+        record_type = ApplicationRecordDataType(ar_root, "TestApplicationRecordDataType")
+        assert isinstance(record_type, ApplicationDataType)
+        assert isinstance(record_type, AutosarDataType)
+        assert isinstance(record_type, ARElement)
+        assert isinstance(record_type, Identifiable)
+        assert isinstance(record_type, ARObject)
 
-        assert isinstance(record_type, ApplicationCompositeDataType)
-        assert record_type.__class__.__doc__.strip() == ("An application data type which can be decomposed into prototypes of other application data types.")
-        first = record_type.createApplicationRecordElement("First")
-        second = record_type.createApplicationRecordElement("Second")
-        assert record_type.getApplicationRecordElements() == [first, second]
-        assert record_type.createApplicationRecordElement("First") is first
-        assert record_type.recordElements == [first, second]
+    def test_class_docstring_matches_spec_note(self):
+        assert inspect.cleandoc(ApplicationRecordDataType.__doc__) == inspect.cleandoc(
+            "An application data type which can be decomposed into prototypes of other application data types. "
+            "Tags: atp.recommendedPackage=ApplicationDataTypes\n\n"
+            "    [constr_1908] Existence of attribute ApplicationRecordDataType.element: For each ApplicationRecordDataType, "
+            "the aggregation of ApplicationRecordElement in the role element shall exist at the time when the RTE is generated."
+        )
 
-    def test_application_record_data_type_initialization(self):
-        """Test ApplicationRecordDataType initialization and methods."""
+    def test_initialization(self):
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         record_type = ApplicationRecordDataType(ar_root, "TestApplicationRecordDataType")
@@ -278,21 +293,79 @@ class TestApplicationRecordDataType:
         assert record_type.parent == ar_root
         assert record_type.short_name == "TestApplicationRecordDataType"
         assert record_type.swDataDefProps is None
-        assert record_type.recordElements == []
+        assert record_type.elements == []
+        assert record_type.getElements() == []
 
-        # Test swDataDefProps methods
-        from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
+    def test_get_set_sw_data_def_props(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        record_type = ApplicationRecordDataType(ar_root, "TestApplicationRecordDataType")
+        sw_data_def_props = SwDataDefProps()
 
-        sw_data_def = SwDataDefProps()
-        record_type.setSwDataDefProps(sw_data_def)
-        assert record_type.getSwDataDefProps() == sw_data_def
+        assert record_type.setSwDataDefProps(sw_data_def_props) is record_type
+        assert record_type.getSwDataDefProps() is sw_data_def_props
 
-        # Test createApplicationRecordElement and related methods
-        record_element = record_type.createApplicationRecordElement("TestRecordElement")
-        assert record_element is not None
-        assert record_element.short_name == "TestRecordElement"
-        assert record_element.parent == record_type
-        assert record_element in record_type.getApplicationRecordElements()
+        record_type.setSwDataDefProps(None)
+        assert record_type.getSwDataDefProps() is sw_data_def_props
+
+    def test_get_elements_type_hint(self):
+        hints = typing.get_type_hints(ApplicationRecordDataType.getElements)
+        assert hints.get("return") == List[ApplicationRecordElement]
+        assert ApplicationRecordDataType.getElements.__annotations__.get("return") == List[ApplicationRecordElement]
+
+    def test_create_application_record_element(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        record_type = ApplicationRecordDataType(ar_root, "TestApplicationRecordDataType")
+
+        first = record_type.createApplicationRecordElement("First")
+        second = record_type.createApplicationRecordElement("Second")
+
+        assert isinstance(first, ApplicationRecordElement)
+        assert first.short_name == "First"
+        assert first.parent == record_type
+        assert record_type.elements == [first, second]
+        assert record_type.getElements() == [first, second]
+
+    def test_create_application_record_element_duplicate_returns_existing(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        record_type = ApplicationRecordDataType(ar_root, "TestApplicationRecordDataType")
+
+        first = record_type.createApplicationRecordElement("First")
+        assert record_type.createApplicationRecordElement("First") is first
+        assert record_type.getElements() == [first]
+
+    def test_create_application_record_element_registers_in_referrable_registry(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        record_type = ApplicationRecordDataType(ar_root, "TestApplicationRecordDataType")
+
+        first = record_type.createApplicationRecordElement("First")
+        assert record_type.IsReferrableElementExists("First", ApplicationRecordElement)
+        assert record_type.getReferrableElement("First", ApplicationRecordElement) is first
+
+    def test_get_elements_returns_the_dedicated_field(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        record_type = ApplicationRecordDataType(ar_root, "TestApplicationRecordDataType")
+        record_type.createApplicationRecordElement("First")
+
+        assert record_type.getElements() is record_type.elements
+
+    def test_get_elements_docstring_verbatim(self):
+        assert ApplicationRecordDataType.getElements.__doc__.strip() == self.ATTRIBUTE_NOTE
+
+    def test_create_application_record_element_docstring_verbatim(self):
+        assert ApplicationRecordDataType.createApplicationRecordElement.__doc__.strip() == self.ATTRIBUTE_NOTE
+
+    def test_legacy_naming_is_gone(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        record_type = ApplicationRecordDataType(ar_root, "TestApplicationRecordDataType")
+
+        assert not hasattr(record_type, "recordElements")
+        assert not hasattr(record_type, "getApplicationRecordElements")
 
 
 class TestDataTypeMap:
