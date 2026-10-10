@@ -185,82 +185,82 @@ class BswModuleDependency(Identifiable):
 
 class BswModuleEntry(AtpBlueprintable):
     """
-    This class represents a single API entry (C-function prototype) into the BSW module or cluster. The name of the C-function is equal to the short name of this element with one exception: In case of multiple instances of a module on the same CPU, special rules for "infixes" apply, see description of class BswImplementation.
+    This class represents a single API entry (C-function prototype) into the BSW module or cluster. The name of the C-function is equal to the short name of this element with one exception: In case of multiple instances of a module on the same CPU, special rules for "infixes" apply, see description of class BswImplementation. Tags: atp.recommendedPackage=BswModuleEntrys
     """
 
     # BswModuleEntry method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 4.1, p.33
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] createArgument               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getArguments                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setBswEntryKind              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getBswEntryKind              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setCallType                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getCallType                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setExecutionContext          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getExecutionContext          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setFunctionPrototypeEmitter  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getFunctionPrototypeEmitter  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setIsReentrant               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getIsReentrant               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setIsSynchronous             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getIsSynchronous             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createReturnType             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getReturnType                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setRole                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getRole                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setServiceId                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getServiceId                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSwServiceImplPolicy        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSwServiceImplPolicy        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getArguments                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createArgument               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getBswEntryKind              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBswEntryKind              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCallType                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCallType                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getExecutionContext          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setExecutionContext          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFunctionPrototypeEmitter  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFunctionPrototypeEmitter  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIsReentrant               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIsReentrant               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIsSynchronous             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIsSynchronous             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getReturnType                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createReturnType             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRole                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRole                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getServiceId                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setServiceId                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwServiceImplPolicy       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwServiceImplPolicy       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] __str__                      [x] impl  [—] docstring  [—] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        # An argument belonging to this BswModuleEntry.
+        # An argument belonging to this BswModuleEntry. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=argument.shortName, argument.variation Point.shortLabel vh.latestBindingTime=blueprintDerivationTime xml.sequenceOffset=45
         self.arguments: List[SwServiceArg] = []
 
-        # This describes whether the entry is concrete or abstract. If the attribute is missing the entry is considered as concrete.
+        # This describes whether the entry is concrete or abstract. If the attribute is missing the entry is considered as concrete. Tags: xml.sequenceOffset=40
         self.bswEntryKind: Optional[BswEntryKindEnum] = None
 
-        # The type of call associated with this service.
+        # The type of call associated with this service. Tags: xml.sequenceOffset=25
         self.callType: Optional[BswCallType] = None
 
-        # Specifies the execution context which is required (in case of entries into this module) or guaranteed (in case of entries called from this module) for this service.
+        # Specifies the execution context which is required (in case of entries into this module) or guaranteed (in case of entries called from this module) for this service. Tags: xml.sequenceOffset=30
         self.executionContext: Optional[BswExecutionContext] = None
 
         # This attribute is used to control the generation of function prototypes. If set to "RTE", the RTE generates the function prototypes in the Module Interlink Header File.
         self.functionPrototypeEmitter: Optional[NameToken] = None
 
-        # Reentrancy from the viewpoint of function callers: • true: Enables the service to be invoked again, before the service has finished. • false: It is prohibited to invoke the service again before is has finished.
+        # Reentrancy from the viewpoint of function callers: • true: Enables the service to be invoked again, before the service has finished. • false: It is prohibited to invoke the service again before is has finished. Tags: xml.sequenceOffset=15
         self.isReentrant: Optional[Boolean] = None
 
-        # Synchronicity from the viewpoint of function callers: • true: This calls a synchronous service, i.e. the service is completed when the call returns. • false: The service (on semantical level) may not be complete when the call returns.
+        # Synchronicity from the viewpoint of function callers: • true: This calls a synchronous service, i.e. the service is completed when the call returns. • false: The service (on semantical level) may not be complete when the call returns. Tags: xml.sequenceOffset=20
         self.isSynchronous: Optional[Boolean] = None
 
-        # The return type belonging to this bswModuleEntry.
+        # The return type belonging to this bswModuleEntry. Tags: xml.sequenceOffset=40
         self.returnType: Optional[SwServiceArg] = None
 
-        # Specifies the role of the entry in the given context. It shall be equal to the standardized name of the service call, especially in cases where no ServiceIdentifier is specified, e.g. for callbacks. Note that the ShortName is not always sufficient because it maybe vendor specific (e.g. for callbacks which can have more than one instance).
+        # Specifies the role of the entry in the given context. It shall be equal to the standardized name of the service call, especially in cases where no ServiceIdentifier is specified, e.g. for callbacks. Note that the ShortName is not always sufficient because it maybe vendor specific (e.g. for callbacks which can have more than one instance). Tags: xml.sequenceOffset=10
         self.role: Optional[Identifier] = None
 
-        # Refers to the service identifier of the Standardized Interfaces of AUTOSAR basic software. For non-standardized interfaces, it can optionally be used for proprietary identification.
+        # Refers to the service identifier of the Standardized Interfaces of AUTOSAR basic software. For non-standardized interfaces, it can optionally be used for proprietary identification. Tags: xml.sequenceOffset=5
         self.serviceId: Optional[PositiveInteger] = None
 
-        # Denotes the implementation policy as a standard function call, inline function or macro. This has to be specified on interface level because it determines the signature of the call.
+        # Denotes the implementation policy as a standard function call, inline function or macro. This has to be specified on interface level because it determines the signature of the call. Tags: xml.sequenceOffset=35
         self.swServiceImplPolicy: Optional[SwServiceImplPolicyEnum] = None
 
     def getArguments(self) -> List[SwServiceArg]:
         """
-        An argument belonging to this BswModuleEntry.
+        An argument belonging to this BswModuleEntry. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=argument.shortName, argument.variation Point.shortLabel vh.latestBindingTime=blueprintDerivationTime xml.sequenceOffset=45
         """
         return self.arguments
 
     def createArgument(self, short_name: str) -> SwServiceArg:
         """
-        An argument belonging to this BswModuleEntry.
+        An argument belonging to this BswModuleEntry. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=argument.shortName, argument.variation Point.shortLabel vh.latestBindingTime=blueprintDerivationTime xml.sequenceOffset=45
 
         Args:
             short_name: The short name for the new argument
@@ -276,13 +276,13 @@ class BswModuleEntry(AtpBlueprintable):
 
     def getBswEntryKind(self) -> Optional[BswEntryKindEnum]:
         """
-        This describes whether the entry is concrete or abstract. If the attribute is missing the entry is considered as concrete.
+        This describes whether the entry is concrete or abstract. If the attribute is missing the entry is considered as concrete. Tags: xml.sequenceOffset=40
         """
         return self.bswEntryKind
 
     def setBswEntryKind(self, value: Optional[BswEntryKindEnum]) -> "BswModuleEntry":
         """
-        This describes whether the entry is concrete or abstract. If the attribute is missing the entry is considered as concrete.
+        This describes whether the entry is concrete or abstract. If the attribute is missing the entry is considered as concrete. Tags: xml.sequenceOffset=40
         A None value is a no-op and does not overwrite an existing bswEntryKind.
         """
         if value is not None:
@@ -291,13 +291,13 @@ class BswModuleEntry(AtpBlueprintable):
 
     def getCallType(self) -> Optional[BswCallType]:
         """
-        The type of call associated with this service.
+        The type of call associated with this service. Tags: xml.sequenceOffset=25
         """
         return self.callType
 
     def setCallType(self, value: Optional[BswCallType]) -> "BswModuleEntry":
         """
-        The type of call associated with this service.
+        The type of call associated with this service. Tags: xml.sequenceOffset=25
         A None value is a no-op and does not overwrite an existing callType.
         """
         if value is not None:
@@ -306,13 +306,13 @@ class BswModuleEntry(AtpBlueprintable):
 
     def getExecutionContext(self) -> Optional[BswExecutionContext]:
         """
-        Specifies the execution context which is required (in case of entries into this module) or guaranteed (in case of entries called from this module) for this service.
+        Specifies the execution context which is required (in case of entries into this module) or guaranteed (in case of entries called from this module) for this service. Tags: xml.sequenceOffset=30
         """
         return self.executionContext
 
     def setExecutionContext(self, value: Optional[BswExecutionContext]) -> "BswModuleEntry":
         """
-        Specifies the execution context which is required (in case of entries into this module) or guaranteed (in case of entries called from this module) for this service.
+        Specifies the execution context which is required (in case of entries into this module) or guaranteed (in case of entries called from this module) for this service. Tags: xml.sequenceOffset=30
         A None value is a no-op and does not overwrite an existing executionContext.
         """
         if value is not None:
@@ -336,13 +336,13 @@ class BswModuleEntry(AtpBlueprintable):
 
     def getIsReentrant(self) -> Optional[Boolean]:
         """
-        Reentrancy from the viewpoint of function callers: • true: Enables the service to be invoked again, before the service has finished. • false: It is prohibited to invoke the service again before is has finished.
+        Reentrancy from the viewpoint of function callers: • true: Enables the service to be invoked again, before the service has finished. • false: It is prohibited to invoke the service again before is has finished. Tags: xml.sequenceOffset=15
         """
         return self.isReentrant
 
     def setIsReentrant(self, value: Optional[Boolean]) -> "BswModuleEntry":
         """
-        Reentrancy from the viewpoint of function callers: • true: Enables the service to be invoked again, before the service has finished. • false: It is prohibited to invoke the service again before is has finished.
+        Reentrancy from the viewpoint of function callers: • true: Enables the service to be invoked again, before the service has finished. • false: It is prohibited to invoke the service again before is has finished. Tags: xml.sequenceOffset=15
         A None value is a no-op and does not overwrite an existing isReentrant.
         """
         if value is not None:
@@ -351,13 +351,13 @@ class BswModuleEntry(AtpBlueprintable):
 
     def getIsSynchronous(self) -> Optional[Boolean]:
         """
-        Synchronicity from the viewpoint of function callers: • true: This calls a synchronous service, i.e. the service is completed when the call returns. • false: The service (on semantical level) may not be complete when the call returns.
+        Synchronicity from the viewpoint of function callers: • true: This calls a synchronous service, i.e. the service is completed when the call returns. • false: The service (on semantical level) may not be complete when the call returns. Tags: xml.sequenceOffset=20
         """
         return self.isSynchronous
 
     def setIsSynchronous(self, value: Optional[Boolean]) -> "BswModuleEntry":
         """
-        Synchronicity from the viewpoint of function callers: • true: This calls a synchronous service, i.e. the service is completed when the call returns. • false: The service (on semantical level) may not be complete when the call returns.
+        Synchronicity from the viewpoint of function callers: • true: This calls a synchronous service, i.e. the service is completed when the call returns. • false: The service (on semantical level) may not be complete when the call returns. Tags: xml.sequenceOffset=20
         A None value is a no-op and does not overwrite an existing isSynchronous.
         """
         if value is not None:
@@ -366,13 +366,13 @@ class BswModuleEntry(AtpBlueprintable):
 
     def getReturnType(self) -> Optional[SwServiceArg]:
         """
-        The return type belonging to this bswModuleEntry.
+        The return type belonging to this bswModuleEntry. Tags: xml.sequenceOffset=40
         """
         return self.returnType
 
     def createReturnType(self, short_name: str) -> SwServiceArg:
         """
-        The return type belonging to this bswModuleEntry.
+        The return type belonging to this bswModuleEntry. Tags: xml.sequenceOffset=40
 
         Args:
             short_name: The short name for the new return type
@@ -388,13 +388,13 @@ class BswModuleEntry(AtpBlueprintable):
 
     def getRole(self) -> Optional[Identifier]:
         """
-        Specifies the role of the entry in the given context. It shall be equal to the standardized name of the service call, especially in cases where no ServiceIdentifier is specified, e.g. for callbacks. Note that the ShortName is not always sufficient because it maybe vendor specific (e.g. for callbacks which can have more than one instance).
+        Specifies the role of the entry in the given context. It shall be equal to the standardized name of the service call, especially in cases where no ServiceIdentifier is specified, e.g. for callbacks. Note that the ShortName is not always sufficient because it maybe vendor specific (e.g. for callbacks which can have more than one instance). Tags: xml.sequenceOffset=10
         """
         return self.role
 
     def setRole(self, value: Optional[Identifier]) -> "BswModuleEntry":
         """
-        Specifies the role of the entry in the given context. It shall be equal to the standardized name of the service call, especially in cases where no ServiceIdentifier is specified, e.g. for callbacks. Note that the ShortName is not always sufficient because it maybe vendor specific (e.g. for callbacks which can have more than one instance).
+        Specifies the role of the entry in the given context. It shall be equal to the standardized name of the service call, especially in cases where no ServiceIdentifier is specified, e.g. for callbacks. Note that the ShortName is not always sufficient because it maybe vendor specific (e.g. for callbacks which can have more than one instance). Tags: xml.sequenceOffset=10
         A None value is a no-op and does not overwrite an existing role.
         """
         if value is not None:
@@ -403,13 +403,13 @@ class BswModuleEntry(AtpBlueprintable):
 
     def getServiceId(self) -> Optional[PositiveInteger]:
         """
-        Refers to the service identifier of the Standardized Interfaces of AUTOSAR basic software. For non-standardized interfaces, it can optionally be used for proprietary identification.
+        Refers to the service identifier of the Standardized Interfaces of AUTOSAR basic software. For non-standardized interfaces, it can optionally be used for proprietary identification. Tags: xml.sequenceOffset=5
         """
         return self.serviceId
 
     def setServiceId(self, value: Optional[PositiveInteger]) -> "BswModuleEntry":
         """
-        Refers to the service identifier of the Standardized Interfaces of AUTOSAR basic software. For non-standardized interfaces, it can optionally be used for proprietary identification.
+        Refers to the service identifier of the Standardized Interfaces of AUTOSAR basic software. For non-standardized interfaces, it can optionally be used for proprietary identification. Tags: xml.sequenceOffset=5
         A None value is a no-op and does not overwrite an existing serviceId.
         """
         if value is not None:
@@ -418,13 +418,13 @@ class BswModuleEntry(AtpBlueprintable):
 
     def getSwServiceImplPolicy(self) -> Optional[SwServiceImplPolicyEnum]:
         """
-        Denotes the implementation policy as a standard function call, inline function or macro. This has to be specified on interface level because it determines the signature of the call.
+        Denotes the implementation policy as a standard function call, inline function or macro. This has to be specified on interface level because it determines the signature of the call. Tags: xml.sequenceOffset=35
         """
         return self.swServiceImplPolicy
 
     def setSwServiceImplPolicy(self, value: Optional[SwServiceImplPolicyEnum]) -> "BswModuleEntry":
         """
-        Denotes the implementation policy as a standard function call, inline function or macro. This has to be specified on interface level because it determines the signature of the call.
+        Denotes the implementation policy as a standard function call, inline function or macro. This has to be specified on interface level because it determines the signature of the call. Tags: xml.sequenceOffset=35
         A None value is a no-op and does not overwrite an existing swServiceImplPolicy.
         """
         if value is not None:
