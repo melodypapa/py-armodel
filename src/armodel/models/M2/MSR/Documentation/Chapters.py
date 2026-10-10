@@ -31,48 +31,25 @@ class Chapter(Identifiable, VariationPointCapable):
 
     # Chapter method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.58, p.329
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] setChapterModel     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getChapterModel     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setHelpEntry        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getHelpEntry        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setChapterModel     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getChapterModel     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setHelpEntry        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getHelpEntry        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        # This represents the overall contents of the chapter.
+        # This represents the overall contents of the chapter. Tags: xml.roleElement=false xml.roleWrapperElement=false xml.typeElement=false xml.typeWrapperElement=false
         self.chapterModel: Optional[ChapterModel] = None
 
-        # This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator. Maybe it is a concatenated Identifier, but as of now we leave it as an arbitrary string.
+        # This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator. Maybe it is a concatenated Identifier, but as of now we leave it as an arbitrary string. Tags: xml.attribute=true
         self.helpEntry: Optional[String] = None
-
-    def setHelpEntry(self, value: Optional[String]) -> Chapter:
-        """
-        This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator. Maybe it is a concatenated Identifier, but as of now we leave it as an arbitrary string.
-
-        A None value is a no-op and does not overwrite an existing helpEntry.
-
-        Returns:
-            self for method chaining
-        """
-        if value is not None:
-            self.helpEntry = value
-        return self
-
-    def getHelpEntry(self) -> Optional[String]:
-        """
-        This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator. Maybe it is a concatenated Identifier, but as of now we leave it as an arbitrary string.
-
-        Returns:
-            The entry point in an online help system to be linked with the parent class
-        """
-        return self.helpEntry
 
     def setChapterModel(self, value: Optional[ChapterModel]) -> Chapter:
         """
-        This represents the overall contents of the chapter.
+        This represents the overall contents of the chapter. Tags: xml.roleElement=false xml.roleWrapperElement=false xml.typeElement=false xml.typeWrapperElement=false
 
         A None value is a no-op and does not overwrite an existing chapterModel.
 
@@ -85,12 +62,34 @@ class Chapter(Identifiable, VariationPointCapable):
 
     def getChapterModel(self) -> Optional[ChapterModel]:
         """
-        This represents the overall contents of the chapter.
+        This represents the overall contents of the chapter. Tags: xml.roleElement=false xml.roleWrapperElement=false xml.typeElement=false xml.typeWrapperElement=false
 
         Returns:
             The overall contents of the chapter
         """
         return self.chapterModel
+
+    def setHelpEntry(self, value: Optional[String]) -> Chapter:
+        """
+        This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator. Maybe it is a concatenated Identifier, but as of now we leave it as an arbitrary string. Tags: xml.attribute=true
+
+        A None value is a no-op and does not overwrite an existing helpEntry.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.helpEntry = value
+        return self
+
+    def getHelpEntry(self) -> Optional[String]:
+        """
+        This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator. Maybe it is a concatenated Identifier, but as of now we leave it as an arbitrary string. Tags: xml.attribute=true
+
+        Returns:
+            The entry point in an online help system to be linked with the parent class
+        """
+        return self.helpEntry
 
 
 class PredefinedChapter(ARObject):
