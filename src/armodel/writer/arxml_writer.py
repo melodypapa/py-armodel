@@ -10435,6 +10435,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         if behavior is None:
             return element
         child_element = ET.SubElement(element, key)
+        self.writeARObject(child_element, behavior)
         self.setChildElementOptionalRefType(child_element, "DEFAULT-MODE-REF", behavior.getDefaultModeRef())
         self.setChildElementOptionalLiteral(child_element, "ERROR-REACTION-POLICY", behavior.getErrorReactionPolicy())
         return child_element

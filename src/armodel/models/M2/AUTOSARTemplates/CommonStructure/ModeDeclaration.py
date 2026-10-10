@@ -607,13 +607,12 @@ class ModeErrorBehavior(ARObject):
 
     # ModeErrorBehavior method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 4.13, p.44
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getDefaultModeRef           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDefaultModeRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getErrorReactionPolicy      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setErrorReactionPolicy      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDefaultModeRef           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDefaultModeRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getErrorReactionPolicy      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setErrorReactionPolicy      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
