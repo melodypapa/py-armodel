@@ -139,6 +139,22 @@ class TestSdgAttributes:
         assert attribute.addValidBindingTime(FullBindingTimeEnum().setValue(FullBindingTimeEnum.POST_BUILD)) is attribute
         assert len(attribute.getValidBindingTimes()) == 1
 
+    def test_sdg_with_variation_instances_do_not_share_binding_times(self):
+        """
+        Test that the AbstractVariationRestriction mixin isolates validBindingTimes per instance.
+
+        The mixin initializes the list in its own __init__, which only runs because
+        Referrable dispatches cooperatively. This pins that behavior: dropping the
+        per-subclass re-init would reintroduce a shared mutable default if the mixin
+        __init__ ever stopped running.
+        """
+        sdg_def = _make_sdg_def()
+        sdg_class = SdgClass(sdg_def, "MySdgClass")
+        first = SdgPrimitiveAttributeWithVariation(sdg_class, "First")
+        second = SdgPrimitiveAttributeWithVariation(sdg_class, "Second")
+        first.addValidBindingTime(FullBindingTimeEnum().setValue(FullBindingTimeEnum.POST_BUILD))
+        assert second.getValidBindingTimes() == []
+
     def test_sdg_aggregation_with_variation(self):
         sdg_def = _make_sdg_def()
         sdg_class = SdgClass(sdg_def, "MySdgClass")

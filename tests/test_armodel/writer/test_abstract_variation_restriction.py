@@ -21,11 +21,6 @@ from armodel.writer.arxml_writer import ARXMLWriter
 class _Derived(AbstractVariationRestriction):
     def __init__(self):
         super().__init__()
-        from typing import List
-
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ModelRestrictionTypes import FullBindingTimeEnum as _F
-
-        self.validBindingTimes: List[_F] = []
 
 
 class TestWriteAbstractVariationRestriction:

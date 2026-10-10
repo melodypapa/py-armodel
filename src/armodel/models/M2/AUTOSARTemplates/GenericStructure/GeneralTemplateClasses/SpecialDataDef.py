@@ -10,7 +10,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ModelRestrictionTypes import (
     AbstractValueRestriction,
     AbstractVariationRestriction,
-    FullBindingTimeEnum,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
@@ -32,9 +31,10 @@ class SdgElementWithGid(ARObject, ABC):
     # [x] setGid    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     # Class-level default — the ONLY initialization (VariationPointCapable mixin
-    # pattern): the repo's Referrable.__init__ calls ARObject.__init__ directly
-    # (bypassing super()), so a mixin __init__ may never run under combined
-    # inheritance — this mixin has no __init__ at all.
+    # pattern): this mixin has no __init__ at all. Referrable dispatches
+    # cooperatively, so a mixin __init__ WOULD run — one is simply not needed:
+    # the default is immutable (Optional[...] = None), so sharing it across
+    # instances carries no hazard (see Rule 0021's MRO-dispatch note).
     # Specifies the name that identifies the element.
     gid: Optional[NameToken] = None
 
@@ -235,9 +235,6 @@ class SdgPrimitiveAttributeWithVariation(SdgAbstractPrimitiveAttribute, Abstract
     def __init__(self, parent, short_name: str):
         super().__init__(parent, short_name)
 
-        # List of valid binding times. Tags: xml.sequenceOffset=20
-        self.validBindingTimes: List[FullBindingTimeEnum] = []
-
 
 class SdgAggregationWithVariation(SdgElementWithGid, SdgAttribute, AbstractVariationRestriction):
     """
@@ -253,9 +250,6 @@ class SdgAggregationWithVariation(SdgElementWithGid, SdgAttribute, AbstractVaria
 
     def __init__(self, parent, short_name: str):
         super().__init__(parent, short_name)
-
-        # List of valid binding times. Tags: xml.sequenceOffset=20
-        self.validBindingTimes: List[FullBindingTimeEnum] = []
 
         # Supported sub Sdg Class
         self.subSdgRef: Optional[RefType] = None
@@ -397,9 +391,6 @@ class SdgForeignReferenceWithVariation(SdgAbstractForeignReference, AbstractVari
 
     def __init__(self, parent, short_name: str):
         super().__init__(parent, short_name)
-
-        # List of valid binding times. Tags: xml.sequenceOffset=20
-        self.validBindingTimes: List[FullBindingTimeEnum] = []
 
 
 class SdgDef(ARElement):

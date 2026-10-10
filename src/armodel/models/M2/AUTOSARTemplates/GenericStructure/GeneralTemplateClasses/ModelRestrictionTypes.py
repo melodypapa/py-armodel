@@ -72,10 +72,11 @@ class AbstractValueRestriction(ARObject, ABC):
     # [x] getPattern       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setPattern       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
-    # Class-level defaults — the ONLY initialization. The repo's Referrable.__init__
-    # calls ARObject.__init__ directly (bypassing super()), so an __init__ here may
-    # never run under combined inheritance (e.g. SdgPrimitiveAttribute). This mirrors
-    # the VariationPointCapable mixin pattern (StereotypeMixins.py).
+    # Class-level defaults — the ONLY initialization (VariationPointCapable mixin
+    # pattern, StereotypeMixins.py): no __init__ here. Referrable dispatches
+    # cooperatively, so an __init__ WOULD run under combined inheritance
+    # (e.g. SdgPrimitiveAttribute) — none is needed: every default is immutable
+    # (Optional[...] = None), so sharing them across instances carries no hazard.
     max: Optional[Limit] = None
     maxLength: Optional[PositiveInteger] = None
     min: Optional[Limit] = None
@@ -225,21 +226,26 @@ class AbstractVariationRestriction(ARObject, ABC):
     # AbstractVariationRestriction method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.38, p.104
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] addValidBindingTime   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getValidBindingTimes  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setValidBindingTimes  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getVariation          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setVariation          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
-    # Class-level defaults — the ONLY initialization (VariationPointCapable mixin
-    # pattern; see AbstractValueRestriction above for the combined-inheritance reason).
-    # Concrete subclasses re-initialize validBindingTimes per instance so the default
-    # list is never mutated.
-    # List of valid binding times. Tags: xml.sequenceOffset=20
-    validBindingTimes: List[FullBindingTimeEnum] = []
+    # validBindingTimes is initialized per instance in __init__ (no mutable
+    # class-level default): AbstractVariationRestriction sits after Referrable
+    # in the MRO, so its __init__ only runs because Referrable dispatches
+    # cooperatively.
 
     # Defines if the AUTOSAR model may define a Variation Point at this location. Tags: xml.sequenceOffset=10
     variation: Optional[Boolean] = None
+
+    def __init__(self):
+        super().__init__()
+
+        # List of valid binding times. Tags: xml.sequenceOffset=20
+        self.validBindingTimes: List[FullBindingTimeEnum] = []
 
     def addValidBindingTime(self, value: FullBindingTimeEnum):
         """
