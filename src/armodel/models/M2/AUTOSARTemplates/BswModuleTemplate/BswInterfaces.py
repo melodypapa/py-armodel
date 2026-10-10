@@ -104,15 +104,14 @@ class SwServiceImplPolicyEnum(AREnum):
 
     # SwServiceImplPolicyEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 4.5, p.36
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on BswModuleEntry.swServiceImplPolicy
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # inline service definition. Tags: atp.EnumerationLiteralIndex=0
     INLINE = "INLINE"
 
-    # The service (in AUTOSAR: BswModuleEntry) is implemented in a way that it either resolves to an inline function or to a standard function depending on conditions set at a later point in time. The following two values are standardized (to be used for code sections only and exclusively to each other): • INLINE - The code section is declared with the keyword "INLINE". • LOCAL_INLINE - The code section is declared with the keyword "static inline". In both cases (INLINE and LOCAL_INLINE) the inline expansion depends on the compiler. Depending on this, the code section either corresponds to an actual section in memory or is put into the section of the caller. Tags: atp.EnumerationLiteralIndex=1
+    # The service (in AUTOSAR: BswModuleEntry) is implemented in a way that it either resolves to an inline function or to a standard function depending on conditions set at a later point in time. The following two values are standardized (to be used for code sections only and exclusively to each other): • INLINE - The code section is declared with the keyword "inline". • LOCAL_INLINE - The code section is declared with the keyword "static inline". In both cases (INLINE and LOCAL_INLINE) the inline expansion depends on the compiler. Depending on this, the code section either corresponds to an actual section in memory or is put into the section of the caller. Tags: atp.EnumerationLiteralIndex=1
     INLINE_CONDITIONAL = "INLINE-CONDITIONAL"
 
     # macro service definition. Tags: atp.EnumerationLiteralIndex=2
