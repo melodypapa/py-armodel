@@ -45,6 +45,7 @@ if TYPE_CHECKING:
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
+    AbstractGlobalTimeDomainProps,
     CalibrationParameterValue,
     FMFeatureDecomposition,
     DiagnosticCommonProps,
@@ -56,6 +57,8 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticParameter,
     DiagnosticSupportInfoByte,
     DiagnosticTestIdentifier,
+    GlobalTimeCorrectionProps,
+    NetworkSegmentIdentification,
     PhysicalDimensionMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
@@ -70,8 +73,19 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticRequestRoutineResults,
     DiagnosticStartRoutine,
     DiagnosticStopRoutine,
+    GlobalTimeCanMaster,
+    GlobalTimeCanSlave,
+    GlobalTimeEthMaster,
+    GlobalTimeEthSlave,
+    GlobalTimeFrMaster,
+    GlobalTimeFrSlave,
+    GlobalTimeGateway,
+    GlobalTimeMaster,
+    GlobalTimeSlave,
     Identifiable,
     Referrable,
+    UserDefinedGlobalTimeMaster,
+    UserDefinedGlobalTimeSlave,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import CollectableElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Enumerations import BindingTimeEnum
@@ -2868,6 +2882,13 @@ class ARPackage(CollectableElement, VariationPointCapable):
             element = TransformationPropsSet(self, short_name)
             self.addReferrableElement(element)
         return cast(TransformationPropsSet, self.getReferrableElement(short_name, TransformationPropsSet))
+
+    def createGlobalTimeDomain(self, short_name: str) -> GlobalTimeDomain:
+
+        if not self.IsReferrableElementExists(short_name, GlobalTimeDomain):
+            element = GlobalTimeDomain(self, short_name)
+            self.addReferrableElement(element)
+        return cast(GlobalTimeDomain, self.getReferrableElement(short_name, GlobalTimeDomain))
 
     def createISignalIPdu(self, short_name: str) -> ISignalIPdu:
 
@@ -12433,7 +12454,348 @@ class GeneralPurposeConnection(ARElement):
 
 
 class GlobalTimeDomain(ARElement):
-    pass
+    """
+    This represents the ability to define a global time domain. Tags: atp.recommendedPackage=GlobalTimeDomains
+    """
+
+    # GlobalTimeDomain method parity checklist:
+    # Spec: R23-11/AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.1, p.859 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDebounceTime                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDebounceTime                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDomainId                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDomainId                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createGlobalTimeGateway            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getGateways                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getGlobalTimeCorrectionProps       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setGlobalTimeCorrectionProps       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getGlobalTimeDomainProperty        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setGlobalTimeDomainProperty        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createGlobalTimeCanMaster          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createGlobalTimeEthMaster          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createGlobalTimeFrMaster           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createUserDefinedGlobalTimeMaster  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getGlobalTimeMaster                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addGlobalTimeSubDomainRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getGlobalTimeSubDomainRefs         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getNetworkSegmentId                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNetworkSegmentId                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOffsetTimeDomainRef             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOffsetTimeDomainRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPduTriggeringRef                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPduTriggeringRef                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createGlobalTimeCanSlave           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createGlobalTimeEthSlave           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createGlobalTimeFrSlave            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createUserDefinedGlobalTimeSlave   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSlaves                          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getSyncLossTimeout                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSyncLossTimeout                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # The markdown Table 9.1 globalTimeSubDomain Note cell is truncated mid-Tags
+    # ("Tags: atp.Splitkey=globalTimeSubDomain.globalTimeDomain,"); the tail is completed
+    # from the XSD GLOBAL-TIME-SUB-DOMAINS appinfo (AUTOSAR_00052.xsd l.64513):
+    # "globalTimeSubDomain.variationPoint.shortLabel vh.latestBindingTime=postBuild".
+    # Rule 0015: the XSD GLOBAL-TIME-DOMAIN-PROPERTYS / GLOBAL-TIME-MASTERS wrappers are
+    # unbounded choices, but the PDF Table 9.1 declares globalTimeDomainProperty 0..1 and
+    # globalTimeMaster 0..1 — the PDF wins (single-valued slots; the reader is last-wins);
+    # the removed XSD-only members (COMMUNICATION-CLUSTER-REFS, FOLLOW-UP-TIMEOUT-VALUE,
+    # GLOBAL-TIME-PDU-REF, GLOBAL-TIME-PDU-TRIGGERING-REF, GLOBAL-TIME-DOMAIN-PROPS, MASTER,
+    # SUB-DOMAIN-REFS, SYNC-LOSS-THRESHOLD) are not modeled. The VARIATION-POINT nested in
+    # GLOBAL-TIME-DOMAIN-REF-CONDITIONAL / PDU-TRIGGERING-REF-CONDITIONAL is not represented
+    # (bare RefType), per sibling precedent for REF-CONDITIONAL wrappers.
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Defines the minimum amount of time between two time sync messages are transmitted.
+        self.debounceTime: Optional[TimeValue] = None
+
+        # This represents the ID of the GlobalTimeDomain used in the network messages sent on behalf of global time management.
+        self.domainId: Optional[PositiveInteger] = None
+
+        # A GlobalTimeGateway may exist in the context of a GlobalTimeDomain to actively update the global time information as it is routed from one GlobalTimeDomain to another. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=gateway.shortName, gateway.variation Point.shortLabel vh.latestBindingTime=postBuild
+        self.gateways: List[GlobalTimeGateway] = []
+
+        # Defintion of attributes for rate and offset correction.
+        self.globalTimeCorrectionProps: Optional[GlobalTimeCorrectionProps] = None
+
+        # Additional properties of the GlobalTimeDomain. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=globalTimeDomainProperty, globalTime DomainProperty.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        self.globalTimeDomainProperty: Optional[AbstractGlobalTimeDomainProps] = None
+
+        # This represents the single master of a GlobalTime Domain. A GlobalTimeDomain may have no GlobalTime Domain.master, e.g. when it gets its time from a GPS receiver. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=globalTimeMaster.shortName, globalTime Master.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        self.globalTimeMaster: Optional[GlobalTimeMaster] = None
+
+        # By this means it is possible to create a hierarchy of sub Domains where one global time domain can declare one or more other global time domains as its subDomains. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=globalTimeSubDomain.globalTimeDomain, globalTimeSubDomain.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        self.globalTimeSubDomainRefs: List[RefType] = []
+
+        # Defines the numerical identification of a GlobalTime sub domain.
+        self.networkSegmentId: Optional[NetworkSegmentIdentification] = None
+
+        # Reference to a synchronized time domain this offset time domain is based on. The reference source is the offset time domain. The reference target is the synchronized time domain.
+        self.offsetTimeDomainRef: Optional[RefType] = None
+
+        # This PduTriggering will be taken to transmit the global time information from a GlobalTimeMaster to a the associated GlobalTimeSlaves. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=pduTriggering.pduTriggering, pdu Triggering.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        self.pduTriggeringRef: Optional[RefType] = None
+
+        # This represents the collections of slaves of the Global TimeDomain. A GlobalTimeDomain may have no Global TimeDomain.slaves, e.g. when it propagates its time directly to sub domains. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=slave.shortName, slave.variationPoint.short Label vh.latestBindingTime=postBuild
+        self.slaves: List[GlobalTimeSlave] = []
+
+        # This attribute describes the timeout for the situation that the time synchronization gets lost in the scope of the time domain.
+        self.syncLossTimeout: Optional[TimeValue] = None
+
+    def getDebounceTime(self) -> Optional[TimeValue]:
+        """
+        Defines the minimum amount of time between two time sync messages are transmitted.
+        """
+        return self.debounceTime
+
+    def setDebounceTime(self, value: Optional[TimeValue]) -> GlobalTimeDomain:
+        """
+        Defines the minimum amount of time between two time sync messages are transmitted.
+
+        A None value is a no-op and does not overwrite an existing debounceTime.
+        """
+        if value is not None:
+            self.debounceTime = value
+        return self
+
+    def getDomainId(self) -> Optional[PositiveInteger]:
+        """
+        This represents the ID of the GlobalTimeDomain used in the network messages sent on behalf of global time management.
+        """
+        return self.domainId
+
+    def setDomainId(self, value: Optional[PositiveInteger]) -> GlobalTimeDomain:
+        """
+        This represents the ID of the GlobalTimeDomain used in the network messages sent on behalf of global time management.
+
+        A None value is a no-op and does not overwrite an existing domainId.
+        """
+        if value is not None:
+            self.domainId = value
+        return self
+
+    def createGlobalTimeGateway(self, short_name: str) -> GlobalTimeGateway:
+        """
+        A GlobalTimeGateway may exist in the context of a GlobalTimeDomain to actively update the global time information as it is routed from one GlobalTimeDomain to another. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=gateway.shortName, gateway.variation Point.shortLabel vh.latestBindingTime=postBuild
+        """
+        if not self.IsReferrableElementExists(short_name, GlobalTimeGateway):
+            element = GlobalTimeGateway(self, short_name)
+            self.addReferrableElement(element)
+            self.gateways.append(element)
+        return cast(GlobalTimeGateway, self.getReferrableElement(short_name, GlobalTimeGateway))
+
+    def getGateways(self) -> List[GlobalTimeGateway]:
+        """
+        A GlobalTimeGateway may exist in the context of a GlobalTimeDomain to actively update the global time information as it is routed from one GlobalTimeDomain to another. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=gateway.shortName, gateway.variation Point.shortLabel vh.latestBindingTime=postBuild
+        """
+        return self.gateways
+
+    def getGlobalTimeCorrectionProps(self) -> Optional[GlobalTimeCorrectionProps]:
+        """
+        Defintion of attributes for rate and offset correction.
+        """
+        return self.globalTimeCorrectionProps
+
+    def setGlobalTimeCorrectionProps(self, value: Optional[GlobalTimeCorrectionProps]) -> GlobalTimeDomain:
+        """
+        Defintion of attributes for rate and offset correction.
+
+        A None value is a no-op and does not overwrite an existing globalTimeCorrectionProps.
+        """
+        if value is not None:
+            self.globalTimeCorrectionProps = value
+        return self
+
+    def getGlobalTimeDomainProperty(self) -> Optional[AbstractGlobalTimeDomainProps]:
+        """
+        Additional properties of the GlobalTimeDomain. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=globalTimeDomainProperty, globalTime DomainProperty.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
+        return self.globalTimeDomainProperty
+
+    def setGlobalTimeDomainProperty(self, value: Optional[AbstractGlobalTimeDomainProps]) -> GlobalTimeDomain:
+        """
+        Additional properties of the GlobalTimeDomain. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=globalTimeDomainProperty, globalTime DomainProperty.variationPoint.shortLabel vh.latestBindingTime=postBuild
+
+        A None value is a no-op and does not overwrite an existing globalTimeDomainProperty.
+        """
+        if value is not None:
+            self.globalTimeDomainProperty = value
+        return self
+
+    def createGlobalTimeCanMaster(self, short_name: str) -> GlobalTimeCanMaster:
+        """
+        This represents the single master of a GlobalTime Domain. A GlobalTimeDomain may have no GlobalTime Domain.master, e.g. when it gets its time from a GPS receiver. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=globalTimeMaster.shortName, globalTime Master.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
+        if not self.IsReferrableElementExists(short_name, GlobalTimeCanMaster):
+            element = GlobalTimeCanMaster(self, short_name)
+            self.addReferrableElement(element)
+            self.globalTimeMaster = element
+        return cast(GlobalTimeCanMaster, self.getReferrableElement(short_name, GlobalTimeCanMaster))
+
+    def createGlobalTimeEthMaster(self, short_name: str) -> GlobalTimeEthMaster:
+        """
+        This represents the single master of a GlobalTime Domain. A GlobalTimeDomain may have no GlobalTime Domain.master, e.g. when it gets its time from a GPS receiver. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=globalTimeMaster.shortName, globalTime Master.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
+        if not self.IsReferrableElementExists(short_name, GlobalTimeEthMaster):
+            element = GlobalTimeEthMaster(self, short_name)
+            self.addReferrableElement(element)
+            self.globalTimeMaster = element
+        return cast(GlobalTimeEthMaster, self.getReferrableElement(short_name, GlobalTimeEthMaster))
+
+    def createGlobalTimeFrMaster(self, short_name: str) -> GlobalTimeFrMaster:
+        """
+        This represents the single master of a GlobalTime Domain. A GlobalTimeDomain may have no GlobalTime Domain.master, e.g. when it gets its time from a GPS receiver. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=globalTimeMaster.shortName, globalTime Master.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
+        if not self.IsReferrableElementExists(short_name, GlobalTimeFrMaster):
+            element = GlobalTimeFrMaster(self, short_name)
+            self.addReferrableElement(element)
+            self.globalTimeMaster = element
+        return cast(GlobalTimeFrMaster, self.getReferrableElement(short_name, GlobalTimeFrMaster))
+
+    def createUserDefinedGlobalTimeMaster(self, short_name: str) -> UserDefinedGlobalTimeMaster:
+        """
+        This represents the single master of a GlobalTime Domain. A GlobalTimeDomain may have no GlobalTime Domain.master, e.g. when it gets its time from a GPS receiver. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=globalTimeMaster.shortName, globalTime Master.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
+        if not self.IsReferrableElementExists(short_name, UserDefinedGlobalTimeMaster):
+            element = UserDefinedGlobalTimeMaster(self, short_name)
+            self.addReferrableElement(element)
+            self.globalTimeMaster = element
+        return cast(UserDefinedGlobalTimeMaster, self.getReferrableElement(short_name, UserDefinedGlobalTimeMaster))
+
+    def getGlobalTimeMaster(self) -> Optional[GlobalTimeMaster]:
+        """
+        This represents the single master of a GlobalTime Domain. A GlobalTimeDomain may have no GlobalTime Domain.master, e.g. when it gets its time from a GPS receiver. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=globalTimeMaster.shortName, globalTime Master.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
+        return self.globalTimeMaster
+
+    def addGlobalTimeSubDomainRef(self, value: Optional[RefType]) -> GlobalTimeDomain:
+        """
+        By this means it is possible to create a hierarchy of sub Domains where one global time domain can declare one or more other global time domains as its subDomains. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=globalTimeSubDomain.globalTimeDomain, globalTimeSubDomain.variationPoint.shortLabel vh.latestBindingTime=postBuild
+
+        A None value is a no-op and does not append to globalTimeSubDomainRefs.
+        """
+        if value is not None:
+            self.globalTimeSubDomainRefs.append(value)
+        return self
+
+    def getGlobalTimeSubDomainRefs(self) -> List[RefType]:
+        """
+        By this means it is possible to create a hierarchy of sub Domains where one global time domain can declare one or more other global time domains as its subDomains. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=globalTimeSubDomain.globalTimeDomain, globalTimeSubDomain.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
+        return self.globalTimeSubDomainRefs
+
+    def getNetworkSegmentId(self) -> Optional[NetworkSegmentIdentification]:
+        """
+        Defines the numerical identification of a GlobalTime sub domain.
+        """
+        return self.networkSegmentId
+
+    def setNetworkSegmentId(self, value: Optional[NetworkSegmentIdentification]) -> GlobalTimeDomain:
+        """
+        Defines the numerical identification of a GlobalTime sub domain.
+
+        A None value is a no-op and does not overwrite an existing networkSegmentId.
+        """
+        if value is not None:
+            self.networkSegmentId = value
+        return self
+
+    def getOffsetTimeDomainRef(self) -> Optional[RefType]:
+        """
+        Reference to a synchronized time domain this offset time domain is based on. The reference source is the offset time domain. The reference target is the synchronized time domain.
+        """
+        return self.offsetTimeDomainRef
+
+    def setOffsetTimeDomainRef(self, value: Optional[RefType]) -> GlobalTimeDomain:
+        """
+        Reference to a synchronized time domain this offset time domain is based on. The reference source is the offset time domain. The reference target is the synchronized time domain.
+
+        A None value is a no-op and does not overwrite an existing offsetTimeDomainRef.
+        """
+        if value is not None:
+            self.offsetTimeDomainRef = value
+        return self
+
+    def getPduTriggeringRef(self) -> Optional[RefType]:
+        """
+        This PduTriggering will be taken to transmit the global time information from a GlobalTimeMaster to a the associated GlobalTimeSlaves. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=pduTriggering.pduTriggering, pdu Triggering.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
+        return self.pduTriggeringRef
+
+    def setPduTriggeringRef(self, value: Optional[RefType]) -> GlobalTimeDomain:
+        """
+        This PduTriggering will be taken to transmit the global time information from a GlobalTimeMaster to a the associated GlobalTimeSlaves. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=pduTriggering.pduTriggering, pdu Triggering.variationPoint.shortLabel vh.latestBindingTime=postBuild
+
+        A None value is a no-op and does not overwrite an existing pduTriggeringRef.
+        """
+        if value is not None:
+            self.pduTriggeringRef = value
+        return self
+
+    def createGlobalTimeCanSlave(self, short_name: str) -> GlobalTimeCanSlave:
+        """
+        This represents the collections of slaves of the Global TimeDomain. A GlobalTimeDomain may have no Global TimeDomain.slaves, e.g. when it propagates its time directly to sub domains. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=slave.shortName, slave.variationPoint.short Label vh.latestBindingTime=postBuild
+        """
+        if not self.IsReferrableElementExists(short_name, GlobalTimeCanSlave):
+            element = GlobalTimeCanSlave(self, short_name)
+            self.addReferrableElement(element)
+            self.slaves.append(element)
+        return cast(GlobalTimeCanSlave, self.getReferrableElement(short_name, GlobalTimeCanSlave))
+
+    def createGlobalTimeEthSlave(self, short_name: str) -> GlobalTimeEthSlave:
+        """
+        This represents the collections of slaves of the Global TimeDomain. A GlobalTimeDomain may have no Global TimeDomain.slaves, e.g. when it propagates its time directly to sub domains. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=slave.shortName, slave.variationPoint.short Label vh.latestBindingTime=postBuild
+        """
+        if not self.IsReferrableElementExists(short_name, GlobalTimeEthSlave):
+            element = GlobalTimeEthSlave(self, short_name)
+            self.addReferrableElement(element)
+            self.slaves.append(element)
+        return cast(GlobalTimeEthSlave, self.getReferrableElement(short_name, GlobalTimeEthSlave))
+
+    def createGlobalTimeFrSlave(self, short_name: str) -> GlobalTimeFrSlave:
+        """
+        This represents the collections of slaves of the Global TimeDomain. A GlobalTimeDomain may have no Global TimeDomain.slaves, e.g. when it propagates its time directly to sub domains. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=slave.shortName, slave.variationPoint.short Label vh.latestBindingTime=postBuild
+        """
+        if not self.IsReferrableElementExists(short_name, GlobalTimeFrSlave):
+            element = GlobalTimeFrSlave(self, short_name)
+            self.addReferrableElement(element)
+            self.slaves.append(element)
+        return cast(GlobalTimeFrSlave, self.getReferrableElement(short_name, GlobalTimeFrSlave))
+
+    def createUserDefinedGlobalTimeSlave(self, short_name: str) -> UserDefinedGlobalTimeSlave:
+        """
+        This represents the collections of slaves of the Global TimeDomain. A GlobalTimeDomain may have no Global TimeDomain.slaves, e.g. when it propagates its time directly to sub domains. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=slave.shortName, slave.variationPoint.short Label vh.latestBindingTime=postBuild
+        """
+        if not self.IsReferrableElementExists(short_name, UserDefinedGlobalTimeSlave):
+            element = UserDefinedGlobalTimeSlave(self, short_name)
+            self.addReferrableElement(element)
+            self.slaves.append(element)
+        return cast(UserDefinedGlobalTimeSlave, self.getReferrableElement(short_name, UserDefinedGlobalTimeSlave))
+
+    def getSlaves(self) -> List[GlobalTimeSlave]:
+        """
+        This represents the collections of slaves of the Global TimeDomain. A GlobalTimeDomain may have no Global TimeDomain.slaves, e.g. when it propagates its time directly to sub domains. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=slave.shortName, slave.variationPoint.short Label vh.latestBindingTime=postBuild
+        """
+        return self.slaves
+
+    def getSyncLossTimeout(self) -> Optional[TimeValue]:
+        """
+        This attribute describes the timeout for the situation that the time synchronization gets lost in the scope of the time domain.
+        """
+        return self.syncLossTimeout
+
+    def setSyncLossTimeout(self, value: Optional[TimeValue]) -> GlobalTimeDomain:
+        """
+        This attribute describes the timeout for the situation that the time synchronization gets lost in the scope of the time domain.
+
+        A None value is a no-op and does not overwrite an existing syncLossTimeout.
+        """
+        if value is not None:
+            self.syncLossTimeout = value
+        return self
 
 
 class IdsCommonElement(ARElement, ABC):

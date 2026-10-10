@@ -447,6 +447,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     FMFeatureSelectionSet,
     ReferenceBase,
     TransformationPropsSet,
+    GlobalTimeDomain,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import AclObjectSet, AclOperation, AclPermission, AclRole
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import DiagnosticCustomServiceInstance, DiagnosticMapping
@@ -14832,6 +14833,79 @@ class ARXMLWriter(AbstractARXMLWriter):
         # writeTransformationProps.
         self.writeTransformationProps(element, props)
 
+    def writeGlobalTimeDomain(self, element: ET.Element, domain: GlobalTimeDomain):
+        # The XSD GLOBAL-TIME-DOMAIN group (AUTOSAR_00052.xsd l.64373) element order is
+        # DEBOUNCE-TIME, DOMAIN-ID, GATEWAYS, GLOBAL-TIME-CORRECTION-PROPS,
+        # GLOBAL-TIME-DOMAIN-PROPERTYS, GLOBAL-TIME-MASTERS, GLOBAL-TIME-SUB-DOMAINS,
+        # NETWORK-SEGMENT-ID, OFFSET-TIME-DOMAIN-REF, PDU-TRIGGERINGS, SLAVES,
+        # SYNC-LOSS-TIMEOUT; the aggregation wrappers are emitted only when non-empty.
+        self.logger.debug("GlobalTimeDomain %s" % domain.getShortName())
+        child_element = ET.SubElement(element, "GLOBAL-TIME-DOMAIN")
+        self.writeIdentifiable(child_element, domain)
+        self.setChildElementOptionalTimeValue(child_element, "DEBOUNCE-TIME", domain.getDebounceTime())
+        self.setChildElementOptionalPositiveInteger(child_element, "DOMAIN-ID", cast(Integer, domain.getDomainId()))
+        gateways = domain.getGateways()
+        if len(gateways) > 0:
+            wrapper_element = ET.SubElement(child_element, "GATEWAYS")
+            for gateway in gateways:
+                self.writeGlobalTimeGateway(ET.SubElement(wrapper_element, "GLOBAL-TIME-GATEWAY"), gateway)
+        correction_props = domain.getGlobalTimeCorrectionProps()
+        if correction_props is not None:
+            self.writeGlobalTimeCorrectionProps(child_element, correction_props)
+        props = domain.getGlobalTimeDomainProperty()
+        if props is not None:
+            wrapper_element = ET.SubElement(child_element, "GLOBAL-TIME-DOMAIN-PROPERTYS")
+            if isinstance(props, CanGlobalTimeDomainProps):
+                self.writeCanGlobalTimeDomainProps(ET.SubElement(wrapper_element, "CAN-GLOBAL-TIME-DOMAIN-PROPS"), props)
+            elif isinstance(props, EthGlobalTimeDomainProps):
+                self.writeEthGlobalTimeDomainProps(ET.SubElement(wrapper_element, "ETH-GLOBAL-TIME-DOMAIN-PROPS"), props)
+            elif isinstance(props, FrGlobalTimeDomainProps):
+                self.writeFrGlobalTimeDomainProps(ET.SubElement(wrapper_element, "FR-GLOBAL-TIME-DOMAIN-PROPS"), props)
+            else:
+                self.notImplemented("Unsupported AbstractGlobalTimeDomainProps subtype <%s>" % type(props).__name__)
+        master = domain.getGlobalTimeMaster()
+        if master is not None:
+            wrapper_element = ET.SubElement(child_element, "GLOBAL-TIME-MASTERS")
+            if isinstance(master, GlobalTimeCanMaster):
+                self.writeGlobalTimeCanMaster(ET.SubElement(wrapper_element, "GLOBAL-TIME-CAN-MASTER"), master)
+            elif isinstance(master, GlobalTimeEthMaster):
+                self.writeGlobalTimeEthMaster(ET.SubElement(wrapper_element, "GLOBAL-TIME-ETH-MASTER"), master)
+            elif isinstance(master, GlobalTimeFrMaster):
+                self.writeGlobalTimeFrMaster(ET.SubElement(wrapper_element, "GLOBAL-TIME-FR-MASTER"), master)
+            elif isinstance(master, UserDefinedGlobalTimeMaster):
+                self.writeUserDefinedGlobalTimeMaster(ET.SubElement(wrapper_element, "USER-DEFINED-GLOBAL-TIME-MASTER"), master)
+            else:
+                self.notImplemented("Unsupported GlobalTimeMaster subtype <%s>" % type(master).__name__)
+        sub_domain_refs = domain.getGlobalTimeSubDomainRefs()
+        if len(sub_domain_refs) > 0:
+            wrapper_element = ET.SubElement(child_element, "GLOBAL-TIME-SUB-DOMAINS")
+            for ref in sub_domain_refs:
+                conditional_element = ET.SubElement(wrapper_element, "GLOBAL-TIME-DOMAIN-REF-CONDITIONAL")
+                self.setChildElementOptionalRefType(conditional_element, "GLOBAL-TIME-DOMAIN-REF", ref)
+        segment_id = domain.getNetworkSegmentId()
+        if segment_id is not None:
+            self.writeNetworkSegmentIdentification(child_element, segment_id)
+        self.setChildElementOptionalRefType(child_element, "OFFSET-TIME-DOMAIN-REF", domain.getOffsetTimeDomainRef())
+        if domain.getPduTriggeringRef() is not None:
+            wrapper_element = ET.SubElement(child_element, "PDU-TRIGGERINGS")
+            conditional_element = ET.SubElement(wrapper_element, "PDU-TRIGGERING-REF-CONDITIONAL")
+            self.setChildElementOptionalRefType(conditional_element, "PDU-TRIGGERING-REF", domain.getPduTriggeringRef())
+        slaves = domain.getSlaves()
+        if len(slaves) > 0:
+            wrapper_element = ET.SubElement(child_element, "SLAVES")
+            for slave in slaves:
+                if isinstance(slave, GlobalTimeCanSlave):
+                    self.writeGlobalTimeCanSlave(ET.SubElement(wrapper_element, "GLOBAL-TIME-CAN-SLAVE"), slave)
+                elif isinstance(slave, GlobalTimeEthSlave):
+                    self.writeGlobalTimeEthSlave(ET.SubElement(wrapper_element, "GLOBAL-TIME-ETH-SLAVE"), slave)
+                elif isinstance(slave, GlobalTimeFrSlave):
+                    self.writeGlobalTimeFrSlave(ET.SubElement(wrapper_element, "GLOBAL-TIME-FR-SLAVE"), slave)
+                elif isinstance(slave, UserDefinedGlobalTimeSlave):
+                    self.writeUserDefinedGlobalTimeSlave(ET.SubElement(wrapper_element, "USER-DEFINED-GLOBAL-TIME-SLAVE"), slave)
+                else:
+                    self.notImplemented("Unsupported GlobalTimeSlave subtype <%s>" % type(slave).__name__)
+        self.setChildElementOptionalTimeValue(child_element, "SYNC-LOSS-TIMEOUT", domain.getSyncLossTimeout())
+
     def writeGlobalTimeSlave(self, element: ET.Element, slave: GlobalTimeSlave):
         # Populates the concrete subclass element (GLOBAL-TIME-CAN-/ETH-/FR-/USER-DEFINED-
         # GLOBAL-TIME-SLAVE) created by the caller. VARIATION-POINT is the last element of the
@@ -21194,6 +21268,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeSignalServiceTranslationPropsSet(element, ar_element)
         elif isinstance(ar_element, TransformationPropsSet):
             self.writeTransformationPropsSet(element, ar_element)
+        elif isinstance(ar_element, GlobalTimeDomain):
+            self.writeGlobalTimeDomain(element, ar_element)
         elif isinstance(ar_element, ParameterInterface):
             self.writeParameterInterface(element, ar_element)
         elif isinstance(ar_element, NvDataInterface):

@@ -675,6 +675,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     PhysicalDimensionMappingSet,
     ReferenceBase,
     TransformationPropsSet,
+    GlobalTimeDomain,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import AclObjectSet, AclOperation, AclPermission, AclRole
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import DiagnosticCustomServiceInstance, DiagnosticMapping
@@ -17255,6 +17256,91 @@ class ARXMLParser(AbstractARXMLParser):
         self.readTransformationProps(element, props)
         return props
 
+    def readGlobalTimeDomain(self, element: ET.Element, domain: GlobalTimeDomain) -> GlobalTimeDomain:
+        # The XSD GLOBAL-TIME-DOMAIN group (AUTOSAR_00052.xsd l.64373) orders DEBOUNCE-TIME,
+        # DOMAIN-ID, GATEWAYS, GLOBAL-TIME-CORRECTION-PROPS, GLOBAL-TIME-DOMAIN-PROPERTYS,
+        # GLOBAL-TIME-MASTERS, GLOBAL-TIME-SUB-DOMAINS, NETWORK-SEGMENT-ID,
+        # OFFSET-TIME-DOMAIN-REF, PDU-TRIGGERINGS, SLAVES, SYNC-LOSS-TIMEOUT. Per Rule 0015 the
+        # PDF Table 9.1 multiplicities win: GLOBAL-TIME-DOMAIN-PROPERTYS / GLOBAL-TIME-MASTERS
+        # hold at most one member (last-wins) although the XSD choice is unbounded, and the
+        # removed members are not read. The VARIATION-POINT inside the REF-CONDITIONAL wrappers
+        # is not represented (bare RefType).
+        self.logger.debug("Read GlobalTimeDomain <%s>" % domain.getShortName())
+        self.readIdentifiable(element, domain)
+        domain.setDebounceTime(self.getChildElementOptionalTimeValue(element, "DEBOUNCE-TIME"))
+        domain.setDomainId(self.getChildElementOptionalPositiveInteger(element, "DOMAIN-ID"))
+        gateways_element = self.find(element, "GATEWAYS")
+        if gateways_element is not None:
+            for child_element in self.findall(gateways_element, "*"):
+                tag_name = self.getPureTagName(child_element.tag)
+                if tag_name == "GLOBAL-TIME-GATEWAY":
+                    self.readGlobalTimeGateway(child_element, domain.createGlobalTimeGateway(self.getShortName(child_element)))
+                else:
+                    self.notImplemented("Unsupported Element type of GlobalTimeDomain <GATEWAYS> <%s>" % tag_name)
+        correction_props_element = self.find(element, "GLOBAL-TIME-CORRECTION-PROPS")
+        if correction_props_element is not None:
+            correction_props = GlobalTimeCorrectionProps()
+            self.readGlobalTimeCorrectionProps(correction_props_element, correction_props)
+            domain.setGlobalTimeCorrectionProps(correction_props)
+        propertys_element = self.find(element, "GLOBAL-TIME-DOMAIN-PROPERTYS")
+        if propertys_element is not None:
+            for child_element in self.findall(propertys_element, "*"):
+                tag_name = self.getPureTagName(child_element.tag)
+                if tag_name == "CAN-GLOBAL-TIME-DOMAIN-PROPS":
+                    can_props = CanGlobalTimeDomainProps()
+                    self.readCanGlobalTimeDomainProps(child_element, can_props)
+                    domain.setGlobalTimeDomainProperty(can_props)
+                elif tag_name == "ETH-GLOBAL-TIME-DOMAIN-PROPS":
+                    eth_props = EthGlobalTimeDomainProps()
+                    self.readEthGlobalTimeDomainProps(child_element, eth_props)
+                    domain.setGlobalTimeDomainProperty(eth_props)
+                elif tag_name == "FR-GLOBAL-TIME-DOMAIN-PROPS":
+                    fr_props = FrGlobalTimeDomainProps()
+                    self.readFrGlobalTimeDomainProps(child_element, fr_props)
+                    domain.setGlobalTimeDomainProperty(fr_props)
+                else:
+                    self.notImplemented("Unsupported Element type of GlobalTimeDomain <GLOBAL-TIME-DOMAIN-PROPERTYS> <%s>" % tag_name)
+        masters_element = self.find(element, "GLOBAL-TIME-MASTERS")
+        if masters_element is not None:
+            for child_element in self.findall(masters_element, "*"):
+                tag_name = self.getPureTagName(child_element.tag)
+                if tag_name == "GLOBAL-TIME-CAN-MASTER":
+                    self.readGlobalTimeCanMaster(child_element, domain.createGlobalTimeCanMaster(self.getShortName(child_element)))
+                elif tag_name == "GLOBAL-TIME-ETH-MASTER":
+                    self.readGlobalTimeEthMaster(child_element, domain.createGlobalTimeEthMaster(self.getShortName(child_element)))
+                elif tag_name == "GLOBAL-TIME-FR-MASTER":
+                    self.readGlobalTimeFrMaster(child_element, domain.createGlobalTimeFrMaster(self.getShortName(child_element)))
+                elif tag_name == "USER-DEFINED-GLOBAL-TIME-MASTER":
+                    self.readUserDefinedGlobalTimeMaster(child_element, domain.createUserDefinedGlobalTimeMaster(self.getShortName(child_element)))
+                else:
+                    self.notImplemented("Unsupported Element type of GlobalTimeDomain <GLOBAL-TIME-MASTERS> <%s>" % tag_name)
+        for ref in self.getChildElementRefTypeList(element, "GLOBAL-TIME-SUB-DOMAINS/GLOBAL-TIME-DOMAIN-REF-CONDITIONAL/GLOBAL-TIME-DOMAIN-REF"):
+            domain.addGlobalTimeSubDomainRef(ref)
+        network_segment_id_element = self.find(element, "NETWORK-SEGMENT-ID")
+        if network_segment_id_element is not None:
+            segment_props = NetworkSegmentIdentification()
+            self.readNetworkSegmentIdentification(network_segment_id_element, segment_props)
+            domain.setNetworkSegmentId(segment_props)
+        domain.setOffsetTimeDomainRef(self.getChildElementOptionalRefType(element, "OFFSET-TIME-DOMAIN-REF"))
+        for ref in self.getChildElementRefTypeList(element, "PDU-TRIGGERINGS/PDU-TRIGGERING-REF-CONDITIONAL/PDU-TRIGGERING-REF"):
+            domain.setPduTriggeringRef(ref)
+        slaves_element = self.find(element, "SLAVES")
+        if slaves_element is not None:
+            for child_element in self.findall(slaves_element, "*"):
+                tag_name = self.getPureTagName(child_element.tag)
+                if tag_name == "GLOBAL-TIME-CAN-SLAVE":
+                    self.readGlobalTimeCanSlave(child_element, domain.createGlobalTimeCanSlave(self.getShortName(child_element)))
+                elif tag_name == "GLOBAL-TIME-ETH-SLAVE":
+                    self.readGlobalTimeEthSlave(child_element, domain.createGlobalTimeEthSlave(self.getShortName(child_element)))
+                elif tag_name == "GLOBAL-TIME-FR-SLAVE":
+                    self.readGlobalTimeFrSlave(child_element, domain.createGlobalTimeFrSlave(self.getShortName(child_element)))
+                elif tag_name == "USER-DEFINED-GLOBAL-TIME-SLAVE":
+                    self.readUserDefinedGlobalTimeSlave(child_element, domain.createUserDefinedGlobalTimeSlave(self.getShortName(child_element)))
+                else:
+                    self.notImplemented("Unsupported Element type of GlobalTimeDomain <SLAVES> <%s>" % tag_name)
+        domain.setSyncLossTimeout(self.getChildElementOptionalTimeValue(element, "SYNC-LOSS-TIMEOUT"))
+        return domain
+
     def readGlobalTimeSlave(self, element: ET.Element, slave: GlobalTimeSlave) -> GlobalTimeSlave:
         # VARIATION-POINT is the last element of the XSD GLOBAL-TIME-SLAVE group
         # (AUTOSAR_00052.xsd l.64988, xml.sequenceOffset=10000); readIdentifiable picks it up
@@ -20765,6 +20851,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "TRANSFORMATION-PROPS-SET":
                 transformation_props_set = parent.createTransformationPropsSet(self.getShortName(child_element))
                 self.readTransformationPropsSet(child_element, transformation_props_set)
+            elif tag_name == "GLOBAL-TIME-DOMAIN":
+                global_time_domain = parent.createGlobalTimeDomain(self.getShortName(child_element))
+                self.readGlobalTimeDomain(child_element, global_time_domain)
             elif tag_name == "ECUC-VALUE-COLLECTION":
                 self.readEcucValueCollection(child_element, parent.createEcucValueCollection(self.getShortName(child_element)))
             elif tag_name == "ETH-IP-PROPS":
