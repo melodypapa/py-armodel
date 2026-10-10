@@ -457,10 +457,8 @@ class TraceableTable(Traceable, Paginateable):
     # [x] addTraceRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11  (inherited from Traceable, XSD TRACEABLE group)
 
     def __init__(self, parent, short_name: str):
-        # Referrable.__init__ invokes ARObject.__init__ directly, bypassing the Paginateable branch
-        # of the MRO; the Paginateable/DocumentViewSelectable members must therefore be initialized
-        # first, so that the following super() chain ends with parent/short_name set.
-        Paginateable.__init__(self)
+        # The Paginateable/DocumentViewSelectable members initialize via the cooperative
+        # chain: they sit after Referrable in this class's MRO.
         super().__init__(parent, short_name)
 
         # This represents a table with a traceable table. This aggregation contains a variation point although it is not variant. Therefore, this variation point shall not exist in models. See constr_2638.

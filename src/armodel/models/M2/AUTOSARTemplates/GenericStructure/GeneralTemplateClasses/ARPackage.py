@@ -9379,7 +9379,6 @@ class DiagnosticMemoryDestinationPrimary(ARElement, DiagnosticMemoryDestination)
     # [x] setTypeOfDtcSupported          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        DiagnosticMemoryDestination.__init__(self)
         super().__init__(parent, short_name)
 
         # This attribute defines the format returned by Dem_Dcm GetTranslationType and does not relate to/influence the supported Dem functionality.
