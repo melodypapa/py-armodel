@@ -46,10 +46,10 @@ class AbstractAccessPoint(AtpStructureElement, ABC):
 
     # AbstractAccessPoint method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 4.24, p.57
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getReturnValueProvision      [x] impl  [x] docstring  [x] test
-    # [x] setReturnValueProvision      [x] impl  [x] docstring  [x] test
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getReturnValueProvision   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setReturnValueProvision   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AbstractAccessPoint:
@@ -57,31 +57,19 @@ class AbstractAccessPoint(AtpStructureElement, ABC):
 
         super().__init__(parent, short_name)
 
-        # This attribute controls the provision of return values for RTE APIs
-        # that correspond to the enclosing access point.
+        # This attribute controls the provision of return values for RTE APIs that correspond to the enclosing access point.
         self.returnValueProvision: Optional[RteApiReturnValueProvisionEnum] = None
 
     def getReturnValueProvision(self) -> Optional[RteApiReturnValueProvisionEnum]:
         """
-        Gets the return value provision of the enclosing access point.
-        This controls the provision of return values for the RTE APIs that
-        correspond to the access point.
-
-        Returns:
-            RteApiReturnValueProvisionEnum controlling return value provision, or None if not set
+        This attribute controls the provision of return values for RTE APIs that correspond to the enclosing access point.
         """
         return self.returnValueProvision
 
     def setReturnValueProvision(self, value: Optional[RteApiReturnValueProvisionEnum]) -> "AbstractAccessPoint":
         """
-        Sets the return value provision of the enclosing access point.
-        A None value is a no-op and does not overwrite an existing provision.
-
-        Args:
-            value: The return value provision to set
-
-        Returns:
-            self for method chaining
+        This attribute controls the provision of return values for RTE APIs that correspond to the enclosing access point.
+        A None value is a no-op and does not overwrite an existing returnValueProvision.
         """
         if value is not None:
             self.returnValueProvision = value
