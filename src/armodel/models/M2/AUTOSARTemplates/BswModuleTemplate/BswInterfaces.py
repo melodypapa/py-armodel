@@ -75,12 +75,11 @@ class BswExecutionContext(AREnum):
 
     # BswExecutionContext method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 4.3, p.34
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on BswModuleEntry.executionContext
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
-    # Context of an OS "HOOK" routine always Tags: atp.EnumerationLiteralIndex=0
+    # Context of an OS "hook" routine always Tags: atp.EnumerationLiteralIndex=0
     HOOK = "HOOK"
 
     # CAT1 interrupt context always Tags: atp.EnumerationLiteralIndex=1
