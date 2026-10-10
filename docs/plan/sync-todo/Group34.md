@@ -882,14 +882,15 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `BinaryManifestItemDefinition` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 11.23, p.920
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+  - Step 1 finding: spec Base row (ARObject, Identifiable, MultilanguageReferrable, Referrable) and the XSD complexType BINARY-MANIFEST-ITEM-DEFINITION (AUTOSAR_00052.xsd l.8680 — no BINARY-MANIFEST-ADDRESSABLE-OBJECT group, unlike sibling BinaryManifestItem) keep `Identifiable` as the most-derived base (Rule 0001.2); the row's "Identifiable" hint is confirmed. Markdown Note cells wrap identifiers mid-token; docstrings use the continuous forms confirmed by the XSD documentation (l.8656 / l.8667). `# Spec verified:` marker deferred to the batch confirmation per user instruction.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
 - [ ] `BinaryManifestAddressableObject` — ARObject — R23-11 CP_TPS_SystemTemplate Table 11.24, p.921

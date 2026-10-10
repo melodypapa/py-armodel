@@ -2954,7 +2954,98 @@ class SpecificationDocumentScope(SpecElementScope):
 
 
 class BinaryManifestItemDefinition(Identifiable):
-    pass
+    """
+    This meta-class provides the ability to define the handle definition or an auxiliary field of a binary manifest resource.
+    """
+
+    # BinaryManifestItemDefinition method parity checklist:
+    # Spec: R23-11/AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 11.23, p.920 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createAuxiliaryFieldDefinition [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAuxiliaryFieldDefinitions   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getIsOptional                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIsOptional                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSize                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSize                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # The spec Base row and the XSD complexType BINARY-MANIFEST-ITEM-DEFINITION
+    # (AUTOSAR_00052.xsd l.8680, which chains the AR-OBJECT, REFERRABLE, MULTILANGUAGE-REFERRABLE
+    # and IDENTIFIABLE groups before BINARY-MANIFEST-ITEM-DEFINITION — no
+    # BINARY-MANIFEST-ADDRESSABLE-OBJECT group, unlike the sibling BinaryManifestItem) make
+    # Identifiable the most-derived base (Rule 0001.2). The XSD group (AUTOSAR_00052.xsd l.8647)
+    # orders AUXILIARY-FIELD-DEFINITIONS, IS-OPTIONAL, SIZE after the Identifiable level;
+    # AUXILIARY-FIELD-DEFINITIONS wraps the unbounded BINARY-MANIFEST-ITEM-DEFINITION
+    # self-aggregation and the wrapper is written/read only when non-empty. The markdown table Note
+    # cells wrap identifiers mid-token ("Binary ManifestItemDefinitions", "BinaryManifest
+    # ResourceDefinition"); the docstrings use the continuous identifier forms confirmed by the XSD
+    # documentation (l.8656 / l.8667). The auxiliaryFieldDefinition attribute (kind aggr, mult *) is
+    # modeled as auxiliaryFieldDefinitions with createAuxiliaryFieldDefinition /
+    # getAuxiliaryFieldDefinitions per the Referrable-aggregation shape (createAuxiliaryField
+    # precedent). The readBinaryManifestItemDefinition / writeBinaryManifestItemDefinition helpers
+    # are wired for the AUXILIARY-FIELD-DEFINITIONS self-recursion; the aggregator dispatch
+    # (BinaryManifestResourceDefinition.itemDefinition, Table 11.21) is pending —
+    # BinaryManifestResourceDefinition is an unsynced later-wave stub to be wired by its own sync.
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This aggregation is used to define structured BinaryManifestItemDefinitions.
+        self.auxiliaryFieldDefinitions: List[BinaryManifestItemDefinition] = []
+
+        # If true, the handle definition or auxiliary field of a binary manifest resource is optional and may not be used in all BinaryManifestResources referring to this BinaryManifestResourceDefinition.
+        self.isOptional: Optional[Boolean] = None
+
+        # This attribute provides the ability to specify the size of the enclosing BinaryManifestResourceDefinition.
+        self.size: Optional[PositiveInteger] = None
+
+    def createAuxiliaryFieldDefinition(self, short_name: str) -> BinaryManifestItemDefinition:
+        """
+        This aggregation is used to define structured BinaryManifestItemDefinitions.
+        """
+        if not self.IsReferrableElementExists(short_name, BinaryManifestItemDefinition):
+            auxiliary_field_definition = BinaryManifestItemDefinition(self, short_name)
+            self.addReferrableElement(auxiliary_field_definition)
+            self.auxiliaryFieldDefinitions.append(auxiliary_field_definition)
+        return cast(BinaryManifestItemDefinition, self.getReferrableElement(short_name, BinaryManifestItemDefinition))
+
+    def getAuxiliaryFieldDefinitions(self) -> List[BinaryManifestItemDefinition]:
+        """
+        This aggregation is used to define structured BinaryManifestItemDefinitions.
+        """
+        return self.auxiliaryFieldDefinitions
+
+    def getIsOptional(self) -> Optional[Boolean]:
+        """
+        If true, the handle definition or auxiliary field of a binary manifest resource is optional and may not be used in all BinaryManifestResources referring to this BinaryManifestResourceDefinition.
+        """
+        return self.isOptional
+
+    def setIsOptional(self, value: Optional[Boolean]) -> BinaryManifestItemDefinition:
+        """
+        If true, the handle definition or auxiliary field of a binary manifest resource is optional and may not be used in all BinaryManifestResources referring to this BinaryManifestResourceDefinition.
+
+        A None value is a no-op and does not overwrite an existing isOptional.
+        """
+        if value is not None:
+            self.isOptional = value
+        return self
+
+    def getSize(self) -> Optional[PositiveInteger]:
+        """
+        This attribute provides the ability to specify the size of the enclosing BinaryManifestResourceDefinition.
+        """
+        return self.size
+
+    def setSize(self, value: Optional[PositiveInteger]) -> BinaryManifestItemDefinition:
+        """
+        This attribute provides the ability to specify the size of the enclosing BinaryManifestResourceDefinition.
+
+        A None value is a no-op and does not overwrite an existing size.
+        """
+        if value is not None:
+            self.size = value
+        return self
 
 
 class BinaryManifestAddressableObject(Identifiable, ABC):

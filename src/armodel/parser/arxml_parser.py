@@ -801,6 +801,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     BinaryManifestAddressableObject,
     BinaryManifestItem,
+    BinaryManifestItemDefinition,
     FMAttributeDef,
     AggregationTailoring,
     ClassContentConditional,
@@ -17735,6 +17736,20 @@ class ARXMLParser(AbstractARXMLParser):
         value.setAddress(self.getChildElementOptionalAddress(element, "ADDRESS"))
         value.setSymbol(self.getChildElementOptionalSymbolString(element, "SYMBOL"))
         return value
+
+    def readBinaryManifestItemDefinition(self, element: ET.Element, item_definition: BinaryManifestItemDefinition) -> BinaryManifestItemDefinition:
+        # The XSD BINARY-MANIFEST-ITEM-DEFINITION group (AUTOSAR_00052.xsd l.8647) orders
+        # AUXILIARY-FIELD-DEFINITIONS, IS-OPTIONAL, SIZE after the Identifiable level;
+        # AUXILIARY-FIELD-DEFINITIONS wraps the unbounded BINARY-MANIFEST-ITEM-DEFINITION
+        # self-aggregation. The aggregator dispatch (BinaryManifestResourceDefinition.itemDefinition,
+        # Table 11.21) is pending — BinaryManifestResourceDefinition is an unsynced later-wave stub.
+        self.readIdentifiable(element, item_definition)
+        for auxiliary_field_definition_element in self.findall(element, "AUXILIARY-FIELD-DEFINITIONS/BINARY-MANIFEST-ITEM-DEFINITION"):
+            auxiliary_field_definition = item_definition.createAuxiliaryFieldDefinition(self.getShortName(auxiliary_field_definition_element))
+            self.readBinaryManifestItemDefinition(auxiliary_field_definition_element, auxiliary_field_definition)
+        item_definition.setIsOptional(self.getChildElementOptionalBooleanValue(element, "IS-OPTIONAL"))
+        item_definition.setSize(self.getChildElementOptionalPositiveInteger(element, "SIZE"))
+        return item_definition
 
     def getGlobalTimeProps(self, element: ET.Element, key: str) -> Optional[GlobalTimeCouplingPortProps]:
         props = None

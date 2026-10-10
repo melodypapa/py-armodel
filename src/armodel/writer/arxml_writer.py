@@ -638,6 +638,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     BinaryManifestAddressableObject,
     BinaryManifestItem,
+    BinaryManifestItemDefinition,
     FMAttributeDef,
     AggregationTailoring,
     ClassContentConditional,
@@ -15224,6 +15225,23 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeBinaryManifestItemValue(element, value)
         self.setChildElementOptionalAddress(element, "ADDRESS", value.getAddress())
         self.setChildElementOptionalSymbolString(element, "SYMBOL", value.getSymbol())
+
+    def writeBinaryManifestItemDefinition(self, element: ET.Element, item_definition: BinaryManifestItemDefinition):
+        # Populates the BINARY-MANIFEST-ITEM-DEFINITION element created by the caller; the XSD
+        # BINARY-MANIFEST-ITEM-DEFINITION group (AUTOSAR_00052.xsd l.8647) orders
+        # AUXILIARY-FIELD-DEFINITIONS, IS-OPTIONAL, SIZE after the Identifiable level;
+        # AUXILIARY-FIELD-DEFINITIONS wraps the unbounded BINARY-MANIFEST-ITEM-DEFINITION
+        # self-aggregation and the wrapper is written only when non-empty. The aggregator dispatch
+        # (BinaryManifestResourceDefinition.itemDefinition, Table 11.21) is pending —
+        # BinaryManifestResourceDefinition is an unsynced later-wave stub.
+        self.writeIdentifiable(element, item_definition)
+        auxiliary_field_definitions = item_definition.getAuxiliaryFieldDefinitions()
+        if len(auxiliary_field_definitions) > 0:
+            auxiliary_field_definitions_element = ET.SubElement(element, "AUXILIARY-FIELD-DEFINITIONS")
+            for auxiliary_field_definition in auxiliary_field_definitions:
+                self.writeBinaryManifestItemDefinition(ET.SubElement(auxiliary_field_definitions_element, "BINARY-MANIFEST-ITEM-DEFINITION"), auxiliary_field_definition)
+        self.setChildElementOptionalBooleanValue(element, "IS-OPTIONAL", item_definition.getIsOptional())
+        self.setChildElementOptionalPositiveInteger(element, "SIZE", cast(Integer, item_definition.getSize()))
 
     def setGlobalTimeProps(self, element: ET.Element, key: str, props: Optional[GlobalTimeCouplingPortProps]):
         if props is not None:
