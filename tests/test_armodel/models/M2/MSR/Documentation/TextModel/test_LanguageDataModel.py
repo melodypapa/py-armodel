@@ -20,6 +20,7 @@ from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import (
     LParagraph,
     LPlainText,
     LVerbatim,
+    MixedContentForLongName,
     MixedContentForOverviewParagraph,
     MixedContentForParagraph,
     MixedContentForPlainText,
@@ -356,6 +357,112 @@ class TestMixedContentForParagraph:
             assert getter() is value
             assert setter(None) is content
             assert getter() is value
+
+
+class TestMixedContentForLongName:
+    """Spec-contract tests for MixedContentForLongName (Table 4.9, p.63)."""
+
+    SPEC_NOTES = {
+        "E": "This is emphasized text Tags: xml.sequenceOffset=40",
+        "Ie": "This is an index entry. Tags: xml.sequenceOffset=70",
+        "Sub": "This is subscript text. Tags: xml.sequenceOffset=60",
+        "Sup": "This is superscript text. Tags: xml.sequenceOffset=50",
+        "Tt": "This is a technical term. Tags: xml.sequenceOffset=30",
+    }
+
+    def test_abstract_guard_and_defaults(self):
+        with pytest.raises(TypeError):
+            MixedContentForLongName()
+
+        class ConcreteMixedContent(MixedContentForLongName):
+            pass
+
+        content = ConcreteMixedContent()
+        assert content.e is None
+        assert content.ie is None
+        assert content.sub is None
+        assert content.sup is None
+        assert content.tt is None
+        assert content.getMixedString() is None
+
+    def test_base_anchoring(self):
+        """Most-derived base anchoring per Table 4.9 Base row ARObject + the <<atpMixedString>> mixin."""
+        assert MixedContentForLongName.__bases__ == (ARObject, AtpMixedString, ABC)
+
+    def test_docstring_verbatim(self):
+        """Docstring must equal the spec Note from Table 4.9 verbatim."""
+        import inspect
+
+        expected = (
+            "This is the model for titles and long-names. It allows some emphasis and index entries but no reference "
+            "target (which is provided by the identifiable in question). It is intended that the content model can also be "
+            "rendered as plain text. The abstract class can be used for single language as well as for multi language elements."
+        )
+        assert inspect.cleandoc(MixedContentForLongName.__doc__) == expected
+
+    def test_member_notes_verbatim(self):
+        """Every attribute Note is copied verbatim from Table 4.9 — inline __init__ comment,
+        getter docstring and setter docstring — including the ``Tags:`` tail (Rule 0001.4 / 0012.2.5.3)."""
+        import inspect
+
+        init_source = inspect.getsource(MixedContentForLongName.__init__)
+        for name, note in self.SPEC_NOTES.items():
+            field = name[0].lower() + name[1:]
+            assert f"# {note}\n" in init_source, f"__init__ comment for {field}: {note}"
+
+            getter_doc = inspect.cleandoc(getattr(MixedContentForLongName, "get" + name).__doc__ or "")
+            assert getter_doc == note, f"get{name} docstring"
+
+            setter_doc = inspect.cleandoc(getattr(MixedContentForLongName, "set" + name).__doc__ or "")
+            assert setter_doc.startswith(note), f"set{name} docstring"
+            assert f"A None value is a no-op and does not overwrite an existing {field}." in setter_doc, f"set{name} None-no-op sentence"
+
+    def test_typed_getters_and_setters(self):
+        class ConcreteMixedContent(MixedContentForLongName):
+            pass
+
+        content = ConcreteMixedContent()
+        values = {
+            "E": EmphasisText(),
+            "Ie": IndexEntry(),
+            "Sub": Superscript(),
+            "Sup": Superscript(),
+            "Tt": Tt(),
+        }
+        for name, value in values.items():
+            setter = getattr(content, "set" + name)
+            getter = getattr(content, "get" + name)
+            assert setter(value) is content
+            assert getter() is value
+            assert setter(None) is content
+            assert getter() is value
+
+    def test_mixin_accessors(self):
+        """getMixedString/setMixedString are stereotype-inherent (no spec rows) via the AtpMixedString mixin."""
+
+        class ConcreteMixedContent(MixedContentForLongName):
+            pass
+
+        content = ConcreteMixedContent()
+        assert content.setMixedString("long name text") is content
+        assert content.getMixedString() == "long name text"
+        content.setMixedString(None)
+        assert content.getMixedString() == "long name text"
+
+    def test_annotation_hints(self):
+        """PDF-typed accessors per Rule 0003; all five Table 4.9 rows are Mult. 1 ⇒ Optional[T]."""
+        expected_hints = {
+            "E": Optional[EmphasisText],
+            "Ie": Optional[IndexEntry],
+            "Sub": Optional[Superscript],
+            "Sup": Optional[Superscript],
+            "Tt": Optional[Tt],
+        }
+        for name, expected in expected_hints.items():
+            getter_hints = get_type_hints(getattr(MixedContentForLongName, "get" + name))
+            setter_hints = get_type_hints(getattr(MixedContentForLongName, "set" + name))
+            assert getter_hints["return"] == expected, name
+            assert setter_hints["value"] == expected, name
 
 
 class TestLLongName:
