@@ -33,7 +33,7 @@ def _model_classes():
     return classes
 
 
-def _required_positional(init_func):
+def _required_init_args(init_func):
     try:
         signature = inspect.signature(init_func)
     except (ValueError, TypeError):  # pragma: no cover - builtins
@@ -41,7 +41,7 @@ def _required_positional(init_func):
     return [
         parameter
         for parameter_name, parameter in list(signature.parameters.items())[1:]
-        if parameter.default is inspect.Parameter.empty and parameter.kind in (parameter.POSITIONAL_ONLY, parameter.POSITIONAL_OR_KEYWORD)
+        if parameter.default is inspect.Parameter.empty and parameter.kind in (parameter.POSITIONAL_ONLY, parameter.POSITIONAL_OR_KEYWORD, parameter.KEYWORD_ONLY)
     ]
 
 
@@ -63,5 +63,5 @@ def test_no_incompatible_init_after_referrable(class_name):
         init_func = candidate.__dict__.get("__init__")
         if init_func is None or init_func is object.__init__:
             continue
-        required = _required_positional(init_func)
+        required = _required_init_args(init_func)
         assert not required, f"{class_name}: cooperative super() from Referrable lands on " f"{candidate.__name__}.__init__ which requires {required}"
