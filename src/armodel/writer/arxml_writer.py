@@ -449,6 +449,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     TransformationPropsSet,
     GlobalTimeDomain,
     CpSoftwareClusterResourcePool,
+    CpSoftwareClusterBinaryManifestDescriptor,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import AclObjectSet, AclOperation, AclPermission, AclRole
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import DiagnosticCustomServiceInstance, DiagnosticMapping
@@ -18813,6 +18814,41 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     self.notImplemented("Unsupported CpSoftwareClusterResource subtype <%s>" % type(resource).__name__)
 
+    def writeCpSoftwareClusterBinaryManifestDescriptor(self, element: ET.Element, descriptor: CpSoftwareClusterBinaryManifestDescriptor):
+        # The XSD CP-SOFTWARE-CLUSTER-BINARY-MANIFEST-DESCRIPTOR group (AUTOSAR_00052.xsd l.24143)
+        # element order is CP-SOFTWARE-CLUSTER-REF, META-DATA-FIELDS, PROVIDE-RESOURCES,
+        # REQUIRE-RESOURCES, RESOURCE-DEFINITIONS, SOFTWARE-CLUSTER-ID; the aggregation wrappers
+        # are emitted only when non-empty. The resource-family wrappers dispatch to the synced
+        # BinaryManifest* helpers (PROVIDE-RESOURCES l.24176 / REQUIRE-RESOURCES l.24187 /
+        # RESOURCE-DEFINITIONS l.24198, caller-created item elements) and META-DATA-FIELDS
+        # (l.24165) to writeBinaryManifestMetaDataField, which creates its own
+        # BINARY-MANIFEST-META-DATA-FIELD element.
+        self.logger.debug("CpSoftwareClusterBinaryManifestDescriptor %s" % descriptor.getShortName())
+        child_element = ET.SubElement(element, "CP-SOFTWARE-CLUSTER-BINARY-MANIFEST-DESCRIPTOR")
+        self.writeIdentifiable(child_element, descriptor)
+        self.setChildElementOptionalRefType(child_element, "CP-SOFTWARE-CLUSTER-REF", descriptor.getCpSoftwareClusterRef())
+        meta_data_fields = descriptor.getMetaDataFields()
+        if len(meta_data_fields) > 0:
+            wrapper_element = ET.SubElement(child_element, "META-DATA-FIELDS")
+            for field in meta_data_fields:
+                self.writeBinaryManifestMetaDataField(wrapper_element, field)
+        provide_resources = descriptor.getProvideResources()
+        if len(provide_resources) > 0:
+            wrapper_element = ET.SubElement(child_element, "PROVIDE-RESOURCES")
+            for provide_resource in provide_resources:
+                self.writeBinaryManifestProvideResource(ET.SubElement(wrapper_element, "BINARY-MANIFEST-PROVIDE-RESOURCE"), provide_resource)
+        require_resources = descriptor.getRequireResources()
+        if len(require_resources) > 0:
+            wrapper_element = ET.SubElement(child_element, "REQUIRE-RESOURCES")
+            for require_resource in require_resources:
+                self.writeBinaryManifestRequireResource(ET.SubElement(wrapper_element, "BINARY-MANIFEST-REQUIRE-RESOURCE"), require_resource)
+        resource_definitions = descriptor.getResourceDefinitions()
+        if len(resource_definitions) > 0:
+            wrapper_element = ET.SubElement(child_element, "RESOURCE-DEFINITIONS")
+            for resource_definition in resource_definitions:
+                self.writeBinaryManifestResourceDefinition(ET.SubElement(wrapper_element, "BINARY-MANIFEST-RESOURCE-DEFINITION"), resource_definition)
+        self.setChildElementOptionalPositiveInteger(child_element, "SOFTWARE-CLUSTER-ID", cast(Integer, descriptor.getSoftwareClusterId()))
+
     def writeDiagnosticEventToTroubleCodeJ1939Mapping(self, element: ET.Element, mapping: DiagnosticEventToTroubleCodeJ1939Mapping):
         self.logger.debug("Write DiagnosticEventToTroubleCodeJ1939Mapping %s" % mapping.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-EVENT-TO-TROUBLE-CODE-J-1939-MAPPING")
@@ -21462,6 +21498,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeGlobalTimeDomain(element, ar_element)
         elif isinstance(ar_element, CpSoftwareClusterResourcePool):
             self.writeCpSoftwareClusterResourcePool(element, ar_element)
+        elif isinstance(ar_element, CpSoftwareClusterBinaryManifestDescriptor):
+            self.writeCpSoftwareClusterBinaryManifestDescriptor(element, ar_element)
         elif isinstance(ar_element, ParameterInterface):
             self.writeParameterInterface(element, ar_element)
         elif isinstance(ar_element, NvDataInterface):

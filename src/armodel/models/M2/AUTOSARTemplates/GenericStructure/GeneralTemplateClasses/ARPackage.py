@@ -73,6 +73,10 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticRequestRoutineResults,
     DiagnosticStartRoutine,
     DiagnosticStopRoutine,
+    BinaryManifestMetaDataField,
+    BinaryManifestProvideResource,
+    BinaryManifestRequireResource,
+    BinaryManifestResourceDefinition,
     CpSoftwareClusterCommunicationResource,
     CpSoftwareClusterResource,
     CpSoftwareClusterServiceResource,
@@ -2899,6 +2903,13 @@ class ARPackage(CollectableElement, VariationPointCapable):
             element = CpSoftwareClusterResourcePool(self, short_name)
             self.addReferrableElement(element)
         return cast(CpSoftwareClusterResourcePool, self.getReferrableElement(short_name, CpSoftwareClusterResourcePool))
+
+    def createCpSoftwareClusterBinaryManifestDescriptor(self, short_name: str) -> CpSoftwareClusterBinaryManifestDescriptor:
+
+        if not self.IsReferrableElementExists(short_name, CpSoftwareClusterBinaryManifestDescriptor):
+            element = CpSoftwareClusterBinaryManifestDescriptor(self, short_name)
+            self.addReferrableElement(element)
+        return cast(CpSoftwareClusterBinaryManifestDescriptor, self.getReferrableElement(short_name, CpSoftwareClusterBinaryManifestDescriptor))
 
     def createISignalIPdu(self, short_name: str) -> ISignalIPdu:
 
@@ -12263,7 +12274,151 @@ class PostBuildVariantCriterionValueSet(ARElement):
 
 
 class CpSoftwareClusterBinaryManifestDescriptor(ARElement):
-    pass
+    """
+    This meta-class has the ability to act as a hub for all information related to the binary manifest of a given CP software cluster. The manifest is subject to integrator work and therefore not a part of the definition of the CP software cluster itself. Tags: atp.recommendedPackage=CpSoftwareClusterBinaryManifestDescriptors
+    """
+
+    # CpSoftwareClusterBinaryManifestDescriptor method parity checklist:
+    # Spec: R23-11/AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 11.17, p.913 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCpSoftwareClusterRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCpSoftwareClusterRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createMetaDataField         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMetaDataFields           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createProvideResource       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getProvideResources         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createRequireResource       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRequireResources         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createResourceDefinition    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getResourceDefinitions      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getSoftwareClusterId        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSoftwareClusterId        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # The markdown Table 11.17 Note cells wrap identifiers mid-token ("cpSoftware Cluster",
+    # "BinaryManifestMeta DataField", "softwareCluster Id", "Cp SoftwareCluster.softwareClusterId");
+    # the continuous forms are confirmed by the XSD appinfo qualifiedNames (AUTOSAR_00052.xsd
+    # l.24143-24217). The resource-family aggregations dispatch to the synced reader/writer helpers
+    # (PROVIDE-RESOURCES l.24176, REQUIRE-RESOURCES l.24187, RESOURCE-DEFINITIONS l.24198) and the
+    # meta-data aggregation to readBinaryManifestMetaDataField/writeBinaryManifestMetaDataField
+    # (META-DATA-FIELDS l.24165), all per the XSD wrapper-element lists.
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This reference identifies the CpSoftwareCluster to which the enclosing CpSoftwareClusterBinaryManifestDescriptor belongs, The CpSoftwareClusterBinaryManifestDescriptor is defined in an integration phase while the referenced CpSoftwareCluster represents a design element. Therefore, it makes sense to use a reference rather than an aggregation in the relation of the two meta-classes.
+        self.cpSoftwareClusterRef: Optional[RefType] = None
+
+        # This aggregation identifies the collection of meta-data contained in the enclosing binary manifest.
+        self.metaDataFields: List[BinaryManifestMetaDataField] = []
+
+        # This aggregation represents the collection of provided resources in the enclosing binary manifest.
+        self.provideResources: List[BinaryManifestProvideResource] = []
+
+        # This aggregation represents the collection of required resources in the enclosing binary manifest.
+        self.requireResources: List[BinaryManifestRequireResource] = []
+
+        # This aggregation represents the collection of binary manifest resource definitions that belong to the enclosing CpSoftwareClusterBinaryManifestDescriptor.
+        self.resourceDefinitions: List[BinaryManifestResourceDefinition] = []
+
+        # This attribute represents the value of the id of the corresponding CP software cluster. This id is assigned by an integrator, but may also be copied from CpSoftwareCluster.softwareClusterId if available.
+        self.softwareClusterId: Optional[PositiveInteger] = None
+
+    def getCpSoftwareClusterRef(self) -> Optional[RefType]:
+        """
+        This reference identifies the CpSoftwareCluster to which the enclosing CpSoftwareClusterBinaryManifestDescriptor belongs, The CpSoftwareClusterBinaryManifestDescriptor is defined in an integration phase while the referenced CpSoftwareCluster represents a design element. Therefore, it makes sense to use a reference rather than an aggregation in the relation of the two meta-classes.
+        """
+        return self.cpSoftwareClusterRef
+
+    def setCpSoftwareClusterRef(self, value: Optional[RefType]) -> CpSoftwareClusterBinaryManifestDescriptor:
+        """
+        This reference identifies the CpSoftwareCluster to which the enclosing CpSoftwareClusterBinaryManifestDescriptor belongs, The CpSoftwareClusterBinaryManifestDescriptor is defined in an integration phase while the referenced CpSoftwareCluster represents a design element. Therefore, it makes sense to use a reference rather than an aggregation in the relation of the two meta-classes.
+
+        A None value is a no-op and does not overwrite an existing cpSoftwareClusterRef.
+        """
+        if value is not None:
+            self.cpSoftwareClusterRef = value
+        return self
+
+    def createMetaDataField(self, short_name: str) -> BinaryManifestMetaDataField:
+        """
+        This aggregation identifies the collection of meta-data contained in the enclosing binary manifest.
+        """
+        if not self.IsReferrableElementExists(short_name, BinaryManifestMetaDataField):
+            element = BinaryManifestMetaDataField(self, short_name)
+            self.addReferrableElement(element)
+            self.metaDataFields.append(element)
+        return cast(BinaryManifestMetaDataField, self.getReferrableElement(short_name, BinaryManifestMetaDataField))
+
+    def getMetaDataFields(self) -> List[BinaryManifestMetaDataField]:
+        """
+        This aggregation identifies the collection of meta-data contained in the enclosing binary manifest.
+        """
+        return self.metaDataFields
+
+    def createProvideResource(self, short_name: str) -> BinaryManifestProvideResource:
+        """
+        This aggregation represents the collection of provided resources in the enclosing binary manifest.
+        """
+        if not self.IsReferrableElementExists(short_name, BinaryManifestProvideResource):
+            element = BinaryManifestProvideResource(self, short_name)
+            self.addReferrableElement(element)
+            self.provideResources.append(element)
+        return cast(BinaryManifestProvideResource, self.getReferrableElement(short_name, BinaryManifestProvideResource))
+
+    def getProvideResources(self) -> List[BinaryManifestProvideResource]:
+        """
+        This aggregation represents the collection of provided resources in the enclosing binary manifest.
+        """
+        return self.provideResources
+
+    def createRequireResource(self, short_name: str) -> BinaryManifestRequireResource:
+        """
+        This aggregation represents the collection of required resources in the enclosing binary manifest.
+        """
+        if not self.IsReferrableElementExists(short_name, BinaryManifestRequireResource):
+            element = BinaryManifestRequireResource(self, short_name)
+            self.addReferrableElement(element)
+            self.requireResources.append(element)
+        return cast(BinaryManifestRequireResource, self.getReferrableElement(short_name, BinaryManifestRequireResource))
+
+    def getRequireResources(self) -> List[BinaryManifestRequireResource]:
+        """
+        This aggregation represents the collection of required resources in the enclosing binary manifest.
+        """
+        return self.requireResources
+
+    def createResourceDefinition(self, short_name: str) -> BinaryManifestResourceDefinition:
+        """
+        This aggregation represents the collection of binary manifest resource definitions that belong to the enclosing CpSoftwareClusterBinaryManifestDescriptor.
+        """
+        if not self.IsReferrableElementExists(short_name, BinaryManifestResourceDefinition):
+            element = BinaryManifestResourceDefinition(self, short_name)
+            self.addReferrableElement(element)
+            self.resourceDefinitions.append(element)
+        return cast(BinaryManifestResourceDefinition, self.getReferrableElement(short_name, BinaryManifestResourceDefinition))
+
+    def getResourceDefinitions(self) -> List[BinaryManifestResourceDefinition]:
+        """
+        This aggregation represents the collection of binary manifest resource definitions that belong to the enclosing CpSoftwareClusterBinaryManifestDescriptor.
+        """
+        return self.resourceDefinitions
+
+    def getSoftwareClusterId(self) -> Optional[PositiveInteger]:
+        """
+        This attribute represents the value of the id of the corresponding CP software cluster. This id is assigned by an integrator, but may also be copied from CpSoftwareCluster.softwareClusterId if available.
+        """
+        return self.softwareClusterId
+
+    def setSoftwareClusterId(self, value: Optional[PositiveInteger]) -> CpSoftwareClusterBinaryManifestDescriptor:
+        """
+        This attribute represents the value of the id of the corresponding CP software cluster. This id is assigned by an integrator, but may also be copied from CpSoftwareCluster.softwareClusterId if available.
+
+        A None value is a no-op and does not overwrite an existing softwareClusterId.
+        """
+        if value is not None:
+            self.softwareClusterId = value
+        return self
 
 
 class CpSoftwareClusterResourcePool(ARElement):

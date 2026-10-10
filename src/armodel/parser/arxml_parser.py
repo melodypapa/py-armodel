@@ -677,6 +677,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     TransformationPropsSet,
     GlobalTimeDomain,
     CpSoftwareClusterResourcePool,
+    CpSoftwareClusterBinaryManifestDescriptor,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import AclObjectSet, AclOperation, AclPermission, AclRole
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import DiagnosticCustomServiceInstance, DiagnosticMapping
@@ -13150,6 +13151,29 @@ class ARXMLParser(AbstractARXMLParser):
                     self.notImplemented("Unsupported Element type of CpSoftwareClusterResourcePool <RESOURCES> <%s>" % tag_name)
         return resource_pool
 
+    def readCpSoftwareClusterBinaryManifestDescriptor(self, element: ET.Element, descriptor: CpSoftwareClusterBinaryManifestDescriptor) -> CpSoftwareClusterBinaryManifestDescriptor:
+        # The XSD CP-SOFTWARE-CLUSTER-BINARY-MANIFEST-DESCRIPTOR group (AUTOSAR_00052.xsd l.24143)
+        # orders CP-SOFTWARE-CLUSTER-REF, META-DATA-FIELDS, PROVIDE-RESOURCES, REQUIRE-RESOURCES,
+        # RESOURCE-DEFINITIONS, SOFTWARE-CLUSTER-ID. The aggregation wrappers hold exactly one
+        # element type each and dispatch to the synced BinaryManifest* helpers: META-DATA-FIELDS
+        # (l.24165) to readBinaryManifestMetaDataField, PROVIDE-RESOURCES (l.24176) to
+        # readBinaryManifestProvideResource, REQUIRE-RESOURCES (l.24187) to
+        # readBinaryManifestRequireResource and RESOURCE-DEFINITIONS (l.24198) to
+        # readBinaryManifestResourceDefinition.
+        self.logger.debug("Read CpSoftwareClusterBinaryManifestDescriptor <%s>" % descriptor.getShortName())
+        self.readIdentifiable(element, descriptor)
+        descriptor.setCpSoftwareClusterRef(self.getChildElementOptionalRefType(element, "CP-SOFTWARE-CLUSTER-REF"))
+        for field_element in self.findall(element, "META-DATA-FIELDS/BINARY-MANIFEST-META-DATA-FIELD"):
+            self.readBinaryManifestMetaDataField(field_element, descriptor.createMetaDataField(self.getShortName(field_element)))
+        for provide_resource_element in self.findall(element, "PROVIDE-RESOURCES/BINARY-MANIFEST-PROVIDE-RESOURCE"):
+            self.readBinaryManifestProvideResource(provide_resource_element, descriptor.createProvideResource(self.getShortName(provide_resource_element)))
+        for require_resource_element in self.findall(element, "REQUIRE-RESOURCES/BINARY-MANIFEST-REQUIRE-RESOURCE"):
+            self.readBinaryManifestRequireResource(require_resource_element, descriptor.createRequireResource(self.getShortName(require_resource_element)))
+        for resource_definition_element in self.findall(element, "RESOURCE-DEFINITIONS/BINARY-MANIFEST-RESOURCE-DEFINITION"):
+            self.readBinaryManifestResourceDefinition(resource_definition_element, descriptor.createResourceDefinition(self.getShortName(resource_definition_element)))
+        descriptor.setSoftwareClusterId(self.getChildElementOptionalPositiveInteger(element, "SOFTWARE-CLUSTER-ID"))
+        return descriptor
+
     def readDiagnosticEventToTroubleCodeJ1939Mapping(self, element: ET.Element, mapping: DiagnosticEventToTroubleCodeJ1939Mapping):
         self.readDiagnosticMapping(element, mapping)
         mapping.setDiagnosticEventRef(self.getChildElementOptionalRefType(element, "DIAGNOSTIC-EVENT-REF"))
@@ -21031,6 +21055,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "CP-SOFTWARE-CLUSTER-RESOURCE-POOL":
                 resource_pool = parent.createCpSoftwareClusterResourcePool(self.getShortName(child_element))
                 self.readCpSoftwareClusterResourcePool(child_element, resource_pool)
+            elif tag_name == "CP-SOFTWARE-CLUSTER-BINARY-MANIFEST-DESCRIPTOR":
+                descriptor = parent.createCpSoftwareClusterBinaryManifestDescriptor(self.getShortName(child_element))
+                self.readCpSoftwareClusterBinaryManifestDescriptor(child_element, descriptor)
             elif tag_name == "ECUC-VALUE-COLLECTION":
                 self.readEcucValueCollection(child_element, parent.createEcucValueCollection(self.getShortName(child_element)))
             elif tag_name == "ETH-IP-PROPS":
