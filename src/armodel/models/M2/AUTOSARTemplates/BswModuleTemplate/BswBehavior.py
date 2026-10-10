@@ -225,11 +225,10 @@ class BswAsynchronousServerCallResultPoint(BswModuleCallPoint):
 
     # BswAsynchronousServerCallResultPoint method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.14, p.80
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getAsynchronousServerCallPointRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setAsynchronousServerCallPointRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAsynchronousServerCallPointRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAsynchronousServerCallPointRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -246,13 +245,7 @@ class BswAsynchronousServerCallResultPoint(BswModuleCallPoint):
     def setAsynchronousServerCallPointRef(self, value: Optional[RefType]) -> BswAsynchronousServerCallResultPoint:
         """
         The call point invoking the call to which the result belongs.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The reference to the call point invoking the call
-
-        Returns:
-            self for method chaining
+        A None value is a no-op and does not overwrite an existing asynchronousServerCallPointRef.
         """
         if value is not None:
             self.asynchronousServerCallPointRef = value
