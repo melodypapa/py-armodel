@@ -662,6 +662,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     FMFeatureRestriction,
     FMFeatureSelection,
     BinaryManifestMetaDataField,
+    BinaryManifestProvideResource,
     BinaryManifestResource,
     BinaryManifestResourceDefinition,
     CpSoftwareClusterCommunicationResource,
@@ -15162,6 +15163,18 @@ class ARXMLWriter(AbstractARXMLWriter):
                 item_element = ET.SubElement(items_tag, "BINARY-MANIFEST-ITEM")
                 self.writeBinaryManifestItem(item_element, item)
         self.setChildElementOptionalRefType(element, "RESOURCE-REF", resource.getResourceRef())
+
+    def writeBinaryManifestProvideResource(self, element: ET.Element, provide_resource: BinaryManifestProvideResource):
+        # Populates the BINARY-MANIFEST-PROVIDE-RESOURCE element created by the caller; the XSD
+        # BINARY-MANIFEST-PROVIDE-RESOURCE group (AUTOSAR_00052.xsd l.8812) orders
+        # NUMBER-OF-NOTIFIER-SETS, SUPPORTS-MULTIPLE-NOTIFIER-SETS after the BINARY-MANIFEST-RESOURCE
+        # group, which the writeBinaryManifestResource base helper owns. The spec Aggregated-by row
+        # names CpSoftwareClusterBinaryManifestDescriptor.provideResource (XSD PROVIDE-RESOURCES,
+        # AUTOSAR_00052.xsd l.24176), an unsynced stub — its call-site dispatch lands with that
+        # class's own sync.
+        self.writeBinaryManifestResource(element, provide_resource)
+        self.setChildElementOptionalPositiveInteger(element, "NUMBER-OF-NOTIFIER-SETS", cast(Integer, provide_resource.getNumberOfNotifierSets()))
+        self.setChildElementOptionalBooleanValue(element, "SUPPORTS-MULTIPLE-NOTIFIER-SETS", provide_resource.getSupportsMultipleNotifierSets())
 
     def writeBinaryManifestAddressableObject(self, element: ET.Element, obj: BinaryManifestAddressableObject):
         # Populates the concrete subclass element (BINARY-MANIFEST-ITEM /

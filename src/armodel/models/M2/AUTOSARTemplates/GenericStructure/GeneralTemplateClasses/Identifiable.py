@@ -3291,10 +3291,6 @@ class BinaryManifestMetaDataField(BinaryManifestAddressableObject):
         return self
 
 
-class BinaryManifestProvideResource(Identifiable):
-    pass
-
-
 class BinaryManifestRequireResource(Identifiable):
     pass
 
@@ -3386,6 +3382,75 @@ class BinaryManifestResource(Identifiable, ABC):
         """
         if value is not None:
             self.resourceRef = value
+        return self
+
+
+class BinaryManifestProvideResource(BinaryManifestResource):
+    """
+    This meta-class represents a provided resource in the binary manifest.
+    """
+
+    # BinaryManifestProvideResource method parity checklist:
+    # Spec: R23-11/AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 11.18, p.914 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getNumberOfNotifierSets           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNumberOfNotifierSets           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSupportsMultipleNotifierSets   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSupportsMultipleNotifierSets   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # The spec Base row and the XSD complexType BINARY-MANIFEST-PROVIDE-RESOURCE
+    # (AUTOSAR_00052.xsd l.8834, which chains the BINARY-MANIFEST-RESOURCE group before
+    # BINARY-MANIFEST-PROVIDE-RESOURCE) make BinaryManifestResource the most-derived base
+    # (Rule 0001.2) — the stub's Identifiable base is superseded. The Table 11.18 Attribute
+    # column holds only the two own rows; the inherited members (globalResourceId, items,
+    # resourceRef) live on the abstract base's own table (Table 11.19, already synced) and are
+    # not re-flattened here (Rule 0001.3). The readBinaryManifestProvideResource /
+    # writeBinaryManifestProvideResource helpers call the readBinaryManifestResource /
+    # writeBinaryManifestResource base pair (Rule 0025) and own the own-attribute group; the
+    # aggregator dispatch (CpSoftwareClusterBinaryManifestDescriptor.provideResource, XSD
+    # PROVIDE-RESOURCES, AUTOSAR_00052.xsd l.24176) is pending — the descriptor is an unsynced
+    # stub whose call-site dispatch lands with its own sync.
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This attribute provides an upper limit for the number of notifiers for this resource.
+        self.numberOfNotifierSets: Optional[PositiveInteger] = None
+
+        # This attribute indicates whether the enclosing BinaryManifestResource supports multiple notifiers sets.
+        self.supportsMultipleNotifierSets: Optional[Boolean] = None
+
+    def getNumberOfNotifierSets(self) -> Optional[PositiveInteger]:
+        """
+        This attribute provides an upper limit for the number of notifiers for this resource.
+        """
+        return self.numberOfNotifierSets
+
+    def setNumberOfNotifierSets(self, value: Optional[PositiveInteger]) -> BinaryManifestProvideResource:
+        """
+        This attribute provides an upper limit for the number of notifiers for this resource.
+
+        A None value is a no-op and does not overwrite an existing numberOfNotifierSets.
+        """
+        if value is not None:
+            self.numberOfNotifierSets = value
+        return self
+
+    def getSupportsMultipleNotifierSets(self) -> Optional[Boolean]:
+        """
+        This attribute indicates whether the enclosing BinaryManifestResource supports multiple notifiers sets.
+        """
+        return self.supportsMultipleNotifierSets
+
+    def setSupportsMultipleNotifierSets(self, value: Optional[Boolean]) -> BinaryManifestProvideResource:
+        """
+        This attribute indicates whether the enclosing BinaryManifestResource supports multiple notifiers sets.
+
+        A None value is a no-op and does not overwrite an existing supportsMultipleNotifierSets.
+        """
+        if value is not None:
+            self.supportsMultipleNotifierSets = value
         return self
 
 

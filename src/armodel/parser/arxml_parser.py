@@ -826,6 +826,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     FMFeatureRestriction,
     FMFeatureSelection,
     BinaryManifestMetaDataField,
+    BinaryManifestProvideResource,
     BinaryManifestResource,
     BinaryManifestResourceDefinition,
     CpSoftwareClusterCommunicationResource,
@@ -17676,6 +17677,18 @@ class ARXMLParser(AbstractARXMLParser):
             self.readBinaryManifestItem(child_element, item)
         resource.setResourceRef(self.getChildElementOptionalRefType(element, "RESOURCE-REF"))
         return resource
+
+    def readBinaryManifestProvideResource(self, element: ET.Element, provide_resource: BinaryManifestProvideResource) -> BinaryManifestProvideResource:
+        # The XSD BINARY-MANIFEST-PROVIDE-RESOURCE group (AUTOSAR_00052.xsd l.8812) orders
+        # NUMBER-OF-NOTIFIER-SETS, SUPPORTS-MULTIPLE-NOTIFIER-SETS after the BINARY-MANIFEST-RESOURCE
+        # group, which the readBinaryManifestResource base helper owns. The spec Aggregated-by row
+        # names CpSoftwareClusterBinaryManifestDescriptor.provideResource (XSD PROVIDE-RESOURCES,
+        # AUTOSAR_00052.xsd l.24176), an unsynced stub — its call-site dispatch lands with that
+        # class's own sync.
+        self.readBinaryManifestResource(element, provide_resource)
+        provide_resource.setNumberOfNotifierSets(self.getChildElementOptionalPositiveInteger(element, "NUMBER-OF-NOTIFIER-SETS"))
+        provide_resource.setSupportsMultipleNotifierSets(self.getChildElementOptionalBooleanValue(element, "SUPPORTS-MULTIPLE-NOTIFIER-SETS"))
+        return provide_resource
 
     def readBinaryManifestAddressableObject(self, element: ET.Element, obj: BinaryManifestAddressableObject) -> BinaryManifestAddressableObject:
         # The XSD BINARY-MANIFEST-ADDRESSABLE-OBJECT group (AUTOSAR_00052.xsd l.8552) orders ADDRESS
