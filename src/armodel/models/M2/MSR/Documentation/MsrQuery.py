@@ -83,74 +83,44 @@ class MsrQueryProps(ARObject):
 
     # MsrQueryProps method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.85, p.344
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getComment        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setComment        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMsrQueryName   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMsrQueryName   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] addMsrQueryArg    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMsrQueryArgs   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getComment        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setComment        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addMsrQueryArg    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMsrQueryArgs   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getMsrQueryName   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMsrQueryName   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        # This element contains a commentary in text form.
+        # This element contains a commentary in text form. Tags: xml.sequenceOffset=40
         self.comment: Optional[String] = None
 
-        # This element specifies the name of the MSR-QUERY triggered.
-        self.msrQueryName: Optional[String] = None
-
-        # This element specifies an argument within an MsrQuery.
+        # This element specifies an argument within an MsrQuery. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=30 xml.typeElement=false xml.typeWrapperElement=false
         self.msrQueryArgs: List[MsrQueryArg] = []
+
+        # This element specifies the name of the MSR-QUERY triggered. Tags: xml.sequenceOffset=20
+        self.msrQueryName: Optional[String] = None
 
     def getComment(self) -> Optional[String]:
         """
-        This element contains a commentary in text form.
-
-        Returns:
-            The commentary in text form
+        This element contains a commentary in text form. Tags: xml.sequenceOffset=40
         """
         return self.comment
 
     def setComment(self, value: Optional[String]) -> MsrQueryProps:
         """
-        This element contains a commentary in text form. A None value is a no-op and does not overwrite an existing comment.
-
-        Returns:
-            self for method chaining
+        This element contains a commentary in text form. Tags: xml.sequenceOffset=40. A None value is a no-op and does not overwrite an existing comment.
         """
         if value is not None:
             self.comment = value
         return self
 
-    def getMsrQueryName(self) -> Optional[String]:
-        """
-        This element specifies the name of the MSR-QUERY triggered.
-
-        Returns:
-            The name of the MSR-QUERY triggered
-        """
-        return self.msrQueryName
-
-    def setMsrQueryName(self, value: Optional[String]) -> MsrQueryProps:
-        """
-        This element specifies the name of the MSR-QUERY triggered. A None value is a no-op and does not overwrite an existing msrQueryName.
-
-        Returns:
-            self for method chaining
-        """
-        if value is not None:
-            self.msrQueryName = value
-        return self
-
     def addMsrQueryArg(self, value: Optional[MsrQueryArg]) -> MsrQueryProps:
         """
-        This element specifies an argument within an MsrQuery. A None value is a no-op and is not appended.
-
-        Returns:
-            self for method chaining
+        This element specifies an argument within an MsrQuery. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=30 xml.typeElement=false xml.typeWrapperElement=false. A None value is a no-op and is not appended.
         """
         if value is not None:
             self.msrQueryArgs.append(value)
@@ -158,12 +128,23 @@ class MsrQueryProps(ARObject):
 
     def getMsrQueryArgs(self) -> List[MsrQueryArg]:
         """
-        This element specifies an argument within an MsrQuery.
-
-        Returns:
-            The arguments within the MsrQuery
+        This element specifies an argument within an MsrQuery. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=30 xml.typeElement=false xml.typeWrapperElement=false
         """
         return self.msrQueryArgs
+
+    def getMsrQueryName(self) -> Optional[String]:
+        """
+        This element specifies the name of the MSR-QUERY triggered. Tags: xml.sequenceOffset=20
+        """
+        return self.msrQueryName
+
+    def setMsrQueryName(self, value: Optional[String]) -> MsrQueryProps:
+        """
+        This element specifies the name of the MSR-QUERY triggered. Tags: xml.sequenceOffset=20. A None value is a no-op and does not overwrite an existing msrQueryName.
+        """
+        if value is not None:
+            self.msrQueryName = value
+        return self
 
 
 class MsrQueryP2(ARObject):
