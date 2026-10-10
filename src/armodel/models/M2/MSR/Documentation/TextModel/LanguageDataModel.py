@@ -160,13 +160,12 @@ class LanguageSpecific(ARObject, ABC):
 
     # LanguageSpecific method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.97, p.350
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getL         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setL         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getValue     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setValue     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getL         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setL         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getValue     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setValue     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         if type(self) is LanguageSpecific:
@@ -174,7 +173,7 @@ class LanguageSpecific(ARObject, ABC):
 
         super().__init__()
 
-        # This attribute denotes the language in which the language specific document entity is given. Note that "FOR-ALL" means, that the entity is applicable to all languages. It is language neutral. It follows ISO 639-1:2002 and is specified in upper case.
+        # This attribute denotes the language in which the language specific document entity is given. Note that "FOR-ALL" means, that the entity is applicable to all languages. It is language neutral. It follows ISO 639-1:2002 and is specified in upper case. Tags: xml.attribute=true xml.enforceMinMultiplicity=true
         self.l: Optional[LEnum] = None
 
         # The text content of the language specific entity.
@@ -182,13 +181,13 @@ class LanguageSpecific(ARObject, ABC):
 
     def getL(self) -> Optional[LEnum]:
         """
-        This attribute denotes the language in which the language specific document entity is given. Note that "FOR-ALL" means, that the entity is applicable to all languages. It is language neutral. It follows ISO 639-1:2002 and is specified in upper case.
+        This attribute denotes the language in which the language specific document entity is given. Note that "FOR-ALL" means, that the entity is applicable to all languages. It is language neutral. It follows ISO 639-1:2002 and is specified in upper case. Tags: xml.attribute=true xml.enforceMinMultiplicity=true
         """
         return self.l
 
     def setL(self, value: Optional[LEnum]) -> LanguageSpecific:
         """
-        This attribute denotes the language in which the language specific document entity is given. Note that "FOR-ALL" means, that the entity is applicable to all languages. It is language neutral. It follows ISO 639-1:2002 and is specified in upper case. A None value is a no-op and does not overwrite an existing l.
+        This attribute denotes the language in which the language specific document entity is given. Note that "FOR-ALL" means, that the entity is applicable to all languages. It is language neutral. It follows ISO 639-1:2002 and is specified in upper case. Tags: xml.attribute=true xml.enforceMinMultiplicity=true. A None value is a no-op and does not overwrite an existing l.
         """
         if value is not None:
             self.l = value
