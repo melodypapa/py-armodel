@@ -80,11 +80,10 @@ class BswAsynchronousServerCallPoint(BswModuleCallPoint):
 
     # BswAsynchronousServerCallPoint method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.13, p.80
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getCalledEntryRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setCalledEntryRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCalledEntryRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCalledEntryRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -101,13 +100,7 @@ class BswAsynchronousServerCallPoint(BswModuleCallPoint):
     def setCalledEntryRef(self, value: Optional[RefType]) -> BswAsynchronousServerCallPoint:
         """
         The entry to be called.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The reference to the entry to be called
-
-        Returns:
-            self for method chaining
+        A None value is a no-op and does not overwrite an existing calledEntryRef.
         """
         if value is not None:
             self.calledEntryRef = value
