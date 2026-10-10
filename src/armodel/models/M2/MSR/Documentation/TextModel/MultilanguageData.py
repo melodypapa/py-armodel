@@ -87,22 +87,20 @@ class MultiLanguageOverviewParagraph(ARObject):
 
     # MultiLanguageOverviewParagraph method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.90, p.348
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] addL2       [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getL2s      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addL2       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getL2s      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        # This represents the text in one particular language.
+        # This represents the text in one particular language. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
         self.l2: List[LOverviewParagraph] = []
 
     def addL2(self, l2: Optional[LOverviewParagraph]) -> MultiLanguageOverviewParagraph:
         """
-        This represents the text in one particular language. A None value is a no-op and
-        is not appended.
+        This represents the text in one particular language. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false. A None value is a no-op and is not appended.
         """
         if l2 is not None:
             self.l2.append(l2)
@@ -110,7 +108,7 @@ class MultiLanguageOverviewParagraph(ARObject):
 
     def getL2s(self) -> List[LOverviewParagraph]:
         """
-        This represents the text in one particular language.
+        This represents the text in one particular language. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
         """
         return self.l2
 
