@@ -23,10 +23,9 @@ class BswEntryKindEnum(AREnum):
 
     # BswEntryKindEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 4.2, p.34
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on BswModuleEntry.bswEntryKind
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # This BswModuleEntry specifies an abstract signature of C-functions. The signature needs to be implemented by concrete BswModuleEntrys Tags: atp.EnumerationLiteralIndex=0
     ABSTRACT = "ABSTRACT"
