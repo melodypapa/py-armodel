@@ -18628,11 +18628,15 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeCpSoftwareClusterServiceResource(self, element: ET.Element, resource: CpSoftwareClusterServiceResource):
         # Populates the CP-SOFTWARE-CLUSTER-SERVICE-RESOURCE element created by the caller;
         # the XSD CP-SOFTWARE-CLUSTER-SERVICE-RESOURCE group (AUTOSAR_00052.xsd l.24595) carries
-        # RESOURCE-NEEDS-REFS only, which belongs to CpSoftwareClusterServiceResource's own
-        # pending sync (Group34, Table 11.14), so the helper owns the CpSoftwareClusterResource
-        # base level only.
+        # the 0..1 RESOURCE-NEEDS-REFS wrapper (Table 11.14 resourceNeeds), emitted only when
+        # non-empty; the CpSoftwareClusterResource base level is owned by the base helper.
         self.logger.debug("Write CpSoftwareClusterServiceResource %s" % resource.getShortName())
         self.writeCpSoftwareClusterResource(element, resource)
+        resource_needs_refs = resource.getResourceNeedsRefs()
+        if len(resource_needs_refs) > 0:
+            refs_tag = ET.SubElement(element, "RESOURCE-NEEDS-REFS")
+            for ref in resource_needs_refs:
+                self.setChildElementOptionalRefType(refs_tag, "RESOURCE-NEEDS-REF", ref)
 
     def writeCpSoftwareClusterResourcePool(self, element: ET.Element, resource_pool: CpSoftwareClusterResourcePool):
         # The XSD CP-SOFTWARE-CLUSTER-RESOURCE-POOL group (AUTOSAR_00052.xsd l.24470) element

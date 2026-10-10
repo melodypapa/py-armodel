@@ -1153,7 +1153,42 @@ class CpSoftwareClusterCommunicationResource(CpSoftwareClusterResource):
 
 
 class CpSoftwareClusterServiceResource(CpSoftwareClusterResource):
-    pass
+    """Represents a single resource required or provided by a CP Software Cluster which relates to the BSW."""
+
+    # CpSoftwareClusterServiceResource method parity checklist:
+    # Spec: R23-11/AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 11.14, p.904 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addResourceNeedsRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getResourceNeedsRefs  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    #
+    # The Table 11.14 attribute resourceNeeds (kind ref, mult *) is modeled as resourceNeedsRefs
+    # per the ref-kind naming rule (sibling ecuScope -> ecuScopeRefs); the XSD group
+    # (AUTOSAR_00052.xsd l.24595) wraps the unbounded RESOURCE-NEEDS-REF choice in a 0..1
+    # RESOURCE-NEEDS-REFS wrapper, emitted only when non-empty. [constr_5181] applies to the
+    # inherited Identifiable.category attribute — no own member to model here.
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Refernce(s) to one or multiple EcucContainerValue(s) qualifying the characteristics of the resource.
+        self.resourceNeedsRefs: List[RefType] = []
+
+    def addResourceNeedsRef(self, value: Optional[RefType]) -> CpSoftwareClusterServiceResource:
+        """
+        Refernce(s) to one or multiple EcucContainerValue(s) qualifying the characteristics of the resource.
+
+        A None value is a no-op and does not append to resourceNeedsRefs.
+        """
+        if value is not None:
+            self.resourceNeedsRefs.append(value)
+        return self
+
+    def getResourceNeedsRefs(self) -> List[RefType]:
+        """
+        Refernce(s) to one or multiple EcucContainerValue(s) qualifying the characteristics of the resource.
+        """
+        return self.resourceNeedsRefs
 
 
 class DiagnosticAuthTransmitCertificateEvaluation(Identifiable):

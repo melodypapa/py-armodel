@@ -13087,10 +13087,12 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readCpSoftwareClusterServiceResource(self, element: ET.Element, resource: CpSoftwareClusterServiceResource) -> CpSoftwareClusterServiceResource:
         # The XSD CP-SOFTWARE-CLUSTER-SERVICE-RESOURCE group (AUTOSAR_00052.xsd l.24595) carries
-        # RESOURCE-NEEDS-REFS only; that member belongs to CpSoftwareClusterServiceResource's own
-        # pending sync (Group34, Table 11.14) and is not modeled yet, so the helper owns the
-        # CpSoftwareClusterResource base level only.
+        # the 0..1 RESOURCE-NEEDS-REFS wrapper whose unbounded choice holds the RESOURCE-NEEDS-REF
+        # references (Table 11.14 resourceNeeds); the CpSoftwareClusterResource base level is
+        # owned by the base helper.
         self.readCpSoftwareClusterResource(element, resource)
+        for ref in self.getChildElementRefTypeList(element, "RESOURCE-NEEDS-REFS/RESOURCE-NEEDS-REF"):
+            resource.addResourceNeedsRef(ref)
         return resource
 
     def readCpSoftwareClusterResourcePool(self, element: ET.Element, resource_pool: CpSoftwareClusterResourcePool) -> CpSoftwareClusterResourcePool:
