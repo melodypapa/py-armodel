@@ -896,14 +896,65 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `BinaryManifestRequireResource` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 11.20, p.916
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+  - Step 1 finding: markdown Table 11.20 recovered (l.23673): concrete Class; Base row most-derived =
+    `BinaryManifestResource` (abstract, Table 11.19, already synced) — the row's "Identifiable" hint is
+    only the indirect ancestor; the XSD complexType BINARY-MANIFEST-REQUIRE-RESOURCE (AUTOSAR_00052.xsd
+    l.8868) chains the BINARY-MANIFEST-RESOURCE group before its own group (l.8852), confirming the base
+    (Rule 0001.2). Own attribute (displayed order): connectionIsMandatory (Boolean, 0..1, attr) — the
+    markdown wraps the name mid-token ("connectionIs Mandatory"); the XSD appinfo (l.8862) confirms the
+    continuous form. The inherited members (globalResourceId, items, resourceRef) live on the base's own
+    Table 11.19 and are not re-flattened (Rule 0001.3). Aggregated by
+    CpSoftwareClusterBinaryManifestDescriptor.requireResource (XSD REQUIRE-RESOURCES l.24187) —
+    descriptor unsynced stub; call-site dispatch lands with its own sync (ProvideResource precedent).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - Note: 9 tests confirmed Red — issubclass/isinstance failures against BinaryManifestResource
+    (stub base Identifiable) + AttributeError for the missing accessor + StopIteration for the
+    missing __init__.
+  - [x] Step 3 — Implement model class (Green)
+  - Note: stub `(Identifiable): pass` removed and `BinaryManifestRequireResource(BinaryManifestResource)`
+    implemented after the base/sibling in Identifiable.py (the old stub position preceded the base);
+    PEP 526 annotation Optional[Boolean] in spec row order; guarded setter returns self.
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - Note: the pre-sync stub was `pass` (no docstrings existed to wipe); class docstring +
+    2 accessor docstrings + 1 inline __init__ comment written verbatim from the Table 11.20
+    Note column ("connectionIs Mandatory" mid-token wrap in the markdown resolved to the
+    continuous form confirmed by the XSD appinfo, l.8862).
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - Note: reader tests (full element XML covering the inherited base group GLOBAL-RESOURCE-ID /
+    ITEMS / nested item IS-UNUSED + the own attribute, plus empty element) and writer tests
+    (XSD-order tag assertion across both groups, empty element, direct round-trip through the
+    helper pair, empty-wrapper case) confirmed Red: 6 failures, AttributeError for missing
+    read/writeBinaryManifestRequireResource.
+  - [x] Step 6 — Update parser & writer (Green)
+  - Note: parser gains readBinaryManifestRequireResource (readBinaryManifestResource base call
+    per Rule 0025, the own attribute in XSD group order l.8852, returns the populated instance)
+    placed after readBinaryManifestProvideResource; writer mirrors this with
+    writeBinaryManifestRequireResource (writeBinaryManifestResource base call, caller-created
+    element) placed after writeBinaryManifestProvideResource; both import blocks extended with
+    BinaryManifestRequireResource. Aggregator dispatch (CpSoftwareClusterBinaryManifestDescriptor
+    REQUIRE-RESOURCES l.24187) not wired today — descriptor is an unsynced stub; lands with its
+    own sync (BinaryManifestResourceDefinition precedent).
+  - [x] Step 7 — Update checklist comment
+  - Note: 3-row checklist contiguous above __init__ in Identifiable.py, all rows [x], citation
+    `# Spec: R23-11/AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 11.20, p.916 (R23-11)`; NO
+    `# Spec verified:` marker per deferred-stamp instruction. audit_class.py PASS (missing-marker
+    INFO + the single-corpus SPECLINE WARN shared with sibling Tables 11.15/11.16/11.18).
+  - [x] Step 8 — Deviations
+  - Note: (1) base-class correction — spec Base row most-derived = `BinaryManifestResource`
+    (XSD l.8868 chains BINARY-MANIFEST-RESOURCE before BINARY-MANIFEST-REQUIRE-RESOURCE),
+    superseding the stub's `Identifiable` and the todo row hint (Rule 0001.2); (2) the inherited
+    members globalResourceId/item/resource belong to the abstract base's own Table 11.19
+    (already synced) — not re-flattened on the subclass (Rule 0001.3), so Table 11.20
+    contributes exactly its one own attribute row; (3) markdown mid-token wrap
+    "connectionIs Mandatory" resolved to the continuous `connectionIsMandatory` per the XSD
+    appinfo (l.8862) — sibling precedent (Tables 11.18/11.21); (4) no own aggregation members,
+    hence no create/add factories — scalar accessor pair in getter-first shape; (5) aggregator
+    dispatch pending with the descriptor sync (precedent: BinaryManifestResourceDefinition);
+    no VARIATION-POINT element in the class's XSD group (l.8852-8866) — nothing to model; the
+    constr_5192-5196 constraints reference inherited/base members (globalResourceId, item,
+    resourceDefinition) or the unmodeled resourceGuardValue (no Attribute row, Rule 0015 —
+    same disposition as base Table 11.19).
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
 - [ ] `BinaryManifestResourceDefinition` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 11.21, p.917

@@ -3291,10 +3291,6 @@ class BinaryManifestMetaDataField(BinaryManifestAddressableObject):
         return self
 
 
-class BinaryManifestRequireResource(Identifiable):
-    pass
-
-
 class BinaryManifestResource(Identifiable, ABC):
     """
     This meta-class acts as an abstract base class for specializations.
@@ -3451,6 +3447,54 @@ class BinaryManifestProvideResource(BinaryManifestResource):
         """
         if value is not None:
             self.supportsMultipleNotifierSets = value
+        return self
+
+
+class BinaryManifestRequireResource(BinaryManifestResource):
+    """
+    This meta-class represents a required resource in the binary manifest.
+    """
+
+    # BinaryManifestRequireResource method parity checklist:
+    # Spec: R23-11/AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 11.20, p.916 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getConnectionIsMandatory  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setConnectionIsMandatory  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # The spec Base row and the XSD complexType BINARY-MANIFEST-REQUIRE-RESOURCE
+    # (AUTOSAR_00052.xsd l.8868, which chains the BINARY-MANIFEST-RESOURCE group before
+    # BINARY-MANIFEST-REQUIRE-RESOURCE) make BinaryManifestResource the most-derived base
+    # (Rule 0001.2) — the stub's Identifiable base and the todo row hint are superseded. The
+    # Table 11.20 Attribute column holds only the one own row; the inherited members
+    # (globalResourceId, items, resourceRef) live on the abstract base's own table
+    # (Table 11.19, already synced) and are not re-flattened here (Rule 0001.3). The
+    # readBinaryManifestRequireResource / writeBinaryManifestRequireResource helpers call the
+    # readBinaryManifestResource / writeBinaryManifestResource base pair (Rule 0025) and own
+    # the own-attribute group; the aggregator dispatch (CpSoftwareClusterBinaryManifestDescriptor
+    # .requireResource, XSD REQUIRE-RESOURCES, AUTOSAR_00052.xsd l.24187) is pending — the
+    # descriptor is an unsynced stub whose call-site dispatch lands with its own sync.
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This attribute indicates whether the connection of the enclosing BinaryManifestResource is mandatory.
+        self.connectionIsMandatory: Optional[Boolean] = None
+
+    def getConnectionIsMandatory(self) -> Optional[Boolean]:
+        """
+        This attribute indicates whether the connection of the enclosing BinaryManifestResource is mandatory.
+        """
+        return self.connectionIsMandatory
+
+    def setConnectionIsMandatory(self, value: Optional[Boolean]) -> BinaryManifestRequireResource:
+        """
+        This attribute indicates whether the connection of the enclosing BinaryManifestResource is mandatory.
+
+        A None value is a no-op and does not overwrite an existing connectionIsMandatory.
+        """
+        if value is not None:
+            self.connectionIsMandatory = value
         return self
 
 

@@ -663,6 +663,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     FMFeatureSelection,
     BinaryManifestMetaDataField,
     BinaryManifestProvideResource,
+    BinaryManifestRequireResource,
     BinaryManifestResource,
     BinaryManifestResourceDefinition,
     CpSoftwareClusterCommunicationResource,
@@ -15175,6 +15176,17 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeBinaryManifestResource(element, provide_resource)
         self.setChildElementOptionalPositiveInteger(element, "NUMBER-OF-NOTIFIER-SETS", cast(Integer, provide_resource.getNumberOfNotifierSets()))
         self.setChildElementOptionalBooleanValue(element, "SUPPORTS-MULTIPLE-NOTIFIER-SETS", provide_resource.getSupportsMultipleNotifierSets())
+
+    def writeBinaryManifestRequireResource(self, element: ET.Element, require_resource: BinaryManifestRequireResource):
+        # Populates the BINARY-MANIFEST-REQUIRE-RESOURCE element created by the caller; the XSD
+        # BINARY-MANIFEST-REQUIRE-RESOURCE group (AUTOSAR_00052.xsd l.8852) orders
+        # CONNECTION-IS-MANDATORY after the BINARY-MANIFEST-RESOURCE group, which the
+        # writeBinaryManifestResource base helper owns. The spec Aggregated-by row names
+        # CpSoftwareClusterBinaryManifestDescriptor.requireResource (XSD REQUIRE-RESOURCES,
+        # AUTOSAR_00052.xsd l.24187), an unsynced stub — its call-site dispatch lands with that
+        # class's own sync.
+        self.writeBinaryManifestResource(element, require_resource)
+        self.setChildElementOptionalBooleanValue(element, "CONNECTION-IS-MANDATORY", require_resource.getConnectionIsMandatory())
 
     def writeBinaryManifestAddressableObject(self, element: ET.Element, obj: BinaryManifestAddressableObject):
         # Populates the concrete subclass element (BINARY-MANIFEST-ITEM /

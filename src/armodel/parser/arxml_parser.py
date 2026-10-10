@@ -827,6 +827,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     FMFeatureSelection,
     BinaryManifestMetaDataField,
     BinaryManifestProvideResource,
+    BinaryManifestRequireResource,
     BinaryManifestResource,
     BinaryManifestResourceDefinition,
     CpSoftwareClusterCommunicationResource,
@@ -17689,6 +17690,17 @@ class ARXMLParser(AbstractARXMLParser):
         provide_resource.setNumberOfNotifierSets(self.getChildElementOptionalPositiveInteger(element, "NUMBER-OF-NOTIFIER-SETS"))
         provide_resource.setSupportsMultipleNotifierSets(self.getChildElementOptionalBooleanValue(element, "SUPPORTS-MULTIPLE-NOTIFIER-SETS"))
         return provide_resource
+
+    def readBinaryManifestRequireResource(self, element: ET.Element, require_resource: BinaryManifestRequireResource) -> BinaryManifestRequireResource:
+        # The XSD BINARY-MANIFEST-REQUIRE-RESOURCE group (AUTOSAR_00052.xsd l.8852) orders
+        # CONNECTION-IS-MANDATORY after the BINARY-MANIFEST-RESOURCE group, which the
+        # readBinaryManifestResource base helper owns. The spec Aggregated-by row names
+        # CpSoftwareClusterBinaryManifestDescriptor.requireResource (XSD REQUIRE-RESOURCES,
+        # AUTOSAR_00052.xsd l.24187), an unsynced stub — its call-site dispatch lands with that
+        # class's own sync.
+        self.readBinaryManifestResource(element, require_resource)
+        require_resource.setConnectionIsMandatory(self.getChildElementOptionalBooleanValue(element, "CONNECTION-IS-MANDATORY"))
+        return require_resource
 
     def readBinaryManifestAddressableObject(self, element: ET.Element, obj: BinaryManifestAddressableObject) -> BinaryManifestAddressableObject:
         # The XSD BINARY-MANIFEST-ADDRESSABLE-OBJECT group (AUTOSAR_00052.xsd l.8552) orders ADDRESS
