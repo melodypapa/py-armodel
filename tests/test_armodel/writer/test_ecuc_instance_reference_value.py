@@ -14,7 +14,7 @@ import pytest
 from armodel.models import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucInstanceReferenceValue
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, PositiveInteger, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, DateTime, PositiveInteger, RefType, String
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
@@ -120,6 +120,28 @@ class TestEcucInstanceReferenceValueReadWrite:
         assert reloaded.getDefinitionRef() is not None
         assert reloaded.getDefinitionRef().getValue() == "/Def"
         assert not hasattr(reloaded, "variationPoint")
+
+    def test_any_instance_ref_carries_s_t_attributes(self, writer, parser):
+        """The S/T checksum/timestamp attributes on a VALUE-IREF's ANY-INSTANCE-REF survive a write/read cycle (Rule 0025)."""
+        ref_value = EcucInstanceReferenceValue()
+        ref_value.setDefinitionRef(RefType().setValue("/Def").setDest("ECUC-INSTANCE-REFERENCE-DEF"))
+        instance_ref = AnyInstanceRef()
+        instance_ref.setChecksum(String().setValue("csum-1"))
+        instance_ref.setTimestamp(DateTime().setValue("2026-10-11T00:00:00+01:00"))
+        instance_ref.setTargetRef(RefType().setValue("/Pkg/Target").setDest("R-PORT-PROTOTYPE"))
+        ref_value.setValueIRef(instance_ref)
+
+        parent = ET.Element("PARENT")
+        writer.writeEcucInstanceReferenceValue(parent, ref_value)
+        value_iref = parent.find("ECUC-INSTANCE-REFERENCE-VALUE").find("VALUE-IREF")
+        assert value_iref.attrib.get("S") == "csum-1"
+        assert value_iref.attrib.get("T") == "2026-10-11T00:00:00+01:00"
+
+        reloaded = EcucInstanceReferenceValue()
+        parser.readEcucInstanceReferenceValue(_ns_wrap(parent), reloaded)
+        assert reloaded.getValueIRef().getChecksum().getValue() == "csum-1"
+        assert reloaded.getValueIRef().getTimestamp().getValue() == "2026-10-11T00:00:00+01:00"
+        assert reloaded.getValueIRef().getTargetRef().getValue() == "/Pkg/Target"
 
 
 if __name__ == "__main__":

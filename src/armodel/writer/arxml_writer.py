@@ -17514,13 +17514,18 @@ class ARXMLWriter(AbstractARXMLWriter):
                 element.remove(child_element)
         return value
 
+    def writeAnyInstanceRef(self, element: ET.Element, instance_ref: AnyInstanceRef) -> AnyInstanceRef:
+        self.writeARObject(element, instance_ref)
+        self.setChildElementOptionalRefType(element, "BASE-REF", instance_ref.getBaseRef())
+        for ref in instance_ref.getContextElementRefs():
+            self.setChildElementOptionalRefType(element, "CONTEXT-ELEMENT-REF", ref)
+        self.setChildElementOptionalRefType(element, "TARGET-REF", instance_ref.getTargetRef())
+        return instance_ref
+
     def setAnyInstanceRef(self, element: ET.Element, key, instance_ref: Optional[AnyInstanceRef]):
         if instance_ref is not None:
             child_element = ET.SubElement(element, key)
-            self.setChildElementOptionalRefType(child_element, "BASE-REF", instance_ref.getBaseRef())
-            for ref in instance_ref.getContextElementRefs():
-                self.setChildElementOptionalRefType(child_element, "CONTEXT-ELEMENT-REF", ref)
-            self.setChildElementOptionalRefType(child_element, "TARGET-REF", instance_ref.getTargetRef())
+            self.writeAnyInstanceRef(child_element, instance_ref)
         return instance_ref
 
     def writeEcucInstanceReferenceValue(self, element: ET.Element, value: EcucInstanceReferenceValue):

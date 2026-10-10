@@ -18639,13 +18639,17 @@ class ARXMLParser(AbstractARXMLParser):
             instance_ref = self.getAnyInstanceRefFromElement(child_element)
         return instance_ref
 
+    def readAnyInstanceRef(self, element: ET.Element, instance_ref: AnyInstanceRef) -> AnyInstanceRef:
+        self.readARObject(element, instance_ref)
+        instance_ref.setBaseRef(self.getChildElementOptionalRefType(element, "BASE-REF"))
+        for ref in self.getChildElementRefTypeList(element, "CONTEXT-ELEMENT-REF"):
+            instance_ref.addContextElementRef(ref)
+        instance_ref.setTargetRef(self.getChildElementOptionalRefType(element, "TARGET-REF"))
+        return instance_ref
+
     def getAnyInstanceRefFromElement(self, child_element: ET.Element) -> AnyInstanceRef:
         instance_ref = AnyInstanceRef()
-        instance_ref.setBaseRef(self.getChildElementOptionalRefType(child_element, "BASE-REF"))
-        for ref in self.getChildElementRefTypeList(child_element, "CONTEXT-ELEMENT-REF"):
-            instance_ref.addContextElementRef(ref)
-        instance_ref.setTargetRef(self.getChildElementOptionalRefType(child_element, "TARGET-REF"))
-        return instance_ref
+        return self.readAnyInstanceRef(child_element, instance_ref)
 
     def readEcucInstanceReferenceValue(self, element: ET.Element, value: EcucInstanceReferenceValue):
         self.readEcucAbstractReferenceValue(element, value)
