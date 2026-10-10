@@ -324,11 +324,10 @@ class ParameterDataPrototype(AutosarDataPrototype, VariationPointCapable):
 
     # ParameterDataPrototype method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.32, p.310
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getInitValue            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setInitValue            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getInitValue            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setInitValue            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
