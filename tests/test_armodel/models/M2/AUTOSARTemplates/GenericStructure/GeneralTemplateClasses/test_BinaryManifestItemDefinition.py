@@ -24,7 +24,9 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 CLASS_NOTE = "This meta-class provides the ability to define the handle definition or an auxiliary field of a binary manifest resource."
 
 AUXILIARY_FIELD_DEFINITION_NOTE = "This aggregation is used to define structured BinaryManifestItemDefinitions."
-IS_OPTIONAL_NOTE = "If true, the handle definition or auxiliary field of a binary manifest resource is optional and may not be used in all BinaryManifestResources referring to this BinaryManifestResourceDefinition."
+IS_OPTIONAL_NOTE = (
+    "If true, the handle definition or auxiliary field of a binary manifest resource is optional and may not be used in all BinaryManifestResources referring to this BinaryManifestResourceDefinition."
+)
 SIZE_NOTE = "This attribute provides the ability to specify the size of the enclosing BinaryManifestResourceDefinition."
 
 
