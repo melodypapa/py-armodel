@@ -64,7 +64,7 @@ pending that confirmation.
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b)
   - note: 9b confirmed 2026-10-09 (Rule 0026 audit vs source). The prior "short-circuit" note was STALE — the `# Spec verified:` marker was NOT present in src, and blueprintValue had drifted: dropped `Tags:` tail (atp.Status=draft xml.attribute=true), wrong type `Optional[str]` (spec `String`), and NO reader/writer coverage of BLUEPRINT-VALUE (silent round-trip loss). Fixed to verbatim parity with the stamped sibling LOverviewParagraph: restored Tags tail on inline/getter/setter, retyped `Optional[String]`, added BLUEPRINT-VALUE read in readLLongName + write in setLLongName (XSD L-LONG-NAME attributeGroup confirms it on L-4). Re-audited clean; marker written (sync commit c09bc8067).
-- [ ] `MixedContentForLongName` (input · R23-11 markdown · Table 4.9, p.63 · drift R23-11)
+- [x] `MixedContentForLongName` (input · R23-11 markdown · Table 4.9, p.63 · fdc7811f8)
   - module: M2/MSR/Documentation/TextModel/LanguageDataModel.py
   - Note: row reopened 2026-10-10. The prior "already verified (short-circuit
     2026-09-30)" note was **STALE** — `# Spec verified: R23-11` was **not** present
@@ -188,7 +188,25 @@ pending that confirmation.
       themselves unstamped** (same stale `[x]` short-circuit as this row) and carry
       paraphrase docstrings — flagged at 9b; not fixed here (one class per session,
       Rule 0017.1).
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+    - note (Step 9): **9a** — full suite **25,826 passed / 1067 skipped** (integration
+      round-trip included); `ruff check src/armodel tests` clean; `black --check` (200 cols)
+      clean; `flake8 --select=E9,F63,F7,F82` clean; `mypy` **Success, 279 source files**;
+      member-annotation gate (Rule 0022) 3 passed; set-based checklist-vs-methods script
+      green (11 rows, all methods covered, no `# type:`); `audit_class.py` PASS on
+      BLOCK/ROWS/SPECLINE/CITATION/SPACING/DOCTAIL/BASE.
+      **9b** — all 14 gate items presented and **confirmed by the user 2026-10-10**;
+      marker `# Spec verified: R23-11 (2026-10-10, user 9b confirmation)` written
+      immediately after the `# Spec:` line (Rule 0012.1). Post-stamp audit re-run: STAMP
+      clean, `=> PASS`. Sync commit **fdc7811f8**.
+    - note (open, not this row): the four member types `EmphasisText` (Table 9.34),
+      `IndexEntry` (9.36), `Superscript` (9.38) and `Tt` (9.39) are **themselves unstamped**
+      (same stale `[x]` short-circuit), carry paraphrase docstrings
+      (e.g. `IndexEntry.getValue` = "Gets the text content of the index entry.") and declare
+      bare-`T` single-valued fields (`self.value: String = None`). Rule 0006.1 requires
+      member-type docstrings to be verbatim before the consuming class is stamped; the user
+      confirmed the stamp scoped to this class's own table anyway. **Those rows are still
+      owed a real sync pass** — see their rows further down this file.
 - [x] `Referrable` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.10, p.63 — already verified (short-circuit 2026-09-30)
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
   - [x] Step 1 — Sync members & description from spec

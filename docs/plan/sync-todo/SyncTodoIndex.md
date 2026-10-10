@@ -880,7 +880,7 @@ Status: **28/55** completed
 | ------------------------------------ | ------------ | ---------- |
 | `Identifier`                         | [x] Done     | 6336d00e15 |
 | `LLongName`                          | [x] Done     | c09bc8067d |
-| `MixedContentForLongName`            | [x] Done*    | N/A        |
+| `MixedContentForLongName`            | [x] Done     | fdc7811f86 |
 | `Referrable`                         | [x] Done*    | N/A        |
 | `ReferrableSubtypesEnum`             | [x] Done     | a097cb3d4f |
 | `SdgDef`                             | [x] Done     | c7d3958065 |

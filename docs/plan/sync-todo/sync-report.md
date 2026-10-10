@@ -10,8 +10,8 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 860 | 45.0% |
-| [x] Deferred | 39 | 2.0% |
+| [x] Done | 861 | 45.1% |
+| [x] Deferred | 38 | 2.0% |
 | [x] Retired | 0 | 0.0% |
 | [ ] Deferred | 989 | 51.8% |
 | [ ] Implemented | 10 | 0.5% |
@@ -1258,7 +1258,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `MetaDataItemSet`                                       | [x] Done    | e69a025254                               | Group2           |
 | `MimeTypeString`                                        | [x] Done    | 01cc23df4e                               | Group3           |
 | `MirroringProtocolEnum`                                 | [ ] Deferred| N/A                                      | Group33          |
-| `MixedContentForLongName`                               | [x] Deferred| N/A                                      | Group21          |
+| `MixedContentForLongName`                               | [x] Done    | fdc7811f86                               | Group21          |
 | `MixedContentForOverviewParagraph`                      | [x] Done    | 18b494eba5                               | Group8           |
 | `MixedContentForParagraph`                              | [x] Done    | bf9114cb01                               | Group3           |
 | `MixedContentForPlainText`                              | [x] Done    | 4a95d1d305                               | Group8           |
