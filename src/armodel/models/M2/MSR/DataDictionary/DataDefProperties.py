@@ -844,37 +844,36 @@ class SwPointerTargetProps(ARObject):
 
     # SwPointerTargetProps method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.19, p.287
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getFunctionPointerSignatureRef [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setFunctionPointerSignatureRef [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getSwDataDefProps              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSwDataDefProps              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTargetCategory              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTargetCategory              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getFunctionPointerSignatureRef [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setFunctionPointerSignatureRef [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getSwDataDefProps              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwDataDefProps              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTargetCategory              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTargetCategory              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        # The referenced BswModuleEntry serves as the signature of a function pointer definition. Primary use case: function pointer passed as argument to other function.
+        # The referenced BswModuleEntry serves as the signature of a function pointer definition. Primary use case: function pointer passed as argument to other function. Tags: xml.sequenceOffset=40
         self.functionPointerSignatureRef: Optional[RefType] = None
 
-        # The properties of the target data type.
+        # The properties of the target data type. Stereotypes: atpSplitable Tags: atp.Splitkey=swDataDefProps xml.sequenceOffset=30
         self.swDataDefProps: Optional[SwDataDefProps] = None
 
-        # This specifies the category of the target: • In case of a data pointer, it shall specify the category of the referenced data. • In case of a function pointer, it could be used to denote the category of the referenced BswModuleEntry.
+        # This specifies the category of the target: • In case of a data pointer, it shall specify the category of the referenced data. • In case of a function pointer, it could be used to denote the category of the referenced BswModuleEntry. Tags: xml.sequenceOffset=5
         self.targetCategory: Optional[Identifier] = None
 
     def getFunctionPointerSignatureRef(self) -> Optional[RefType]:
         """
-        The referenced BswModuleEntry serves as the signature of a function pointer definition. Primary use case: function pointer passed as argument to other function.
+        The referenced BswModuleEntry serves as the signature of a function pointer definition. Primary use case: function pointer passed as argument to other function. Tags: xml.sequenceOffset=40
         """
         return self.functionPointerSignatureRef
 
     def setFunctionPointerSignatureRef(self, value: Optional[RefType]) -> SwPointerTargetProps:
         """
-        The referenced BswModuleEntry serves as the signature of a function pointer definition. Primary use case: function pointer passed as argument to other function. A None value is a no-op and does not overwrite an existing functionPointerSignatureRef.
+        The referenced BswModuleEntry serves as the signature of a function pointer definition. Primary use case: function pointer passed as argument to other function. Tags: xml.sequenceOffset=40 A None value is a no-op and does not overwrite an existing functionPointerSignatureRef.
         """
         if value is not None:
             self.functionPointerSignatureRef = value
@@ -882,13 +881,13 @@ class SwPointerTargetProps(ARObject):
 
     def getSwDataDefProps(self) -> Optional[SwDataDefProps]:
         """
-        The properties of the target data type.
+        The properties of the target data type. Stereotypes: atpSplitable Tags: atp.Splitkey=swDataDefProps xml.sequenceOffset=30
         """
         return self.swDataDefProps
 
     def setSwDataDefProps(self, value: Optional[SwDataDefProps]) -> SwPointerTargetProps:
         """
-        The properties of the target data type. A None value is a no-op and does not overwrite an existing swDataDefProps.
+        The properties of the target data type. Stereotypes: atpSplitable Tags: atp.Splitkey=swDataDefProps xml.sequenceOffset=30 A None value is a no-op and does not overwrite an existing swDataDefProps.
         """
         if value is not None:
             self.swDataDefProps = value
@@ -896,13 +895,13 @@ class SwPointerTargetProps(ARObject):
 
     def getTargetCategory(self) -> Optional[Identifier]:
         """
-        This specifies the category of the target: • In case of a data pointer, it shall specify the category of the referenced data. • In case of a function pointer, it could be used to denote the category of the referenced BswModuleEntry.
+        This specifies the category of the target: • In case of a data pointer, it shall specify the category of the referenced data. • In case of a function pointer, it could be used to denote the category of the referenced BswModuleEntry. Tags: xml.sequenceOffset=5
         """
         return self.targetCategory
 
     def setTargetCategory(self, value: Optional[Identifier]) -> SwPointerTargetProps:
         """
-        This specifies the category of the target: • In case of a data pointer, it shall specify the category of the referenced data. • In case of a function pointer, it could be used to denote the category of the referenced BswModuleEntry. A None value is a no-op and does not overwrite an existing targetCategory.
+        This specifies the category of the target: • In case of a data pointer, it shall specify the category of the referenced data. • In case of a function pointer, it could be used to denote the category of the referenced BswModuleEntry. Tags: xml.sequenceOffset=5 A None value is a no-op and does not overwrite an existing targetCategory.
         """
         if value is not None:
             self.targetCategory = value
