@@ -9208,6 +9208,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                 refs_element = ET.SubElement(child_element, "CONTEXT-LIMITATION-REFS")
                 for ref in context_limitations:
                     self.setChildElementOptionalRefType(refs_element, "CONTEXT-LIMITATION-REF", ref)
+            if isinstance(access, VariationPointCapable):
+                self.writeVariationPoint(child_element, access.getVariationPoint())
 
     def writeBswModuleEntityDataSendPoints(self, element: ET.Element, entity: BswModuleEntity):
         points = entity.getDataSendPoints()

@@ -109,6 +109,22 @@ class TestBswVariableAccess:
         assert len(limitations) == 1
         assert limitations[0].getValue() == "/Pkg/Part1"
 
+    def test_read_variation_point(self, tmp_path):
+        accesses = """<DATA-SEND-POINTS>
+            <BSW-VARIABLE-ACCESS>
+                <SHORT-NAME>Dsp</SHORT-NAME>
+                <ACCESSED-VARIABLE-REF DEST="VARIABLE-DATA-PROTOTYPE">/Pkg/Vdp</ACCESSED-VARIABLE-REF>
+                <VARIATION-POINT>
+                    <SHORT-LABEL>vpLabel</SHORT-LABEL>
+                </VARIATION-POINT>
+            </BSW-VARIABLE-ACCESS>
+        </DATA-SEND-POINTS>"""
+        _, behavior = _load_behavior(tmp_path, _ENTITY_TMPL.format(points="", accesses=accesses))
+        entity = behavior.getBswSchedulableEntities()[0]
+        point = entity.getDataSendPoints()[0]
+        assert point.getVariationPoint() is not None
+        assert point.getVariationPoint().getShortLabel().getValue() == "vpLabel"
+
     def test_read_empty_wrapper(self, tmp_path):
         accesses = """<DATA-SEND-POINTS></DATA-SEND-POINTS>
         <DATA-RECEIVE-POINTS></DATA-RECEIVE-POINTS>"""

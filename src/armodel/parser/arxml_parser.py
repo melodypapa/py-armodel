@@ -5792,6 +5792,12 @@ class ARXMLParser(AbstractARXMLParser):
         access.setAccessedVariableRef(self.getChildElementOptionalRefType(element, "ACCESSED-VARIABLE-REF"))
         for ref in self.getChildElementRefTypeList(element, "CONTEXT-LIMITATION-REFS/CONTEXT-LIMITATION-REF"):
             access.addContextLimitationRef(ref)
+        variation_point_element = self.find(element, "VARIATION-POINT")
+        if variation_point_element is not None:
+            if isinstance(access, VariationPointCapable):
+                access.setVariationPoint(self.readVariationPoint(variation_point_element, VariationPoint()))
+            else:
+                self.logger.warning("VARIATION-POINT on non-variant element <%s> ignored" % self.getPureTagName(element.tag))
 
     def readBswModuleEntityDataSendPoints(self, element: ET.Element, entity: BswModuleEntity):
         for child_element in self.findall(element, "DATA-SEND-POINTS/*"):
