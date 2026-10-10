@@ -6,8 +6,7 @@ from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Integer, PositiveInteger, RefType, TimeValue
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Integer, LinChecksumType, PositiveInteger, RefType, TimeValue
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import Frame, FrameTriggering
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 
@@ -67,10 +66,9 @@ class LinUnconditionalFrame(LinFrame):
 
     # LinUnconditionalFrame method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.90, p.429
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # (no own attributes; Base = ARObject, CollectableElement, FibexElement, Frame, Identifiable, LinFrame, MultilanguageReferrable, PackageableElement, Referrable)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # (no own attributes; Base = ARObject, CollectableElement, FibexElement, Frame, Identifiable, LinFrame, MultilanguageReferrable, PackageableElement, Referrable; wire contribution rides the concrete LIN-UNCONDITIONAL-FRAME element via readLinUnconditionalFrame/writeLinUnconditionalFrame calling readFrame/writeFrame exactly once)
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -78,36 +76,53 @@ class LinUnconditionalFrame(LinFrame):
 
 class LinFrameTriggering(FrameTriggering):
     """
-    Defines the triggering mechanism for LIN frames, specifying how and when
-    LIN frames are transmitted or received on the network, including
-    identifier and checksum properties.
+    LIN specific attributes to the FrameTriggering
     """
 
     # LinFrameTriggering method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getIdentifier                [x] impl  [ ] docstring  [ ] test
-    # [ ] setIdentifier                [x] impl  [ ] docstring  [ ] test
-    # [ ] getLinChecksum               [x] impl  [ ] docstring  [ ] test
-    # [ ] setLinChecksum               [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.88, p.428
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getIdentifier   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIdentifier   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getLinChecksum  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setLinChecksum  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
-    def __init__(self, parent, short_name):
+    def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.identifier: Integer = None
-        self.linChecksum: ARLiteral = None
+        # To describe a frames identifier on the communication system, usually with a fixed identifierValue. For Lin SporadicFrames the attribute shall be ignored.
+        self.identifier: Optional[Integer] = None
 
-    def getIdentifier(self):
+        # Type of checksum that the frame is using. This attribute is optional because in case of sporadic frames it should not be set.
+        self.linChecksum: Optional[LinChecksumType] = None
+
+    def getIdentifier(self) -> Optional[Integer]:
+        """
+        To describe a frames identifier on the communication system, usually with a fixed identifierValue. For Lin SporadicFrames the attribute shall be ignored.
+        """
         return self.identifier
 
-    def setIdentifier(self, value):
+    def setIdentifier(self, value: Optional[Integer]) -> LinFrameTriggering:
+        """
+        To describe a frames identifier on the communication system, usually with a fixed identifierValue. For Lin SporadicFrames the attribute shall be ignored.
+        A None value is a no-op and does not overwrite an existing identifier.
+        """
         if value is not None:
             self.identifier = value
         return self
 
-    def getLinChecksum(self):
+    def getLinChecksum(self) -> Optional[LinChecksumType]:
+        """
+        Type of checksum that the frame is using. This attribute is optional because in case of sporadic frames it should not be set.
+        """
         return self.linChecksum
 
-    def setLinChecksum(self, value):
+    def setLinChecksum(self, value: Optional[LinChecksumType]) -> LinFrameTriggering:
+        """
+        Type of checksum that the frame is using. This attribute is optional because in case of sporadic frames it should not be set.
+        A None value is a no-op and does not overwrite an existing linChecksum.
+        """
         if value is not None:
             self.linChecksum = value
         return self
@@ -162,16 +177,14 @@ class ScheduleTableEntry(ARObject, ABC):
 
     # ScheduleTableEntry method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.96, p.433
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getDelay            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDelay            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getIntroduction     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setIntroduction     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPositionInTable  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setPositionInTable  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDelay            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDelay            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIntroduction     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIntroduction     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPositionInTable  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPositionInTable  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     def __init__(self):
 
         if type(self) is ScheduleTableEntry:
@@ -266,9 +279,8 @@ class FreeFormatEntry(ScheduleTableEntry, ABC):
 
     # FreeFormatEntry method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.98, p.434
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # (no own attributes; Base = ARObject, ScheduleTableEntry; serialized through concrete subclass FreeFormat)
 
     def __init__(self):
@@ -319,13 +331,12 @@ class LinConfigurationEntry(ScheduleTableEntry, ABC):
 
     # LinConfigurationEntry method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.99, p.434
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getAssignedControllerRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setAssignedControllerRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getAssignedLinSlaveConfigRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setAssignedLinSlaveConfigRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAssignedControllerRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAssignedControllerRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAssignedLinSlaveConfigRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAssignedLinSlaveConfigRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # (Base = ARObject, ScheduleTableEntry; abstract — no own XML tag; ASSIGNED-CONTROLLER-REF/ASSIGNED-LIN-SLAVE-CONFIG-REF round-trip via the concrete subclass dispatch in readLinScheduleTableTableEntries/writeLinScheduleTableTableEntries)
 
     def __init__(self):
@@ -379,13 +390,12 @@ class FramePid(ARObject):
 
     # FramePid method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.103, p.437
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getIndex      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setIndex      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPid        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setPid        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getIndex      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIndex      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPid        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPid        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # (Base = ARObject; aggregated by AssignFrameIdRange.framePid)
 
     def __init__(self):
@@ -435,11 +445,10 @@ class AssignFrameId(LinConfigurationEntry):
 
     # AssignFrameId method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.100, p.436
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getAssignedFrameTriggeringRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setAssignedFrameTriggeringRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAssignedFrameTriggeringRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAssignedFrameTriggeringRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # (Base = ARObject, LinConfigurationEntry, ScheduleTableEntry; messageId present in XSD with atp.Status="removed" — not modeled)
 
     def __init__(self):
@@ -471,11 +480,10 @@ class UnassignFrameId(LinConfigurationEntry):
 
     # UnassignFrameId method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.101, p.436
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getUnassignedFrameTriggeringRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setUnassignedFrameTriggeringRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getUnassignedFrameTriggeringRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUnassignedFrameTriggeringRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # (Base = ARObject, LinConfigurationEntry, ScheduleTableEntry; messageId present in XSD with atp.Status="removed" — not modeled)
 
     def __init__(self):
@@ -507,13 +515,12 @@ class AssignFrameIdRange(LinConfigurationEntry):
 
     # AssignFrameIdRange method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.102, p.437
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getFramePids           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addFramePid            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getStartIndex          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setStartIndex          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getFramePids           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addFramePid            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getStartIndex          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setStartIndex          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # (Base = ARObject, LinConfigurationEntry, ScheduleTableEntry)
 
     def __init__(self):
@@ -563,11 +570,10 @@ class AssignNad(LinConfigurationEntry):
 
     # AssignNad method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.104, p.438
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getNewNad       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setNewNad       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getNewNad       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNewNad       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # (Base = ARObject, LinConfigurationEntry, ScheduleTableEntry)
 
     def __init__(self):
@@ -826,9 +832,89 @@ class LinScheduleTable(Identifiable, VariationPointCapable):
         return self
 
 
-class LinEventTriggeredFrame(LinFrame):
-    pass
-
-
 class LinSporadicFrame(LinFrame):
-    pass
+    """
+    A sporadic frame is a group of unconditional frames that share the same frame slot. The sporadic frame shall not contain any Pdus. Tags: atp.recommendedPackage=Frames
+    """
+
+    # LinSporadicFrame method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.91, p.429
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getSubstitutedFrameRefs  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addSubstitutedFrame      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Reference to a group of unconditional frames that share the same frame slot. In case that more than one of the declared frames needs to be transferred, the one first listed shall be chosen. Within a channel a LIN Frame shall be referenced by only one FrameTriggering. This allows a derivation of the identifier of a substituted Frame. The identifier is specified in FrameTriggering element. A LinUnconditionalFrame associated with a LinSporadic Frame may not be allocated in the same LinSchedule Table as the sporadic frame.
+        self.substitutedFrameRefs: List[RefType] = []
+
+    def getSubstitutedFrameRefs(self) -> List[RefType]:
+        """
+        Reference to a group of unconditional frames that share the same frame slot. In case that more than one of the declared frames needs to be transferred, the one first listed shall be chosen. Within a channel a LIN Frame shall be referenced by only one FrameTriggering. This allows a derivation of the identifier of a substituted Frame. The identifier is specified in FrameTriggering element. A LinUnconditionalFrame associated with a LinSporadic Frame may not be allocated in the same LinSchedule Table as the sporadic frame.
+        """
+        return self.substitutedFrameRefs
+
+    def addSubstitutedFrame(self, value: Optional[RefType]) -> LinSporadicFrame:
+        """
+        Reference to a group of unconditional frames that share the same frame slot. In case that more than one of the declared frames needs to be transferred, the one first listed shall be chosen. Within a channel a LIN Frame shall be referenced by only one FrameTriggering. This allows a derivation of the identifier of a substituted Frame. The identifier is specified in FrameTriggering element. A LinUnconditionalFrame associated with a LinSporadic Frame may not be allocated in the same LinSchedule Table as the sporadic frame.
+        A None value is a no-op and is not appended to substitutedFrameRefs.
+        """
+        if value is not None:
+            self.substitutedFrameRefs.append(value)
+        return self
+
+
+class LinEventTriggeredFrame(LinFrame):
+    """
+    An event triggered frame is used as a placeholder to allow multiple slave nodes to provide its response. The header of an event triggered frame is transmitted when a frame slot allocated to the event triggered frame is processed. The publisher of an associated unconditional frame shall only transmit the response if at least one of the signals carried in its unconditional frame is updated. The LIN Master discovers and purges collisions with the collisionResolvingScheduleTable. The event controlled frame shall not contain any Pdus. Tags: atp.recommendedPackage=Frames
+    """
+
+    # LinEventTriggeredFrame method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.92, p.430
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCollisionResolvingScheduleRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCollisionResolvingScheduleRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getLinUnconditionalFrameRefs        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addLinUnconditionalFrame            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Reference to the schedule table, which resolves a collision.
+        self.collisionResolvingScheduleRef: Optional[RefType] = None
+
+        # A list of slaves can respond to the master request if at least one of the signals carried in its unconditional frame is updated. For each response a LinFrameTriggering and a LinUnconditionalFrame shall be defined. Within a channel a LIN Frame shall be referenced by only one FrameTriggering. This allows a derivation of the identifier of a substituted Frame. The identifier is specified in FrameTriggering element. The Unconditional frames associated with an event triggered frame shall: • have equal length. • use the same checksum model (i.e. mixing LIN 1.x and LIN 2.x frames is not allowed). • reserve the first data field to its protected identifier (even if the associated unconditional frame is scheduled as a unconditional frame in the same or another schedule table). • be published by different slave nodes. • shall not be included directly in the same schedule table as the event triggered frame is scheduled.
+        self.linUnconditionalFrameRefs: List[RefType] = []
+
+    def getCollisionResolvingScheduleRef(self) -> Optional[RefType]:
+        """
+        Reference to the schedule table, which resolves a collision.
+        """
+        return self.collisionResolvingScheduleRef
+
+    def setCollisionResolvingScheduleRef(self, value: Optional[RefType]) -> LinEventTriggeredFrame:
+        """
+        Reference to the schedule table, which resolves a collision.
+        A None value is a no-op and does not overwrite an existing collisionResolvingScheduleRef.
+        """
+        if value is not None:
+            self.collisionResolvingScheduleRef = value
+        return self
+
+    def getLinUnconditionalFrameRefs(self) -> List[RefType]:
+        """
+        A list of slaves can respond to the master request if at least one of the signals carried in its unconditional frame is updated. For each response a LinFrameTriggering and a LinUnconditionalFrame shall be defined. Within a channel a LIN Frame shall be referenced by only one FrameTriggering. This allows a derivation of the identifier of a substituted Frame. The identifier is specified in FrameTriggering element. The Unconditional frames associated with an event triggered frame shall: • have equal length. • use the same checksum model (i.e. mixing LIN 1.x and LIN 2.x frames is not allowed). • reserve the first data field to its protected identifier (even if the associated unconditional frame is scheduled as a unconditional frame in the same or another schedule table). • be published by different slave nodes. • shall not be included directly in the same schedule table as the event triggered frame is scheduled.
+        """
+        return self.linUnconditionalFrameRefs
+
+    def addLinUnconditionalFrame(self, value: Optional[RefType]) -> LinEventTriggeredFrame:
+        """
+        A list of slaves can respond to the master request if at least one of the signals carried in its unconditional frame is updated. For each response a LinFrameTriggering and a LinUnconditionalFrame shall be defined. Within a channel a LIN Frame shall be referenced by only one FrameTriggering. This allows a derivation of the identifier of a substituted Frame. The identifier is specified in FrameTriggering element. The Unconditional frames associated with an event triggered frame shall: • have equal length. • use the same checksum model (i.e. mixing LIN 1.x and LIN 2.x frames is not allowed). • reserve the first data field to its protected identifier (even if the associated unconditional frame is scheduled as a unconditional frame in the same or another schedule table). • be published by different slave nodes. • shall not be included directly in the same schedule table as the event triggered frame is scheduled.
+        A None value is a no-op and is not appended to linUnconditionalFrameRefs.
+        """
+        if value is not None:
+            self.linUnconditionalFrameRefs.append(value)
+        return self

@@ -432,7 +432,6 @@ class EcucContainerValue(Identifiable, EcucIndexableValue):
     # [x] createSubContainer           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        EcucIndexableValue.__init__(self)
         Identifiable.__init__(self, parent, short_name)
 
         # Reference to the definition of this Container in the ECU Configuration Parameter Definition. Tags: xml.sequenceOffset=-10

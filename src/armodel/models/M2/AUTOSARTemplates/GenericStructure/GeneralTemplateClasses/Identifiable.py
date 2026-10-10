@@ -100,7 +100,7 @@ class Referrable(ARObject, ABC):
         if type(self) is Referrable:
             raise TypeError("Referrable is an abstract class.")
 
-        ARObject.__init__(self)
+        super().__init__()
 
         self.parent: ARObject = parent
 

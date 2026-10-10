@@ -1250,8 +1250,10 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommun
     FreeFormat,
     LinConfigurationEntry,
     LinErrorResponse,
+    LinEventTriggeredFrame,
     LinFrameTriggering,
     LinScheduleTable,
+    LinSporadicFrame,
     LinUnconditionalFrame,
     SaveConfigurationEntry,
     ScheduleTableEntry,
@@ -10808,6 +10810,27 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "LIN-UNCONDITIONAL-FRAME")
         self.writeFrame(child_element, frame)
 
+    def writeLinSporadicFrame(self, element: ET.Element, frame: LinSporadicFrame):
+        self.logger.debug("Write LinSporadicFrame %s" % frame.getShortName())
+        child_element = ET.SubElement(element, "LIN-SPORADIC-FRAME")
+        self.writeFrame(child_element, frame)
+        refs = frame.getSubstitutedFrameRefs()
+        if len(refs) > 0:
+            refs_element = ET.SubElement(child_element, "SUBSTITUTED-FRAME-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_element, "SUBSTITUTED-FRAME-REF", ref)
+
+    def writeLinEventTriggeredFrame(self, element: ET.Element, frame: LinEventTriggeredFrame):
+        self.logger.debug("Write LinEventTriggeredFrame %s" % frame.getShortName())
+        child_element = ET.SubElement(element, "LIN-EVENT-TRIGGERED-FRAME")
+        self.writeFrame(child_element, frame)
+        self.setChildElementOptionalRefType(child_element, "COLLISION-RESOLVING-SCHEDULE-REF", frame.getCollisionResolvingScheduleRef())
+        refs = frame.getLinUnconditionalFrameRefs()
+        if len(refs) > 0:
+            refs_element = ET.SubElement(child_element, "LIN-UNCONDITIONAL-FRAME-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_element, "LIN-UNCONDITIONAL-FRAME-REF", ref)
+
     def writeNmNode(self, element: ET.Element, nm_node: NmNode):
         self.writeIdentifiable(element, nm_node, write_variation_point=False)
         self.setChildElementOptionalRefType(element, "CONTROLLER-REF", nm_node.getControllerRef())
@@ -12289,6 +12312,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalRefType(child_element, "FRAME-TRIGGERING-REF", entry.getFrameTriggeringRef())
 
     def writeLinConfigurationEntry(self, element: ET.Element, entry: LinConfigurationEntry):
+        self.writeScheduleTableEntry(element, entry)
         self.setChildElementOptionalRefType(element, "ASSIGNED-CONTROLLER-REF", entry.getAssignedControllerRef())
         self.setChildElementOptionalRefType(element, "ASSIGNED-LIN-SLAVE-CONFIG-REF", entry.getAssignedLinSlaveConfigRef())
 
@@ -12304,21 +12328,18 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setAssignFrameId(self, element: ET.Element, key: str, entry: AssignFrameId):
         if entry is not None:
             child_element = ET.SubElement(element, key)
-            self.writeScheduleTableEntry(child_element, entry)
             self.writeLinConfigurationEntry(child_element, entry)
             self.setChildElementOptionalRefType(child_element, "ASSIGNED-FRAME-TRIGGERING-REF", entry.getAssignedFrameTriggeringRef())
 
     def setUnassignFrameId(self, element: ET.Element, key: str, entry: UnassignFrameId):
         if entry is not None:
             child_element = ET.SubElement(element, key)
-            self.writeScheduleTableEntry(child_element, entry)
             self.writeLinConfigurationEntry(child_element, entry)
             self.setChildElementOptionalRefType(child_element, "UNASSIGNED-FRAME-TRIGGERING-REF", entry.getUnassignedFrameTriggeringRef())
 
     def setAssignFrameIdRange(self, element: ET.Element, key: str, entry: AssignFrameIdRange):
         if entry is not None:
             child_element = ET.SubElement(element, key)
-            self.writeScheduleTableEntry(child_element, entry)
             self.writeLinConfigurationEntry(child_element, entry)
             frame_pids = entry.getFramePids()
             if len(frame_pids) > 0:
@@ -12332,14 +12353,12 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setAssignNad(self, element: ET.Element, key: str, entry: AssignNad):
         if entry is not None:
             child_element = ET.SubElement(element, key)
-            self.writeScheduleTableEntry(child_element, entry)
             self.writeLinConfigurationEntry(child_element, entry)
             self.setChildElementOptionalIntegerValue(child_element, "NEW-NAD", entry.getNewNad())
 
     def setConditionalChangeNad(self, element: ET.Element, key: str, entry: ConditionalChangeNad):
         if entry is not None:
             child_element = ET.SubElement(element, key)
-            self.writeScheduleTableEntry(child_element, entry)
             self.writeLinConfigurationEntry(child_element, entry)
             self.setChildElementOptionalIntegerValue(child_element, "BYTE", entry.getByte())
             self.setChildElementOptionalPositiveInteger(child_element, "ID", cast(Integer, entry.getId()))
@@ -12350,13 +12369,11 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setSaveConfigurationEntry(self, element: ET.Element, key: str, entry: SaveConfigurationEntry):
         if entry is not None:
             child_element = ET.SubElement(element, key)
-            self.writeScheduleTableEntry(child_element, entry)
             self.writeLinConfigurationEntry(child_element, entry)
 
     def setDataDumpEntry(self, element: ET.Element, key: str, entry: DataDumpEntry):
         if entry is not None:
             child_element = ET.SubElement(element, key)
-            self.writeScheduleTableEntry(child_element, entry)
             self.writeLinConfigurationEntry(child_element, entry)
             if len(entry.getByteValues()) > 0:
                 byte_values_element = ET.SubElement(child_element, "BYTE-VALUES")
@@ -21098,6 +21115,10 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeTDCpSoftwareClusterMappingSet(element, ar_element)
         elif isinstance(ar_element, LinUnconditionalFrame):
             self.writeLinUnconditionalFrame(element, ar_element)
+        elif isinstance(ar_element, LinSporadicFrame):
+            self.writeLinSporadicFrame(element, ar_element)
+        elif isinstance(ar_element, LinEventTriggeredFrame):
+            self.writeLinEventTriggeredFrame(element, ar_element)
         elif isinstance(ar_element, NmConfig):
             self.writeNmConfig(element, ar_element)
         elif isinstance(ar_element, NmPdu):

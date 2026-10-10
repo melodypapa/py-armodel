@@ -213,7 +213,6 @@ class SwcServiceDependency(AtpStructureElement, ServiceDependency):
     # [x] getObdControlServiceNeeds                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getServiceNeeds                              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     def __init__(self, parent: ARObject, short_name: str):
-        ServiceDependency.__init__(self)
         AtpStructureElement.__init__(self, parent, short_name)
 
         # Defines the role of an associated data object of the same component. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=assignedData, assignedData.variation Point.shortLabel vh.latestBindingTime=preCompileTime

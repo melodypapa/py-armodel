@@ -1739,19 +1739,19 @@ Status: **17/75** completed
 | `AbsoluteTolerance`                                      | [ ] Pending*    | a371d1ab84 |
 | `Frame`                                                  | [ ] Pending*    | 417c1d0055 |
 | `LinFrame`                                               | [ ] Pending*    | d72398ba5a |
-| `LinFrameTriggering`                                     | [ ] Implemented | N/A        |
-| `LinChecksumType`                                        | [ ] Created     | N/A        |
-| `LinUnconditionalFrame`                                  | [ ] Implemented | N/A        |
-| `LinSporadicFrame`                                       | [ ] Created     | N/A        |
-| `LinEventTriggeredFrame`                                 | [ ] Created     | N/A        |
-| `ScheduleTableEntry`                                     | [ ] Implemented | N/A        |
-| `FreeFormatEntry`                                        | [ ] Implemented | N/A        |
-| `LinConfigurationEntry`                                  | [ ] Implemented | N/A        |
-| `AssignFrameId`                                          | [ ] Implemented | N/A        |
-| `UnassignFrameId`                                        | [ ] Implemented | N/A        |
-| `AssignFrameIdRange`                                     | [ ] Implemented | N/A        |
-| `FramePid`                                               | [ ] Implemented | N/A        |
-| `AssignNad`                                              | [ ] Implemented | N/A        |
+| `LinFrameTriggering`                                     | [ ] Pending*    | 63e2caeb11 |
+| `LinChecksumType`                                        | [ ] Pending*    | e03844e729 |
+| `LinUnconditionalFrame`                                  | [ ] Pending*    | b9e186e5a4 |
+| `LinSporadicFrame`                                       | [ ] Pending*    | db8b2fb950 |
+| `LinEventTriggeredFrame`                                 | [ ] Pending*    | db8b2fb950 |
+| `ScheduleTableEntry`                                     | [ ] Pending*    | e36b881da1 |
+| `FreeFormatEntry`                                        | [ ] Pending*    | e36b881da1 |
+| `LinConfigurationEntry`                                  | [ ] Pending*    | e36b881da1 |
+| `AssignFrameId`                                          | [ ] Pending*    | e36b881da1 |
+| `UnassignFrameId`                                        | [ ] Pending*    | e36b881da1 |
+| `AssignFrameIdRange`                                     | [ ] Pending*    | e36b881da1 |
+| `FramePid`                                               | [ ] Pending*    | e36b881da1 |
+| `AssignNad`                                              | [ ] Pending*    | e36b881da1 |
 
 ## Group32
 

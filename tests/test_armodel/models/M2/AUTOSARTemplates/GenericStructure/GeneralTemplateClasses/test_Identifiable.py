@@ -4740,3 +4740,20 @@ class TestCpSoftwareClusterCommunicationResource:
         resource.setCommunicationResourceProps(props)
 
         assert resource.getCommunicationResourceProps() is props
+
+
+class TestReferrableCooperativeInit:
+    """Referrable.__init__ must not short-circuit the cooperative MRO chain."""
+
+    def test_referrable_does_not_bypass_super(self):
+        """
+        Test that Referrable.__init__ dispatches via super() instead of calling ARObject.__init__ directly.
+
+        A direct call skips every class the MRO places after Referrable, which is
+        what prevents mixin __init__ methods from ever running. Asserting on the
+        source makes the regression fail here rather than at some unrelated
+        construction site.
+        """
+        source = inspect.getsource(Referrable.__init__)
+        assert "super().__init__()" in source, "Referrable.__init__ must use cooperative super()"
+        assert "ARObject.__init__(self)" not in source, "Referrable.__init__ must not bypass super()"

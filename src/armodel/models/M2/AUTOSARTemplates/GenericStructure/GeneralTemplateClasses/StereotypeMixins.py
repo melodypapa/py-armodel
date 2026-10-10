@@ -34,11 +34,11 @@ class AtpMixedString(ABC):
     # [x] getMixedString    [x] impl  [x] docstring  [x] test
     # [x] setMixedString    [x] impl  [x] docstring  [x] test
 
-    # Class-level default — the ONLY initialization. The repo's Referrable.__init__
-    # calls ARObject.__init__ directly (bypassing super()), so a mixin __init__ may
-    # never run under combined inheritance (e.g. TimingConditionFormula). This mixin
-    # has no __init__ at all; reads fall back to this class attribute until
-    # setMixedString assigns the instance attribute. Do not remove it.
+    # Class-level default — the ONLY initialization: this mixin has no __init__ at
+    # all. Referrable dispatches cooperatively, so a mixin __init__ WOULD run
+    # (e.g. TimingConditionFormula) — none is needed: the default is immutable.
+    # Reads fall back to this class attribute until setMixedString assigns the
+    # instance attribute. Do not remove it.
     mixedString: Optional[str] = None
 
     def getMixedString(self) -> Optional[str]:

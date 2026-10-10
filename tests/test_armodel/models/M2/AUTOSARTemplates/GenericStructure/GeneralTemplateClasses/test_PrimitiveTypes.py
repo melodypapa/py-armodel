@@ -82,6 +82,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Ip4AddressString,
     Ip6AddressString,
     Limit,
+    LinChecksumType,
     MacAddressString,
     MaximumMessageLengthType,
     McdIdentifier,
@@ -4066,3 +4067,52 @@ class TestAddress:
         """Test the class docstring is the Table 4.40 Note copied verbatim plus the Tags tail."""
         expected = "This is used to specify an address within the CPU.\n" "\n" "Tags:\n" "    * xml.xsd.customType=ADDRESS\n" "    * xml.xsd.pattern=0[xX][0-9a-fA-F]+\n" "    * xml.xsd.type=string"
         assert inspect.cleandoc(Address.__doc__) == expected
+
+
+class TestLinChecksumType:
+    """
+    Test class for LinChecksumType functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.89, p.428
+    """
+
+    def test_initialization(self):
+        """
+        Test LinChecksumType initialization with the spec literals in displayed order.
+        """
+        enum = LinChecksumType()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == [
+            LinChecksumType.CLASSIC,
+            LinChecksumType.ENHANCED,
+        ]
+
+    def test_enum_values(self):
+        """
+        Test LinChecksumType member values.
+        """
+        enum = LinChecksumType()
+
+        assert LinChecksumType.CLASSIC == "CLASSIC"
+        assert LinChecksumType.ENHANCED == "ENHANCED"
+
+        assert enum.validateEnumValue("CLASSIC") is True
+        assert enum.validateEnumValue("ENHANCED") is True
+        assert enum.validateEnumValue("classic") is False
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test LinChecksumType instantiability and getValue.
+        """
+        enum = LinChecksumType()
+        enum.setValue(LinChecksumType.ENHANCED)
+
+        assert enum.getValue() == LinChecksumType.ENHANCED
+
+    def test_class_docstring_matches_spec_note(self):
+        """Test the class docstring is the Table 6.89 Note copied verbatim."""
+        expected = "Use of classic or enhanced checksum is managed by the master node and it is determined per frame identifier;"
+        assert inspect.cleandoc(LinChecksumType.__doc__) == expected

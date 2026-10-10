@@ -72,8 +72,10 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.Flexr
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import (  # noqa: E501
     ApplicationEntry,
+    LinEventTriggeredFrame,
     LinFrameTriggering,
     LinScheduleTable,
+    LinSporadicFrame,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinCluster, LinPhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ttcan.TtcanCommunication import TtcanAbsolutelyScheduledTiming
@@ -372,6 +374,69 @@ class TestWriteLinFrameTriggering:
         assert lft is not None
         assert lft.find("IDENTIFIER").text == "5"
         assert lft.find("LIN-CHECKSUM").text == "CLASSIC"
+
+
+def _ref(dest, value):
+    ref = RefType()
+    ref.setDest(dest)
+    ref.setValue(value)
+    return ref
+
+
+class TestWriteLinSporadicFrame:
+    def test_write_lin_sporadic_frame_refs(self, writer):
+        pkg = _pkg()
+        frame = LinSporadicFrame(pkg, "LinSf")
+        frame.addSubstitutedFrame(_ref("LIN-UNCONDITIONAL-FRAME", "/Pkg/Uf1"))
+        frame.addSubstitutedFrame(_ref("LIN-UNCONDITIONAL-FRAME", "/Pkg/Uf2"))
+        parent = _parent()
+        writer.writeLinSporadicFrame(parent, frame)
+        lsf = parent.find("LIN-SPORADIC-FRAME")
+        assert lsf is not None
+        refs_element = lsf.find("SUBSTITUTED-FRAME-REFS")
+        assert refs_element is not None
+        refs = refs_element.findall("SUBSTITUTED-FRAME-REF")
+        assert len(refs) == 2
+        assert refs[0].text == "/Pkg/Uf1"
+        assert refs[0].get("DEST") == "LIN-UNCONDITIONAL-FRAME"
+        assert refs[1].text == "/Pkg/Uf2"
+
+    def test_write_lin_sporadic_frame_empty_wrapper_list(self, writer):
+        pkg = _pkg()
+        frame = LinSporadicFrame(pkg, "LinSf")
+        parent = _parent()
+        writer.writeLinSporadicFrame(parent, frame)
+        lsf = parent.find("LIN-SPORADIC-FRAME")
+        assert lsf is not None
+        assert lsf.find("SUBSTITUTED-FRAME-REFS") is None
+
+
+class TestWriteLinEventTriggeredFrame:
+    def test_write_lin_event_triggered_frame_refs(self, writer):
+        pkg = _pkg()
+        frame = LinEventTriggeredFrame(pkg, "LinEf")
+        frame.setCollisionResolvingScheduleRef(_ref("LIN-SCHEDULE-TABLE", "/Pkg/St"))
+        frame.addLinUnconditionalFrame(_ref("LIN-UNCONDITIONAL-FRAME", "/Pkg/Uf1"))
+        parent = _parent()
+        writer.writeLinEventTriggeredFrame(parent, frame)
+        lef = parent.find("LIN-EVENT-TRIGGERED-FRAME")
+        assert lef is not None
+        assert lef.find("COLLISION-RESOLVING-SCHEDULE-REF").text == "/Pkg/St"
+        assert lef.find("COLLISION-RESOLVING-SCHEDULE-REF").get("DEST") == "LIN-SCHEDULE-TABLE"
+        refs_element = lef.find("LIN-UNCONDITIONAL-FRAME-REFS")
+        assert refs_element is not None
+        refs = refs_element.findall("LIN-UNCONDITIONAL-FRAME-REF")
+        assert len(refs) == 1
+        assert refs[0].text == "/Pkg/Uf1"
+
+    def test_write_lin_event_triggered_frame_empty_wrapper_list(self, writer):
+        pkg = _pkg()
+        frame = LinEventTriggeredFrame(pkg, "LinEf")
+        parent = _parent()
+        writer.writeLinEventTriggeredFrame(parent, frame)
+        lef = parent.find("LIN-EVENT-TRIGGERED-FRAME")
+        assert lef is not None
+        assert lef.find("LIN-UNCONDITIONAL-FRAME-REFS") is None
 
 
 class TestWriteCommunicationCycle:

@@ -6,7 +6,7 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, PositiveInteger, RefType, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, LinChecksumType, PositiveInteger, RefType, TimeValue
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import (
     ApplicationEntry,
@@ -20,9 +20,11 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommun
     FreeFormatEntry,
     LinConfigurationEntry,
     LinErrorResponse,
+    LinEventTriggeredFrame,
     LinFrame,
     LinFrameTriggering,
     LinScheduleTable,
+    LinSporadicFrame,
     LinUnconditionalFrame,
     ResumePosition,
     RunMode,
@@ -157,6 +159,75 @@ class Test_Fibex4LinCommunication:
         assert isinstance(frame, Frame)
         assert isinstance(frame, LinFrame)
 
+    def test_LinUnconditionalFrame_docstring_matches_spec_note(self):
+        """Test the class docstring is the Table 6.90 Note copied verbatim."""
+        expected = (
+            "Unconditional frames carry signals. The master sends a frame header in a scheduled frame slot and the designated slave node fills the frame with data. Tags: atp.recommendedPackage=Frames"
+        )
+        assert inspect.cleandoc(LinUnconditionalFrame.__doc__) == expected
+
+    def test_LinSporadicFrame(self):
+        """Test LinSporadicFrame class functionality."""
+        parent = MockParent()
+        frame = LinSporadicFrame(parent, "test_lin_sporadic_frame")
+
+        assert isinstance(frame, Frame)
+        assert isinstance(frame, LinFrame)
+        assert frame.getSubstitutedFrameRefs() == []
+
+        ref = RefType()
+        ref.setDest("LIN-UNCONDITIONAL-FRAME")
+        ref.setValue("/LinCluster/LinUnconditionalFrame")
+        result = frame.addSubstitutedFrame(ref)
+        assert frame.getSubstitutedFrameRefs() == [ref]
+        assert result == frame  # Test method chaining
+
+        result = frame.addSubstitutedFrame(None)
+        assert frame.getSubstitutedFrameRefs() == [ref]  # None is not appended
+        assert result == frame  # Test method chaining
+
+    def test_LinSporadicFrame_docstring_matches_spec_note(self):
+        """Test the class docstring is the Table 6.91 Note copied verbatim."""
+        expected = "A sporadic frame is a group of unconditional frames that share the same frame slot. The sporadic frame shall not contain any Pdus. Tags: atp.recommendedPackage=Frames"
+        assert inspect.cleandoc(LinSporadicFrame.__doc__) == expected
+
+    def test_LinEventTriggeredFrame(self):
+        """Test LinEventTriggeredFrame class functionality."""
+        parent = MockParent()
+        frame = LinEventTriggeredFrame(parent, "test_lin_event_triggered_frame")
+
+        assert isinstance(frame, Frame)
+        assert isinstance(frame, LinFrame)
+        assert frame.getCollisionResolvingScheduleRef() is None
+        assert frame.getLinUnconditionalFrameRefs() == []
+
+        schedule_ref = RefType()
+        schedule_ref.setDest("LIN-SCHEDULE-TABLE")
+        schedule_ref.setValue("/LinCluster/LinScheduleTable")
+        result = frame.setCollisionResolvingScheduleRef(schedule_ref)
+        assert frame.getCollisionResolvingScheduleRef() is schedule_ref
+        assert result == frame  # Test method chaining
+
+        result = frame.setCollisionResolvingScheduleRef(None)
+        assert frame.getCollisionResolvingScheduleRef() is schedule_ref  # None is a no-op
+        assert result == frame  # Test method chaining
+
+        ref = RefType()
+        ref.setDest("LIN-UNCONDITIONAL-FRAME")
+        ref.setValue("/LinCluster/LinUnconditionalFrame")
+        result = frame.addLinUnconditionalFrame(ref)
+        assert frame.getLinUnconditionalFrameRefs() == [ref]
+        assert result == frame  # Test method chaining
+
+        result = frame.addLinUnconditionalFrame(None)
+        assert frame.getLinUnconditionalFrameRefs() == [ref]  # None is not appended
+        assert result == frame  # Test method chaining
+
+    def test_LinEventTriggeredFrame_docstring_matches_spec_note(self):
+        """Test the class docstring is the Table 6.92 Note copied verbatim."""
+        expected = "An event triggered frame is used as a placeholder to allow multiple slave nodes to provide its response. The header of an event triggered frame is transmitted when a frame slot allocated to the event triggered frame is processed. The publisher of an associated unconditional frame shall only transmit the response if at least one of the signals carried in its unconditional frame is updated. The LIN Master discovers and purges collisions with the collisionResolvingScheduleTable. The event controlled frame shall not contain any Pdus. Tags: atp.recommendedPackage=Frames"
+        assert inspect.cleandoc(LinEventTriggeredFrame.__doc__) == expected
+
     def test_LinFrameTriggering(self):
         """Test LinFrameTriggering class functionality."""
         parent = MockParent()
@@ -179,13 +250,21 @@ class Test_Fibex4LinCommunication:
         assert triggering.getIdentifier() == 60  # Value should still be 60 since None was not set
         assert result == triggering  # Test method chaining
 
-        result = triggering.setLinChecksum("checksum")
-        assert triggering.getLinChecksum() == "checksum"
+        checksum = LinChecksumType()
+        checksum.setValue(LinChecksumType.CLASSIC)
+        result = triggering.setLinChecksum(checksum)
+        assert triggering.getLinChecksum() is checksum
+        assert triggering.getLinChecksum().getValue() == "CLASSIC"
         assert result == triggering  # Test method chaining
 
         result = triggering.setLinChecksum(None)
-        assert triggering.getLinChecksum() == "checksum"  # Value should still be "checksum" since None was not set
+        assert triggering.getLinChecksum() is checksum  # Value should still be the checksum since None was not set
         assert result == triggering  # Test method chaining
+
+    def test_LinFrameTriggering_docstring_matches_spec_note(self):
+        """Test the class docstring is the Table 6.88 Note copied verbatim."""
+        expected = "LIN specific attributes to the FrameTriggering"
+        assert inspect.cleandoc(LinFrameTriggering.__doc__) == expected
 
     def test_ResumePosition(self):
         """Test ResumePosition enum functionality."""

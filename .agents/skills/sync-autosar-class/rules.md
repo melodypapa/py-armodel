@@ -1833,12 +1833,28 @@ exact `VariationPointCapable` parity): it derives from `ABC` only — **not** fr
 `ARObject` — and has **no `__init__` and no instantiation guard**, so consumers anchor
 their own spec `Base`. Three repo-specific traps, settled in PR #785 + the redesign:
 
-- **MRO bypass (why there is no `__init__`):** the repo's `Referrable.__init__` calls
-  `ARObject.__init__` directly (bypassing `super()`), so a mixin `__init__` may never
-  run under combined inheritance. The mixin therefore carries a **class-level default**
-  `mixedString: Optional[str] = None` as the ONLY initialization — reads fall back to
-  the class attribute until `setMixedString` assigns the instance attribute. Do not
-  remove the default; do not add a mixin `__init__`.
+- **Why `AtpMixedString` has no `__init__`:** the mixin carries a **class-level
+  default** `mixedString: Optional[str] = None` as the ONLY initialization — reads fall
+  back to the class attribute until `setMixedString` assigns the instance attribute. This
+  default is **immutable**, so sharing it across instances carries no correctness hazard;
+  do not remove it. (`Referrable.__init__` no longer bypasses `super()` — see the MRO
+  dispatch note below — so a mixin `__init__` *would* now run, but adding one buys nothing
+  here and would force the same `__init__` row onto every consumer's checklist.)
+- **MRO dispatch — cooperative `super()`.** `Referrable.__init__` used to call
+  `ARObject.__init__` directly, which ended the chain early and made every mixin
+  `__init__` in this family dead code. It now calls `super().__init__()`, so a mixin
+  placed after `Referrable` **does** initialize. Two consequences:
+  - A mixin `__init__` is now a real option — use it when the default is **mutable**
+    (`list`/`dict`/`set`), which is precisely what `AbstractVariationRestriction`
+    `validBindingTimes` does. Order it `super().__init__()` first, then assign.
+  - **Do not "fix" the one remaining direct call.** `DiagnosticAbstractParameter.__init__`
+    takes no arguments and the next MRO link is `Identifiable.__init__(self, parent,
+    short_name)`, so `super().__init__()` there raises `TypeError` on every
+    instantiation. `DiagnosticParameterElement` sidesteps it by calling both bases
+    explicitly. That explicit-two-call idiom is correct for a base whose signature cannot
+    join the cooperative chain.
+  - `tests/test_armodel/models/test_mro_dispatch.py` sweeps every model class and fails
+    if any MRO places an argument-requiring `__init__` after `Referrable`.
 - **Base order — the consumer anchors `ARObject`:** mixin **after** the
   ARObject-anchored primary base, `ABC` last. Where the spec Base is `ARObject` itself,
   name it explicitly: `ConditionByFormula(ARObject, AtpMixedString)` (Table 7.5),
@@ -1898,11 +1914,14 @@ must equal the getter return type. This is the mechanical, repo-wide form of Rul
   `self._value`, annotated in `ARType.__init__`). Annotate the creation site, not the
   re-assignment.
 - **Mixin class-level-default pattern (Rules 0020/0021).** `VariationPointCapable`,
-  `AtpMixedString`, `SdgElementWithGid`, `AbstractValueRestriction`,
-  `AbstractVariationRestriction` carry annotated class attributes
-  (`mixedString: Optional[str] = None`) as the ONLY initialization — a mixin
-  `__init__` may never run under combined inheritance (`Referrable.__init__` bypasses
-  `super()`). Do **not** convert these to `__init__` assignments.
+  `AtpMixedString`, `SdgElementWithGid`, `AbstractValueRestriction` carry annotated
+  class attributes (`mixedString: Optional[str] = None`) as the ONLY initialization.
+  Every one of those defaults is **immutable** (`Optional[...] = None`), so sharing it
+  across instances is harmless — do **not** convert these to `__init__` assignments.
+  `AbstractVariationRestriction` was the one exception: its
+  `validBindingTimes: List[FullBindingTimeEnum] = []` default is **mutable**, so
+  instances leaked into each other. It now initializes in a cooperative `__init__`; see
+  the MRO-dispatch note in Rule 0021 for how that became possible.
 - **`clear()`-initialized members.** Where the annotation lives in `clear()`
   (e.g. `AbstractAUTOSAR.adminData: Optional[AdminData]`), setter re-assignments stay
   untyped.
