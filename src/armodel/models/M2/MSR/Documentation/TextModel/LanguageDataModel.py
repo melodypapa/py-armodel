@@ -37,11 +37,10 @@ class LEnum(AREnum):
     """
 
     # LEnum method parity checklist:
-    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.97, p.350
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.98, p.356
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on LanguageSpecific.l / AdminData.language
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # Afar Tags: atp.EnumerationLiteralIndex=0
     AA = "AA"
@@ -111,6 +110,212 @@ class LEnum(AREnum):
     FO = "FO"
     # The content applies to all languages Tags: atp.EnumerationLiteralIndex=33
     FOR_ALL = "FOR-ALL"
+    # French Tags: atp.EnumerationLiteralIndex=34
+    FR = "FR"
+    # Frisian Tags: atp.EnumerationLiteralIndex=35
+    FY = "FY"
+    # Irish Tags: atp.EnumerationLiteralIndex=36
+    GA = "GA"
+    # Scots Gaelic Tags: atp.EnumerationLiteralIndex=37
+    GD = "GD"
+    # Galician Tags: atp.EnumerationLiteralIndex=38
+    GL = "GL"
+    # Guarani Tags: atp.EnumerationLiteralIndex=39
+    GN = "GN"
+    # Gjarati Tags: atp.EnumerationLiteralIndex=40
+    GU = "GU"
+    # Hausa Tags: atp.EnumerationLiteralIndex=41
+    HA = "HA"
+    # Hindi Tags: atp.EnumerationLiteralIndex=42
+    HI = "HI"
+    # Croatian Tags: atp.EnumerationLiteralIndex=43
+    HR = "HR"
+    # Hungarian Tags: atp.EnumerationLiteralIndex=44
+    HU = "HU"
+    # Armenian Tags: atp.EnumerationLiteralIndex=45
+    HY = "HY"
+    # Interlingua Tags: atp.EnumerationLiteralIndex=46
+    IA = "IA"
+    # Interlingue Tags: atp.EnumerationLiteralIndex=47
+    IE = "IE"
+    # Inupiak Tags: atp.EnumerationLiteralIndex=48
+    IK = "IK"
+    # Indonesian Tags: atp.EnumerationLiteralIndex=49
+    IN = "IN"
+    # Icelandic Tags: atp.EnumerationLiteralIndex=50
+    IS = "IS"
+    # Italian Tags: atp.EnumerationLiteralIndex=51
+    IT = "IT"
+    # Hebrew Tags: atp.EnumerationLiteralIndex=52
+    IW = "IW"
+    # Japanese Tags: atp.EnumerationLiteralIndex=53
+    JA = "JA"
+    # Yiddish Tags: atp.EnumerationLiteralIndex=54
+    JI = "JI"
+    # Javanese Tags: atp.EnumerationLiteralIndex=55
+    JW = "JW"
+    # Georgian Tags: atp.EnumerationLiteralIndex=56
+    KA = "KA"
+    # Kazakh Tags: atp.EnumerationLiteralIndex=57
+    KK = "KK"
+    # Greenlandic Tags: atp.EnumerationLiteralIndex=58
+    KL = "KL"
+    # Cambodian Tags: atp.EnumerationLiteralIndex=59
+    KM = "KM"
+    # Kannada Tags: atp.EnumerationLiteralIndex=60
+    KN = "KN"
+    # Korean Tags: atp.EnumerationLiteralIndex=61
+    KO = "KO"
+    # Kashmiri Tags: atp.EnumerationLiteralIndex=62
+    KS = "KS"
+    # Kurdish Tags: atp.EnumerationLiteralIndex=63
+    KU = "KU"
+    # Kirghiz Tags: atp.EnumerationLiteralIndex=64
+    KY = "KY"
+    # Latin Tags: atp.EnumerationLiteralIndex=65
+    LA = "LA"
+    # Lingala Tags: atp.EnumerationLiteralIndex=66
+    LN = "LN"
+    # Laothian Tags: atp.EnumerationLiteralIndex=67
+    LO = "LO"
+    # Lithuanian Tags: atp.EnumerationLiteralIndex=68
+    LT = "LT"
+    # Lavian, Lettish Tags: atp.EnumerationLiteralIndex=69
+    LV = "LV"
+    # Malagasy Tags: atp.EnumerationLiteralIndex=70
+    MG = "MG"
+    # Maori Tags: atp.EnumerationLiteralIndex=71
+    MI = "MI"
+    # Macedonian Tags: atp.EnumerationLiteralIndex=72
+    MK = "MK"
+    # Malayalam Tags: atp.EnumerationLiteralIndex=73
+    ML = "ML"
+    # Mongolian Tags: atp.EnumerationLiteralIndex=74
+    MN = "MN"
+    # Moldavian Tags: atp.EnumerationLiteralIndex=75
+    MO = "MO"
+    # Marathi Tags: atp.EnumerationLiteralIndex=76
+    MR = "MR"
+    # Malay Tags: atp.EnumerationLiteralIndex=77
+    MS = "MS"
+    # Maltese Tags: atp.EnumerationLiteralIndex=78
+    MT = "MT"
+    # Burmese Tags: atp.EnumerationLiteralIndex=79
+    MY = "MY"
+    # Nauru Tags: atp.EnumerationLiteralIndex=80
+    NA = "NA"
+    # Nepali Tags: atp.EnumerationLiteralIndex=81
+    NE = "NE"
+    # Dutch Tags: atp.EnumerationLiteralIndex=82
+    NL = "NL"
+    # Norwegian Tags: atp.EnumerationLiteralIndex=83
+    NO = "NO"
+    # Occitan Tags: atp.EnumerationLiteralIndex=84
+    OC = "OC"
+    # (Afan) Oromo Tags: atp.EnumerationLiteralIndex=85
+    OM = "OM"
+    # Oriya Tags: atp.EnumerationLiteralIndex=86
+    OR = "OR"
+    # Punjabi Tags: atp.EnumerationLiteralIndex=87
+    PA = "PA"
+    # Polish Tags: atp.EnumerationLiteralIndex=88
+    PL = "PL"
+    # Pashto, Pushto Tags: atp.EnumerationLiteralIndex=89
+    PS = "PS"
+    # Portuguese Tags: atp.EnumerationLiteralIndex=90
+    PT = "PT"
+    # Quechua Tags: atp.EnumerationLiteralIndex=91
+    QU = "QU"
+    # Rhaeto-Romance Tags: atp.EnumerationLiteralIndex=92
+    RM = "RM"
+    # Kirundi Tags: atp.EnumerationLiteralIndex=93
+    RN = "RN"
+    # Romanian Tags: atp.EnumerationLiteralIndex=94
+    RO = "RO"
+    # Russian Tags: atp.EnumerationLiteralIndex=95
+    RU = "RU"
+    # Kinyarwanda Tags: atp.EnumerationLiteralIndex=96
+    RW = "RW"
+    # Sanskrit Tags: atp.EnumerationLiteralIndex=97
+    SA = "SA"
+    # Sindhi Tags: atp.EnumerationLiteralIndex=98
+    SD = "SD"
+    # Sangro Tags: atp.EnumerationLiteralIndex=99
+    SG = "SG"
+    # Serbo-Croatian Tags: atp.EnumerationLiteralIndex=100
+    SH = "SH"
+    # Singhalese Tags: atp.EnumerationLiteralIndex=101
+    SI = "SI"
+    # Slovak Tags: atp.EnumerationLiteralIndex=102
+    SK = "SK"
+    # Slovenian Tags: atp.EnumerationLiteralIndex=103
+    SL = "SL"
+    # Samoan Tags: atp.EnumerationLiteralIndex=104
+    SM = "SM"
+    # Shona Tags: atp.EnumerationLiteralIndex=105
+    SN = "SN"
+    # Somali Tags: atp.EnumerationLiteralIndex=106
+    SO = "SO"
+    # Albanian Tags: atp.EnumerationLiteralIndex=107
+    SQ = "SQ"
+    # Serbian Tags: atp.EnumerationLiteralIndex=108
+    SR = "SR"
+    # Siswati Tags: atp.EnumerationLiteralIndex=109
+    SS = "SS"
+    # Sesotho Tags: atp.EnumerationLiteralIndex=110
+    ST = "ST"
+    # Sundanese Tags: atp.EnumerationLiteralIndex=111
+    SU = "SU"
+    # Swedish Tags: atp.EnumerationLiteralIndex=112
+    SV = "SV"
+    # Swahili Tags: atp.EnumerationLiteralIndex=113
+    SW = "SW"
+    # Tamil Tags: atp.EnumerationLiteralIndex=114
+    TA = "TA"
+    # Tegulu Tags: atp.EnumerationLiteralIndex=115
+    TE = "TE"
+    # Tajik Tags: atp.EnumerationLiteralIndex=116
+    TG = "TG"
+    # Thai Tags: atp.EnumerationLiteralIndex=117
+    TH = "TH"
+    # Tigrinya Tags: atp.EnumerationLiteralIndex=118
+    TI = "TI"
+    # Turkmen Tags: atp.EnumerationLiteralIndex=119
+    TK = "TK"
+    # Tagalog Tags: atp.EnumerationLiteralIndex=120
+    TL = "TL"
+    # Setswana Tags: atp.EnumerationLiteralIndex=121
+    TN = "TN"
+    # Tonga Tags: atp.EnumerationLiteralIndex=122
+    TO = "TO"
+    # Turkish Tags: atp.EnumerationLiteralIndex=123
+    TR = "TR"
+    # Tsonga Tags: atp.EnumerationLiteralIndex=124
+    TS = "TS"
+    # Tatar Tags: atp.EnumerationLiteralIndex=125
+    TT = "TT"
+    # Twi Tags: atp.EnumerationLiteralIndex=126
+    TW = "TW"
+    # Ukrainian Tags: atp.EnumerationLiteralIndex=127
+    UK = "UK"
+    # Urdu Tags: atp.EnumerationLiteralIndex=128
+    UR = "UR"
+    # Uzbek Tags: atp.EnumerationLiteralIndex=129
+    UZ = "UZ"
+    # Vietnamese Tags: atp.EnumerationLiteralIndex=130
+    VI = "VI"
+    # Volapuk Tags: atp.EnumerationLiteralIndex=131
+    VO = "VO"
+    # Wolof Tags: atp.EnumerationLiteralIndex=132
+    WO = "WO"
+    # Xhosa Tags: atp.EnumerationLiteralIndex=133
+    XH = "XH"
+    # Yoruba Tags: atp.EnumerationLiteralIndex=134
+    YO = "YO"
+    # Chinese Tags: atp.EnumerationLiteralIndex=135
+    ZH = "ZH"
+    # Zulu Tags: atp.EnumerationLiteralIndex=136
+    ZU = "ZU"
 
     def __init__(self):
         super().__init__(
@@ -149,6 +354,109 @@ class LEnum(AREnum):
                 LEnum.FJ,
                 LEnum.FO,
                 LEnum.FOR_ALL,
+                LEnum.FR,
+                LEnum.FY,
+                LEnum.GA,
+                LEnum.GD,
+                LEnum.GL,
+                LEnum.GN,
+                LEnum.GU,
+                LEnum.HA,
+                LEnum.HI,
+                LEnum.HR,
+                LEnum.HU,
+                LEnum.HY,
+                LEnum.IA,
+                LEnum.IE,
+                LEnum.IK,
+                LEnum.IN,
+                LEnum.IS,
+                LEnum.IT,
+                LEnum.IW,
+                LEnum.JA,
+                LEnum.JI,
+                LEnum.JW,
+                LEnum.KA,
+                LEnum.KK,
+                LEnum.KL,
+                LEnum.KM,
+                LEnum.KN,
+                LEnum.KO,
+                LEnum.KS,
+                LEnum.KU,
+                LEnum.KY,
+                LEnum.LA,
+                LEnum.LN,
+                LEnum.LO,
+                LEnum.LT,
+                LEnum.LV,
+                LEnum.MG,
+                LEnum.MI,
+                LEnum.MK,
+                LEnum.ML,
+                LEnum.MN,
+                LEnum.MO,
+                LEnum.MR,
+                LEnum.MS,
+                LEnum.MT,
+                LEnum.MY,
+                LEnum.NA,
+                LEnum.NE,
+                LEnum.NL,
+                LEnum.NO,
+                LEnum.OC,
+                LEnum.OM,
+                LEnum.OR,
+                LEnum.PA,
+                LEnum.PL,
+                LEnum.PS,
+                LEnum.PT,
+                LEnum.QU,
+                LEnum.RM,
+                LEnum.RN,
+                LEnum.RO,
+                LEnum.RU,
+                LEnum.RW,
+                LEnum.SA,
+                LEnum.SD,
+                LEnum.SG,
+                LEnum.SH,
+                LEnum.SI,
+                LEnum.SK,
+                LEnum.SL,
+                LEnum.SM,
+                LEnum.SN,
+                LEnum.SO,
+                LEnum.SQ,
+                LEnum.SR,
+                LEnum.SS,
+                LEnum.ST,
+                LEnum.SU,
+                LEnum.SV,
+                LEnum.SW,
+                LEnum.TA,
+                LEnum.TE,
+                LEnum.TG,
+                LEnum.TH,
+                LEnum.TI,
+                LEnum.TK,
+                LEnum.TL,
+                LEnum.TN,
+                LEnum.TO,
+                LEnum.TR,
+                LEnum.TS,
+                LEnum.TT,
+                LEnum.TW,
+                LEnum.UK,
+                LEnum.UR,
+                LEnum.UZ,
+                LEnum.VI,
+                LEnum.VO,
+                LEnum.WO,
+                LEnum.XH,
+                LEnum.YO,
+                LEnum.ZH,
+                LEnum.ZU,
             )
         )
 
