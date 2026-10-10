@@ -3,8 +3,6 @@ Tests for the ModelRestrictionTypes module (FullBindingTimeEnum,
 AbstractValueRestriction, AbstractVariationRestriction).
 """
 
-from typing import List
-
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ModelRestrictionTypes import (
     AbstractValueRestriction,
     AbstractVariationRestriction,
@@ -105,7 +103,6 @@ class TestAbstractVariationRestriction:
         class _Derived(AbstractVariationRestriction):
             def __init__(self):
                 super().__init__()
-                self.validBindingTimes: List[FullBindingTimeEnum] = []
 
         obj = _Derived()
         assert obj.variation is None
@@ -115,7 +112,6 @@ class TestAbstractVariationRestriction:
         class _Derived(AbstractVariationRestriction):
             def __init__(self):
                 super().__init__()
-                self.validBindingTimes: List[FullBindingTimeEnum] = []
 
         obj = _Derived()
         assert obj.getVariation() is None

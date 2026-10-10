@@ -10,7 +10,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ModelRestrictionTypes import (
     AbstractValueRestriction,
     AbstractVariationRestriction,
-    FullBindingTimeEnum,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
@@ -235,9 +234,6 @@ class SdgPrimitiveAttributeWithVariation(SdgAbstractPrimitiveAttribute, Abstract
     def __init__(self, parent, short_name: str):
         super().__init__(parent, short_name)
 
-        # List of valid binding times. Tags: xml.sequenceOffset=20
-        self.validBindingTimes: List[FullBindingTimeEnum] = []
-
 
 class SdgAggregationWithVariation(SdgElementWithGid, SdgAttribute, AbstractVariationRestriction):
     """
@@ -253,9 +249,6 @@ class SdgAggregationWithVariation(SdgElementWithGid, SdgAttribute, AbstractVaria
 
     def __init__(self, parent, short_name: str):
         super().__init__(parent, short_name)
-
-        # List of valid binding times. Tags: xml.sequenceOffset=20
-        self.validBindingTimes: List[FullBindingTimeEnum] = []
 
         # Supported sub Sdg Class
         self.subSdgRef: Optional[RefType] = None
@@ -397,9 +390,6 @@ class SdgForeignReferenceWithVariation(SdgAbstractForeignReference, AbstractVari
 
     def __init__(self, parent, short_name: str):
         super().__init__(parent, short_name)
-
-        # List of valid binding times. Tags: xml.sequenceOffset=20
-        self.validBindingTimes: List[FullBindingTimeEnum] = []
 
 
 class SdgDef(ARElement):
