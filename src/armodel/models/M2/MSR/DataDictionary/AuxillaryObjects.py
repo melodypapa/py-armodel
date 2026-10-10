@@ -84,17 +84,16 @@ class SwAddrMethod(AtpBlueprintable):
 
     # SwAddrMethod method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.92, p.414
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getMemoryAllocationKeywordPolicy [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMemoryAllocationKeywordPolicy [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getOptions                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addOption                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSectionInitializationPolicy [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSectionInitializationPolicy [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSectionType               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSectionType               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getMemoryAllocationKeywordPolicy [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMemoryAllocationKeywordPolicy [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOptions                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addOption                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSectionInitializationPolicy [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSectionInitializationPolicy [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSectionType               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSectionType               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
