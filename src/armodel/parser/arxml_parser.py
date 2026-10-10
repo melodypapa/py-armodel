@@ -9495,6 +9495,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readPredefinedChapter(self, element: ET.Element) -> PredefinedChapter:
         predefined = PredefinedChapter()
+        self.readARObject(element, predefined)
         chapter_model_element = self.find(element, "CHAPTER-MODEL")
         if chapter_model_element is not None:
             predefined.setChapterModel(self.readChapterModel(chapter_model_element, cast(Chapter, None)))

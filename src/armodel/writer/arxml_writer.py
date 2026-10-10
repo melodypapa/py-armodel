@@ -4053,6 +4053,7 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writePredefinedChapter(self, element: ET.Element, predefined: Optional[PredefinedChapter]):
         if predefined is not None:
+            self.writeARObject(element, predefined)
             chapter_model = predefined.getChapterModel()
             if chapter_model is not None:
                 self.writeChapterModel(element, chapter_model)
