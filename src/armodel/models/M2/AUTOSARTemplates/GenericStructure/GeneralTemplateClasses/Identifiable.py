@@ -2984,8 +2984,9 @@ class BinaryManifestItemDefinition(Identifiable):
     # getAuxiliaryFieldDefinitions per the Referrable-aggregation shape (createAuxiliaryField
     # precedent). The readBinaryManifestItemDefinition / writeBinaryManifestItemDefinition helpers
     # are wired for the AUXILIARY-FIELD-DEFINITIONS self-recursion; the aggregator dispatch
-    # (BinaryManifestResourceDefinition.itemDefinition, Table 11.21) is pending —
-    # BinaryManifestResourceDefinition is an unsynced later-wave stub to be wired by its own sync.
+    # (BinaryManifestResourceDefinition.itemDefinition, Table 11.21) is owned by the synced
+    # readBinaryManifestResourceDefinition / writeBinaryManifestResourceDefinition pair, whose
+    # ITEM-DEFINITIONS wrapper feeds the items through them.
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -3389,7 +3390,55 @@ class BinaryManifestResource(Identifiable, ABC):
 
 
 class BinaryManifestResourceDefinition(Identifiable):
-    pass
+    """
+    This meta-class represents the ability to specify a resource definition that provides information that can be shared by all resources that refer to the respective resource definition.
+    """
+
+    # BinaryManifestResourceDefinition method parity checklist:
+    # Spec: R23-11/AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 11.21, p.917 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createItemDefinition  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getItemDefinitions    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    #
+    # The spec Base row and the XSD complexType BINARY-MANIFEST-RESOURCE-DEFINITION
+    # (AUTOSAR_00052.xsd l.8968, which chains the AR-OBJECT, REFERRABLE, MULTILANGUAGE-REFERRABLE
+    # and IDENTIFIABLE groups before BINARY-MANIFEST-RESOURCE-DEFINITION — no complexContent
+    # extension) make Identifiable the most-derived base (Rule 0001.2). The XSD group
+    # (AUTOSAR_00052.xsd l.8947) wraps the unbounded BINARY-MANIFEST-ITEM-DEFINITION aggregation
+    # (pureMM.isOrdered="true") in the ITEM-DEFINITIONS element, which is read whenever present and
+    # written only when non-empty. The markdown table Type cell wraps the member type mid-token
+    # ("BinaryManifestItem Definition"); the docstrings use the continuous form confirmed by the
+    # XSD element (l.8961). The itemDefinition attribute (kind aggr, mult *, ordered) is modeled as
+    # itemDefinitions with createItemDefinition / getItemDefinitions per the
+    # BinaryManifestItemDefinition.auxiliaryFieldDefinitions shape (Referrable-aggregation). The
+    # readBinaryManifestResourceDefinition / writeBinaryManifestResourceDefinition helpers dispatch
+    # the ITEM-DEFINITIONS items through the synced readBinaryManifestItemDefinition /
+    # writeBinaryManifestItemDefinition pair; the spec Aggregated-by row names
+    # CpSoftwareClusterBinaryManifestDescriptor.resourceDefinition (XSD RESOURCE-DEFINITIONS,
+    # AUTOSAR_00052.xsd l.24198), an unsynced stub whose call-site dispatch lands with its own sync.
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This aggregation specifies the collection of handle definitions in the context of the enclosing binary manifest resource definitions.
+        self.itemDefinitions: List[BinaryManifestItemDefinition] = []
+
+    def createItemDefinition(self, short_name: str) -> BinaryManifestItemDefinition:
+        """
+        This aggregation specifies the collection of handle definitions in the context of the enclosing binary manifest resource definitions.
+        """
+        if not self.IsReferrableElementExists(short_name, BinaryManifestItemDefinition):
+            item_definition = BinaryManifestItemDefinition(self, short_name)
+            self.addReferrableElement(item_definition)
+            self.itemDefinitions.append(item_definition)
+        return cast(BinaryManifestItemDefinition, self.getReferrableElement(short_name, BinaryManifestItemDefinition))
+
+    def getItemDefinitions(self) -> List[BinaryManifestItemDefinition]:
+        """
+        This aggregation specifies the collection of handle definitions in the context of the enclosing binary manifest resource definitions.
+        """
+        return self.itemDefinitions
 
 
 class CpSoftwareClusterToResourceMapping(Identifiable):

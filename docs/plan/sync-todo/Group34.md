@@ -857,14 +857,20 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `BinaryManifestResourceDefinition` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 11.21, p.917
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+  - Step 1 finding: single member `itemDefinition` (aggr, `*`, ordered) → BinaryManifestItemDefinition, modeled as
+    `itemDefinitions` + `createItemDefinition`/`getItemDefinitions` (Referrable-aggregation shape); base stays
+    Identifiable — the XSD complexType (l.8968) chains the IDENTIFIABLE group with no complexContent extension.
+    The XSD aggregator is CpSoftwareClusterBinaryManifestDescriptor (RESOURCE-DEFINITIONS, l.24198) — not
+    BinaryManifestResource; that aggregator is an unsynced stub, so the class's own read/write helpers own the
+    ITEM-DEFINITIONS dispatch into the synced BinaryManifestItemDefinition pair. No deviations.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
 - [ ] `BinaryManifestItem` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 11.22, p.919

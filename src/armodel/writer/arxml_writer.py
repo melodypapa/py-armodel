@@ -663,6 +663,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     FMFeatureSelection,
     BinaryManifestMetaDataField,
     BinaryManifestResource,
+    BinaryManifestResourceDefinition,
     CpSoftwareClusterCommunicationResource,
     CpSoftwareClusterResource,
     CpSoftwareClusterServiceResource,
@@ -15232,8 +15233,9 @@ class ARXMLWriter(AbstractARXMLWriter):
         # AUXILIARY-FIELD-DEFINITIONS, IS-OPTIONAL, SIZE after the Identifiable level;
         # AUXILIARY-FIELD-DEFINITIONS wraps the unbounded BINARY-MANIFEST-ITEM-DEFINITION
         # self-aggregation and the wrapper is written only when non-empty. The aggregator dispatch
-        # (BinaryManifestResourceDefinition.itemDefinition, Table 11.21) is pending —
-        # BinaryManifestResourceDefinition is an unsynced later-wave stub.
+        # (BinaryManifestResourceDefinition.itemDefinition, Table 11.21) is owned by
+        # writeBinaryManifestResourceDefinition, which emits the ITEM-DEFINITIONS wrapper and
+        # feeds the items through this helper.
         self.writeIdentifiable(element, item_definition)
         auxiliary_field_definitions = item_definition.getAuxiliaryFieldDefinitions()
         if len(auxiliary_field_definitions) > 0:
@@ -15242,6 +15244,23 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.writeBinaryManifestItemDefinition(ET.SubElement(auxiliary_field_definitions_element, "BINARY-MANIFEST-ITEM-DEFINITION"), auxiliary_field_definition)
         self.setChildElementOptionalBooleanValue(element, "IS-OPTIONAL", item_definition.getIsOptional())
         self.setChildElementOptionalPositiveInteger(element, "SIZE", cast(Integer, item_definition.getSize()))
+
+    def writeBinaryManifestResourceDefinition(self, element: ET.Element, resource_definition: BinaryManifestResourceDefinition):
+        # Populates the BINARY-MANIFEST-RESOURCE-DEFINITION element created by the caller; the XSD
+        # BINARY-MANIFEST-RESOURCE-DEFINITION group (AUTOSAR_00052.xsd l.8947) wraps the unbounded
+        # BINARY-MANIFEST-ITEM-DEFINITION aggregation (pureMM.isOrdered="true") in the
+        # ITEM-DEFINITIONS element; the wrapper is written only when non-empty and the items are
+        # dispatched through writeBinaryManifestItemDefinition (the aggregator side of the
+        # BinaryManifestResourceDefinition.itemDefinition aggregation, Table 11.21). The spec
+        # Aggregated-by row names CpSoftwareClusterBinaryManifestDescriptor.resourceDefinition
+        # (XSD RESOURCE-DEFINITIONS, AUTOSAR_00052.xsd l.24198), an unsynced stub — its call-site
+        # dispatch lands with that class's own sync.
+        self.writeIdentifiable(element, resource_definition)
+        item_definitions = resource_definition.getItemDefinitions()
+        if len(item_definitions) > 0:
+            item_definitions_element = ET.SubElement(element, "ITEM-DEFINITIONS")
+            for item_definition in item_definitions:
+                self.writeBinaryManifestItemDefinition(ET.SubElement(item_definitions_element, "BINARY-MANIFEST-ITEM-DEFINITION"), item_definition)
 
     def setGlobalTimeProps(self, element: ET.Element, key: str, props: Optional[GlobalTimeCouplingPortProps]):
         if props is not None:

@@ -827,6 +827,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     FMFeatureSelection,
     BinaryManifestMetaDataField,
     BinaryManifestResource,
+    BinaryManifestResourceDefinition,
     CpSoftwareClusterCommunicationResource,
     CpSoftwareClusterResource,
     CpSoftwareClusterServiceResource,
@@ -17742,7 +17743,8 @@ class ARXMLParser(AbstractARXMLParser):
         # AUXILIARY-FIELD-DEFINITIONS, IS-OPTIONAL, SIZE after the Identifiable level;
         # AUXILIARY-FIELD-DEFINITIONS wraps the unbounded BINARY-MANIFEST-ITEM-DEFINITION
         # self-aggregation. The aggregator dispatch (BinaryManifestResourceDefinition.itemDefinition,
-        # Table 11.21) is pending — BinaryManifestResourceDefinition is an unsynced later-wave stub.
+        # Table 11.21) is owned by readBinaryManifestResourceDefinition, whose ITEM-DEFINITIONS
+        # wrapper feeds the items through this helper.
         self.readIdentifiable(element, item_definition)
         for auxiliary_field_definition_element in self.findall(element, "AUXILIARY-FIELD-DEFINITIONS/BINARY-MANIFEST-ITEM-DEFINITION"):
             auxiliary_field_definition = item_definition.createAuxiliaryFieldDefinition(self.getShortName(auxiliary_field_definition_element))
@@ -17750,6 +17752,21 @@ class ARXMLParser(AbstractARXMLParser):
         item_definition.setIsOptional(self.getChildElementOptionalBooleanValue(element, "IS-OPTIONAL"))
         item_definition.setSize(self.getChildElementOptionalPositiveInteger(element, "SIZE"))
         return item_definition
+
+    def readBinaryManifestResourceDefinition(self, element: ET.Element, resource_definition: BinaryManifestResourceDefinition) -> BinaryManifestResourceDefinition:
+        # The XSD BINARY-MANIFEST-RESOURCE-DEFINITION group (AUTOSAR_00052.xsd l.8947) wraps the
+        # unbounded BINARY-MANIFEST-ITEM-DEFINITION aggregation (pureMM.isOrdered="true") in the
+        # ITEM-DEFINITIONS element; the wrapper is read whenever present and the items are
+        # dispatched through readBinaryManifestItemDefinition (the aggregator side of the
+        # BinaryManifestResourceDefinition.itemDefinition aggregation, Table 11.21). The spec
+        # Aggregated-by row names CpSoftwareClusterBinaryManifestDescriptor.resourceDefinition
+        # (XSD RESOURCE-DEFINITIONS, AUTOSAR_00052.xsd l.24198), an unsynced stub — its call-site
+        # dispatch lands with that class's own sync.
+        self.readIdentifiable(element, resource_definition)
+        for item_definition_element in self.findall(element, "ITEM-DEFINITIONS/BINARY-MANIFEST-ITEM-DEFINITION"):
+            item_definition = resource_definition.createItemDefinition(self.getShortName(item_definition_element))
+            self.readBinaryManifestItemDefinition(item_definition_element, item_definition)
+        return resource_definition
 
     def getGlobalTimeProps(self, element: ET.Element, key: str) -> Optional[GlobalTimeCouplingPortProps]:
         props = None
