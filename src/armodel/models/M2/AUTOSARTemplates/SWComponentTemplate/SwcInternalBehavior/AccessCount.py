@@ -138,11 +138,10 @@ class AccessCountSet(ARObject, VariationPointCapable):
 
     # AccessCountSet method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 4.22, p.57
-    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getAccessCounts             [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
     # [x] addAccessCount              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getAccessCounts             [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
     # [x] getCountProfile             [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
     # [x] setCountProfile             [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
 
