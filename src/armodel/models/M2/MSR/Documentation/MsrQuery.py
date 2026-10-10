@@ -18,38 +18,31 @@ class MsrQueryArg(ARObject):
 
     # MsrQueryArg method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.86, p.344
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getArg       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setArg       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSi        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSi        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getArg       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setArg       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSi        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSi        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        # This is the value of the argument.
+        # This is the value of the argument. Tags: xml.roleElement=false xml.roleWrapperElement=false xml.typeElement=false xml.typeWrapperElement=false
         self.arg: Optional[String] = None
 
-        # This denotes the name of the query argument (semantic information)
+        # This denotes the name of the query argument (semantic information) Tags: xml.attribute=true
         self.si: Optional[NameToken] = None
 
     def getArg(self) -> Optional[String]:
         """
-        This is the value of the argument.
-
-        Returns:
-            The value of the argument
+        This is the value of the argument. Tags: xml.roleElement=false xml.roleWrapperElement=false xml.typeElement=false xml.typeWrapperElement=false
         """
         return self.arg
 
     def setArg(self, value: Optional[String]) -> MsrQueryArg:
         """
-        This is the value of the argument. A None value is a no-op and does not overwrite an existing arg.
-
-        Returns:
-            self for method chaining
+        This is the value of the argument. Tags: xml.roleElement=false xml.roleWrapperElement=false xml.typeElement=false xml.typeWrapperElement=false. A None value is a no-op and does not overwrite an existing arg.
         """
         if value is not None:
             self.arg = value
@@ -57,19 +50,13 @@ class MsrQueryArg(ARObject):
 
     def getSi(self) -> Optional[NameToken]:
         """
-        This denotes the name of the query argument (semantic information)
-
-        Returns:
-            The name of the query argument
+        This denotes the name of the query argument (semantic information) Tags: xml.attribute=true
         """
         return self.si
 
     def setSi(self, value: Optional[NameToken]) -> MsrQueryArg:
         """
-        This denotes the name of the query argument (semantic information). A None value is a no-op and does not overwrite an existing si.
-
-        Returns:
-            self for method chaining
+        This denotes the name of the query argument (semantic information) Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing si.
         """
         if value is not None:
             self.si = value
