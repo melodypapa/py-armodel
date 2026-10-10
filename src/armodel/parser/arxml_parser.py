@@ -858,6 +858,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ShortNameFragment,
     SingleLanguageReferrable,
     PortElementToCommunicationResourceMapping,
+    CpSoftwareClusterToResourceMapping,
     AbstractClassTailoring,
     SdgTailoring,
     UserDefinedGlobalTimeMaster,
@@ -20115,6 +20116,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readSystemMappingRteEventToOsTaskProxyMappings(element, mapping)
         self.readSystemMappingSignalPathConstraints(element, mapping)
         self.readSystemMappingSoftwareClusterToApplicationPartitionMappings(element, mapping)
+        self.readSystemMappingSoftwareClusterToResourceMappings(element, mapping)
         self.readSystemMappingSwClusterMappings(element, mapping)
         self.readSystemMappingSwImplMappings(element, mapping)
         self.readSystemMappingSwMappings(element, mapping)
@@ -20272,6 +20274,12 @@ class ARXMLParser(AbstractARXMLParser):
             self.readCpSoftwareClusterToApplicationPartitionMapping(child_element, sc_mapping)
             mapping.addSoftwareClusterToApplicationPartitionMapping(sc_mapping)
 
+    def readSystemMappingSoftwareClusterToResourceMappings(self, element: ET.Element, mapping: SystemMapping):
+        for child_element in self.findall(element, "SOFTWARE-CLUSTER-TO-RESOURCE-MAPPINGS/CP-SOFTWARE-CLUSTER-TO-RESOURCE-MAPPING"):
+            scr_mapping = CpSoftwareClusterToResourceMapping(mapping, self.getShortName(child_element))
+            self.readCpSoftwareClusterToResourceMapping(child_element, scr_mapping)
+            mapping.addSoftwareClusterToResourceMapping(scr_mapping)
+
     def readSystemSignalToCommunicationResourceMapping(self, element: ET.Element, mapping: SystemSignalToCommunicationResourceMapping):
         self.readIdentifiable(element, mapping)
         mapping.setSoftwareClusterComResourceRef(self.getChildElementOptionalRefType(element, "SOFTWARE-CLUSTER-COM-RESOURCE-REF"))
@@ -20294,6 +20302,14 @@ class ARXMLParser(AbstractARXMLParser):
             self.readSystemSignalGroupToCommunicationResourceMapping(child_element, group_mapping)
             mapping.addSystemSignalGroupToComResourceMapping(group_mapping)
 
+    def readCpSoftwareClusterToResourceMapping(self, element: ET.Element, mapping: CpSoftwareClusterToResourceMapping) -> CpSoftwareClusterToResourceMapping:
+        self.readIdentifiable(element, mapping)
+        mapping.setProviderRef(self.getChildElementOptionalRefType(element, "PROVIDER-REF"))
+        for ref in self.getChildElementRefTypeList(element, "REQUESTER-REFS/REQUESTER-REF"):
+            mapping.addRequesterRef(ref)
+        mapping.setServiceResourceRef(self.getChildElementOptionalRefType(element, "SERVICE-RESOURCE-REF"))
+        return mapping
+
     def readCpSoftwareClusterMappingSet(self, element: ET.Element, mapping_set: CpSoftwareClusterMappingSet):
         self.readARElement(element, mapping_set)
         for child_element in self.findall(element, "PORT-ELEMENT-TO-COM-RESOURCE-MAPPINGS/PORT-ELEMENT-TO-COMMUNICATION-RESOURCE-MAPPING"):
@@ -20308,7 +20324,7 @@ class ARXMLParser(AbstractARXMLParser):
             self.readCpSoftwareClusterToApplicationPartitionMapping(sc_mapping_element, sc_mapping)
         for child_element in self.findall(element, "SOFTWARE-CLUSTER-TO-RESOURCE-MAPPINGS/CP-SOFTWARE-CLUSTER-TO-RESOURCE-MAPPING"):
             scr_mapping = mapping_set.createSoftwareClusterToResourceMapping(self.getShortName(child_element))
-            self.readIdentifiable(child_element, scr_mapping)
+            self.readCpSoftwareClusterToResourceMapping(child_element, scr_mapping)
         for child_element in self.findall(element, "SWC-TO-APPLICATION-PARTITION-MAPPINGS/SWC-TO-APPLICATION-PARTITION-MAPPING"):
             swc_mapping = mapping_set.createSwcToApplicationPartitionMapping(self.getShortName(child_element))
             self.readSwcToApplicationPartitionMapping(child_element, swc_mapping)

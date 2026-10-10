@@ -790,14 +790,21 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `CpSoftwareClusterToResourceMapping` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 11.16, p.907
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+  - [x] Step 1 — Sync members & description from spec
+  - Note: markdown Table 11.16 recovered (l.23462): 3 attributes, all kind ref — provider (CpSoftwareCluster, 0..1), requester (CpSoftwareCluster, *), serviceResource (CpSoftwareClusterServiceResource, 0..1); Base row ARObject/Identifiable/MultilanguageReferrable/Referrable → Identifiable. XSD group AUTOSAR_00052.xsd l.24782 matches 1:1 (PROVIDER-REF, REQUESTER-REFS wrapper over unbounded REQUESTER-REF choice, SERVICE-RESOURCE-REF). Page p.907 per Group34 queue row. ref-kind members named with the Ref/Refs suffix per Rule 0001.5 (requester * → requesterRefs). Member type CpSoftwareClusterServiceResource already synced (Table 11.14); CpSoftwareCluster is the DEST-constrained ref target. XSD VARIATION-POINT (l.24834) not modeled: absent from the Table 11.16 attribute rows (PDF wins, Rule 0015).
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - Note: REF-kind members modeled as RefType (sibling softwareClusterRef/communicationResourceRef precedents — the concrete spec types travel in the DEST attribute); all annotations runtime-resolvable (no TYPE_CHECKING strings needed).
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - Note: the pre-sync stub was `pass` (no docstrings existed to wipe); class + 6 accessor docstrings + 3 inline __init__ comments written verbatim from the Table 11.16 Note column.
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - Note: reader tests (full three-member XML with REQUESTER-REFS wrapper + empty element) and writer tests (XSD-order tag assertion, empty element, round-trips through both parent dispatches CpSoftwareClusterMappingSet and SystemMapping, empty-wrapper case) confirmed Red: 7 failures, AttributeError for missing read/writeCpSoftwareClusterToResourceMapping.
+  - [x] Step 6 — Update parser & writer (Green)
+  - Note: parser gains readCpSoftwareClusterToResourceMapping (readIdentifiable base call per Rule 0025, three attributes in XSD group order, returns the populated instance) plus the readSystemMappingSoftwareClusterToResourceMappings dispatch helper wired into readSystemMapping (alphabetical position); the readCpSoftwareClusterMappingSet dispatch rewired from readIdentifiable to the new reader. Writer mirrors this with writeCpSoftwareClusterToResourceMapping (writeIdentifiable base call, caller-created element, REQUESTER-REFS wrapper emitted only when non-empty) plus writeSystemMappingSoftwareClusterToResourceMappings wired into writeSystemMapping; both dispatch sites rewired. Round-trip test serialization uses the test_system_mapping.py pattern (xmlns injected on PARENT via replace, root[0] re-parsed).
+  - [x] Step 7 — Update checklist comment
+  - Note: 7-row checklist contiguous above __init__ in Identifiable.py, all rows [x], citation `# Spec: R23-11/AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 11.16, p.907 (R23-11)`; NO `# Spec verified:` marker per deferred-stamp instruction. audit_class.py PASS (missing-marker INFO + the single-corpus SPECLINE WARN shared with sibling Table 11.15).
+  - [x] Step 8 — Deviations
+  - Note: (1) requester (kind ref, mult *) named requesterRefs with the REQUESTER-REFS wrapper emitted only when non-empty, per the ref-kind naming rule and the resourceNeedsRefs sibling precedent; (2) XSD VARIATION-POINT (AUTOSAR_00052.xsd l.24834) not modeled — absent from the Table 11.16 attribute rows (PDF wins, Rule 0015), same disposition as sibling Table 11.15; (3) REF-kind members modeled as RefType (spec types CpSoftwareCluster / CpSoftwareClusterServiceResource travel in the DEST attribute) — established codebase convention for ref rows, not a deviation.
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
 - [ ] `CpSoftwareClusterBinaryManifestDescriptor` — ARElement — R23-11 CP_TPS_SystemTemplate Table 11.17, p.913

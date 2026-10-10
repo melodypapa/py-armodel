@@ -3187,7 +3187,90 @@ class BinaryManifestResourceDefinition(Identifiable):
 
 
 class CpSoftwareClusterToResourceMapping(Identifiable):
-    pass
+    """
+    This meta class maps a service resource to CP Software Clusters. By this mapping it's specified whether the Software Cluster has to provide or to require the resource.
+    """
+
+    # CpSoftwareClusterToResourceMapping method parity checklist:
+    # Spec: R23-11/AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 11.16, p.907 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getProviderRef         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setProviderRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addRequesterRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRequesterRefs       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getServiceResourceRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setServiceResourceRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # The Table 11.16 attribute requester (kind ref, mult *) is modeled as requesterRefs
+    # per the ref-kind naming rule (sibling resourceNeeds -> resourceNeedsRefs); the XSD
+    # group (AUTOSAR_00052.xsd l.24782) wraps the unbounded REQUESTER-REF choice in a 0..1
+    # REQUESTER-REFS wrapper, emitted only when non-empty. The XSD group additionally
+    # carries a VARIATION-POINT element (l.24834) with no Table 11.16 attribute row — not
+    # modeled (the PDF/markdown table wins, Rule 0015). The spec attribute types
+    # CpSoftwareCluster / CpSoftwareClusterServiceResource travel in the DEST attribute;
+    # the REF-kind members are modeled as RefType like every sibling mapping
+    # (softwareClusterRef, communicationResourceRef precedents).
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # CP Software Cluster providing the resource
+        self.providerRef: Optional[RefType] = None
+
+        # CP Software Cluster requesting the resource
+        self.requesterRefs: List[RefType] = []
+
+        # Service resource for which the mapping applies.
+        self.serviceResourceRef: Optional[RefType] = None
+
+    def getProviderRef(self) -> Optional[RefType]:
+        """
+        CP Software Cluster providing the resource
+        """
+        return self.providerRef
+
+    def setProviderRef(self, value: Optional[RefType]) -> CpSoftwareClusterToResourceMapping:
+        """
+        CP Software Cluster providing the resource
+
+        A None value is a no-op and does not overwrite an existing providerRef.
+        """
+        if value is not None:
+            self.providerRef = value
+        return self
+
+    def addRequesterRef(self, value: Optional[RefType]) -> CpSoftwareClusterToResourceMapping:
+        """
+        CP Software Cluster requesting the resource
+
+        A None value is a no-op and does not add to requesterRefs.
+        """
+        if value is not None:
+            self.requesterRefs.append(value)
+        return self
+
+    def getRequesterRefs(self) -> List[RefType]:
+        """
+        CP Software Cluster requesting the resource
+        """
+        return self.requesterRefs
+
+    def getServiceResourceRef(self) -> Optional[RefType]:
+        """
+        Service resource for which the mapping applies.
+        """
+        return self.serviceResourceRef
+
+    def setServiceResourceRef(self, value: Optional[RefType]) -> CpSoftwareClusterToResourceMapping:
+        """
+        Service resource for which the mapping applies.
+
+        A None value is a no-op and does not overwrite an existing serviceResourceRef.
+        """
+        if value is not None:
+            self.serviceResourceRef = value
+        return self
 
 
 class DdsCpDomain(Identifiable):

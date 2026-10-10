@@ -16747,6 +16747,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeSystemMappingRteEventToOsTaskProxyMappings(child_element, mapping)
         self.writeSystemMappingSignalPathConstraints(child_element, mapping)
         self.writeSystemMappingSoftwareClusterToApplicationPartitionMappings(child_element, mapping)
+        self.writeSystemMappingSoftwareClusterToResourceMappings(child_element, mapping)
         self.writeSystemMappingSwClusterMappings(child_element, mapping)
         self.writeSystemMappingSwImplMappings(child_element, mapping)
         self.writeSystemMappingSwMappings(child_element, mapping)
@@ -16959,6 +16960,17 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     self.notImplemented("Unsupported SoftwareClusterToApplicationPartitionMapping %s" % type(sc_mapping))
 
+    def writeSystemMappingSoftwareClusterToResourceMappings(self, element: ET.Element, mapping: SystemMapping):
+        mappings = mapping.getSoftwareClusterToResourceMappings()
+        if len(mappings) > 0:
+            mappings_tag = ET.SubElement(element, "SOFTWARE-CLUSTER-TO-RESOURCE-MAPPINGS")
+            for scr_mapping in mappings:
+                if isinstance(scr_mapping, CpSoftwareClusterToResourceMapping):
+                    child_element = ET.SubElement(mappings_tag, "CP-SOFTWARE-CLUSTER-TO-RESOURCE-MAPPING")
+                    self.writeCpSoftwareClusterToResourceMapping(child_element, scr_mapping)
+                else:
+                    self.notImplemented("Unsupported SoftwareClusterToResourceMapping %s" % type(scr_mapping))
+
     def writeSystemSignalToCommunicationResourceMapping(self, element: ET.Element, mapping: SystemSignalToCommunicationResourceMapping):
         child_element = ET.SubElement(element, "SYSTEM-SIGNAL-TO-COMMUNICATION-RESOURCE-MAPPING")
         self.writeIdentifiable(child_element, mapping)
@@ -16991,6 +17003,16 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     self.notImplemented("Unsupported SystemSignalGroupToComResourceMapping %s" % type(group_mapping))
 
+    def writeCpSoftwareClusterToResourceMapping(self, element: ET.Element, mapping: CpSoftwareClusterToResourceMapping):
+        self.writeIdentifiable(element, mapping)
+        self.setChildElementOptionalRefType(element, "PROVIDER-REF", mapping.getProviderRef())
+        refs = mapping.getRequesterRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(element, "REQUESTER-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "REQUESTER-REF", ref)
+        self.setChildElementOptionalRefType(element, "SERVICE-RESOURCE-REF", mapping.getServiceResourceRef())
+
     def writeCpSoftwareClusterMappingSet(self, element: ET.Element, mapping_set: CpSoftwareClusterMappingSet):
         child_element = ET.SubElement(element, "CP-SOFTWARE-CLUSTER-MAPPING-SET")
         self.writeARElement(child_element, mapping_set)
@@ -17020,7 +17042,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             for scr_mapping in scr_mappings:
                 if isinstance(scr_mapping, CpSoftwareClusterToResourceMapping):
                     scr_element = ET.SubElement(mappings_tag, "CP-SOFTWARE-CLUSTER-TO-RESOURCE-MAPPING")
-                    self.writeIdentifiable(scr_element, scr_mapping)
+                    self.writeCpSoftwareClusterToResourceMapping(scr_element, scr_mapping)
                 else:
                     self.notImplemented("Unsupported SoftwareClusterToResourceMapping %s" % type(scr_mapping))
         swc_mappings = mapping_set.getSwcToApplicationPartitionMappings()
