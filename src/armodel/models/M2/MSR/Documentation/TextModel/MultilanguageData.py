@@ -149,16 +149,15 @@ class MultilanguageLongName(ARObject):
 
 class MultiLanguagePlainText(ARObject):
     """
-    This is a multilingual plaint Text. It is intended to be rendered as a paragraph.
+    This is a multilingual plaint Text.It is intended to be rendered as a paragraph.
     """
 
     # MultiLanguagePlainText method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.95, p.349
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] addL10       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getL10s      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addL10       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getL10s      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -166,25 +165,19 @@ class MultiLanguagePlainText(ARObject):
         # This is the plain text in one particular language. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
         self.l10s: List[LPlainText] = []
 
-    def getL10s(self) -> List[LPlainText]:
-        """
-        This is the plain text in one particular language. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
-
-        Returns:
-            The plain texts in particular languages
-        """
-        return self.l10s
-
     def addL10(self, value: Optional[LPlainText]) -> MultiLanguagePlainText:
         """
         This is the plain text in one particular language. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false. A None value is a no-op and is not appended.
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.l10s.append(value)
         return self
+
+    def getL10s(self) -> List[LPlainText]:
+        """
+        This is the plain text in one particular language. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
+        """
+        return self.l10s
 
 
 class MultiLanguageVerbatim(Paginateable, VariationPointCapable):
