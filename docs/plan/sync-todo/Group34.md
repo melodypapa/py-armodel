@@ -869,14 +869,15 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `BinaryManifestItem` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 11.22, p.919
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+  - Step 1 finding: spec Base row and the XSD complexType BINARY-MANIFEST-ITEM (AUTOSAR_00052.xsd l.8629, group l.8574) make `BinaryManifestAddressableObject` the most-derived base — the row's "Identifiable" hint is only the indirect ancestor; the stub is re-based accordingly (Rule 0001.2).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
 - [ ] `BinaryManifestItemDefinition` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 11.23, p.920

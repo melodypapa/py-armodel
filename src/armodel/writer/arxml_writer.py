@@ -637,6 +637,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     BinaryManifestAddressableObject,
+    BinaryManifestItem,
     FMAttributeDef,
     AggregationTailoring,
     ClassContentConditional,
@@ -15148,8 +15149,8 @@ class ARXMLWriter(AbstractARXMLWriter):
         # Populates the concrete subclass element (BINARY-MANIFEST-PROVIDE-RESOURCE /
         # BINARY-MANIFEST-REQUIRE-RESOURCE) created by the caller; the XSD BINARY-MANIFEST-RESOURCE
         # group (AUTOSAR_00052.xsd l.8886) orders GLOBAL-RESOURCE-ID, ITEMS, RESOURCE-REF. ITEMS
-        # children are emitted identity-only: BinaryManifestItem (Table 11.22) is an unsynced stub
-        # (Rule 0001.7 debt); the wrapper is written only when non-empty.
+        # children are fully serialized via the synced writeBinaryManifestItem (Table 11.22); the
+        # wrapper is written only when non-empty.
         self.writeIdentifiable(element, resource)
         self.setChildElementOptionalPositiveInteger(element, "GLOBAL-RESOURCE-ID", cast(Integer, resource.getGlobalResourceId()))
         items = resource.getItems()
@@ -15157,7 +15158,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             items_tag = ET.SubElement(element, "ITEMS")
             for item in items:
                 item_element = ET.SubElement(items_tag, "BINARY-MANIFEST-ITEM")
-                self.writeIdentifiable(item_element, item)
+                self.writeBinaryManifestItem(item_element, item)
         self.setChildElementOptionalRefType(element, "RESOURCE-REF", resource.getResourceRef())
 
     def writeBinaryManifestAddressableObject(self, element: ET.Element, obj: BinaryManifestAddressableObject):
@@ -15168,6 +15169,39 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeIdentifiable(element, obj)
         self.setChildElementOptionalAddress(element, "ADDRESS", obj.getAddress())
         self.setChildElementOptionalSymbolString(element, "SYMBOL", obj.getSymbol())
+
+    def writeBinaryManifestItem(self, element: ET.Element, item: BinaryManifestItem):
+        # Populates the BINARY-MANIFEST-ITEM element created by the caller; the XSD
+        # BINARY-MANIFEST-ITEM group (AUTOSAR_00052.xsd l.8574) orders IS-UNUSED, VALUE,
+        # DEFAULT-VALUE, AUXILIARY-FIELDS after the BinaryManifestAddressableObject level; VALUE /
+        # DEFAULT-VALUE wrap a 0..1 choice of BINARY-MANIFEST-ITEM-NUMERICAL-VALUE /
+        # BINARY-MANIFEST-ITEM-POINTER-VALUE and AUXILIARY-FIELDS wraps the unbounded
+        # BINARY-MANIFEST-ITEM self-aggregation; the wrappers are written only when non-empty.
+        self.writeBinaryManifestAddressableObject(element, item)
+        self.setChildElementOptionalBooleanValue(element, "IS-UNUSED", item.getIsUnused())
+        value = item.getValue()
+        if value is not None:
+            value_element = ET.SubElement(element, "VALUE")
+            if isinstance(value, BinaryManifestItemNumericalValue):
+                self.writeBinaryManifestItemNumericalValue(ET.SubElement(value_element, "BINARY-MANIFEST-ITEM-NUMERICAL-VALUE"), value)
+            elif isinstance(value, BinaryManifestItemPointerValue):
+                self.writeBinaryManifestItemPointerValue(ET.SubElement(value_element, "BINARY-MANIFEST-ITEM-POINTER-VALUE"), value)
+            else:
+                self.notImplemented("Unsupported element type of <%s> of BinaryManifestItem value" % type(value))
+        default_value = item.getDefaultValue()
+        if default_value is not None:
+            default_value_element = ET.SubElement(element, "DEFAULT-VALUE")
+            if isinstance(default_value, BinaryManifestItemNumericalValue):
+                self.writeBinaryManifestItemNumericalValue(ET.SubElement(default_value_element, "BINARY-MANIFEST-ITEM-NUMERICAL-VALUE"), default_value)
+            elif isinstance(default_value, BinaryManifestItemPointerValue):
+                self.writeBinaryManifestItemPointerValue(ET.SubElement(default_value_element, "BINARY-MANIFEST-ITEM-POINTER-VALUE"), default_value)
+            else:
+                self.notImplemented("Unsupported element type of <%s> of BinaryManifestItem defaultValue" % type(default_value))
+        auxiliary_fields = item.getAuxiliaryFields()
+        if len(auxiliary_fields) > 0:
+            auxiliary_fields_element = ET.SubElement(element, "AUXILIARY-FIELDS")
+            for auxiliary_field in auxiliary_fields:
+                self.writeBinaryManifestItem(ET.SubElement(auxiliary_fields_element, "BINARY-MANIFEST-ITEM"), auxiliary_field)
 
     def writeBinaryManifestItemValue(self, element: ET.Element, value: BinaryManifestItemValue):
         # Populates the concrete subclass element (BINARY-MANIFEST-ITEM-NUMERICAL-VALUE /

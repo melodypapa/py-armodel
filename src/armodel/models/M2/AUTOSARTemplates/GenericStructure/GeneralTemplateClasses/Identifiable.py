@@ -7,6 +7,7 @@ from __future__ import annotations
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
+    BinaryManifestItemValue,
     ClassTailoring,
     CpSoftwareClusterCommunicationResourceProps,
     FMAttributeValue,
@@ -2952,10 +2953,6 @@ class SpecificationDocumentScope(SpecElementScope):
         return self.documentElementScopes
 
 
-class BinaryManifestItem(Identifiable):
-    pass
-
-
 class BinaryManifestItemDefinition(Identifiable):
     pass
 
@@ -2977,8 +2974,9 @@ class BinaryManifestAddressableObject(Identifiable, ABC):
     # The XSD BINARY-MANIFEST-ADDRESSABLE-OBJECT group (AUTOSAR_00052.xsd l.8552) orders ADDRESS,
     # SYMBOL after the Identifiable level. The reusable readBinaryManifestAddressableObject /
     # writeBinaryManifestAddressableObject helpers own that group for the concrete subclass element
-    # (BINARY-MANIFEST-ITEM / BINARY-MANIFEST-META-DATA-FIELD); the subclass dispatch is pending —
-    # BinaryManifestItem is an unsynced later-wave stub and the BinaryManifestMetaDataField
+    # (BINARY-MANIFEST-ITEM / BINARY-MANIFEST-META-DATA-FIELD); the subclass dispatch is wired for
+    # BINARY-MANIFEST-ITEM by the BinaryManifestItem sync (Table 11.22) via
+    # readBinaryManifestItem / writeBinaryManifestItem, while the BinaryManifestMetaDataField
     # aggregator (CpSoftwareClusterBinaryManifestDescriptor.metaDataField) is a later-wave class.
     # The address attribute's spec Type Address is a referenced primitive implemented from
     # AUTOSAR_FO_TPS_GenericStructureTemplate.pdf Table 4.40, p.107 (Rule 0001.10).
@@ -3025,6 +3023,123 @@ class BinaryManifestAddressableObject(Identifiable, ABC):
         """
         if value is not None:
             self.symbol = value
+        return self
+
+
+class BinaryManifestItem(BinaryManifestAddressableObject):
+    """
+    This meta-class represents the ability to describe a specific handle or auxiliary field in the context of binary manifest resource.
+    """
+
+    # BinaryManifestItem method parity checklist:
+    # Spec: R23-11/AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 11.22, p.919 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createAuxiliaryField  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAuxiliaryFields    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getDefaultValue       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDefaultValue       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIsUnused           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIsUnused           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getValue              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setValue              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # The spec Base row and the XSD complexType BINARY-MANIFEST-ITEM (AUTOSAR_00052.xsd l.8629,
+    # which chains the AR-OBJECT, REFERRABLE, MULTILANGUAGE-REFERRABLE, IDENTIFIABLE and
+    # BINARY-MANIFEST-ADDRESSABLE-OBJECT groups before BINARY-MANIFEST-ITEM) make
+    # BinaryManifestAddressableObject the most-derived base (Rule 0001.2). The XSD group
+    # (AUTOSAR_00052.xsd l.8574) orders IS-UNUSED, VALUE, DEFAULT-VALUE (sequenceOffset=10),
+    # AUXILIARY-FIELDS (sequenceOffset=20) after the BinaryManifestAddressableObject level; VALUE /
+    # DEFAULT-VALUE wrap a 0..1 choice of BINARY-MANIFEST-ITEM-NUMERICAL-VALUE /
+    # BINARY-MANIFEST-ITEM-POINTER-VALUE, AUXILIARY-FIELDS wraps the unbounded BINARY-MANIFEST-ITEM
+    # self-aggregation; the wrappers are written/read only when non-empty. The markdown table Note
+    # cells wrap identifiers mid-token ("Binary ManifestItems", "BinaryManifest ItemDefinition",
+    # "BinaryManifestItem Value"); the docstrings use the continuous identifier forms confirmed by
+    # the XSD documentation (l.8583 / l.8617 / l.8589). The auxiliaryField attribute (kind aggr,
+    # mult *) is modeled as auxiliaryFields with createAuxiliaryField/getAuxiliaryFields per the
+    # Referrable-aggregation shape (createItem precedent); the BinaryManifestItemValue 0..1
+    # aggregations use plain setters (not Referrable children). The aggregator wiring of this sync
+    # also upgraded the readBinaryManifestResource / writeBinaryManifestResource ITEMS dispatch
+    # from the identity-only placeholder (Rule 0001.7 debt resolved, cf. DdsCpDomain /
+    # DdsCpPartition) and the BinaryManifestItemValue note's pending aggregator dispatch.
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This aggregation is used to define structured BinaryManifestItems. Tags: xml.sequenceOffset=20
+        self.auxiliaryFields: List[BinaryManifestItem] = []
+
+        # This aggregation represents the definition of a default value for a binary manifest handle or an auxiliaryField. This value shall be taken if no connection for this resource is possible. Tags: xml.sequenceOffset=10
+        self.defaultValue: Optional[BinaryManifestItemValue] = None
+
+        # If true, the handle or auxiliary field in the context of binary manifest resource relates to an optional BinaryManifestItemDefinition and is not used.
+        self.isUnused: Optional[Boolean] = None
+
+        # This aggregation represents the definition of a value for a binary manifest handle or an auxiliaryField. This value shall be taken to establish a connection.
+        self.value: Optional[BinaryManifestItemValue] = None
+
+    def createAuxiliaryField(self, short_name: str) -> BinaryManifestItem:
+        """
+        This aggregation is used to define structured BinaryManifestItems. Tags: xml.sequenceOffset=20
+        """
+        if not self.IsReferrableElementExists(short_name, BinaryManifestItem):
+            auxiliary_field = BinaryManifestItem(self, short_name)
+            self.addReferrableElement(auxiliary_field)
+            self.auxiliaryFields.append(auxiliary_field)
+        return cast(BinaryManifestItem, self.getReferrableElement(short_name, BinaryManifestItem))
+
+    def getAuxiliaryFields(self) -> List[BinaryManifestItem]:
+        """
+        This aggregation is used to define structured BinaryManifestItems. Tags: xml.sequenceOffset=20
+        """
+        return self.auxiliaryFields
+
+    def getDefaultValue(self) -> Optional[BinaryManifestItemValue]:
+        """
+        This aggregation represents the definition of a default value for a binary manifest handle or an auxiliaryField. This value shall be taken if no connection for this resource is possible. Tags: xml.sequenceOffset=10
+        """
+        return self.defaultValue
+
+    def setDefaultValue(self, value: Optional[BinaryManifestItemValue]) -> BinaryManifestItem:
+        """
+        This aggregation represents the definition of a default value for a binary manifest handle or an auxiliaryField. This value shall be taken if no connection for this resource is possible. Tags: xml.sequenceOffset=10
+
+        A None value is a no-op and does not overwrite an existing defaultValue.
+        """
+        if value is not None:
+            self.defaultValue = value
+        return self
+
+    def getIsUnused(self) -> Optional[Boolean]:
+        """
+        If true, the handle or auxiliary field in the context of binary manifest resource relates to an optional BinaryManifestItemDefinition and is not used.
+        """
+        return self.isUnused
+
+    def setIsUnused(self, value: Optional[Boolean]) -> BinaryManifestItem:
+        """
+        If true, the handle or auxiliary field in the context of binary manifest resource relates to an optional BinaryManifestItemDefinition and is not used.
+
+        A None value is a no-op and does not overwrite an existing isUnused.
+        """
+        if value is not None:
+            self.isUnused = value
+        return self
+
+    def getValue(self) -> Optional[BinaryManifestItemValue]:
+        """
+        This aggregation represents the definition of a value for a binary manifest handle or an auxiliaryField. This value shall be taken to establish a connection.
+        """
+        return self.value
+
+    def setValue(self, value: Optional[BinaryManifestItemValue]) -> BinaryManifestItem:
+        """
+        This aggregation represents the definition of a value for a binary manifest handle or an auxiliaryField. This value shall be taken to establish a connection.
+
+        A None value is a no-op and does not overwrite an existing value.
+        """
+        if value is not None:
+            self.value = value
         return self
 
 
@@ -3114,9 +3229,9 @@ class BinaryManifestResource(Identifiable, ABC):
     # readBinaryManifestResource / writeBinaryManifestResource helpers own that group for the
     # concrete subclass element (BINARY-MANIFEST-PROVIDE-RESOURCE / BINARY-MANIFEST-REQUIRE-RESOURCE);
     # the subclass dispatch is pending — BinaryManifestProvideResource / BinaryManifestRequireResource
-    # are unsynced later-wave stubs. ITEMS children are serialized identity-only (Rule 0001.7 debt):
-    # BinaryManifestItem (Table 11.22) is an unsynced stub — its own sync replaces the placeholder
-    # (cf. DdsCpDomain / DdsCpPartition).
+    # are unsynced later-wave stubs. ITEMS children are fully serialized via the synced
+    # readBinaryManifestItem / writeBinaryManifestItem (Table 11.22) — the identity-only placeholder
+    # debt was resolved by the BinaryManifestItem sync (cf. DdsCpDomain / DdsCpPartition).
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is BinaryManifestResource:

@@ -800,6 +800,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Enumerations import BindingTimeEnum, XmlSpaceEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     BinaryManifestAddressableObject,
+    BinaryManifestItem,
     FMAttributeDef,
     AggregationTailoring,
     ClassContentConditional,
@@ -17664,13 +17665,13 @@ class ARXMLParser(AbstractARXMLParser):
     def readBinaryManifestResource(self, element: ET.Element, resource: BinaryManifestResource) -> BinaryManifestResource:
         # The XSD BINARY-MANIFEST-RESOURCE group (AUTOSAR_00052.xsd l.8886) orders GLOBAL-RESOURCE-ID,
         # ITEMS, RESOURCE-REF; its RESOURCE-DEFINITION-REF / RESOURCE-GUARD-VALUE elements have no
-        # Table 11.19 Attribute row (Rule 0015). ITEMS children are created identity-only:
-        # BinaryManifestItem (Table 11.22) is an unsynced stub (Rule 0001.7 debt).
+        # Table 11.19 Attribute row (Rule 0015). ITEMS children are fully serialized via the synced
+        # readBinaryManifestItem (Table 11.22); the wrapper is read whenever present.
         self.readIdentifiable(element, resource)
         resource.setGlobalResourceId(self.getChildElementOptionalPositiveInteger(element, "GLOBAL-RESOURCE-ID"))
         for child_element in self.findall(element, "ITEMS/BINARY-MANIFEST-ITEM"):
             item = resource.createItem(self.getShortName(child_element))
-            self.readIdentifiable(child_element, item)
+            self.readBinaryManifestItem(child_element, item)
         resource.setResourceRef(self.getChildElementOptionalRefType(element, "RESOURCE-REF"))
         return resource
 
@@ -17682,6 +17683,35 @@ class ARXMLParser(AbstractARXMLParser):
         obj.setAddress(self.getChildElementOptionalAddress(element, "ADDRESS"))
         obj.setSymbol(self.getChildElementOptionalSymbolString(element, "SYMBOL"))
         return obj
+
+    def readBinaryManifestItem(self, element: ET.Element, item: BinaryManifestItem) -> BinaryManifestItem:
+        # The XSD BINARY-MANIFEST-ITEM group (AUTOSAR_00052.xsd l.8574) orders IS-UNUSED, VALUE,
+        # DEFAULT-VALUE, AUXILIARY-FIELDS after the BinaryManifestAddressableObject level; VALUE /
+        # DEFAULT-VALUE wrap a 0..1 choice of BINARY-MANIFEST-ITEM-NUMERICAL-VALUE /
+        # BINARY-MANIFEST-ITEM-POINTER-VALUE and AUXILIARY-FIELDS wraps the unbounded
+        # BINARY-MANIFEST-ITEM self-aggregation.
+        self.readBinaryManifestAddressableObject(element, item)
+        item.setIsUnused(self.getChildElementOptionalBooleanValue(element, "IS-UNUSED"))
+        for numerical_element in self.findall(element, "VALUE/BINARY-MANIFEST-ITEM-NUMERICAL-VALUE"):
+            numerical_value = BinaryManifestItemNumericalValue()
+            self.readBinaryManifestItemNumericalValue(numerical_element, numerical_value)
+            item.setValue(numerical_value)
+        for pointer_element in self.findall(element, "VALUE/BINARY-MANIFEST-ITEM-POINTER-VALUE"):
+            pointer_value = BinaryManifestItemPointerValue()
+            self.readBinaryManifestItemPointerValue(pointer_element, pointer_value)
+            item.setValue(pointer_value)
+        for numerical_element in self.findall(element, "DEFAULT-VALUE/BINARY-MANIFEST-ITEM-NUMERICAL-VALUE"):
+            default_numerical_value = BinaryManifestItemNumericalValue()
+            self.readBinaryManifestItemNumericalValue(numerical_element, default_numerical_value)
+            item.setDefaultValue(default_numerical_value)
+        for pointer_element in self.findall(element, "DEFAULT-VALUE/BINARY-MANIFEST-ITEM-POINTER-VALUE"):
+            default_pointer_value = BinaryManifestItemPointerValue()
+            self.readBinaryManifestItemPointerValue(pointer_element, default_pointer_value)
+            item.setDefaultValue(default_pointer_value)
+        for auxiliary_field_element in self.findall(element, "AUXILIARY-FIELDS/BINARY-MANIFEST-ITEM"):
+            auxiliary_field = item.createAuxiliaryField(self.getShortName(auxiliary_field_element))
+            self.readBinaryManifestItem(auxiliary_field_element, auxiliary_field)
+        return item
 
     def readBinaryManifestItemValue(self, element: ET.Element, value: BinaryManifestItemValue) -> BinaryManifestItemValue:
         # Table 11.25 declares no Attribute rows and the XSD BINARY-MANIFEST-ITEM-VALUE group
