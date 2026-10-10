@@ -24,24 +24,16 @@ class HeapUsage(Identifiable, VariationPointCapable, ABC):
 
     # HeapUsage method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 8.13, p.152
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getHardwareConfiguration     [x] impl  [x] docstring  [x] test
-    # [x] setHardwareConfiguration     [x] impl  [x] docstring  [x] test
-    # [x] getHwElementRef              [x] impl  [x] docstring  [x] test
-    # [x] setHwElementRef              [x] impl  [x] docstring  [x] test
-    # [x] getSoftwareContext           [x] impl  [x] docstring  [x] test
-    # [x] setSoftwareContext           [x] impl  [x] docstring  [x] test
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getHardwareConfiguration [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setHardwareConfiguration [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getHwElementRef             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setHwElementRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSoftwareContext          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSoftwareContext          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the HeapUsage with a parent and short name.
-        Raises TypeError if this abstract class is instantiated directly.
-
-        Args:
-            parent: The parent ARObject that contains this heap usage
-            short_name: The unique short name of this heap usage
-        """
         if type(self) is HeapUsage:
             raise TypeError("HeapUsage is an abstract class.")
 
@@ -50,7 +42,7 @@ class HeapUsage(Identifiable, VariationPointCapable, ABC):
         # Contains information about the hardware context this heap usage is describing.
         self.hardwareConfiguration: Optional[HardwareConfiguration] = None
 
-        # Specifies for which hardware element (e.g. ECU) this heap usage is given.
+        # Specifies for which hardware element (e.g. ECU) this heap usage usage is given.
         self.hwElementRef: Optional[RefType] = None
 
         # Contains details about the software context this heap usage is provided for.
@@ -58,23 +50,14 @@ class HeapUsage(Identifiable, VariationPointCapable, ABC):
 
     def getHardwareConfiguration(self) -> Optional[HardwareConfiguration]:
         """
-        Gets the hardware configuration this heap usage is describing.
-
-        Returns:
-            HardwareConfiguration instance, or None if not set
+        Contains information about the hardware context this heap usage is describing.
         """
         return self.hardwareConfiguration
 
     def setHardwareConfiguration(self, value: Optional[HardwareConfiguration]) -> HeapUsage:
         """
-        Sets the hardware configuration this heap usage is describing.
-        A None value is a no-op and does not overwrite an existing configuration.
-
-        Args:
-            value: The hardware configuration to set
-
-        Returns:
-            self for method chaining
+        Contains information about the hardware context this heap usage is describing.
+        A None value is a no-op and does not overwrite an existing hardwareConfiguration.
         """
         if value is not None:
             self.hardwareConfiguration = value
@@ -82,23 +65,14 @@ class HeapUsage(Identifiable, VariationPointCapable, ABC):
 
     def getHwElementRef(self) -> Optional[RefType]:
         """
-        Gets the reference to the hardware element (e.g. ECU) this heap usage is given for.
-
-        Returns:
-            RefType referencing the hardware element, or None if not set
+        Specifies for which hardware element (e.g. ECU) this heap usage usage is given.
         """
         return self.hwElementRef
 
     def setHwElementRef(self, value: Optional[RefType]) -> HeapUsage:
         """
-        Sets the reference to the hardware element (e.g. ECU) this heap usage is given for.
-        A None value is a no-op and does not overwrite an existing reference.
-
-        Args:
-            value: The hardware element reference to set
-
-        Returns:
-            self for method chaining
+        Specifies for which hardware element (e.g. ECU) this heap usage usage is given.
+        A None value is a no-op and does not overwrite an existing hwElementRef.
         """
         if value is not None:
             self.hwElementRef = value
@@ -106,23 +80,14 @@ class HeapUsage(Identifiable, VariationPointCapable, ABC):
 
     def getSoftwareContext(self) -> Optional[SoftwareContext]:
         """
-        Gets the software context this heap usage is provided for.
-
-        Returns:
-            SoftwareContext instance, or None if not set
+        Contains details about the software context this heap usage is provided for.
         """
         return self.softwareContext
 
     def setSoftwareContext(self, value: Optional[SoftwareContext]) -> HeapUsage:
         """
-        Sets the software context this heap usage is provided for.
-        A None value is a no-op and does not overwrite an existing context.
-
-        Args:
-            value: The software context to set
-
-        Returns:
-            self for method chaining
+        Contains details about the software context this heap usage is provided for.
+        A None value is a no-op and does not overwrite an existing softwareContext.
         """
         if value is not None:
             self.softwareContext = value
