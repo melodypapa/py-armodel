@@ -317,26 +317,25 @@ class ChapterOrMsrQuery(ARObject):
 
     # ChapterOrMsrQuery method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.81, p.342
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] addChapter          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getChapters         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMsrQueryChapter  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMsrQueryChapter  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addChapter          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getChapters         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMsrQueryChapter  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMsrQueryChapter  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        # This establishes a subschapter.
+        # This establishes a subschapter. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=chapter.shortName, chapter.variationPoint.shortLabel vh.latestBindingTime=postBuild xml.sequenceOffset=210
         self.chapters: List[Chapter] = []
 
-        # This represents automatically contributed chapters provided by an msrquery.
+        # This represents automatically contributed chapters provided by an msrquery. Tags: xml.sequenceOffset=220
         self.msrQueryChapter: Optional[MsrQueryChapter] = None
 
     def addChapter(self, value: Optional[Chapter]) -> ChapterOrMsrQuery:
         """
-        This establishes a subschapter.
+        This establishes a subschapter. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=chapter.shortName, chapter.variationPoint.shortLabel vh.latestBindingTime=postBuild xml.sequenceOffset=210
 
         A None value is a no-op and does not append anything.
 
@@ -349,7 +348,7 @@ class ChapterOrMsrQuery(ARObject):
 
     def getChapters(self) -> List[Chapter]:
         """
-        This establishes a subschapter.
+        This establishes a subschapter. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=chapter.shortName, chapter.variationPoint.shortLabel vh.latestBindingTime=postBuild xml.sequenceOffset=210
 
         Returns:
             The established subschapters
@@ -358,7 +357,7 @@ class ChapterOrMsrQuery(ARObject):
 
     def setMsrQueryChapter(self, value: Optional[MsrQueryChapter]) -> ChapterOrMsrQuery:
         """
-        This represents automatically contributed chapters provided by an msrquery.
+        This represents automatically contributed chapters provided by an msrquery. Tags: xml.sequenceOffset=220
 
         A None value is a no-op and does not overwrite an existing msrQueryChapter.
 
@@ -371,7 +370,7 @@ class ChapterOrMsrQuery(ARObject):
 
     def getMsrQueryChapter(self) -> Optional[MsrQueryChapter]:
         """
-        This represents automatically contributed chapters provided by an msrquery.
+        This represents automatically contributed chapters provided by an msrquery. Tags: xml.sequenceOffset=220
 
         Returns:
             The automatically contributed chapters provided by an msrquery
