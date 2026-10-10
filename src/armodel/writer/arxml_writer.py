@@ -1371,6 +1371,8 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import (
     PortGroupInSystemInstanceRef,
     VariableDataPrototypeInSystemInstanceRef,
     TriggerInSystemInstanceRef,
+    ModeDeclarationGroupPrototypeInSystemInstanceRef,
+    ParameterDataPrototypeInSystemInstanceRef,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import (
     CanNmCluster,
@@ -6077,6 +6079,28 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.setChildElementOptionalRefType(child_element, "CONTEXT-COMPONENT-REF", component_ref)
             self.setChildElementOptionalRefType(child_element, "CONTEXT-PORT-REF", ref.getContextPortRef())
             self.setChildElementOptionalRefType(child_element, "TARGET-TRIGGER-REF", ref.getTargetTriggerRef())
+
+    def setModeDeclarationGroupPrototypeInSystemInstanceRef(self, element: ET.Element, tag_name: str, ref: Optional[ModeDeclarationGroupPrototypeInSystemInstanceRef]):
+        if ref is not None:
+            child_element = ET.SubElement(element, tag_name)
+            self.writeARObject(child_element, ref)
+            self.setChildElementOptionalRefType(child_element, "BASE-REF", ref.getBaseRef())
+            self.setChildElementOptionalRefType(child_element, "CONTEXT-COMPOSITION-REF", ref.getContextCompositionRef())
+            for component_ref in ref.getContextComponentRefs():
+                self.setChildElementOptionalRefType(child_element, "CONTEXT-COMPONENT-REF", component_ref)
+            self.setChildElementOptionalRefType(child_element, "CONTEXT-PORT-REF", ref.getContextPortRef())
+            self.setChildElementOptionalRefType(child_element, "TARGET-MODE-DECLARATION-GROUP-PROTOTYPE-REF", ref.getTargetModeDeclarationGroupPrototypeRef())
+
+    def setParameterDataPrototypeInSystemInstanceRef(self, element: ET.Element, tag_name: str, ref: Optional[ParameterDataPrototypeInSystemInstanceRef]):
+        if ref is not None:
+            child_element = ET.SubElement(element, tag_name)
+            self.writeARObject(child_element, ref)
+            self.setChildElementOptionalRefType(child_element, "BASE-REF", ref.getBaseRef())
+            self.setChildElementOptionalRefType(child_element, "CONTEXT-COMPOSITION-REF", ref.getContextCompositionRef())
+            for component_ref in ref.getContextComponentRefs():
+                self.setChildElementOptionalRefType(child_element, "CONTEXT-COMPONENT-REF", component_ref)
+            self.setChildElementOptionalRefType(child_element, "CONTEXT-PORT-REF", ref.getContextPortRef())
+            self.setChildElementOptionalRefType(child_element, "TARGET-PARAMETER-DATA-PROTOTYPE-REF", ref.getTargetParameterDataPrototypeRef())
 
     def setPortGroupInSystemInstanceRef(self, element: ET.Element, tag_name: str, ref: PortGroupInSystemInstanceRef):
         if ref is not None:
@@ -16388,13 +16412,22 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     self.notImplemented("Unsupported MappingConstraint %s" % type(constraint))
 
+    def writePortElementToCommunicationResourceMapping(self, element: ET.Element, mapping: PortElementToCommunicationResourceMapping):
+        self.writeIdentifiable(element, mapping)
+        self.setOperationInSystemInstanceRef(element, "CLIENT-SERVER-OPERATION-IREF", mapping.getClientServerOperationIRef())
+        self.setChildElementOptionalRefType(element, "COMMUNICATION-RESOURCE-REF", mapping.getCommunicationResourceRef())
+        self.setModeDeclarationGroupPrototypeInSystemInstanceRef(element, "MODE-DECLARATION-GROUP-PROTOTYPE-IREF", mapping.getModeDeclarationGroupPrototypeIRef())
+        self.setParameterDataPrototypeInSystemInstanceRef(element, "PARAMETER-DATA-PROTOTYPE-IREF", mapping.getParameterDataPrototypeIRef())
+        self.setTriggerInSystemInstanceRef(element, "TRIGGER-IREF", mapping.getTriggerIRef())
+        self.setVariableDataPrototypeInSystemInstanceRef(element, "VARIABLE-DATA-PROTOTYPE-IREF", mapping.getVariableDataPrototypeIRef())
+
     def writeSystemMappingPortElementToComResourceMappings(self, element: ET.Element, mapping: SystemMapping):
         port_mappings = mapping.getPortElementToComResourceMappings()
         if len(port_mappings) > 0:
             mappings_tag = ET.SubElement(element, "PORT-ELEMENT-TO-COM-RESOURCE-MAPPINGS")
             for port_mapping in port_mappings:
                 child_element = ET.SubElement(mappings_tag, "PORT-ELEMENT-TO-COMMUNICATION-RESOURCE-MAPPING")
-                self.writeIdentifiable(child_element, port_mapping)
+                self.writePortElementToCommunicationResourceMapping(child_element, port_mapping)
 
     def writeSystemMappingSwcToApplicationPartitionMappings(self, element: ET.Element, mapping: SystemMapping):
         swc_mappings = mapping.getSwcToApplicationPartitionMappings()
@@ -16967,7 +17000,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             for port_mapping in port_mappings:
                 if isinstance(port_mapping, PortElementToCommunicationResourceMapping):
                     port_element = ET.SubElement(mappings_tag, "PORT-ELEMENT-TO-COMMUNICATION-RESOURCE-MAPPING")
-                    self.writeIdentifiable(port_element, port_mapping)
+                    self.writePortElementToCommunicationResourceMapping(port_element, port_mapping)
                 else:
                     self.notImplemented("Unsupported PortElementToComResourceMapping %s" % type(port_mapping))
         res_mappings = mapping_set.getResourceToApplicationPartitionMappings()

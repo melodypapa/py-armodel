@@ -75,6 +75,13 @@ if TYPE_CHECKING:
     from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
     from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ArraySizeSemanticsEnum
     from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagEventDebounceAlgorithm, DiagEventDebounceCounterBased, DiagEventDebounceMonitorInternal, DiagEventDebounceTimeBased
+    from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import (
+        ModeDeclarationGroupPrototypeInSystemInstanceRef,
+        OperationInSystemInstanceRef,
+        ParameterDataPrototypeInSystemInstanceRef,
+        TriggerInSystemInstanceRef,
+        VariableDataPrototypeInSystemInstanceRef,
+    )
     from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 
 
@@ -4375,7 +4382,152 @@ class GlobalTimeFrSlave(GlobalTimeSlave):
 
 
 class PortElementToCommunicationResourceMapping(Identifiable):
-    pass
+    """
+    This meta class maps a communication resource to CP Software Clusters. In this case the kind of Port Prototype specified whether the Software Cluster has to provide or to require the resource.
+    """
+
+    # PortElementToCommunicationResourceMapping method parity checklist:
+    # Spec: R23-11/AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 11.15, p.905 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getClientServerOperationIRef        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setClientServerOperationIRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCommunicationResourceRef         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCommunicationResourceRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getModeDeclarationGroupPrototypeIRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setModeDeclarationGroupPrototypeIRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getParameterDataPrototypeIRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setParameterDataPrototypeIRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTriggerIRef                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTriggerIRef                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVariableDataPrototypeIRef        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setVariableDataPrototypeIRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # The Table 11.15 iref-kind rows are modeled with the IRef suffix per the ref-kind
+    # naming rule (sibling TriggerToSignalMapping.triggerIRef); member types
+    # OperationInSystemInstanceRef / ModeDeclarationGroupPrototypeInSystemInstanceRef /
+    # ParameterDataPrototypeInSystemInstanceRef / TriggerInSystemInstanceRef /
+    # VariableDataPrototypeInSystemInstanceRef are the InstanceRef implementations named
+    # by the spec rows. The XSD group (AUTOSAR_00052.xsd l.92033) additionally carries a
+    # VARIATION-POINT element (l.92083) with no Table 11.15 attribute row — not modeled
+    # (the PDF/markdown table wins, Rule 0015).
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # ClientServerOperation instance qualifying the communication resource InstanceRef implemented by: OperationInSystemInstanceRef
+        self.clientServerOperationIRef: Optional[OperationInSystemInstanceRef] = None
+
+        # Communication resource for which the mapping applies.
+        self.communicationResourceRef: Optional[RefType] = None
+
+        # ModeDeclarationGroupPrototype instance qualifying the communication resource InstanceRef implemented by: ModeDeclarationGroupPrototypeInSystemInstanceRef
+        self.modeDeclarationGroupPrototypeIRef: Optional[ModeDeclarationGroupPrototypeInSystemInstanceRef] = None
+
+        # ParameterDataPrototype instance qualifying the communication resource. InstanceRef implemented by: ParameterDataPrototypeInSystemInstanceRef
+        self.parameterDataPrototypeIRef: Optional[ParameterDataPrototypeInSystemInstanceRef] = None
+
+        # Trigger instance qualifying the communication resource. InstanceRef implemented by: TriggerInSystemInstanceRef
+        self.triggerIRef: Optional[TriggerInSystemInstanceRef] = None
+
+        # VariableDataPrototype instance qualifying the communication resource InstanceRef implemented by: VariableDataPrototypeInSystemInstanceRef
+        self.variableDataPrototypeIRef: Optional[VariableDataPrototypeInSystemInstanceRef] = None
+
+    def getClientServerOperationIRef(self) -> Optional[OperationInSystemInstanceRef]:
+        """
+        ClientServerOperation instance qualifying the communication resource InstanceRef implemented by: OperationInSystemInstanceRef
+        """
+        return self.clientServerOperationIRef
+
+    def setClientServerOperationIRef(self, value: Optional[OperationInSystemInstanceRef]) -> PortElementToCommunicationResourceMapping:
+        """
+        ClientServerOperation instance qualifying the communication resource InstanceRef implemented by: OperationInSystemInstanceRef
+
+        A None value is a no-op and does not overwrite an existing clientServerOperationIRef.
+        """
+        if value is not None:
+            self.clientServerOperationIRef = value
+        return self
+
+    def getCommunicationResourceRef(self) -> Optional[RefType]:
+        """
+        Communication resource for which the mapping applies.
+        """
+        return self.communicationResourceRef
+
+    def setCommunicationResourceRef(self, value: Optional[RefType]) -> PortElementToCommunicationResourceMapping:
+        """
+        Communication resource for which the mapping applies.
+
+        A None value is a no-op and does not overwrite an existing communicationResourceRef.
+        """
+        if value is not None:
+            self.communicationResourceRef = value
+        return self
+
+    def getModeDeclarationGroupPrototypeIRef(self) -> Optional[ModeDeclarationGroupPrototypeInSystemInstanceRef]:
+        """
+        ModeDeclarationGroupPrototype instance qualifying the communication resource InstanceRef implemented by: ModeDeclarationGroupPrototypeInSystemInstanceRef
+        """
+        return self.modeDeclarationGroupPrototypeIRef
+
+    def setModeDeclarationGroupPrototypeIRef(self, value: Optional[ModeDeclarationGroupPrototypeInSystemInstanceRef]) -> PortElementToCommunicationResourceMapping:
+        """
+        ModeDeclarationGroupPrototype instance qualifying the communication resource InstanceRef implemented by: ModeDeclarationGroupPrototypeInSystemInstanceRef
+
+        A None value is a no-op and does not overwrite an existing modeDeclarationGroupPrototypeIRef.
+        """
+        if value is not None:
+            self.modeDeclarationGroupPrototypeIRef = value
+        return self
+
+    def getParameterDataPrototypeIRef(self) -> Optional[ParameterDataPrototypeInSystemInstanceRef]:
+        """
+        ParameterDataPrototype instance qualifying the communication resource. InstanceRef implemented by: ParameterDataPrototypeInSystemInstanceRef
+        """
+        return self.parameterDataPrototypeIRef
+
+    def setParameterDataPrototypeIRef(self, value: Optional[ParameterDataPrototypeInSystemInstanceRef]) -> PortElementToCommunicationResourceMapping:
+        """
+        ParameterDataPrototype instance qualifying the communication resource. InstanceRef implemented by: ParameterDataPrototypeInSystemInstanceRef
+
+        A None value is a no-op and does not overwrite an existing parameterDataPrototypeIRef.
+        """
+        if value is not None:
+            self.parameterDataPrototypeIRef = value
+        return self
+
+    def getTriggerIRef(self) -> Optional[TriggerInSystemInstanceRef]:
+        """
+        Trigger instance qualifying the communication resource. InstanceRef implemented by: TriggerInSystemInstanceRef
+        """
+        return self.triggerIRef
+
+    def setTriggerIRef(self, value: Optional[TriggerInSystemInstanceRef]) -> PortElementToCommunicationResourceMapping:
+        """
+        Trigger instance qualifying the communication resource. InstanceRef implemented by: TriggerInSystemInstanceRef
+
+        A None value is a no-op and does not overwrite an existing triggerIRef.
+        """
+        if value is not None:
+            self.triggerIRef = value
+        return self
+
+    def getVariableDataPrototypeIRef(self) -> Optional[VariableDataPrototypeInSystemInstanceRef]:
+        """
+        VariableDataPrototype instance qualifying the communication resource InstanceRef implemented by: VariableDataPrototypeInSystemInstanceRef
+        """
+        return self.variableDataPrototypeIRef
+
+    def setVariableDataPrototypeIRef(self, value: Optional[VariableDataPrototypeInSystemInstanceRef]) -> PortElementToCommunicationResourceMapping:
+        """
+        VariableDataPrototype instance qualifying the communication resource InstanceRef implemented by: VariableDataPrototypeInSystemInstanceRef
+
+        A None value is a no-op and does not overwrite an existing variableDataPrototypeIRef.
+        """
+        if value is not None:
+            self.variableDataPrototypeIRef = value
+        return self
 
 
 class UserDefinedGlobalTimeSlave(GlobalTimeSlave):

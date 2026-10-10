@@ -857,6 +857,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Referrable,
     ShortNameFragment,
     SingleLanguageReferrable,
+    PortElementToCommunicationResourceMapping,
     AbstractClassTailoring,
     SdgTailoring,
     UserDefinedGlobalTimeMaster,
@@ -1640,6 +1641,8 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import (
     PortGroupInSystemInstanceRef,
     VariableDataPrototypeInSystemInstanceRef,
     TriggerInSystemInstanceRef,
+    ModeDeclarationGroupPrototypeInSystemInstanceRef,
+    ParameterDataPrototypeInSystemInstanceRef,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import (
     CanNmCluster,
@@ -3641,6 +3644,32 @@ class ARXMLParser(AbstractARXMLParser):
                 instance_ref.addContextComponentRef(ref)
             instance_ref.setContextPortRef(self.getChildElementOptionalRefType(element, "CONTEXT-PORT-REF"))
             instance_ref.setTargetTriggerRef(self.getChildElementOptionalRefType(element, "TARGET-TRIGGER-REF"))
+        return instance_ref
+
+    def getModeDeclarationGroupPrototypeInSystemInstanceRef(self, element: ET.Element) -> ModeDeclarationGroupPrototypeInSystemInstanceRef:
+        instance_ref = None
+        if element is not None:
+            instance_ref = ModeDeclarationGroupPrototypeInSystemInstanceRef()
+            self.readARObject(element, instance_ref)
+            instance_ref.setBaseRef(self.getChildElementOptionalRefType(element, "BASE-REF"))
+            instance_ref.setContextCompositionRef(self.getChildElementOptionalRefType(element, "CONTEXT-COMPOSITION-REF"))
+            for ref in self.getChildElementRefTypeList(element, "CONTEXT-COMPONENT-REF"):
+                instance_ref.addContextComponentRef(ref)
+            instance_ref.setContextPortRef(self.getChildElementOptionalRefType(element, "CONTEXT-PORT-REF"))
+            instance_ref.setTargetModeDeclarationGroupPrototypeRef(self.getChildElementOptionalRefType(element, "TARGET-MODE-DECLARATION-GROUP-PROTOTYPE-REF"))
+        return instance_ref
+
+    def getParameterDataPrototypeInSystemInstanceRef(self, element: ET.Element) -> ParameterDataPrototypeInSystemInstanceRef:
+        instance_ref = None
+        if element is not None:
+            instance_ref = ParameterDataPrototypeInSystemInstanceRef()
+            self.readARObject(element, instance_ref)
+            instance_ref.setBaseRef(self.getChildElementOptionalRefType(element, "BASE-REF"))
+            instance_ref.setContextCompositionRef(self.getChildElementOptionalRefType(element, "CONTEXT-COMPOSITION-REF"))
+            for ref in self.getChildElementRefTypeList(element, "CONTEXT-COMPONENT-REF"):
+                instance_ref.addContextComponentRef(ref)
+            instance_ref.setContextPortRef(self.getChildElementOptionalRefType(element, "CONTEXT-PORT-REF"))
+            instance_ref.setTargetParameterDataPrototypeRef(self.getChildElementOptionalRefType(element, "TARGET-PARAMETER-DATA-PROTOTYPE-REF"))
         return instance_ref
 
     def getPortGroupInSystemInstanceRef(self, element: ET.Element) -> PortGroupInSystemInstanceRef:
@@ -19774,10 +19803,20 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported MappingConstraint %s" % tag_name)
 
+    def readPortElementToCommunicationResourceMapping(self, element: ET.Element, mapping: PortElementToCommunicationResourceMapping) -> PortElementToCommunicationResourceMapping:
+        self.readIdentifiable(element, mapping)
+        mapping.setClientServerOperationIRef(self.getOperationInSystemInstanceRef(cast(ET.Element, self.find(element, "CLIENT-SERVER-OPERATION-IREF"))))
+        mapping.setCommunicationResourceRef(self.getChildElementOptionalRefType(element, "COMMUNICATION-RESOURCE-REF"))
+        mapping.setModeDeclarationGroupPrototypeIRef(self.getModeDeclarationGroupPrototypeInSystemInstanceRef(cast(ET.Element, self.find(element, "MODE-DECLARATION-GROUP-PROTOTYPE-IREF"))))
+        mapping.setParameterDataPrototypeIRef(self.getParameterDataPrototypeInSystemInstanceRef(cast(ET.Element, self.find(element, "PARAMETER-DATA-PROTOTYPE-IREF"))))
+        mapping.setTriggerIRef(self.getTriggerInSystemInstanceRef(cast(ET.Element, self.find(element, "TRIGGER-IREF"))))
+        mapping.setVariableDataPrototypeIRef(self.getVariableDataPrototypeInSystemInstanceRef(cast(ET.Element, self.find(element, "VARIABLE-DATA-PROTOTYPE-IREF"))))
+        return mapping
+
     def readSystemMappingPortElementToComResourceMappings(self, element: ET.Element, mapping: SystemMapping):
         for child_element in self.findall(element, "PORT-ELEMENT-TO-COM-RESOURCE-MAPPINGS/PORT-ELEMENT-TO-COMMUNICATION-RESOURCE-MAPPING"):
             port_mapping = mapping.createPortElementToComResourceMapping(self.getShortName(child_element))
-            self.readIdentifiable(child_element, port_mapping)
+            self.readPortElementToCommunicationResourceMapping(child_element, port_mapping)
 
     def readSystemMappingSwcToApplicationPartitionMappings(self, element: ET.Element, mapping: SystemMapping):
         for child_element in self.findall(element, "SWC-TO-APPLICATION-PARTITION-MAPPINGS/SWC-TO-APPLICATION-PARTITION-MAPPING"):
@@ -20259,7 +20298,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readARElement(element, mapping_set)
         for child_element in self.findall(element, "PORT-ELEMENT-TO-COM-RESOURCE-MAPPINGS/PORT-ELEMENT-TO-COMMUNICATION-RESOURCE-MAPPING"):
             port_mapping = mapping_set.createPortElementToComResourceMapping(self.getShortName(child_element))
-            self.readIdentifiable(child_element, port_mapping)
+            self.readPortElementToCommunicationResourceMapping(child_element, port_mapping)
         for child_element in self.findall(element, "RESOURCE-TO-APPLICATION-PARTITION-MAPPINGS/CP-SOFTWARE-CLUSTER-RESOURCE-TO-APPLICATION-PARTITION-MAPPING"):
             resource_mapping = mapping_set.createResourceToApplicationPartitionMapping(self.getShortName(child_element))
             self.readCpSoftwareClusterResourceToApplicationPartitionMapping(child_element, resource_mapping)

@@ -572,3 +572,173 @@ class TriggerInSystemInstanceRef(AtpInstanceRef):
         if value is not None:
             self.targetTriggerRef = value
         return self
+
+
+class ModeDeclarationGroupPrototypeInSystemInstanceRef(AtpInstanceRef):
+    """
+    Instance reference to a ModeDeclarationGroupPrototype in the context of a System.
+    """
+
+    # ModeDeclarationGroupPrototypeInSystemInstanceRef method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate (R23-11 XSD), class ModeDeclarationGroupPrototypeInSystemInstanceRef, AUTOSAR_00052.xsd line 82151 (XSD-only; no own table in repo corpus)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBaseRef                                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBaseRef                                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getContextComponentRefs                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addContextComponentRef                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getContextCompositionRef                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setContextCompositionRef                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getContextPortRef                          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setContextPortRef                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTargetModeDeclarationGroupPrototypeRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTargetModeDeclarationGroupPrototypeRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # Member order follows the XSD group sequence (AUTOSAR_00052.xsd l.82093) — the class
+    # has no markdown/PDF table; reader/writer XML order is the same sequence.
+
+    def __init__(self):
+        super().__init__()
+
+        # Stereotypes: atpDerived
+        self.baseRef: Optional[RefType] = None
+
+        # Tags: xml.sequenceOffset=20
+        self.contextCompositionRef: Optional[RefType] = None
+
+        # Tags: xml.sequenceOffset=30
+        self.contextComponentRefs: List[RefType] = []
+
+        # Tags: xml.sequenceOffset=40
+        self.contextPortRef: Optional[RefType] = None
+
+        # Tags: xml.sequenceOffset=50
+        self.targetModeDeclarationGroupPrototypeRef: Optional[RefType] = None
+
+    def getBaseRef(self) -> Optional[RefType]:
+        """Stereotypes: atpDerived"""
+        return self.baseRef
+
+    def setBaseRef(self, value: Optional[RefType]) -> "ModeDeclarationGroupPrototypeInSystemInstanceRef":
+        """Stereotypes: atpDerived
+        A None value is a no-op and does not overwrite an existing baseRef."""
+        if value is not None:
+            self.baseRef = value
+        return self
+
+    def getContextComponentRefs(self) -> List[RefType]:
+        return self.contextComponentRefs
+
+    def addContextComponentRef(self, value: Optional[RefType]) -> "ModeDeclarationGroupPrototypeInSystemInstanceRef":
+        if value is not None:
+            self.contextComponentRefs.append(value)
+        return self
+
+    def getContextCompositionRef(self) -> Optional[RefType]:
+        return self.contextCompositionRef
+
+    def setContextCompositionRef(self, value: Optional[RefType]) -> "ModeDeclarationGroupPrototypeInSystemInstanceRef":
+        if value is not None:
+            self.contextCompositionRef = value
+        return self
+
+    def getContextPortRef(self) -> Optional[RefType]:
+        return self.contextPortRef
+
+    def setContextPortRef(self, value: Optional[RefType]) -> "ModeDeclarationGroupPrototypeInSystemInstanceRef":
+        if value is not None:
+            self.contextPortRef = value
+        return self
+
+    def getTargetModeDeclarationGroupPrototypeRef(self) -> Optional[RefType]:
+        return self.targetModeDeclarationGroupPrototypeRef
+
+    def setTargetModeDeclarationGroupPrototypeRef(self, value: Optional[RefType]) -> "ModeDeclarationGroupPrototypeInSystemInstanceRef":
+        if value is not None:
+            self.targetModeDeclarationGroupPrototypeRef = value
+        return self
+
+
+class ParameterDataPrototypeInSystemInstanceRef(AtpInstanceRef):
+    """
+    Instance reference to a ParameterDataPrototype in the context of a System.
+    """
+
+    # ParameterDataPrototypeInSystemInstanceRef method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate (R23-11 XSD), class ParameterDataPrototypeInSystemInstanceRef, AUTOSAR_00052.xsd line 87991 (XSD-only; no own table in repo corpus)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBaseRef                               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBaseRef                               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getContextComponentRefs                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addContextComponentRef                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getContextCompositionRef                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setContextCompositionRef                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getContextPortRef                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setContextPortRef                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTargetParameterDataPrototypeRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTargetParameterDataPrototypeRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # Member order follows the XSD group sequence (AUTOSAR_00052.xsd l.87933) — the class
+    # has no markdown/PDF table; reader/writer XML order is the same sequence.
+
+    def __init__(self):
+        super().__init__()
+
+        # Stereotypes: atpDerived
+        self.baseRef: Optional[RefType] = None
+
+        # Tags: xml.sequenceOffset=20
+        self.contextCompositionRef: Optional[RefType] = None
+
+        # Tags: xml.sequenceOffset=30
+        self.contextComponentRefs: List[RefType] = []
+
+        # Tags: xml.sequenceOffset=40
+        self.contextPortRef: Optional[RefType] = None
+
+        # Tags: xml.sequenceOffset=50
+        self.targetParameterDataPrototypeRef: Optional[RefType] = None
+
+    def getBaseRef(self) -> Optional[RefType]:
+        """Stereotypes: atpDerived"""
+        return self.baseRef
+
+    def setBaseRef(self, value: Optional[RefType]) -> "ParameterDataPrototypeInSystemInstanceRef":
+        """Stereotypes: atpDerived
+        A None value is a no-op and does not overwrite an existing baseRef."""
+        if value is not None:
+            self.baseRef = value
+        return self
+
+    def getContextComponentRefs(self) -> List[RefType]:
+        return self.contextComponentRefs
+
+    def addContextComponentRef(self, value: Optional[RefType]) -> "ParameterDataPrototypeInSystemInstanceRef":
+        if value is not None:
+            self.contextComponentRefs.append(value)
+        return self
+
+    def getContextCompositionRef(self) -> Optional[RefType]:
+        return self.contextCompositionRef
+
+    def setContextCompositionRef(self, value: Optional[RefType]) -> "ParameterDataPrototypeInSystemInstanceRef":
+        if value is not None:
+            self.contextCompositionRef = value
+        return self
+
+    def getContextPortRef(self) -> Optional[RefType]:
+        return self.contextPortRef
+
+    def setContextPortRef(self, value: Optional[RefType]) -> "ParameterDataPrototypeInSystemInstanceRef":
+        if value is not None:
+            self.contextPortRef = value
+        return self
+
+    def getTargetParameterDataPrototypeRef(self) -> Optional[RefType]:
+        return self.targetParameterDataPrototypeRef
+
+    def setTargetParameterDataPrototypeRef(self, value: Optional[RefType]) -> "ParameterDataPrototypeInSystemInstanceRef":
+        if value is not None:
+            self.targetParameterDataPrototypeRef = value
+        return self

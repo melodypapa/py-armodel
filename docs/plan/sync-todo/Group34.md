@@ -771,14 +771,21 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `PortElementToCommunicationResourceMapping` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 11.15, p.905
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+  - [x] Step 1 — Sync members & description from spec
+  - Note: markdown Table 11.15 recovered (l.23412): 6 attributes, all 0..1 — clientServerOperation (ClientServerOperation, iref), communicationResource (CpSoftwareClusterCommunicationResource, ref), modeDeclarationGroupPrototype (ModeDeclarationGroupPrototype, iref), parameterDataPrototype (ParameterDataPrototype, iref), trigger (Trigger, iref), variableDataPrototype (VariableDataPrototype, iref); XSD group AUTOSAR_00052.xsd l.92033 matches 1:1 (IREF/REF element names + order). Page p.905 via pdf_page.py. iref-kind members modeled with IRef suffix per Rule 0001.5 (sibling TriggerToSignalMapping.triggerIRef precedent). Member types ModeDeclarationGroupPrototypeInSystemInstanceRef and ParameterDataPrototypeInSystemInstanceRef do not exist yet (XSD-only, tracked in xsd_classes.md) — created alongside per the XSD groups l.82093/l.87933. XSD VARIATION-POINT (l.92083) not modeled: absent from the Table 11.15 attribute rows (PDF wins, Rule 0015).
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - Note: the five InstanceRef member types are cross-package TYPE_CHECKING names in Identifiable.py (SystemTemplate.InstanceRefs → GeneralTemplateClasses import web; a bottom-of-module runtime import explodes the CommonStructure hub mid-bootstrap — DiagnosticDataElement.swDataDefProps precedent), so those annotations are pinned in raw string form in the test; communicationResourceRef (RefType) resolves at runtime.
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - Note: the pre-sync stub was `pass` (no docstrings existed to wipe); class + 12 accessor docstrings + 6 inline __init__ comments written verbatim from the Table 11.15 Note column.
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - Note: reader tests (full six-member XML with complete context chains inside each IREF + empty element) and writer tests (XSD-order tag assertion, empty element, round-trips through both parent dispatches CpSoftwareClusterMappingSet and SystemMapping, empty-wrapper case) confirmed Red: 7 failures, AttributeError for missing read/writePortElementToCommunicationResourceMapping.
+  - [x] Step 6 — Update parser & writer (Green)
+  - Note: parser gains getModeDeclarationGroupPrototypeInSystemInstanceRef/getParameterDataPrototypeInSystemInstanceRef readers (InstanceRefs import extended, placed beside getTriggerInSystemInstanceRef) plus readPortElementToCommunicationResourceMapping (readIdentifiable base call per Rule 0025, six attributes in XSD group order, returns the populated instance like sibling readCpSoftwareClusterServiceResource); both dispatch sites (readSystemMappingPortElementToComResourceMappings, readCpSoftwareClusterMappingSet) rewired from readIdentifiable to the new reader. Writer mirrors this with setModeDeclarationGroupPrototypeInSystemInstanceRef/setParameterDataPrototypeInSystemInstanceRef (placed beside setTriggerInSystemInstanceRef) and writePortElementToCommunicationResourceMapping (writeIdentifiable base call, six set* calls in XSD order); both dispatch sites rewired. Round-trip test serialization fixed to the test_system_mapping.py pattern (xmlns injected on PARENT via replace, root[0] re-parsed) after the WRAP-wrapper trick indexed the wrong element.
+  - [x] Step 7 — Update checklist comment
+  - Note: 13-row checklist contiguous above __init__ in Identifiable.py, all rows [x], citation `# Spec: R23-11/AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 11.15, p.905 (R23-11)`; NO `# Spec verified:` marker per deferred-stamp instruction. audit_class.py PASS (missing-marker = INFO acceptable).
+  - [x] Step 8 — Deviations
+  - Note: (1) iref-kind members named with IRef suffix (clientServerOperationIRef, modeDeclarationGroupPrototypeIRef, parameterDataPrototypeIRef, triggerIRef, variableDataPrototypeIRef) per Rule 0001.5 — the mission's "Ref suffix" example applies only to the ref-kind communicationResourceRef; (2) XSD VARIATION-POINT (AUTOSAR_00052.xsd l.92083) not modeled — absent from the Table 11.15 attribute rows (PDF wins, Rule 0015); (3) two member types (ModeDeclarationGroupPrototypeInSystemInstanceRef, ParameterDataPrototypeInSystemInstanceRef) are XSD-only (no table in repo corpus) created from XSD groups l.82093/l.87933 mirroring RteEventInCompositionInstanceRef, pre-tracked in xsd_classes.md l.350/l.375; (4) the five InstanceRef member annotations are TYPE_CHECKING strings in Identifiable.py (circular import otherwise — DiagnosticDataElement precedent).
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
 - [ ] `CpSoftwareClusterToResourceMapping` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 11.16, p.907
