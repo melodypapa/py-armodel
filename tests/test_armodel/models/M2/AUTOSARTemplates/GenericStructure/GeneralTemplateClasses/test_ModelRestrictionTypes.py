@@ -134,3 +134,32 @@ class TestAbstractVariationRestriction:
         times = [FullBindingTimeEnum().setValue(FullBindingTimeEnum.LINK_TIME)]
         assert obj.setValidBindingTimes(times) is obj
         assert obj.getValidBindingTimes() is times
+
+
+class TestAbstractVariationRestrictionInit:
+    """The mixin must own its own per-instance initialization."""
+
+    def test_mixin_init_runs_for_concrete_subclass(self):
+        """
+        Test that AbstractVariationRestriction defines its own __init__.
+
+        The mixin sits after Referrable in the MRO, so it only initializes
+        itself if Referrable dispatches cooperatively.
+        """
+        assert "__init__" in AbstractVariationRestriction.__dict__, "mixin must define its own __init__"
+
+    def test_subclass_instances_do_not_share_the_default(self):
+        """
+        Test that two instances do not share the validBindingTimes list.
+
+        A mutable class-level default would be shared by every instance, so one
+        instance's addValidBindingTime would leak into another's list.
+        """
+
+        class _Concrete(AbstractVariationRestriction):
+            def __init__(self):
+                super().__init__()
+
+        first, second = _Concrete(), _Concrete()
+        first.addValidBindingTime(FullBindingTimeEnum().setValue(FullBindingTimeEnum.POST_BUILD))
+        assert second.getValidBindingTimes() == [], "instances must not share the validBindingTimes list"
