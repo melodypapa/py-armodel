@@ -266,21 +266,20 @@ class ModeDeclarationGroup(AtpType):
 
     # ModeDeclarationGroup method parity checklist:
     # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table C.68, p.197
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] createModeDeclaration        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getModeDeclarations          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setInitialModeRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getInitialModeRef            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setOnTransitionValue         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getOnTransitionValue         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createModeTransition         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getModeTransitions           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getModeManagerErrorBehavior  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setModeManagerErrorBehavior  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getModeUserErrorBehavior     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setModeUserErrorBehavior     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createModeDeclaration        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getModeDeclarations          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setInitialModeRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getInitialModeRef            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOnTransitionValue         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOnTransitionValue         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createModeTransition         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getModeTransitions           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getModeManagerErrorBehavior  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setModeManagerErrorBehavior  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getModeUserErrorBehavior     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setModeUserErrorBehavior     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -320,7 +319,7 @@ class ModeDeclarationGroup(AtpType):
 
     def getModeDeclarations(self) -> List[ModeDeclaration]:
         """
-        The ModeDeclarations collected in this ModeDeclaration Group.
+        The ModeDeclarations collected in this ModeDeclaration Group. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=modeDeclaration.shortName, mode Declaration.variationPoint.shortLabel vh.latestBindingTime=blueprintDerivationTime
 
         Returns:
             List of ModeDeclaration instances
