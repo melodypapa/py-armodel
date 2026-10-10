@@ -386,48 +386,25 @@ class TopicOrMsrQuery(ARObject):
 
     # TopicOrMsrQuery method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.80, p.342
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] addTopic1           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTopic1s          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMsrQueryTopic1   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMsrQueryTopic1   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setMsrQueryTopic1    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMsrQueryTopic1    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addTopic1            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTopic1s           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        # This represents automatically contributed topics provided by an msrquery.
+        # This represents automatically contributed topics provided by an msrquery. Tags: xml.sequenceOffset=190
         self.msrQueryTopic1: Optional[MsrQueryTopic1] = None
 
-        # This is used to create particular topics within a chapter. A topic is similar to a subchapter, but cannot be nested and will not appear in the table of contents of the document.
-        self.topic1: List[Topic1] = []
-
-    def addTopic1(self, value: Optional[Topic1]) -> TopicOrMsrQuery:
-        """
-        This is used to create particular topics within a chapter. A topic is similar to a subchapter, but cannot be nested and will not appear in the table of contents of the document.
-
-        A None value is a no-op and does not append anything.
-
-        Returns:
-            self for method chaining
-        """
-        if value is not None:
-            self.topic1.append(value)
-        return self
-
-    def getTopic1s(self) -> List[Topic1]:
-        """
-        This is used to create particular topics within a chapter. A topic is similar to a subchapter, but cannot be nested and will not appear in the table of contents of the document.
-
-        Returns:
-            The created particular topics within a chapter
-        """
-        return self.topic1
+        # This is used to create particular topics within a chapter. A topic is similar to a subchapter, but cannot be nested and will not appear in the table of contents of the document. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=topic1.shortName, topic1.variationPoint.shortLabel vh.latestBindingTime=postBuild xml.sequenceOffset=180
+        self.topic1s: List[Topic1] = []
 
     def setMsrQueryTopic1(self, value: Optional[MsrQueryTopic1]) -> TopicOrMsrQuery:
         """
-        This represents automatically contributed topics provided by an msrquery.
+        This represents automatically contributed topics provided by an msrquery. Tags: xml.sequenceOffset=190
 
         A None value is a no-op and does not overwrite an existing msrQueryTopic1.
 
@@ -440,12 +417,34 @@ class TopicOrMsrQuery(ARObject):
 
     def getMsrQueryTopic1(self) -> Optional[MsrQueryTopic1]:
         """
-        This represents automatically contributed topics provided by an msrquery.
+        This represents automatically contributed topics provided by an msrquery. Tags: xml.sequenceOffset=190
 
         Returns:
             The automatically contributed topics provided by an msrquery
         """
         return self.msrQueryTopic1
+
+    def addTopic1(self, value: Optional[Topic1]) -> TopicOrMsrQuery:
+        """
+        This is used to create particular topics within a chapter. A topic is similar to a subchapter, but cannot be nested and will not appear in the table of contents of the document. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=topic1.shortName, topic1.variationPoint.shortLabel vh.latestBindingTime=postBuild xml.sequenceOffset=180
+
+        A None value is a no-op and does not append anything.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.topic1s.append(value)
+        return self
+
+    def getTopic1s(self) -> List[Topic1]:
+        """
+        This is used to create particular topics within a chapter. A topic is similar to a subchapter, but cannot be nested and will not appear in the table of contents of the document. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=topic1.shortName, topic1.variationPoint.shortLabel vh.latestBindingTime=postBuild xml.sequenceOffset=180
+
+        Returns:
+            The created particular topics within a chapter
+        """
+        return self.topic1s
 
 
 class Topic1(Identifiable, VariationPointCapable):
