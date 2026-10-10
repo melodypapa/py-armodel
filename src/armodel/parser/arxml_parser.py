@@ -676,6 +676,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ReferenceBase,
     TransformationPropsSet,
     GlobalTimeDomain,
+    CpSoftwareClusterResourcePool,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import AclObjectSet, AclOperation, AclPermission, AclRole
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import DiagnosticCustomServiceInstance, DiagnosticMapping
@@ -826,6 +827,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     BinaryManifestResource,
     CpSoftwareClusterCommunicationResource,
     CpSoftwareClusterResource,
+    CpSoftwareClusterServiceResource,
     DdsCpConsumedServiceInstance,
     DdsCpDomain,
     DdsCpPartition,
@@ -13083,6 +13085,34 @@ class ARXMLParser(AbstractARXMLParser):
                 resource.setCommunicationResourceProps(data_com_props)
         return resource
 
+    def readCpSoftwareClusterServiceResource(self, element: ET.Element, resource: CpSoftwareClusterServiceResource) -> CpSoftwareClusterServiceResource:
+        # The XSD CP-SOFTWARE-CLUSTER-SERVICE-RESOURCE group (AUTOSAR_00052.xsd l.24595) carries
+        # RESOURCE-NEEDS-REFS only; that member belongs to CpSoftwareClusterServiceResource's own
+        # pending sync (Group34, Table 11.14) and is not modeled yet, so the helper owns the
+        # CpSoftwareClusterResource base level only.
+        self.readCpSoftwareClusterResource(element, resource)
+        return resource
+
+    def readCpSoftwareClusterResourcePool(self, element: ET.Element, resource_pool: CpSoftwareClusterResourcePool) -> CpSoftwareClusterResourcePool:
+        # The XSD CP-SOFTWARE-CLUSTER-RESOURCE-POOL group (AUTOSAR_00052.xsd l.24470) orders
+        # ECU-SCOPE-REFS then RESOURCES; the RESOURCES choice dispatches to the concrete
+        # CpSoftwareClusterResource subtypes.
+        self.logger.debug("Read CpSoftwareClusterResourcePool <%s>" % resource_pool.getShortName())
+        self.readIdentifiable(element, resource_pool)
+        for ref in self.getChildElementRefTypeList(element, "ECU-SCOPE-REFS/ECU-SCOPE-REF"):
+            resource_pool.addEcuScopeRef(ref)
+        resources_element = self.find(element, "RESOURCES")
+        if resources_element is not None:
+            for child_element in self.findall(resources_element, "*"):
+                tag_name = self.getPureTagName(child_element.tag)
+                if tag_name == "CP-SOFTWARE-CLUSTER-COMMUNICATION-RESOURCE":
+                    self.readCpSoftwareClusterCommunicationResource(child_element, resource_pool.createCpSoftwareClusterCommunicationResource(self.getShortName(child_element)))
+                elif tag_name == "CP-SOFTWARE-CLUSTER-SERVICE-RESOURCE":
+                    self.readCpSoftwareClusterServiceResource(child_element, resource_pool.createCpSoftwareClusterServiceResource(self.getShortName(child_element)))
+                else:
+                    self.notImplemented("Unsupported Element type of CpSoftwareClusterResourcePool <RESOURCES> <%s>" % tag_name)
+        return resource_pool
+
     def readDiagnosticEventToTroubleCodeJ1939Mapping(self, element: ET.Element, mapping: DiagnosticEventToTroubleCodeJ1939Mapping):
         self.readDiagnosticMapping(element, mapping)
         mapping.setDiagnosticEventRef(self.getChildElementOptionalRefType(element, "DIAGNOSTIC-EVENT-REF"))
@@ -20854,6 +20884,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "GLOBAL-TIME-DOMAIN":
                 global_time_domain = parent.createGlobalTimeDomain(self.getShortName(child_element))
                 self.readGlobalTimeDomain(child_element, global_time_domain)
+            elif tag_name == "CP-SOFTWARE-CLUSTER-RESOURCE-POOL":
+                resource_pool = parent.createCpSoftwareClusterResourcePool(self.getShortName(child_element))
+                self.readCpSoftwareClusterResourcePool(child_element, resource_pool)
             elif tag_name == "ECUC-VALUE-COLLECTION":
                 self.readEcucValueCollection(child_element, parent.createEcucValueCollection(self.getShortName(child_element)))
             elif tag_name == "ETH-IP-PROPS":

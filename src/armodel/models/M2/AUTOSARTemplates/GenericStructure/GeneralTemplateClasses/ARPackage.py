@@ -73,6 +73,9 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticRequestRoutineResults,
     DiagnosticStartRoutine,
     DiagnosticStopRoutine,
+    CpSoftwareClusterCommunicationResource,
+    CpSoftwareClusterResource,
+    CpSoftwareClusterServiceResource,
     GlobalTimeCanMaster,
     GlobalTimeCanSlave,
     GlobalTimeEthMaster,
@@ -2889,6 +2892,13 @@ class ARPackage(CollectableElement, VariationPointCapable):
             element = GlobalTimeDomain(self, short_name)
             self.addReferrableElement(element)
         return cast(GlobalTimeDomain, self.getReferrableElement(short_name, GlobalTimeDomain))
+
+    def createCpSoftwareClusterResourcePool(self, short_name: str) -> CpSoftwareClusterResourcePool:
+
+        if not self.IsReferrableElementExists(short_name, CpSoftwareClusterResourcePool):
+            element = CpSoftwareClusterResourcePool(self, short_name)
+            self.addReferrableElement(element)
+        return cast(CpSoftwareClusterResourcePool, self.getReferrableElement(short_name, CpSoftwareClusterResourcePool))
 
     def createISignalIPdu(self, short_name: str) -> ISignalIPdu:
 
@@ -12257,7 +12267,76 @@ class CpSoftwareClusterBinaryManifestDescriptor(ARElement):
 
 
 class CpSoftwareClusterResourcePool(ARElement):
-    pass
+    """
+    Represents the pool of resources which can be provided or required by CP Software Clusters. Tags: atp.recommendedPackage=CpSoftwareClusterResourcePools
+    """
+
+    # CpSoftwareClusterResourcePool method parity checklist:
+    # Spec: R23-11/AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 11.5, p.901 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addEcuScopeRef                               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEcuScopeRefs                              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createCpSoftwareClusterCommunicationResource [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createCpSoftwareClusterServiceResource       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getResources                                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    #
+    # The markdown Table 11.5 resource Type cell renders "CpSoftwareCluster Resource"
+    # (a line-wrap artifact); the XSD RESOURCES choice (AUTOSAR_00052.xsd l.24497) names the
+    # abstract CP-SOFTWARE-CLUSTER-RESOURCE only through its two concrete subtypes
+    # CP-SOFTWARE-CLUSTER-COMMUNICATION-RESOURCE / CP-SOFTWARE-CLUSTER-SERVICE-RESOURCE,
+    # so the aggregation owns the two concrete create factories and no abstract adder.
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This reference identifies the EcuInstance in which the resource pool is defined. Stereotypes: atpSplitable Tags: atp.Splitkey=ecuScope
+        self.ecuScopeRefs: List[RefType] = []
+
+        # This aggregation represents the collection of resources in the enclosing resource pool. Stereotypes: atpSplitable Tags: atp.Splitkey=resource.shortName
+        self.resources: List[CpSoftwareClusterResource] = []
+
+    def addEcuScopeRef(self, value: Optional[RefType]) -> CpSoftwareClusterResourcePool:
+        """
+        This reference identifies the EcuInstance in which the resource pool is defined. Stereotypes: atpSplitable Tags: atp.Splitkey=ecuScope
+
+        A None value is a no-op and does not append to ecuScopeRefs.
+        """
+        if value is not None:
+            self.ecuScopeRefs.append(value)
+        return self
+
+    def getEcuScopeRefs(self) -> List[RefType]:
+        """
+        This reference identifies the EcuInstance in which the resource pool is defined. Stereotypes: atpSplitable Tags: atp.Splitkey=ecuScope
+        """
+        return self.ecuScopeRefs
+
+    def createCpSoftwareClusterCommunicationResource(self, short_name: str) -> CpSoftwareClusterCommunicationResource:
+        """
+        This aggregation represents the collection of resources in the enclosing resource pool. Stereotypes: atpSplitable Tags: atp.Splitkey=resource.shortName
+        """
+        if not self.IsReferrableElementExists(short_name, CpSoftwareClusterCommunicationResource):
+            element = CpSoftwareClusterCommunicationResource(self, short_name)
+            self.addReferrableElement(element)
+            self.resources.append(element)
+        return cast(CpSoftwareClusterCommunicationResource, self.getReferrableElement(short_name, CpSoftwareClusterCommunicationResource))
+
+    def createCpSoftwareClusterServiceResource(self, short_name: str) -> CpSoftwareClusterServiceResource:
+        """
+        This aggregation represents the collection of resources in the enclosing resource pool. Stereotypes: atpSplitable Tags: atp.Splitkey=resource.shortName
+        """
+        if not self.IsReferrableElementExists(short_name, CpSoftwareClusterServiceResource):
+            element = CpSoftwareClusterServiceResource(self, short_name)
+            self.addReferrableElement(element)
+            self.resources.append(element)
+        return cast(CpSoftwareClusterServiceResource, self.getReferrableElement(short_name, CpSoftwareClusterServiceResource))
+
+    def getResources(self) -> List[CpSoftwareClusterResource]:
+        """
+        This aggregation represents the collection of resources in the enclosing resource pool. Stereotypes: atpSplitable Tags: atp.Splitkey=resource.shortName
+        """
+        return self.resources
 
 
 class CryptoServiceKey(ARElement):

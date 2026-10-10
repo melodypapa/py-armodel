@@ -448,6 +448,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ReferenceBase,
     TransformationPropsSet,
     GlobalTimeDomain,
+    CpSoftwareClusterResourcePool,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import AclObjectSet, AclOperation, AclPermission, AclRole
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import DiagnosticCustomServiceInstance, DiagnosticMapping
@@ -662,6 +663,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     BinaryManifestResource,
     CpSoftwareClusterCommunicationResource,
     CpSoftwareClusterResource,
+    CpSoftwareClusterServiceResource,
     CpSoftwareClusterToResourceMapping,
     DdsCpConsumedServiceInstance,
     DdsCpDomain,
@@ -18623,6 +18625,39 @@ class ARXMLWriter(AbstractARXMLWriter):
                 data_com_element = ET.SubElement(communication_resource_props_element, "DATA-COM-PROPS")
                 self.writeDataComProps(data_com_element, props)
 
+    def writeCpSoftwareClusterServiceResource(self, element: ET.Element, resource: CpSoftwareClusterServiceResource):
+        # Populates the CP-SOFTWARE-CLUSTER-SERVICE-RESOURCE element created by the caller;
+        # the XSD CP-SOFTWARE-CLUSTER-SERVICE-RESOURCE group (AUTOSAR_00052.xsd l.24595) carries
+        # RESOURCE-NEEDS-REFS only, which belongs to CpSoftwareClusterServiceResource's own
+        # pending sync (Group34, Table 11.14), so the helper owns the CpSoftwareClusterResource
+        # base level only.
+        self.logger.debug("Write CpSoftwareClusterServiceResource %s" % resource.getShortName())
+        self.writeCpSoftwareClusterResource(element, resource)
+
+    def writeCpSoftwareClusterResourcePool(self, element: ET.Element, resource_pool: CpSoftwareClusterResourcePool):
+        # The XSD CP-SOFTWARE-CLUSTER-RESOURCE-POOL group (AUTOSAR_00052.xsd l.24470) element
+        # order is ECU-SCOPE-REFS then RESOURCES; the aggregation wrappers are emitted only
+        # when non-empty and the RESOURCES choice names the concrete CpSoftwareClusterResource
+        # subtypes.
+        self.logger.debug("Write CpSoftwareClusterResourcePool %s" % resource_pool.getShortName())
+        child_element = ET.SubElement(element, "CP-SOFTWARE-CLUSTER-RESOURCE-POOL")
+        self.writeIdentifiable(child_element, resource_pool)
+        ecu_scope_refs = resource_pool.getEcuScopeRefs()
+        if len(ecu_scope_refs) > 0:
+            wrapper_element = ET.SubElement(child_element, "ECU-SCOPE-REFS")
+            for ref in ecu_scope_refs:
+                self.setChildElementOptionalRefType(wrapper_element, "ECU-SCOPE-REF", ref)
+        resources = resource_pool.getResources()
+        if len(resources) > 0:
+            wrapper_element = ET.SubElement(child_element, "RESOURCES")
+            for resource in resources:
+                if isinstance(resource, CpSoftwareClusterCommunicationResource):
+                    self.writeCpSoftwareClusterCommunicationResource(ET.SubElement(wrapper_element, "CP-SOFTWARE-CLUSTER-COMMUNICATION-RESOURCE"), resource)
+                elif isinstance(resource, CpSoftwareClusterServiceResource):
+                    self.writeCpSoftwareClusterServiceResource(ET.SubElement(wrapper_element, "CP-SOFTWARE-CLUSTER-SERVICE-RESOURCE"), resource)
+                else:
+                    self.notImplemented("Unsupported CpSoftwareClusterResource subtype <%s>" % type(resource).__name__)
+
     def writeDiagnosticEventToTroubleCodeJ1939Mapping(self, element: ET.Element, mapping: DiagnosticEventToTroubleCodeJ1939Mapping):
         self.logger.debug("Write DiagnosticEventToTroubleCodeJ1939Mapping %s" % mapping.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-EVENT-TO-TROUBLE-CODE-J-1939-MAPPING")
@@ -21270,6 +21305,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeTransformationPropsSet(element, ar_element)
         elif isinstance(ar_element, GlobalTimeDomain):
             self.writeGlobalTimeDomain(element, ar_element)
+        elif isinstance(ar_element, CpSoftwareClusterResourcePool):
+            self.writeCpSoftwareClusterResourcePool(element, ar_element)
         elif isinstance(ar_element, ParameterInterface):
             self.writeParameterInterface(element, ar_element)
         elif isinstance(ar_element, NvDataInterface):
