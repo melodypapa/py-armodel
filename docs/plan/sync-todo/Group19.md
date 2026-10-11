@@ -270,6 +270,17 @@ staleness), checklist converted to the 6-column format (Step 7), `readARObject` 
       mirrored test file, all 5 touched code files re-checked clean; no
       marker in batch mode.
 
+- [ ] `ConfigurationVariant` — AREnum — source TBC (R3.2.3 AUTOSAR_ECU_Configuration Table 3.11, p.56 — locate at Step 1)
+  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [x] `ModuleConfiguration` — ARElement — source TBC (locate table at Step 1) — commit 5cedb145b (stamped 2026-10-06, # Spec verified: R3.2.3)
   - module: M2/AUTOSARTemplates/ECUCDescriptionTemplate.py
   - note (Step 1): R3.2.3-only class — Table 3.30 AUTOSAR_ECU_Configuration.md

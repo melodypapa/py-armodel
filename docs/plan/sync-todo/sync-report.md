@@ -6,7 +6,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 ## Summary
 
-**1914 classes total**
+**1915 classes total**
 
 | Status | Classes | Percent |
 | --- | --- | --- |
@@ -16,7 +16,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | [ ] Deferred | 995 | 52.0% |
 | [ ] Implemented | 10 | 0.5% |
 | [ ] Created | 0 | 0.0% |
-| [ ] Pending | 4 | 0.2% |
+| [ ] Pending | 5 | 0.3% |
 
 | Class Name                                              | Status      | Commit ID                                | Groups           |
 | ------------------------------------------------------- | ------------| ---------------------------------------- | ---------------- |
@@ -336,6 +336,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `ConditionalChangeNad`                                  | [ ] Deferred| N/A                                      | Group32          |
 | `ConfidenceInterval`                                    | [ ] Deferred| N/A                                      | Group35          |
 | `ConfigReferenceValue`                                  | [x] Done    | 7ed4c9a4a4                               | Group19          |
+| `ConfigurationVariant`                                  | [ ] Pending | N/A                                      | Group19          |
 | `ConsistencyNeeds`                                      | [ ] Deferred| N/A                                      | Group28          |
 | `ConstantReference`                                     | [x] Done    | 4853348ea0                               | Group9           |
 | `ConstantSpecification`                                 | [x] Done    | 265721a764                               | Group9           |
