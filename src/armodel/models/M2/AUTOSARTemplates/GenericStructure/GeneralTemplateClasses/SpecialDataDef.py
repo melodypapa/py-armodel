@@ -27,16 +27,24 @@ class SdgElementWithGid(ARObject, ABC):
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.25, p.99
     # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getGid    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setGid    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
-    # Class-level default — the ONLY initialization (VariationPointCapable mixin
-    # pattern): this mixin has no __init__ at all. Referrable dispatches
-    # cooperatively, so a mixin __init__ WOULD run — one is simply not needed:
-    # the default is immutable (Optional[...] = None), so sharing it across
-    # instances carries no hazard (see Rule 0021's MRO-dispatch note).
-    # Specifies the name that identifies the element.
-    gid: Optional[NameToken] = None
+    def __init__(self):
+        if type(self) is SdgElementWithGid:
+            raise TypeError("SdgElementWithGid is an abstract class.")
+
+        # ARObject-level: this class carries only the gid — no parent/short_name
+        # (Base row is ARObject, Table 4.25). The concrete children list their
+        # Identifiable-family base FIRST and SdgElementWithGid second, so the MRO
+        # places this class after ARObject; each child therefore initializes it
+        # explicitly (SdgElementWithGid.__init__(self)) next to its own super()
+        # chain — the same class-access idiom Referrable uses for ARObject.
+        super().__init__()
+
+        # Specifies the name that identifies the element.
+        self.gid: Optional[NameToken] = None
 
     def getGid(self) -> Optional[NameToken]:
         """
@@ -80,7 +88,7 @@ class SdgAttribute(Identifiable, AbstractMultiplicityRestriction, ABC):
         super().__init__(parent, short_name)
 
 
-class SdgClass(SdgElementWithGid, Identifiable):
+class SdgClass(Identifiable, SdgElementWithGid):
     """
     An SdgClass specifies the name and structure of the SDG that may be used to store proprietary data in an AUTOSAR model. The SdgClass is similar to an UML stereotype.
     """
@@ -100,6 +108,10 @@ class SdgClass(SdgElementWithGid, Identifiable):
     # [x] getSdgConstraintRefs  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent, short_name: str):
+        # The SdgElementWithGid level initializes first: it dispatches to
+        # ARObject.__init__ (which resets parent/S/T), so it must run BEFORE the
+        # Identifiable chain that assigns parent/short_name.
+        SdgElementWithGid.__init__(self)
         super().__init__(parent, short_name)
 
         # Defintion of the structure of the Sdg Tags: xml.sequenceOffset=30
@@ -191,7 +203,7 @@ class SdgClass(SdgElementWithGid, Identifiable):
         return self.sdgConstraintRefs
 
 
-class SdgAbstractPrimitiveAttribute(SdgElementWithGid, SdgAttribute, AbstractValueRestriction, ABC):
+class SdgAbstractPrimitiveAttribute(SdgAttribute, SdgElementWithGid, AbstractValueRestriction, ABC):
     """
     Describes primitive attributes of a special data group.
     """
@@ -205,6 +217,7 @@ class SdgAbstractPrimitiveAttribute(SdgElementWithGid, SdgAttribute, AbstractVal
         if type(self) is SdgAbstractPrimitiveAttribute:
             raise TypeError("SdgAbstractPrimitiveAttribute is an abstract class.")
 
+        SdgElementWithGid.__init__(self)
         super().__init__(parent, short_name)
 
 
@@ -236,7 +249,7 @@ class SdgPrimitiveAttributeWithVariation(SdgAbstractPrimitiveAttribute, Abstract
         super().__init__(parent, short_name)
 
 
-class SdgAggregationWithVariation(SdgElementWithGid, SdgAttribute, AbstractVariationRestriction):
+class SdgAggregationWithVariation(SdgAttribute, SdgElementWithGid, AbstractVariationRestriction):
     """
     Describes that the Sdg may contain another Sdg. The gid of the nested Sdg is defined by subSdg. Represents 'sdg'.
     """
@@ -249,6 +262,7 @@ class SdgAggregationWithVariation(SdgElementWithGid, SdgAttribute, AbstractVaria
     # [x] setSubSdgRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent, short_name: str):
+        SdgElementWithGid.__init__(self)
         super().__init__(parent, short_name)
 
         # Supported sub Sdg Class
@@ -320,7 +334,7 @@ class SdgReference(SdgAttribute):
         return self
 
 
-class SdgAbstractForeignReference(SdgElementWithGid, SdgAttribute, ABC):
+class SdgAbstractForeignReference(SdgAttribute, SdgElementWithGid, ABC):
     """
     An abstract reference that can point to any referrable object in an AUTOSAR Model.
     """
@@ -336,6 +350,7 @@ class SdgAbstractForeignReference(SdgElementWithGid, SdgAttribute, ABC):
         if type(self) is SdgAbstractForeignReference:
             raise TypeError("SdgAbstractForeignReference is an abstract class.")
 
+        SdgElementWithGid.__init__(self)
         super().__init__(parent, short_name)
 
         # specifies the destination meta-class of the reference.
