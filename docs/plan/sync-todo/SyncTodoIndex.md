@@ -942,9 +942,9 @@ Status: **57/75** completed
 | -------------------------------------- | ------------ | ---------- |
 | `AnyInstanceRef`                       | [x] Done     | c7880fd7ac |
 | `Chapter`                              | [x] Done     | bfaef7d30e |
-| `PredefinedChapter`                    | [x] Done*    | 0af25ab2e5 |
+| `PredefinedChapter`                    | [x] Done     | 0af25ab2e5 |
 | `FloatEnum`                            | [x] Done     | 1649678501 |
-| `Topic1`                               | [x] Done*    | 0d13ccd1bc |
+| `Topic1`                               | [x] Done     | 948fa1096b |
 | `TopicOrMsrQuery`                      | [x] Done*    | 0d13ccd1bc |
 | `ChapterOrMsrQuery`                    | [x] Done*    | 0d13ccd1bc |
 | `MsrQueryProps`                        | [x] Done*    | 4566d4d4f7 |

@@ -10,8 +10,8 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 810 | 42.4% |
-| [x] Deferred | 89 | 4.7% |
+| [x] Done | 812 | 42.5% |
+| [x] Deferred | 87 | 4.6% |
 | [x] Retired | 0 | 0.0% |
 | [ ] Deferred | 989 | 51.8% |
 | [ ] Implemented | 10 | 0.5% |
@@ -1425,7 +1425,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `PostBuildVariantCriterion`                             | [x] Done    | 5333bec027                               | Group8           |
 | `PostBuildVariantCriterionValue`                        | [x] Done    | 8af1088fd2                               | Group8           |
 | `PostBuildVariantCriterionValueSet`                     | [ ] Deferred| N/A                                      | Group36          |
-| `PredefinedChapter`                                     | [x] Deferred| 0af25ab2e5                               | Group22          |
+| `PredefinedChapter`                                     | [x] Done    | 0af25ab2e5                               | Group22          |
 | `PredefinedVariant`                                     | [x] Deferred| N/A                                      | Group21          |
 | `PrimitiveAttributeCondition`                           | [ ] Deferred| N/A                                      | Group36          |
 | `PrimitiveAttributeTailoring`                           | [ ] Deferred| N/A                                      | Group36          |
@@ -1819,7 +1819,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `TlsVersionEnum`                                        | [x] Done    | d969a0ddc1                               | Group6           |
 | `TlvDataIdDefinition`                                   | [x] Done    | 27ea0743dc                               | Group6           |
 | `TlvDataIdDefinitionSet`                                | [x] Done    | f0c9473162                               | Group6           |
-| `Topic1`                                                | [x] Deferred| 0d13ccd1bc                               | Group22          |
+| `Topic1`                                                | [x] Done    | 948fa1096b                               | Group22          |
 | `TopicContent`                                          | [x] Done    | 6d7e325736                               | Group3           |
 | `TopicContentOrMsrQuery`                                | [x] Done    | 460218682e                               | Group9           |
 | `TopicOrMsrQuery`                                       | [x] Deferred| 0d13ccd1bc                               | Group22          |
