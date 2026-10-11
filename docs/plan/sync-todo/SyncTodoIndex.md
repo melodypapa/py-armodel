@@ -936,7 +936,7 @@ Status: **28/55** completed
 
 ## Group22
 
-Status: **57/75** completed
+Status: **58/75** completed
 
 | Class Name                             | Status       | Commit ID  |
 | -------------------------------------- | ------------ | ---------- |
@@ -954,7 +954,7 @@ Status: **57/75** completed
 | `MultiLanguagePlainText`               | [x] Done*    | 53af1b9a63 |
 | `LanguageSpecific`                     | [x] Done*    | 4566d4d4f7 |
 | `LEnum`                                | [x] Done*    | 4566d4d4f7 |
-| `AclPermission`                        | [ ] Pending* | 29d7cfc19d |
+| `AclPermission`                        | [x] Done     | 98b8e859a6 |
 | `AclObjectSet`                         | [ ] Pending* | 11ad22dfad |
 | `AclOperation`                         | [ ] Pending* | 0eb0409c12 |
 | `AclRole`                              | [ ] Pending* | 8d5c387889 |

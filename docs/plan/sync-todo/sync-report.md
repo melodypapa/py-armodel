@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 815 | 42.7% |
+| [x] Done | 816 | 42.7% |
 | [x] Deferred | 84 | 4.4% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 989 | 51.8% |
+| [ ] Deferred | 988 | 51.7% |
 | [ ] Implemented | 10 | 0.5% |
 | [ ] Created | 12 | 0.6% |
 | [ ] Pending | 0 | 0.0% |
@@ -54,7 +54,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `AccessCountSet`                                        | [x] Deferred| e3d1262da1                               | Group22          |
 | `AclObjectSet`                                          | [ ] Deferred| 11ad22dfad                               | Group22          |
 | `AclOperation`                                          | [ ] Deferred| 0eb0409c12                               | Group22          |
-| `AclPermission`                                         | [ ] Deferred| 29d7cfc19d                               | Group22          |
+| `AclPermission`                                         | [x] Done    | 98b8e859a6                               | Group22          |
 | `AclRole`                                               | [ ] Deferred| 8d5c387889                               | Group22          |
 | `AclScopeEnum`                                          | [ ] Deferred| dfa53c4352                               | Group22          |
 | `AdditionalBindingTimeEnum`                             | [ ] Deferred| b72807df62                               | Group29          |
