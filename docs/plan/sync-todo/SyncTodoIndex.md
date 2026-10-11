@@ -881,7 +881,7 @@ Status: **28/55** completed
 | `Identifier`                         | [x] Done     | 6336d00e15 |
 | `LLongName`                          | [x] Done     | c09bc8067d |
 | `MixedContentForLongName`            | [x] Done     | fdc7811f86 |
-| `Referrable`                         | [x] Done*    | N/A        |
+| `Referrable`                         | [x] Done*    | 4e60d3a344 |
 | `ReferrableSubtypesEnum`             | [x] Done     | a097cb3d4f |
 | `SdgDef`                             | [x] Done     | c7d3958065 |
 | `SdgElementWithGid`                  | [x] Done     | f7d552948b |
@@ -1936,7 +1936,7 @@ Status: **0/75** completed
 | `UserDefinedTransformationDescription`              | [ ] Pending* | N/A       |
 | `CSTransformerErrorReactionEnum`                    | [ ] Pending* | N/A       |
 | `SOMEIPTransformationDescription`                   | [ ] Pending* | N/A       |
-| `TransformationPropsSet`                            | [ ] Created  | N/A       |
+| `TransformationPropsSet`                            | [ ] Pending* | N/A       |
 | `TransformationProps`                               | [ ] Pending* | N/A       |
 | `SOMEIPTransformationProps`                         | [ ] Pending* | N/A       |
 | `DataPrototypeReference`                            | [ ] Pending* | N/A       |
@@ -1948,7 +1948,7 @@ Status: **0/75** completed
 | `DataIdModeEnum`                                    | [ ] Pending* | N/A       |
 | `EndToEndProfileBehaviorEnum`                       | [ ] Pending* | N/A       |
 | `UserDefinedTransformationProps`                    | [ ] Pending* | N/A       |
-| `GlobalTimeDomain`                                  | [ ] Created  | N/A       |
+| `GlobalTimeDomain`                                  | [ ] Pending* | N/A       |
 | `AbstractGlobalTimeDomainProps`                     | [ ] Pending* | N/A       |
 | `NetworkSegmentIdentification`                      | [ ] Pending* | N/A       |
 | `GlobalTimeMaster`                                  | [ ] Pending* | N/A       |
@@ -1976,23 +1976,23 @@ Status: **0/75** completed
 | `GlobalTimeCrcValidationEnum`                       | [ ] Pending* | N/A       |
 | `GlobalTimeIcvSupportEnum`                          | [ ] Pending* | N/A       |
 | `GlobalTimeIcvVerificationEnum`                     | [ ] Pending* | N/A       |
-| `CpSoftwareClusterResourcePool`                     | [ ] Created  | N/A       |
+| `CpSoftwareClusterResourcePool`                     | [ ] Pending* | N/A       |
 | `CpSoftwareClusterCommunicationResource`            | [ ] Pending* | N/A       |
 | `CpSoftwareClusterCommunicationResourceProps`       | [ ] Pending* | N/A       |
 | `DataComProps`                                      | [ ] Pending* | N/A       |
 | `DataConsistencyPolicyEnum`                         | [ ] Pending* | N/A       |
 | `ClientServerOperationComProps`                     | [ ] Pending* | N/A       |
 | `SendIndicationEnum`                                | [ ] Pending* | N/A       |
-| `CpSoftwareClusterServiceResource`                  | [ ] Created  | N/A       |
-| `PortElementToCommunicationResourceMapping`         | [ ] Created  | N/A       |
-| `CpSoftwareClusterToResourceMapping`                | [ ] Created  | N/A       |
-| `CpSoftwareClusterBinaryManifestDescriptor`         | [ ] Created  | N/A       |
-| `BinaryManifestProvideResource`                     | [ ] Created  | N/A       |
+| `CpSoftwareClusterServiceResource`                  | [ ] Pending* | N/A       |
+| `PortElementToCommunicationResourceMapping`         | [ ] Pending* | N/A       |
+| `CpSoftwareClusterToResourceMapping`                | [ ] Pending* | N/A       |
+| `CpSoftwareClusterBinaryManifestDescriptor`         | [ ] Pending* | N/A       |
+| `BinaryManifestProvideResource`                     | [ ] Pending* | N/A       |
 | `BinaryManifestResource`                            | [ ] Pending* | N/A       |
-| `BinaryManifestRequireResource`                     | [ ] Created  | N/A       |
-| `BinaryManifestResourceDefinition`                  | [ ] Created  | N/A       |
-| `BinaryManifestItem`                                | [ ] Created  | N/A       |
-| `BinaryManifestItemDefinition`                      | [ ] Created  | N/A       |
+| `BinaryManifestRequireResource`                     | [ ] Pending* | N/A       |
+| `BinaryManifestResourceDefinition`                  | [ ] Pending* | N/A       |
+| `BinaryManifestItem`                                | [ ] Pending* | N/A       |
+| `BinaryManifestItemDefinition`                      | [ ] Pending* | N/A       |
 | `BinaryManifestAddressableObject`                   | [ ] Pending* | N/A       |
 | `BinaryManifestItemValue`                           | [ ] Pending* | N/A       |
 | `BinaryManifestItemNumericalValue`                  | [ ] Pending* | N/A       |
