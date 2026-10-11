@@ -4,10 +4,12 @@ MSR Documentation::Chapters package (Chapter, ChapterModel, ChapterContent,
 ChapterOrMsrQuery, TopicOrMsrQuery and the MSR query stub types).
 """
 
+import inspect
 from inspect import cleandoc
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import String
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
 from armodel.models.M2.MSR.Documentation.BlockElements.OasisExchangeTable import Table
 from armodel.models.M2.MSR.Documentation.BlockElements.RequirementsTracing import TraceableTable
 from armodel.models.M2.MSR.Documentation.Chapters import (
@@ -56,6 +58,30 @@ class TestChapter:
         assert chapter.getChapterModel() is chapter_model
         chapter.setChapterModel(None)
         assert chapter.getChapterModel() is chapter_model
+
+    def test_is_variation_point_capable(self):
+        """Chapter carries the <<atpVariation>> stereotype: XSD group CHAPTER declares VARIATION-POINT (00052 L16366)."""
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
+
+        chapter = Chapter(self._parent(), "MyChapter")
+        assert isinstance(chapter, VariationPointCapable)
+
+    def test_variation_point_base_accessors(self):
+        parent = self._parent()
+        chapter = Chapter(parent, "MyChapter")
+        assert chapter.getVariationPoint() is None
+        variation_point = VariationPoint()
+        assert chapter.setVariationPoint(variation_point) is chapter
+        assert chapter.getVariationPoint() is variation_point
+        chapter.setVariationPoint(None)
+        assert chapter.getVariationPoint() is variation_point
+
+    def test_accessor_pairs_are_getter_first(self):
+        """Table 9.58 declares chapterModel (Mult 1) and helpEntry (Mult 0..1) as scalar attributes, so each
+        accessor pair follows the scalar getter-first order of Rule 0001.11 (getter, then setter)."""
+        source = inspect.getsource(Chapter)
+        order = [line.strip().split("(")[0].removeprefix("def ") for line in source.splitlines() if line.strip().startswith(("def get", "def set"))]
+        assert order == ["getChapterModel", "setChapterModel", "getHelpEntry", "setHelpEntry"]
 
 
 class TestPredefinedChapter:

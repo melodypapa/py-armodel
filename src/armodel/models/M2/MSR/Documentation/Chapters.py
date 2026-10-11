@@ -31,12 +31,13 @@ class Chapter(Identifiable, VariationPointCapable):
 
     # Chapter method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.58, p.329
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] setChapterModel     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getChapterModel     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setHelpEntry        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getHelpEntry        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getChapterModel [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setChapterModel [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getHelpEntry    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setHelpEntry    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -46,6 +47,15 @@ class Chapter(Identifiable, VariationPointCapable):
 
         # This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator. Maybe it is a concatenated Identifier, but as of now we leave it as an arbitrary string. Tags: xml.attribute=true
         self.helpEntry: Optional[String] = None
+
+    def getChapterModel(self) -> Optional[ChapterModel]:
+        """
+        This represents the overall contents of the chapter. Tags: xml.roleElement=false xml.roleWrapperElement=false xml.typeElement=false xml.typeWrapperElement=false
+
+        Returns:
+            The overall contents of the chapter
+        """
+        return self.chapterModel
 
     def setChapterModel(self, value: Optional[ChapterModel]) -> Chapter:
         """
@@ -60,14 +70,14 @@ class Chapter(Identifiable, VariationPointCapable):
             self.chapterModel = value
         return self
 
-    def getChapterModel(self) -> Optional[ChapterModel]:
+    def getHelpEntry(self) -> Optional[String]:
         """
-        This represents the overall contents of the chapter. Tags: xml.roleElement=false xml.roleWrapperElement=false xml.typeElement=false xml.typeWrapperElement=false
+        This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator. Maybe it is a concatenated Identifier, but as of now we leave it as an arbitrary string. Tags: xml.attribute=true
 
         Returns:
-            The overall contents of the chapter
+            The entry point in an online help system to be linked with the parent class
         """
-        return self.chapterModel
+        return self.helpEntry
 
     def setHelpEntry(self, value: Optional[String]) -> Chapter:
         """
@@ -81,15 +91,6 @@ class Chapter(Identifiable, VariationPointCapable):
         if value is not None:
             self.helpEntry = value
         return self
-
-    def getHelpEntry(self) -> Optional[String]:
-        """
-        This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator. Maybe it is a concatenated Identifier, but as of now we leave it as an arbitrary string. Tags: xml.attribute=true
-
-        Returns:
-            The entry point in an online help system to be linked with the parent class
-        """
-        return self.helpEntry
 
 
 class PredefinedChapter(ARObject):

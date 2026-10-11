@@ -4023,13 +4023,17 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeChapter(self, element: ET.Element, chapter: Chapter, tag_name: str):
         child_element = ET.SubElement(element, tag_name)
-        self.writeIdentifiable(child_element, chapter)
+        # VARIATION-POINT is held back here and emitted last: XSD group CHAPTER
+        # (AUTOSAR_00052.xsd L16355) declares the CHAPTER-MODEL choice first and
+        # VARIATION-POINT at sequenceOffset=10000.
+        self.writeIdentifiable(child_element, chapter, write_variation_point=False)
         helpEntry_value = chapter.getHelpEntry()
         if helpEntry_value is not None:
             child_element.set("HELP-ENTRY", helpEntry_value.getValue())
         chapter_model = chapter.getChapterModel()
         if chapter_model is not None:
             self.writeChapterModel(child_element, chapter_model)
+        self.writeVariationPointCapable(child_element, chapter)
 
     def writeChapterModel(self, element: ET.Element, chapter_model: ChapterModel):
         child_element = ET.SubElement(element, "CHAPTER-MODEL")
