@@ -10,8 +10,8 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 814 | 42.6% |
-| [x] Deferred | 85 | 4.5% |
+| [x] Done | 815 | 42.7% |
+| [x] Deferred | 84 | 4.4% |
 | [x] Retired | 0 | 0.0% |
 | [ ] Deferred | 989 | 51.8% |
 | [ ] Implemented | 10 | 0.5% |
@@ -1299,7 +1299,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `MsrQueryArg`                                           | [x] Deferred| 4566d4d4f7                               | Group22          |
 | `MsrQueryChapter`                                       | [x] Done    | 50103018c3                               | Group3           |
 | `MsrQueryP1`                                            | [x] Done    | 8da723c461                               | Group3           |
-| `MsrQueryProps`                                         | [x] Deferred| 4566d4d4f7                               | Group22          |
+| `MsrQueryProps`                                         | [x] Done    | 7f2d943237                               | Group22          |
 | `MsrQueryResultChapter`                                 | [x] Done    | fb505d3551                               | Group3           |
 | `MsrQueryResultTopic1`                                  | [x] Done    | 09314bd3ad                               | Group3           |
 | `MsrQueryTopic1`                                        | [x] Done    | a09f0cdfbf                               | Group3           |

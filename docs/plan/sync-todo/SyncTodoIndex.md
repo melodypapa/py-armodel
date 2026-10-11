@@ -947,7 +947,7 @@ Status: **57/75** completed
 | `Topic1`                               | [x] Done     | 948fa1096b |
 | `TopicOrMsrQuery`                      | [x] Done     | 75eaee6e46 |
 | `ChapterOrMsrQuery`                    | [x] Done     | 53f6d29561 |
-| `MsrQueryProps`                        | [x] Done*    | 4566d4d4f7 |
+| `MsrQueryProps`                        | [x] Done     | 7f2d943237 |
 | `MsrQueryArg`                          | [x] Done*    | 4566d4d4f7 |
 | `MultiLanguageOverviewParagraph`       | [x] Done*    | 8294e5eeab |
 | `PgwideEnum`                           | [x] Done     | 1649678501 |
