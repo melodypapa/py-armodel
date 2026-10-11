@@ -1465,7 +1465,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `ReferenceCondition`                                    | [ ] Deferred| N/A                                      | Group36          |
 | `ReferenceTailoring`                                    | [ ] Deferred| N/A                                      | Group36          |
 | `ReferenceValueSpecification`                           | [ ] Deferred| 8186029562                               | Group28          |
-| `Referrable`                                            | [x] Done    | N/A                                      | Group21          |
+| `Referrable`                                            | [x] Done    | 4e60d3a344                               | Group21          |
 | `ReferrableSubtypesEnum`                                | [x] Done    | a097cb3d4f                               | Group21          |
 | `RegularExpression`                                     | [ ] Deferred| N/A                                      | Group21          |
 | `RelativeTolerance`                                     | [ ] Deferred| 358656e2a4                               | Group31          |
