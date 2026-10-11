@@ -3402,5 +3402,25 @@ class CIdentifierWithIndex(ARLiteral):
 
 class StrongRevisionLabelString(ARLiteral):
     r"""
-    This primitive represents a revision label which identifies an object under version control. It represents a pattern which requires three integer numbers separated by a dot, representing from left to right Major Version, MinorVersion, PatchVersion and additional labels for pre-release version and build metadata. Legal patterns are for example: 1.0.0-alpha+001 1.0.0+20130313144700 1.0.0-beta+exp.sha.5114f85 Tags: xml.xsd.customType=STRONG-REVISION-LABEL-STRING xml.xsd.pattern=(0&#124;[1-9]\d*)\.(0&#124;[1-9]\d*)\.(0&#124;[1-9]\d*)(-((0&#124;[1-9]\d*&#124;\d*[a-zA-Z-][0-9a-z A-Z-]*)(\.(0&#124;[1-9]\d*&#124;\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(\+([0-9a-zA-Z-]+(\.[0-9a-zA-Z-]+)*))? xml.xsd.type=string
+    This primitive represents a revision label which identifies an object under version control. It represents a pattern which requires three integer numbers separated by a dot, representing from left to right MajorVersion, MinorVersion, PatchVersion and additional labels for pre-release version and build metadata.
+
+    Legal patterns are for example:
+
+    * 1.0.0-alpha+001
+    * 1.0.0+20130313144700
+    * 1.0.0-beta+exp.sha.5114f85
+
+    Tags:
+
+    * xml.xsd.customType=STRONG-REVISION-LABEL-STRING
+    * xml.xsd.pattern= ``(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(-((0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(\.(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(\+([0-9a-zA-Z-]+(\.[0-9a-zA-Z-]+)*))?
+    * xml.xsd.type=string
     """
+
+    # StrongRevisionLabelString method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.64, p.114
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()

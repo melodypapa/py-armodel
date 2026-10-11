@@ -1156,15 +1156,41 @@ pending that confirmation.
     test_PrimitiveTypes.py); 9b deferred to batch confirmation (user instruction)
 - [ ] `StrongRevisionLabelString` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.64, p.114
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+    - note (Step 1): Table 4.64 (trailing-caption render, p.114 via pdf_page.py); Package
+      M2::...::GeneralTemplateClasses::PrimitiveTypes; kind Primitive — Package row + Note
+      only, zero Attribute/Base rows (sole member = inherited literal value); Note verbatim
+      + Tags; XSD AUTOSAR_00052.xsd:143564 grounds the pattern — markdown `[0-9a-z A-Z-]`
+      space and "Major Version" space are conversion artifacts (XSD: `[0-9a-zA-Z-]`,
+      "MajorVersion"), `&#124;` decoded to `|`.
+  - [x] Step 2 — Write model class unit test (Red)
+    - note (Step 2): test_StrongRevisionLabelString.py added (init + subclass-of-ARLiteral +
+      setValue/getValue round-trip + None no-op), sibling test shape; 4 passed — no Red
+      observable (pre-existing stub already inherits ARLiteral behavior, as with
+      TestRegularExpression).
+  - [x] Step 3 — Implement model class (Green)
+    - note (Step 3): explicit `__init__` added (super().__init__()); ARLiteral base kept —
+      zero own members, field-to-spec cross-check PASSES (no fabrication).
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    - note (Step 4): single-blob stub docstring REPLACED (Rule 0012.2.3 wipe-first) with the
+      Table 4.64 Note verbatim + bulleted legal patterns + Tags block (pattern per XSD
+      ground truth); __init__ has no docstring.
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+    - note (Steps 5/6): N/A — value-carried literal, no own XML element; consumed as
+      attribute/text value on consumer elements; no parser/writer dispatch exists.
+  - [x] Step 6 — Update parser & writer (Green)
+    - note (Steps 5/6): N/A — see Step 5.
+  - [x] Step 7 — Update checklist comment
+    - note (Step 7): 6-column block + release column; `# Spec:
+      AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.64, p.114`; marker withheld
+      (batch mode); audit PASS (BASE warn = value-carried type, expected).
+  - [x] Step 8 — Deviations
+    - note (Step 8): none; markdown render artifacts grounded on XSD
+      AUTOSAR_00052.xsd:143564 (see Step 1); no missing referenced classes.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-12 (2383 passed
+    GeneralTemplateClasses + member-annotations; audit PASS — BASE warn = value-carried
+    type; ruff/black/mypy clean; regen --check reports expected batch-deferral drift);
+    9b deferred to batch confirmation (user instruction)
 - [ ] `SymbolString` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.65, p.114
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
   - [x] Step 1 — Sync members & description from spec
