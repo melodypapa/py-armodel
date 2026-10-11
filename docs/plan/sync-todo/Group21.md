@@ -528,7 +528,7 @@ pending that confirmation.
     getValidBindingTimes()[0] POST-BUILD));
     sync commit e8e6234b2
 
-- [ ] `SdgAggregationWithVariation` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.31, p.101
+- [x] `SdgAggregationWithVariation` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.31, p.101
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/SpecialDataDef.py
   - [x] Step 1 — Sync members & description from spec
     - note (Step 1): Table 4.31 (leading-caption; p.101 via pdf_page.py); Base row: ARObject, AMR, AbstractVariationRestriction, Identifiable, MLR, Referrable, SdgAttribute, SdgElementWithGid → SdgAggregationWithVariation(SdgElementWithGid, SdgAttribute, AbstractVariationRestriction); attr subSdg (SdgClass, 0..1, ref) → subSdgRef.
@@ -558,9 +558,23 @@ pending that confirmation.
     - note (Step 7): 6-column block + release column; marker withheld (batch mode).
   - [x] Step 8 — Deviations
     - note (Step 8): none.
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (362 passed / 0 failed
-    family suites; 14,043 passed / 0 failed models+parser+writer sweep); 9b deferred to
-    batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a re-run 2026-10-11 (full suite 26,135
+    passed; ruff / black / flake8 / mypy (279 files) clean; member-annotation gate 3 passed);
+    9b confirmed 2026-10-11 (user approval, `# Spec verified: R23-11` marker written in
+    SpecialDataDef.py)
+    2026-10-11 (Rule 0026 audit vs source — re-verified rather than trusting the row's
+    "steps 1-8 done" prose: audit_class.py PASS on every gate, SPEC-BASE reads the Base
+    row cleanly here (no eye-check fallback needed, unlike Table 4.30); unlike the sibling
+    pass-through classes this one owns a real attribute — Table 4.31 block carries exactly
+    one row, subSdg (SdgClass, 0..1, ref, Note "Supported sub Sdg Class") → subSdgRef
+    Optional[RefType] per Rule 0001.5 Ref suffix; Base row has no AbstractValueRestriction
+    so the triple base (SdgAttribute, SdgElementWithGid, AbstractVariationRestriction) is
+    faithful with no over-derivation; reader calls setSubSdgRef on SUB-SDG-REF and writer
+    calls getSubSdgRef, checked independently (Rule 0025), so reader [x] sits on the setter
+    row and writer [x] on the getter row; docstrings verbatim incl. "Represents 'sdg'", no
+    Tags: tail in this table; round-trip asserts field values (getSubSdgRef().getValue()
+    path, getDest() SDG-CLASS));
+    sync commit <TBD>
 
 - [ ] `SdgReference` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.32, p.101
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/SpecialDataDef.py

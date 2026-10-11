@@ -259,6 +259,7 @@ class SdgAggregationWithVariation(SdgAttribute, SdgElementWithGid, AbstractVaria
 
     # SdgAggregationWithVariation method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.31, p.101
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__       [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
     # [x] getSubSdgRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
