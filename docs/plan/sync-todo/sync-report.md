@@ -10,8 +10,8 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 812 | 42.5% |
-| [x] Deferred | 87 | 4.6% |
+| [x] Done | 813 | 42.6% |
+| [x] Deferred | 86 | 4.5% |
 | [x] Retired | 0 | 0.0% |
 | [ ] Deferred | 989 | 51.8% |
 | [ ] Implemented | 10 | 0.5% |
@@ -1822,7 +1822,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `Topic1`                                                | [x] Done    | 948fa1096b                               | Group22          |
 | `TopicContent`                                          | [x] Done    | 6d7e325736                               | Group3           |
 | `TopicContentOrMsrQuery`                                | [x] Done    | 460218682e                               | Group9           |
-| `TopicOrMsrQuery`                                       | [x] Deferred| 0d13ccd1bc                               | Group22          |
+| `TopicOrMsrQuery`                                       | [x] Done    | 75eaee6e46                               | Group22          |
 | `TpAddress`                                             | [x] Done    | cedb8f8498                               | Group18          |
 | `TpConfig`                                              | [ ] Deferred| N/A                                      | Group33          |
 | `TpConnection`                                          | [ ] Deferred| N/A                                      | Group33          |
