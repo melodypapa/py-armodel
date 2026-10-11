@@ -940,20 +940,20 @@ Status: **57/75** completed
 
 | Class Name                             | Status       | Commit ID  |
 | -------------------------------------- | ------------ | ---------- |
-| `AnyInstanceRef`                       | [x] Done     | b64a3c317a |
-| `Chapter`                              | [x] Done     | 0d13ccd1bc |
-| `PredefinedChapter`                    | [x] Done     | 0af25ab2e5 |
+| `AnyInstanceRef`                       | [x] Done     | c7880fd7ac |
+| `Chapter`                              | [x] Done*    | 0d13ccd1bc |
+| `PredefinedChapter`                    | [x] Done*    | 0af25ab2e5 |
 | `FloatEnum`                            | [x] Done     | 1649678501 |
-| `Topic1`                               | [x] Done     | 0d13ccd1bc |
-| `TopicOrMsrQuery`                      | [x] Done     | 0d13ccd1bc |
-| `ChapterOrMsrQuery`                    | [x] Done     | 0d13ccd1bc |
-| `MsrQueryProps`                        | [x] Done     | 4566d4d4f7 |
-| `MsrQueryArg`                          | [x] Done     | 4566d4d4f7 |
-| `MultiLanguageOverviewParagraph`       | [x] Done     | 8294e5eeab |
+| `Topic1`                               | [x] Done*    | 0d13ccd1bc |
+| `TopicOrMsrQuery`                      | [x] Done*    | 0d13ccd1bc |
+| `ChapterOrMsrQuery`                    | [x] Done*    | 0d13ccd1bc |
+| `MsrQueryProps`                        | [x] Done*    | 4566d4d4f7 |
+| `MsrQueryArg`                          | [x] Done*    | 4566d4d4f7 |
+| `MultiLanguageOverviewParagraph`       | [x] Done*    | 8294e5eeab |
 | `PgwideEnum`                           | [x] Done     | 1649678501 |
-| `MultiLanguagePlainText`               | [x] Done     | 53af1b9a63 |
-| `LanguageSpecific`                     | [x] Done     | 4566d4d4f7 |
-| `LEnum`                                | [x] Done     | 4566d4d4f7 |
+| `MultiLanguagePlainText`               | [x] Done*    | 53af1b9a63 |
+| `LanguageSpecific`                     | [x] Done*    | 4566d4d4f7 |
+| `LEnum`                                | [x] Done*    | 4566d4d4f7 |
 | `AclPermission`                        | [ ] Pending* | 29d7cfc19d |
 | `AclObjectSet`                         | [ ] Pending* | 11ad22dfad |
 | `AclOperation`                         | [ ] Pending* | 0eb0409c12 |
@@ -963,57 +963,57 @@ Status: **57/75** completed
 | `LifeCycleState`                       | [ ] Pending* | 8f363946f9 |
 | `ViewMapSet`                           | [ ] Pending* | f6dc7bb594 |
 | `ViewMap`                              | [ ] Pending* | b48c08bba2 |
-| `BswModuleDescription`                 | [x] Done     | 1a5b05b196 |
-| `BswModuleEntry`                       | [x] Done     | 1a5b05b196 |
-| `BswEntryKindEnum`                     | [x] Done     | 1a5b05b196 |
-| `BswExecutionContext`                  | [x] Done     | 1a5b05b196 |
-| `BswCallType`                          | [x] Done     | 1a5b05b196 |
-| `SwServiceImplPolicyEnum`              | [x] Done     | 1a5b05b196 |
-| `SwServiceArg`                         | [x] Done     | 596ec6e31e |
-| `SwPointerTargetProps`                 | [x] Done     | c6247eb0db |
-| `ArgumentDirectionEnum`                | [x] Done     | 8b7ab62280 |
-| `ModeDeclarationGroup`                 | [x] Done     | e3d79f89ca |
-| `ModeDeclaration`                      | [x] Done     | e3d79f89ca |
-| `ModeTransition`                       | [x] Done     | e3d79f89ca |
-| `ModeErrorBehavior`                    | [x] Done     | e3d79f89ca |
-| `ModeErrorReactionPolicyEnum`          | [x] Done     | e3d79f89ca |
-| `AccessCountSet`                       | [x] Done     | e3d1262da1 |
+| `BswModuleDescription`                 | [x] Done*    | 1a5b05b196 |
+| `BswModuleEntry`                       | [x] Done*    | 1a5b05b196 |
+| `BswEntryKindEnum`                     | [x] Done*    | 1a5b05b196 |
+| `BswExecutionContext`                  | [x] Done*    | 1a5b05b196 |
+| `BswCallType`                          | [x] Done*    | 1a5b05b196 |
+| `SwServiceImplPolicyEnum`              | [x] Done*    | 1a5b05b196 |
+| `SwServiceArg`                         | [x] Done*    | 596ec6e31e |
+| `SwPointerTargetProps`                 | [x] Done*    | c6247eb0db |
+| `ArgumentDirectionEnum`                | [x] Done*    | 8b7ab62280 |
+| `ModeDeclarationGroup`                 | [x] Done*    | e3d79f89ca |
+| `ModeDeclaration`                      | [x] Done*    | e3d79f89ca |
+| `ModeTransition`                       | [x] Done*    | e3d79f89ca |
+| `ModeErrorBehavior`                    | [x] Done*    | e3d79f89ca |
+| `ModeErrorReactionPolicyEnum`          | [x] Done*    | e3d79f89ca |
+| `AccessCountSet`                       | [x] Done*    | e3d1262da1 |
 | `AccessCount`                          | [x] Done     | e3d1262da1 |
-| `AbstractAccessPoint`                  | [x] Done     | e3d1262da1 |
-| `InternalBehavior`                     | [x] Done     | 68e390b39e |
-| `ExecutableEntity`                     | [x] Done     | 88b336bfe9 |
-| `BswModuleEntity`                      | [x] Done     | 88b336bfe9 |
-| `BswCalledEntity`                      | [x] Done     | bd96645681 |
-| `BswSchedulableEntity`                 | [x] Done     | d2e2d7903d |
+| `AbstractAccessPoint`                  | [x] Done*    | e3d1262da1 |
+| `InternalBehavior`                     | [x] Done*    | 68e390b39e |
+| `ExecutableEntity`                     | [x] Done*    | 88b336bfe9 |
+| `BswModuleEntity`                      | [x] Done*    | 88b336bfe9 |
+| `BswCalledEntity`                      | [x] Done*    | bd96645681 |
+| `BswSchedulableEntity`                 | [x] Done*    | d2e2d7903d |
 | `BswInterruptCategory`                 | [ ] Pending* | 87a572d24b |
-| `BswAsynchronousServerCallPoint`       | [x] Done     | 80c7276bff |
-| `BswAsynchronousServerCallResultPoint` | [x] Done     | e1150436c3 |
+| `BswAsynchronousServerCallPoint`       | [x] Done*    | 80c7276bff |
+| `BswAsynchronousServerCallResultPoint` | [x] Done*    | e1150436c3 |
 | `BswVariableAccess`                    | [ ] Pending* | d4d386b5c4 |
-| `ExclusiveArea`                        | [x] Done     | aae3890b67 |
+| `ExclusiveArea`                        | [x] Done*    | aae3890b67 |
 | `BswExclusiveAreaPolicy`               | [ ] Pending* | eb307c9898 |
-| `ExclusiveAreaNestingOrder`            | [x] Done     | af5498712f |
-| `BswSchedulerNamePrefix`               | [x] Done     | 2a4f60c8c4 |
-| `BswEvent`                             | [x] Done     | af5498712f |
-| `BswScheduleEvent`                     | [x] Done     | 46ce237162 |
-| `BswInterruptEvent`                    | [x] Done     | acf1e772ac |
-| `BswBackgroundEvent`                   | [x] Done     | 584344d2e4 |
-| `BswOsTaskExecutionEvent`              | [x] Done     | 2b4b89810a |
+| `ExclusiveAreaNestingOrder`            | [x] Done*    | af5498712f |
+| `BswSchedulerNamePrefix`               | [x] Done*    | 2a4f60c8c4 |
+| `BswEvent`                             | [x] Done*    | af5498712f |
+| `BswScheduleEvent`                     | [x] Done*    | 46ce237162 |
+| `BswInterruptEvent`                    | [x] Done*    | acf1e772ac |
+| `BswBackgroundEvent`                   | [x] Done*    | 584344d2e4 |
+| `BswOsTaskExecutionEvent`              | [x] Done*    | 2b4b89810a |
 | `BswExternalTriggerOccurredEvent`      | [ ] Pending* | a52b41da2c |
-| `BswModeSwitchEvent`                   | [x] Done     | af5498712f |
+| `BswModeSwitchEvent`                   | [x] Done*    | af5498712f |
 | `BswOperationInvokedEvent`             | [ ] Pending* | dc465f6b33 |
 | `BswTriggerDirectImplementation`       | [ ] Pending* | 0626aec9ca |
 | `BswModeSenderPolicy`                  | [ ] Pending* | af6d69bbfa |
 | `BswModeReceiverPolicy`                | [ ] Pending* | 2b15f92b16 |
-| `ParameterDataPrototype`               | [x] Done     | 70ce06f500 |
-| `BswDistinguishedPartition`            | [x] Done     | 80d341994f |
-| `BswImplementation`                    | [x] Done     | 46ce237162 |
-| `AutosarEngineeringObject`             | [x] Done     | e485a5bcb2 |
+| `ParameterDataPrototype`               | [x] Done*    | 70ce06f500 |
+| `BswDistinguishedPartition`            | [x] Done*    | 80d341994f |
+| `BswImplementation`                    | [x] Done*    | 46ce237162 |
+| `AutosarEngineeringObject`             | [x] Done*    | e485a5bcb2 |
 | `AlignmentType`                        | [ ] Pending* | 6133a30b31 |
-| `SwAddrMethod`                         | [x] Done     | 70ce06f500 |
-| `MemoryAllocationKeywordPolicyType`    | [x] Done     | 70ce06f500 |
-| `SectionInitializationPolicyType`      | [x] Done     | 70ce06f500 |
-| `MemorySectionType`                    | [x] Done     | 70ce06f500 |
-| `HeapUsage`                            | [x] Done     | a55d2092d0 |
+| `SwAddrMethod`                         | [x] Done*    | 70ce06f500 |
+| `MemoryAllocationKeywordPolicyType`    | [x] Done*    | 70ce06f500 |
+| `SectionInitializationPolicyType`      | [x] Done*    | 70ce06f500 |
+| `MemorySectionType`                    | [x] Done*    | 70ce06f500 |
+| `HeapUsage`                            | [x] Done*    | a55d2092d0 |
 | `WorstCaseHeapUsage`                   | [x] Done     | a55d2092d0 |
 
 ## Group23
