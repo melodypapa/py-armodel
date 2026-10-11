@@ -1537,6 +1537,7 @@ from armodel.models.M2.MSR.Documentation.Chapters import (
     Topic1,
     TopicContent,
     TopicContentOrMsrQuery,
+    TopicOrMsrQuery,
 )
 from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryChapter, MsrQueryResultChapter, MsrQueryResultTopic1, MsrQueryTopic1
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
@@ -4042,11 +4043,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeChapterContent(child_element, chapter_content)
         topic1 = chapter_model.getTopic1()
         if topic1 is not None:
-            for topic in topic1.getTopic1s():
-                self.writeTopic1(child_element, topic)
-            msrQueryTopic1_value = topic1.getMsrQueryTopic1()
-            if msrQueryTopic1_value is not None:
-                self.writeMsrQueryTopic1(child_element, msrQueryTopic1_value)
+            self.writeTopicOrMsrQuery(child_element, topic1)
         chapter = chapter_model.getChapter()
         if chapter is not None:
             for chapter_item in chapter.getChapters():
@@ -4127,6 +4124,16 @@ class ARXMLWriter(AbstractARXMLWriter):
                 text_element = ET.SubElement(child_element, "TEXT")
                 text_element.text = str(text_value.getValue())
         self.writeDocumentationBlock(child_element, "REMARK", prm_char.getRemark())
+
+    def writeTopicOrMsrQuery(self, element: ET.Element, topic_or_msr_query: TopicOrMsrQuery):
+        """Write the inline TOPIC-OR-MSR-QUERY choice (XSD complexType TOPIC-OR-MSR-QUERY, 00052):
+        the AR-OBJECT attributes on the owning element, then N TOPIC-1 and an optional MSR-QUERY-TOPIC-1."""
+        self.writeARObject(element, topic_or_msr_query)
+        for topic in topic_or_msr_query.getTopic1s():
+            self.writeTopic1(element, topic)
+        msr_query_topic1 = topic_or_msr_query.getMsrQueryTopic1()
+        if msr_query_topic1 is not None:
+            self.writeMsrQueryTopic1(element, msr_query_topic1)
 
     def writeTopicContentOrMsrQuery(self, element: ET.Element, topic_content_or_msr_query: Optional[TopicContentOrMsrQuery]):
         if topic_content_or_msr_query is None:

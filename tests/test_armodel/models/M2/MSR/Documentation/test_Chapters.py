@@ -184,6 +184,53 @@ class TestTopic1:
         assert typing.get_type_hints(Topic1.setTopicContent)["value"] == typing.Optional[TopicContentOrMsrQuery]
 
 
+class TestTopicOrMsrQuery:
+    """Test class for TopicOrMsrQuery class (Table 9.80, AUTOSAR_FO_TPS_GenericStructureTemplate).
+
+    The PDF `Mult.` column renders `1` for `topic1`, but XSD group TOPIC-OR-MSR-QUERY (00052)
+    declares `pureMM.maxOccurs="-1"` (unbounded) and the AUTOSAR wire format permits N TOPIC-1
+    elements per choice. Confirmed by the user at 9b (2026-10-11) that the XSD-backed list shape
+    is authoritative for multiplicity, so `topic1s` stays a plural list.
+    """
+
+    def _parent(self):
+        return AUTOSAR.getInstance().createARPackage("AUTOSAR")
+
+    def test_initialization(self):
+        query = TopicOrMsrQuery()
+        assert query.getMsrQueryTopic1() is None
+        assert query.getTopic1s() == []
+
+    def test_topic1s_is_a_list_backed_by_its_own_field(self):
+        """Rule 0004: the spec-* `topic1` maps to a dedicated typed list field, not a registry filter."""
+        parent = self._parent()
+        query = TopicOrMsrQuery()
+        topic_a = Topic1(parent, "TopicA")
+        topic_b = Topic1(parent, "TopicB")
+        assert query.addTopic1(topic_a) is query
+        query.addTopic1(None)
+        query.addTopic1(topic_b)
+        assert query.getTopic1s() == [topic_a, topic_b]
+        assert query.getTopic1s() is query.topic1s
+
+    def test_set_get_msr_query_topic1(self):
+        query = TopicOrMsrQuery()
+        msr_query = MsrQueryTopic1()
+        assert query.setMsrQueryTopic1(msr_query) is query
+        assert query.getMsrQueryTopic1() is msr_query
+        query.setMsrQueryTopic1(None)
+        assert query.getMsrQueryTopic1() is msr_query
+
+    def test_member_annotations(self):
+        """msrQueryTopic1 is Optional[MsrQueryTopic1] and topic1s List[Topic1] (Rule 0003)."""
+        import typing
+
+        assert typing.get_type_hints(TopicOrMsrQuery.getMsrQueryTopic1)["return"] == typing.Optional[MsrQueryTopic1]
+        assert typing.get_type_hints(TopicOrMsrQuery.setMsrQueryTopic1)["value"] == typing.Optional[MsrQueryTopic1]
+        assert typing.get_type_hints(TopicOrMsrQuery.getTopic1s)["return"] == typing.List[Topic1]
+        assert typing.get_type_hints(TopicOrMsrQuery.addTopic1)["value"] == typing.Optional[Topic1]
+
+
 class TestChapterModel:
     """Test class for ChapterModel class (Table 9.59, AUTOSAR_FO_TPS_GenericStructureTemplate)."""
 

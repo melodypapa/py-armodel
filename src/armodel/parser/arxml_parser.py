@@ -9477,10 +9477,7 @@ class ARXMLParser(AbstractARXMLParser):
         msr_query_topic1_element = self.find(element, "MSR-QUERY-TOPIC-1")
         if len(topic_elements) > 0 or msr_query_topic1_element is not None:
             topic_or_msr_query = TopicOrMsrQuery()
-            for topic_element in topic_elements:
-                topic_or_msr_query.addTopic1(self.readTopic1(topic_element, parent))
-            if msr_query_topic1_element is not None:
-                topic_or_msr_query.setMsrQueryTopic1(self.readMsrQueryTopic1(msr_query_topic1_element, parent))
+            self.readTopicOrMsrQuery(element, parent, topic_or_msr_query)
             chapter_model.setTopic1(topic_or_msr_query)
         chapter_elements = self.findall(element, "CHAPTER")
         msr_query_chapter_element = self.find(element, "MSR-QUERY-CHAPTER")
@@ -9492,6 +9489,17 @@ class ARXMLParser(AbstractARXMLParser):
                 chapter_or_msr_query.setMsrQueryChapter(self.readMsrQueryChapter(msr_query_chapter_element, parent))
             chapter_model.setChapter(chapter_or_msr_query)
         return chapter_model
+
+    def readTopicOrMsrQuery(self, element: ET.Element, parent: Chapter, topic_or_msr_query: TopicOrMsrQuery):
+        """Read the inline TOPIC-OR-MSR-QUERY choice (XSD complexType TOPIC-OR-MSR-QUERY, 00052):
+        the AR-OBJECT group plus N TOPIC-1 elements and an optional MSR-QUERY-TOPIC-1."""
+        self.readARObject(element, topic_or_msr_query)
+        for topic_element in self.findall(element, "TOPIC-1"):
+            topic_or_msr_query.addTopic1(self.readTopic1(topic_element, parent))
+        msr_query_topic1_element = self.find(element, "MSR-QUERY-TOPIC-1")
+        if msr_query_topic1_element is not None:
+            topic_or_msr_query.setMsrQueryTopic1(self.readMsrQueryTopic1(msr_query_topic1_element, parent))
+        return topic_or_msr_query
 
     def readPredefinedChapter(self, element: ET.Element) -> PredefinedChapter:
         predefined = PredefinedChapter()

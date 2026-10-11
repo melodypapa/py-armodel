@@ -5,9 +5,9 @@ from typing import TYPE_CHECKING, List, Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import NameToken, String
 from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import Paginateable
-from armodel.models.M2.MSR.Documentation.Chapters import Chapter, Topic1, TopicContent
 
 if TYPE_CHECKING:
+    from armodel.models.M2.MSR.Documentation.Chapters import Chapter, Topic1, TopicContent
     from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 
 
@@ -426,3 +426,9 @@ class MsrQueryResultTopic1(ARObject):
         This represents one particular topic in the query result. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
         """
         return self.topic1
+
+
+# Runtime cycle-breaker (Rule 0005): Chapters imports this module at its BOTTOM, so the
+# reverse import is placed here at the BOTTOM too — after this module's own class
+# definitions — rather than at the top where it would be a partially initialized module.
+from armodel.models.M2.MSR.Documentation.Chapters import Chapter as Chapter, Topic1 as Topic1, TopicContent as TopicContent  # noqa: E402

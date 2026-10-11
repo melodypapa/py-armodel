@@ -387,12 +387,18 @@ class TopicOrMsrQuery(ARObject):
 
     # TopicOrMsrQuery method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.80, p.342
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] setMsrQueryTopic1    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getMsrQueryTopic1    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] addTopic1            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getTopic1s           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    #
+    # NOTE: the inherited ARObject level (S/T) has no method row of its own — it is covered by the
+    # class's own readTopicOrMsrQuery / writeTopicOrMsrQuery helpers, which call
+    # readARObject / writeARObject on this instance (Rule 0025). XSD complexType
+    # TOPIC-OR-MSR-QUERY pulls in the AR-OBJECT group.
 
     def __init__(self):
         super().__init__()
@@ -401,6 +407,12 @@ class TopicOrMsrQuery(ARObject):
         self.msrQueryTopic1: Optional[MsrQueryTopic1] = None
 
         # This is used to create particular topics within a chapter. A topic is similar to a subchapter, but cannot be nested and will not appear in the table of contents of the document. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=topic1.shortName, topic1.variationPoint.shortLabel vh.latestBindingTime=postBuild xml.sequenceOffset=180
+        #
+        # DEVIATION (user-confirmed 2026-10-11): the spec `Mult.` column renders `1` for topic1, but
+        # XSD group TOPIC-OR-MSR-QUERY declares pureMM.maxOccurs="-1" (unbounded) and the ARXML wire
+        # format permits N TOPIC-1 elements per choice, so the plural list shape is kept
+        # (Rule 0015 governs attribute membership only; Rule 0017 user resolution). The same
+        # conflict and resolution apply to ChapterOrMsrQuery.chapters.
         self.topic1s: List[Topic1] = []
 
     def setMsrQueryTopic1(self, value: Optional[MsrQueryTopic1]) -> TopicOrMsrQuery:
@@ -428,6 +440,9 @@ class TopicOrMsrQuery(ARObject):
     def addTopic1(self, value: Optional[Topic1]) -> TopicOrMsrQuery:
         """
         This is used to create particular topics within a chapter. A topic is similar to a subchapter, but cannot be nested and will not appear in the table of contents of the document. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=topic1.shortName, topic1.variationPoint.shortLabel vh.latestBindingTime=postBuild xml.sequenceOffset=180
+
+        DEVIATION (user-confirmed 2026-10-11): the list shape is kept although the spec `Mult.`
+        column renders `1` — XSD TOPIC-OR-MSR-QUERY declares pureMM.maxOccurs="-1" (unbounded).
 
         A None value is a no-op and does not append anything.
 
@@ -694,3 +709,10 @@ class TopicContentOrMsrQuery(ARObject):
             The content of a topic
         """
         return self.topicContent
+
+
+# Runtime cycle-breaker (Rule 0005): MsrQuery imports Chapters at ITS bottom, so these names
+# are re-imported here at the bottom as well. They must exist in this module's runtime globals
+# for typing.get_type_hints to resolve the accessor annotations on Python 3.8 (bpo-39291);
+# a TYPE_CHECKING-only import cannot satisfy the pin tests.
+from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryChapter as MsrQueryChapter, MsrQueryP1 as MsrQueryP1, MsrQueryTopic1 as MsrQueryTopic1  # noqa: E402
