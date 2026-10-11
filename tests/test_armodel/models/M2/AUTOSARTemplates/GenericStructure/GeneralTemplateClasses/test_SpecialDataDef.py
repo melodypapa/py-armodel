@@ -23,6 +23,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     SdgAttribute,
     SdgClass,
     SdgDef,
+    SdgElementWithGid,
     SdgForeignReference,
     SdgForeignReferenceWithVariation,
     SdgPrimitiveAttribute,
@@ -49,8 +50,10 @@ class TestAbstractRejection:
     """
 
     def test_rejections(self):
-        # SdgElementWithGid is mixin-style (class-level gid default, VariationPointCapable
-        # pattern) and therefore has no instantiation guard.
+        # SdgElementWithGid is a normal abstract class (Table 4.25, Base = ARObject)
+        # with a cooperative __init__ — direct instantiation is rejected.
+        with pytest.raises(TypeError):
+            SdgElementWithGid()
         with pytest.raises(TypeError):
             SdgAttribute(None, "A")
         with pytest.raises(TypeError):
