@@ -874,7 +874,7 @@ Status: **29/29** completed
 
 ## Group21
 
-Status: **33/55** completed
+Status: **33/59** completed
 
 | Class Name                           | Status       | Commit ID  |
 | ------------------------------------ | ------------ | ---------- |
@@ -895,10 +895,12 @@ Status: **33/55** completed
 | `SdgAbstractForeignReference`        | [ ] Pending* | N/A        |
 | `SdgForeignReference`                | [ ] Pending* | N/A        |
 | `SdgForeignReferenceWithVariation`   | [ ] Pending* | N/A        |
+| `MetaClassName`                      | [ ] Pending  | N/A        |
 | `AbstractValueRestriction`           | [ ] Pending* | N/A        |
 | `AbstractVariationRestriction`       | [ ] Pending* | N/A        |
 | `FullBindingTimeEnum`                | [ ] Pending* | N/A        |
 | `CIdentifier`                        | [ ] Pending* | N/A        |
+| `CIdentifierWithIndex`               | [ ] Pending  | N/A        |
 | `CategoryString`                     | [ ] Pending* | N/A        |
 | `DateTime`                           | [ ] Pending* | N/A        |
 | `DiagRequirementIdString`            | [ ] Pending* | N/A        |
@@ -907,6 +909,7 @@ Status: **33/55** completed
 | `McdIdentifier`                      | [ ] Pending* | N/A        |
 | `RegularExpression`                  | [ ] Pending* | N/A        |
 | `RevisionLabelString`                | [ ] Pending* | N/A        |
+| `StrongRevisionLabelString`          | [ ] Pending  | N/A        |
 | `SymbolString`                       | [ ] Pending* | N/A        |
 | `UriString`                          | [ ] Pending* | N/A        |
 | `VerbatimStringPlain`                | [ ] Pending* | N/A        |
@@ -927,6 +930,7 @@ Status: **33/55** completed
 | `NoteTypeEnum`                       | [x] Done*    | N/A        |
 | `Traceable`                          | [x] Done*    | N/A        |
 | `EmphasisText`                       | [x] Done*    | N/A        |
+| `ExtIdClassEnum`                     | [ ] Pending  | N/A        |
 | `IndexEntry`                         | [x] Done*    | N/A        |
 | `Superscript`                        | [x] Done*    | N/A        |
 | `Tt`                                 | [x] Done*    | N/A        |
