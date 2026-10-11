@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 820 | 42.9% |
+| [x] Done | 821 | 43.0% |
 | [x] Deferred | 83 | 4.3% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 997 | 52.2% |
+| [ ] Deferred | 996 | 52.1% |
 | [ ] Implemented | 10 | 0.5% |
 | [ ] Created | 0 | 0.0% |
 | [ ] Pending | 0 | 0.0% |
@@ -1533,7 +1533,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `SdServerConfig`                                        | [x] Done    | f509df9d94                               | Group16          |
 | `SdgAbstractForeignReference`                           | [ ] Deferred| N/A                                      | Group21          |
 | `SdgAbstractPrimitiveAttribute`                         | [x] Done    | 1b8f818050                               | Group21          |
-| `SdgAggregationWithVariation`                           | [ ] Deferred| N/A                                      | Group21          |
+| `SdgAggregationWithVariation`                           | [x] Done    | 207e9e3241                               | Group21          |
 | `SdgAttribute`                                          | [x] Done    | 41952ae2fd                               | Group21          |
 | `SdgClass`                                              | [x] Done    | cfa7402dec                               | Group21          |
 | `SdgDef`                                                | [x] Done    | c7d3958065                               | Group21          |

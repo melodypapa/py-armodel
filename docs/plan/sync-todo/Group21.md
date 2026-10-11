@@ -574,7 +574,7 @@ pending that confirmation.
     row and writer [x] on the getter row; docstrings verbatim incl. "Represents 'sdg'", no
     Tags: tail in this table; round-trip asserts field values (getSubSdgRef().getValue()
     path, getDest() SDG-CLASS));
-    sync commit <TBD>
+    sync commit 207e9e324
 
 - [ ] `SdgReference` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.32, p.101
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/SpecialDataDef.py
