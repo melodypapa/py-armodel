@@ -271,7 +271,7 @@ staleness), checklist converted to the 6-column format (Step 7), `readARObject` 
       marker in batch mode.
 
 - [ ] `ConfigurationVariant` — AREnum — source TBC (R3.2.3 AUTOSAR_ECU_Configuration Table 3.11, p.56 — locate at Step 1)
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
+  - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)

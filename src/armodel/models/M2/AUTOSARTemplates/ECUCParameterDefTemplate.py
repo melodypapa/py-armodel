@@ -2677,3 +2677,9 @@ class EcucModuleDef(EcucDefinitionElement):
         if value is not None:
             self.supportedConfigVariants.append(value)
         return self
+
+
+class ConfigurationVariant(AREnum):
+    """
+    Specifies the possible Configuration Variants used for AUTOSAR BSW Modules.
+    """

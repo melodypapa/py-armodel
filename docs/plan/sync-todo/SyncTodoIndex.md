@@ -821,7 +821,7 @@ Status: **16/17** completed
 | -------------------------------- | ----------- | ---------- |
 | `ConfigReferenceValue`           | [x] Done    | 7ed4c9a4a4 |
 | `EcucValueCollection`            | [x] Done    | b65b2313a2 |
-| `ConfigurationVariant`           | [ ] Pending | N/A        |
+| `ConfigurationVariant`           | [ ] Created | N/A        |
 | `ModuleConfiguration`            | [x] Done    | 5cedb145b9 |
 | `EcucConfigurationClassEnum`     | [x] Done    | eb890b899c |
 | `EcucScopeEnum`                  | [x] Done    | 096c9544fc |
@@ -896,12 +896,12 @@ Status: **33/59** completed
 | `SdgAbstractForeignReference`        | [ ] Pending* | N/A        |
 | `SdgForeignReference`                | [ ] Pending* | N/A        |
 | `SdgForeignReferenceWithVariation`   | [ ] Pending* | N/A        |
-| `MetaClassName`                      | [ ] Pending  | N/A        |
+| `MetaClassName`                      | [ ] Created  | N/A        |
 | `AbstractValueRestriction`           | [ ] Pending* | N/A        |
 | `AbstractVariationRestriction`       | [ ] Pending* | N/A        |
 | `FullBindingTimeEnum`                | [ ] Pending* | N/A        |
 | `CIdentifier`                        | [ ] Pending* | N/A        |
-| `CIdentifierWithIndex`               | [ ] Pending  | N/A        |
+| `CIdentifierWithIndex`               | [ ] Created  | N/A        |
 | `CategoryString`                     | [ ] Pending* | N/A        |
 | `DateTime`                           | [ ] Pending* | N/A        |
 | `DiagRequirementIdString`            | [ ] Pending* | N/A        |
@@ -910,7 +910,7 @@ Status: **33/59** completed
 | `McdIdentifier`                      | [ ] Pending* | N/A        |
 | `RegularExpression`                  | [ ] Pending* | N/A        |
 | `RevisionLabelString`                | [ ] Pending* | N/A        |
-| `StrongRevisionLabelString`          | [ ] Pending  | N/A        |
+| `StrongRevisionLabelString`          | [ ] Created  | N/A        |
 | `SymbolString`                       | [ ] Pending* | N/A        |
 | `UriString`                          | [ ] Pending* | N/A        |
 | `VerbatimStringPlain`                | [ ] Pending* | N/A        |
@@ -931,7 +931,7 @@ Status: **33/59** completed
 | `NoteTypeEnum`                       | [x] Done*    | N/A        |
 | `Traceable`                          | [x] Done*    | N/A        |
 | `EmphasisText`                       | [x] Done*    | N/A        |
-| `ExtIdClassEnum`                     | [ ] Pending  | N/A        |
+| `ExtIdClassEnum`                     | [ ] Created  | N/A        |
 | `IndexEntry`                         | [x] Done*    | N/A        |
 | `Superscript`                        | [x] Done*    | N/A        |
 | `Tt`                                 | [x] Done*    | N/A        |

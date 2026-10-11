@@ -3364,3 +3364,21 @@ class SendIndicationEnum(AREnum):
                 SendIndicationEnum.NONE,
             ]
         )
+
+
+class MetaClassName(ARLiteral):
+    r"""
+    Name of a class in the AUTOSAR Meta-Model. Tags: xml.xsd.customType=META-CLASS-NAME xml.xsd.pattern=[A-Z][a-zA-Z0-9_]* xml.xsd.type=string
+    """
+
+
+class CIdentifierWithIndex(ARLiteral):
+    r"""
+    This datatype represents a string, that follows the rules of C-identifiers with an index. Tags: xml.xsd.customType=C-IDENTIFIER-WITH-INDEX xml.xsd.pattern=[a-zA-Z_][a-zA-Z0-9_]*\[[0-9]+\] xml.xsd.type=string
+    """
+
+
+class StrongRevisionLabelString(ARLiteral):
+    r"""
+    This primitive represents a revision label which identifies an object under version control. It represents a pattern which requires three integer numbers separated by a dot, representing from left to right Major Version, MinorVersion, PatchVersion and additional labels for pre-release version and build metadata. Legal patterns are for example: 1.0.0-alpha+001 1.0.0+20130313144700 1.0.0-beta+exp.sha.5114f85 Tags: xml.xsd.customType=STRONG-REVISION-LABEL-STRING xml.xsd.pattern=(0&#124;[1-9]\d*)\.(0&#124;[1-9]\d*)\.(0&#124;[1-9]\d*)(-((0&#124;[1-9]\d*&#124;\d*[a-zA-Z-][0-9a-z A-Z-]*)(\.(0&#124;[1-9]\d*&#124;\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(\+([0-9a-zA-Z-]+(\.[0-9a-zA-Z-]+)*))? xml.xsd.type=string
+    """
