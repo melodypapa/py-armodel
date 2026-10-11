@@ -691,7 +691,7 @@ pending that confirmation.
       pre-existing batch-deferral artifact shared with this file's MetaClassName /
       CIdentifierWithIndex / StrongRevisionLabelString rows — not introduced here.
     - note: `# Spec verified: R23-11 (2026-10-12, user 9b confirmation)` written immediately after
-      the `# Spec:` line (Rule 0012.1); post-stamp audit STAMP clean, `=> PASS`; sync commit below.
+      the `# Spec:` line (Rule 0012.1); post-stamp audit STAMP clean, `=> PASS`; sync commit 47b29adc7.
 
 - [ ] `SdgForeignReference` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.34, p.102
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/SpecialDataDef.py
