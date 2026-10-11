@@ -1535,7 +1535,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `ScheduleTableEntry`                                    | [ ] Deferred| e36b881da1                               | Group31          |
 | `SdClientConfig`                                        | [x] Done    | 8e0c8857ad                               | Group7           |
 | `SdServerConfig`                                        | [x] Done    | f509df9d94                               | Group16          |
-| `SdgAbstractForeignReference`                           | [x] Done    | N/A                                      | Group21          |
+| `SdgAbstractForeignReference`                           | [x] Done    | 47b29adc7d                               | Group21          |
 | `SdgAbstractPrimitiveAttribute`                         | [x] Done    | 1b8f818050                               | Group21          |
 | `SdgAggregationWithVariation`                           | [x] Done    | 207e9e3241                               | Group21          |
 | `SdgAttribute`                                          | [x] Done    | 41952ae2fd                               | Group21          |
