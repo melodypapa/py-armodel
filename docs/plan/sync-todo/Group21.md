@@ -624,7 +624,7 @@ pending that confirmation.
     __init__ inline comment, and both accessor docstrings — not eyeballed, given the
     multi-sentence destSdg Note; no Tags: tail in this table; round-trip asserts field
     values (path + getDest() SDG-CLASS));
-    sync commit <TBD>
+    sync commit e9ff581c2
 
 - [ ] `SdgAbstractForeignReference` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.33, p.102
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/SpecialDataDef.py
