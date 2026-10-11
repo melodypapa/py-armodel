@@ -1355,7 +1355,7 @@ class TestWriterComManagementMapping:
         iref2.setTargetRef(_ref("/Systems/RootSwCompositionPrototype/Comp2/PG2", "PORT-GROUP"))
         com_mapping.addComManagementPortGroupIRef(iref1)
         com_mapping.addComManagementPortGroupIRef(iref2)
-        com_mapping.addPhysicalChannelRef(_ref("/CanSystem/CLUSTERS/CanNetwork/CHANNELS/CanChannel", "CAN-COMMUNICATION-CONNECTOR"))
+        com_mapping.addPhysicalChannelRef(_ref("/CanSystem/CLUSTERS/CanNetwork/CHANNELS/CanChannel", "CAN-PHYSICAL-CHANNEL"))
         variation_point = VariationPoint()
         variation_point.setShortLabel(Identifier().setValue("VP_COMMAP"))
         com_mapping.setVariationPoint(variation_point)
@@ -1395,7 +1395,7 @@ class TestWriterComManagementMapping:
         assert iref_elements[1].find("TARGET-REF").text == "/Systems/RootSwCompositionPrototype/Comp2/PG2"
         channel_refs = com_element.findall("PHYSICAL-CHANNEL-REFS/PHYSICAL-CHANNEL-REF")
         assert [r.text for r in channel_refs] == ["/CanSystem/CLUSTERS/CanNetwork/CHANNELS/CanChannel"]
-        assert all(r.attrib["DEST"] == "CAN-COMMUNICATION-CONNECTOR" for r in channel_refs)
+        assert all(r.attrib["DEST"] == "CAN-PHYSICAL-CHANNEL" for r in channel_refs)
         assert com_element.find("VARIATION-POINT/SHORT-LABEL").text == "VP_COMMAP"
 
     def test_empty_refs_wrappers_not_emitted(self, writer):
@@ -1444,7 +1444,7 @@ class TestWriterComManagementMapping:
         assert irefs[1].getTargetRef().getValue() == "/Systems/RootSwCompositionPrototype/Comp2/PG2"
         channel_refs = com_mapping_2.getPhysicalChannelRefs()
         assert [r.getValue() for r in channel_refs] == ["/CanSystem/CLUSTERS/CanNetwork/CHANNELS/CanChannel"]
-        assert all(r.getDest() == "CAN-COMMUNICATION-CONNECTOR" for r in channel_refs)
+        assert all(r.getDest() == "CAN-PHYSICAL-CHANNEL" for r in channel_refs)
         assert com_mapping_2.getVariationPoint().getShortLabel().getValue() == "VP_COMMAP"
 
 

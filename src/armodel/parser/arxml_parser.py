@@ -18550,9 +18550,15 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readMixedStringText(self, element: ET.Element, obj: AtpMixedString):
         """<<atpMixedString>>: the element text is the value (pure-text shape).
-        Whitespace is preserved verbatim."""
-        if element.text is not None and obj is not None:
-            obj.setMixedString(element.text)
+        Whitespace is preserved verbatim. In the MIXED shape (SUP/SUB-style child
+        elements present) saveToFile's pretty-printer pads the text node, so the
+        serializer's own padding is trimmed to return the modeled value."""
+        if element.text is None or obj is None:
+            return
+        text = element.text
+        if len(element) > 0:
+            text = text.strip()
+        obj.setMixedString(text)
 
     def readStringValue(self, element: ET.Element, string_value: StringValue):
         """Read an R3.2.3 <STRING-VALUE> element (Table 3.36): DEFINITION-REF followed by VALUE."""
