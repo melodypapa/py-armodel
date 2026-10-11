@@ -43,6 +43,11 @@ eyeball these — see Rule 0024 / 0025 in rules.md):
            class, or the R4.3.1-fallback form, or an explicit dual-line combine
            case (Rule 0019).
 
+  SPEC-BASE the model class derives the most-derived base named by the spec
+           table's Base row. An under-derived class (DefItem on ARObject where
+           Table 9.16 ends in Referrable) silently drops the inherited
+           SHORT-NAME from its XML while every checklist row reads [x].
+
   STAMP    `# Spec verified:` / `# XSD verified:` is present iff every row is
            `[x]`. A marker over unfinished rows certifies work that was never
            done (Rule 0012.1); a finished checklist without a marker is the
@@ -488,6 +493,172 @@ def check_citation(rep: Report, cls: str, blk_lines: Sequence[str]) -> None:
                 rep.warn("CITATION", "Table %s of %s is captioned %s, not %s — %s is defined in %s Table %s (recorded rename or cross-document reproduction; prefer the defining table)" % (table_id, doc, "/".join(captions), cls, cls, other, tid))
                 return
     rep.fail("CITATION", "`# Spec:` cites %s, Table %s, captioned %s — that table does not define %s and no other table in the corpus does either" % (doc, table_id, "/".join(captions), cls))
+
+
+@lru_cache(maxsize=None)
+def _spec_base_rows() -> Dict[Tuple[str, str, str], Optional[Tuple[str, ...]]]:
+    """{(corpus, doc, table id): Base-row class names} extracted from the corpus.
+
+    Page-split rendering repeats a table's caption around page-break images and
+    may split the body into several '|' blocks. Each block is attributed to the
+    NEAREST caption (the page-split layout always puts a table's body adjacent to
+    one of its own captions), and a table id's Base row is the merge of its
+    attributed blocks' rows. Tables with no attributed Base row map to None.
+    """
+    out: Dict[Tuple[str, str, str], Optional[Tuple[str, ...]]] = {}
+    caption_re = re.compile(r"^#{0,3}\s*Table\s+([0-9A-Z]+\.[0-9]+):\s*(.+)$")
+    for corpus in ("R23-11", "R4.3.1"):
+        base = _REPO_ROOT / "autosar" / corpus / "markdown"
+        if not base.is_dir():
+            continue
+        for path in sorted(base.glob("*.md")):
+            lines = path.read_text(encoding="utf-8", errors="replace").splitlines()
+            blocks: List[Tuple[int, int]] = []
+            i = 0
+            while i < len(lines):
+                if lines[i].lstrip().startswith("|"):
+                    j = i
+                    while j < len(lines) and lines[j].lstrip().startswith("|"):
+                        j += 1
+                    blocks.append((i, j))
+                    i = j
+                else:
+                    i += 1
+            caps: List[Tuple[int, str]] = []
+            for k, line in enumerate(lines):
+                m = caption_re.match(line)
+                if m:
+                    caps.append((k, m.group(1)))
+            attributed: Dict[str, List[str]] = {}
+            for b_start, b_end in blocks:
+                if not caps:
+                    break
+                mid = (b_start + b_end - 1) / 2
+                pos, table_id = min(caps, key=lambda c: abs(c[0] - mid))
+                for line in lines[b_start:b_end]:
+                    cells = [c.strip() for c in line.strip().strip("|").split("|")]
+                    if cells and cells[0].lower() == "base":
+                        for cell in cells[1:]:
+                            for n in cell.split(","):
+                                n = n.strip()
+                                if n and n != "-" and n not in attributed.setdefault(table_id, []):
+                                    attributed[table_id].append(n)
+            for table_id, names in attributed.items():
+                out[(corpus, path.stem, table_id)] = tuple(names) if names else None
+    return out
+
+
+def _late_binds() -> Dict[str, List[str]]:
+    """Classes rebased at import time via `ClassName.__bases__ = (...)`.
+
+    The ARElement late-bind (ARPackage.py) gives classes like AclPermission their
+    real base only at runtime — invisible to a pure AST base walk, which makes an
+    under-derived verdict a false positive for every late-bound class."""
+    out: Dict[str, List[str]] = {}
+    for p in MODELS_DIR.rglob("*.py"):
+        try:
+            t = ast.parse(read(p))
+        except SyntaxError:
+            continue
+        for n in ast.walk(t):
+            if not isinstance(n, ast.Assign) or len(n.targets) != 1:
+                continue
+            target = n.targets[0]
+            if not (isinstance(target, ast.Attribute) and target.attr == "__bases__" and isinstance(target.value, ast.Name)):
+                continue
+            value = n.value
+            names = []
+            if isinstance(value, ast.Tuple):
+                names = [e.id for e in value.elts if isinstance(e, ast.Name)]
+            elif isinstance(value, ast.Name):
+                names = [value.id]
+            if names:
+                out.setdefault(target.value.id, names)
+    return out
+
+
+def _ancestor_closure(cls: str, base_map: Dict[str, List[str]]) -> Set[str]:
+    seen: Set[str] = set()
+    frontier = list(base_map.get(cls, []))
+    while frontier:
+        b = frontier.pop(0)
+        if b in seen:
+            continue
+        seen.add(b)
+        frontier.extend(base_map.get(b, []))
+    return seen
+
+
+def _most_derived(candidates: Set[str], base_map: Dict[str, List[str]]) -> Optional[str]:
+    """The candidate that has all the others as ancestors, or None when ambiguous."""
+    best: Optional[str] = None
+    for c in candidates:
+        others = candidates - {c}
+        if others <= _ancestor_closure(c, base_map):
+            return c
+        if best is None or len(_ancestor_closure(c, base_map) & candidates) > len(_ancestor_closure(best, base_map) & candidates):
+            best = c
+    return best
+
+
+def check_spec_base(rep: Report, cls: str, blk_lines: Sequence[str], enum: bool) -> None:
+    """Rule 0001.2, mechanical: the model class must derive the most-derived base
+    the spec table's Base row names.
+
+    The round-trip tests and the field↔spec cross-check are blind to a wrong base:
+    an under-derived class (DefItem modeled on plain ARObject where Table 9.16's
+    Base row ends in Referrable) silently drops the inherited SHORT-NAME from its
+    XML — and its checklist can still read all-[x]. The Base row lists the whole
+    inheritance chain flattened; the most-derived name in it that is modeled in
+    the repo is what the class must actually inherit from. The row may flatten a
+    multi-inheritance chain the linear repo model cannot express exactly — the
+    most-derived pick is then best-effort, and the FAIL is the prompt to decide
+    the layout, not a mechanical verdict. Page-split attribution of the row is
+    heuristic too; triage belongs in the audit baseline, not in silent skips."""
+    if enum:
+        return
+    specs = [x for x in blk_lines if x.startswith("# Spec:")]
+    if not specs or "xsd" in specs[0]:
+        return
+    m = _CITATION_RE.search(specs[0])
+    if not m:
+        return
+    platform, template, table_id = m.group(1), m.group(2), m.group(3)
+    corpus = "R4.3.1" if platform is None else "R23-11"
+    doc = f"AUTOSAR_{platform}_TPS_{template}" if platform else f"AUTOSAR_TPS_{template}"
+    row = _spec_base_rows().get((corpus, doc, table_id))
+    if row is None:
+        rep.info("SPEC-BASE", "Table %s of %s carries no readable Base row — base verified by 9b eye check" % (table_id, doc))
+        return
+    base_map = _model_base_map()
+    if _is_value_carried(cls, base_map):
+        return
+    modeled = {n for n in row if n in base_map}
+    if not modeled:
+        rep.info("SPEC-BASE", "Base row %s names no modeled class — base verified by 9b eye check" % ", ".join(row))
+        return
+    spec_top = _most_derived(modeled, base_map)
+    if spec_top is None:
+        rep.warn("SPEC-BASE", "Base row %s has no unambiguous most-derived modeled class — verify by hand" % ", ".join(sorted(modeled)))
+        return
+    # Late-bound classes get their real base only at import time; judge them by
+    # the effective chain, not the AST declaration.
+    late = _late_binds().get(cls)
+    effective_map = dict(base_map)
+    if late:
+        effective_map[cls] = late
+    chain = {cls} | _ancestor_closure(cls, effective_map)
+    reachable = chain & modeled
+    if not reachable:
+        rep.fail("SPEC-BASE", "%s derives none of the spec Base row's modeled classes %s — the inheritance chain (e.g. Referrable's SHORT-NAME) is silently absent" % (cls, ", ".join(sorted(modeled))))
+        return
+    model_top = _most_derived(reachable, effective_map)
+    if model_top == spec_top:
+        rep.ok("SPEC-BASE", "derives %s — the most-derived modeled class of the Base row" % model_top)
+    elif model_top in _ancestor_closure(spec_top, base_map) | {spec_top}:
+        rep.fail("SPEC-BASE", "%s derives %s but the Base row's most-derived modeled class is %s — under-derived; %s's inherited members (SHORT-NAME, UUID, …) never serialize" % (cls, model_top, spec_top, spec_top))
+    else:
+        rep.warn("SPEC-BASE", "%s derives %s, outside the Base row's modeled set %s — over-derivation or recorded deviation; verify by hand" % (cls, model_top, ", ".join(sorted(modeled))))
 
 
 def check_stamp(rep: Report, blk_lines: Sequence[str]) -> None:
@@ -1181,6 +1352,7 @@ def audit_one(cls: str, path: Path) -> Report:
     check_stamp(rep, blk_lines)
     check_specline(rep, cls, blk_lines)
     check_citation(rep, cls, blk_lines)
+    check_spec_base(rep, cls, blk_lines, enum)
     check_docs(rep, node, blk_lines, enum)
     check_spacing(rep, lines, start, end)
     check_doc_tail(rep, node, lines, start, end)

@@ -2183,3 +2183,56 @@ judge consistently — which is exactly how Group16's three drops (`TcpOptionFil
   spec-drift question for the owning table, not a formatting cleanup.
 
 
+## Rule 0027 — The emitted XML must satisfy the XSD, not just the round-trip *(added after the 2026-10-11 schema-gate exposures)*
+
+The 9-step workflow verifies the model against the spec table and the round-trip
+tests verify the writer against the parser — but both are blind to the *XML
+shape*: a writer and a parser that agree on a wrong shape round-trip cleanly
+forever. The R23-11 XSD (`autosar/R23-11/xsd/AUTOSAR_00052.xsd`, bundled and
+enforced by the parser/writer validation gates) is the serialization source of
+truth, and a synced class is not done until its emitted XML validates.
+
+The defect classes this rule closes, all found live in one session once the gate
+actually ran:
+
+- **Wrapper elements** — a spec-`*` attribute serialized inside a wrapper
+  element (`ALIAS-NAMES` for ALIAS-NAME-SET, `SW-COMPONENT-DOCUMENTATIONS` for
+  the splitable documentation role) must be emitted wrapped; a bare child of
+  the owning element is schema-invalid even though the round-trip passes.
+- **Inline block content** — groups whose choice embeds the DOCUMENTATION-BLOCK
+  group (NOTE, TRACEABLE-TEXT) take the block's children *directly*, with no
+  wrapper element (`NOTE-TEXT`, `TEXT` are fabrications). The block's own S/T
+  attributes have no XML home in this shape — the owning element carries the
+  identity.
+- **Tag spelling** — the XSD element name is authoritative where the markdown
+  rendering lost a dash (`MSR-QUERY-P-2`, `MSR-QUERY-RESULT-P-2` — not `P2`).
+- **simpleContent** — a complexType with `xsd:simpleContent` (`MSR-QUERY-ARG`)
+  carries its value as the element TEXT plus attributes; child elements are
+  schema-invalid. The spec table's `xml.roleElement=false` tag on the attribute
+  is the tell.
+- **Required attributes** — an attribute with `use="required"` in the XSD
+  (`xml:space` on the WHITESPACE-CONTROLLED group: L-PLAIN-TEXT, L-VERBATIM) is
+  emitted unconditionally, defaulting to the semantic value (`preserve`) when
+  the model leaves it unset.
+- **atpDerived has no XML element** — an association the XSD explicitly skips
+  (`Association <<atpDerived>>base skipped` in ANY-INSTANCE-REF) must not be
+  read or written, however complete the model member is.
+
+**Mechanical:** the writer validation gate (`ARXMLWriter.save` →
+`_validateDocument`, default-ON, bundled per-release schemas) fails the save of
+any schema-invalid document, and the parser gate validates every load. A class
+whose round-trip test passes but whose save raises a schema error is NOT synced
+— fix the shape, never bypass the gate with `validate: False`.
+
+**Golden fixture:** the gate only checks what tests actually write, so the
+documentation constructs are pinned by a hand-validated full-document fixture
+(round-tripped through parser and writer, both gates active) rather than left
+to per-class unit tests.
+
+**SPEC-BASE (audit):** `audit_class.py SPEC-BASE` derives the Base row of the
+cited table from the corpus markdown and fails a class whose most-derived
+modeled ancestor is less derived than the Base row's — the under-derived class
+silently drops the inherited members (SHORT-NAME, LONG-NAME, UUID) from its
+XML. Late-bound classes (the `__bases__ = (ARElement,)` pattern) are judged by
+their effective runtime chain. Over-derivation warns: it may be a recorded
+deviation.
