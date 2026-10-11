@@ -912,15 +912,41 @@ pending that confirmation.
     test_PrimitiveTypes.py); 9b deferred to batch confirmation (user instruction)
 - [ ] `CIdentifierWithIndex` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.46, p.108; also AUTOSAR_TPS_GenericStructureTemplate (R4.3.1) Table 4.52, p.90
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+    - note (Step 1): Table 4.46 (p.108 via pdf_page.py; caption + body adjacent, content
+      self-named CIdentifierWithIndex / C-IDENTIFIER-WITH-INDEX); Package + Note rows
+      only, no Attribute rows — sole member is the inherited literal value; Note
+      verbatim + Tags tail carried into the class docstring.
+  - [x] Step 2 — Write model class unit test (Red)
+    - note (Step 2): 4 tests written first (init defaults, ARLiteral subclass, set/get
+      chaining, None no-op) — pass against the pre-existing stub, no behavioral Red
+      observable (stub already carried ARLiteral behavior, same as sibling
+      CIdentifier); Red state was the entry-gate audit FAIL (BLOCK).
+  - [x] Step 3 — Implement model class (Green)
+    - note (Step 3): explicit __init__ added (super-only — Table 4.46 has no Attribute
+      rows, sole member is the inherited literal value); field-to-spec cross-check both
+      directions passes (no own fields to match); kept at its existing position next to
+      MetaClassName (same module — Rule 0007 package/file shape correct).
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    - note (Step 4): old single-line docstring wiped; rewritten verbatim in sibling
+      CIdentifier's bullet-Tags form (Note sentence + xml.xsd.customType/pattern/type);
+      __init__ has no docstring.
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+    - note (Steps 5/6): N/A — no own XML element; value-carried literal rides
+      consuming elements' literal serialization; zero parser/writer references (grep)
+      — same finding as MetaClassName/CIdentifier; [—] reader/writer.
+  - [x] Step 6 — Update parser & writer (Green)
+    - note (Steps 5/6): N/A — see Step 5.
+  - [x] Step 7 — Update checklist comment
+    - note (Step 7): 6-column block with release column; `# Spec:
+      AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.46, p.108`; marker withheld
+      (batch mode).
+  - [x] Step 8 — Deviations
+    - note (Step 8): none — no Attribute rows, no missing referenced classes.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-12 (audit PASS 1 warning
+    BASE value-carried; 2376 passed GeneralTemplateClasses; ruff/black/mypy clean;
+    regen --check drift is the batch-deferral artifact shared with MetaClassName —
+    --write deferred per batch mode); 9b deferred to batch confirmation (user instruction)
 - [ ] `CategoryString` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.47, p.109
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
   - [x] Step 1 — Sync members & description from spec

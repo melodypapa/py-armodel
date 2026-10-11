@@ -3382,8 +3382,22 @@ class MetaClassName(ARLiteral):
 
 class CIdentifierWithIndex(ARLiteral):
     r"""
-    This datatype represents a string, that follows the rules of C-identifiers with an index. Tags: xml.xsd.customType=C-IDENTIFIER-WITH-INDEX xml.xsd.pattern=[a-zA-Z_][a-zA-Z0-9_]*\[[0-9]+\] xml.xsd.type=string
+    This datatype represents a string, that follows the rules of C-identifiers with an index.
+
+    Tags:
+
+    * xml.xsd.customType=C-IDENTIFIER-WITH-INDEX
+    * xml.xsd.pattern= ``[a-zA-Z_][a-zA-Z0-9_]*\[[0-9]+\]``
+    * xml.xsd.type=string
     """
+
+    # CIdentifierWithIndex method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.46, p.108
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
 
 
 class StrongRevisionLabelString(ARLiteral):
