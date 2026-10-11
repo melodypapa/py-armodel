@@ -400,7 +400,7 @@ pending that confirmation.
     2026-10-09 (Rule 0026 audit vs source: all 9a automated + 9b manual checks green;
     `# Spec verified: R23-11` marker written); sync commit 41952ae2f
 
-- [ ] `SdgAbstractPrimitiveAttribute` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.28, p.100
+- [x] `SdgAbstractPrimitiveAttribute` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.28, p.100
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/SpecialDataDef.py
   - [x] Step 1 — Sync members & description from spec
     - note (Step 1): Table 4.28 (p.100 via pdf_page.py); abstract (spec header); Base row adds AbstractValueRestriction → SdgAbstractPrimitiveAttribute(SdgElementWithGid, SdgAttribute, AbstractValueRestriction, ABC); zero own attribute rows.
@@ -430,9 +430,14 @@ pending that confirmation.
     - note (Step 7): 6-column block + release column; marker withheld (batch mode).
   - [x] Step 8 — Deviations
     - note (Step 8): none beyond the mixin-pattern notes on SdgElementWithGid/AbstractValueRestriction.
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (362 passed / 0 failed
-    family suites; 14,043 passed / 0 failed models+parser+writer sweep); 9b deferred to
-    batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a re-run 2026-10-11 (15 family + 43 sdg
+    parser/writer tests pass; ruff + mypy clean); 9b confirmed 2026-10-11 (user approval,
+    `# Spec verified: R23-11` marker written in SpecialDataDef.py)
+    2026-10-11 (Rule 0026 audit vs source: audit_class.py PASS — BLOCK/ROWS/STAMP/CITATION/
+    SPEC-BASE/BASE/MEMBER/DOCTAIL/SPACING all clean; spec alignment verified Table 4.28
+    zero own attributes, base chain SdgElementWithGid+SdgAttribute+AbstractValueRestriction+ABC;
+    docstring verbatim from Table 4.27 Note via spec shifted Class-cell convention);
+    sync commit <TBD>
 
 - [ ] `SdgPrimitiveAttribute` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.29, p.101
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/SpecialDataDef.py
