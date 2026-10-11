@@ -60,10 +60,17 @@ def test_validate_false_skips_validation(tmp_path):
     assert os.path.exists(path)
 
 
-def test_default_schema_location_skips_validation(tmp_path, caplog):
+def test_default_schema_location_validates_with_bundled_schema(tmp_path):
+    """A document saved without an explicit release resolves to the newest bundled
+    schema: naming a schema the validator does not ship used to silently skip
+    validation (Rule 0027), so an empty document now saves AND validates."""
     document = AUTOSAR.getInstance()
     path = os.path.join(str(tmp_path), "out.arxml")
-    caplog.set_level(logging.WARNING)
     ARXMLWriter().save(path, document)
     assert os.path.exists(path)
-    assert any("No XSD schema found" in record.getMessage() for record in caplog.records)
+    # The written schemaLocation names a bundled schema, so the gate actually ran.
+    from armodel.validation.validator import ARXMLValidator
+
+    with open(path, "rb") as f:
+        data = f.read()
+    assert ARXMLValidator.for_document(data) is not None
