@@ -526,7 +526,7 @@ pending that confirmation.
     pass-through; docstring verbatim from the Table 4.29-block Class cell, no Tags: tail
     in this table; parser/writer round-trip asserts field values (getVariation() False,
     getValidBindingTimes()[0] POST-BUILD));
-    sync commit <TBD>
+    sync commit e8e6234b2
 
 - [ ] `SdgAggregationWithVariation` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.31, p.101
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/SpecialDataDef.py

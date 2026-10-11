@@ -874,7 +874,7 @@ Status: **29/29** completed
 
 ## Group21
 
-Status: **30/55** completed
+Status: **31/55** completed
 
 | Class Name                           | Status       | Commit ID  |
 | ------------------------------------ | ------------ | ---------- |
@@ -889,7 +889,7 @@ Status: **30/55** completed
 | `SdgAttribute`                       | [x] Done     | 41952ae2fd |
 | `SdgAbstractPrimitiveAttribute`      | [x] Done     | 1b8f818050 |
 | `SdgPrimitiveAttribute`              | [x] Done     | 1297ebe97b |
-| `SdgPrimitiveAttributeWithVariation` | [ ] Pending* | N/A        |
+| `SdgPrimitiveAttributeWithVariation` | [x] Done     | e8e6234b2d |
 | `SdgAggregationWithVariation`        | [ ] Pending* | N/A        |
 | `SdgReference`                       | [ ] Pending* | N/A        |
 | `SdgAbstractForeignReference`        | [ ] Pending* | N/A        |

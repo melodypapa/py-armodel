@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 819 | 42.9% |
+| [x] Done | 820 | 42.9% |
 | [x] Deferred | 83 | 4.3% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 998 | 52.3% |
+| [ ] Deferred | 997 | 52.2% |
 | [ ] Implemented | 10 | 0.5% |
 | [ ] Created | 0 | 0.0% |
 | [ ] Pending | 0 | 0.0% |
@@ -1541,7 +1541,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `SdgForeignReference`                                   | [ ] Deferred| N/A                                      | Group21          |
 | `SdgForeignReferenceWithVariation`                      | [ ] Deferred| N/A                                      | Group21          |
 | `SdgPrimitiveAttribute`                                 | [x] Done    | 1297ebe97b                               | Group21          |
-| `SdgPrimitiveAttributeWithVariation`                    | [ ] Deferred| N/A                                      | Group21          |
+| `SdgPrimitiveAttributeWithVariation`                    | [x] Done    | e8e6234b2d                               | Group21          |
 | `SdgReference`                                          | [ ] Deferred| N/A                                      | Group21          |
 | `SdgTailoring`                                          | [ ] Deferred| N/A                                      | Group36          |
 | `SecOcCryptoServiceMapping`                             | [x] Done    | eec98574a9                               | Group18          |
