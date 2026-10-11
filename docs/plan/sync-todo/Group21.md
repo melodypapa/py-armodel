@@ -481,7 +481,7 @@ pending that confirmation.
     Class cell via the spec shifted Class-cell convention);
     sync commit 1297ebe97
 
-- [ ] `SdgPrimitiveAttributeWithVariation` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.30, p.101
+- [x] `SdgPrimitiveAttributeWithVariation` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.30, p.101
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/SpecialDataDef.py
   - [x] Step 1 — Sync members & description from spec
     - note (Step 1): Table 4.30 (trailing-caption; p.101 via pdf_page.py); Base row adds AbstractVariationRestriction → SdgPrimitiveAttributeWithVariation(SdgAbstractPrimitiveAttribute, AbstractVariationRestriction); zero own attribute rows.
@@ -511,9 +511,22 @@ pending that confirmation.
     - note (Step 7): 6-column block + release column; marker withheld (batch mode).
   - [x] Step 8 — Deviations
     - note (Step 8): none.
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (362 passed / 0 failed
-    family suites; 14,043 passed / 0 failed models+parser+writer sweep); 9b deferred to
-    batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a re-run 2026-10-11 (full suite 26,135
+    passed; ruff / black / flake8 / mypy (279 files) clean; member-annotation gate 3 passed);
+    9b confirmed 2026-10-11 (user approval, `# Spec verified: R23-11` marker written in
+    SpecialDataDef.py)
+    2026-10-11 (Rule 0026 audit vs source — re-verified rather than trusting the row's
+    "steps 1-8 done" prose: audit_class.py PASS — BLOCK/ROWS/SPECLINE/CITATION/DOC/
+    SPACING/DOCTAIL/BASE/MEMBER clean; SPEC-BASE reported "no readable Base row" (the
+    Table 4.30 content sits in the Table 4.29 block under the spec shifted Class-cell
+    convention) so the base was verified by eye per the spec's Base row —
+    AbstractVariationRestriction present, most-derived SdgAbstractPrimitiveAttribute,
+    role-branch AbstractVariationRestriction → (SdgAbstractPrimitiveAttribute,
+    AbstractVariationRestriction) as in source; zero own attribute rows (`–` ×5) so a pure
+    pass-through; docstring verbatim from the Table 4.29-block Class cell, no Tags: tail
+    in this table; parser/writer round-trip asserts field values (getVariation() False,
+    getValidBindingTimes()[0] POST-BUILD));
+    sync commit <TBD>
 
 - [ ] `SdgAggregationWithVariation` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.31, p.101
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/SpecialDataDef.py
