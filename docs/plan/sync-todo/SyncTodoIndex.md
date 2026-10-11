@@ -946,7 +946,7 @@ Status: **57/75** completed
 | `FloatEnum`                            | [x] Done     | 1649678501 |
 | `Topic1`                               | [x] Done     | 948fa1096b |
 | `TopicOrMsrQuery`                      | [x] Done     | 75eaee6e46 |
-| `ChapterOrMsrQuery`                    | [x] Done*    | 0d13ccd1bc |
+| `ChapterOrMsrQuery`                    | [x] Done     | 53f6d29561 |
 | `MsrQueryProps`                        | [x] Done*    | 4566d4d4f7 |
 | `MsrQueryArg`                          | [x] Done*    | 4566d4d4f7 |
 | `MultiLanguageOverviewParagraph`       | [x] Done*    | 8294e5eeab |

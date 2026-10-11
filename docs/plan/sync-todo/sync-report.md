@@ -10,8 +10,8 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 813 | 42.6% |
-| [x] Deferred | 86 | 4.5% |
+| [x] Done | 814 | 42.6% |
+| [x] Deferred | 85 | 4.5% |
 | [x] Retired | 0 | 0.0% |
 | [ ] Deferred | 989 | 51.8% |
 | [ ] Implemented | 10 | 0.5% |
@@ -271,7 +271,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `ChapterContent`                                        | [x] Done    | dee07d0a3a                               | Group9           |
 | `ChapterEnumBreak`                                      | [x] Done    | 20e6ee88d0                               | Group3           |
 | `ChapterModel`                                          | [x] Done    | d3d61c9b2e                               | Group9           |
-| `ChapterOrMsrQuery`                                     | [x] Deferred| 0d13ccd1bc                               | Group22          |
+| `ChapterOrMsrQuery`                                     | [x] Done    | 53f6d29561                               | Group22          |
 | `ClassContentConditional`                               | [ ] Deferred| N/A                                      | Group36          |
 | `ClassTailoring`                                        | [ ] Deferred| N/A                                      | Group36          |
 | `ClientComSpec`                                         | [ ] Deferred| 1a86c955e2                               | Group27          |
