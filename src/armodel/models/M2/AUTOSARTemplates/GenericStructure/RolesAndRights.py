@@ -235,6 +235,7 @@ class AclPermission(Identifiable):
 
     # AclPermission method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 11.1, p.382
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] addAclContext        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
