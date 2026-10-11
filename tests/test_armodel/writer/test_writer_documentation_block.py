@@ -69,8 +69,8 @@ class TestDocumentationBlockRoundTrip:
         structured_req.setVariationPoint(VariationPoint())
         intro.setStructuredReq(structured_req)
 
-        def_item = DefItem()
         def_list = DefList()
+        def_item = DefItem(def_list, "DefItem1")
         def_list.addDefItem(def_item)
         intro.setDefList(def_list)
 

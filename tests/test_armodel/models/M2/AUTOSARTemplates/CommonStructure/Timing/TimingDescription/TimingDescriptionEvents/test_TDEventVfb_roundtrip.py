@@ -12,6 +12,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
     TDEventVariableDataPrototype,
     TDEventVariableDataPrototypeTypeEnum,
     TDEventVfb,
+    TDEventVfbPort,
     TDEventVfbReference,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, RefType
@@ -61,14 +62,14 @@ class TestTDEventVfbFamilyRoundTrip:
         vdp.setPortRef(make_ref("/Root/Port", "PORT-PROTOTYPE"))
         vdp.setPortPrototypeBlueprintRef(make_ref("/Root/Bp", "PORT-PROTOTYPE-BLUEPRINT"))
         vdp.setDataElementRef(make_ref("/Root/Data", "VARIABLE-DATA-PROTOTYPE"))
-        vdp.setTdEventVariableDataPrototypeType(make_enum(TDEventVariableDataPrototypeTypeEnum, "variableDataPrototypeReceived"))
+        vdp.setTdEventVariableDataPrototypeType(make_enum(TDEventVariableDataPrototypeTypeEnum, TDEventVariableDataPrototypeTypeEnum.VARIABLE_DATA_PROTOTYPE_RECEIVED))
         swc_timing.addTimingDescription(vdp)
 
         operation = TDEventOperation(swc_timing, "Op1")
         operation.setComponentIRef(component_iref)
         operation.setPortRef(make_ref("/Root/Port", "PORT-PROTOTYPE"))
         operation.setOperationRef(make_ref("/Root/Op", "CLIENT-SERVER-OPERATION"))
-        operation.setTdEventOperationType(make_enum(TDEventOperationTypeEnum, "operationCallReceived"))
+        operation.setTdEventOperationType(make_enum(TDEventOperationTypeEnum, TDEventOperationTypeEnum.OPERATION_CALL_RECEIVED))
         swc_timing.addTimingDescription(operation)
 
         mode = TDEventModeDeclaration(swc_timing, "Mode1")
@@ -77,19 +78,19 @@ class TestTDEventVfbFamilyRoundTrip:
         mode.setEntryModeDeclarationRef(make_ref("/Root/EntryMode", "MODE-DECLARATION"))
         mode.setExitModeDeclarationRef(make_ref("/Root/ExitMode", "MODE-DECLARATION"))
         mode.setModeDeclarationRef(make_ref("/Root/Mode", "MODE-DECLARATION-GROUP-PROTOTYPE"))
-        mode.setTdEventModeDeclarationType(make_enum(TDEventModeDeclarationTypeEnum, "modeDeclarationSwitchInitiated"))
+        mode.setTdEventModeDeclarationType(make_enum(TDEventModeDeclarationTypeEnum, TDEventModeDeclarationTypeEnum.MODE_DECLARATION_SWITCH_INITIATED))
         swc_timing.addTimingDescription(mode)
 
         trigger = TDEventTrigger(swc_timing, "Trigger1")
         trigger.setComponentIRef(component_iref)
         trigger.setPortRef(make_ref("/Root/Port", "PORT-PROTOTYPE"))
         trigger.setTriggerRef(make_ref("/Root/Trigger", "TRIGGER"))
-        trigger.setTdEventTriggerType(make_enum(TDEventTriggerTypeEnum, "triggerReleased"))
+        trigger.setTdEventTriggerType(make_enum(TDEventTriggerTypeEnum, TDEventTriggerTypeEnum.TRIGGER_RELEASED))
         swc_timing.addTimingDescription(trigger)
 
-        plain = TDEventVfb(swc_timing, "Plain1")
-        plain.setComponentIRef(make_component_iref())
-        swc_timing.addTimingDescription(plain)
+        # NOTE: TDEventVfb and TDEventVfbPort are abstract and have no element in the
+        # R23-11 XSD (only TD-EVENT-VFB-REFERENCE exists), so the serializable VFB family
+        # is the reference event alone.
 
         file_path = tempfile.mktemp(suffix=".arxml")
         try:
@@ -101,7 +102,7 @@ class TestTDEventVfbFamilyRoundTrip:
 
             swc_timing_2 = document_2.getARPackages()[0].getSwcTimings()[0]
             descriptions = {d.getShortName(): d for d in swc_timing_2.getTimingDescriptions()}
-            assert set(descriptions.keys()) == {"VfbRef1", "Vdp1", "Op1", "Mode1", "Trigger1", "Plain1"}
+            assert set(descriptions.keys()) == {"VfbRef1", "Vdp1", "Op1", "Mode1", "Trigger1"}
 
             ref_event_2 = descriptions["VfbRef1"]
             assert isinstance(ref_event_2, TDEventVfbReference)
@@ -116,30 +117,25 @@ class TestTDEventVfbFamilyRoundTrip:
             assert vdp_2.getPortRef().getValue() == "/Root/Port"
             assert vdp_2.getPortPrototypeBlueprintRef().getValue() == "/Root/Bp"
             assert vdp_2.getDataElementRef().getValue() == "/Root/Data"
-            assert vdp_2.getTdEventVariableDataPrototypeType().value == "variableDataPrototypeReceived"
+            assert vdp_2.getTdEventVariableDataPrototypeType().value == "VARIABLE-DATA-PROTOTYPE-RECEIVED"
 
             operation_2 = descriptions["Op1"]
             assert isinstance(operation_2, TDEventOperation)
             assert operation_2.getOperationRef().getValue() == "/Root/Op"
-            assert operation_2.getTdEventOperationType().value == "operationCallReceived"
+            assert operation_2.getTdEventOperationType().value == "OPERATION-CALL-RECEIVED"
 
             mode_2 = descriptions["Mode1"]
             assert isinstance(mode_2, TDEventModeDeclaration)
             assert mode_2.getEntryModeDeclarationRef().getValue() == "/Root/EntryMode"
             assert mode_2.getExitModeDeclarationRef().getValue() == "/Root/ExitMode"
             assert mode_2.getModeDeclarationRef().getValue() == "/Root/Mode"
-            assert mode_2.getTdEventModeDeclarationType().value == "modeDeclarationSwitchInitiated"
+            assert mode_2.getTdEventModeDeclarationType().value == "MODE-DECLARATION-SWITCH-INITIATED"
 
             trigger_2 = descriptions["Trigger1"]
             assert isinstance(trigger_2, TDEventTrigger)
             assert trigger_2.getTriggerRef().getValue() == "/Root/Trigger"
-            assert trigger_2.getTdEventTriggerType().value == "triggerReleased"
+            assert trigger_2.getTdEventTriggerType().value == "TRIGGER-RELEASED"
 
-            plain_2 = descriptions["Plain1"]
-            assert isinstance(plain_2, TDEventVfb)
-            assert type(plain_2) is TDEventVfb
-            assert plain_2.getComponentIRef() is not None
-            assert plain_2.getComponentIRef().getTargetComponentRef().getValue() == "/Root/Comp"
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)

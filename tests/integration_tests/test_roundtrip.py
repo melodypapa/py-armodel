@@ -184,9 +184,11 @@ class TestRoundTrip:
             # Step 1: Parse original file
             print("  Step 1/4: Parsing original file...", end=" ", flush=True)
             step_start = time.time()
-            AUTOSAR.getInstance().setARRelease(version)
             original_doc = AUTOSAR.getInstance()
             original_doc.clear()
+            # Set the release AFTER clear(): clear() resets schema_location, and the
+            # release is what maps the written file to a bundled XSD for validation.
+            AUTOSAR.getInstance().setARRelease(version)
             parser = ARXMLParser()
 
             try:
@@ -225,9 +227,11 @@ class TestRoundTrip:
             print("  Step 3/4: Re-parsing written file...", end=" ", flush=True)
             step_start = time.time()
             AUTOSAR.getInstance().new()
-            AUTOSAR.getInstance().setARRelease(version)
             reparsed_doc = AUTOSAR.getInstance()
             reparsed_doc.clear()
+            # Set the release AFTER clear(): clear() resets schema_location, and the
+            # release is what maps the written file to a bundled XSD for validation.
+            AUTOSAR.getInstance().setARRelease(version)
             new_parser = ARXMLParser()
 
             try:

@@ -59,14 +59,14 @@ class TestSwDataDefPropsRoundTrip:
         props.addSwValueBlockSizeMult(Numerical().setValue("2"))
         props.addSwValueBlockSizeMult(Numerical().setValue("3"))
         props.setSwIsVirtual(Boolean().setValue("true"))
-        props.setBaseTypeRef(RefType().setDest("AUTOSAR/BaseTypes/uint8"))
-        props.setSwAddrMethodRef(RefType().setDest("AUTOSAR/SwAddrMethods/ram"))
-        props.setCompuMethodRef(RefType().setDest("AUTOSAR/CompuMethods/cm"))
-        props.setDataConstrRef(RefType().setDest("AUTOSAR/DataConstrs/dc"))
-        props.setImplementationDataTypeRef(RefType().setDest("AUTOSAR/ImplementationDataTypes/idt"))
-        props.setSwRecordLayoutRef(RefType().setDest("AUTOSAR/RecordLayouts/rl"))
-        props.setUnitRef(RefType().setDest("AUTOSAR/Units/second"))
-        props.setValueAxisDataTypeRef(RefType().setDest("AUTOSAR/ApplicationDataTypes/adt"))
+        props.setBaseTypeRef(RefType().setValue("/AUTOSAR/BaseTypes/uint8").setDest("SW-BASE-TYPE"))
+        props.setSwAddrMethodRef(RefType().setValue("/AUTOSAR/SwAddrMethods/ram").setDest("SW-ADDR-METHOD"))
+        props.setCompuMethodRef(RefType().setValue("/AUTOSAR/CompuMethods/cm").setDest("COMPU-METHOD"))
+        props.setDataConstrRef(RefType().setValue("/AUTOSAR/DataConstrs/dc").setDest("DATA-CONSTR"))
+        props.setImplementationDataTypeRef(RefType().setValue("/AUTOSAR/ImplementationDataTypes/idt").setDest("IMPLEMENTATION-DATA-TYPE"))
+        props.setSwRecordLayoutRef(RefType().setValue("/AUTOSAR/RecordLayouts/rl").setDest("SW-RECORD-LAYOUT"))
+        props.setUnitRef(RefType().setValue("/AUTOSAR/Units/second").setDest("UNIT"))
+        props.setValueAxisDataTypeRef(RefType().setValue("/AUTOSAR/ApplicationDataTypes/adt").setDest("APPLICATION-PRIMITIVE-DATA-TYPE"))
 
         bit_representation = SwBitRepresentation()
         bit_representation.setBitPosition(Integer().setValue("3"))
@@ -74,11 +74,11 @@ class TestSwDataDefPropsRoundTrip:
         props.setSwBitRepresentation(bit_representation)
 
         comparison_variable = SwVariableRefProxy()
-        comparison_variable.setAutosarVariable(AutosarVariableRef().setLocalVariableRef(RefType().setDest("AUTOSAR/Variables/var1")))
+        comparison_variable.setAutosarVariable(AutosarVariableRef().setLocalVariableRef(RefType().setValue("/AUTOSAR/Variables/var1").setDest("VARIABLE-DATA-PROTOTYPE")))
         props.addSwComparisonVariable(comparison_variable)
 
         host_variable = SwVariableRefProxy()
-        host_variable.setAutosarVariable(AutosarVariableRef().setLocalVariableRef(RefType().setDest("AUTOSAR/Variables/host")))
+        host_variable.setAutosarVariable(AutosarVariableRef().setLocalVariableRef(RefType().setValue("/AUTOSAR/Variables/host").setDest("VARIABLE-DATA-PROTOTYPE")))
         props.setSwHostVariable(host_variable)
 
         dependency = SwDataDependency()
@@ -91,7 +91,7 @@ class TestSwDataDefPropsRoundTrip:
         props.setSwDataDependency(dependency)
 
         refresh_timing = MultidimensionalTime()
-        refresh_timing.setCseCode(CseCodeType().setValue("100ms"))
+        refresh_timing.setCseCode(CseCodeType().setValue("100"))
         refresh_timing.setCseCodeFactor(Integer().setValue("1"))
         props.setSwRefreshTiming(refresh_timing)
 
@@ -127,22 +127,22 @@ class TestSwDataDefPropsRoundTrip:
             assert props.getSwValueBlockSize().getValue() == 10
             assert [m.getValue() for m in props.getSwValueBlockSizeMults()] == [2, 3]
             assert props.getSwIsVirtual().getValue() is True
-            assert props.getBaseTypeRef().getDest() == "AUTOSAR/BaseTypes/uint8"
-            assert props.getSwAddrMethodRef().getDest() == "AUTOSAR/SwAddrMethods/ram"
-            assert props.getCompuMethodRef().getDest() == "AUTOSAR/CompuMethods/cm"
-            assert props.getDataConstrRef().getDest() == "AUTOSAR/DataConstrs/dc"
-            assert props.getImplementationDataTypeRef().getDest() == "AUTOSAR/ImplementationDataTypes/idt"
-            assert props.getSwRecordLayoutRef().getDest() == "AUTOSAR/RecordLayouts/rl"
-            assert props.getUnitRef().getDest() == "AUTOSAR/Units/second"
-            assert props.getValueAxisDataTypeRef().getDest() == "AUTOSAR/ApplicationDataTypes/adt"
+            assert props.getBaseTypeRef().getDest() == "SW-BASE-TYPE"
+            assert props.getSwAddrMethodRef().getDest() == "SW-ADDR-METHOD"
+            assert props.getCompuMethodRef().getDest() == "COMPU-METHOD"
+            assert props.getDataConstrRef().getDest() == "DATA-CONSTR"
+            assert props.getImplementationDataTypeRef().getDest() == "IMPLEMENTATION-DATA-TYPE"
+            assert props.getSwRecordLayoutRef().getDest() == "SW-RECORD-LAYOUT"
+            assert props.getUnitRef().getDest() == "UNIT"
+            assert props.getValueAxisDataTypeRef().getDest() == "APPLICATION-PRIMITIVE-DATA-TYPE"
             assert props.getSwBitRepresentation().getBitPosition().getValue() == 3
             assert props.getSwBitRepresentation().getNumberOfBits().getValue() == 5
             assert len(props.getSwComparisonVariables()) == 1
-            assert props.getSwComparisonVariables()[0].getAutosarVariable().getLocalVariableRef().getDest() == "AUTOSAR/Variables/var1"
-            assert props.getSwHostVariable().getAutosarVariable().getLocalVariableRef().getDest() == "AUTOSAR/Variables/host"
+            assert props.getSwComparisonVariables()[0].getAutosarVariable().getLocalVariableRef().getDest() == "VARIABLE-DATA-PROTOTYPE"
+            assert props.getSwHostVariable().getAutosarVariable().getLocalVariableRef().getDest() == "VARIABLE-DATA-PROTOTYPE"
             assert props.getSwDataDependency().getSwDataDependencyFormula().getLevel().getValue() == "INFORMAL"
             assert props.getSwDataDependency().getSwDataDependencyArgs() is not None
-            assert props.getSwRefreshTiming().getCseCode().getValue() == "100ms"
+            assert props.getSwRefreshTiming().getCseCode().getValue() == "100"
             assert props.getSwRefreshTiming().getCseCodeFactor().getValue() == 1
         finally:
             if os.path.exists(file_path):
@@ -181,10 +181,10 @@ class TestDataPrototypeSwDataDefPropsRoundTrip:
         parameter = behavior.createSharedParameter("sp1")
 
         props = SwDataDefProps()
-        props.setCompuMethodRef(RefType().setDest("AUTOSAR/CompuMethods/cm"))
-        props.setSwAddrMethodRef(RefType().setDest("AUTOSAR/SwAddrMethods/ram"))
+        props.setCompuMethodRef(RefType().setValue("/AUTOSAR/CompuMethods/cm").setDest("COMPU-METHOD"))
+        props.setSwAddrMethodRef(RefType().setValue("/AUTOSAR/SwAddrMethods/ram").setDest("SW-ADDR-METHOD"))
         parameter.setSwDataDefProps(props)
-        parameter.setTypeTRef(TRefType().setDest("AUTOSAR/DataTypes/uint8"))
+        parameter.setTypeTRef(TRefType().setValue("/AUTOSAR/DataTypes/uint8").setDest("IMPLEMENTATION-DATA-TYPE"))
         parameter.setInitValue(TextValueSpecification().setValue(ARLiteral().setValue("42")))
 
         file_path = tempfile.mktemp(suffix=".arxml")
@@ -200,9 +200,9 @@ class TestDataPrototypeSwDataDefPropsRoundTrip:
             assert parameter_2.getShortName() == "sp1"
             props_2 = parameter_2.getSwDataDefProps()
             assert props_2 is not None
-            assert props_2.getCompuMethodRef().getDest() == "AUTOSAR/CompuMethods/cm"
-            assert props_2.getSwAddrMethodRef().getDest() == "AUTOSAR/SwAddrMethods/ram"
-            assert parameter_2.getTypeTRef().getDest() == "AUTOSAR/DataTypes/uint8"
+            assert props_2.getCompuMethodRef().getDest() == "COMPU-METHOD"
+            assert props_2.getSwAddrMethodRef().getDest() == "SW-ADDR-METHOD"
+            assert parameter_2.getTypeTRef().getDest() == "IMPLEMENTATION-DATA-TYPE"
             assert parameter_2.getInitValue().getValue().getValue() == "42"
         finally:
             if os.path.exists(file_path):
@@ -253,7 +253,7 @@ class TestSwDataDependencyFormulaRoundTrip:
         formula.setLevel(PrimitiveIdentifier().setValue("INFORMAL"))
         formula.setMixedString("X1+X2")
         formula.setChecksum(String().setValue("deadbeef"))
-        formula.setTimestamp(DateTime().setValue("2024-01-01T00:00:00.000Z"))
+        formula.setTimestamp(DateTime().setValue("2024-01-01T00:00:00Z"))
         self._build(document, formula)
 
         file_path = tempfile.mktemp(suffix=".arxml")
@@ -265,7 +265,7 @@ class TestSwDataDependencyFormulaRoundTrip:
             assert formula_element.get("LEVEL") == "INFORMAL"
             assert formula_element.text == "X1+X2"
             assert formula_element.get("S") == "deadbeef"
-            assert formula_element.get("T") == "2024-01-01T00:00:00.000Z"
+            assert formula_element.get("T") == "2024-01-01T00:00:00Z"
 
             document_2 = AUTOSAR.getInstance()
             document_2.clear()
@@ -278,7 +278,7 @@ class TestSwDataDependencyFormulaRoundTrip:
             assert formula_2.getLevel().getValue() == "INFORMAL"
             assert formula_2.getMixedString() == "X1+X2"
             assert formula_2.getChecksum().getValue() == "deadbeef"
-            assert formula_2.getTimestamp().getValue() == "2024-01-01T00:00:00.000Z"
+            assert formula_2.getTimestamp().getValue() == "2024-01-01T00:00:00Z"
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)

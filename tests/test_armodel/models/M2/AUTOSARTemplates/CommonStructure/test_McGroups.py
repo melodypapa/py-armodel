@@ -7,9 +7,11 @@ from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 
 
-def make_ref(value: str) -> RefType:
+def make_ref(value: str, dest: str = None) -> RefType:
     ref = RefType()
     ref.setValue(value)
+    if dest is not None:
+        ref.setDest(dest)
     return ref
 
 
@@ -144,12 +146,12 @@ class TestMcGroupRoundTrip:
         group = ar_root.createMcGroup("Grp1")
 
         ref_calprm_set = McGroupDataRefSet()
-        ref_calprm_set.addFlatMapEntryRef(make_ref("/Flat/Cal1"))
-        ref_calprm_set.addMcDataInstanceRef(make_ref("/MC/Cal1"))
+        ref_calprm_set.addFlatMapEntryRef(make_ref("/Flat/Cal1", "FLAT-INSTANCE-DESCRIPTOR"))
+        ref_calprm_set.addMcDataInstanceRef(make_ref("/MC/Cal1", "MC-DATA-INSTANCE"))
         group.setRefCalprmSet(ref_calprm_set)
         group.setRefMeasurementSet(McGroupDataRefSet())
-        group.addMcFunctionRef(make_ref("/Fn1"))
-        group.addSubGroupRef(make_ref("/Grp2"))
+        group.addMcFunctionRef(make_ref("/Fn1", "MC-FUNCTION"))
+        group.addSubGroupRef(make_ref("/Grp2", "MC-GROUP"))
 
         file_path = tempfile.mktemp(suffix=".arxml")
         try:

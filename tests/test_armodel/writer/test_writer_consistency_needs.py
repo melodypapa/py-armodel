@@ -7,6 +7,7 @@ import xml.etree.ElementTree as ET
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier, RefType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import ApplicationSwComponentType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ImplicitCommunicationBehavior import (
     ConsistencyNeeds,
     DataPrototypeGroup,
@@ -29,11 +30,17 @@ def make_ref(value: str, dest: str = "DATA-PROTOTYPE-GROUP") -> RefType:
 
 
 def _build_document(consistency_needs: ConsistencyNeeds):
+    """CONSISTENCY-NEEDS is only allowed inside SW-COMPONENT-TYPE (wrapper
+    CONSISTENCY-NEEDSS) or CONSISTENCY-NEEDS-BLUEPRINT-SET, never directly in
+    AR-PACKAGE (AUTOSAR_00052.xsd)."""
     AUTOSAR.getInstance().setARRelease("R23-11")
     document = AUTOSAR.getInstance()
     document.clear()
     ar_root = document.createARPackage("AUTOSAR")
-    ar_root.addReferrableElement(consistency_needs)
+    sw_component = ApplicationSwComponentType(ar_root, "Comp")
+    ar_root.addReferrableElement(sw_component)
+    sw_component.addReferrableElement(consistency_needs)
+    sw_component.consistencyNeeds.append(consistency_needs)
     return document
 
 
@@ -42,7 +49,8 @@ def _reload(file_path):
     document_2.clear()
     ARXMLParser().load(file_path, document_2)
     package = document_2.getARPackages()[0]
-    return next(element for element in package.referrableElements if isinstance(element, ConsistencyNeeds))
+    sw_component = next(element for element in package.referrableElements if isinstance(element, ApplicationSwComponentType))
+    return next(element for element in sw_component.referrableElements if isinstance(element, ConsistencyNeeds))
 
 
 class TestWriteConsistencyNeeds:
@@ -70,7 +78,7 @@ class TestWriteConsistencyNeeds:
         reg_stable = consistency_needs.createRegRequiresStability("RegStable")
         inner_iref = InnerRunnableEntityGroupInCompositionInstanceRef()
         inner_iref.addContextSwComponentPrototypeRef(make_ref("/Comp/A", "SW-COMPONENT-PROTOTYPE"))
-        inner_iref.setTargetRunnableEntityGroupRef(make_ref("/Comp/A/Group"))
+        inner_iref.setTargetRunnableEntityGroupRef(make_ref("/Comp/A/Group", "RUNNABLE-ENTITY-GROUP"))
         reg_stable.addRunnableEntityGroupIRef(inner_iref)
 
         file_path = tempfile.mktemp(suffix=".arxml")

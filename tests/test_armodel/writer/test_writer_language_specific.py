@@ -4,6 +4,7 @@ import os
 import tempfile
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Enumerations import XmlSpaceEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import NameToken, String
 from armodel.models.M2.MSR.AsamHdo.AdminData import AdminData
 from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import EmphasisText, IndexEntry, Superscript, Tt
@@ -130,6 +131,8 @@ class TestLanguageSpecificRoundTrip:
         l10 = LPlainText()
         l10.setL("EN")
         l10.setValue("plain text")
+        # AR:WHITESPACE-CONTROLLED marks xml:space as use="required" (AUTOSAR_00052.xsd L130873)
+        l10.setXmlSpace(XmlSpaceEnum().setValue(XmlSpaceEnum.PRESERVE))
         used_languages.addL10(l10)
         swc.setAdminData(AdminData())
         swc.getAdminData().setUsedLanguages(used_languages)

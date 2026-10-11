@@ -24,7 +24,7 @@ from armodel.writer.arxml_writer import ARXMLWriter
 def _build_shared_axis_type_ref() -> RefType:
     ref = RefType()
     ref.setValue("/axis/types/shared")
-    ref.setDest("SW-AXIS-TYPE")
+    ref.setDest("APPLICATION-PRIMITIVE-DATA-TYPE")
     return ref
 
 
@@ -57,7 +57,7 @@ class TestWriteSwCalprmAxis:
         assert axis_element.find("CATEGORY").text == "STD_AXIS"
         shared_ref_element = axis_element.find("SW-AXIS-GROUPED/SHARED-AXIS-TYPE-REF")
         assert shared_ref_element.text == "/axis/types/shared"
-        assert shared_ref_element.attrib["DEST"] == "SW-AXIS-TYPE"
+        assert shared_ref_element.attrib["DEST"] == "APPLICATION-PRIMITIVE-DATA-TYPE"
         assert axis_element.find("SW-CALIBRATION-ACCESS").text == "READ-ONLY"
         assert axis_element.find("DISPLAY-FORMAT").text == "%.3f"
 

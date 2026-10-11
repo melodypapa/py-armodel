@@ -8,9 +8,11 @@ from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 
 
-def make_ref(value: str) -> RefType:
+def make_ref(value: str, dest: str = None) -> RefType:
     ref = RefType()
     ref.setValue(value)
+    if dest is not None:
+        ref.setDest(dest)
     return ref
 
 
@@ -144,11 +146,11 @@ class TestMcFunctionRoundTrip:
         func = ar_root.createMcFunction("Fn1")
 
         def_calprm_set = McFunctionDataRefSet()
-        def_calprm_set.addFlatMapEntryRef(make_ref("/Flat/Cal1"))
-        def_calprm_set.addMcDataInstanceRef(make_ref("/MC/Cal1"))
+        def_calprm_set.addFlatMapEntryRef(make_ref("/Flat/Cal1", "FLAT-INSTANCE-DESCRIPTOR"))
+        def_calprm_set.addMcDataInstanceRef(make_ref("/MC/Cal1", "MC-DATA-INSTANCE"))
         func.setDefCalprmSet(def_calprm_set)
         func.setRefCalprmSet(McFunctionDataRefSet())
-        func.addSubFunctionRef(make_ref("/Fn2"))
+        func.addSubFunctionRef(make_ref("/Fn2", "MC-FUNCTION"))
 
         file_path = tempfile.mktemp(suffix=".arxml")
         try:

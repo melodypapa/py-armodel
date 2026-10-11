@@ -9,8 +9,10 @@ from armodel.parser.arxml_parser import ARXMLParser
 _L2_WITH_CHILDREN = (
     '<ROOT xmlns="http://autosar.org/schema/r4.0">'
     "<MULTI-LANGUAGE-OVERVIEW-PARAGRAPH>"
-    '<L-2 L="EN" SUB="sub text" SUP="sup text">overview text'
+    '<L-2 L="EN">overview text'
     "<BR/>"
+    "<SUP>sup text</SUP>"
+    "<SUB>sub text</SUB>"
     '<E COLOR="blue">emphasized overview</E>'
     "<IE>index entry</IE>"
     '<TRACE-REF DEST="TRACEABLE">traceable-obj</TRACE-REF>'
@@ -25,7 +27,7 @@ _L2_WITH_CHILDREN = (
 
 class TestMixedContentForOverviewParagraphParser:
     def test_read_l2_reads_mixed_content_children(self):
-        """The L-2 complexType composes MIXED-CONTENT-FOR-OVERVIEW-PARAGRAPH (XSD 00052 L76250) — the BR/E/IE/TRACE-REF/TT/XREF/XREF-TARGET child elements and the SUB/SUP XML attributes (Kind=attr, family convention) must populate the base members (Table 9.3)."""
+        """The L-2 complexType composes MIXED-CONTENT-FOR-OVERVIEW-PARAGRAPH (XSD 00052 L76250) — the BR/E/IE/SUP/SUB/TRACE-REF/TT/XREF/XREF-TARGET child elements must populate the base members (Table 9.3; SUP/SUB are SUPSCRIPT child elements, not attributes)."""
         parser = ARXMLParser()
         element = ET.fromstring(_L2_WITH_CHILDREN)
 

@@ -1,4 +1,5 @@
 from __future__ import annotations
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import MultilanguageReferrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 
 from typing import List, Optional
@@ -217,7 +218,7 @@ class IndentSample(ARObject):
         return self.l2s
 
 
-class LabeledItem(ARObject, VariationPointCapable):
+class LabeledItem(Paginateable, VariationPointCapable):
     """
     this represents an item of a labeled list.
     """
@@ -306,7 +307,7 @@ class LabeledItem(ARObject, VariationPointCapable):
         return self
 
 
-class LabeledList(ARObject, VariationPointCapable):
+class LabeledList(Paginateable, VariationPointCapable):
     """
     This meta-class represents a labeled list, in which items have a label and a content. The policy how to render such items is specified in the labeled list.
     """
@@ -370,7 +371,7 @@ class LabeledList(ARObject, VariationPointCapable):
         return self.labeledItems
 
 
-class DefItem(ARObject, VariationPointCapable):
+class DefItem(MultilanguageReferrable, Paginateable, VariationPointCapable):
     """
     This represents an entry in a definition list. The defined item is specified using shortName and longName.
     """
@@ -384,8 +385,8 @@ class DefItem(ARObject, VariationPointCapable):
     # [x] getHelpEntry    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setHelpEntry    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
 
         # This represents the definition part of the DefItem.
         self.def_doc: Optional[DocumentationBlock] = None
@@ -422,7 +423,7 @@ class DefItem(ARObject, VariationPointCapable):
         return self
 
 
-class DefList(ARObject, VariationPointCapable):
+class DefList(Paginateable, VariationPointCapable):
     """
     This meta-class represents the ability to express a list of definitions. Note that a definition list might rendered similar to a labeled list but has a particular semantics to denote definitions.
     """

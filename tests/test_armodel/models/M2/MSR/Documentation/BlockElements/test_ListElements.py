@@ -358,15 +358,18 @@ class TestDefItem:
 
     def test_def_item_initialization(self):
         """Test that a DefItem object can be initialized with default values."""
-        def_item = DefItem()
+        def_list = DefList()
+        def_item = DefItem(def_list, "DefItem1")
         assert def_item.def_doc is None
         assert def_item.helpEntry is None
+        assert def_item.getShortName() == "DefItem1"
 
     def test_def_item_def_methods(self):
         """Test the def getter and setter."""
         from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 
-        def_item = DefItem()
+        def_list = DefList()
+        def_item = DefItem(def_list, "DefItem1")
         def_block = DocumentationBlock()
 
         result = def_item.setDef(def_block)
@@ -378,7 +381,8 @@ class TestDefItem:
 
     def test_def_item_help_entry_methods(self):
         """Test the helpEntry getter and setter."""
-        def_item = DefItem()
+        def_list = DefList()
+        def_item = DefItem(def_list, "DefItem1")
         help_entry = "help"
 
         result = def_item.setHelpEntry(help_entry)
@@ -400,7 +404,7 @@ class TestDefList:
     def test_def_list_def_items_methods(self):
         """Test adding def items."""
         def_list = DefList()
-        def_item = DefItem()
+        def_item = DefItem(def_list, "DefItem1")
 
         result = def_list.addDefItem(def_item)
         assert def_item in def_list.getDefItems()

@@ -1552,7 +1552,7 @@ from armodel.models.M2.MSR.Documentation.BlockElements.RequirementsTracing impor
     TraceableTable,
     TraceableText,
 )
-from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import Br, EmphasisText, IndexEntry, Std, Tt, Xdoc, Xfile, Xref, XrefTarget
+from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import Br, EmphasisText, IndexEntry, Std, Superscript, Tt, Xdoc, Xfile, Xref, XrefTarget
 from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import (
     LanguageSpecific,
     LLongName,
@@ -2947,10 +2947,15 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element.text = specific.getValue()
         return child_element
 
-    def writeWhitespaceControlled(self, element: ET.Element, specific: Union[Sd, WhitespaceControlled]):
+    def writeWhitespaceControlled(self, element: ET.Element, specific: Union[Sd, WhitespaceControlled], default: Optional[str] = None):
         xml_space = specific.getXmlSpace()
         if xml_space is not None:
             element.attrib["{http://www.w3.org/XML/1998/namespace}space"] = xml_space.getValue()
+        elif default is not None:
+            # The XSD marks xml:space use="required" on the WHITESPACE-CONTROLLED
+            # attributeGroup (L-PLAIN-TEXT, L-VERBATIM); an unset value serializes
+            # as the AUTOSAR semantic default "preserve".
+            element.attrib["{http://www.w3.org/XML/1998/namespace}space"] = default
 
     def setLLongName(self, element: ET.Element, name: LLongName):
         child_element = ET.SubElement(element, "L-4")
@@ -2965,15 +2970,11 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeMixedContentForLongName(self, element: ET.Element, content: MixedContentForLongName):
         self.writeARObject(element, content)
-        sup_value = content.getSup()
-        if sup_value is not None:
-            element.attrib["SUP"] = sup_value.getValue()
-        sub_value = content.getSub()
-        if sub_value is not None:
-            element.attrib["SUB"] = sub_value.getValue()
         e_value = content.getE()
         if e_value is not None:
             self.setEmphasisText(element, "E", e_value)
+        self.setSuperscriptText(element, "SUP", content.getSup())
+        self.setSuperscriptText(element, "SUB", content.getSub())
         ie_value = content.getIe()
         if ie_value is not None:
             self.setIndexEntry(element, "IE", ie_value)
@@ -3092,12 +3093,8 @@ class ARXMLWriter(AbstractARXMLWriter):
         std_value = content.getStd()
         if std_value is not None:
             self.setStd(element, "STD", std_value)
-        sub_value = content.getSub()
-        if sub_value is not None:
-            element.attrib["SUB"] = sub_value.getValue()
-        sup_value = content.getSup()
-        if sup_value is not None:
-            element.attrib["SUP"] = sup_value.getValue()
+        self.setSuperscriptText(element, "SUP", content.getSup())
+        self.setSuperscriptText(element, "SUB", content.getSub())
         self.setChildElementOptionalRefType(element, "TRACE-REF", content.getTraceRef())
         tt_value = content.getTt()
         if tt_value is not None:
@@ -3135,12 +3132,8 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeMixedContentForUnitNames(self, element: ET.Element, content: MixedContentForUnitNames):
         self.writeARObject(element, content)
-        sup_value = content.getSup()
-        if sup_value is not None:
-            element.attrib["SUP"] = sup_value.getValue()
-        sub_value = content.getSub()
-        if sub_value is not None:
-            element.attrib["SUB"] = sub_value.getValue()
+        self.setSuperscriptText(element, "SUP", content.getSup())
+        self.setSuperscriptText(element, "SUB", content.getSub())
 
     def writeMixedContentForOverviewParagraph(self, element: ET.Element, content: MixedContentForOverviewParagraph):
         self.setBr(element, "BR", content.getBr())
@@ -3154,12 +3147,8 @@ class ARXMLWriter(AbstractARXMLWriter):
         ie_value = content.getIe()
         if ie_value is not None:
             self.setIndexEntry(element, "IE", ie_value)
-        sub_value = content.getSub()
-        if sub_value is not None:
-            element.attrib["SUB"] = sub_value.getValue()
-        sup_value = content.getSup()
-        if sup_value is not None:
-            element.attrib["SUP"] = sup_value.getValue()
+        self.setSuperscriptText(element, "SUP", content.getSup())
+        self.setSuperscriptText(element, "SUB", content.getSub())
         self.setChildElementOptionalRefType(element, "TRACE-REF", cast(RefType, content.getTraceRef()))
         tt_value = content.getTt()
         if tt_value is not None:
@@ -3198,6 +3187,14 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeMixedStringText(child_element, name)
             self.writeMixedContentForUnitNames(child_element, name)
 
+    def setSuperscriptText(self, element: ET.Element, key: str, value: Optional[Superscript]):
+        # SUP/SUB are SUPSCRIPT child elements in the R23-11 XSD (MIXED-CONTENT-FOR-LONG-NAME,
+        # MIXED-CONTENT-FOR-PARAGRAPH and EMPHASIS-TEXT all declare them as elements, not
+        # attributes). SUPSCRIPT carries no attributes, so the element is text-only.
+        if value is not None:
+            child_element = ET.SubElement(element, key)
+            child_element.text = value.getValue()
+
     def setEmphasisText(self, element: ET.Element, key: str, emphasis: Optional[EmphasisText]):
         if emphasis is not None:
             child_element = ET.SubElement(element, key)
@@ -3205,12 +3202,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             color_value = emphasis.getColor()
             if color_value is not None:
                 child_element.attrib["COLOR"] = color_value.getValue()
-            sup_value = emphasis.getSup()
-            if sup_value is not None:
-                child_element.attrib["SUP"] = sup_value.getValue()
-            sub_value = emphasis.getSub()
-            if sub_value is not None:
-                child_element.attrib["SUB"] = sub_value.getValue()
+            self.setSuperscriptText(child_element, "SUP", emphasis.getSup())
+            self.setSuperscriptText(child_element, "SUB", emphasis.getSub())
             child_element.text = emphasis.getValue().getValue() if emphasis.getValue() is not None else None
             tt_value = emphasis.getTt()
             if tt_value is not None:
@@ -3220,12 +3213,8 @@ class ARXMLWriter(AbstractARXMLWriter):
         if index_entry is not None:
             child_element = ET.SubElement(element, key)
             self.writeARObject(child_element, index_entry)
-            sup_value = index_entry.getSup()
-            if sup_value is not None:
-                child_element.attrib["SUP"] = sup_value.getValue()
-            sub_value = index_entry.getSub()
-            if sub_value is not None:
-                child_element.attrib["SUB"] = sub_value.getValue()
+            self.setSuperscriptText(child_element, "SUP", index_entry.getSup())
+            self.setSuperscriptText(child_element, "SUB", index_entry.getSub())
             child_element.text = index_entry.getValue().getValue() if index_entry.getValue() is not None else None
 
     def setTt(self, element: ET.Element, key: str, tt: Optional[Tt]):
@@ -3281,7 +3270,7 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def setLPlainText(self, element: ET.Element, text: LPlainText):
         child_element = self.setLanguageSpecific(element, "L-10", text)
-        self.writeWhitespaceControlled(child_element, text)
+        self.writeWhitespaceControlled(child_element, text, default="preserve")
 
     def setMultiLanguagePlainText(self, element: ET.Element, key: str, paragraph: Optional[MultiLanguagePlainText]):
         if paragraph is not None:
@@ -4018,7 +4007,12 @@ class ARXMLWriter(AbstractARXMLWriter):
         documentation = parent.getSwComponentDocumentation()
         if documentation is None:
             return
-        child_element = ET.SubElement(element, "SW-COMPONENT-DOCUMENTATION")
+        # The XSD SW-COMPONENT-TYPE group wraps the documentation in a splitable
+        # SW-COMPONENT-DOCUMENTATIONS element (AUTOSAR_00052.xsd, atpVariation
+        # resolution raised the role to *); a bare SW-COMPONENT-DOCUMENTATION child
+        # of the SWC element is schema-invalid.
+        container = ET.SubElement(element, "SW-COMPONENT-DOCUMENTATIONS")
+        child_element = ET.SubElement(container, "SW-COMPONENT-DOCUMENTATION")
         self.writeARObject(child_element, documentation)
         self.writeSwComponentDocumentationElement(child_element, documentation)
         self.writeVariationPointCapable(child_element, documentation)
@@ -4849,9 +4843,14 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeARObject(child_element, block)
             self.writeDocumentationBlockContent(child_element, block)
 
-    def writeDocumentationBlockContent(self, element: ET.Element, block: Optional[DocumentationBlock]):
+    def writeDocumentationBlockContent(self, element: ET.Element, block: Optional[DocumentationBlock], write_ar_object: bool = True):
+        # The block's S/T land on the WRAPPER element when one exists. The XSD
+        # groups that embed the DOCUMENTATION-BLOCK content INLINE (NOTE,
+        # TRACEABLE-TEXT) give the block no attribute home of its own, so those
+        # callers pass write_ar_object=False (Rule 0027).
         if block is not None:
-            self.writeARObject(element, block)
+            if write_ar_object:
+                self.writeARObject(element, block)
             self.setMsrQueryP2(element, block.getMsrQueryP2())
             self.setMultiLanguageParagraphs(element, "P", block.getPs())
             self.setMultiLanguageVerbatim(element, "VERBATIM", block.getVerbatim())
@@ -4868,17 +4867,22 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setDefList(self, element: ET.Element, def_list: Optional[DefList]):
         if def_list is not None:
             child_element = ET.SubElement(element, "DEF-LIST")
-            self.writeARObject(child_element, def_list)
+            self.writePaginateable(child_element, def_list)
             for def_item in def_list.getDefItems():
                 self.setDefItem(child_element, def_item)
+            self.writeVariationPointCapable(child_element, def_list)
 
     def setDefItem(self, element: ET.Element, def_item: DefItem):
         child_element = ET.SubElement(element, "DEF-ITEM")
-        self.writeARObject(child_element, def_item)
+        # The XSD DEF-ITEM complexType carries the REFERRABLE + MULTILANGUAGE-REFERRABLE
+        # groups (SHORT-NAME required) but NO IDENTIFIABLE group — writeReferrable, not
+        # writeIdentifiable (Rule 0027 / SPEC-BASE).
+        self.writeReferrable(child_element, def_item)
         helpEntry_value = def_item.getHelpEntry()
         if helpEntry_value is not None:
             child_element.attrib["HELPENTRY"] = helpEntry_value.getValue()
         self.writeDocumentationBlock(child_element, "DEF", def_item.getDef())
+        self.writeVariationPointCapable(child_element, def_item)
 
     def setMlFormula(self, element: ET.Element, key: str, formula: Optional[MlFormula]):
         if formula is not None:
@@ -4894,12 +4898,13 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setLabeledList(self, element: ET.Element, labeled_list: Optional[LabeledList]):
         if labeled_list is not None:
             child_element = ET.SubElement(element, "LABELED-LIST")
-            self.writeARObject(child_element, labeled_list)
+            self.writePaginateable(child_element, labeled_list)
             indentSample_value = labeled_list.getIndentSample()
             if indentSample_value is not None:
                 self.setIndentSample(child_element, indentSample_value)
             for labeled_item in labeled_list.getLabeledItems():
                 self.setLabeledItem(child_element, labeled_item)
+            self.writeVariationPointCapable(child_element, labeled_list)
 
     def setIndentSample(self, element: ET.Element, indent_sample: Optional[IndentSample]):
         if indent_sample is not None:
@@ -4913,28 +4918,37 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def setLabeledItem(self, element: ET.Element, labeled_item: LabeledItem):
         child_element = ET.SubElement(element, "LABELED-ITEM")
-        self.writeARObject(child_element, labeled_item)
+        self.writePaginateable(child_element, labeled_item)
         helpEntry_value = labeled_item.getHelpEntry()
         if helpEntry_value is not None:
             child_element.attrib["HELPENTRY"] = helpEntry_value.getValue()
         self.setMultiLanguageOverviewParagraph(child_element, "ITEM-LABEL", labeled_item.getItemLabel())
         self.writeDocumentationBlock(child_element, "ITEM-CONTENTS", labeled_item.getItemContents())
+        self.writeVariationPointCapable(child_element, labeled_item)
 
     def setNote(self, element: ET.Element, note: Optional[Note]):
         if note is not None:
             child_element = ET.SubElement(element, "NOTE")
             self.writeARObject(child_element, note)
+            # XSD group NOTE (AUTOSAR_00052.xsd): LABEL, then the DOCUMENTATION-BLOCK
+            # content INLINE via the choice (no NOTE-TEXT wrapper), then
+            # VARIATION-POINT; the noteType is the NOTE-TYPE attribute.
             self.setMultiLongName(child_element, "LABEL", note.getLabel())
+            self.writeDocumentationBlockContent(child_element, note.getNoteText(), write_ar_object=False)
             noteType_value = note.getNoteType()
             if noteType_value is not None:
-                child_element.attrib["NOTETYPE"] = noteType_value.getValue()
-            self.writeDocumentationBlock(child_element, "NOTE-TEXT", note.getNoteText())
+                child_element.attrib["NOTE-TYPE"] = noteType_value.getValue()
+            self.writeVariationPointCapable(child_element, note)
 
     def setTraceableText(self, element: ET.Element, key: str, traceable_text: Optional[TraceableText]):
         if traceable_text is not None:
             child_element = ET.SubElement(element, key)
+            # XSD group TRACEABLE-TEXT (AUTOSAR_00052.xsd): the class is a full
+            # Identifiable (writeIdentifiable inside writeTraceable) and the
+            # DOCUMENTATION-BLOCK content follows INLINE — the TEXT wrapper is a
+            # fabrication, and the block's S/T have no attribute home here.
             self.writeTraceable(child_element, traceable_text)
-            self.writeDocumentationBlock(child_element, "TEXT", traceable_text.getText())
+            self.writeDocumentationBlockContent(child_element, traceable_text.getText(), write_ar_object=False)
 
     def setTraceableTable(self, element: ET.Element, key: str, traceable_table: Optional[TraceableTable]):
         if traceable_table is not None:
@@ -5013,17 +5027,17 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def setLVerbatim(self, element: ET.Element, text: LVerbatim):
         child_element = self.setLanguageSpecific(element, "L-5", text)
-        self.writeWhitespaceControlled(child_element, text)
+        self.writeWhitespaceControlled(child_element, text, default="preserve")
         self.writeMixedContentForVerbatim(child_element, text)
 
     def setMsrQueryP2(self, element: ET.Element, msr_query_p2: Optional[MsrQueryP2]):
         if msr_query_p2 is not None:
-            child_element = ET.SubElement(element, "MSR-QUERY-P2")
+            child_element = ET.SubElement(element, "MSR-QUERY-P-2")
             self.writeARObject(child_element, msr_query_p2)
             msrQueryProps_value = msr_query_p2.getMsrQueryProps()
             if msrQueryProps_value is not None:
                 self.setMsrQueryProps(child_element, msrQueryProps_value)
-            self.writeDocumentationBlock(child_element, "MSR-QUERY-RESULT-P2", msr_query_p2.getMsrQueryResultP2())
+            self.writeDocumentationBlock(child_element, "MSR-QUERY-RESULT-P-2", msr_query_p2.getMsrQueryResultP2())
 
     def setMsrQueryProps(self, element: ET.Element, msr_query_props: Optional[MsrQueryProps]):
         if msr_query_props is not None:
@@ -5035,9 +5049,14 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalLiteral(child_element, "COMMENT", msr_query_props.getComment())
 
     def setMsrQueryArg(self, element: ET.Element, msr_query_arg: MsrQueryArg):
+        # The XSD MSR-QUERY-ARG complexType is a simpleContent extension of
+        # STRING--SIMPLE (AUTOSAR_00052.xsd): the arg value is the element TEXT and
+        # si is an attribute — child elements are schema-invalid.
         child_element = ET.SubElement(element, "MSR-QUERY-ARG")
         self.writeARObject(child_element, msr_query_arg)
-        self.setChildElementOptionalLiteral(child_element, "ARG", msr_query_arg.getArg())
+        arg_value = msr_query_arg.getArg()
+        if arg_value is not None:
+            child_element.text = arg_value.getValue()
         si_value = msr_query_arg.getSi()
         if si_value is not None:
             child_element.attrib["SI"] = si_value.getValue()
@@ -8412,7 +8431,6 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "ACCESS-COUNT-SETS")
             for access_count_set in access_count_sets:
                 access_count_set_element = ET.SubElement(child_element, "ACCESS-COUNT-SET")
-                self.setChildElementOptionalLiteral(access_count_set_element, "COUNT-PROFILE", access_count_set.getCountProfile())
                 access_counts = access_count_set.getAccessCounts()
                 if len(access_counts) > 0:
                     counts_element = ET.SubElement(access_count_set_element, "ACCESS-COUNTS")
@@ -8420,6 +8438,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                         count_element = ET.SubElement(counts_element, "ACCESS-COUNT")
                         self.setChildElementOptionalRefType(count_element, "ACCESS-POINT-REF", count.getAccessPointRef())
                         self.setChildElementOptionalPositiveInteger(count_element, "VALUE", count.getValue())
+                self.setChildElementOptionalLiteral(access_count_set_element, "COUNT-PROFILE", access_count_set.getCountProfile())
 
     def writeStackUsage(self, element: ET.Element, usage: StackUsage):
         self.logger.debug("Write StackUsage %s" % usage.getShortName())
@@ -10156,9 +10175,9 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeImplementation(child_element, impl)
         self.setChildElementOptionalLiteral(child_element, "AR-RELEASE-VERSION", impl.getArReleaseVersion())
         self.setChildElementOptionalRefType(child_element, "BEHAVIOR-REF", impl.getBehaviorRef())
-        self.setChildElementOptionalLiteral(child_element, "VENDOR-API-INFIX", impl.getVendorApiInfix())
         self.writeBswImplementationPreconfiguredConfigurationRefs(child_element, impl)
         self.writeBswImplementationRecommendedConfigurationRefs(child_element, impl)
+        self.setChildElementOptionalLiteral(child_element, "VENDOR-API-INFIX", impl.getVendorApiInfix())
         self.writeBswImplementationVendorSpecificModuleDefRefs(child_element, impl)
 
     def writeAbstractImplementationDataTypeElement(self, element: ET.Element, impl_data_type_element: AbstractImplementationDataTypeElement):
@@ -20987,8 +21006,12 @@ class ARXMLWriter(AbstractARXMLWriter):
         if alias_set is not None:
             child_element = ET.SubElement(element, "ALIAS-NAME-SET")
             self.writeIdentifiable(child_element, alias_set)
+            # The XSD ALIAS-NAME-SET group wraps the assignments in an ALIAS-NAMES
+            # element (AUTOSAR_00052.xsd, choice of ALIAS-NAME-ASSIGNMENT); bare
+            # assignments under the set are schema-invalid.
+            names_element = ET.SubElement(child_element, "ALIAS-NAMES")
             for assignment in alias_set.getAliasNames():
-                assignment_element = ET.SubElement(child_element, "ALIAS-NAME-ASSIGNMENT")
+                assignment_element = ET.SubElement(names_element, "ALIAS-NAME-ASSIGNMENT")
                 self.writeAliasNameAssignment(assignment_element, assignment)
 
     def writeField(self, element: ET.Element, field: Field):
@@ -22603,8 +22626,12 @@ class ARXMLWriter(AbstractARXMLWriter):
         if schema_location is not None:
             ns_uri = schema_location.split(" ")[0]
         else:
+            # No release was selected (document.clear() without setARRelease). Fall back to
+            # the newest schema bundled with the package: naming a schema the validator does
+            # not ship makes ARXMLValidator.for_document() return None, which silently skips
+            # schema validation instead of reporting it.
             ns_uri = "http://autosar.org/schema/r4.0"
-            schema_location = "http://autosar.org/schema/r4.0 AUTOSAR_4-0-3.xsd"
+            schema_location = "http://autosar.org/schema/r4.0 AUTOSAR_00052.xsd"
 
         # Legacy R3.x releases use the pre-R4 namespace http://autosar.org
         self._legacy_namespace = ns_uri == "http://autosar.org"

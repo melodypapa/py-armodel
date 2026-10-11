@@ -19,7 +19,7 @@ class TestSwTextPropsRoundTrip:
         props = SwDataDefProps()
         sw_text_props = SwTextProps()
         sw_text_props.setArraySizeSemantics(ArraySizeSemanticsEnum().setValue(ArraySizeSemanticsEnum.FIXED_SIZE))
-        sw_text_props.setBaseTypeRef(RefType().setDest("AUTOSAR/BaseTypes/uint8"))
+        sw_text_props.setBaseTypeRef(RefType().setValue("/AUTOSAR/BaseTypes/uint8").setDest("SW-BASE-TYPE"))
         sw_text_props.setSwFillCharacter(Integer().setValue("0"))
         sw_text_props.setSwMaxTextSize(Integer().setValue("200"))
         props.setSwTextProps(sw_text_props)
@@ -44,7 +44,7 @@ class TestSwTextPropsRoundTrip:
             sw_text_props_2 = data_type_2.getSwDataDefProps().getSwTextProps()
             assert sw_text_props_2 is not None
             assert sw_text_props_2.getArraySizeSemantics().getValue() == ArraySizeSemanticsEnum.FIXED_SIZE
-            assert sw_text_props_2.getBaseTypeRef().getDest() == "AUTOSAR/BaseTypes/uint8"
+            assert sw_text_props_2.getBaseTypeRef().getDest() == "SW-BASE-TYPE"
             assert sw_text_props_2.getSwFillCharacter().getValue() == 0
             assert sw_text_props_2.getSwMaxTextSize().getValue() == 200
         finally:

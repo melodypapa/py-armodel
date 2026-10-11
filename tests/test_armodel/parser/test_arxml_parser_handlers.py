@@ -327,7 +327,7 @@ class TestAdminDataAndReferrableHandlers:
 
         obj = ConcreteSingleLanguageReferrable(_autosar_root(), "sl")
         element = _snip(
-            "<LONG-NAME-1 SUP='2'>H2O</LONG-NAME-1>",
+            "<LONG-NAME-1>H2O<SUP>2</SUP></LONG-NAME-1>",
             root_tag="ELEM",
         )
         parser.readSingleLanguageReferrable(element, obj)
@@ -428,7 +428,7 @@ class TestAdminDataAndReferrableHandlers:
 
     def test_getSingleLanguageLongName_parses_sup_sub(self, parser):
         element = _snip(
-            "<LONG-NAME-1 SUP='2' SUB='3'>H2O</LONG-NAME-1>",
+            "<LONG-NAME-1>H2O<SUP>2</SUP><SUB>3</SUB></LONG-NAME-1>",
             root_tag="PARENT",
         )
         long_name = parser.getSingleLanguageLongName(element, "LONG-NAME-1")
@@ -955,7 +955,7 @@ class TestDataTypeAndValueSpecHandlers:
 
     def test_getSwValueCont_display_name_sub_sup(self, parser):
         element = _snip(
-            "<SW-VALUE-CONT>" "<UNIT-DISPLAY-NAME SUB='2' SUP='n'>m</UNIT-DISPLAY-NAME>" "</SW-VALUE-CONT>",
+            "<SW-VALUE-CONT>" "<UNIT-DISPLAY-NAME>m<SUB>2</SUB><SUP>n</SUP></UNIT-DISPLAY-NAME>" "</SW-VALUE-CONT>",
             root_tag="PARENT",
         )
         cont = parser.getSwValueCont(element)

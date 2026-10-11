@@ -45,8 +45,8 @@ class TestWriteViewMapSet:
         element = ET.Element("AR-PACKAGE")
 
         view_map_set = ViewMapSet(None, "MyViewMapSet")
-        view_map_set.createViewMap("Map-1")
-        view_map_set.createViewMap("Map-2")
+        view_map_set.createViewMap("Map1")
+        view_map_set.createViewMap("Map2")
 
         writer.writeViewMapSet(element, view_map_set)
 
@@ -56,8 +56,8 @@ class TestWriteViewMapSet:
         assert maps_tag is not None
         map_tags = maps_tag.findall("VIEW-MAP")
         assert len(map_tags) == 2
-        assert map_tags[0].find("SHORT-NAME").text == "Map-1"
-        assert map_tags[1].find("SHORT-NAME").text == "Map-2"
+        assert map_tags[0].find("SHORT-NAME").text == "Map1"
+        assert map_tags[1].find("SHORT-NAME").text == "Map2"
 
     def test_write_empty_wrappers(self):
         """Test that a ViewMapSet with no viewMaps writes no VIEW-MAPS wrapper (empty-wrapper case)."""
@@ -79,8 +79,8 @@ class TestWriteViewMapSet:
         ar_root = document.createARPackage("AUTOSAR")
         view_map_set = ar_root.createViewMapSet("MyViewMapSet")
 
-        view_map_set.createViewMap("Map-1")
-        view_map_set.createViewMap("Map-2")
+        view_map_set.createViewMap("Map1")
+        view_map_set.createViewMap("Map2")
 
         file_path = tempfile.mktemp(suffix=".arxml")
         try:
@@ -96,8 +96,8 @@ class TestWriteViewMapSet:
             assert view_map_set_2.getShortName() == "MyViewMapSet"
             view_maps = view_map_set_2.getViewMaps()
             assert len(view_maps) == 2
-            assert view_maps[0].getShortName() == "Map-1"
-            assert view_maps[1].getShortName() == "Map-2"
+            assert view_maps[0].getShortName() == "Map1"
+            assert view_maps[1].getShortName() == "Map2"
         finally:
             os.remove(file_path)
 
@@ -112,7 +112,7 @@ class TestWriteViewMap:
         writer = _make_writer()
         element = ET.Element("AR-PACKAGE")
 
-        view_map = ViewMap(None, "Map-1")
+        view_map = ViewMap(None, "Map1")
         view_map.setRole(Identifier().setValue("AR_SystemDescription_SystemExtract"))
         view_map.addFirstElementRef(_ref("COLLECTION", "/AUTOSAR/FirstColl"))
         view_map.addSecondElementRef(_ref("COLLECTION", "/AUTOSAR/SecondColl"))
@@ -132,7 +132,7 @@ class TestWriteViewMap:
         writer = _make_writer()
         element = ET.Element("AR-PACKAGE")
 
-        view_map = ViewMap(None, "Map-1")
+        view_map = ViewMap(None, "Map1")
         writer.writeViewMap(element, view_map)
 
         view_map_tag = element.find("VIEW-MAP")

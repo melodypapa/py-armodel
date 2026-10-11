@@ -7,9 +7,11 @@ from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 
 
-def make_ref(value: str) -> RefType:
+def make_ref(value: str, dest: str = None) -> RefType:
     ref = RefType()
     ref.setValue(value)
+    if dest is not None:
+        ref.setDest(dest)
     return ref
 
 
@@ -71,8 +73,8 @@ class TestImplementationElementInParameterInstanceRefRoundTrip:
 
         instance = mc_support.createMcParameterInstance("CalPrm1")
         instance_in_memory = ImplementationElementInParameterInstanceRef()
-        instance_in_memory.setContextRef(make_ref("/Context/Prototype"))
-        instance_in_memory.setTargetRef(make_ref("/Context/Prototype/Element"))
+        instance_in_memory.setContextRef(make_ref("/Context/Prototype", "PARAMETER-DATA-PROTOTYPE"))
+        instance_in_memory.setTargetRef(make_ref("/Context/Prototype/Element", "IMPLEMENTATION-DATA-TYPE-ELEMENT"))
         instance.setInstanceInMemory(instance_in_memory)
 
         file_path = tempfile.mktemp(suffix=".arxml")

@@ -119,9 +119,11 @@ class TestMcSupportDataRoundTrip:
     def test_round_trip_via_bsw_implementation(self):
         """Test full parse -> write -> re-parse round trip of McSupportData via a BswImplementation."""
 
-        def make_ref(value):
+        def make_ref(value, dest=None):
             ref = RefType()
             ref.setValue(value)
+            if dest is not None:
+                ref.setDest(dest)
             return ref
 
         AUTOSAR.getInstance().setARRelease("R23-11")
@@ -136,7 +138,7 @@ class TestMcSupportDataRoundTrip:
         support.createMcParameterInstance("CalPrm1")
         support.createMcParameterInstance("CalPrm2")
         support.createMcVariableInstance("MeasVar1")
-        support.addMeasurableSystemConstantValuesRef(make_ref("/sysconst"))
+        support.addMeasurableSystemConstantValuesRef(make_ref("/sysconst", "SW-SYSTEMCONSTANT-VALUE-SET"))
         support.setRptSupportData(RptSupportData())
 
         file_path = tempfile.mktemp(suffix=".arxml")
@@ -166,9 +168,11 @@ class TestMcSupportDataRoundTrip:
     def test_deep_round_trip_via_bsw_implementation(self):
         """Test parse -> write -> re-parse round trip of the full McSupportData subtree including RptSupportData and McDataInstance internals."""
 
-        def make_ref(value):
+        def make_ref(value, dest=None):
             ref = RefType()
             ref.setValue(value)
+            if dest is not None:
+                ref.setDest(dest)
             return ref
 
         AUTOSAR.getInstance().setARRelease("R23-11")
@@ -181,14 +185,14 @@ class TestMcSupportDataRoundTrip:
 
         instance = support.createMcParameterInstance("CalPrm1")
         instance.setArraySize(PositiveInteger().setValue("4")).setRole(Identifier().setValue("roleA")).setSymbol(SymbolString().setValue("sym"))
-        instance.setFlatMapEntryRef(make_ref("/flatmap"))
+        instance.setFlatMapEntryRef(make_ref("/flatmap", "FLAT-INSTANCE-DESCRIPTOR"))
         policy = RptImplPolicy()
         policy.setRptEnablerImplType(RptEnablerImplTypeEnum().setValue(RptEnablerImplTypeEnum.RPT_ENABLER_RAM)).setRptPreparationLevel(RptPreparationEnum().setValue(RptPreparationEnum.RPT_LEVEL_2))
         instance.setRptImplPolicy(policy)
         sub_element = instance.createSubElement("StructElem")
         sub_element.setSymbol(SymbolString().setValue("sub_sym"))
         assignment = RoleBasedMcDataAssignment()
-        assignment.addMcDataInstanceRef(make_ref("/mc/inst")).setRole(Identifier().setValue("RpEnablerFlag"))
+        assignment.addMcDataInstanceRef(make_ref("/mc/inst", "MC-DATA-INSTANCE")).setRole(Identifier().setValue("RpEnablerFlag"))
         instance.addMcDataAssignment(assignment)
         access = RptSwPrototypingAccess()
         access.setRptHookAccess(RptAccessEnum().setValue(RptAccessEnum.ENABLED)).setRptReadAccess(RptAccessEnum().setValue(RptAccessEnum.NONE))
@@ -204,9 +208,9 @@ class TestMcSupportDataRoundTrip:
         entity.setSymbol(CIdentifier().setValue("Run1_func"))
         event = entity.createRptExecutableEntityEvent("TimingEvent1")
         event.setRptEventId(PositiveInteger().setValue("7"))
-        event.addExecutionContextRef(make_ref("/ctx"))
-        event.addRptServicePointPostRef(make_ref("/sp/post"))
-        event.addRptServicePointPreRef(make_ref("/sp/pre"))
+        event.addExecutionContextRef(make_ref("/ctx", "RPT-EXECUTION-CONTEXT"))
+        event.addRptServicePointPostRef(make_ref("/sp/post", "RPT-SERVICE-POINT"))
+        event.addRptServicePointPreRef(make_ref("/sp/pre", "RPT-SERVICE-POINT"))
         event_properties = RptExecutableEntityProperties()
         event_properties.setMaxRptEventId(PositiveInteger().setValue("100")).setMinRptEventId(PositiveInteger().setValue("1"))
         event_properties.setRptExecutionControl(RptExecutionControlEnum().setValue(RptExecutionControlEnum.CONDITIONAL)).setRptServicePoint(RptServicePointEnum().setValue(RptServicePointEnum.ENABLED))

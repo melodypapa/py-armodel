@@ -26,7 +26,7 @@ class TestDataPrototypeWriter:
         prototype = sr_if.createDataElement("DE")
 
         props = SwDataDefProps()
-        props.setSwAddrMethodRef(RefType().setDest("AUTOSAR/SwAddrMethods/ram"))
+        props.setSwAddrMethodRef(RefType().setValue("/AUTOSAR/SwAddrMethods/ram").setDest("SW-ADDR-METHOD"))
         prototype.setSwDataDefProps(props)
 
         file_path = tempfile.mktemp(suffix=".arxml")
@@ -40,7 +40,7 @@ class TestDataPrototypeWriter:
             prototype_2 = document_2.getARPackages()[0].getSenderReceiverInterfaces()[0].getDataElements()[0]
             props_2 = prototype_2.getSwDataDefProps()
             assert props_2 is not None
-            assert props_2.getSwAddrMethodRef().getDest() == "AUTOSAR/SwAddrMethods/ram"
+            assert props_2.getSwAddrMethodRef().getDest() == "SW-ADDR-METHOD"
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)

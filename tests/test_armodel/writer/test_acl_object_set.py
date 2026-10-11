@@ -56,7 +56,7 @@ class TestWriteAclObjectSet:
         engineering_object = AutosarEngineeringObject()
         engineering_object.setShortLabel(NameToken().setValue("eo.c"))
         acl_object_set.addEngineeringObject(engineering_object)
-        acl_object_set.addObjectDefinitionRef(_ref("SW-BASE-TYPE", "/AUTOSAR/MyDef"))
+        acl_object_set.addObjectDefinitionRef(_ref("ECUC-PARAMETER-DEF", "/AUTOSAR/MyDef"))
         acl_object_set.addObjectRef(_ref("AR-PACKAGE", "/AUTOSAR/MyPackage"))
 
         writer.writeAclObjectSet(element, acl_object_set)
@@ -112,7 +112,7 @@ class TestWriteAclObjectSet:
         engineering_object = AutosarEngineeringObject()
         engineering_object.setShortLabel(NameToken().setValue("eo.c"))
         acl_object_set.addEngineeringObject(engineering_object)
-        acl_object_set.addObjectDefinitionRef(_ref("SW-BASE-TYPE", "/AUTOSAR/MyDef"))
+        acl_object_set.addObjectDefinitionRef(_ref("ECUC-PARAMETER-DEF", "/AUTOSAR/MyDef"))
         acl_object_set.addObjectRef(_ref("AR-PACKAGE", "/AUTOSAR/MyPackage"))
 
         file_path = tempfile.mktemp(suffix=".arxml")
