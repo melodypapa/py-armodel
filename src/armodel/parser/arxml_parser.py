@@ -9483,17 +9483,33 @@ class ARXMLParser(AbstractARXMLParser):
         msr_query_chapter_element = self.find(element, "MSR-QUERY-CHAPTER")
         if len(chapter_elements) > 0 or msr_query_chapter_element is not None:
             chapter_or_msr_query = ChapterOrMsrQuery()
-            for chapter_element in chapter_elements:
-                chapter_or_msr_query.addChapter(self.readChapter(chapter_element, parent))
-            if msr_query_chapter_element is not None:
-                chapter_or_msr_query.setMsrQueryChapter(self.readMsrQueryChapter(msr_query_chapter_element, parent))
+            self.readChapterOrMsrQuery(element, parent, chapter_or_msr_query)
             chapter_model.setChapter(chapter_or_msr_query)
         return chapter_model
 
+    def readChapterOrMsrQuery(self, element: ET.Element, parent: Chapter, chapter_or_msr_query: ChapterOrMsrQuery):
+        """Read the inline CHAPTER-OR-MSR-QUERY payload (XSD group CHAPTER-OR-MSR-QUERY, 00052):
+        N CHAPTER elements and an optional MSR-QUERY-CHAPTER.
+
+        The inherited ARObject level is deliberately NOT read here: the XSD inlines this group into
+        the owning element, which already carries the AR-OBJECT attributeGroup, so there is no
+        element of its own to read S/T from. See the synthetic-wrapper note in Chapters.py.
+        """
+        for chapter_element in self.findall(element, "CHAPTER"):
+            chapter_or_msr_query.addChapter(self.readChapter(chapter_element, parent))
+        msr_query_chapter_element = self.find(element, "MSR-QUERY-CHAPTER")
+        if msr_query_chapter_element is not None:
+            chapter_or_msr_query.setMsrQueryChapter(self.readMsrQueryChapter(msr_query_chapter_element, parent))
+        return chapter_or_msr_query
+
     def readTopicOrMsrQuery(self, element: ET.Element, parent: Chapter, topic_or_msr_query: TopicOrMsrQuery):
-        """Read the inline TOPIC-OR-MSR-QUERY choice (XSD complexType TOPIC-OR-MSR-QUERY, 00052):
-        the AR-OBJECT group plus N TOPIC-1 elements and an optional MSR-QUERY-TOPIC-1."""
-        self.readARObject(element, topic_or_msr_query)
+        """Read the inline TOPIC-OR-MSR-QUERY payload (XSD group TOPIC-OR-MSR-QUERY, 00052):
+        N TOPIC-1 elements and an optional MSR-QUERY-TOPIC-1.
+
+        The inherited ARObject level is deliberately NOT read here: the XSD inlines this group into
+        the owning element, which already carries the AR-OBJECT attributeGroup, so there is no
+        element of its own to read S/T from. See the synthetic-wrapper note in Chapters.py.
+        """
         for topic_element in self.findall(element, "TOPIC-1"):
             topic_or_msr_query.addTopic1(self.readTopic1(topic_element, parent))
         msr_query_topic1_element = self.find(element, "MSR-QUERY-TOPIC-1")

@@ -319,17 +319,33 @@ class ChapterOrMsrQuery(ARObject):
 
     # ChapterOrMsrQuery method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.81, p.342
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] addChapter          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getChapters         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setMsrQueryChapter  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getMsrQueryChapter  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    #
+    # NOTE: the inherited ARObject level (S/T) is deliberately not serialized by this class.
+    # <CHAPTER-MODEL> is a repo-invented synthetic wrapper, not a schema element — AUTOSAR_00052
+    # declares complexType CHAPTER-MODEL but no element references it, and reaches it only via
+    # <xsd:group ref="AR:CHAPTER-MODEL"/>, inlined into the owning element whose attributeGroup
+    # already carries AR-OBJECT. ChapterModel, TopicOrMsrQuery and ChapterOrMsrQuery therefore
+    # share ONE element and cannot each carry their own S/T. See the PENDING note on
+    # TopicContentOrMsrQuery, which records the same limitation for <TOPIC-CONTENT>.
+    # The reader/writer helpers readChapterOrMsrQuery / writeChapterOrMsrQuery own the payload.
 
     def __init__(self):
         super().__init__()
 
         # This establishes a subschapter. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=chapter.shortName, chapter.variationPoint.shortLabel vh.latestBindingTime=postBuild xml.sequenceOffset=210
+        #
+        # DEVIATION (user-confirmed 2026-10-11): the spec `Mult.` column renders `1` for chapter, but
+        # XSD group CHAPTER-OR-MSR-QUERY declares pureMM.maxOccurs="-1" (unbounded) and the ARXML wire
+        # format permits N CHAPTER elements per choice, so the plural list shape is kept
+        # (Rule 0015 governs attribute membership only; Rule 0017 user resolution). Same conflict and
+        # resolution as TopicOrMsrQuery.topic1s.
         self.chapters: List[Chapter] = []
 
         # This represents automatically contributed chapters provided by an msrquery. Tags: xml.sequenceOffset=220
@@ -338,6 +354,9 @@ class ChapterOrMsrQuery(ARObject):
     def addChapter(self, value: Optional[Chapter]) -> ChapterOrMsrQuery:
         """
         This establishes a subschapter. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=chapter.shortName, chapter.variationPoint.shortLabel vh.latestBindingTime=postBuild xml.sequenceOffset=210
+
+        DEVIATION (user-confirmed 2026-10-11): the list shape is kept although the spec `Mult.`
+        column renders `1` — XSD CHAPTER-OR-MSR-QUERY declares pureMM.maxOccurs="-1" (unbounded).
 
         A None value is a no-op and does not append anything.
 
@@ -395,10 +414,14 @@ class TopicOrMsrQuery(ARObject):
     # [x] addTopic1            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getTopic1s           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     #
-    # NOTE: the inherited ARObject level (S/T) has no method row of its own — it is covered by the
-    # class's own readTopicOrMsrQuery / writeTopicOrMsrQuery helpers, which call
-    # readARObject / writeARObject on this instance (Rule 0025). XSD complexType
-    # TOPIC-OR-MSR-QUERY pulls in the AR-OBJECT group.
+    # NOTE: the inherited ARObject level (S/T) is deliberately not serialized by this class.
+    # <CHAPTER-MODEL> is a repo-invented synthetic wrapper, not a schema element — AUTOSAR_00052
+    # declares complexType CHAPTER-MODEL but no element references it, and reaches it only via
+    # <xsd:group ref="AR:CHAPTER-MODEL"/>, inlined into the owning element whose attributeGroup
+    # already carries AR-OBJECT. ChapterModel, TopicOrMsrQuery and ChapterOrMsrQuery therefore
+    # share ONE element and cannot each carry their own S/T. See the PENDING note on
+    # TopicContentOrMsrQuery, which records the same limitation for <TOPIC-CONTENT>.
+    # The reader/writer helpers readTopicOrMsrQuery / writeTopicOrMsrQuery own the payload.
 
     def __init__(self):
         super().__init__()

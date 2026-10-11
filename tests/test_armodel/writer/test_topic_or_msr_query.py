@@ -54,37 +54,22 @@ class TestTopicOrMsrQueryWriter:
         written = element.find("CHAPTER-MODEL")
         assert list(written) == []
 
-    def test_topic_or_msr_query_arobject_level_round_trips(self):
-        """TopicOrMsrQuery derives from ARObject and XSD complexType TOPIC-OR-MSR-QUERY pulls in the
-        AR-OBJECT group, so the class's own T timestamp must survive the round-trip (Rule 0025 —
-        a class with no read/write<Cls> helper silently loses its ARObject level)."""
+    def test_topic_or_msr_query_does_not_write_arobject_onto_shared_wrapper(self):
+        """TopicOrMsrQuery's inherited ARObject level is deliberately NOT written onto the shared
+        CHAPTER-MODEL element.
+
+        <CHAPTER-MODEL> is a repo-invented synthetic wrapper (there is no <xsd:element
+        name="CHAPTER-MODEL"> in 00052; the schema inlines <xsd:group ref="AR:CHAPTER-MODEL"> into
+        the owning element, whose attributeGroup already carries AR-OBJECT). ChapterModel,
+        TopicOrMsrQuery and ChapterOrMsrQuery therefore share ONE element, and writing ARObject
+        attributes from more than one of them silently discards the others (last writer wins).
+        """
         element = ET.Element("CHAPTER")
         ARXMLWriter().writeChapterModel(element, ChapterModel().setTopic1(_full_query()))
 
         written = element.find("CHAPTER-MODEL")
-        assert written.get("T") == "2024-01-01T00:00:00+00:00"
-
-        result = _reparse(element)
-        assert result.getTopic1() is not None
-        assert result.getTopic1().getTimestamp() is not None
-
-    def test_incoming_timestamp_is_read(self):
-        """A T attribute already on the wire is read onto the TopicOrMsrQuery, not only written.
-
-        The TOPIC-1 element is included so the TOPIC-OR-MSR-QUERY group is unambiguously present:
-        both TopicOrMsrQuery and ChapterModel are ARObjects sharing the same CHAPTER-MODEL element,
-        so a bare T with no group payload would be indistinguishable from ChapterModel's own level.
-        """
-        element = ET.Element("CHAPTER")
-        query = TopicOrMsrQuery()
-        query.addTopic1(Topic1(_parent(), "TopicA"))
-        ARXMLWriter().writeChapterModel(element, ChapterModel().setTopic1(query))
-        element.find("CHAPTER-MODEL").set("T", "2024-05-05T00:00:00+00:00")
-
-        result = _reparse(element)
-
-        assert result.getTopic1() is not None
-        assert result.getTopic1().getTimestamp() is not None
+        assert written.get("T") is None
+        assert written.get("S") is None
 
     def test_topic_or_msr_query_write_read_roundtrip(self):
         element = ET.Element("CHAPTER")

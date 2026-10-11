@@ -1533,6 +1533,7 @@ from armodel.models.M2.MSR.Documentation.Chapters import (
     Chapter,
     ChapterContent,
     ChapterModel,
+    ChapterOrMsrQuery,
     PredefinedChapter,
     Topic1,
     TopicContent,
@@ -4046,11 +4047,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeTopicOrMsrQuery(child_element, topic1)
         chapter = chapter_model.getChapter()
         if chapter is not None:
-            for chapter_item in chapter.getChapters():
-                self.writeChapter(child_element, chapter_item, "CHAPTER")
-            msrQueryChapter_value = chapter.getMsrQueryChapter()
-            if msrQueryChapter_value is not None:
-                self.writeMsrQueryChapter(child_element, msrQueryChapter_value)
+            self.writeChapterOrMsrQuery(child_element, chapter)
 
     def writePredefinedChapter(self, element: ET.Element, predefined: Optional[PredefinedChapter]):
         if predefined is not None:
@@ -4125,10 +4122,28 @@ class ARXMLWriter(AbstractARXMLWriter):
                 text_element.text = str(text_value.getValue())
         self.writeDocumentationBlock(child_element, "REMARK", prm_char.getRemark())
 
+    def writeChapterOrMsrQuery(self, element: ET.Element, chapter_or_msr_query: ChapterOrMsrQuery):
+        """Write the inline CHAPTER-OR-MSR-QUERY payload (XSD group CHAPTER-OR-MSR-QUERY, 00052):
+        N CHAPTER elements and an optional MSR-QUERY-CHAPTER.
+
+        The inherited ARObject level is deliberately NOT written here: the XSD inlines this group
+        into the owning element, which already carries the AR-OBJECT attributeGroup, so there is
+        no element of its own to carry S/T. See the synthetic-wrapper note in Chapters.py.
+        """
+        for chapter in chapter_or_msr_query.getChapters():
+            self.writeChapter(element, chapter, "CHAPTER")
+        msr_query_chapter = chapter_or_msr_query.getMsrQueryChapter()
+        if msr_query_chapter is not None:
+            self.writeMsrQueryChapter(element, msr_query_chapter)
+
     def writeTopicOrMsrQuery(self, element: ET.Element, topic_or_msr_query: TopicOrMsrQuery):
-        """Write the inline TOPIC-OR-MSR-QUERY choice (XSD complexType TOPIC-OR-MSR-QUERY, 00052):
-        the AR-OBJECT attributes on the owning element, then N TOPIC-1 and an optional MSR-QUERY-TOPIC-1."""
-        self.writeARObject(element, topic_or_msr_query)
+        """Write the inline TOPIC-OR-MSR-QUERY payload (XSD group TOPIC-OR-MSR-QUERY, 00052):
+        N TOPIC-1 elements and an optional MSR-QUERY-TOPIC-1.
+
+        The inherited ARObject level is deliberately NOT written here: the XSD inlines this group
+        into the owning element, which already carries the AR-OBJECT attributeGroup, so there is
+        no element of its own to carry S/T. See the synthetic-wrapper note in Chapters.py.
+        """
         for topic in topic_or_msr_query.getTopic1s():
             self.writeTopic1(element, topic)
         msr_query_topic1 = topic_or_msr_query.getMsrQueryTopic1()

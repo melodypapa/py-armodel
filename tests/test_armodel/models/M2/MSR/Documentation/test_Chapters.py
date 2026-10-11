@@ -231,6 +231,53 @@ class TestTopicOrMsrQuery:
         assert typing.get_type_hints(TopicOrMsrQuery.addTopic1)["value"] == typing.Optional[Topic1]
 
 
+class TestChapterOrMsrQuery:
+    """Test class for ChapterOrMsrQuery class (Table 9.81, AUTOSAR_FO_TPS_GenericStructureTemplate).
+
+    The PDF `Mult.` column renders `1` for `chapter`, but XSD group CHAPTER-OR-MSR-QUERY (00052)
+    declares `pureMM.maxOccurs="-1"` (unbounded) and the ARXML wire format permits N CHAPTER elements
+    per choice. Confirmed by the user at the TopicOrMsrQuery 9b (2026-10-11) that the XSD-backed list
+    shape is authoritative for multiplicity, so `chapters` stays a plural list.
+    """
+
+    def _parent(self):
+        return AUTOSAR.getInstance().createARPackage("AUTOSAR")
+
+    def test_initialization(self):
+        query = ChapterOrMsrQuery()
+        assert query.getChapters() == []
+        assert query.getMsrQueryChapter() is None
+
+    def test_chapters_is_a_list_backed_by_its_own_field(self):
+        """Rule 0004: the spec-* `chapter` maps to a dedicated typed list field, not a registry filter."""
+        parent = self._parent()
+        query = ChapterOrMsrQuery()
+        chapter_a = Chapter(parent, "NestedA")
+        chapter_b = Chapter(parent, "NestedB")
+        assert query.addChapter(chapter_a) is query
+        query.addChapter(None)
+        query.addChapter(chapter_b)
+        assert query.getChapters() == [chapter_a, chapter_b]
+        assert query.getChapters() is query.chapters
+
+    def test_set_get_msr_query_chapter(self):
+        query = ChapterOrMsrQuery()
+        msr_query = MsrQueryChapter()
+        assert query.setMsrQueryChapter(msr_query) is query
+        assert query.getMsrQueryChapter() is msr_query
+        query.setMsrQueryChapter(None)
+        assert query.getMsrQueryChapter() is msr_query
+
+    def test_member_annotations(self):
+        """chapters is List[Chapter] and msrQueryChapter Optional[MsrQueryChapter] (Rule 0003)."""
+        import typing
+
+        assert typing.get_type_hints(ChapterOrMsrQuery.getChapters)["return"] == typing.List[Chapter]
+        assert typing.get_type_hints(ChapterOrMsrQuery.addChapter)["value"] == typing.Optional[Chapter]
+        assert typing.get_type_hints(ChapterOrMsrQuery.getMsrQueryChapter)["return"] == typing.Optional[MsrQueryChapter]
+        assert typing.get_type_hints(ChapterOrMsrQuery.setMsrQueryChapter)["value"] == typing.Optional[MsrQueryChapter]
+
+
 class TestChapterModel:
     """Test class for ChapterModel class (Table 9.59, AUTOSAR_FO_TPS_GenericStructureTemplate)."""
 
