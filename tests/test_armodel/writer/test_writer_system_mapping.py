@@ -138,8 +138,9 @@ def _component_iref():
 
 
 def _any_iref():
+    # No setBaseRef: the atpDerived base has no XML element in the
+    # ANY-INSTANCE-REF group, so a set base would fail the save() XSD gate.
     iref = AnyInstanceRef()
-    iref.setBaseRef(_ref("/b", "SW-COMPONENT-TYPE"))
     iref.setTargetRef(_ref("/t", "VARIABLE-DATA-PROTOTYPE"))
     return iref
 
@@ -820,7 +821,6 @@ class TestFlatInstanceDescriptorRoundTrip:
         assert isinstance(desc_2.getRtePluginProps(), RtePluginProps)
         assert isinstance(desc_2.getSwDataDefProps(), SwDataDefProps)
         assert desc_2.getSwDataDefProps().getBaseTypeRef().getValue() == "/BaseType"
-        assert desc_2.getUpstreamReferenceIRef().getBaseRef().getValue() == "/b"
         assert desc_2.getUpstreamReferenceIRef().getTargetRef().getValue() == "/t"
         assert desc_2.getEcuExtractReferenceIRef().getTargetRef().getValue() == "/t"
 

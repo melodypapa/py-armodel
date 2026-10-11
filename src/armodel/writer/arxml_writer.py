@@ -2947,15 +2947,10 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element.text = specific.getValue()
         return child_element
 
-    def writeWhitespaceControlled(self, element: ET.Element, specific: Union[Sd, WhitespaceControlled], default: Optional[str] = None):
+    def writeWhitespaceControlled(self, element: ET.Element, specific: Union[Sd, WhitespaceControlled]):
         xml_space = specific.getXmlSpace()
         if xml_space is not None:
             element.attrib["{http://www.w3.org/XML/1998/namespace}space"] = xml_space.getValue()
-        elif default is not None:
-            # The XSD marks xml:space use="required" on the WHITESPACE-CONTROLLED
-            # attributeGroup (L-PLAIN-TEXT, L-VERBATIM); an unset value serializes
-            # as the AUTOSAR semantic default "preserve".
-            element.attrib["{http://www.w3.org/XML/1998/namespace}space"] = default
 
     def setLLongName(self, element: ET.Element, name: LLongName):
         child_element = ET.SubElement(element, "L-4")
@@ -3270,7 +3265,7 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def setLPlainText(self, element: ET.Element, text: LPlainText):
         child_element = self.setLanguageSpecific(element, "L-10", text)
-        self.writeWhitespaceControlled(child_element, text, default="preserve")
+        self.writeWhitespaceControlled(child_element, text)
 
     def setMultiLanguagePlainText(self, element: ET.Element, key: str, paragraph: Optional[MultiLanguagePlainText]):
         if paragraph is not None:
@@ -5027,7 +5022,7 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def setLVerbatim(self, element: ET.Element, text: LVerbatim):
         child_element = self.setLanguageSpecific(element, "L-5", text)
-        self.writeWhitespaceControlled(child_element, text, default="preserve")
+        self.writeWhitespaceControlled(child_element, text)
         self.writeMixedContentForVerbatim(child_element, text)
 
     def setMsrQueryP2(self, element: ET.Element, msr_query_p2: Optional[MsrQueryP2]):

@@ -15,6 +15,7 @@ from armodel.models.M2.MSR.Documentation.BlockElements.OasisExchangeTable import
 from armodel.models.M2.MSR.Documentation.BlockElements.RequirementsTracing import StructuredReq, TraceableText
 from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryArg, MsrQueryP2, MsrQueryProps
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Enumerations import XmlSpaceEnum
 from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LOverviewParagraph, LParagraph, LVerbatim
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph, MultiLanguageParagraph, MultiLanguageVerbatim
 from armodel.parser.arxml_parser import ARXMLParser
@@ -89,6 +90,9 @@ class TestDocumentationBlockRoundTrip:
         l5 = LVerbatim()
         l5.setL("EN")
         l5.setValue("verbatim text")
+        # xml:space is use="required" on L-VERBATIM (WHITESPACE-CONTROLLED group);
+        # the writer emits only what the model holds, so the caller sets it.
+        l5.setXmlSpace(XmlSpaceEnum().setValue(XmlSpaceEnum.PRESERVE))
         verbatim.addL5(l5)
         verbatim.setFloat(FloatEnum().setValue(FloatEnum.NO_FLOAT))
         verbatim.setPgwide(PgwideEnum().setValue(PgwideEnum.PGWIDE))

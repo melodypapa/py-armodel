@@ -12,7 +12,7 @@ class TestTraceableTextReader:
             "<ROOT xmlns='http://autosar.org/schema/r4.0'>"
             "<TRACE>"
             "<SHORT-NAME>REQ-1</SHORT-NAME>"
-            "<TEXT><P><L-1 L='EN'>requirement text</L-1></P></TEXT>"
+            "<P><L-1 L='EN'>requirement text</L-1></P>"
             "<TRACE-REFS><TRACE-REF BASE='AUTOSAR' DEST='TRACEABLE-TEXT'>/REQ/BASE</TRACE-REF></TRACE-REFS>"
             "</TRACE>"
             "</ROOT>"
@@ -36,7 +36,7 @@ class TestTraceableTextReader:
             "<ROOT xmlns='http://autosar.org/schema/r4.0'>"
             "<TRACE S='checksum-tt' T='timestamp-tt' UUID='uuid-tt-reg'>"
             "<SHORT-NAME>REQ-2</SHORT-NAME>"
-            "<TEXT><P><L-1 L='EN'>requirement text</L-1></P></TEXT>"
+            "<P><L-1 L='EN'>requirement text</L-1></P>"
             "</TRACE>"
             "</ROOT>"
         )

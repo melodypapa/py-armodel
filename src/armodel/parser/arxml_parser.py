@@ -8530,6 +8530,11 @@ class ARXMLParser(AbstractARXMLParser):
             formula.setGenericMath(self.getMultiLanguagePlainText(child_element, "GENERIC-MATH"))
         return formula
 
+    def readDocumentationBlock(self, element: ET.Element, block: DocumentationBlock):
+        # Wrapper shape: the block's S/T live on the wrapper element.
+        self.readARObject(element, block)
+        self.readDocumentationBlockContent(element, block)
+
     def readDocumentationBlockContent(self, element: ET.Element, block: DocumentationBlock):
         # Inline-shape reader: the block's S/T stay on the wrapper element when
         # one exists; the inline groups (NOTE, TRACEABLE-TEXT) have no attribute
