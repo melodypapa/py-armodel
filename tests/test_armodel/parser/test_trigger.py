@@ -50,7 +50,7 @@ class TestReadTrigger:
                 <SHORT-NAME>MyTrigger</SHORT-NAME>
                 <SW-IMPL-POLICY>QUEUED</SW-IMPL-POLICY>
                 <TRIGGER-PERIOD>
-                    <CSE-CODE>1.0</CSE-CODE>
+                    <CSE-CODE>1</CSE-CODE>
                 </TRIGGER-PERIOD>
             </TRIGGER>"""
         )
@@ -63,7 +63,7 @@ class TestReadTrigger:
         period = trigger.getTriggerPeriod()
         assert period is not None
         assert isinstance(period, MultidimensionalTime)
-        assert period.getCseCode().getValue() == "1.0"
+        assert period.getCseCode().getValue() == "1"
 
     def test_read_absent_attributes(self, parser):
         """Test that absent SW-IMPL-POLICY / TRIGGER-PERIOD leave the fields None."""
@@ -90,7 +90,7 @@ class TestReadTrigger:
         trigger = desc.createReleasedTrigger("MyTrigger")
         trigger.setSwImplPolicy(SwImplPolicyEnum().setValue(SwImplPolicyEnum.QUEUED))
         period = MultidimensionalTime()
-        period.setCseCode(ARLiteral().setValue("1.0"))
+        period.setCseCode(ARLiteral().setValue("1"))
         trigger.setTriggerPeriod(period)
 
         file_path = tempfile.mktemp(suffix=".arxml")
@@ -112,6 +112,6 @@ class TestReadTrigger:
             assert policy.getValue() == "QUEUED"
             period_2 = triggers[0].getTriggerPeriod()
             assert period_2 is not None
-            assert period_2.getCseCode().getValue() == "1.0"
+            assert period_2.getCseCode().getValue() == "1"
         finally:
             os.remove(file_path)

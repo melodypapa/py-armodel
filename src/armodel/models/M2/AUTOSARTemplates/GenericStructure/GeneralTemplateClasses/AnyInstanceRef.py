@@ -17,14 +17,14 @@ class AnyInstanceRef(AtpInstanceRef, VariationPointCapable):
     # AnyInstanceRef method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.57, p.328
     # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getBaseRef             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setBaseRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getContextElementRefs  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addContextElementRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTargetRef           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTargetRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBaseRef             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBaseRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addContextElementRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getContextElementRefs  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getTargetRef           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTargetRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -53,12 +53,6 @@ class AnyInstanceRef(AtpInstanceRef, VariationPointCapable):
             self.baseRef = value
         return self
 
-    def getContextElementRefs(self) -> List[RefType]:
-        """
-        This is one step in the navigation path specified by the instance ref.
-        """
-        return self.contextElementRefs
-
     def addContextElementRef(self, value: Optional[RefType]) -> "AnyInstanceRef":
         """
         This is one step in the navigation path specified by the instance ref.
@@ -66,6 +60,12 @@ class AnyInstanceRef(AtpInstanceRef, VariationPointCapable):
         if value is not None:
             self.contextElementRefs.append(value)
         return self
+
+    def getContextElementRefs(self) -> List[RefType]:
+        """
+        This is one step in the navigation path specified by the instance ref.
+        """
+        return self.contextElementRefs
 
     def getTargetRef(self) -> Optional[RefType]:
         """

@@ -38,7 +38,7 @@ class TestAliasNameSetRoundTrip:
         short_label.setValue("aliasName1")
         assignment.setShortLabel(short_label)
         assignment.setIdentifiableRef(_ref("/AUTOSAR/SomeElement", "IDENTIFIABLE"))
-        assignment.setFlatInstanceRef(_ref("/AUTOSAR/FlatInstance", "FLAT-INSTANCE-REF"))
+        assignment.setFlatInstanceRef(_ref("/AUTOSAR/FlatInstance", "FLAT-INSTANCE-DESCRIPTOR"))
         alias_set.addAliasName(assignment)
 
         file_path = tempfile.mktemp(suffix=".arxml")
@@ -62,7 +62,7 @@ class TestAliasNameSetRoundTrip:
             assert parsed_assignment.getIdentifiableRef().getValue() == "/AUTOSAR/SomeElement"
             assert parsed_assignment.getIdentifiableRef().getDest() == "IDENTIFIABLE"
             assert parsed_assignment.getFlatInstanceRef().getValue() == "/AUTOSAR/FlatInstance"
-            assert parsed_assignment.getFlatInstanceRef().getDest() == "FLAT-INSTANCE-REF"
+            assert parsed_assignment.getFlatInstanceRef().getDest() == "FLAT-INSTANCE-DESCRIPTOR"
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)

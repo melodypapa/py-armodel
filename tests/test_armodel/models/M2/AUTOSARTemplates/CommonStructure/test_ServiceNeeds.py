@@ -1400,7 +1400,7 @@ class TestDiagnosticIoControlNeedsRoundTrip:
         behavior = desc.createBswInternalBehavior("Beh")
         dependency = BswServiceDependency()
         needs = DiagnosticIoControlNeeds(dependency, "IoNeeds")
-        needs.setCurrentValueRef(RefType().setValue("/Needs/Value"))
+        needs.setCurrentValueRef(RefType().setDest("DIAGNOSTIC-VALUE-NEEDS").setValue("/Needs/Value"))
         needs.setFreezeCurrentStateSupported(Boolean().setValue(True))
         needs.setResetToDefaultSupported(Boolean().setValue(False))
         needs.setShortTermAdjustmentSupported(Boolean().setValue(True))
@@ -3091,11 +3091,11 @@ class TestObdMonitorServiceNeedsRoundTrip:
         needs = ObdMonitorServiceNeeds(dependency, "ObdMonitorNeeds")
         app_ref = RefType()
         app_ref.setValue("/Data/AppType")
-        app_ref.setDest("APPLICATION-DATA-TYPE--SUBTYPES-ENUM")
+        app_ref.setDest("APPLICATION-DATA-TYPE")
         needs.setApplicationDataTypeRef(app_ref)
         evt_ref = RefType()
         evt_ref.setValue("/Events/Evt")
-        evt_ref.setDest("DIAGNOSTIC-EVENT-NEEDS--SUBTYPES-ENUM")
+        evt_ref.setDest("DIAGNOSTIC-EVENT-NEEDS")
         needs.setEventNeedsRef(evt_ref)
         needs.setUnitAndScalingId(PositiveInteger().setValue("2"))
         needs.setUpdateKind(DiagnosticMonitorUpdateKindEnum().setValue(DiagnosticMonitorUpdateKindEnum.STEADY))
@@ -3113,9 +3113,9 @@ class TestObdMonitorServiceNeedsRoundTrip:
             assert needs_2.getShortName() == "ObdMonitorNeeds"
             assert isinstance(needs_2, ObdMonitorServiceNeeds)
             assert needs_2.getApplicationDataTypeRef().getValue() == "/Data/AppType"
-            assert needs_2.getApplicationDataTypeRef().getDest() == "APPLICATION-DATA-TYPE--SUBTYPES-ENUM"
+            assert needs_2.getApplicationDataTypeRef().getDest() == "APPLICATION-DATA-TYPE"
             assert needs_2.getEventNeedsRef().getValue() == "/Events/Evt"
-            assert needs_2.getEventNeedsRef().getDest() == "DIAGNOSTIC-EVENT-NEEDS--SUBTYPES-ENUM"
+            assert needs_2.getEventNeedsRef().getDest() == "DIAGNOSTIC-EVENT-NEEDS"
             assert needs_2.getUnitAndScalingId().getValue() == 2
             assert needs_2.getUpdateKind().getValue() == "STEADY"
         finally:
@@ -3379,8 +3379,8 @@ class TestObdRatioServiceNeeds:
         dependency = BswServiceDependency()
         needs = ObdRatioServiceNeeds(dependency, "RatioNeeds")
         needs.setConnectionType(ObdRatioConnectionKindEnum().setValue(ObdRatioConnectionKindEnum.OBSERVER))
-        needs.setRateBasedMonitoredEventRef(RefType().setValue("/Ratio/MonitoredEvent"))
-        needs.setUsedFidRef(RefType().setValue("/Ratio/UsedFid"))
+        needs.setRateBasedMonitoredEventRef(RefType().setDest("DIAGNOSTIC-EVENT-NEEDS").setValue("/Ratio/MonitoredEvent"))
+        needs.setUsedFidRef(RefType().setDest("FUNCTION-INHIBITION-NEEDS").setValue("/Ratio/UsedFid"))
         dependency.setServiceNeeds(needs)
         behavior.addServiceDependency(dependency)
 

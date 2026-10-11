@@ -32,25 +32,56 @@ class Chapter(Identifiable, VariationPointCapable):
     # Chapter method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.58, p.329
     # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] setChapterModel     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getChapterModel     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setHelpEntry        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getHelpEntry        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getChapterModel [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setChapterModel [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getHelpEntry    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setHelpEntry    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        # This represents the overall contents of the chapter.
+        # This represents the overall contents of the chapter. Tags: xml.roleElement=false xml.roleWrapperElement=false xml.typeElement=false xml.typeWrapperElement=false
         self.chapterModel: Optional[ChapterModel] = None
 
-        # This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator. Maybe it is a concatenated Identifier, but as of now we leave it as an arbitrary string.
+        # This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator. Maybe it is a concatenated Identifier, but as of now we leave it as an arbitrary string. Tags: xml.attribute=true
         self.helpEntry: Optional[String] = None
+
+    def getChapterModel(self) -> Optional[ChapterModel]:
+        """
+        This represents the overall contents of the chapter. Tags: xml.roleElement=false xml.roleWrapperElement=false xml.typeElement=false xml.typeWrapperElement=false
+
+        Returns:
+            The overall contents of the chapter
+        """
+        return self.chapterModel
+
+    def setChapterModel(self, value: Optional[ChapterModel]) -> Chapter:
+        """
+        This represents the overall contents of the chapter. Tags: xml.roleElement=false xml.roleWrapperElement=false xml.typeElement=false xml.typeWrapperElement=false
+
+        A None value is a no-op and does not overwrite an existing chapterModel.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.chapterModel = value
+        return self
+
+    def getHelpEntry(self) -> Optional[String]:
+        """
+        This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator. Maybe it is a concatenated Identifier, but as of now we leave it as an arbitrary string. Tags: xml.attribute=true
+
+        Returns:
+            The entry point in an online help system to be linked with the parent class
+        """
+        return self.helpEntry
 
     def setHelpEntry(self, value: Optional[String]) -> Chapter:
         """
-        This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator. Maybe it is a concatenated Identifier, but as of now we leave it as an arbitrary string.
+        This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator. Maybe it is a concatenated Identifier, but as of now we leave it as an arbitrary string. Tags: xml.attribute=true
 
         A None value is a no-op and does not overwrite an existing helpEntry.
 
@@ -61,37 +92,6 @@ class Chapter(Identifiable, VariationPointCapable):
             self.helpEntry = value
         return self
 
-    def getHelpEntry(self) -> Optional[String]:
-        """
-        This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator. Maybe it is a concatenated Identifier, but as of now we leave it as an arbitrary string.
-
-        Returns:
-            The entry point in an online help system to be linked with the parent class
-        """
-        return self.helpEntry
-
-    def setChapterModel(self, value: Optional[ChapterModel]) -> Chapter:
-        """
-        This represents the overall contents of the chapter.
-
-        A None value is a no-op and does not overwrite an existing chapterModel.
-
-        Returns:
-            self for method chaining
-        """
-        if value is not None:
-            self.chapterModel = value
-        return self
-
-    def getChapterModel(self) -> Optional[ChapterModel]:
-        """
-        This represents the overall contents of the chapter.
-
-        Returns:
-            The overall contents of the chapter
-        """
-        return self.chapterModel
-
 
 class PredefinedChapter(ARObject):
     """
@@ -101,20 +101,29 @@ class PredefinedChapter(ARObject):
     # PredefinedChapter method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.62, p.331
     # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] setChapterModel     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getChapterModel     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getChapterModel  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setChapterModel  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        # This is the content of the predefined chapter.
+        # This is the content of the predefined chapter. Tags: xml.roleElement=false xml.roleWrapperElement=false xml.typeElement=false xml.typeWrapperElement=false
         self.chapterModel: Optional[ChapterModel] = None
+
+    def getChapterModel(self) -> Optional[ChapterModel]:
+        """
+        This is the content of the predefined chapter. Tags: xml.roleElement=false xml.roleWrapperElement=false xml.typeElement=false xml.typeWrapperElement=false
+
+        Returns:
+            The content of the predefined chapter
+        """
+        return self.chapterModel
 
     def setChapterModel(self, value: Optional[ChapterModel]) -> PredefinedChapter:
         """
-        This is the content of the predefined chapter.
+        This is the content of the predefined chapter. Tags: xml.roleElement=false xml.roleWrapperElement=false xml.typeElement=false xml.typeWrapperElement=false
 
         A None value is a no-op and does not overwrite an existing chapterModel.
 
@@ -124,15 +133,6 @@ class PredefinedChapter(ARObject):
         if value is not None:
             self.chapterModel = value
         return self
-
-    def getChapterModel(self) -> Optional[ChapterModel]:
-        """
-        This is the content of the predefined chapter.
-
-        Returns:
-            The content of the predefined chapter
-        """
-        return self.chapterModel
 
 
 class ChapterModel(ARObject):
@@ -150,7 +150,7 @@ class ChapterModel(ARObject):
 
     # ChapterModel method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.59, p.330
-    # Spec verified: R23-11 (2026-09-27, user 9b confirmation)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] setChapter         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
@@ -159,6 +159,12 @@ class ChapterModel(ARObject):
     # [x] getChapterContent  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setTopic1          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getTopic1          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    #
+    # NOTE: the inherited ARObject level (S/T) is covered by the class's own readChapterModel /
+    # writeChapterModel, which call readARObject / writeARObject on this instance (Rule 0025).
+    # XSD complexType CHAPTER-MODEL includes the AR-OBJECT group, and the <CHAPTER-MODEL> wrapper
+    # stands for ChapterModel alone — the inlined TopicOrMsrQuery / ChapterOrMsrQuery groups share
+    # that element and deliberately do not write ARObject, so there is no three-way collision.
 
     def __init__(self):
         super().__init__()
@@ -320,25 +326,43 @@ class ChapterOrMsrQuery(ARObject):
     # ChapterOrMsrQuery method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.81, p.342
     # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] addChapter          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getChapters         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMsrQueryChapter  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMsrQueryChapter  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addChapter          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getChapters         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMsrQueryChapter  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMsrQueryChapter  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    #
+    # NOTE: the inherited ARObject level (S/T) is deliberately not serialized by this class.
+    # <CHAPTER-MODEL> is a repo-invented synthetic wrapper, not a schema element — AUTOSAR_00052
+    # declares complexType CHAPTER-MODEL but no element references it, and reaches it only via
+    # <xsd:group ref="AR:CHAPTER-MODEL"/>, inlined into the owning element whose attributeGroup
+    # already carries AR-OBJECT. ChapterModel, TopicOrMsrQuery and ChapterOrMsrQuery therefore
+    # share ONE element and cannot each carry their own S/T. See the PENDING note on
+    # TopicContentOrMsrQuery, which records the same limitation for <TOPIC-CONTENT>.
+    # The reader/writer helpers readChapterOrMsrQuery / writeChapterOrMsrQuery own the payload.
 
     def __init__(self):
         super().__init__()
 
-        # This establishes a subschapter.
+        # This establishes a subschapter. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=chapter.shortName, chapter.variationPoint.shortLabel vh.latestBindingTime=postBuild xml.sequenceOffset=210
+        #
+        # DEVIATION (user-confirmed 2026-10-11): the spec `Mult.` column renders `1` for chapter, but
+        # XSD group CHAPTER-OR-MSR-QUERY declares pureMM.maxOccurs="-1" (unbounded) and the ARXML wire
+        # format permits N CHAPTER elements per choice, so the plural list shape is kept
+        # (Rule 0015 governs attribute membership only; Rule 0017 user resolution). Same conflict and
+        # resolution as TopicOrMsrQuery.topic1s.
         self.chapters: List[Chapter] = []
 
-        # This represents automatically contributed chapters provided by an msrquery.
+        # This represents automatically contributed chapters provided by an msrquery. Tags: xml.sequenceOffset=220
         self.msrQueryChapter: Optional[MsrQueryChapter] = None
 
     def addChapter(self, value: Optional[Chapter]) -> ChapterOrMsrQuery:
         """
-        This establishes a subschapter.
+        This establishes a subschapter. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=chapter.shortName, chapter.variationPoint.shortLabel vh.latestBindingTime=postBuild xml.sequenceOffset=210
+
+        DEVIATION (user-confirmed 2026-10-11): the list shape is kept although the spec `Mult.`
+        column renders `1` — XSD CHAPTER-OR-MSR-QUERY declares pureMM.maxOccurs="-1" (unbounded).
 
         A None value is a no-op and does not append anything.
 
@@ -351,7 +375,7 @@ class ChapterOrMsrQuery(ARObject):
 
     def getChapters(self) -> List[Chapter]:
         """
-        This establishes a subschapter.
+        This establishes a subschapter. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=chapter.shortName, chapter.variationPoint.shortLabel vh.latestBindingTime=postBuild xml.sequenceOffset=210
 
         Returns:
             The established subschapters
@@ -360,7 +384,7 @@ class ChapterOrMsrQuery(ARObject):
 
     def setMsrQueryChapter(self, value: Optional[MsrQueryChapter]) -> ChapterOrMsrQuery:
         """
-        This represents automatically contributed chapters provided by an msrquery.
+        This represents automatically contributed chapters provided by an msrquery. Tags: xml.sequenceOffset=220
 
         A None value is a no-op and does not overwrite an existing msrQueryChapter.
 
@@ -373,7 +397,7 @@ class ChapterOrMsrQuery(ARObject):
 
     def getMsrQueryChapter(self) -> Optional[MsrQueryChapter]:
         """
-        This represents automatically contributed chapters provided by an msrquery.
+        This represents automatically contributed chapters provided by an msrquery. Tags: xml.sequenceOffset=220
 
         Returns:
             The automatically contributed chapters provided by an msrquery
@@ -389,47 +413,40 @@ class TopicOrMsrQuery(ARObject):
     # TopicOrMsrQuery method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.80, p.342
     # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] addTopic1           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTopic1s          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMsrQueryTopic1   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMsrQueryTopic1   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setMsrQueryTopic1    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMsrQueryTopic1    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addTopic1            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTopic1s           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    #
+    # NOTE: the inherited ARObject level (S/T) is deliberately not serialized by this class.
+    # <CHAPTER-MODEL> is a repo-invented synthetic wrapper, not a schema element — AUTOSAR_00052
+    # declares complexType CHAPTER-MODEL but no element references it, and reaches it only via
+    # <xsd:group ref="AR:CHAPTER-MODEL"/>, inlined into the owning element whose attributeGroup
+    # already carries AR-OBJECT. ChapterModel, TopicOrMsrQuery and ChapterOrMsrQuery therefore
+    # share ONE element and cannot each carry their own S/T. See the PENDING note on
+    # TopicContentOrMsrQuery, which records the same limitation for <TOPIC-CONTENT>.
+    # The reader/writer helpers readTopicOrMsrQuery / writeTopicOrMsrQuery own the payload.
 
     def __init__(self):
         super().__init__()
 
-        # This represents automatically contributed topics provided by an msrquery.
+        # This represents automatically contributed topics provided by an msrquery. Tags: xml.sequenceOffset=190
         self.msrQueryTopic1: Optional[MsrQueryTopic1] = None
 
-        # This is used to create particular topics within a chapter. A topic is similar to a subchapter, but cannot be nested and will not appear in the table of contents of the document.
-        self.topic1: List[Topic1] = []
-
-    def addTopic1(self, value: Optional[Topic1]) -> TopicOrMsrQuery:
-        """
-        This is used to create particular topics within a chapter. A topic is similar to a subchapter, but cannot be nested and will not appear in the table of contents of the document.
-
-        A None value is a no-op and does not append anything.
-
-        Returns:
-            self for method chaining
-        """
-        if value is not None:
-            self.topic1.append(value)
-        return self
-
-    def getTopic1s(self) -> List[Topic1]:
-        """
-        This is used to create particular topics within a chapter. A topic is similar to a subchapter, but cannot be nested and will not appear in the table of contents of the document.
-
-        Returns:
-            The created particular topics within a chapter
-        """
-        return self.topic1
+        # This is used to create particular topics within a chapter. A topic is similar to a subchapter, but cannot be nested and will not appear in the table of contents of the document. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=topic1.shortName, topic1.variationPoint.shortLabel vh.latestBindingTime=postBuild xml.sequenceOffset=180
+        #
+        # DEVIATION (user-confirmed 2026-10-11): the spec `Mult.` column renders `1` for topic1, but
+        # XSD group TOPIC-OR-MSR-QUERY declares pureMM.maxOccurs="-1" (unbounded) and the ARXML wire
+        # format permits N TOPIC-1 elements per choice, so the plural list shape is kept
+        # (Rule 0015 governs attribute membership only; Rule 0017 user resolution). The same
+        # conflict and resolution apply to ChapterOrMsrQuery.chapters.
+        self.topic1s: List[Topic1] = []
 
     def setMsrQueryTopic1(self, value: Optional[MsrQueryTopic1]) -> TopicOrMsrQuery:
         """
-        This represents automatically contributed topics provided by an msrquery.
+        This represents automatically contributed topics provided by an msrquery. Tags: xml.sequenceOffset=190
 
         A None value is a no-op and does not overwrite an existing msrQueryTopic1.
 
@@ -442,12 +459,37 @@ class TopicOrMsrQuery(ARObject):
 
     def getMsrQueryTopic1(self) -> Optional[MsrQueryTopic1]:
         """
-        This represents automatically contributed topics provided by an msrquery.
+        This represents automatically contributed topics provided by an msrquery. Tags: xml.sequenceOffset=190
 
         Returns:
             The automatically contributed topics provided by an msrquery
         """
         return self.msrQueryTopic1
+
+    def addTopic1(self, value: Optional[Topic1]) -> TopicOrMsrQuery:
+        """
+        This is used to create particular topics within a chapter. A topic is similar to a subchapter, but cannot be nested and will not appear in the table of contents of the document. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=topic1.shortName, topic1.variationPoint.shortLabel vh.latestBindingTime=postBuild xml.sequenceOffset=180
+
+        DEVIATION (user-confirmed 2026-10-11): the list shape is kept although the spec `Mult.`
+        column renders `1` — XSD TOPIC-OR-MSR-QUERY declares pureMM.maxOccurs="-1" (unbounded).
+
+        A None value is a no-op and does not append anything.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.topic1s.append(value)
+        return self
+
+    def getTopic1s(self) -> List[Topic1]:
+        """
+        This is used to create particular topics within a chapter. A topic is similar to a subchapter, but cannot be nested and will not appear in the table of contents of the document. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=topic1.shortName, topic1.variationPoint.shortLabel vh.latestBindingTime=postBuild xml.sequenceOffset=180
+
+        Returns:
+            The created particular topics within a chapter
+        """
+        return self.topic1s
 
 
 class Topic1(Identifiable, VariationPointCapable):
@@ -460,25 +502,34 @@ class Topic1(Identifiable, VariationPointCapable):
     # Topic1 method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.73, p.338
     # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] setHelpEntry           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getHelpEntry           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTopicContent        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTopicContent        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getHelpEntry     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setHelpEntry     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTopicContent  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTopicContent  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        # This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator.
+        # This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator. Tags: xml.attribute=true
         self.helpEntry: Optional[String] = None
 
-        # This is the content of the topic.
+        # This is the content of the topic. Tags: xml.roleElement=false xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
         self.topicContent: Optional[TopicContentOrMsrQuery] = None
+
+    def getHelpEntry(self) -> Optional[String]:
+        """
+        This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator. Tags: xml.attribute=true
+
+        Returns:
+            The entry point in an online help system to be linked with the parent class
+        """
+        return self.helpEntry
 
     def setHelpEntry(self, value: Optional[String]) -> Topic1:
         """
-        This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator.
+        This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator. Tags: xml.attribute=true
 
         A None value is a no-op and does not overwrite an existing helpEntry.
 
@@ -489,18 +540,18 @@ class Topic1(Identifiable, VariationPointCapable):
             self.helpEntry = value
         return self
 
-    def getHelpEntry(self) -> Optional[String]:
+    def getTopicContent(self) -> Optional[TopicContentOrMsrQuery]:
         """
-        This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator.
+        This is the content of the topic. Tags: xml.roleElement=false xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
 
         Returns:
-            The entry point in an online help system to be linked with the parent class
+            The content of the topic
         """
-        return self.helpEntry
+        return self.topicContent
 
     def setTopicContent(self, value: Optional[TopicContentOrMsrQuery]) -> Topic1:
         """
-        This is the content of the topic.
+        This is the content of the topic. Tags: xml.roleElement=false xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
 
         A None value is a no-op and does not overwrite an existing topicContent.
 
@@ -510,15 +561,6 @@ class Topic1(Identifiable, VariationPointCapable):
         if value is not None:
             self.topicContent = value
         return self
-
-    def getTopicContent(self) -> Optional[TopicContentOrMsrQuery]:
-        """
-        This is the content of the topic.
-
-        Returns:
-            The content of the topic
-        """
-        return self.topicContent
 
 
 class TopicContent(ARObject):
@@ -696,3 +738,10 @@ class TopicContentOrMsrQuery(ARObject):
             The content of a topic
         """
         return self.topicContent
+
+
+# Runtime cycle-breaker (Rule 0005): MsrQuery imports Chapters at ITS bottom, so these names
+# are re-imported here at the bottom as well. They must exist in this module's runtime globals
+# for typing.get_type_hints to resolve the accessor annotations on Python 3.8 (bpo-39291);
+# a TYPE_CHECKING-only import cannot satisfy the pin tests.
+from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryChapter as MsrQueryChapter, MsrQueryP1 as MsrQueryP1, MsrQueryTopic1 as MsrQueryTopic1  # noqa: E402

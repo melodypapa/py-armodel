@@ -157,11 +157,10 @@ class ModeDeclaration(AtpStructureElement, AtpBlueprintable, VariationPointCapab
 
     # ModeDeclaration method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 4.11, p.43
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getValue     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setValue     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getValue     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setValue     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -266,21 +265,20 @@ class ModeDeclarationGroup(AtpType):
 
     # ModeDeclarationGroup method parity checklist:
     # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table C.68, p.197
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] createModeDeclaration        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getModeDeclarations          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setInitialModeRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getInitialModeRef            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setOnTransitionValue         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getOnTransitionValue         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createModeTransition         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getModeTransitions           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getModeManagerErrorBehavior  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setModeManagerErrorBehavior  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getModeUserErrorBehavior     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setModeUserErrorBehavior     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createModeDeclaration        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getModeDeclarations          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setInitialModeRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getInitialModeRef            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOnTransitionValue         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOnTransitionValue         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createModeTransition         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getModeTransitions           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getModeManagerErrorBehavior  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setModeManagerErrorBehavior  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getModeUserErrorBehavior     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setModeUserErrorBehavior     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -320,7 +318,7 @@ class ModeDeclarationGroup(AtpType):
 
     def getModeDeclarations(self) -> List[ModeDeclaration]:
         """
-        The ModeDeclarations collected in this ModeDeclaration Group.
+        The ModeDeclarations collected in this ModeDeclaration Group. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=modeDeclaration.shortName, mode Declaration.variationPoint.shortLabel vh.latestBindingTime=blueprintDerivationTime
 
         Returns:
             List of ModeDeclaration instances
@@ -534,13 +532,12 @@ class ModeTransition(AtpStructureElement):
 
     # ModeTransition method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 4.12, p.43
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getEnteredModeRef           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setEnteredModeRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getExitedModeRef            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setExitedModeRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getEnteredModeRef           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEnteredModeRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getExitedModeRef            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setExitedModeRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -607,13 +604,12 @@ class ModeErrorBehavior(ARObject):
 
     # ModeErrorBehavior method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 4.13, p.44
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getDefaultModeRef           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDefaultModeRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getErrorReactionPolicy      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setErrorReactionPolicy      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDefaultModeRef           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDefaultModeRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getErrorReactionPolicy      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setErrorReactionPolicy      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -680,10 +676,9 @@ class ModeErrorReactionPolicyEnum(AREnum):
 
     # ModeErrorReactionPolicyEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 4.14, p.44
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on ModeErrorBehavior.errorReactionPolicy
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # This represents the ability to switch to the defaultMode in case of a mode error. Tags: atp.EnumerationLiteralIndex=0
     DEFAULT_MODE = "DEFAULT-MODE"

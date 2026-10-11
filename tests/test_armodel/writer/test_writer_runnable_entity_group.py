@@ -7,7 +7,11 @@ import xml.etree.ElementTree as ET
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier, RefType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ImplicitCommunicationBehavior import RunnableEntityGroup
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import ApplicationSwComponentType
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ImplicitCommunicationBehavior import (
+    ConsistencyNeeds,
+    RunnableEntityGroup,
+)
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ImplicitCommunicationBehavior.InstanceRef import (
     InnerRunnableEntityGroupInCompositionInstanceRef,
     RunnableEntityInCompositionInstanceRef,
@@ -24,11 +28,18 @@ def make_ref(value: str, dest: str = "RUNNABLE-ENTITY-GROUP") -> RefType:
 
 
 def _build_document(group: RunnableEntityGroup):
+    """RUNNABLE-ENTITY-GROUP is only allowed inside one of the four wrapper
+    lists of CONSISTENCY-NEEDS, which itself is only allowed inside
+    SW-COMPONENT-TYPE (AUTOSAR_00052.xsd)."""
     AUTOSAR.getInstance().setARRelease("R23-11")
     document = AUTOSAR.getInstance()
     document.clear()
     ar_root = document.createARPackage("AUTOSAR")
-    ar_root.addReferrableElement(group)
+    sw_component = ApplicationSwComponentType(ar_root, "Comp")
+    ar_root.addReferrableElement(sw_component)
+    consistency_needs = sw_component.createConsistencyNeeds("ConsistencyNeeds")
+    consistency_needs.addReferrableElement(group)
+    consistency_needs.regDoesNotRequireStabilitys.append(group)
     return document
 
 
@@ -37,7 +48,9 @@ def _reload(file_path):
     document_2.clear()
     ARXMLParser().load(file_path, document_2)
     package = document_2.getARPackages()[0]
-    return next(element for element in package.referrableElements if isinstance(element, RunnableEntityGroup))
+    sw_component = next(element for element in package.referrableElements if isinstance(element, ApplicationSwComponentType))
+    consistency_needs = next(element for element in sw_component.referrableElements if isinstance(element, ConsistencyNeeds))
+    return next(element for element in consistency_needs.referrableElements if isinstance(element, RunnableEntityGroup))
 
 
 class TestWriteRunnableEntityGroup:

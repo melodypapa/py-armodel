@@ -33,8 +33,8 @@ class TestWriteLifeCycleStateDefinitionGroup:
         element = ET.Element("AR-PACKAGE")
 
         group = LifeCycleStateDefinitionGroup(None, "MyLifeCycleStateDefinitionGroup")
-        group.createLcState("STATE-1")
-        group.createLcState("STATE-2")
+        group.createLcState("STATE1")
+        group.createLcState("STATE2")
 
         writer.writeLifeCycleStateDefinitionGroup(element, group)
 
@@ -44,8 +44,8 @@ class TestWriteLifeCycleStateDefinitionGroup:
         assert states_tag is not None
         state_tags = states_tag.findall("LIFE-CYCLE-STATE")
         assert len(state_tags) == 2
-        assert state_tags[0].find("SHORT-NAME").text == "STATE-1"
-        assert state_tags[1].find("SHORT-NAME").text == "STATE-2"
+        assert state_tags[0].find("SHORT-NAME").text == "STATE1"
+        assert state_tags[1].find("SHORT-NAME").text == "STATE2"
 
     def test_write_empty_wrappers(self):
         """Test that a LifeCycleStateDefinitionGroup with no lcStates writes no LC-STATES wrapper (empty-wrapper case)."""
@@ -67,8 +67,8 @@ class TestWriteLifeCycleStateDefinitionGroup:
         ar_root = document.createARPackage("AUTOSAR")
         group = ar_root.createLifeCycleStateDefinitionGroup("MyLifeCycleStateDefinitionGroup")
 
-        group.createLcState("STATE-1")
-        group.createLcState("STATE-2")
+        group.createLcState("STATE1")
+        group.createLcState("STATE2")
 
         file_path = tempfile.mktemp(suffix=".arxml")
         try:
@@ -84,7 +84,7 @@ class TestWriteLifeCycleStateDefinitionGroup:
             assert group_2.getShortName() == "MyLifeCycleStateDefinitionGroup"
             lc_states = group_2.getLcStates()
             assert len(lc_states) == 2
-            assert lc_states[0].getShortName() == "STATE-1"
-            assert lc_states[1].getShortName() == "STATE-2"
+            assert lc_states[0].getShortName() == "STATE1"
+            assert lc_states[1].getShortName() == "STATE2"
         finally:
             os.remove(file_path)

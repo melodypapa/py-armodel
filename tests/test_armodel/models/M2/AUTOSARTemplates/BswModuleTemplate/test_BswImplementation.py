@@ -156,9 +156,10 @@ class TestBswImplementation:
     def test_round_trip(self):
         """Test full parse -> write -> re-parse round trip of all BswImplementation attributes."""
 
-        def make_ref(value):
+        def make_ref(value, dest):
             ref = RefType()
             ref.setValue(value)
+            ref.setDest(dest)
             return ref
 
         version = RevisionLabelString()
@@ -171,10 +172,10 @@ class TestBswImplementation:
         document.clear()
         ar_root = document.createARPackage("AUTOSAR")
         impl = ar_root.createBswImplementation("test_bsw_implementation")
-        impl.setArReleaseVersion(version).setBehaviorRef(make_ref("/Behavior")).setVendorApiInfix(infix)
-        impl.addPreconfiguredConfigurationRef(make_ref("/preconfigured"))
-        impl.addRecommendedConfigurationRef(make_ref("/recommended"))
-        impl.addVendorSpecificModuleDefRef(make_ref("/vendor"))
+        impl.setArReleaseVersion(version).setBehaviorRef(make_ref("/Behavior", "BSW-INTERNAL-BEHAVIOR")).setVendorApiInfix(infix)
+        impl.addPreconfiguredConfigurationRef(make_ref("/preconfigured", "ECUC-MODULE-CONFIGURATION-VALUES"))
+        impl.addRecommendedConfigurationRef(make_ref("/recommended", "ECUC-MODULE-CONFIGURATION-VALUES"))
+        impl.addVendorSpecificModuleDefRef(make_ref("/vendor", "ECUC-MODULE-DEF"))
 
         file_path = tempfile.mktemp(suffix=".arxml")
         try:

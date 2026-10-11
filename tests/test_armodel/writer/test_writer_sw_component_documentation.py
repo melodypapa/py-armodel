@@ -68,7 +68,11 @@ class TestWriteSwComponentDocumentation:
         swc.setSwComponentDocumentation(SwComponentDocumentation())
         parent = ET.Element("PARENT")
         ARXMLWriter().writeSwComponentTypeSwComponentDocumentation(parent, swc)
-        child = parent.find("SW-COMPONENT-DOCUMENTATION")
+        # The XSD SW-COMPONENT-TYPE group wraps the documentation in a splitable
+        # SW-COMPONENT-DOCUMENTATIONS element (atpVariation resolution raised the role to *).
+        container = parent.find("SW-COMPONENT-DOCUMENTATIONS")
+        assert container is not None
+        child = container.find("SW-COMPONENT-DOCUMENTATION")
         assert child is not None
         assert len(list(child)) == 0
 
@@ -81,7 +85,8 @@ class TestWriteSwComponentDocumentation:
         parent = ET.Element("PARENT")
         ARXMLWriter().writeSwComponentTypeSwComponentDocumentation(parent, swc)
 
-        child = parent.find("SW-COMPONENT-DOCUMENTATION")
+        container = parent.find("SW-COMPONENT-DOCUMENTATIONS")
+        child = container.find("SW-COMPONENT-DOCUMENTATION")
         tags = [c.tag for c in child]
         assert tags == [
             "SW-FEATURE-DEF",

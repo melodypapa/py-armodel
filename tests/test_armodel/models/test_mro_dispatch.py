@@ -52,13 +52,16 @@ def _required_init_args(init_func):
 # changes between calls).
 _CLASSES = _model_classes()
 
+# Only Referrable subclasses carry the cooperative-MRO obligation the test body
+# verifies — for everything else the body was a no-op behind a runtime skip.
+# Filtering at collection time keeps the run at zero skips with identical power.
+_REFERRABLE_CLASSES = {name: cls for name, cls in _CLASSES.items() if Referrable in cls.__mro__}
 
-@pytest.mark.parametrize("class_name", sorted(_CLASSES))
+
+@pytest.mark.parametrize("class_name", sorted(_REFERRABLE_CLASSES))
 def test_no_incompatible_init_after_referrable(class_name):
-    cls = _CLASSES[class_name]
+    cls = _REFERRABLE_CLASSES[class_name]
     mro = cls.__mro__
-    if Referrable not in mro:
-        pytest.skip(f"{class_name} does not inherit Referrable")
     for candidate in mro[mro.index(Referrable) + 1 :]:
         init_func = candidate.__dict__.get("__init__")
         if init_func is None or init_func is object.__init__:

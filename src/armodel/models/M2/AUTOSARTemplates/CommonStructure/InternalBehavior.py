@@ -55,9 +55,8 @@ class ExclusiveArea(Identifiable, VariationPointCapable):
 
     # ExclusiveArea method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.16, p.82
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -70,25 +69,24 @@ class ExecutableEntity(Identifiable, ABC):
 
     # ExecutableEntity method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.3, p.70
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] createActivationReason           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getActivationReasons             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addActivationReason              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getCanEnterRefs                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addCanEnterRef                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getExclusiveAreaNestingOrderRefs [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addExclusiveAreaNestingOrderRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMinimumStartInterval          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMinimumStartInterval          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] minimumStartIntervalMs           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getReentrancyLevel               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setReentrancyLevel               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getRunsInsideRefs                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addRunsInsideRef                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSwAddrMethodRef               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSwAddrMethodRef               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createActivationReason           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getActivationReasons             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addActivationReason              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCanEnterRefs                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addCanEnterRef                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getExclusiveAreaNestingOrderRefs [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addExclusiveAreaNestingOrderRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMinimumStartInterval          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMinimumStartInterval          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] minimumStartIntervalMs           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getReentrancyLevel               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setReentrancyLevel               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRunsInsideRefs                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addRunsInsideRef                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwAddrMethodRef               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwAddrMethodRef               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is ExecutableEntity:
@@ -324,21 +322,20 @@ class InternalBehavior(AtpStructureElement, ABC):
 
     # InternalBehavior method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.1, p.65
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] createConstantMemory            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getConstantMemories             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addConstantValueMappingRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getConstantValueMappingRefs     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addDataTypeMappingRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getDataTypeMappingRefs          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createExclusiveArea             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getExclusiveAreas               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createExclusiveAreaNestingOrder [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getExclusiveAreaNestingOrders   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createStaticMemory              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getStaticMemories               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createConstantMemory            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getConstantMemories             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addConstantValueMappingRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getConstantValueMappingRefs     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addDataTypeMappingRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDataTypeMappingRefs          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createExclusiveArea             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getExclusiveAreas               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createExclusiveAreaNestingOrder [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getExclusiveAreaNestingOrders   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createStaticMemory              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getStaticMemories               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is InternalBehavior:
@@ -364,6 +361,15 @@ class InternalBehavior(AtpStructureElement, ABC):
         self.staticMemories: List[VariableDataPrototype] = []
 
     def createConstantMemory(self, short_name: str) -> ParameterDataPrototype:
+        """
+        Describes a read only memory object containing characteristic value(s) implemented by this InternalBehavior. The shortName of ParameterDataPrototype has to be equal to the 'C' identifier of the described constant. The characteristic value(s) might be shared between SwComponentPrototypes of the same SwComponentType. The aggregation of constantMemory is subject to variability with the purpose to support variability in the software component or module implementations. Typically different algorithms in the implementation are requiring different number of memory objects. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=constantMemory.shortName, constantMemory.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+
+        Args:
+            short_name: The short name of the constant memory
+
+        Returns:
+            The created (or existing) ParameterDataPrototype instance
+        """
         if not self.IsReferrableElementExists(short_name, ParameterDataPrototype):
             prototype = ParameterDataPrototype(self, short_name)
             self.addReferrableElement(prototype)
@@ -573,11 +579,10 @@ class ExclusiveAreaNestingOrder(Referrable, VariationPointCapable):
 
     # ExclusiveAreaNestingOrder method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.19, p.84
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getExclusiveAreaRefs    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addExclusiveAreaRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getExclusiveAreaRefs    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addExclusiveAreaRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)

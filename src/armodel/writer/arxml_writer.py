@@ -1545,10 +1545,12 @@ from armodel.models.M2.MSR.Documentation.Chapters import (
     Chapter,
     ChapterContent,
     ChapterModel,
+    ChapterOrMsrQuery,
     PredefinedChapter,
     Topic1,
     TopicContent,
     TopicContentOrMsrQuery,
+    TopicOrMsrQuery,
 )
 from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryChapter, MsrQueryResultChapter, MsrQueryResultTopic1, MsrQueryTopic1
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
@@ -1562,7 +1564,7 @@ from armodel.models.M2.MSR.Documentation.BlockElements.RequirementsTracing impor
     TraceableTable,
     TraceableText,
 )
-from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import Br, EmphasisText, IndexEntry, Std, Tt, Xdoc, Xfile, Xref, XrefTarget
+from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import Br, EmphasisText, IndexEntry, Std, Superscript, Tt, Xdoc, Xfile, Xref, XrefTarget
 from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import (
     LanguageSpecific,
     LLongName,
@@ -2975,15 +2977,11 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeMixedContentForLongName(self, element: ET.Element, content: MixedContentForLongName):
         self.writeARObject(element, content)
-        sup_value = content.getSup()
-        if sup_value is not None:
-            element.attrib["SUP"] = sup_value.getValue()
-        sub_value = content.getSub()
-        if sub_value is not None:
-            element.attrib["SUB"] = sub_value.getValue()
         e_value = content.getE()
         if e_value is not None:
             self.setEmphasisText(element, "E", e_value)
+        self.setSuperscriptText(element, "SUP", content.getSup())
+        self.setSuperscriptText(element, "SUB", content.getSub())
         ie_value = content.getIe()
         if ie_value is not None:
             self.setIndexEntry(element, "IE", ie_value)
@@ -3102,12 +3100,8 @@ class ARXMLWriter(AbstractARXMLWriter):
         std_value = content.getStd()
         if std_value is not None:
             self.setStd(element, "STD", std_value)
-        sub_value = content.getSub()
-        if sub_value is not None:
-            element.attrib["SUB"] = sub_value.getValue()
-        sup_value = content.getSup()
-        if sup_value is not None:
-            element.attrib["SUP"] = sup_value.getValue()
+        self.setSuperscriptText(element, "SUP", content.getSup())
+        self.setSuperscriptText(element, "SUB", content.getSub())
         self.setChildElementOptionalRefType(element, "TRACE-REF", content.getTraceRef())
         tt_value = content.getTt()
         if tt_value is not None:
@@ -3145,12 +3139,8 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeMixedContentForUnitNames(self, element: ET.Element, content: MixedContentForUnitNames):
         self.writeARObject(element, content)
-        sup_value = content.getSup()
-        if sup_value is not None:
-            element.attrib["SUP"] = sup_value.getValue()
-        sub_value = content.getSub()
-        if sub_value is not None:
-            element.attrib["SUB"] = sub_value.getValue()
+        self.setSuperscriptText(element, "SUP", content.getSup())
+        self.setSuperscriptText(element, "SUB", content.getSub())
 
     def writeMixedContentForOverviewParagraph(self, element: ET.Element, content: MixedContentForOverviewParagraph):
         self.setBr(element, "BR", content.getBr())
@@ -3164,12 +3154,8 @@ class ARXMLWriter(AbstractARXMLWriter):
         ie_value = content.getIe()
         if ie_value is not None:
             self.setIndexEntry(element, "IE", ie_value)
-        sub_value = content.getSub()
-        if sub_value is not None:
-            element.attrib["SUB"] = sub_value.getValue()
-        sup_value = content.getSup()
-        if sup_value is not None:
-            element.attrib["SUP"] = sup_value.getValue()
+        self.setSuperscriptText(element, "SUP", content.getSup())
+        self.setSuperscriptText(element, "SUB", content.getSub())
         self.setChildElementOptionalRefType(element, "TRACE-REF", cast(RefType, content.getTraceRef()))
         tt_value = content.getTt()
         if tt_value is not None:
@@ -3208,6 +3194,14 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeMixedStringText(child_element, name)
             self.writeMixedContentForUnitNames(child_element, name)
 
+    def setSuperscriptText(self, element: ET.Element, key: str, value: Optional[Superscript]):
+        # SUP/SUB are SUPSCRIPT child elements in the R23-11 XSD (MIXED-CONTENT-FOR-LONG-NAME,
+        # MIXED-CONTENT-FOR-PARAGRAPH and EMPHASIS-TEXT all declare them as elements, not
+        # attributes). SUPSCRIPT carries no attributes, so the element is text-only.
+        if value is not None:
+            child_element = ET.SubElement(element, key)
+            child_element.text = value.getValue()
+
     def setEmphasisText(self, element: ET.Element, key: str, emphasis: Optional[EmphasisText]):
         if emphasis is not None:
             child_element = ET.SubElement(element, key)
@@ -3215,12 +3209,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             color_value = emphasis.getColor()
             if color_value is not None:
                 child_element.attrib["COLOR"] = color_value.getValue()
-            sup_value = emphasis.getSup()
-            if sup_value is not None:
-                child_element.attrib["SUP"] = sup_value.getValue()
-            sub_value = emphasis.getSub()
-            if sub_value is not None:
-                child_element.attrib["SUB"] = sub_value.getValue()
+            self.setSuperscriptText(child_element, "SUP", emphasis.getSup())
+            self.setSuperscriptText(child_element, "SUB", emphasis.getSub())
             child_element.text = emphasis.getValue().getValue() if emphasis.getValue() is not None else None
             tt_value = emphasis.getTt()
             if tt_value is not None:
@@ -3230,12 +3220,8 @@ class ARXMLWriter(AbstractARXMLWriter):
         if index_entry is not None:
             child_element = ET.SubElement(element, key)
             self.writeARObject(child_element, index_entry)
-            sup_value = index_entry.getSup()
-            if sup_value is not None:
-                child_element.attrib["SUP"] = sup_value.getValue()
-            sub_value = index_entry.getSub()
-            if sub_value is not None:
-                child_element.attrib["SUB"] = sub_value.getValue()
+            self.setSuperscriptText(child_element, "SUP", index_entry.getSup())
+            self.setSuperscriptText(child_element, "SUB", index_entry.getSub())
             child_element.text = index_entry.getValue().getValue() if index_entry.getValue() is not None else None
 
     def setTt(self, element: ET.Element, key: str, tt: Optional[Tt]):
@@ -4028,43 +4014,61 @@ class ARXMLWriter(AbstractARXMLWriter):
         documentation = parent.getSwComponentDocumentation()
         if documentation is None:
             return
-        child_element = ET.SubElement(element, "SW-COMPONENT-DOCUMENTATION")
+        # The XSD SW-COMPONENT-TYPE group wraps the documentation in a splitable
+        # SW-COMPONENT-DOCUMENTATIONS element (AUTOSAR_00052.xsd, atpVariation
+        # resolution raised the role to *); a bare SW-COMPONENT-DOCUMENTATION child
+        # of the SWC element is schema-invalid.
+        container = ET.SubElement(element, "SW-COMPONENT-DOCUMENTATIONS")
+        child_element = ET.SubElement(container, "SW-COMPONENT-DOCUMENTATION")
         self.writeARObject(child_element, documentation)
         self.writeSwComponentDocumentationElement(child_element, documentation)
         self.writeVariationPointCapable(child_element, documentation)
 
     def writeChapter(self, element: ET.Element, chapter: Chapter, tag_name: str):
         child_element = ET.SubElement(element, tag_name)
-        self.writeIdentifiable(child_element, chapter)
+        # VARIATION-POINT is held back here and emitted last: XSD group CHAPTER
+        # (AUTOSAR_00052.xsd L16355) declares the CHAPTER-MODEL choice first and
+        # VARIATION-POINT at sequenceOffset=10000.
+        self.writeIdentifiable(child_element, chapter, write_variation_point=False)
         helpEntry_value = chapter.getHelpEntry()
         if helpEntry_value is not None:
             child_element.set("HELP-ENTRY", helpEntry_value.getValue())
         chapter_model = chapter.getChapterModel()
         if chapter_model is not None:
             self.writeChapterModel(child_element, chapter_model)
+        self.writeVariationPointCapable(child_element, chapter)
+
+    def writeChapterModelChapterContent(self, element: ET.Element, chapter_model: ChapterModel):
+        chapter_content = chapter_model.getChapterContent()
+        if chapter_content is not None:
+            self.writeChapterContent(element, chapter_content)
+
+    def writeChapterModelTopic1(self, element: ET.Element, chapter_model: ChapterModel):
+        topic1 = chapter_model.getTopic1()
+        if topic1 is not None:
+            self.writeTopicOrMsrQuery(element, topic1)
+
+    def writeChapterModelChapter(self, element: ET.Element, chapter_model: ChapterModel):
+        chapter = chapter_model.getChapter()
+        if chapter is not None:
+            self.writeChapterOrMsrQuery(element, chapter)
 
     def writeChapterModel(self, element: ET.Element, chapter_model: ChapterModel):
         child_element = ET.SubElement(element, "CHAPTER-MODEL")
-        chapter_content = chapter_model.getChapterContent()
-        if chapter_content is not None:
-            self.writeChapterContent(child_element, chapter_content)
-        topic1 = chapter_model.getTopic1()
-        if topic1 is not None:
-            for topic in topic1.getTopic1s():
-                self.writeTopic1(child_element, topic)
-            msrQueryTopic1_value = topic1.getMsrQueryTopic1()
-            if msrQueryTopic1_value is not None:
-                self.writeMsrQueryTopic1(child_element, msrQueryTopic1_value)
-        chapter = chapter_model.getChapter()
-        if chapter is not None:
-            for chapter_item in chapter.getChapters():
-                self.writeChapter(child_element, chapter_item, "CHAPTER")
-            msrQueryChapter_value = chapter.getMsrQueryChapter()
-            if msrQueryChapter_value is not None:
-                self.writeMsrQueryChapter(child_element, msrQueryChapter_value)
+        # The CHAPTER-MODEL wrapper stands for ChapterModel alone (XSD complexType CHAPTER-MODEL
+        # carries the AR-OBJECT group; the inlined TopicOrMsrQuery / ChapterOrMsrQuery groups
+        # deliberately do not write ARObject here — they share this element). Writing S/T at
+        # the ChapterModel level keeps Rule 0025 base coverage without the three-way collision.
+        self.writeARObject(child_element, chapter_model)
+        # Payload order follows the XSD sequenceOffsets (30 < 170 < 200), not the displayed
+        # spec row order — Rule 0001.11 keeps those two orders independent.
+        self.writeChapterModelChapterContent(child_element, chapter_model)
+        self.writeChapterModelTopic1(child_element, chapter_model)
+        self.writeChapterModelChapter(child_element, chapter_model)
 
     def writePredefinedChapter(self, element: ET.Element, predefined: Optional[PredefinedChapter]):
         if predefined is not None:
+            self.writeARObject(element, predefined)
             chapter_model = predefined.getChapterModel()
             if chapter_model is not None:
                 self.writeChapterModel(element, chapter_model)
@@ -4135,6 +4139,34 @@ class ARXMLWriter(AbstractARXMLWriter):
                 text_element.text = str(text_value.getValue())
         self.writeDocumentationBlock(child_element, "REMARK", prm_char.getRemark())
 
+    def writeChapterOrMsrQuery(self, element: ET.Element, chapter_or_msr_query: ChapterOrMsrQuery):
+        """Write the inline CHAPTER-OR-MSR-QUERY payload (XSD group CHAPTER-OR-MSR-QUERY, 00052):
+        N CHAPTER elements and an optional MSR-QUERY-CHAPTER.
+
+        The inherited ARObject level is deliberately NOT written here: the XSD inlines this group
+        into the owning element, which already carries the AR-OBJECT attributeGroup, so there is
+        no element of its own to carry S/T. See the synthetic-wrapper note in Chapters.py.
+        """
+        for chapter in chapter_or_msr_query.getChapters():
+            self.writeChapter(element, chapter, "CHAPTER")
+        msr_query_chapter = chapter_or_msr_query.getMsrQueryChapter()
+        if msr_query_chapter is not None:
+            self.writeMsrQueryChapter(element, msr_query_chapter)
+
+    def writeTopicOrMsrQuery(self, element: ET.Element, topic_or_msr_query: TopicOrMsrQuery):
+        """Write the inline TOPIC-OR-MSR-QUERY payload (XSD group TOPIC-OR-MSR-QUERY, 00052):
+        N TOPIC-1 elements and an optional MSR-QUERY-TOPIC-1.
+
+        The inherited ARObject level is deliberately NOT written here: the XSD inlines this group
+        into the owning element, which already carries the AR-OBJECT attributeGroup, so there is
+        no element of its own to carry S/T. See the synthetic-wrapper note in Chapters.py.
+        """
+        for topic in topic_or_msr_query.getTopic1s():
+            self.writeTopic1(element, topic)
+        msr_query_topic1 = topic_or_msr_query.getMsrQueryTopic1()
+        if msr_query_topic1 is not None:
+            self.writeMsrQueryTopic1(element, msr_query_topic1)
+
     def writeTopicContentOrMsrQuery(self, element: ET.Element, topic_content_or_msr_query: Optional[TopicContentOrMsrQuery]):
         if topic_content_or_msr_query is None:
             return
@@ -4171,11 +4203,15 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeTopic1(self, element: ET.Element, topic1: Topic1):
         child_element = ET.SubElement(element, "TOPIC-1")
-        self.writeIdentifiable(child_element, topic1)
+        # VARIATION-POINT is held back here and emitted last: XSD group TOPIC-1
+        # (AUTOSAR_00052.xsd L16707) declares the TOPIC-CONTENT-OR-MSR-QUERY choice
+        # first and VARIATION-POINT at sequenceOffset=10000.
+        self.writeIdentifiable(child_element, topic1, write_variation_point=False)
         helpEntry_value = topic1.getHelpEntry()
         if helpEntry_value is not None:
             child_element.set("HELP-ENTRY", helpEntry_value.getValue())
         self.writeTopicContentOrMsrQuery(child_element, topic1.getTopicContent())
+        self.writeVariationPointCapable(child_element, topic1)
 
     def writeMsrQueryTopic1(self, element: ET.Element, msr_query_topic1: Optional[MsrQueryTopic1]):
         if msr_query_topic1 is not None:
@@ -4814,9 +4850,14 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeARObject(child_element, block)
             self.writeDocumentationBlockContent(child_element, block)
 
-    def writeDocumentationBlockContent(self, element: ET.Element, block: Optional[DocumentationBlock]):
+    def writeDocumentationBlockContent(self, element: ET.Element, block: Optional[DocumentationBlock], write_ar_object: bool = True):
+        # The block's S/T land on the WRAPPER element when one exists. The XSD
+        # groups that embed the DOCUMENTATION-BLOCK content INLINE (NOTE,
+        # TRACEABLE-TEXT) give the block no attribute home of its own, so those
+        # callers pass write_ar_object=False (Rule 0027).
         if block is not None:
-            self.writeARObject(element, block)
+            if write_ar_object:
+                self.writeARObject(element, block)
             self.setMsrQueryP2(element, block.getMsrQueryP2())
             self.setMultiLanguageParagraphs(element, "P", block.getPs())
             self.setMultiLanguageVerbatim(element, "VERBATIM", block.getVerbatim())
@@ -4833,17 +4874,22 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setDefList(self, element: ET.Element, def_list: Optional[DefList]):
         if def_list is not None:
             child_element = ET.SubElement(element, "DEF-LIST")
-            self.writeARObject(child_element, def_list)
+            self.writePaginateable(child_element, def_list)
             for def_item in def_list.getDefItems():
                 self.setDefItem(child_element, def_item)
+            self.writeVariationPointCapable(child_element, def_list)
 
     def setDefItem(self, element: ET.Element, def_item: DefItem):
         child_element = ET.SubElement(element, "DEF-ITEM")
-        self.writeARObject(child_element, def_item)
+        # The XSD DEF-ITEM complexType carries the REFERRABLE + MULTILANGUAGE-REFERRABLE
+        # groups (SHORT-NAME required) but NO IDENTIFIABLE group — writeReferrable, not
+        # writeIdentifiable (Rule 0027 / SPEC-BASE).
+        self.writeReferrable(child_element, def_item)
         helpEntry_value = def_item.getHelpEntry()
         if helpEntry_value is not None:
             child_element.attrib["HELPENTRY"] = helpEntry_value.getValue()
         self.writeDocumentationBlock(child_element, "DEF", def_item.getDef())
+        self.writeVariationPointCapable(child_element, def_item)
 
     def setMlFormula(self, element: ET.Element, key: str, formula: Optional[MlFormula]):
         if formula is not None:
@@ -4859,12 +4905,13 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setLabeledList(self, element: ET.Element, labeled_list: Optional[LabeledList]):
         if labeled_list is not None:
             child_element = ET.SubElement(element, "LABELED-LIST")
-            self.writeARObject(child_element, labeled_list)
+            self.writePaginateable(child_element, labeled_list)
             indentSample_value = labeled_list.getIndentSample()
             if indentSample_value is not None:
                 self.setIndentSample(child_element, indentSample_value)
             for labeled_item in labeled_list.getLabeledItems():
                 self.setLabeledItem(child_element, labeled_item)
+            self.writeVariationPointCapable(child_element, labeled_list)
 
     def setIndentSample(self, element: ET.Element, indent_sample: Optional[IndentSample]):
         if indent_sample is not None:
@@ -4878,28 +4925,37 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def setLabeledItem(self, element: ET.Element, labeled_item: LabeledItem):
         child_element = ET.SubElement(element, "LABELED-ITEM")
-        self.writeARObject(child_element, labeled_item)
+        self.writePaginateable(child_element, labeled_item)
         helpEntry_value = labeled_item.getHelpEntry()
         if helpEntry_value is not None:
             child_element.attrib["HELPENTRY"] = helpEntry_value.getValue()
         self.setMultiLanguageOverviewParagraph(child_element, "ITEM-LABEL", labeled_item.getItemLabel())
         self.writeDocumentationBlock(child_element, "ITEM-CONTENTS", labeled_item.getItemContents())
+        self.writeVariationPointCapable(child_element, labeled_item)
 
     def setNote(self, element: ET.Element, note: Optional[Note]):
         if note is not None:
             child_element = ET.SubElement(element, "NOTE")
             self.writeARObject(child_element, note)
+            # XSD group NOTE (AUTOSAR_00052.xsd): LABEL, then the DOCUMENTATION-BLOCK
+            # content INLINE via the choice (no NOTE-TEXT wrapper), then
+            # VARIATION-POINT; the noteType is the NOTE-TYPE attribute.
             self.setMultiLongName(child_element, "LABEL", note.getLabel())
+            self.writeDocumentationBlockContent(child_element, note.getNoteText(), write_ar_object=False)
             noteType_value = note.getNoteType()
             if noteType_value is not None:
-                child_element.attrib["NOTETYPE"] = noteType_value.getValue()
-            self.writeDocumentationBlock(child_element, "NOTE-TEXT", note.getNoteText())
+                child_element.attrib["NOTE-TYPE"] = noteType_value.getValue()
+            self.writeVariationPointCapable(child_element, note)
 
     def setTraceableText(self, element: ET.Element, key: str, traceable_text: Optional[TraceableText]):
         if traceable_text is not None:
             child_element = ET.SubElement(element, key)
+            # XSD group TRACEABLE-TEXT (AUTOSAR_00052.xsd): the class is a full
+            # Identifiable (writeIdentifiable inside writeTraceable) and the
+            # DOCUMENTATION-BLOCK content follows INLINE — the TEXT wrapper is a
+            # fabrication, and the block's S/T have no attribute home here.
             self.writeTraceable(child_element, traceable_text)
-            self.writeDocumentationBlock(child_element, "TEXT", traceable_text.getText())
+            self.writeDocumentationBlockContent(child_element, traceable_text.getText(), write_ar_object=False)
 
     def setTraceableTable(self, element: ET.Element, key: str, traceable_table: Optional[TraceableTable]):
         if traceable_table is not None:
@@ -4983,26 +5039,31 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def setMsrQueryP2(self, element: ET.Element, msr_query_p2: Optional[MsrQueryP2]):
         if msr_query_p2 is not None:
-            child_element = ET.SubElement(element, "MSR-QUERY-P2")
+            child_element = ET.SubElement(element, "MSR-QUERY-P-2")
             self.writeARObject(child_element, msr_query_p2)
             msrQueryProps_value = msr_query_p2.getMsrQueryProps()
             if msrQueryProps_value is not None:
                 self.setMsrQueryProps(child_element, msrQueryProps_value)
-            self.writeDocumentationBlock(child_element, "MSR-QUERY-RESULT-P2", msr_query_p2.getMsrQueryResultP2())
+            self.writeDocumentationBlock(child_element, "MSR-QUERY-RESULT-P-2", msr_query_p2.getMsrQueryResultP2())
 
     def setMsrQueryProps(self, element: ET.Element, msr_query_props: Optional[MsrQueryProps]):
         if msr_query_props is not None:
             child_element = ET.SubElement(element, "MSR-QUERY-PROPS")
             self.writeARObject(child_element, msr_query_props)
-            self.setChildElementOptionalLiteral(child_element, "COMMENT", msr_query_props.getComment())
             self.setChildElementOptionalLiteral(child_element, "MSR-QUERY-NAME", msr_query_props.getMsrQueryName())
             for msr_query_arg in msr_query_props.getMsrQueryArgs():
                 self.setMsrQueryArg(child_element, msr_query_arg)
+            self.setChildElementOptionalLiteral(child_element, "COMMENT", msr_query_props.getComment())
 
     def setMsrQueryArg(self, element: ET.Element, msr_query_arg: MsrQueryArg):
+        # The XSD MSR-QUERY-ARG complexType is a simpleContent extension of
+        # STRING--SIMPLE (AUTOSAR_00052.xsd): the arg value is the element TEXT and
+        # si is an attribute — child elements are schema-invalid.
         child_element = ET.SubElement(element, "MSR-QUERY-ARG")
         self.writeARObject(child_element, msr_query_arg)
-        self.setChildElementOptionalLiteral(child_element, "ARG", msr_query_arg.getArg())
+        arg_value = msr_query_arg.getArg()
+        if arg_value is not None:
+            child_element.text = arg_value.getValue()
         si_value = msr_query_arg.getSi()
         if si_value is not None:
             child_element.attrib["SI"] = si_value.getValue()
@@ -8399,7 +8460,6 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "ACCESS-COUNT-SETS")
             for access_count_set in access_count_sets:
                 access_count_set_element = ET.SubElement(child_element, "ACCESS-COUNT-SET")
-                self.setChildElementOptionalLiteral(access_count_set_element, "COUNT-PROFILE", access_count_set.getCountProfile())
                 access_counts = access_count_set.getAccessCounts()
                 if len(access_counts) > 0:
                     counts_element = ET.SubElement(access_count_set_element, "ACCESS-COUNTS")
@@ -8407,6 +8467,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                         count_element = ET.SubElement(counts_element, "ACCESS-COUNT")
                         self.setChildElementOptionalRefType(count_element, "ACCESS-POINT-REF", count.getAccessPointRef())
                         self.setChildElementOptionalPositiveInteger(count_element, "VALUE", count.getValue())
+                self.setChildElementOptionalLiteral(access_count_set_element, "COUNT-PROFILE", access_count_set.getCountProfile())
 
     def writeStackUsage(self, element: ET.Element, usage: StackUsage):
         self.logger.debug("Write StackUsage %s" % usage.getShortName())
@@ -9242,6 +9303,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                 refs_element = ET.SubElement(child_element, "CONTEXT-LIMITATION-REFS")
                 for ref in context_limitations:
                     self.setChildElementOptionalRefType(refs_element, "CONTEXT-LIMITATION-REF", ref)
+            if isinstance(access, VariationPointCapable):
+                self.writeVariationPoint(child_element, access.getVariationPoint())
 
     def writeBswModuleEntityDataSendPoints(self, element: ET.Element, entity: BswModuleEntity):
         points = entity.getDataSendPoints()
@@ -10141,9 +10204,9 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeImplementation(child_element, impl)
         self.setChildElementOptionalLiteral(child_element, "AR-RELEASE-VERSION", impl.getArReleaseVersion())
         self.setChildElementOptionalRefType(child_element, "BEHAVIOR-REF", impl.getBehaviorRef())
-        self.setChildElementOptionalLiteral(child_element, "VENDOR-API-INFIX", impl.getVendorApiInfix())
         self.writeBswImplementationPreconfiguredConfigurationRefs(child_element, impl)
         self.writeBswImplementationRecommendedConfigurationRefs(child_element, impl)
+        self.setChildElementOptionalLiteral(child_element, "VENDOR-API-INFIX", impl.getVendorApiInfix())
         self.writeBswImplementationVendorSpecificModuleDefRefs(child_element, impl)
 
     def writeAbstractImplementationDataTypeElement(self, element: ET.Element, impl_data_type_element: AbstractImplementationDataTypeElement):
@@ -10466,6 +10529,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         if behavior is None:
             return element
         child_element = ET.SubElement(element, key)
+        self.writeARObject(child_element, behavior)
         self.setChildElementOptionalRefType(child_element, "DEFAULT-MODE-REF", behavior.getDefaultModeRef())
         self.setChildElementOptionalLiteral(child_element, "ERROR-REACTION-POLICY", behavior.getErrorReactionPolicy())
         return child_element
@@ -17754,13 +17818,19 @@ class ARXMLWriter(AbstractARXMLWriter):
                 element.remove(child_element)
         return value
 
+    def writeAnyInstanceRef(self, element: ET.Element, instance_ref: AnyInstanceRef) -> AnyInstanceRef:
+        self.writeARObject(element, instance_ref)
+        self.setChildElementOptionalRefType(element, "BASE-REF", instance_ref.getBaseRef())
+        for ref in instance_ref.getContextElementRefs():
+            self.setChildElementOptionalRefType(element, "CONTEXT-ELEMENT-REF", ref)
+        self.setChildElementOptionalRefType(element, "TARGET-REF", instance_ref.getTargetRef())
+        self.writeVariationPointCapable(element, instance_ref)
+        return instance_ref
+
     def setAnyInstanceRef(self, element: ET.Element, key, instance_ref: Optional[AnyInstanceRef]):
         if instance_ref is not None:
             child_element = ET.SubElement(element, key)
-            self.setChildElementOptionalRefType(child_element, "BASE-REF", instance_ref.getBaseRef())
-            for ref in instance_ref.getContextElementRefs():
-                self.setChildElementOptionalRefType(child_element, "CONTEXT-ELEMENT-REF", ref)
-            self.setChildElementOptionalRefType(child_element, "TARGET-REF", instance_ref.getTargetRef())
+            self.writeAnyInstanceRef(child_element, instance_ref)
         return instance_ref
 
     def writeEcucInstanceReferenceValue(self, element: ET.Element, value: EcucInstanceReferenceValue):
@@ -20774,9 +20844,11 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.logger.debug("Write HwElement <%s>" % hw_element.getShortName())
             child_element = ET.SubElement(element, "HW-ELEMENT")
             self.writeHwDescriptionEntity(child_element, hw_element)
+            # XSD HW-ELEMENT group order (AUTOSAR_00052.xsd): NESTED-ELEMENTS
+            # first, then HW-PIN-GROUPS, then HW-ELEMENT-CONNECTIONS.
+            self.writeHwElementHwNestedElementRefs(child_element, hw_element)
             self.writeHwElementHwPinGroups(child_element, hw_element)
             self.writeHwElementHwElementConnections(child_element, hw_element)
-            self.writeHwElementHwNestedElementRefs(child_element, hw_element)
 
     def writeHwAttributeDef(self, element: ET.Element, attribute_def: HwAttributeDef):
         if attribute_def is not None:
@@ -21247,8 +21319,12 @@ class ARXMLWriter(AbstractARXMLWriter):
         if alias_set is not None:
             child_element = ET.SubElement(element, "ALIAS-NAME-SET")
             self.writeIdentifiable(child_element, alias_set)
+            # The XSD ALIAS-NAME-SET group wraps the assignments in an ALIAS-NAMES
+            # element (AUTOSAR_00052.xsd, choice of ALIAS-NAME-ASSIGNMENT); bare
+            # assignments under the set are schema-invalid.
+            names_element = ET.SubElement(child_element, "ALIAS-NAMES")
             for assignment in alias_set.getAliasNames():
-                assignment_element = ET.SubElement(child_element, "ALIAS-NAME-ASSIGNMENT")
+                assignment_element = ET.SubElement(names_element, "ALIAS-NAME-ASSIGNMENT")
                 self.writeAliasNameAssignment(assignment_element, assignment)
 
     def writeField(self, element: ET.Element, field: Field):
@@ -22871,8 +22947,12 @@ class ARXMLWriter(AbstractARXMLWriter):
         if schema_location is not None:
             ns_uri = schema_location.split(" ")[0]
         else:
+            # No release was selected (document.clear() without setARRelease). Fall back to
+            # the newest schema bundled with the package: naming a schema the validator does
+            # not ship makes ARXMLValidator.for_document() return None, which silently skips
+            # schema validation instead of reporting it.
             ns_uri = "http://autosar.org/schema/r4.0"
-            schema_location = "http://autosar.org/schema/r4.0 AUTOSAR_4-0-3.xsd"
+            schema_location = "http://autosar.org/schema/r4.0 AUTOSAR_00052.xsd"
 
         # Legacy R3.x releases use the pre-R4 namespace http://autosar.org
         self._legacy_namespace = ns_uri == "http://autosar.org"

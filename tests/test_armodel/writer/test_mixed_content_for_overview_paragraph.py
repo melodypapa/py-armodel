@@ -26,7 +26,7 @@ def _build_l2_with_mixed_content() -> LOverviewParagraph:
 
 class TestMixedContentForOverviewParagraphWriter:
     def test_write_l2_writes_mixed_content_children(self):
-        """The Table 9.3 members must be emitted on the L-2 element (BR/E/IE/TT child elements, SUB/SUP XML attributes) in the family display order."""
+        """The Table 9.3 members must be emitted on the L-2 element as child elements (BR/E/IE/SUP/SUB/TT, the XSD MIXED-CONTENT-FOR-OVERVIEW-PARAGRAPH order)."""
         element = ET.Element("MULTI-LANGUAGE-OVERVIEW-PARAGRAPH")
 
         ARXMLWriter().setMultiLanguageOverviewParagraph(element, "MULTI-LANGUAGE-OVERVIEW-PARAGRAPH", MultiLanguageOverviewParagraph().addL2(_build_l2_with_mixed_content()))
@@ -34,9 +34,9 @@ class TestMixedContentForOverviewParagraphWriter:
         written = element.find("MULTI-LANGUAGE-OVERVIEW-PARAGRAPH/L-2")
         assert written is not None
         assert written.attrib["L"] == "EN"
-        assert written.attrib.get("SUB") == "sub text"
-        assert written.attrib.get("SUP") == "sup text"
-        assert [child.tag for child in written] == ["BR", "E", "IE", "TT"]
+        assert [child.tag for child in written] == ["BR", "E", "IE", "SUP", "SUB", "TT"]
+        assert written.find("SUP").text == "sup text"
+        assert written.find("SUB").text == "sub text"
         assert written.find("E").text == "emphasized overview"
         assert written.find("IE").text == "index entry"
         assert written.find("TT").text == "technical term"
@@ -102,7 +102,7 @@ class TestWriteSlOverviewParagraph:
 
         written = element.find("MULTI-LANGUAGE-OVERVIEW-PARAGRAPH/L-2")
         assert written is not None
-        assert [child.tag for child in written] == ["BR", "FT", "E", "IE", "TT"]
+        assert [child.tag for child in written] == ["BR", "FT", "E", "IE", "SUP", "SUB", "TT"]
         written_ft = written.find("FT")
         assert written_ft.attrib["L"] == "DE"
         assert written_ft.text == "footnote text"

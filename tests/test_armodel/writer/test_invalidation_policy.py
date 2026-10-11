@@ -50,7 +50,7 @@ class TestWriteInvalidationPolicy:
         sr = pkg.createSenderReceiverInterface("SR")
         policy = sr.createInvalidationPolicy()
         policy.setDataElementRef(_make_ref("VARIABLE-DATA-PROTOTYPE", "/de"))
-        policy.setHandleInvalid(_make_literal("DISABLE"))
+        policy.setHandleInvalid(_make_literal("DONT-INVALIDATE"))
         parent = _parent()
         writer.writeSenderReceiverInterfaceInvalidationPolicies(parent, sr)
         assert len(parent) == 1
@@ -61,7 +61,7 @@ class TestWriteInvalidationPolicy:
         de_ref = policy_tag.find("DATA-ELEMENT-REF")
         assert de_ref.text == "/de"
         assert de_ref.get("DEST") == "VARIABLE-DATA-PROTOTYPE"
-        assert policy_tag.find("HANDLE-INVALID").text == "DISABLE"
+        assert policy_tag.find("HANDLE-INVALID").text == "DONT-INVALIDATE"
 
 
 class TestInvalidationPolicyRoundTrip:
@@ -73,7 +73,7 @@ class TestInvalidationPolicyRoundTrip:
         sr = pkg.createSenderReceiverInterface("SR")
         policy = sr.createInvalidationPolicy()
         policy.setDataElementRef(_make_ref("VARIABLE-DATA-PROTOTYPE", "/de"))
-        policy.setHandleInvalid(_make_literal("DISABLE"))
+        policy.setHandleInvalid(_make_literal("DONT-INVALIDATE"))
 
         file_path = tempfile.mktemp(suffix=".arxml")
         try:
@@ -88,7 +88,7 @@ class TestInvalidationPolicyRoundTrip:
             reparsed = sr_2.getInvalidationPolicies()[0]
             assert reparsed.getDataElementRef().getValue() == "/de"
             assert reparsed.getDataElementRef().getDest() == "VARIABLE-DATA-PROTOTYPE"
-            assert reparsed.getHandleInvalid().getValue() == "DISABLE"
+            assert reparsed.getHandleInvalid().getValue() == "DONT-INVALIDATE"
         finally:
             import os
 

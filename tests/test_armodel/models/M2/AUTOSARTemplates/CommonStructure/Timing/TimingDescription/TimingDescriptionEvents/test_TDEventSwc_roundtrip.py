@@ -46,7 +46,7 @@ class TestTDEventSwcFamilyRoundTrip:
         ib = TDEventSwcInternalBehavior(swc_timing, "Ib1")
         ib.setComponentIRef(component_iref)
         ib.setRunnableRef(make_ref("/Root/Runnable", "RUNNABLE-ENTITY"))
-        ib.setTdEventSwcInternalBehaviorType(make_enum(TDEventSwcInternalBehaviorTypeEnum, "runnableEntityStarted"))
+        ib.setTdEventSwcInternalBehaviorType(make_enum(TDEventSwcInternalBehaviorTypeEnum, "RUNNABLE-ENTITY-STARTED"))
         ib.setVariableAccessRef(make_ref("/Root/VarAccess", "VARIABLE-ACCESS"))
         swc_timing.addTimingDescription(ib)
 
@@ -73,7 +73,7 @@ class TestTDEventSwcFamilyRoundTrip:
             assert ib_2.getComponentIRef().getTargetComponentRef().getValue() == "/Root/Comp"
             assert ib_2.getRunnableRef().getValue() == "/Root/Runnable"
             assert ib_2.getRunnableRef().getDest() == "RUNNABLE-ENTITY"
-            assert ib_2.getTdEventSwcInternalBehaviorType().value == "runnableEntityStarted"
+            assert ib_2.getTdEventSwcInternalBehaviorType().value == "RUNNABLE-ENTITY-STARTED"
             assert ib_2.getVariableAccessRef().getValue() == "/Root/VarAccess"
 
             ib_ref_2 = descriptions["IbRef1"]

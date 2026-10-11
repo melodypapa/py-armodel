@@ -41,30 +41,30 @@ class ViewMap(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        # Reference to identifiable elements on the first "side".
+        # Reference to identifiable elements on the first "side". Tags: xml.sequenceOffset=20
         self.firstElementRefs: List[RefType] = []
 
-        # InstanceRefs to elements on the first "side".
+        # InstanceRefs to elements on the first "side". Tags: xml.sequenceOffset=50 InstanceRef implemented by: AnyInstanceRef
         self.firstElementIRefs: List[AnyInstanceRef] = []
 
-        # This attribute is used to describe specific mapping scenarios, e.g. the mappings: • AR_AbstractSystemDescription_SystemDescription • AR_SystemDescription_SystemExtract
+        # This attribute is used to describe specific mapping scenarios, e.g. the mappings: • AR_AbstractSystemDescription_SystemDescription • AR_SystemDescription_SystemExtract Tags: xml.sequenceOffset=10
         self.role: Optional[Identifier] = None
 
-        # Reference to identifiable elements on the second "side".
+        # Reference to identifiable elements on the second "side". Tags: xml.sequenceOffset=30
         self.secondElementRefs: List[RefType] = []
 
-        # InstanceRefs to elements on the second "side".
+        # InstanceRefs to elements on the second "side". Tags: xml.sequenceOffset=60 InstanceRef implemented by: AnyInstanceRef
         self.secondElementIRefs: List[AnyInstanceRef] = []
 
     def getFirstElementRefs(self) -> List[RefType]:
         """
-        Reference to identifiable elements on the first "side".
+        Reference to identifiable elements on the first "side". Tags: xml.sequenceOffset=20
         """
         return self.firstElementRefs
 
     def addFirstElementRef(self, value: Optional[RefType]) -> ViewMap:
         """
-        Reference to identifiable elements on the first "side".
+        Reference to identifiable elements on the first "side". Tags: xml.sequenceOffset=20
         A None value is a no-op and does not append anything.
         """
         if value is not None:
@@ -73,13 +73,13 @@ class ViewMap(Identifiable):
 
     def getFirstElementIRefs(self) -> List[AnyInstanceRef]:
         """
-        InstanceRefs to elements on the first "side".
+        InstanceRefs to elements on the first "side". Tags: xml.sequenceOffset=50 InstanceRef implemented by: AnyInstanceRef
         """
         return self.firstElementIRefs
 
     def addFirstElementIRef(self, value: Optional[AnyInstanceRef]) -> ViewMap:
         """
-        InstanceRefs to elements on the first "side".
+        InstanceRefs to elements on the first "side". Tags: xml.sequenceOffset=50 InstanceRef implemented by: AnyInstanceRef
         A None value is a no-op and does not append anything.
         """
         if value is not None:
@@ -88,13 +88,13 @@ class ViewMap(Identifiable):
 
     def getRole(self) -> Optional[Identifier]:
         """
-        This attribute is used to describe specific mapping scenarios, e.g. the mappings: • AR_AbstractSystemDescription_SystemDescription • AR_SystemDescription_SystemExtract
+        This attribute is used to describe specific mapping scenarios, e.g. the mappings: • AR_AbstractSystemDescription_SystemDescription • AR_SystemDescription_SystemExtract Tags: xml.sequenceOffset=10
         """
         return self.role
 
     def setRole(self, value: Optional[Identifier]) -> ViewMap:
         """
-        This attribute is used to describe specific mapping scenarios, e.g. the mappings: • AR_AbstractSystemDescription_SystemDescription • AR_SystemDescription_SystemExtract
+        This attribute is used to describe specific mapping scenarios, e.g. the mappings: • AR_AbstractSystemDescription_SystemDescription • AR_SystemDescription_SystemExtract Tags: xml.sequenceOffset=10
         A None value is a no-op and does not overwrite an existing role.
         """
         if value is not None:
@@ -103,13 +103,13 @@ class ViewMap(Identifiable):
 
     def getSecondElementRefs(self) -> List[RefType]:
         """
-        Reference to identifiable elements on the second "side".
+        Reference to identifiable elements on the second "side". Tags: xml.sequenceOffset=30
         """
         return self.secondElementRefs
 
     def addSecondElementRef(self, value: Optional[RefType]) -> ViewMap:
         """
-        Reference to identifiable elements on the second "side".
+        Reference to identifiable elements on the second "side". Tags: xml.sequenceOffset=30
         A None value is a no-op and does not append anything.
         """
         if value is not None:
@@ -118,13 +118,13 @@ class ViewMap(Identifiable):
 
     def getSecondElementIRefs(self) -> List[AnyInstanceRef]:
         """
-        InstanceRefs to elements on the second "side".
+        InstanceRefs to elements on the second "side". Tags: xml.sequenceOffset=60 InstanceRef implemented by: AnyInstanceRef
         """
         return self.secondElementIRefs
 
     def addSecondElementIRef(self, value: Optional[AnyInstanceRef]) -> ViewMap:
         """
-        InstanceRefs to elements on the second "side".
+        InstanceRefs to elements on the second "side". Tags: xml.sequenceOffset=60 InstanceRef implemented by: AnyInstanceRef
         A None value is a no-op and does not append anything.
         """
         if value is not None:

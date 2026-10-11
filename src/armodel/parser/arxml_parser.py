@@ -3277,10 +3277,12 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readMixedContentForLongName(self, element: ET.Element, content: MixedContentForLongName):
         self.readARObject(element, content)
-        if "SUP" in element.attrib:
-            content.setSup(Superscript().setValue(element.attrib["SUP"]))
-        if "SUB" in element.attrib:
-            content.setSub(Superscript().setValue(element.attrib["SUB"]))
+        sup_element = self.find(element, "SUP")
+        if sup_element is not None:
+            content.setSup(Superscript().setValue(sup_element.text))
+        sub_element = self.find(element, "SUB")
+        if sub_element is not None:
+            content.setSub(Superscript().setValue(sub_element.text))
         for inline in element:
             tag_name = self.getTagName(inline)
             if tag_name == "E":
@@ -3407,10 +3409,12 @@ class ARXMLParser(AbstractARXMLParser):
         std = self.getStd(element, "STD")
         if std is not None:
             content.setStd(std)
-        if "SUB" in element.attrib:
-            content.setSub(Superscript().setValue(element.attrib["SUB"]))
-        if "SUP" in element.attrib:
-            content.setSup(Superscript().setValue(element.attrib["SUP"]))
+        sub_element = self.find(element, "SUB")
+        if sub_element is not None:
+            content.setSub(Superscript().setValue(sub_element.text))
+        sup_element = self.find(element, "SUP")
+        if sup_element is not None:
+            content.setSup(Superscript().setValue(sup_element.text))
         content.setTraceRef(self.getChildElementOptionalRefType(element, "TRACE-REF"))
         tt_element = self.find(element, "TT")
         if tt_element is not None:
@@ -3442,10 +3446,12 @@ class ARXMLParser(AbstractARXMLParser):
             emphasis.setValue(String().setValue(element.text))
         if "COLOR" in element.attrib:
             emphasis.setColor(String().setValue(element.attrib["COLOR"]))
-        if "SUP" in element.attrib:
-            emphasis.setSup(Superscript().setValue(element.attrib["SUP"]))
-        if "SUB" in element.attrib:
-            emphasis.setSub(Superscript().setValue(element.attrib["SUB"]))
+        sup_element = self.find(element, "SUP")
+        if sup_element is not None:
+            emphasis.setSup(Superscript().setValue(sup_element.text))
+        sub_element = self.find(element, "SUB")
+        if sub_element is not None:
+            emphasis.setSub(Superscript().setValue(sub_element.text))
         for inline in element:
             tag_name = self.getTagName(inline)
             if tag_name == "TT":
@@ -3457,10 +3463,12 @@ class ARXMLParser(AbstractARXMLParser):
         self.readARObject(element, index_entry)
         if element.text is not None:
             index_entry.setValue(String().setValue(element.text))
-        if "SUP" in element.attrib:
-            index_entry.setSup(Superscript().setValue(element.attrib["SUP"]))
-        if "SUB" in element.attrib:
-            index_entry.setSub(Superscript().setValue(element.attrib["SUB"]))
+        sup_element = self.find(element, "SUP")
+        if sup_element is not None:
+            index_entry.setSup(Superscript().setValue(sup_element.text))
+        sub_element = self.find(element, "SUB")
+        if sub_element is not None:
+            index_entry.setSub(Superscript().setValue(sub_element.text))
         return index_entry
 
     def readTt(self, element: ET.Element) -> Tt:
@@ -3509,10 +3517,12 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readMixedContentForUnitNames(self, element: ET.Element, content: MixedContentForUnitNames):
         self.readARObject(element, content)
-        if "SUP" in element.attrib:
-            content.setSup(Superscript().setValue(element.attrib["SUP"]))
-        if "SUB" in element.attrib:
-            content.setSub(Superscript().setValue(element.attrib["SUB"]))
+        sup_element = self.find(element, "SUP")
+        if sup_element is not None:
+            content.setSup(Superscript().setValue(sup_element.text))
+        sub_element = self.find(element, "SUB")
+        if sub_element is not None:
+            content.setSub(Superscript().setValue(sub_element.text))
 
     def readMixedContentForOverviewParagraph(self, element: ET.Element, content: MixedContentForOverviewParagraph):
         br = self.getBr(element, "BR")
@@ -3529,10 +3539,12 @@ class ARXMLParser(AbstractARXMLParser):
         index_element = self.find(element, "IE")
         if index_element is not None:
             content.setIe(self.readIndexEntry(index_element))
-        if "SUB" in element.attrib:
-            content.setSub(Superscript().setValue(element.attrib["SUB"]))
-        if "SUP" in element.attrib:
-            content.setSup(Superscript().setValue(element.attrib["SUP"]))
+        sub_element = self.find(element, "SUB")
+        if sub_element is not None:
+            content.setSub(Superscript().setValue(sub_element.text))
+        sup_element = self.find(element, "SUP")
+        if sup_element is not None:
+            content.setSup(Superscript().setValue(sup_element.text))
         content.setTraceRef(cast(Optional[Traceable], self.getChildElementOptionalRefType(element, "TRACE-REF")))
         tt_element = self.find(element, "TT")
         if tt_element is not None:
@@ -5832,6 +5844,12 @@ class ARXMLParser(AbstractARXMLParser):
         access.setAccessedVariableRef(self.getChildElementOptionalRefType(element, "ACCESSED-VARIABLE-REF"))
         for ref in self.getChildElementRefTypeList(element, "CONTEXT-LIMITATION-REFS/CONTEXT-LIMITATION-REF"):
             access.addContextLimitationRef(ref)
+        variation_point_element = self.find(element, "VARIATION-POINT")
+        if variation_point_element is not None:
+            if isinstance(access, VariationPointCapable):
+                access.setVariationPoint(self.readVariationPoint(variation_point_element, VariationPoint()))
+            else:
+                self.logger.warning("VARIATION-POINT on non-variant element <%s> ignored" % self.getPureTagName(element.tag))
 
     def readBswModuleEntityDataSendPoints(self, element: ET.Element, entity: BswModuleEntity):
         for child_element in self.findall(element, "DATA-SEND-POINTS/*"):
@@ -8320,9 +8338,15 @@ class ARXMLParser(AbstractARXMLParser):
             note = Note()
             self.readARObject(child_element, note)
             note.setLabel(self.getMultilanguageLongName(child_element, "LABEL"))
-            note.setNoteText(self.getDocumentationBlock(child_element, "NOTE-TEXT"))
-            if "NOTETYPE" in child_element.attrib:
-                note.setNoteType(NoteTypeEnum().setValue(child_element.attrib["NOTETYPE"]))
+            # The NOTE group embeds the DOCUMENTATION-BLOCK content INLINE (no
+            # NOTE-TEXT wrapper) and carries the note type as the NOTE-TYPE
+            # attribute (Rule 0027).
+            block = DocumentationBlock()
+            self.readDocumentationBlockContent(child_element, block)
+            note.setNoteText(block)
+            if "NOTE-TYPE" in child_element.attrib:
+                note.setNoteType(NoteTypeEnum().setValue(child_element.attrib["NOTE-TYPE"]))
+            self.readVariationPointCapable(child_element, note)
         return note
 
     def readTraceable(self, element: ET.Element, traceable: Traceable):
@@ -8342,7 +8366,11 @@ class ARXMLParser(AbstractARXMLParser):
             short_name_element = self.find(child_element, "SHORT-NAME")
             short_name = short_name_element.text if short_name_element is not None else key
             traceable_text = TraceableText(block, cast(str, short_name))
-            traceable_text.setText(self.getDocumentationBlock(child_element, "TEXT"))
+            # The TRACEABLE-TEXT group embeds the DOCUMENTATION-BLOCK content
+            # INLINE (no TEXT wrapper) — Rule 0027.
+            text_block = DocumentationBlock()
+            self.readDocumentationBlockContent(child_element, text_block)
+            traceable_text.setText(text_block)
             self.readTraceable(child_element, traceable_text)
         return traceable_text
 
@@ -8407,12 +8435,15 @@ class ARXMLParser(AbstractARXMLParser):
                 structured_req.addTestedItemRef(ref)
         return structured_req
 
-    def getDefItem(self, element: ET.Element) -> DefItem:
-        def_item = DefItem()
-        self.readARObject(element, def_item)
+    def getDefItem(self, element: ET.Element, parent) -> DefItem:
+        short_name_element = self.find(element, "SHORT-NAME")
+        short_name = short_name_element.text if short_name_element is not None else ""
+        def_item = DefItem(parent, cast(str, short_name))
+        self.readReferrable(element, def_item)
         def_item.setDef(self.getDocumentationBlock(element, "DEF"))
         if "HELPENTRY" in element.attrib:
             def_item.setHelpEntry(String().setValue(element.attrib["HELPENTRY"]))
+        self.readVariationPointCapable(element, def_item)
         return def_item
 
     def getDefList(self, element: ET.Element, key: str) -> Optional[DefList]:
@@ -8420,9 +8451,10 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         if child_element is not None:
             def_list = DefList()
-            self.readARObject(child_element, def_list)
+            self.readPaginateable(child_element, def_list)
             for def_item in self.findall(child_element, "DEF-ITEM"):
-                def_list.addDefItem(self.getDefItem(def_item))
+                def_list.addDefItem(self.getDefItem(child_element, def_item))
+            self.readVariationPointCapable(child_element, def_list)
         return def_list
 
     def getIndentSample(self, element: ET.Element) -> IndentSample:
@@ -8436,11 +8468,12 @@ class ARXMLParser(AbstractARXMLParser):
 
     def getLabeledItem(self, element: ET.Element) -> LabeledItem:
         labeled_item = LabeledItem()
-        self.readARObject(element, labeled_item)
+        self.readPaginateable(element, labeled_item)
         if "HELPENTRY" in element.attrib:
             labeled_item.setHelpEntry(String().setValue(element.attrib["HELPENTRY"]))
         labeled_item.setItemContents(self.getDocumentationBlock(element, "ITEM-CONTENTS"))
         labeled_item.setItemLabel(self.getMultiLanguageOverviewParagraph(element, "ITEM-LABEL"))
+        self.readVariationPointCapable(element, labeled_item)
         return labeled_item
 
     def getLabeledList(self, element: ET.Element, key: str) -> Optional[LabeledList]:
@@ -8448,12 +8481,13 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         if child_element is not None:
             labeled_list = LabeledList()
-            self.readARObject(child_element, labeled_list)
+            self.readPaginateable(child_element, labeled_list)
             indent_sample = self.find(child_element, "INDENT-SAMPLE")
             if indent_sample is not None:
                 labeled_list.setIndentSample(self.getIndentSample(indent_sample))
             for labeled_item in self.findall(child_element, "LABELED-ITEM"):
                 labeled_list.addLabeledItem(self.getLabeledItem(labeled_item))
+            self.readVariationPointCapable(child_element, labeled_list)
         return labeled_list
 
     def getLOverviewParagraphs(self, element: ET.Element, key: str) -> List[LOverviewParagraph]:
@@ -8490,9 +8524,11 @@ class ARXMLParser(AbstractARXMLParser):
         return verbatim
 
     def getMsrQueryArg(self, element: ET.Element) -> MsrQueryArg:
+        # MSR-QUERY-ARG is a simpleContent element: arg is the TEXT, si an attribute.
         msr_query_arg = MsrQueryArg()
         self.readARObject(element, msr_query_arg)
-        msr_query_arg.setArg(cast(Optional[String], self.getChildElementOptionalLiteral(element, "ARG")))
+        if element.text is not None:
+            msr_query_arg.setArg(String().setValue(element.text))
         if "SI" in element.attrib:
             msr_query_arg.setSi(NameToken().setValue(element.attrib["SI"]))
         return msr_query_arg
@@ -8515,7 +8551,7 @@ class ARXMLParser(AbstractARXMLParser):
             msr_query_props = self.find(child_element, "MSR-QUERY-PROPS")
             if msr_query_props is not None:
                 msr_query_p2.setMsrQueryProps(self.getMsrQueryProps(msr_query_props))
-            msr_query_p2.setMsrQueryResultP2(self.getDocumentationBlock(child_element, "MSR-QUERY-RESULT-P2"))
+            msr_query_p2.setMsrQueryResultP2(self.getDocumentationBlock(child_element, "MSR-QUERY-RESULT-P-2"))
         return msr_query_p2
 
     def getMlFormula(self, element: ET.Element, key: str) -> Optional[MlFormula]:
@@ -8535,7 +8571,14 @@ class ARXMLParser(AbstractARXMLParser):
         return formula
 
     def readDocumentationBlock(self, element: ET.Element, block: DocumentationBlock):
+        # Wrapper shape: the block's S/T live on the wrapper element.
         self.readARObject(element, block)
+        self.readDocumentationBlockContent(element, block)
+
+    def readDocumentationBlockContent(self, element: ET.Element, block: DocumentationBlock):
+        # Inline-shape reader: the block's S/T stay on the wrapper element when
+        # one exists; the inline groups (NOTE, TRACEABLE-TEXT) have no attribute
+        # home for them (Rule 0027).
         for paragraph in self.getMultiLanguageParagraphs(element, "P"):
             block.addP(paragraph)
         for list in self.getListElements(element, "LIST"):
@@ -8545,7 +8588,7 @@ class ARXMLParser(AbstractARXMLParser):
         block.setDefList(self.getDefList(element, "DEF-LIST"))
         block.setFormula(self.getMlFormula(element, "FORMULA"))
         block.setLabeledList(self.getLabeledList(element, "LABELED-LIST"))
-        block.setMsrQueryP2(self.getMsrQueryP2(element, "MSR-QUERY-P2"))
+        block.setMsrQueryP2(self.getMsrQueryP2(element, "MSR-QUERY-P-2"))
         block.setNote(self.getNote(element, "NOTE"))
         block.setStructuredReq(self.getStructuredReq(element, "STRUCTURED-REQ", block))
         block.setTrace(self.getTraceableText(element, "TRACE", block))
@@ -8556,7 +8599,8 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         if child_element is not None:
             block = DocumentationBlock()
-            self.readDocumentationBlock(child_element, block)
+            self.readARObject(child_element, block)
+            self.readDocumentationBlockContent(child_element, block)
         return block
 
     def getDocumentationBlockList(self, element: ET.Element, key: str) -> List[DocumentationBlock]:
@@ -9483,7 +9527,10 @@ class ARXMLParser(AbstractARXMLParser):
         return documentation
 
     def readSwComponentTypeSwComponentDocumentation(self, element: ET.Element, parent: SwComponentType):
-        child_element = self.find(element, "SW-COMPONENT-DOCUMENTATION")
+        container = self.find(element, "SW-COMPONENT-DOCUMENTATIONS")
+        if container is None:
+            return
+        child_element = self.find(container, "SW-COMPONENT-DOCUMENTATION")
         if child_element is None:
             return
         parent.setSwComponentDocumentation(self.readSwComponentDocumentationElement(child_element))
@@ -9502,33 +9549,75 @@ class ARXMLParser(AbstractARXMLParser):
         if chapter_model_element is not None:
             chapter.setChapterModel(self.readChapterModel(chapter_model_element, chapter))
 
-    def readChapterModel(self, element: ET.Element, parent: Chapter) -> ChapterModel:
-        chapter_model = ChapterModel()
+    def readChapterModelChapterContent(self, element: ET.Element, parent: Chapter, chapter_model: ChapterModel):
         chapter_content_element = self.find(element, "CHAPTER-CONTENT")
         if chapter_content_element is not None:
             chapter_model.setChapterContent(self.readChapterContent(chapter_content_element, parent))
+
+    def readChapterModelTopic1(self, element: ET.Element, parent: Chapter, chapter_model: ChapterModel):
+        """The TOPIC-OR-MSR-QUERY group is inlined under CHAPTER-MODEL, so there is no element of its own to
+        find — its TOPIC-1 / MSR-QUERY-TOPIC-1 payloads are looked up on the owning element."""
         topic_elements = self.findall(element, "TOPIC-1")
         msr_query_topic1_element = self.find(element, "MSR-QUERY-TOPIC-1")
         if len(topic_elements) > 0 or msr_query_topic1_element is not None:
             topic_or_msr_query = TopicOrMsrQuery()
-            for topic_element in topic_elements:
-                topic_or_msr_query.addTopic1(self.readTopic1(topic_element, parent))
-            if msr_query_topic1_element is not None:
-                topic_or_msr_query.setMsrQueryTopic1(self.readMsrQueryTopic1(msr_query_topic1_element, parent))
+            self.readTopicOrMsrQuery(element, parent, topic_or_msr_query)
             chapter_model.setTopic1(topic_or_msr_query)
+
+    def readChapterModelChapter(self, element: ET.Element, parent: Chapter, chapter_model: ChapterModel):
+        """The CHAPTER-OR-MSR-QUERY group is inlined under CHAPTER-MODEL — see readChapterModelTopic1."""
         chapter_elements = self.findall(element, "CHAPTER")
         msr_query_chapter_element = self.find(element, "MSR-QUERY-CHAPTER")
         if len(chapter_elements) > 0 or msr_query_chapter_element is not None:
             chapter_or_msr_query = ChapterOrMsrQuery()
-            for chapter_element in chapter_elements:
-                chapter_or_msr_query.addChapter(self.readChapter(chapter_element, parent))
-            if msr_query_chapter_element is not None:
-                chapter_or_msr_query.setMsrQueryChapter(self.readMsrQueryChapter(msr_query_chapter_element, parent))
+            self.readChapterOrMsrQuery(element, parent, chapter_or_msr_query)
             chapter_model.setChapter(chapter_or_msr_query)
+
+    def readChapterModel(self, element: ET.Element, parent: Chapter) -> ChapterModel:
+        chapter_model = ChapterModel()
+        # Mirror of writeChapterModel: the CHAPTER-MODEL wrapper stands for ChapterModel alone,
+        # so the ARObject level (S/T) is read onto this instance here (Rule 0025).
+        self.readARObject(element, chapter_model)
+        # Payload order follows the XSD sequenceOffsets (30 < 170 < 200), not the displayed
+        # spec row order — Rule 0001.11 keeps those two orders independent.
+        self.readChapterModelChapterContent(element, parent, chapter_model)
+        self.readChapterModelTopic1(element, parent, chapter_model)
+        self.readChapterModelChapter(element, parent, chapter_model)
         return chapter_model
+
+    def readChapterOrMsrQuery(self, element: ET.Element, parent: Chapter, chapter_or_msr_query: ChapterOrMsrQuery):
+        """Read the inline CHAPTER-OR-MSR-QUERY payload (XSD group CHAPTER-OR-MSR-QUERY, 00052):
+        N CHAPTER elements and an optional MSR-QUERY-CHAPTER.
+
+        The inherited ARObject level is deliberately NOT read here: the XSD inlines this group into
+        the owning element, which already carries the AR-OBJECT attributeGroup, so there is no
+        element of its own to read S/T from. See the synthetic-wrapper note in Chapters.py.
+        """
+        for chapter_element in self.findall(element, "CHAPTER"):
+            chapter_or_msr_query.addChapter(self.readChapter(chapter_element, parent))
+        msr_query_chapter_element = self.find(element, "MSR-QUERY-CHAPTER")
+        if msr_query_chapter_element is not None:
+            chapter_or_msr_query.setMsrQueryChapter(self.readMsrQueryChapter(msr_query_chapter_element, parent))
+        return chapter_or_msr_query
+
+    def readTopicOrMsrQuery(self, element: ET.Element, parent: Chapter, topic_or_msr_query: TopicOrMsrQuery):
+        """Read the inline TOPIC-OR-MSR-QUERY payload (XSD group TOPIC-OR-MSR-QUERY, 00052):
+        N TOPIC-1 elements and an optional MSR-QUERY-TOPIC-1.
+
+        The inherited ARObject level is deliberately NOT read here: the XSD inlines this group into
+        the owning element, which already carries the AR-OBJECT attributeGroup, so there is no
+        element of its own to read S/T from. See the synthetic-wrapper note in Chapters.py.
+        """
+        for topic_element in self.findall(element, "TOPIC-1"):
+            topic_or_msr_query.addTopic1(self.readTopic1(topic_element, parent))
+        msr_query_topic1_element = self.find(element, "MSR-QUERY-TOPIC-1")
+        if msr_query_topic1_element is not None:
+            topic_or_msr_query.setMsrQueryTopic1(self.readMsrQueryTopic1(msr_query_topic1_element, parent))
+        return topic_or_msr_query
 
     def readPredefinedChapter(self, element: ET.Element) -> PredefinedChapter:
         predefined = PredefinedChapter()
+        self.readARObject(element, predefined)
         chapter_model_element = self.find(element, "CHAPTER-MODEL")
         if chapter_model_element is not None:
             predefined.setChapterModel(self.readChapterModel(chapter_model_element, cast(Chapter, None)))
@@ -18736,9 +18825,15 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readMixedStringText(self, element: ET.Element, obj: AtpMixedString):
         """<<atpMixedString>>: the element text is the value (pure-text shape).
-        Whitespace is preserved verbatim."""
-        if element.text is not None and obj is not None:
-            obj.setMixedString(element.text)
+        Whitespace is preserved verbatim. In the MIXED shape (SUP/SUB-style child
+        elements present) saveToFile's pretty-printer pads the text node, so the
+        serializer's own padding is trimmed to return the modeled value."""
+        if element.text is None or obj is None:
+            return
+        text = element.text
+        if len(element) > 0:
+            text = text.strip()
+        obj.setMixedString(text)
 
     def readStringValue(self, element: ET.Element, string_value: StringValue):
         """Read an R3.2.3 <STRING-VALUE> element (Table 3.36): DEFINITION-REF followed by VALUE."""
@@ -18907,13 +19002,18 @@ class ARXMLParser(AbstractARXMLParser):
             instance_ref = self.getAnyInstanceRefFromElement(child_element)
         return instance_ref
 
+    def readAnyInstanceRef(self, element: ET.Element, instance_ref: AnyInstanceRef) -> AnyInstanceRef:
+        self.readARObject(element, instance_ref)
+        self.readVariationPointCapable(element, instance_ref)
+        instance_ref.setBaseRef(self.getChildElementOptionalRefType(element, "BASE-REF"))
+        for ref in self.getChildElementRefTypeList(element, "CONTEXT-ELEMENT-REF"):
+            instance_ref.addContextElementRef(ref)
+        instance_ref.setTargetRef(self.getChildElementOptionalRefType(element, "TARGET-REF"))
+        return instance_ref
+
     def getAnyInstanceRefFromElement(self, child_element: ET.Element) -> AnyInstanceRef:
         instance_ref = AnyInstanceRef()
-        instance_ref.setBaseRef(self.getChildElementOptionalRefType(child_element, "BASE-REF"))
-        for ref in self.getChildElementRefTypeList(child_element, "CONTEXT-ELEMENT-REF"):
-            instance_ref.addContextElementRef(ref)
-        instance_ref.setTargetRef(self.getChildElementOptionalRefType(child_element, "TARGET-REF"))
-        return instance_ref
+        return self.readAnyInstanceRef(child_element, instance_ref)
 
     def readEcucInstanceReferenceValue(self, element: ET.Element, value: EcucInstanceReferenceValue):
         self.readEcucAbstractReferenceValue(element, value)
@@ -20765,7 +20865,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readAliasNameSet(self, element: ET.Element, alias_set: AliasNameSet):
         self.readIdentifiable(element, alias_set)
-        for child_element in self.findall(element, "ALIAS-NAME-ASSIGNMENT"):
+        for child_element in self.findall(element, "ALIAS-NAMES/ALIAS-NAME-ASSIGNMENT"):
             assignment = AliasNameAssignment()
             alias_set.addAliasName(assignment)
             self.readAliasNameAssignment(child_element, assignment)

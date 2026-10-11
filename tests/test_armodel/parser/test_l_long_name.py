@@ -45,7 +45,9 @@ class TestLLongNameParser:
         element = ET.fromstring(
             '<ROOT xmlns="http://autosar.org/schema/r4.0">'
             "<MULTI-LANGUAGE-LONG-NAME>"
-            '<L-4 L="EN" SUP="up" SUB="down">long name text'
+            '<L-4 L="EN">long name text'
+            "<SUP>up</SUP>"
+            "<SUB>down</SUB>"
             '<TT TYPE="TT">term</TT>'
             "<E>emphasis</E>"
             "<IE>entry</IE>"

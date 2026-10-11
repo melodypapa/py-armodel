@@ -286,7 +286,7 @@ class TestSwCalprmRefProxyRoundTrip:
         axis_set = SwCalprmAxisSet()
         axis = SwCalprmAxis()
         props = SwAxisGrouped()
-        props.setSharedAxisTypeRef(_ref("SW-AXIS-TYPE", "/axis/types/shared"))
+        props.setSharedAxisTypeRef(_ref("APPLICATION-PRIMITIVE-DATA-TYPE", "/axis/types/shared"))
         props.setSwAxisIndex(_literal("1"))
         proxy = SwCalprmRefProxy()
         proxy.setArParameter(AutosarParameterRef().setLocalParameterRef(_ref("PARAMETER-DATA-PROTOTYPE", "/params/shift")))
@@ -2081,8 +2081,8 @@ class TestUnitWriter:
         child = parent[0]
         display_name = child.find("DISPLAY-NAME")
         assert display_name.text == "m"
-        assert display_name.attrib["SUB"] == "2"
-        assert display_name.attrib["SUP"] == "n"
+        assert display_name.find("SUB").text == "2"
+        assert display_name.find("SUP").text == "n"
 
     def test_write_unit_display_name_without_sub_sup_omits_attribs(self, writer):
         autosar = AUTOSAR.getInstance()
@@ -2095,8 +2095,8 @@ class TestUnitWriter:
 
         display_name = parent[0].find("DISPLAY-NAME")
         assert display_name.text == "s"
-        assert "SUB" not in display_name.attrib
-        assert "SUP" not in display_name.attrib
+        assert display_name.find("SUB") is None
+        assert display_name.find("SUP") is None
 
     def test_unit_display_name_round_trip(self):
         import os

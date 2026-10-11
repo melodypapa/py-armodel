@@ -1437,10 +1437,16 @@ class TestModuleConfigurationWrite:
         """
         Write an ARPackage holding a ModuleConfiguration, reparse it, and assert
         the field values survive (R3.2.3 Table 3.30; ARPackage.element aggregation).
+        The release is 3.2.3: MODULE-CONFIGURATION is an AR-PACKAGE element only in
+        the R3.2.3 schema (the R23-11 ELEMENTS choice does not know it), so the
+        XSD gate validates against the bundled R3.2.3 schema (Rule 0027).
         """
-        AUTOSAR.getInstance().setARRelease("R23-11")
         document = AUTOSAR.getInstance()
         document.clear()
+        # setARRelease AFTER clear(): clear() resets schema_location, and the
+        # R3.2.3 schemaLocation is what routes the gate to the bundled
+        # R3.2.3 schema (Rule 0027).
+        AUTOSAR.getInstance().setARRelease("3.2.3")
         pkg = document.createARPackage("Pkg")
         module_configuration = pkg.createModuleConfiguration("Os")
         module_configuration.setDefinitionRef(_ref("/TS_T19D1M6I1R0_AS403/Os", "MODULE-DEF"))

@@ -101,8 +101,8 @@ class TestMixedContentForLongNameWriter:
         assert written.find("TT") is not None
         assert written.find("E") is not None
         assert written.find("IE") is not None
-        assert written.attrib["SUP"] == "up"
-        assert written.attrib["SUB"] == "down"
+        assert written.find("SUP").text == "up"
+        assert written.find("SUB").text == "down"
 
     def test_write_omits_group_when_unset(self):
         l4 = LLongName()
@@ -114,8 +114,8 @@ class TestMixedContentForLongNameWriter:
         assert written.find("TT") is None
         assert written.find("E") is None
         assert written.find("IE") is None
-        assert "SUP" not in written.attrib
-        assert "SUB" not in written.attrib
+        assert written.find("SUP") is None
+        assert written.find("SUB") is None
 
     def test_mixed_content_write_read_roundtrip(self):
         writer_element = ET.Element("ROOT")

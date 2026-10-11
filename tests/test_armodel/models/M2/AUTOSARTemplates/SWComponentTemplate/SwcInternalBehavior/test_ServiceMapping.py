@@ -410,6 +410,7 @@ class TestSwcServiceDependencyRoundTrip:
         fim_dep = behavior.createSwcServiceDependency("FimDep")
         fim = fim_dep.createFunctionInhibitionAvailabilityNeeds("FimNeeds")
         fim_ref = RefType()
+        fim_ref.setDest("FUNCTION-INHIBITION-NEEDS")
         fim_ref.setValue("/Fim/Ref")
         fim.setControlledFidRef(fim_ref)
 
@@ -469,6 +470,7 @@ class TestSwcServiceDependencyRoundTrip:
 
         port_assignment = RoleBasedPortAssignment()
         port_ref = RefType()
+        port_ref.setDest("R-PORT-PROTOTYPE")
         port_ref.setValue("/Port/Ref")
         port_role = Identifier()
         port_role.setValue("NvMService")
@@ -507,6 +509,7 @@ class TestSwcServiceDependencyRoundTrip:
         dependency = behavior.createSwcServiceDependency("Dep")
 
         port_group_ref = RefType()
+        port_group_ref.setDest("PORT-GROUP")
         port_group_ref.setValue("/PortGroup/Ref")
         dependency.setRepresentedPortGroupRef(port_group_ref)
 

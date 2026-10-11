@@ -12,9 +12,8 @@ class MemoryAllocationKeywordPolicyType(AREnum):
 
     # MemoryAllocationKeywordPolicyType method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.95, p.418
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # The MemorySection shortNames of referring MemorySections and therefore the belonging Memory Allocation Keywords in the code are build with the shortName of the SwAddrMethod. This is the default value if the attribute does not exist. Tags: atp.EnumerationLiteralIndex=0
     ADDR_METHOD_SHORT_NAME = "ADDR-METHOD-SHORT-NAME"
@@ -38,9 +37,8 @@ class MemorySectionType(AREnum):
 
     # MemorySectionType method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.94, p.418
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # This memory section is reserved for "virtual variables" that are computed by an MCD system during a measurement session but do not exist in the ECU memory. Tags: atp.EnumerationLiteralIndex=2
     CALIBRATION_VARIABLES = "CALIBRATION-VARIABLES"
@@ -84,17 +82,16 @@ class SwAddrMethod(AtpBlueprintable):
 
     # SwAddrMethod method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.92, p.414
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getMemoryAllocationKeywordPolicy [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMemoryAllocationKeywordPolicy [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getOptions                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addOption                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSectionInitializationPolicy [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSectionInitializationPolicy [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSectionType               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSectionType               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getMemoryAllocationKeywordPolicy [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMemoryAllocationKeywordPolicy [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOptions                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addOption                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSectionInitializationPolicy [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSectionInitializationPolicy [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSectionType               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSectionType               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)

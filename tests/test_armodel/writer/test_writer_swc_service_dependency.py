@@ -70,10 +70,11 @@ class TestWriteSwcServiceDependency:
         port_assignment = RoleBasedPortAssignment()
         port_ref = RefType()
         port_ref.setValue("/Pkg/Swc/Port")
+        port_ref.setDest("R-PORT-PROTOTYPE")
         port_assignment.setPortPrototypeRef(port_ref)
         dependency.AddAssignedPort(port_assignment)
 
-        dependency.setRepresentedPortGroupRef(RefType().setValue("/Pkg/PortGroup"))
+        dependency.setRepresentedPortGroupRef(RefType().setValue("/Pkg/PortGroup").setDest("PORT-GROUP"))
         dependency.createDltUserNeeds("DltNeeds")
 
         output = _write_to_string(dependency)
@@ -102,17 +103,17 @@ class TestWriteSwcServiceDependency:
         role = Identifier()
         role.setValue("ramMirror")
         data_assignment.setRole(role)
-        data_assignment.setUsedPimRef(RefType().setValue("/Pkg/Swc/IB/Pim"))
+        data_assignment.setUsedPimRef(RefType().setValue("/Pkg/Swc/IB/Pim").setDest("PER-INSTANCE-MEMORY"))
         dependency.AddAssignedData(data_assignment)
 
         port_assignment = RoleBasedPortAssignment()
-        port_assignment.setPortPrototypeRef(RefType().setValue("/Pkg/Swc/Port"))
+        port_assignment.setPortPrototypeRef(RefType().setValue("/Pkg/Swc/Port").setDest("R-PORT-PROTOTYPE"))
         port_role = Identifier()
         port_role.setValue("NvMService")
         port_assignment.setRole(port_role)
         dependency.AddAssignedPort(port_assignment)
 
-        dependency.setRepresentedPortGroupRef(RefType().setValue("/Pkg/PortGroup"))
+        dependency.setRepresentedPortGroupRef(RefType().setValue("/Pkg/PortGroup").setDest("PORT-GROUP"))
         dlt = dependency.createDltUserNeeds("DltNeeds")
 
         file_path = tempfile.mktemp(suffix=".arxml")

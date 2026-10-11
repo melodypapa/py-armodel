@@ -58,7 +58,7 @@ class TestWriteSenderReceiverInterfaceRoundTrip:
 
         policy = sr.createInvalidationPolicy()
         policy.setDataElementRef(_ref("VARIABLE-DATA-PROTOTYPE", "/Pkg/SR/de1"))
-        policy.setHandleInvalid(_literal("DISABLE"))
+        policy.setHandleInvalid(_literal("DONT-INVALIDATE"))
 
         mapping_set = MetaDataItemSet()
         mapping_set.addDataElementRef(_ref("VARIABLE-DATA-PROTOTYPE", "/Pkg/SR/de1"))
@@ -72,7 +72,7 @@ class TestWriteSenderReceiverInterfaceRoundTrip:
         policies = sr2.getInvalidationPolicies()
         assert len(policies) == 1
         assert policies[0].getDataElementRef().getValue() == "/Pkg/SR/de1"
-        assert policies[0].getHandleInvalid().getValue() == "DISABLE"
+        assert policies[0].getHandleInvalid().getValue() == "DONT-INVALIDATE"
 
         sets = sr2.getMetaDataItemSets()
         assert len(sets) == 1

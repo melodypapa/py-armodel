@@ -24,6 +24,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     RefType,
     TimeValue,
 )
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 
@@ -109,6 +110,23 @@ class TestBswVariableAccess:
         limitations = points[0].getContextLimitationRefs()
         assert len(limitations) == 1
         assert limitations[0].getValue() == "/Pkg/Part1"
+
+    def test_round_trip_variation_point(self, tmp_path):
+        document, behavior = _make_behavior()
+        entity = behavior.createBswSchedulableEntity("Ent")
+        entity.setImplementedEntryRef(_ref("/Pkg/Entry", "BSW-MODULE-ENTRY"))
+        point = entity.createDataSendPoint("Dsp")
+        point.setAccessedVariableRef(_ref("/Pkg/Vdp", "VARIABLE-DATA-PROTOTYPE"))
+        variation_point = VariationPoint()
+        variation_point.setShortLabel(Identifier().setValue("vpLabel"))
+        point.setVariationPoint(variation_point)
+
+        raw, behavior_2 = _reload(tmp_path, document, "dsp_vp.arxml")
+        entity_2 = behavior_2.getBswSchedulableEntities()[0]
+        point_2 = entity_2.getDataSendPoints()[0]
+        assert point_2.getVariationPoint() is not None
+        assert point_2.getVariationPoint().getShortLabel().getValue() == "vpLabel"
+        assert raw.index("ACCESSED-VARIABLE-REF") < raw.index("VARIATION-POINT")
 
     def test_round_trip_empty_wrapper(self, tmp_path):
         document, behavior = _make_behavior()

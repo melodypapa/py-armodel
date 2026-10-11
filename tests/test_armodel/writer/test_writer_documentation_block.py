@@ -6,6 +6,7 @@ import xml.etree.ElementTree as ET
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.DocumentationOnM1 import StandardNameEnum
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Enumerations import XmlSpaceEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DateTime, NameToken, RefType, String
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
 from armodel.models.M2.MSR.Documentation.BlockElements.Formula import MlFormula
@@ -69,8 +70,8 @@ class TestDocumentationBlockRoundTrip:
         structured_req.setVariationPoint(VariationPoint())
         intro.setStructuredReq(structured_req)
 
-        def_item = DefItem()
         def_list = DefList()
+        def_item = DefItem(def_list, "DefItem1")
         def_list.addDefItem(def_item)
         intro.setDefList(def_list)
 
@@ -89,6 +90,9 @@ class TestDocumentationBlockRoundTrip:
         l5 = LVerbatim()
         l5.setL("EN")
         l5.setValue("verbatim text")
+        # xml:space is use="required" on L-VERBATIM (WHITESPACE-CONTROLLED group);
+        # the writer emits only what the model holds, so the caller sets it.
+        l5.setXmlSpace(XmlSpaceEnum().setValue(XmlSpaceEnum.PRESERVE))
         verbatim.addL5(l5)
         verbatim.setFloat(FloatEnum().setValue(FloatEnum.NO_FLOAT))
         verbatim.setPgwide(PgwideEnum().setValue(PgwideEnum.PGWIDE))

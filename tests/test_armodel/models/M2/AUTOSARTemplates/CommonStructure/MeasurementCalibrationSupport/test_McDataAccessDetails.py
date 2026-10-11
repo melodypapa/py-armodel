@@ -8,9 +8,10 @@ from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 
 
-def make_ref(value: str) -> RefType:
+def make_ref(value: str, dest: str) -> RefType:
     ref = RefType()
     ref.setValue(value)
+    ref.setDest(dest)
     return ref
 
 
@@ -78,14 +79,14 @@ class TestMcDataAccessDetailsRoundTrip:
         """Test parse -> write -> re-parse of populated rteEventIRefs and variableAccessIRefs."""
         details = McDataAccessDetails()
         rte_iref = RteEventInEcuInstanceRef()
-        rte_iref.setContextRootCompositionRef(make_ref("/Root"))
-        rte_iref.setContextAtomicComponentRef(make_ref("/Root/Comp"))
-        rte_iref.setTargetRteEventRef(make_ref("/Root/Comp/Evt"))
+        rte_iref.setContextRootCompositionRef(make_ref("/Root", "ROOT-SW-COMPOSITION-PROTOTYPE"))
+        rte_iref.setContextAtomicComponentRef(make_ref("/Root/Comp", "SW-COMPONENT-PROTOTYPE"))
+        rte_iref.setTargetRteEventRef(make_ref("/Root/Comp/Evt", "RTE-EVENT"))
         details.addRteEventIRef(rte_iref)
         var_iref = VariableAccessInEcuInstanceRef()
-        var_iref.setContextRootCompositionRef(make_ref("/Root"))
-        var_iref.setContextAtomicComponentRef(make_ref("/Root/Comp"))
-        var_iref.setTargetVariableAccessRef(make_ref("/Root/Comp/Var"))
+        var_iref.setContextRootCompositionRef(make_ref("/Root", "ROOT-SW-COMPOSITION-PROTOTYPE"))
+        var_iref.setContextAtomicComponentRef(make_ref("/Root/Comp", "SW-COMPONENT-PROTOTYPE"))
+        var_iref.setTargetVariableAccessRef(make_ref("/Root/Comp/Var", "VARIABLE-ACCESS"))
         details.addVariableAccessIRef(var_iref)
 
         file_path = tempfile.mktemp(suffix=".arxml")

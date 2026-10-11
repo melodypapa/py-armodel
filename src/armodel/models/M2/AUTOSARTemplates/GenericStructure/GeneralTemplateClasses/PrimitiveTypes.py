@@ -380,9 +380,8 @@ class SectionInitializationPolicyType(ARLiteral):
 
     # SectionInitializationPolicyType method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.93, p.417
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # To be used for (explicitly or not explicitly) initialized variables.
     INIT = "INIT"
@@ -1197,7 +1196,6 @@ class ArgumentDirectionEnum(AREnum):
 
     # ArgumentDirectionEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.9, p.104
-    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # (no methods) — serialized as an attribute value on the consuming class
@@ -1212,9 +1210,6 @@ class ArgumentDirectionEnum(AREnum):
     OUT = "OUT"
 
     def __init__(self):
-        """
-        Initializes an ArgumentDirectionEnum instance with the spec-defined literals.
-        """
         super().__init__((ArgumentDirectionEnum.IN, ArgumentDirectionEnum.INOUT, ArgumentDirectionEnum.OUT))
 
 

@@ -25,6 +25,15 @@ eyeball these — see Rule 0024 / 0025 in rules.md):
            Rule 0013.1 forbids calling it *twice*; this catches never calling it
            at all, which is the same silent data loss in the other direction.
 
+  MEMBER   the reader/writer pair for the class reaches the reader/writer helper
+           of every class it aggregates (`List[M]` / `Optional[M]` members in
+           `__init__`/`clear`, `createXxx` results, and mixin class-level
+           members such as `VariationPointCapable.variationPoint`). A shared
+           helper's existence is not evidence an aggregator calls it (Rule
+           0001.7): a member whose helper is unreachable from the entry point
+           is silently dropped on round-trip. Members with no helper of their
+           own (inline emission per Rule 0025) only warn.
+
   DOC      `__init__` carries no docstring (Rule 0012.2.4). A `Tags:`/`Stereotypes:`
            tail in a class / `__init__` member / accessor docstring is **expected**
            and reported as INFO — the spec `Note` is copied verbatim including the
@@ -33,6 +42,11 @@ eyeball these — see Rule 0024 / 0025 in rules.md):
   SPECLINE the `# Spec:` line is in canonical Rule 0002 form for a single-corpus
            class, or the R4.3.1-fallback form, or an explicit dual-line combine
            case (Rule 0019).
+
+  SPEC-BASE the model class derives the most-derived base named by the spec
+           table's Base row. An under-derived class (DefItem on ARObject where
+           Table 9.16 ends in Referrable) silently drops the inherited
+           SHORT-NAME from its XML while every checklist row reads [x].
 
   STAMP    `# Spec verified:` / `# XSD verified:` is present iff every row is
            `[x]`. A marker over unfinished rows certifies work that was never
@@ -481,6 +495,172 @@ def check_citation(rep: Report, cls: str, blk_lines: Sequence[str]) -> None:
     rep.fail("CITATION", "`# Spec:` cites %s, Table %s, captioned %s — that table does not define %s and no other table in the corpus does either" % (doc, table_id, "/".join(captions), cls))
 
 
+@lru_cache(maxsize=None)
+def _spec_base_rows() -> Dict[Tuple[str, str, str], Optional[Tuple[str, ...]]]:
+    """{(corpus, doc, table id): Base-row class names} extracted from the corpus.
+
+    Page-split rendering repeats a table's caption around page-break images and
+    may split the body into several '|' blocks. Each block is attributed to the
+    NEAREST caption (the page-split layout always puts a table's body adjacent to
+    one of its own captions), and a table id's Base row is the merge of its
+    attributed blocks' rows. Tables with no attributed Base row map to None.
+    """
+    out: Dict[Tuple[str, str, str], Optional[Tuple[str, ...]]] = {}
+    caption_re = re.compile(r"^#{0,3}\s*Table\s+([0-9A-Z]+\.[0-9]+):\s*(.+)$")
+    for corpus in ("R23-11", "R4.3.1"):
+        base = _REPO_ROOT / "autosar" / corpus / "markdown"
+        if not base.is_dir():
+            continue
+        for path in sorted(base.glob("*.md")):
+            lines = path.read_text(encoding="utf-8", errors="replace").splitlines()
+            blocks: List[Tuple[int, int]] = []
+            i = 0
+            while i < len(lines):
+                if lines[i].lstrip().startswith("|"):
+                    j = i
+                    while j < len(lines) and lines[j].lstrip().startswith("|"):
+                        j += 1
+                    blocks.append((i, j))
+                    i = j
+                else:
+                    i += 1
+            caps: List[Tuple[int, str]] = []
+            for k, line in enumerate(lines):
+                m = caption_re.match(line)
+                if m:
+                    caps.append((k, m.group(1)))
+            attributed: Dict[str, List[str]] = {}
+            for b_start, b_end in blocks:
+                if not caps:
+                    break
+                mid = (b_start + b_end - 1) / 2
+                pos, table_id = min(caps, key=lambda c: abs(c[0] - mid))
+                for line in lines[b_start:b_end]:
+                    cells = [c.strip() for c in line.strip().strip("|").split("|")]
+                    if cells and cells[0].lower() == "base":
+                        for cell in cells[1:]:
+                            for n in cell.split(","):
+                                n = n.strip()
+                                if n and n != "-" and n not in attributed.setdefault(table_id, []):
+                                    attributed[table_id].append(n)
+            for table_id, names in attributed.items():
+                out[(corpus, path.stem, table_id)] = tuple(names) if names else None
+    return out
+
+
+def _late_binds() -> Dict[str, List[str]]:
+    """Classes rebased at import time via `ClassName.__bases__ = (...)`.
+
+    The ARElement late-bind (ARPackage.py) gives classes like AclPermission their
+    real base only at runtime — invisible to a pure AST base walk, which makes an
+    under-derived verdict a false positive for every late-bound class."""
+    out: Dict[str, List[str]] = {}
+    for p in MODELS_DIR.rglob("*.py"):
+        try:
+            t = ast.parse(read(p))
+        except SyntaxError:
+            continue
+        for n in ast.walk(t):
+            if not isinstance(n, ast.Assign) or len(n.targets) != 1:
+                continue
+            target = n.targets[0]
+            if not (isinstance(target, ast.Attribute) and target.attr == "__bases__" and isinstance(target.value, ast.Name)):
+                continue
+            value = n.value
+            names = []
+            if isinstance(value, ast.Tuple):
+                names = [e.id for e in value.elts if isinstance(e, ast.Name)]
+            elif isinstance(value, ast.Name):
+                names = [value.id]
+            if names:
+                out.setdefault(target.value.id, names)
+    return out
+
+
+def _ancestor_closure(cls: str, base_map: Dict[str, List[str]]) -> Set[str]:
+    seen: Set[str] = set()
+    frontier = list(base_map.get(cls, []))
+    while frontier:
+        b = frontier.pop(0)
+        if b in seen:
+            continue
+        seen.add(b)
+        frontier.extend(base_map.get(b, []))
+    return seen
+
+
+def _most_derived(candidates: Set[str], base_map: Dict[str, List[str]]) -> Optional[str]:
+    """The candidate that has all the others as ancestors, or None when ambiguous."""
+    best: Optional[str] = None
+    for c in candidates:
+        others = candidates - {c}
+        if others <= _ancestor_closure(c, base_map):
+            return c
+        if best is None or len(_ancestor_closure(c, base_map) & candidates) > len(_ancestor_closure(best, base_map) & candidates):
+            best = c
+    return best
+
+
+def check_spec_base(rep: Report, cls: str, blk_lines: Sequence[str], enum: bool) -> None:
+    """Rule 0001.2, mechanical: the model class must derive the most-derived base
+    the spec table's Base row names.
+
+    The round-trip tests and the field↔spec cross-check are blind to a wrong base:
+    an under-derived class (DefItem modeled on plain ARObject where Table 9.16's
+    Base row ends in Referrable) silently drops the inherited SHORT-NAME from its
+    XML — and its checklist can still read all-[x]. The Base row lists the whole
+    inheritance chain flattened; the most-derived name in it that is modeled in
+    the repo is what the class must actually inherit from. The row may flatten a
+    multi-inheritance chain the linear repo model cannot express exactly — the
+    most-derived pick is then best-effort, and the FAIL is the prompt to decide
+    the layout, not a mechanical verdict. Page-split attribution of the row is
+    heuristic too; triage belongs in the audit baseline, not in silent skips."""
+    if enum:
+        return
+    specs = [x for x in blk_lines if x.startswith("# Spec:")]
+    if not specs or "xsd" in specs[0]:
+        return
+    m = _CITATION_RE.search(specs[0])
+    if not m:
+        return
+    platform, template, table_id = m.group(1), m.group(2), m.group(3)
+    corpus = "R4.3.1" if platform is None else "R23-11"
+    doc = f"AUTOSAR_{platform}_TPS_{template}" if platform else f"AUTOSAR_TPS_{template}"
+    row = _spec_base_rows().get((corpus, doc, table_id))
+    if row is None:
+        rep.info("SPEC-BASE", "Table %s of %s carries no readable Base row — base verified by 9b eye check" % (table_id, doc))
+        return
+    base_map = _model_base_map()
+    if _is_value_carried(cls, base_map):
+        return
+    modeled = {n for n in row if n in base_map}
+    if not modeled:
+        rep.info("SPEC-BASE", "Base row %s names no modeled class — base verified by 9b eye check" % ", ".join(row))
+        return
+    spec_top = _most_derived(modeled, base_map)
+    if spec_top is None:
+        rep.warn("SPEC-BASE", "Base row %s has no unambiguous most-derived modeled class — verify by hand" % ", ".join(sorted(modeled)))
+        return
+    # Late-bound classes get their real base only at import time; judge them by
+    # the effective chain, not the AST declaration.
+    late = _late_binds().get(cls)
+    effective_map = dict(base_map)
+    if late:
+        effective_map[cls] = late
+    chain = {cls} | _ancestor_closure(cls, effective_map)
+    reachable = chain & modeled
+    if not reachable:
+        rep.fail("SPEC-BASE", "%s derives none of the spec Base row's modeled classes %s — the inheritance chain (e.g. Referrable's SHORT-NAME) is silently absent" % (cls, ", ".join(sorted(modeled))))
+        return
+    model_top = _most_derived(reachable, effective_map)
+    if model_top == spec_top:
+        rep.ok("SPEC-BASE", "derives %s — the most-derived modeled class of the Base row" % model_top)
+    elif model_top in _ancestor_closure(spec_top, base_map) | {spec_top}:
+        rep.fail("SPEC-BASE", "%s derives %s but the Base row's most-derived modeled class is %s — under-derived; %s's inherited members (SHORT-NAME, UUID, …) never serialize" % (cls, model_top, spec_top, spec_top))
+    else:
+        rep.warn("SPEC-BASE", "%s derives %s, outside the Base row's modeled set %s — over-derivation or recorded deviation; verify by hand" % (cls, model_top, ", ".join(sorted(modeled))))
+
+
 def check_stamp(rep: Report, blk_lines: Sequence[str]) -> None:
     spec_ver = [x for x in blk_lines if x.startswith("# Spec verified:")]
     xsd_ver = [x for x in blk_lines if x.startswith("# XSD verified:")]
@@ -696,11 +876,18 @@ def _entry_points(mc: Dict[str, Set[str]], primaries: Sequence[str], hooks: Sequ
 # depth 5 and unbounded find nothing extra — so a deeper walk would only make the
 # check more permissive without surfacing another real gap.
 _REACH_DEPTH = 3
+# Member dispatch nests deeper than base-helper delegation ("Dispatch nests — a
+# subtype that itself aggregates is its own dispatcher", Rule 0001.7): the System
+# chapter path alone is 4 hops (readSystem → readSystemDocumentations →
+# readSystemDocumentation → readSwComponentDocumentationElement → createChapter).
+# Member targets are member-name-specific (unlike the generic readARObject), so a
+# deeper walk stays safe here.
+_MEMBER_REACH_DEPTH = 6
 
 
 @lru_cache(maxsize=None)
-def _reaches(side: str, fn: str, targets: frozenset) -> bool:
-    """Does `fn` call one of `targets`, directly or via <= _REACH_DEPTH helpers?
+def _reaches(side: str, fn: str, targets: frozenset, depth: int = _REACH_DEPTH) -> bool:
+    """Does `fn` call one of `targets`, directly or via <= `depth` helpers?
 
     Delegation is normal in this codebase (a reader for a concrete class often
     calls a helper for a base class, which is what calls readIdentifiable), so a
@@ -713,23 +900,23 @@ def _reaches(side: str, fn: str, targets: frozenset) -> bool:
     seen = {fn}
     frontier = [(fn, 0)]
     while frontier:
-        cur, depth = frontier.pop()
-        if depth >= _REACH_DEPTH:
+        cur, d = frontier.pop()
+        if d >= depth:
             continue
         for nxt in graph.get(cur, ()):
             if nxt in targets:
                 return True
             if nxt not in seen:
                 seen.add(nxt)
-                frontier.append((nxt, depth + 1))
+                frontier.append((nxt, d + 1))
     return False
 
 
-def _reaches_any(side: str, entry_points: Sequence[str], targets: Set[str]) -> Optional[str]:
+def _reaches_any(side: str, entry_points: Sequence[str], targets: Set[str], depth: int = _REACH_DEPTH) -> Optional[str]:
     """The first entry point that reaches one of `targets`, directly or transitively."""
     frozen = frozenset(targets)
     for fn in entry_points:
-        if _reaches(side, fn, frozen):
+        if _reaches(side, fn, frozen, depth):
             return fn
     return None
 
@@ -832,6 +1019,311 @@ def check_base(rep: Report, cls: str, node: ast.ClassDef, enum: bool) -> None:
 
 
 # --------------------------------------------------------------------------- #
+# MEMBER — Rule 0001.7: the aggregator must dispatch to every member class
+# --------------------------------------------------------------------------- #
+
+_TYPING_CONTAINERS = {"Optional", "List", "Dict", "Set", "Tuple", "Union", "Callable", "Type", "Sequence", "Iterable", "Final", "ClassVar"}
+# Value-carried roots: a class whose base chain reaches one of these is serialized
+# as element text or an attribute value (Rule 0013.2) and has no member helper to
+# dispatch to — refs (`RefType`), enums, literals, primitives. `RefType` breaks the
+# chain rule (it derives from `ARObject`, not the literal family) but is carried as
+# an element's text + DEST attribute via getChildElementOptionalRefType; TRefType/
+# IRefType inherit from it and are covered transitively.
+_VALUE_CARRIED_ROOTS = {"ARLiteral", "AREnum", "ARType", "RefType"}
+
+# Capability aliases: a mixin-sourced member may be dispatched through the
+# capability helper instead of the member's own — `readVariationPointCapable`
+# reads the VARIATION-POINT element and calls setVariationPoint internally, so
+# reaching it is as good as reaching readVariationPoint (Rule 0025 naming).
+_MEMBER_ALIASES = {("parser", "VariationPoint"): ("readVariationPointCapable",), ("writer", "VariationPoint"): ("writeVariationPointCapable",)}
+
+
+@lru_cache(maxsize=None)
+def _xsd_text() -> str:
+    p = _REPO_ROOT / "autosar" / "R23-11" / "xsd" / "AUTOSAR_00052.xsd"
+    return read(p) if p.exists() else ""
+
+
+@lru_cache(maxsize=None)
+def _xsd_group_declares(cls: str, element: str) -> str:
+    """Does the class's UPPER_SNAKE element group in the R23-11 XSD declare `element`?
+
+    Returns "declares" | "lacks" | "unmapped". The mixin capability is applied
+    repo-wide in the model, but the XSD decides per class whether it is active
+    (Rule 0015: the schema is the serialization source of truth) — so a missing
+    dispatch only fails when the schema actually allows the element.
+    """
+    text = _xsd_text()
+    if not text:
+        return "unmapped"
+    upper = re.sub(r"(?<=[a-z0-9])(?=[A-Z])", "-", cls).upper()
+    m = re.search(r'<xsd:group name="%s">' % re.escape(upper), text)
+    if not m:
+        return "unmapped"
+    end = text.find("</xsd:group>", m.end())
+    return "declares" if element in text[m.end():end] else "lacks"
+
+
+@lru_cache(maxsize=None)
+def _model_class_stored() -> Dict[str, Tuple[Tuple[str, str], ...]]:
+    """(member type, attribute cap) pairs from class-level annotated defaults.
+
+    The mixin pattern (Rule 0020/0021) declares members as class-level annotated
+    defaults — `VariationPointCapable.variationPoint: Optional[VariationPoint] = None`
+    — which never appear in a concrete class's `__init__`; without this map a mixin
+    capability is invisible to the member check, and the exact shape that silently
+    dropped VARIATION-POINT on `BswVariableAccess` passes unnoticed. Storage — not
+    lookup getters — defines membership."""
+    out: Dict[str, Tuple[Tuple[str, str], ...]] = {}
+    for p in MODELS_DIR.rglob("*.py"):
+        try:
+            t = ast.parse(read(p))
+        except SyntaxError:
+            continue
+        for n in ast.walk(t):
+            if isinstance(n, ast.ClassDef):
+                pairs: List[Tuple[str, str]] = []
+                for item in n.body:
+                    if isinstance(item, ast.AnnAssign):
+                        target = item.target.id if isinstance(item.target, ast.Name) else None
+                        cap = (target[0].upper() + target[1:]) if target else None
+                        for tn in _annotation_type_names(item.annotation):
+                            pairs.append((tn, cap or tn))
+                out.setdefault(n.name, tuple(pairs))
+    return out
+
+
+@lru_cache(maxsize=None)
+def _model_class_accessors() -> Dict[str, Tuple[Tuple[str, str], ...]]:
+    """(member type, accessor name) pairs from accessor method annotations.
+
+    A `get*` return or `set*`/`add*` parameter typed with the member names the
+    exact call the parser/writer makes — however the attribute is spelled
+    (`self.data_constr_rule` is read through `getDataConstrRules`). These refine
+    the dispatch evidence for stored members; they never create members."""
+    out: Dict[str, Tuple[Tuple[str, str], ...]] = {}
+    for p in MODELS_DIR.rglob("*.py"):
+        try:
+            t = ast.parse(read(p))
+        except SyntaxError:
+            continue
+        for n in ast.walk(t):
+            if isinstance(n, ast.ClassDef):
+                pairs: List[Tuple[str, str]] = []
+                for fn in n.body:
+                    if not isinstance(fn, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                        continue
+                    if fn.name.startswith(("get", "create")) and fn.returns is not None:
+                        for tn in _annotation_type_names(fn.returns):
+                            pairs.append((tn, fn.name))
+                    elif fn.name.startswith(("set", "add")) and len(fn.args.args) > 1 and fn.args.args[1].annotation is not None:
+                        for tn in _annotation_type_names(fn.args.args[1].annotation):
+                            pairs.append((tn, fn.name))
+                out.setdefault(n.name, tuple(pairs))
+    return out
+
+
+def _annotation_type_names(ann: Optional[ast.expr]) -> List[str]:
+    """Inner type names of an annotation: `X`, `Optional[X]`, `List[X]`, quoted `"X"`."""
+    if isinstance(ann, ast.Constant) and isinstance(ann.value, str):
+        return [ann.value] if ann.value.isidentifier() else []
+    if isinstance(ann, ast.Name):
+        return [ann.id]
+    if isinstance(ann, ast.Attribute):
+        return [ann.attr]
+    if isinstance(ann, ast.Subscript):
+        return _annotation_type_names(ann.slice)
+    if isinstance(ann, ast.Tuple):
+        out: List[str] = []
+        for elt in ann.elts:
+            out.extend(_annotation_type_names(elt))
+        return out
+    return []
+
+
+def _is_value_carried(cls: str, base_map: Dict[str, List[str]]) -> bool:
+    seen: Set[str] = set()
+    frontier = [cls]
+    while frontier:
+        cur = frontier.pop()
+        if cur in _VALUE_CARRIED_ROOTS:
+            return True
+        if cur in seen:
+            continue
+        seen.add(cur)
+        frontier.extend(base_map.get(cur, []))
+    return False
+
+
+def _member_candidates(node: ast.ClassDef, base_map: Dict[str, List[str]]) -> Dict[str, Set[str]]:
+    """Every aggregated member class of `node` mapped to the accessor names it is
+    read/written through ({member: {accessorName, ...}}).
+
+    Membership comes from STORAGE: `__init__`/`clear` annotated assignments
+    (attribute-cap fallback), base-chain class-level defaults (`_model_class_stored`
+    — the mixin pattern), and `createXxx` return types (registry aggregators).
+    Accessor methods (`_model_class_accessors`, own + base chain) then name the
+    exact calls the reader/writer makes — however the attribute is spelled
+    (`self.data_constr_rule` is read through `getDataConstrRules`). Lookup-style
+    getters never create members."""
+    caps: Dict[str, Set[str]] = {}
+    for fn in node.body:
+        if isinstance(fn, (ast.FunctionDef, ast.AsyncFunctionDef)) and fn.name.startswith("create") and fn.returns is not None:
+            for tn in _annotation_type_names(fn.returns):
+                caps.setdefault(tn, set()).add(fn.name)
+    for n in ast.walk(node):
+        if isinstance(n, ast.AnnAssign):
+            target = n.target
+            attr = target.attr if isinstance(target, ast.Attribute) else (target.id if isinstance(target, ast.Name) else None)
+            cap = attr[0].upper() + attr[1:] if attr else None
+            for tn in _annotation_type_names(n.annotation):
+                caps.setdefault(tn, set()).add(cap or tn)
+    seen: Set[str] = {node.name}
+    frontier = list(base_map.get(node.name, []))
+    while frontier:
+        b = frontier.pop(0)
+        if b in seen:
+            continue
+        seen.add(b)
+        for tn, cap in _model_class_stored().get(b, ()):
+            caps.setdefault(tn, set()).add(cap)
+        frontier.extend(base_map.get(b, []))
+    for cls_or_base in [node.name] + [b for b in _all_bases(node.name, base_map)]:
+        for tn, acc in _model_class_accessors().get(cls_or_base, ()):
+            if tn in caps:
+                caps[tn].add(acc)
+    out: Dict[str, Set[str]] = {}
+    for name, cs in caps.items():
+        if name in _TYPING_CONTAINERS or name not in base_map or _is_value_carried(name, base_map):
+            continue
+        out[name] = cs
+    return out
+
+
+def _all_bases(cls: str, base_map: Dict[str, List[str]]) -> List[str]:
+    seen: Set[str] = set()
+    frontier = list(base_map.get(cls, []))
+    while frontier:
+        b = frontier.pop(0)
+        if b in seen:
+            continue
+        seen.add(b)
+        frontier.extend(base_map.get(b, []))
+    return list(seen)
+
+
+def check_members(rep: Report, cls: str, node: ast.ClassDef, enum: bool) -> None:
+    """Rule 0001.7, mechanical: a shared helper's existence is not evidence an
+    aggregator calls it. Every aggregated member class's reader/writer helper must
+    be reachable from the class's own reader/writer entry point — the same
+    confirmed-vs-guessed entry-point semantics as BASE, at the deeper dispatch
+    nesting members legitimately use.
+
+    Reader-side coverage accepts helper dispatch OR inline construction (the
+    parser calling the model's `create<Member>` factory or constructing the member
+    directly). Writer-side inline emission is mechanically invisible — getters
+    carry no member name — so a writer FAIL is a hand-verify prompt, exactly like
+    BASE's indirect-reach warnings."""
+    base_map = _model_base_map()
+    if enum or _is_value_carried(cls, base_map):
+        rep.ok("MEMBER", "value-carried type — serialized as text/attribute value, no member dispatch of its own")
+        return
+    members = _member_candidates(node, base_map)
+    if not members:
+        rep.ok("MEMBER", "no aggregated member classes")
+        return
+    pcalls = collect_calls(PARSER)
+    wcalls = collect_calls(WRITER)
+    if not pcalls or not wcalls:
+        rep.warn("MEMBER", "parser/writer source not found — skipped")
+        return
+    known_r = known_helper_names(PARSER, ABSTRACT_PARSER)
+    known_w = known_helper_names(WRITER, ABSTRACT_WRITER)
+    confirmed_r = [f for f in ("read" + cls, "get" + cls) if f in pcalls]
+    confirmed_w = [f for f in ("write" + cls, "set" + cls) if f in wcalls]
+    r_pts = confirmed_r or _entry_points(pcalls, ("read" + cls, "get" + cls), (cls, "create" + cls, "get" + cls), cls)
+    w_pts = confirmed_w or _entry_points(wcalls, ("write" + cls, "set" + cls), ("get" + cls, "set" + cls, "create" + cls), cls)
+
+    for side, entry_pts, confirmed, known_fns, verb in (("parser", r_pts, confirmed_r, known_r, "reader"), ("writer", w_pts, confirmed_w, known_w, "writer")):
+        have, lack = [], []
+        for m, maccs in members.items():
+            pref = "read" if side == "parser" else "write"
+            alt = "get" if side == "parser" else "set"
+            # Reader side: building the member inline is legitimate coverage too —
+            # through the model's create factory (`documentation.createChapter`), by
+            # constructing it directly (`AnyInstanceRef()`), or via the attribute's
+            # mutators (`props.setCrcFlags`). Writer side: emission always goes
+            # through a model accessor (`props.getCrcFlags()`, `getDataConstrRules`)
+            # even when the element is emitted inline — those accessor names are the
+            # evidence for otherwise-invisible inline emission.
+            mutators = tuple(a for a in maccs if a.startswith(("set", "add"))) if side == "parser" else ()
+            getters = tuple(a for a in maccs if a.startswith("get")) if side == "writer" else ()
+            extra = ((m, "create" + m) + mutators + getters) if side == "parser" else (mutators + getters)
+            targets = {t for t in (pref + m, alt + m) + _MEMBER_ALIASES.get((side, m), ()) + extra if t in known_fns or t in extra}
+            if not targets:
+                lack.append(m)
+            else:
+                have.append((m, targets))
+        if lack:
+            rep.warn(
+                "MEMBER",
+                "%d aggregated member class(es) of %s own no %s helper — inline emission is legitimate (Rule 0025 naming); verify their attributes are covered: %s"
+                % (len(lack), cls, verb, ", ".join(sorted(lack)[:6])),
+            )
+        if not entry_pts:
+            rep.warn("MEMBER", "no %s entry point found for %s — cannot verify dispatch of %d member class(es): %s" % (verb, cls, len(have), ", ".join(sorted(m for m, _ in have)[:6])))
+            continue
+        if not have:
+            rep.ok("MEMBER", "%s dispatch — no %s-helper members to verify (%d member(s) are inline-emitted or value-carried)" % (verb, verb, len(lack)))
+            continue
+        reached_direct: List[str] = []
+        reached_indirect: List[str] = []
+        missing: List[str] = []
+        dormant: List[str] = []
+        for m, targets in have:
+            frozen = frozenset(targets)
+            hit_fn = _reaches_any(side, entry_pts, set(targets), _MEMBER_REACH_DEPTH)
+            if hit_fn is None:
+                # The mixin capability is applied repo-wide in the model but the XSD
+                # decides per class whether the element exists at all (Rule 0015) —
+                # a missing dispatch on a group that lacks the element is a dormant
+                # capability, warned not failed.
+                if m == "VariationPoint" and _xsd_group_declares(cls, "VARIATION-POINT") in ("lacks", "unmapped"):
+                    dormant.append(m)
+                else:
+                    missing.append(m)
+            elif frozen & collect_calls(PARSER if side == "parser" else WRITER)[hit_fn]:
+                reached_direct.append(m)
+            else:
+                reached_indirect.append(m)
+        if dormant:
+            rep.warn(
+                "MEMBER",
+                "%s does not dispatch %s (mixin capability) but the class's XSD group does not declare VARIATION-POINT / is unmapped — capability dormant, confirm the schema lookup: %s"
+                % (verb, ", ".join(sorted(dormant)), cls),
+            )
+        if missing:
+            detail = ", ".join(sorted(missing)[:8])
+            if confirmed:
+                rep.fail(
+                    "MEMBER",
+                    "%s entry point(s) %s never dispatch to %d aggregated member class helper(s): %s — the member's elements are silently dropped on round-trip (Rule 0001.7)"
+                    % (verb, ", ".join(confirmed[:3]), len(missing), detail),
+                )
+            else:
+                rep.warn(
+                    "MEMBER",
+                    "%s name-matched candidate(s) %s do not reach %d member helper(s): %s — confirm by hand that the aggregator dispatches them (Rule 0001.7)"
+                    % (verb, ", ".join(entry_pts[:3]), len(missing), detail),
+                )
+            continue
+        note = ", ".join(reached_direct[:6]) if reached_direct else ", ".join(reached_indirect[:6])
+        shape = "directly" if reached_direct and not reached_indirect else ("indirectly (via shared helpers)" if reached_indirect and not reached_direct else "directly + indirectly")
+        if len(have) - len(dormant) > 0:
+            rep.ok("MEMBER", "%s dispatch reaches all %d aggregated member class helper(s) (%s): %s" % (verb, len(have) - len(dormant), shape, note))
+
+
+# --------------------------------------------------------------------------- #
 # driver
 # --------------------------------------------------------------------------- #
 
@@ -860,10 +1352,12 @@ def audit_one(cls: str, path: Path) -> Report:
     check_stamp(rep, blk_lines)
     check_specline(rep, cls, blk_lines)
     check_citation(rep, cls, blk_lines)
+    check_spec_base(rep, cls, blk_lines, enum)
     check_docs(rep, node, blk_lines, enum)
     check_spacing(rep, lines, start, end)
     check_doc_tail(rep, node, lines, start, end)
     check_base(rep, cls, node, enum)
+    check_members(rep, cls, node, enum)
     return rep
 
 

@@ -7,9 +7,11 @@ from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 
 
-def make_ref(value: str) -> RefType:
+def make_ref(value: str, dest: str = None) -> RefType:
     ref = RefType()
     ref.setValue(value)
+    if dest is not None:
+        ref.setDest(dest)
     return ref
 
 
@@ -186,12 +188,12 @@ class TestMcSwEmulationMethodSupportRoundTrip:
         support = McSwEmulationMethodSupport()
         support.setShortLabel(Identifier().setValue("EmuLabel"))
         support.setCategory(Identifier().setValue("initRam"))
-        support.setBaseReferenceRef(make_ref("/Base/Pointer"))
-        support.setReferenceTableRef(make_ref("/Reference/Table"))
+        support.setBaseReferenceRef(make_ref("/Base/Pointer", "VARIABLE-DATA-PROTOTYPE"))
+        support.setReferenceTableRef(make_ref("/Reference/Table", "VARIABLE-DATA-PROTOTYPE"))
         group = McParameterElementGroup()
         group.setShortLabel(Identifier().setValue("GroupLabel"))
-        group.setRamLocationRef(make_ref("/Ram/Location"))
-        group.setRomLocationRef(make_ref("/Rom/Location"))
+        group.setRamLocationRef(make_ref("/Ram/Location", "VARIABLE-DATA-PROTOTYPE"))
+        group.setRomLocationRef(make_ref("/Rom/Location", "PARAMETER-DATA-PROTOTYPE"))
         support.addElementGroup(group)
         mc_support.addEmulationSupport(support)
 

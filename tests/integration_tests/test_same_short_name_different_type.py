@@ -34,8 +34,8 @@ def build_document() -> AUTOSAR:
     """Build a minimal document containing a physical channel with two
     triggerings (ISignalTriggering / PduTriggering) that share one short name."""
     document = AUTOSAR.getInstance()
-    document.setARRelease("R23-11")
     document.clear()
+    document.setARRelease("R23-11")
     package = document.createARPackage(PACKAGE_NAME)
     cluster = package.createEthernetCluster(CLUSTER_NAME)
     channel = cluster.createEthernetPhysicalChannel(CHANNEL_NAME)
@@ -47,8 +47,8 @@ def build_document() -> AUTOSAR:
 def load_channel(file_path: Path) -> EthernetPhysicalChannel:
     """Parse an ARXML file and navigate to the physical channel."""
     document = AUTOSAR.getInstance()
-    document.setARRelease("R23-11")
     document.clear()
+    document.setARRelease("R23-11")
     ARXMLParser().load(str(file_path), document)
 
     package = document.getARPackages()[0]

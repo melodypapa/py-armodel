@@ -810,8 +810,8 @@ class TestExecutionTime:
         """Test AnalyzedExecutionTime properties"""
         parent = AUTOSAR.getInstance()
         et = AnalyzedExecutionTime(parent, "TestET")
-        best = MultidimensionalTime().setCseCode(CseCodeType().setValue("cse")).setCseCodeFactor(Integer().setValue(2))
-        worst = MultidimensionalTime().setCseCode(CseCodeType().setValue("cse")).setCseCodeFactor(Integer().setValue(4))
+        best = MultidimensionalTime().setCseCode(CseCodeType().setValue("1")).setCseCodeFactor(Integer().setValue(2))
+        worst = MultidimensionalTime().setCseCode(CseCodeType().setValue("1")).setCseCodeFactor(Integer().setValue(4))
         result = et.setBestCaseExecutionTime(best).setWorstCaseExecutionTime(worst)
         assert result is et
         assert et.getBestCaseExecutionTime() == best
@@ -821,9 +821,9 @@ class TestExecutionTime:
         """Test MeasuredExecutionTime properties"""
         parent = AUTOSAR.getInstance()
         et = MeasuredExecutionTime(parent, "TestET")
-        mx = MultidimensionalTime().setCseCode(CseCodeType().setValue("cse")).setCseCodeFactor(Integer().setValue(9))
-        mn = MultidimensionalTime().setCseCode(CseCodeType().setValue("cse")).setCseCodeFactor(Integer().setValue(1))
-        nom = MultidimensionalTime().setCseCode(CseCodeType().setValue("cse")).setCseCodeFactor(Integer().setValue(5))
+        mx = MultidimensionalTime().setCseCode(CseCodeType().setValue("1")).setCseCodeFactor(Integer().setValue(9))
+        mn = MultidimensionalTime().setCseCode(CseCodeType().setValue("1")).setCseCodeFactor(Integer().setValue(1))
+        nom = MultidimensionalTime().setCseCode(CseCodeType().setValue("1")).setCseCodeFactor(Integer().setValue(5))
         result = et.setMaximumExecutionTime(mx).setMinimumExecutionTime(mn).setNominalExecutionTime(nom)
         assert result is et
         assert et.getMaximumExecutionTime() == mx
@@ -834,7 +834,7 @@ class TestExecutionTime:
         """Test SimulatedExecutionTime properties"""
         parent = AUTOSAR.getInstance()
         et = SimulatedExecutionTime(parent, "TestET")
-        mx = MultidimensionalTime().setCseCode(CseCodeType().setValue("cse")).setCseCodeFactor(Integer().setValue(9))
+        mx = MultidimensionalTime().setCseCode(CseCodeType().setValue("1")).setCseCodeFactor(Integer().setValue(9))
         result = et.setMaximumExecutionTime(mx)
         assert result is et
         assert et.getMaximumExecutionTime() == mx
@@ -846,7 +846,7 @@ class TestExecutionTime:
         parent = AUTOSAR.getInstance()
         et = RoughEstimateOfExecutionTime(parent, "TestET")
         info = String().setValue("rough guess")
-        est = MultidimensionalTime().setCseCode(CseCodeType().setValue("cse")).setCseCodeFactor(Integer().setValue(3))
+        est = MultidimensionalTime().setCseCode(CseCodeType().setValue("1")).setCseCodeFactor(Integer().setValue(3))
         result = et.setAdditionalInformation(info).setEstimatedExecutionTime(est)
         assert result is et
         assert et.getAdditionalInformation() == info
@@ -1024,9 +1024,11 @@ class TestResourceConsumptionRoundTrip:
     def test_round_trip_all_collections(self):
         """Test full parse -> write -> re-parse round trip of all ResourceConsumption collections."""
 
-        def make_ref(value):
+        def make_ref(value, dest=None):
             ref = RefType()
             ref.setValue(value)
+            if dest is not None:
+                ref.setDest(dest)
             return ref
 
         AUTOSAR.getInstance().setARRelease("R23-11")
@@ -1040,25 +1042,25 @@ class TestResourceConsumptionRoundTrip:
         resource.addAccessCountSet(acs)
         acs.setCountProfile(NameToken().setValue("PROFILE"))
         count = AccessCount()
-        count.setAccessPointRef(make_ref("/ap")).setValue(PositiveInteger().setValue("3"))
+        count.setAccessPointRef(make_ref("/ap", "VARIABLE-ACCESS")).setValue(PositiveInteger().setValue("3"))
         acs.addAccessCount(count)
 
         et = resource.createAnalyzedExecutionTime("ET")
-        et.setExclusiveAreaRef(make_ref("/ea")).setExecutableEntityRef(make_ref("/ee")).setHwElementRef(make_ref("/hw"))
-        et.setBestCaseExecutionTime(MultidimensionalTime().setCseCode(CseCodeType().setValue("cse")).setCseCodeFactor(Integer().setValue("1000")))
+        et.setExclusiveAreaRef(make_ref("/ea", "EXCLUSIVE-AREA")).setExecutableEntityRef(make_ref("/ee", "RUNNABLE-ENTITY")).setHwElementRef(make_ref("/hw", "HW-ELEMENT"))
+        et.setBestCaseExecutionTime(MultidimensionalTime().setCseCode(CseCodeType().setValue("1")).setCseCodeFactor(Integer().setValue("1000")))
         location = MemorySectionLocation()
-        location.setProvidedMemoryRef(make_ref("/pm")).setSoftwareMemorySectionRef(make_ref("/sm"))
+        location.setProvidedMemoryRef(make_ref("/pm", "HW-ELEMENT")).setSoftwareMemorySectionRef(make_ref("/sm", "MEMORY-SECTION"))
         et.addMemorySectionLocation(location)
-        et.addIncludedLibraryRef(make_ref("/lib"))
+        et.addIncludedLibraryRef(make_ref("/lib", "DEPENDENCY-ON-ARTIFACT"))
 
         heap = resource.createMeasuredHeapUsage("H")
         heap.setAverageMemoryConsumption(PositiveInteger().setValue("10")).setMaximumMemoryConsumption(PositiveInteger().setValue("20"))
         heap.setMinimumMemoryConsumption(PositiveInteger().setValue("5")).setTestPattern(String().setValue("p"))
 
-        resource.createSectionNamePrefix("P").setImplementedInRef(make_ref("/art"))
+        resource.createSectionNamePrefix("P").setImplementedInRef(make_ref("/art", "DEPENDENCY-ON-ARTIFACT"))
 
         mem_section = resource.createMemorySection("MS")
-        mem_section.setPrefixRef(make_ref("/pref")).addExecutableEntityRef(make_ref("/ex"))
+        mem_section.setPrefixRef(make_ref("/pref", "SECTION-NAME-PREFIX")).addExecutableEntityRef(make_ref("/ex", "RUNNABLE-ENTITY"))
 
         resource.createWorstCaseStackUsage("WS").setMemoryConsumption(PositiveInteger().setValue("50"))
         resource.createMeasuredStackUsage("MSU").setMinimumMemoryConsumption(PositiveInteger().setValue("1")).setTestPattern(String().setValue("t"))
@@ -1085,7 +1087,7 @@ class TestResourceConsumptionRoundTrip:
             assert et_2.getExclusiveAreaRef().getValue() == "/ea"
             assert et_2.getExecutableEntityRef().getValue() == "/ee"
             assert et_2.getHwElementRef().getValue() == "/hw"
-            assert et_2.getBestCaseExecutionTime().getCseCode().getValue() == "cse"
+            assert et_2.getBestCaseExecutionTime().getCseCode().getValue() == "1"
             assert et_2.getBestCaseExecutionTime().getCseCodeFactor().getValue() == 1000
             assert et_2.getMemorySectionLocations()[0].getProvidedMemoryRef().getValue() == "/pm"
             assert et_2.getMemorySectionLocations()[0].getSoftwareMemorySectionRef().getValue() == "/sm"
