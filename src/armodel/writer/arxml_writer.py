@@ -4164,11 +4164,15 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeTopic1(self, element: ET.Element, topic1: Topic1):
         child_element = ET.SubElement(element, "TOPIC-1")
-        self.writeIdentifiable(child_element, topic1)
+        # VARIATION-POINT is held back here and emitted last: XSD group TOPIC-1
+        # (AUTOSAR_00052.xsd L16707) declares the TOPIC-CONTENT-OR-MSR-QUERY choice
+        # first and VARIATION-POINT at sequenceOffset=10000.
+        self.writeIdentifiable(child_element, topic1, write_variation_point=False)
         helpEntry_value = topic1.getHelpEntry()
         if helpEntry_value is not None:
             child_element.set("HELP-ENTRY", helpEntry_value.getValue())
         self.writeTopicContentOrMsrQuery(child_element, topic1.getTopicContent())
+        self.writeVariationPointCapable(child_element, topic1)
 
     def writeMsrQueryTopic1(self, element: ET.Element, msr_query_topic1: Optional[MsrQueryTopic1]):
         if msr_query_topic1 is not None:

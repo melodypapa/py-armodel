@@ -123,6 +123,67 @@ class TestPredefinedChapter:
         assert f"{note} {tags_tail}" in PredefinedChapter.setChapterModel.__doc__
 
 
+class TestTopic1:
+    """Test class for Topic1 class (Table 9.73, AUTOSAR_FO_TPS_GenericStructureTemplate)."""
+
+    def _parent(self):
+        return AUTOSAR.getInstance().createARPackage("AUTOSAR")
+
+    def test_initialization(self):
+        parent = self._parent()
+        topic = Topic1(parent, "MyTopic")
+        assert topic.getShortName() == "MyTopic"
+        assert topic.getHelpEntry() is None
+        assert topic.getTopicContent() is None
+
+    def test_set_get_help_entry(self):
+        topic = Topic1(self._parent(), "MyTopic")
+        help_entry = String().setValue("topic.help.entry")
+        assert topic.setHelpEntry(help_entry) is topic
+        assert topic.getHelpEntry() is help_entry
+        topic.setHelpEntry(None)
+        assert topic.getHelpEntry() is help_entry
+
+    def test_set_get_topic_content(self):
+        topic = Topic1(self._parent(), "MyTopic")
+        topic_content = TopicContentOrMsrQuery().setTopicContent(TopicContent())
+        assert topic.setTopicContent(topic_content) is topic
+        assert topic.getTopicContent() is topic_content
+        topic.setTopicContent(None)
+        assert topic.getTopicContent() is topic_content
+
+    def test_accessor_pairs_are_getter_first(self):
+        """Table 9.73 declares helpEntry and topicContent as Mult 0..1 scalar attributes, so each accessor pair
+        follows the scalar getter-first order of Rule 0001.11 (getter, then setter)."""
+        source = inspect.getsource(Topic1)
+        order = [line.strip().split("(")[0].removeprefix("def ") for line in source.splitlines() if line.strip().startswith(("def get", "def set"))]
+        assert order == ["getHelpEntry", "setHelpEntry", "getTopicContent", "setTopicContent"]
+
+    def test_is_variation_point_capable(self):
+        """Topic1 carries the <<atpVariation>> stereotype: XSD group TOPIC-1 declares VARIATION-POINT (00052 L16712)."""
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
+
+        assert isinstance(Topic1(self._parent(), "MyTopic"), VariationPointCapable)
+
+    def test_variation_point_base_accessors(self):
+        topic = Topic1(self._parent(), "MyTopic")
+        assert topic.getVariationPoint() is None
+        variation_point = VariationPoint()
+        assert topic.setVariationPoint(variation_point) is topic
+        assert topic.getVariationPoint() is variation_point
+        topic.setVariationPoint(None)
+        assert topic.getVariationPoint() is variation_point
+
+    def test_member_annotations(self):
+        """helpEntry is Optional[String] and topicContent Optional[TopicContentOrMsrQuery] (Rule 0003)."""
+        import typing
+
+        assert typing.get_type_hints(Topic1.getHelpEntry)["return"] == typing.Optional[String]
+        assert typing.get_type_hints(Topic1.setHelpEntry)["value"] == typing.Optional[String]
+        assert typing.get_type_hints(Topic1.getTopicContent)["return"] == typing.Optional[TopicContentOrMsrQuery]
+        assert typing.get_type_hints(Topic1.setTopicContent)["value"] == typing.Optional[TopicContentOrMsrQuery]
+
+
 class TestChapterModel:
     """Test class for ChapterModel class (Table 9.59, AUTOSAR_FO_TPS_GenericStructureTemplate)."""
 

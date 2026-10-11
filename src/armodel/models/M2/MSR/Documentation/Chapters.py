@@ -457,12 +457,13 @@ class Topic1(Identifiable, VariationPointCapable):
 
     # Topic1 method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.73, p.338
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] setHelpEntry           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getHelpEntry           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setTopicContent        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getTopicContent        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] __init__         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getHelpEntry     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setHelpEntry     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTopicContent  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTopicContent  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -472,6 +473,15 @@ class Topic1(Identifiable, VariationPointCapable):
 
         # This is the content of the topic. Tags: xml.roleElement=false xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
         self.topicContent: Optional[TopicContentOrMsrQuery] = None
+
+    def getHelpEntry(self) -> Optional[String]:
+        """
+        This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator. Tags: xml.attribute=true
+
+        Returns:
+            The entry point in an online help system to be linked with the parent class
+        """
+        return self.helpEntry
 
     def setHelpEntry(self, value: Optional[String]) -> Topic1:
         """
@@ -486,14 +496,14 @@ class Topic1(Identifiable, VariationPointCapable):
             self.helpEntry = value
         return self
 
-    def getHelpEntry(self) -> Optional[String]:
+    def getTopicContent(self) -> Optional[TopicContentOrMsrQuery]:
         """
-        This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator. Tags: xml.attribute=true
+        This is the content of the topic. Tags: xml.roleElement=false xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
 
         Returns:
-            The entry point in an online help system to be linked with the parent class
+            The content of the topic
         """
-        return self.helpEntry
+        return self.topicContent
 
     def setTopicContent(self, value: Optional[TopicContentOrMsrQuery]) -> Topic1:
         """
@@ -507,15 +517,6 @@ class Topic1(Identifiable, VariationPointCapable):
         if value is not None:
             self.topicContent = value
         return self
-
-    def getTopicContent(self) -> Optional[TopicContentOrMsrQuery]:
-        """
-        This is the content of the topic. Tags: xml.roleElement=false xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
-
-        Returns:
-            The content of the topic
-        """
-        return self.topicContent
 
 
 class TopicContent(ARObject):
