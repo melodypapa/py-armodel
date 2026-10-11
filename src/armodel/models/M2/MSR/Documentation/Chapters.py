@@ -100,20 +100,30 @@ class PredefinedChapter(ARObject):
 
     # PredefinedChapter method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.62, p.331
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] setChapterModel     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getChapterModel     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] __init__         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getChapterModel  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setChapterModel  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        # This is the content of the predefined chapter.
+        # This is the content of the predefined chapter. Tags: xml.roleElement=false xml.roleWrapperElement=false xml.typeElement=false xml.typeWrapperElement=false
         self.chapterModel: Optional[ChapterModel] = None
+
+    def getChapterModel(self) -> Optional[ChapterModel]:
+        """
+        This is the content of the predefined chapter. Tags: xml.roleElement=false xml.roleWrapperElement=false xml.typeElement=false xml.typeWrapperElement=false
+
+        Returns:
+            The content of the predefined chapter
+        """
+        return self.chapterModel
 
     def setChapterModel(self, value: Optional[ChapterModel]) -> PredefinedChapter:
         """
-        This is the content of the predefined chapter.
+        This is the content of the predefined chapter. Tags: xml.roleElement=false xml.roleWrapperElement=false xml.typeElement=false xml.typeWrapperElement=false
 
         A None value is a no-op and does not overwrite an existing chapterModel.
 
@@ -123,15 +133,6 @@ class PredefinedChapter(ARObject):
         if value is not None:
             self.chapterModel = value
         return self
-
-    def getChapterModel(self) -> Optional[ChapterModel]:
-        """
-        This is the content of the predefined chapter.
-
-        Returns:
-            The content of the predefined chapter
-        """
-        return self.chapterModel
 
 
 class ChapterModel(ARObject):

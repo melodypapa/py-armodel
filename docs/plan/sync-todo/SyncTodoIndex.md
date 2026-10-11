@@ -941,7 +941,7 @@ Status: **57/75** completed
 | Class Name                             | Status       | Commit ID  |
 | -------------------------------------- | ------------ | ---------- |
 | `AnyInstanceRef`                       | [x] Done     | c7880fd7ac |
-| `Chapter`                              | [x] Done*    | 0d13ccd1bc |
+| `Chapter`                              | [x] Done     | bfaef7d30e |
 | `PredefinedChapter`                    | [x] Done*    | 0af25ab2e5 |
 | `FloatEnum`                            | [x] Done     | 1649678501 |
 | `Topic1`                               | [x] Done*    | 0d13ccd1bc |

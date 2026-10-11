@@ -99,6 +99,29 @@ class TestPredefinedChapter:
         predefined.setChapterModel(None)
         assert predefined.getChapterModel() is chapter_model
 
+    def test_accessor_pair_is_getter_first(self):
+        """Table 9.62 declares chapterModel as Mult 1 / Kind aggr on an ARObject child, so the pair is the scalar
+        get/set shape and follows the scalar getter-first order of Rule 0001.11 (getter, then setter)."""
+        source = inspect.getsource(PredefinedChapter)
+        order = [line.strip().split("(")[0].removeprefix("def ") for line in source.splitlines() if line.strip().startswith(("def get", "def set"))]
+        assert order == ["getChapterModel", "setChapterModel"]
+
+    def test_chapter_model_note_is_verbatim_with_tags_tail(self):
+        """Table 9.62 gives chapterModel the Note "This is the content of the predefined chapter." followed by a
+        Tags tail; the tail is part of the verbatim Note and must reach the inline comment and both accessor
+        docstrings (Rule 0012.2.5.3). A truncated first sentence is a Rule 0012.4 violation."""
+        tags_tail = "Tags: xml.roleElement=false xml.roleWrapperElement=false xml.typeElement=false xml.typeWrapperElement=false"
+        note = "This is the content of the predefined chapter."
+
+        source = inspect.getsource(PredefinedChapter)
+        inline_comment = next(line.strip().removeprefix("# ") for line in source.splitlines() if line.strip().startswith("#") and note in line)
+        assert inline_comment == f"{note} {tags_tail}"
+
+        assert PredefinedChapter.getChapterModel.__doc__ is not None
+        assert f"{note} {tags_tail}" in PredefinedChapter.getChapterModel.__doc__
+        assert PredefinedChapter.setChapterModel.__doc__ is not None
+        assert f"{note} {tags_tail}" in PredefinedChapter.setChapterModel.__doc__
+
 
 class TestChapterModel:
     """Test class for ChapterModel class (Table 9.59, AUTOSAR_FO_TPS_GenericStructureTemplate)."""
