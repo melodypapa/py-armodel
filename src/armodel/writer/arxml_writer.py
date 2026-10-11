@@ -20533,9 +20533,11 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.logger.debug("Write HwElement <%s>" % hw_element.getShortName())
             child_element = ET.SubElement(element, "HW-ELEMENT")
             self.writeHwDescriptionEntity(child_element, hw_element)
+            # XSD HW-ELEMENT group order (AUTOSAR_00052.xsd): NESTED-ELEMENTS
+            # first, then HW-PIN-GROUPS, then HW-ELEMENT-CONNECTIONS.
+            self.writeHwElementHwNestedElementRefs(child_element, hw_element)
             self.writeHwElementHwPinGroups(child_element, hw_element)
             self.writeHwElementHwElementConnections(child_element, hw_element)
-            self.writeHwElementHwNestedElementRefs(child_element, hw_element)
 
     def writeHwAttributeDef(self, element: ET.Element, attribute_def: HwAttributeDef):
         if attribute_def is not None:
