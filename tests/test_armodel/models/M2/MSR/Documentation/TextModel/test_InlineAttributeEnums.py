@@ -4,6 +4,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.MSR.Documentation.TextModel.InlineAttributeEnums import (
     EEnum,
     EEnumFont,
+    ExtIdClassEnum,
     ResolutionPolicyEnum,
     ShowContentEnum,
     ShowResourceAliasNameEnum,
@@ -265,3 +266,21 @@ class TestEEnum:
 
     def test_set_value(self):
         assert EEnum().setValue(EEnum.BOLDITALIC).getValue() == "BOLDITALIC"
+
+
+class TestExtIdClassEnum:
+    """
+    Test class for ExtIdClassEnum functionality (Table 9.35).
+    """
+
+    def test_initialization(self):
+        enum = ExtIdClassEnum()
+        assert enum is not None
+        assert enum._value is None
+
+    def test_no_literal_facets(self):
+        assert list(ExtIdClassEnum().getEnumValues()) == []
+
+    def test_string_value_semantics(self):
+        assert ExtIdClassEnum().setValue("IDENTIFIABLE").getValue() == "IDENTIFIABLE"
+        assert ExtIdClassEnum().validateEnumValue("IDENTIFIABLE") is False

@@ -273,3 +273,12 @@ class ExtIdClassEnum(AREnum):
     """
     This is in fact an enumerator. The possible values are all legal XML names of identifiable objects even those of other XML files. If the schemas of all questionable files are generated from a common meta-model, this is something like an IdentifiableSubtypesEnum. Maybe a future version of the Schema generator can generate such an enum. As of now it is specified as string. Tags: xml.xsd.customType=EXT-ID-CLASS-ENUM xml.xsd.type=string
     """
+
+    # ExtIdClassEnum method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.35, p.317
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — string-typed custom enum (EXT-ID-CLASS-ENUM--SIMPLE restricts xsd:string with no enumeration facets); enum value form serialized on consuming class attributes
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__(())

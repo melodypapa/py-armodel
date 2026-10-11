@@ -1539,16 +1539,17 @@ pending that confirmation.
   - [x] Step 9 — Verify (9a) + confirm (9b)
   - note: already-verified short-circuit 2026-09-30 (Group21 header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
 - [ ] `ExtIdClassEnum` — AREnum — R23-11 FO_TPS_GenericStructureTemplate Table 9.35, p.317; also AUTOSAR_TPS_GenericStructureTemplate (R4.3.1) Table 4.57, p.92; also Table 8.36, p.282
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+  - module: M2/MSR/Documentation/TextModel/InlineAttributeEnums.py
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note: steps 1-8 done 2026-10-12; 9a battery green (audit PASS w/ missing-marker INFO, pytest 483 + 3 gate tests, ruff, black 200, mypy clean; regen --check drift deferred to batch stamp). Rule 0007 placement: spec Package row `M2::MSR::Documentation::TextModel::InlineAttributeEnums` → InlineAttributeEnums.py (not the PrimitiveTypes.py hint; no extId consumer exists in src). Table 9.35 is a Primitive table with zero Literal rows — XSD `EXT-ID-CLASS-ENUM--SIMPLE` restricts xsd:string with no enumeration facets; synced as instantiable zero-literal AREnum with string value semantics. Steps 5/6 N/A (standalone enum, no own XML element). Deviations: none.
 - [x] `IndexEntry` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 9.36, p.317 — already verified (short-circuit 2026-09-30)
   - module: M2/MSR/Documentation/TextModel/InlineTextElements.py
   - [x] Step 1 — Sync members & description from spec
