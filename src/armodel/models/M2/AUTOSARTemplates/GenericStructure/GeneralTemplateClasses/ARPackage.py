@@ -700,7 +700,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         Returns:
             List of ARPackage instances sorted by short name
         """
-        return list(sorted(self.arPackages, key=lambda a: a.short_name))
+        return list(sorted(self.arPackages, key=lambda a: a.shortName))
         # return list(filter(lambda e: isinstance(e, ARPackage), self.referrableElements))
 
     def createARPackage(self, short_name: str) -> ARPackage:
@@ -714,7 +714,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
             The newly created or existing ARPackage instance
         """
         for ar_package in self.arPackages:
-            if ar_package.short_name == short_name:
+            if ar_package.shortName == short_name:
                 return ar_package
         ar_package = ARPackage(self, short_name)
         self.arPackages.append(ar_package)
@@ -733,7 +733,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         """
         if type is ARPackage or type is None:
             for ar_package in self.arPackages:
-                if ar_package.short_name == short_name:
+                if ar_package.shortName == short_name:
                     return ar_package
         return cast(Referrable, Identifiable.getReferrableElement(self, short_name, type))
 
@@ -5015,15 +5015,15 @@ class ARPackage(CollectableElement, VariationPointCapable):
 
     def getApplicationPrimitiveDataTypes(self) -> List[ApplicationPrimitiveDataType]:
 
-        return list(sorted((a for a in self.referrableElements if isinstance(a, ApplicationPrimitiveDataType)), key=lambda o: o.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, ApplicationPrimitiveDataType)), key=lambda o: o.shortName))
 
     def getApplicationDataType(self) -> List[ApplicationDataType]:
 
-        return list(sorted((a for a in self.referrableElements if isinstance(a, ApplicationDataType)), key=lambda o: o.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, ApplicationDataType)), key=lambda o: o.shortName))
 
     def getImplementationDataTypes(self) -> List[ImplementationDataType]:
 
-        return list(sorted((a for a in self.referrableElements if isinstance(a, ImplementationDataType)), key=lambda o: o.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, ImplementationDataType)), key=lambda o: o.shortName))
 
     def getSwBaseTypes(self) -> List[SwBaseType]:
 
@@ -5047,23 +5047,23 @@ class ARPackage(CollectableElement, VariationPointCapable):
 
     def getComplexDeviceDriverSwComponentTypes(self) -> List[ComplexDeviceDriverSwComponentType]:
 
-        return list(sorted((a for a in self.referrableElements if isinstance(a, ComplexDeviceDriverSwComponentType)), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, ComplexDeviceDriverSwComponentType)), key=lambda a: a.shortName))
 
     def getSenderReceiverInterfaces(self) -> List[SenderReceiverInterface]:
 
-        return list(sorted((a for a in self.referrableElements if isinstance(a, SenderReceiverInterface)), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, SenderReceiverInterface)), key=lambda a: a.shortName))
 
     def getParameterInterfaces(self) -> List[ParameterInterface]:
 
-        return list(sorted((a for a in self.referrableElements if isinstance(a, ParameterInterface)), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, ParameterInterface)), key=lambda a: a.shortName))
 
     def getClientServerInterfaces(self) -> List[ClientServerInterface]:
 
-        return list(sorted((a for a in self.referrableElements if isinstance(a, ClientServerInterface)), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, ClientServerInterface)), key=lambda a: a.shortName))
 
     def getDataTypeMappingSets(self) -> List[DataTypeMappingSet]:
 
-        return list(sorted((a for a in self.referrableElements if isinstance(a, DataTypeMappingSet)), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, DataTypeMappingSet)), key=lambda a: a.shortName))
 
     def getCompuMethods(self) -> List[CompuMethod]:
 
@@ -5143,118 +5143,118 @@ class ARPackage(CollectableElement, VariationPointCapable):
 
     def getApplicationArrayDataTypes(self) -> List[ApplicationArrayDataType]:
 
-        return list(sorted((a for a in self.referrableElements if isinstance(a, ApplicationArrayDataType)), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, ApplicationArrayDataType)), key=lambda a: a.shortName))
 
     def getSwRecordLayouts(self) -> List[SwRecordLayout]:
 
-        return list(sorted((a for a in self.referrableElements if isinstance(a, SwRecordLayout)), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, SwRecordLayout)), key=lambda a: a.shortName))
 
     def getSwAddrMethods(self) -> List[SwAddrMethod]:
 
-        return list(sorted((a for a in self.referrableElements if isinstance(a, SwAddrMethod)), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, SwAddrMethod)), key=lambda a: a.shortName))
 
     def getTriggerInterfaces(self) -> List[TriggerInterface]:
 
-        return list(sorted((a for a in self.referrableElements if isinstance(a, TriggerInterface)), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, TriggerInterface)), key=lambda a: a.shortName))
 
     def getModeDeclarationGroups(self) -> List[ModeDeclarationGroup]:
 
-        return list(sorted((a for a in self.referrableElements if isinstance(a, ModeDeclarationGroup)), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, ModeDeclarationGroup)), key=lambda a: a.shortName))
 
     def getModeSwitchInterfaces(self) -> List[ModeSwitchInterface]:
 
-        return list(sorted((a for a in self.referrableElements if isinstance(a, ModeSwitchInterface)), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, ModeSwitchInterface)), key=lambda a: a.shortName))
 
     def getSwcTimings(self) -> List[SwcTiming]:
 
-        return list(sorted((a for a in self.referrableElements if isinstance(a, SwcTiming)), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, SwcTiming)), key=lambda a: a.shortName))
 
     def getLinClusters(self) -> List[LinCluster]:
 
-        return list(sorted((a for a in self.referrableElements if isinstance(a, LinCluster)), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, LinCluster)), key=lambda a: a.shortName))
 
     def getCanClusters(self) -> List[CanCluster]:
 
-        return list(sorted((a for a in self.referrableElements if isinstance(a, CanCluster)), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, CanCluster)), key=lambda a: a.shortName))
 
     def getLinUnconditionalFrames(self) -> List[LinUnconditionalFrame]:
 
-        return list(sorted((a for a in self.referrableElements if isinstance(a, LinUnconditionalFrame)), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, LinUnconditionalFrame)), key=lambda a: a.shortName))
 
     def getNmPdus(self) -> List[NmPdu]:
 
-        return list(sorted((a for a in self.referrableElements if isinstance(a, NmPdu)), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, NmPdu)), key=lambda a: a.shortName))
 
     def getNPdus(self) -> List[NPdu]:
 
-        return list(sorted((a for a in self.referrableElements if isinstance(a, NPdu)), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, NPdu)), key=lambda a: a.shortName))
 
     def getDcmIPdus(self) -> List[DcmIPdu]:
 
-        return list(sorted((a for a in self.referrableElements if isinstance(a, DcmIPdu)), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, DcmIPdu)), key=lambda a: a.shortName))
 
     def getSecuredIPdus(self) -> List[SecuredIPdu]:
 
-        return list(sorted((a for a in self.referrableElements if isinstance(a, SecuredIPdu)), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, SecuredIPdu)), key=lambda a: a.shortName))
 
     def getContainerIPdus(self) -> List[ContainerIPdu]:
 
-        return list(sorted((a for a in self.referrableElements if isinstance(a, ContainerIPdu)), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, ContainerIPdu)), key=lambda a: a.shortName))
 
     def getNmConfigs(self) -> List[NmConfig]:
 
-        return list(sorted((a for a in self.referrableElements if isinstance(a, NmConfig)), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, NmConfig)), key=lambda a: a.shortName))
 
     def getCanTpConfigs(self) -> List[CanTpConfig]:
 
-        return list(sorted((a for a in self.referrableElements if isinstance(a, CanTpConfig)), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, CanTpConfig)), key=lambda a: a.shortName))
 
     def getCanFrames(self) -> List[CanFrame]:
 
-        return list(sorted((a for a in self.referrableElements if isinstance(a, CanFrame)), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, CanFrame)), key=lambda a: a.shortName))
 
     def getEcuInstances(self) -> List[EcuInstance]:
 
-        return list(sorted((a for a in self.referrableElements if isinstance(a, EcuInstance)), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, EcuInstance)), key=lambda a: a.shortName))
 
     def getGateways(self) -> List[Gateway]:
 
-        return list(sorted((a for a in self.referrableElements if isinstance(a, Gateway)), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, Gateway)), key=lambda a: a.shortName))
 
     def getISignals(self) -> List[ISignal]:
 
-        return list(sorted((a for a in self.referrableElements if isinstance(a, ISignal)), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, ISignal)), key=lambda a: a.shortName))
 
     def getEcucValueCollections(self) -> List[EcucValueCollection]:
 
-        return list(sorted((a for a in self.referrableElements if isinstance(a, EcucValueCollection)), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, EcucValueCollection)), key=lambda a: a.shortName))
 
     def getEcucModuleConfigurationValues(self) -> List[EcucModuleConfigurationValues]:
 
-        return list(sorted((a for a in self.referrableElements if isinstance(a, EcucModuleConfigurationValues)), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, EcucModuleConfigurationValues)), key=lambda a: a.shortName))
 
     def getEcucModuleDefs(self) -> List[EcucModuleDef]:
 
-        return list(sorted((a for a in self.referrableElements if isinstance(a, EcucModuleDef)), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, EcucModuleDef)), key=lambda a: a.shortName))
 
     def getEcucDefinitionCollections(self) -> List[EcucDefinitionCollection]:
 
-        return list(sorted((a for a in self.referrableElements if isinstance(a, EcucDefinitionCollection)), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, EcucDefinitionCollection)), key=lambda a: a.shortName))
 
     def getSwSystemConsts(self) -> List[SwSystemconst]:
 
-        return list(sorted((a for a in self.referrableElements if isinstance(a, SwSystemconst)), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, SwSystemconst)), key=lambda a: a.shortName))
 
     def getSwSystemconstantValueSets(self) -> List[SwSystemconstantValueSet]:
 
-        return list(sorted((a for a in self.referrableElements if isinstance(a, SwSystemconstantValueSet)), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, SwSystemconstantValueSet)), key=lambda a: a.shortName))
 
     def getPredefinedVariants(self) -> List[PredefinedVariant]:
 
         return list(
             sorted(
                 (a for a in self.referrableElements if isinstance(a, PredefinedVariant)),
-                key=lambda a: a.short_name,
+                key=lambda a: a.shortName,
             )
         )
 
@@ -5263,94 +5263,94 @@ class ARPackage(CollectableElement, VariationPointCapable):
         return list(
             sorted(
                 (a for a in self.referrableElements if isinstance(a, PostBuildVariantCriterion)),
-                key=lambda a: a.short_name,
+                key=lambda a: a.shortName,
             )
         )
 
     def getEcucPhysicalDimensions(self) -> List[PhysicalDimension]:
 
-        return list(sorted((a for a in self.referrableElements if isinstance(a, PhysicalDimension)), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, PhysicalDimension)), key=lambda a: a.shortName))
 
     def getISignalGroups(self) -> List[ISignalGroup]:
 
-        return list(sorted((a for a in self.referrableElements if isinstance(a, ISignalGroup)), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, ISignalGroup)), key=lambda a: a.shortName))
 
     def getSystemSignals(self) -> List[SystemSignal]:
 
-        return list(sorted((a for a in self.referrableElements if isinstance(a, SystemSignal)), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, SystemSignal)), key=lambda a: a.shortName))
 
     def getSystemSignalGroups(self) -> List[SystemSignalGroup]:
 
-        return list(sorted((a for a in self.referrableElements if isinstance(a, SystemSignalGroup)), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, SystemSignalGroup)), key=lambda a: a.shortName))
 
     def getISignalIPdus(self) -> List[ISignalIPdu]:
 
-        return list(sorted((a for a in self.referrableElements if isinstance(a, ISignalIPdu)), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, ISignalIPdu)), key=lambda a: a.shortName))
 
     def getSystems(self) -> List[System]:
 
-        return list(sorted((a for a in self.referrableElements if isinstance(a, System)), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, System)), key=lambda a: a.shortName))
 
     def getHwElements(self) -> List[HwElement]:
 
-        return list(sorted((a for a in self.referrableElements if isinstance(a, HwElement)), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, HwElement)), key=lambda a: a.shortName))
 
     def getHwCategories(self) -> List[HwCategory]:
 
-        return list(sorted((a for a in self.referrableElements if isinstance(a, HwCategory)), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, HwCategory)), key=lambda a: a.shortName))
 
     def getFlexrayFrames(self) -> List[FlexrayFrame]:
 
-        return list(sorted((a for a in self.referrableElements if isinstance(a, FlexrayFrame)), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, FlexrayFrame)), key=lambda a: a.shortName))
 
     def getDataTransformationSets(self) -> List[DataTransformationSet]:
 
-        return list(sorted((a for a in self.referrableElements if isinstance(a, DataTransformationSet)), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, DataTransformationSet)), key=lambda a: a.shortName))
 
     def getCollections(self) -> List[Collection]:
         from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import Collection
 
-        return list(sorted((a for a in self.referrableElements if isinstance(a, Collection)), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, Collection)), key=lambda a: a.shortName))
 
     def getKeywordSets(self) -> List[KeywordSet]:
 
-        return list(sorted((a for a in self.referrableElements if isinstance(a, KeywordSet)), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, KeywordSet)), key=lambda a: a.shortName))
 
     def getPortPrototypeBlueprints(self) -> List[PortPrototypeBlueprint]:
 
-        return list(sorted((a for a in self.referrableElements if isinstance(a, PortPrototypeBlueprint)), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, PortPrototypeBlueprint)), key=lambda a: a.shortName))
 
     def getModeDeclarationMappingSets(self) -> List[ModeDeclarationMappingSet]:
 
-        return list(sorted((a for a in self.referrableElements if isinstance(a, ModeDeclarationMappingSet)), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, ModeDeclarationMappingSet)), key=lambda a: a.shortName))
 
     def getAclPermissions(self) -> List[AclPermission]:
 
-        return list(sorted((a for a in self.referrableElements if isinstance(a, AclPermission)), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, AclPermission)), key=lambda a: a.shortName))
 
     def getAclObjectSets(self) -> List[AclObjectSet]:
 
-        return list(sorted((a for a in self.referrableElements if isinstance(a, AclObjectSet)), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, AclObjectSet)), key=lambda a: a.shortName))
 
     def getAclOperations(self) -> List[AclOperation]:
 
-        return list(sorted((a for a in self.referrableElements if isinstance(a, AclOperation)), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, AclOperation)), key=lambda a: a.shortName))
 
     def getAclRoles(self) -> List[AclRole]:
 
-        return list(sorted((a for a in self.referrableElements if isinstance(a, AclRole)), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, AclRole)), key=lambda a: a.shortName))
 
     def getLifeCycleStateDefinitionGroups(self) -> List[LifeCycleStateDefinitionGroup]:
 
-        return list(sorted((a for a in self.referrableElements if isinstance(a, LifeCycleStateDefinitionGroup)), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, LifeCycleStateDefinitionGroup)), key=lambda a: a.shortName))
 
     def getViewMapSets(self) -> List[ViewMapSet]:
 
-        return list(sorted((a for a in self.referrableElements if isinstance(a, ViewMapSet)), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, ViewMapSet)), key=lambda a: a.shortName))
 
     def getRapidPrototypingScenarios(self) -> List[RapidPrototypingScenario]:
 
-        return list(sorted((a for a in self.referrableElements if isinstance(a, RapidPrototypingScenario)), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, RapidPrototypingScenario)), key=lambda a: a.shortName))
 
     def getReferenceBases(self) -> List[ReferenceBase]:
         """

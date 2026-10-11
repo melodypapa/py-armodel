@@ -220,7 +220,7 @@ class TestExecutableEntity:
         exec_entity = ConcreteExecutableEntity(ar_root, "TestExecutableEntity")
         reason = exec_entity.createActivationReason("reason1")
         assert isinstance(reason, ExecutableEntityActivationReason)
-        assert reason.short_name == "reason1"
+        assert reason.shortName == "reason1"
         assert len(exec_entity.getActivationReasons()) == 1
         assert exec_entity.createActivationReason("reason1") == reason
         assert len(exec_entity.getActivationReasons()) == 1

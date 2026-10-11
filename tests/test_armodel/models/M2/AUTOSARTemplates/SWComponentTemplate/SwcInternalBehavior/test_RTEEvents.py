@@ -59,7 +59,7 @@ class TestRTEEvent:
         event = InitEvent(ar_root, "TestRTEEvent")
 
         assert event.parent == ar_root
-        assert event.short_name == "TestRTEEvent"
+        assert event.shortName == "TestRTEEvent"
         assert event.getDisabledModeIRefs() == []
         assert event.getStartOnEventRef() is None
         assert isinstance(event, AtpStructureElement)
@@ -113,7 +113,7 @@ class TestAsynchronousServerCallReturnsEvent:
         event = AsynchronousServerCallReturnsEvent(ar_root, "TestAsynchronousServerCallReturnsEvent")
 
         assert event.parent == ar_root
-        assert event.short_name == "TestAsynchronousServerCallReturnsEvent"
+        assert event.shortName == "TestAsynchronousServerCallReturnsEvent"
         assert event.disabledModeIRefs == []
         assert event.startOnEventRef is None
         assert event.eventSourceRef is None
@@ -155,7 +155,7 @@ class TestDataSendCompletedEvent:
         event = DataSendCompletedEvent(ar_root, "TestDataSendCompletedEvent")
 
         assert event.parent == ar_root
-        assert event.short_name == "TestDataSendCompletedEvent"
+        assert event.shortName == "TestDataSendCompletedEvent"
         assert event.disabledModeIRefs == []
         assert event.startOnEventRef is None
         assert event.eventSourceRef is None
@@ -205,7 +205,7 @@ class TestDataWriteCompletedEvent:
         event = DataWriteCompletedEvent(ar_root, "TestDataWriteCompletedEvent")
 
         assert event.parent == ar_root
-        assert event.short_name == "TestDataWriteCompletedEvent"
+        assert event.shortName == "TestDataWriteCompletedEvent"
         assert event.disabledModeIRefs == []
         assert event.startOnEventRef is None
         assert event.eventSourceRef is None
@@ -247,7 +247,7 @@ class TestDataReceivedEvent:
         event = DataReceivedEvent(ar_root, "TestDataReceivedEvent")
 
         assert event.parent == ar_root
-        assert event.short_name == "TestDataReceivedEvent"
+        assert event.shortName == "TestDataReceivedEvent"
         assert event.disabledModeIRefs == []
         assert event.startOnEventRef is None
         assert event.dataIRef is None
@@ -318,7 +318,7 @@ class TestSwcModeSwitchEvent:
         event = SwcModeSwitchEvent(ar_root, "TestSwcModeSwitchEvent")
 
         assert event.parent == ar_root
-        assert event.short_name == "TestSwcModeSwitchEvent"
+        assert event.shortName == "TestSwcModeSwitchEvent"
         assert event.disabledModeIRefs == []
         assert event.startOnEventRef is None
         assert event.activation is None
@@ -386,7 +386,7 @@ class TestDataReceiveErrorEvent:
         event = DataReceiveErrorEvent(ar_root, "TestDataReceiveErrorEvent")
 
         assert event.parent == ar_root
-        assert event.short_name == "TestDataReceiveErrorEvent"
+        assert event.shortName == "TestDataReceiveErrorEvent"
         assert event.disabledModeIRefs == []
         assert event.startOnEventRef is None
         assert event.dataIRef is None
@@ -442,7 +442,7 @@ class TestOperationInvokedEvent:
         event = OperationInvokedEvent(ar_root, "TestOperationInvokedEvent")
 
         assert event.parent == ar_root
-        assert event.short_name == "TestOperationInvokedEvent"
+        assert event.shortName == "TestOperationInvokedEvent"
         assert event.disabledModeIRefs == []
         assert event.startOnEventRef is None
         assert event.operationIRef is None
@@ -488,7 +488,7 @@ class TestInitEvent:
         event = InitEvent(ar_root, "TestInitEvent")
 
         assert event.parent == ar_root
-        assert event.short_name == "TestInitEvent"
+        assert event.shortName == "TestInitEvent"
         assert event.disabledModeIRefs == []
         assert event.startOnEventRef is None
 
@@ -505,7 +505,7 @@ class TestTimingEvent:
         event = TimingEvent(ar_root, "TestTimingEvent")
 
         assert event.parent == ar_root
-        assert event.short_name == "TestTimingEvent"
+        assert event.shortName == "TestTimingEvent"
         assert event.disabledModeIRefs == []
         assert event.startOnEventRef is None
         assert event.offset is None
@@ -623,7 +623,7 @@ class TestInternalTriggerOccurredEvent:
         event = InternalTriggerOccurredEvent(ar_root, "TestInternalTriggerOccurredEvent")
 
         assert event.parent == ar_root
-        assert event.short_name == "TestInternalTriggerOccurredEvent"
+        assert event.shortName == "TestInternalTriggerOccurredEvent"
         assert event.disabledModeIRefs == []
         assert event.startOnEventRef is None
         assert event.eventSourceRef is None
@@ -684,7 +684,7 @@ class TestModeSwitchedAckEvent:
         event = ModeSwitchedAckEvent(ar_root, "TestModeSwitchedAckEvent")
 
         assert event.parent == ar_root
-        assert event.short_name == "TestModeSwitchedAckEvent"
+        assert event.shortName == "TestModeSwitchedAckEvent"
         assert event.disabledModeIRefs == []
         assert event.startOnEventRef is None
         assert event.eventSourceRef is None
@@ -747,7 +747,7 @@ class TestExternalTriggerOccurredEvent:
         event = ExternalTriggerOccurredEvent(ar_root, "TestExternalTriggerOccurredEvent")
 
         assert event.parent == ar_root
-        assert event.short_name == "TestExternalTriggerOccurredEvent"
+        assert event.shortName == "TestExternalTriggerOccurredEvent"
         assert event.disabledModeIRefs == []
         assert event.startOnEventRef is None
         assert event.triggerIRef is None
@@ -813,7 +813,7 @@ class TestTransformerHardErrorEvent:
         event = TransformerHardErrorEvent(ar_root, "TestTransformerHardErrorEvent")
 
         assert event.parent == ar_root
-        assert event.short_name == "TestTransformerHardErrorEvent"
+        assert event.shortName == "TestTransformerHardErrorEvent"
         assert event.disabledModeIRefs == []
         assert event.startOnEventRef is None
         assert event.operationIRef is None
@@ -886,7 +886,7 @@ class TestOsTaskExecutionEvent:
         event = OsTaskExecutionEvent(ar_root, "TestOsTaskExecutionEvent")
 
         assert event.parent == ar_root
-        assert event.short_name == "TestOsTaskExecutionEvent"
+        assert event.shortName == "TestOsTaskExecutionEvent"
         assert event.disabledModeIRefs == []
         assert event.startOnEventRef is None
         assert isinstance(event, RTEEvent)
@@ -902,7 +902,7 @@ class TestBackgroundEvent:
         event = BackgroundEvent(ar_root, "TestBackgroundEvent")
 
         assert event.parent == ar_root
-        assert event.short_name == "TestBackgroundEvent"
+        assert event.shortName == "TestBackgroundEvent"
         assert event.disabledModeIRefs == []
         assert event.startOnEventRef is None
         assert isinstance(event, RTEEvent)
@@ -942,7 +942,7 @@ class TestWaitPoint:
         point = WaitPoint(ar_root, "TestWaitPoint")
 
         assert point.parent == ar_root
-        assert point.short_name == "TestWaitPoint"
+        assert point.shortName == "TestWaitPoint"
         assert point.timeout is None
         assert point.triggerRef is None
         assert isinstance(point, Identifiable)
@@ -1022,7 +1022,7 @@ class TestSwcModeManagerErrorEvent:
         event = SwcModeManagerErrorEvent(ar_root, "TestSwcModeManagerErrorEvent")
 
         assert event.parent == ar_root
-        assert event.short_name == "TestSwcModeManagerErrorEvent"
+        assert event.shortName == "TestSwcModeManagerErrorEvent"
         assert event.disabledModeIRefs == []
         assert event.startOnEventRef is None
         assert event.modeGroupIRef is None

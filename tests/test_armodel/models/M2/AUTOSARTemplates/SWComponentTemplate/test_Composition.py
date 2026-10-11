@@ -19,7 +19,7 @@ class TestSwComponentPrototype:
         comp_proto = SwComponentPrototype(ar_root, "TestSwComponentPrototype")
 
         assert comp_proto.parent == ar_root
-        assert comp_proto.short_name == "TestSwComponentPrototype"
+        assert comp_proto.shortName == "TestSwComponentPrototype"
         assert comp_proto.typeTRef is None
 
         # Test typeTRef methods
@@ -48,7 +48,7 @@ class TestSwConnector:
         connector = AssemblySwConnector(ar_root, "TestSwConnector")
 
         assert connector.parent == ar_root
-        assert connector.short_name == "TestSwConnector"
+        assert connector.shortName == "TestSwConnector"
         assert connector.mappingRef is None
 
 
@@ -62,7 +62,7 @@ class TestAssemblySwConnector:
         connector = AssemblySwConnector(ar_root, "TestAssemblySwConnector")
 
         assert connector.parent == ar_root
-        assert connector.short_name == "TestAssemblySwConnector"
+        assert connector.shortName == "TestAssemblySwConnector"
         assert connector.mappingRef is None
         assert connector.providerIRef is None
         assert connector.requesterIRef is None
@@ -100,7 +100,7 @@ class TestDelegationSwConnector:
         connector = DelegationSwConnector(ar_root, "TestDelegationSwConnector")
 
         assert connector.parent == ar_root
-        assert connector.short_name == "TestDelegationSwConnector"
+        assert connector.shortName == "TestDelegationSwConnector"
         assert connector.mappingRef is None
         assert connector.innerPortIRef is None
         assert connector.outerPortRef is None
@@ -139,7 +139,7 @@ class TestPassThroughSwConnector:
         connector = PassThroughSwConnector(ar_root, "TestPassThroughSwConnector")
 
         assert connector.parent == ar_root
-        assert connector.short_name == "TestPassThroughSwConnector"
+        assert connector.shortName == "TestPassThroughSwConnector"
         assert connector.mappingRef is None
         assert connector.providedOuterPortRef is None
         assert connector.requiredOuterPortRef is None

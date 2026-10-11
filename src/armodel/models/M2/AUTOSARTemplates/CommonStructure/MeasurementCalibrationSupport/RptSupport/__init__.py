@@ -559,7 +559,7 @@ class RptExecutableEntity(Identifiable, VariationPointCapable):
         A None value is a no-op and does not overwrite an existing rptExecutableEntityEvents.
         """
         for event in self.rptExecutableEntityEvents:
-            if event.short_name == short_name:
+            if event.shortName == short_name:
                 return event
         event = RptExecutableEntityEvent(self, short_name)
         self.rptExecutableEntityEvents.append(event)
@@ -681,7 +681,7 @@ class RptComponent(Identifiable, VariationPointCapable):
         ExecutableEntity instance which can be bypassed. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=rptExecutableEntity.shortName, rpt ExecutableEntity.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
         """
         for executable_entity in self.rptExecutableEntities:
-            if executable_entity.short_name == short_name:
+            if executable_entity.shortName == short_name:
                 return executable_entity
         executable_entity = RptExecutableEntity(self, short_name)
         self.rptExecutableEntities.append(executable_entity)
@@ -728,7 +728,7 @@ class RptSupportData(ARObject):
         Defines an environment for the execution of Executable Entites.
         """
         for context in self.executionContexts:
-            if context.short_name == short_name:
+            if context.shortName == short_name:
                 return context
         context = RptExecutionContext(self, short_name)
         self.executionContexts.append(context)
@@ -745,7 +745,7 @@ class RptSupportData(ARObject):
         Description of components for which rapid prototyping support is implemented. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=rptComponent.shortName, rpt Component.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
         """
         for component in self.rptComponents:
-            if component.short_name == short_name:
+            if component.shortName == short_name:
                 return component
         component = RptComponent(self, short_name)
         self.rptComponents.append(component)
@@ -762,7 +762,7 @@ class RptSupportData(ARObject):
         This aggregation represents the collection of service points associated with the enclosing RptSuportData Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=rptServicePoint.shortName, rptService Point.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
         """
         for service_point in self.rptServicePoints:
-            if service_point.short_name == short_name:
+            if service_point.shortName == short_name:
                 return service_point
         service_point = RptServicePoint(self, short_name)
         self.rptServicePoints.append(service_point)

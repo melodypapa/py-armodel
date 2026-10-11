@@ -16,7 +16,7 @@ class TestApplicationDeferredDataType:
         ar_root = document.createARPackage("AUTOSAR")
         obj = ApplicationDeferredDataType(ar_root, "test_applicationdeferreddatatype")
 
-        assert obj.short_name == "test_applicationdeferreddatatype"
+        assert obj.shortName == "test_applicationdeferreddatatype"
 
 
 """
@@ -34,7 +34,7 @@ class TestApplicationInterface:
         ar_root = document.createARPackage("AUTOSAR")
         obj = ApplicationInterface(ar_root, "test_applicationinterface")
 
-        assert obj.short_name == "test_applicationinterface"
+        assert obj.shortName == "test_applicationinterface"
 
     def test_get_attribute(self):
         """Test getting attribute list."""

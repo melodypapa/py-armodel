@@ -31,12 +31,12 @@ class TestBswMD:
 
     def test_ar_packages(self):
         document = AUTOSAR.getInstance()
-        root_pkgs = sorted(document.getARPackages(), key=lambda pkg: pkg.short_name)
+        root_pkgs = sorted(document.getARPackages(), key=lambda pkg: pkg.shortName)
         assert len(root_pkgs) == 2
         assert root_pkgs[0].getShortName() == "AUTOSAR_BswM"
         assert root_pkgs[1].getShortName() == "EB_BswM_TxDxM1I14R0"
 
-        root_pkg_0_pkgs = sorted(root_pkgs[0].getARPackages(), key=lambda pkg: pkg.short_name)
+        root_pkg_0_pkgs = sorted(root_pkgs[0].getARPackages(), key=lambda pkg: pkg.shortName)
         assert len(root_pkg_0_pkgs) == 3
 
         bsw_module_desc_pkg = root_pkg_0_pkgs[0]  # type：ARPackage
@@ -66,7 +66,7 @@ class TestBswMD:
 
         assert len(bsw_module_desc.getInternalBehaviors()) == 1
         behavior = bsw_module_desc.getInternalBehaviors()[0]
-        assert behavior.short_name == "InternalBehavior_0"
+        assert behavior.shortName == "InternalBehavior_0"
 
         assert len(behavior.getDataTypeMappingRefs()) == 1
         data_type_mapping_ref = behavior.getDataTypeMappingRefs()[0]
@@ -74,11 +74,11 @@ class TestBswMD:
         assert data_type_mapping_ref.getValue() == "/BswMMode/DataTypeMappingSets/BswMModeMapping"
 
         assert len(behavior.getExclusiveAreas()) == 1
-        assert behavior.getExclusiveAreas()[0].short_name == "SCHM_BSWM_EXCLUSIVE_AREA"
+        assert behavior.getExclusiveAreas()[0].shortName == "SCHM_BSWM_EXCLUSIVE_AREA"
 
         assert len(behavior.getBswSchedulableEntities()) == 1
         entity = behavior.getBswSchedulableEntities()[0]
-        assert entity.short_name == "BswM_MainFunction"
+        assert entity.shortName == "BswM_MainFunction"
         assert entity.minimumStartInterval is not None
         assert entity.minimumStartIntervalMs is not None
         assert len(entity.getCanEnterRefs()) == 1
@@ -89,7 +89,7 @@ class TestBswMD:
 
         assert len(behavior.getBswTimingEvents()) == 1
         event = behavior.getBswTimingEvents()[0]
-        assert event.short_name == "TimingEvent_MainFunction"
+        assert event.shortName == "TimingEvent_MainFunction"
         assert event.startsOnEventRef.getDest() == "BSW-SCHEDULABLE-ENTITY"
         assert event.startsOnEventRef.getValue() == "/AUTOSAR_BswM/BswModuleDescriptions/BswM/InternalBehavior_0/BswM_MainFunction"
         assert event.period.getValue() == 0.02
@@ -100,7 +100,7 @@ class TestBswMD:
         document = AUTOSAR.getInstance()
 
         pkg = document.find("/AUTOSAR_BswM/BswModuleEntrys")  # type: ARPackage
-        entries = sorted(pkg.getBswModuleEntries(), key=lambda entry: entry.short_name)
+        entries = sorted(pkg.getBswModuleEntries(), key=lambda entry: entry.shortName)
         assert len(entries) == 2
 
         assert entries[0].getShortName() == "BswM_Init"
@@ -142,11 +142,11 @@ class TestBswMD:
         pkg = document.find("/EB_BswM_TxDxM1I14R0/Implementations")  # type: ARPackage
         assert len(pkg.getBswImplementations()) == 1
         impl = pkg.getBswImplementations()[0]
-        assert impl.short_name == "BswImplementation_0"
+        assert impl.shortName == "BswImplementation_0"
         assert len(impl.getCodeDescriptors()) == 1
 
         code_desc = impl.getCodeDescriptors()[0]
-        assert code_desc.short_name == "Files"
+        assert code_desc.shortName == "Files"
         assert len(code_desc.getArtifactDescriptors()) == 21
         assert len(code_desc.getArtifactDescriptors("SWSRC")) == 4
         assert len(code_desc.getArtifactDescriptors("SWHDR")) == 15
@@ -160,17 +160,17 @@ class TestBswMD:
 
         assert impl.programmingLanguage.getValue() == "C"
 
-        assert impl.resourceConsumption.short_name == "ResourceConsumption"
+        assert impl.resourceConsumption.shortName == "ResourceConsumption"
         assert len(impl.resourceConsumption.getMemorySections()) == 8
 
         section = impl.resourceConsumption.getMemorySection("CODE")
-        assert section.short_name == "CODE"
+        assert section.shortName == "CODE"
         assert section.alignment is None
         assert section.swAddrMethodRef.getDest() == "SW-ADDR-METHOD"
         assert section.swAddrMethodRef.getValue() == "/AUTOSAR_MemMap/SwAddrMethods/CODE"
 
         section = impl.resourceConsumption.getMemorySection("VAR_NO_INIT_UNSPECIFIED")
-        assert section.short_name == "VAR_NO_INIT_UNSPECIFIED"
+        assert section.shortName == "VAR_NO_INIT_UNSPECIFIED"
         assert section.alignment.getText() == "UNSPECIFIED"
         assert section.swAddrMethodRef.getDest() == "SW-ADDR-METHOD"
         assert section.swAddrMethodRef.getValue() == "/AUTOSAR_MemMap/SwAddrMethods/VAR_NOINIT"

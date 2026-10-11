@@ -23,7 +23,7 @@ class TestAbstractEvent:
         event = InitEvent(ar_root, "InitEvt")
         assert isinstance(event, AbstractEvent)
         assert isinstance(event, Identifiable)
-        assert event.short_name == "InitEvt"
+        assert event.shortName == "InitEvt"
         assert event.activationReasonRepresentationRef is None
         assert event.getActivationReasonRepresentationRef() is None
 

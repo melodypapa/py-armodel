@@ -699,71 +699,71 @@ class SwcServiceDependency(AtpStructureElement, ServiceDependency):
 
     def getNvBlockNeeds(self) -> List[NvBlockNeeds]:
         """The associated ServiceNeeds."""
-        return sorted([c for c in self.referrableElements if isinstance(c, NvBlockNeeds)], key=lambda e: e.short_name)
+        return sorted([c for c in self.referrableElements if isinstance(c, NvBlockNeeds)], key=lambda e: e.shortName)
 
     def getDiagnosticCommunicationManagerNeeds(self) -> List[DiagnosticCommunicationManagerNeeds]:
         """The associated ServiceNeeds."""
-        return sorted([c for c in self.referrableElements if isinstance(c, DiagnosticCommunicationManagerNeeds)], key=lambda e: e.short_name)
+        return sorted([c for c in self.referrableElements if isinstance(c, DiagnosticCommunicationManagerNeeds)], key=lambda e: e.shortName)
 
     def getDiagnosticRoutineNeeds(self) -> List[DiagnosticRoutineNeeds]:
         """The associated ServiceNeeds."""
-        return sorted([c for c in self.referrableElements if isinstance(c, DiagnosticRoutineNeeds)], key=lambda e: e.short_name)
+        return sorted([c for c in self.referrableElements if isinstance(c, DiagnosticRoutineNeeds)], key=lambda e: e.shortName)
 
     def getDiagnosticValueNeeds(self) -> List[DiagnosticValueNeeds]:
         """The associated ServiceNeeds."""
-        return sorted([c for c in self.referrableElements if isinstance(c, DiagnosticValueNeeds)], key=lambda e: e.short_name)
+        return sorted([c for c in self.referrableElements if isinstance(c, DiagnosticValueNeeds)], key=lambda e: e.shortName)
 
     def getDiagnosticEventNeeds(self) -> List[DiagnosticEventNeeds]:
         """The associated ServiceNeeds."""
-        return sorted([c for c in self.referrableElements if isinstance(c, DiagnosticEventNeeds)], key=lambda e: e.short_name)
+        return sorted([c for c in self.referrableElements if isinstance(c, DiagnosticEventNeeds)], key=lambda e: e.shortName)
 
     def getDiagnosticEventInfoNeeds(self) -> List[DiagnosticEventInfoNeeds]:
         """The associated ServiceNeeds."""
-        return sorted([c for c in self.referrableElements if isinstance(c, DiagnosticEventInfoNeeds)], key=lambda e: e.short_name)
+        return sorted([c for c in self.referrableElements if isinstance(c, DiagnosticEventInfoNeeds)], key=lambda e: e.shortName)
 
     def getCryptoServiceNeeds(self) -> List[CryptoServiceNeeds]:
         """The associated ServiceNeeds."""
-        return sorted([c for c in self.referrableElements if isinstance(c, CryptoServiceNeeds)], key=lambda e: e.short_name)
+        return sorted([c for c in self.referrableElements if isinstance(c, CryptoServiceNeeds)], key=lambda e: e.shortName)
 
     def getEcuStateMgrUserNeeds(self) -> List[EcuStateMgrUserNeeds]:
         """The associated ServiceNeeds."""
-        return sorted([c for c in self.referrableElements if isinstance(c, EcuStateMgrUserNeeds)], key=lambda e: e.short_name)
+        return sorted([c for c in self.referrableElements if isinstance(c, EcuStateMgrUserNeeds)], key=lambda e: e.shortName)
 
     def getDtcStatusChangeNotificationNeeds(self) -> List[DtcStatusChangeNotificationNeeds]:
         """The associated ServiceNeeds."""
-        return sorted([c for c in self.referrableElements if isinstance(c, DtcStatusChangeNotificationNeeds)], key=lambda e: e.short_name)
+        return sorted([c for c in self.referrableElements if isinstance(c, DtcStatusChangeNotificationNeeds)], key=lambda e: e.shortName)
 
     def getDiagnosticIoControlNeeds(self) -> List[DiagnosticIoControlNeeds]:
         """The associated ServiceNeeds."""
-        return sorted([c for c in self.referrableElements if isinstance(c, DiagnosticIoControlNeeds)], key=lambda e: e.short_name)
+        return sorted([c for c in self.referrableElements if isinstance(c, DiagnosticIoControlNeeds)], key=lambda e: e.shortName)
 
     def getDltUserNeeds(self) -> List[DltUserNeeds]:
         """The associated ServiceNeeds."""
-        return sorted([c for c in self.referrableElements if isinstance(c, DltUserNeeds)], key=lambda e: e.short_name)
+        return sorted([c for c in self.referrableElements if isinstance(c, DltUserNeeds)], key=lambda e: e.shortName)
 
     def getComMgrUserNeeds(self) -> List[ComMgrUserNeeds]:
         """The associated ServiceNeeds."""
-        return sorted([c for c in self.referrableElements if isinstance(c, ComMgrUserNeeds)], key=lambda e: e.short_name)
+        return sorted([c for c in self.referrableElements if isinstance(c, ComMgrUserNeeds)], key=lambda e: e.shortName)
 
     def getErrorTracerNeeds(self) -> List[ErrorTracerNeeds]:
         """The associated ServiceNeeds."""
-        return sorted([c for c in self.referrableElements if isinstance(c, ErrorTracerNeeds)], key=lambda e: e.short_name)
+        return sorted([c for c in self.referrableElements if isinstance(c, ErrorTracerNeeds)], key=lambda e: e.shortName)
 
     def getObdInfoServiceNeeds(self) -> List[ObdInfoServiceNeeds]:
         """The associated ServiceNeeds."""
-        return sorted([c for c in self.referrableElements if isinstance(c, ObdInfoServiceNeeds)], key=lambda e: e.short_name)
+        return sorted([c for c in self.referrableElements if isinstance(c, ObdInfoServiceNeeds)], key=lambda e: e.shortName)
 
     def getObdMonitorServiceNeeds(self) -> List[ObdMonitorServiceNeeds]:
         """The associated ServiceNeeds."""
-        return sorted([c for c in self.referrableElements if isinstance(c, ObdMonitorServiceNeeds)], key=lambda e: e.short_name)
+        return sorted([c for c in self.referrableElements if isinstance(c, ObdMonitorServiceNeeds)], key=lambda e: e.shortName)
 
     def getObdPidServiceNeeds(self) -> List[ObdPidServiceNeeds]:
         """The associated ServiceNeeds."""
-        return sorted([c for c in self.referrableElements if isinstance(c, ObdPidServiceNeeds)], key=lambda e: e.short_name)
+        return sorted([c for c in self.referrableElements if isinstance(c, ObdPidServiceNeeds)], key=lambda e: e.shortName)
 
     def getObdControlServiceNeeds(self) -> List[ObdControlServiceNeeds]:
         """The associated ServiceNeeds."""
-        return sorted([c for c in self.referrableElements if isinstance(c, ObdControlServiceNeeds)], key=lambda e: e.short_name)
+        return sorted([c for c in self.referrableElements if isinstance(c, ObdControlServiceNeeds)], key=lambda e: e.shortName)
 
     def getServiceNeeds(self) -> Optional[ServiceNeeds]:
         """The associated ServiceNeeds."""

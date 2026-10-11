@@ -1081,7 +1081,7 @@ class TestDataTypeAndValueSpecHandlers:
         from armodel.models import ApplicationValueSpecification
 
         value_spec = ApplicationValueSpecification()
-        value_spec.short_name = "vs"  # required by readValueSpecification path
+        value_spec.shortName = "vs"  # required by readValueSpecification path
         element = _snip(
             "<SHORT-NAME>vs</SHORT-NAME>" "<CATEGORY>CAT</CATEGORY>" "<SW-VALUE-CONT>" "<UNIT-REF DEST='UNIT'>/u</UNIT-REF>" "</SW-VALUE-CONT>",
             root_tag="APPLICATION-VALUE-SPECIFICATION",

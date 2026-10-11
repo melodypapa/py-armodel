@@ -224,7 +224,7 @@ class TestEndToEndProtection:
         assert issubclass(EndToEndProtection, VariationPointCapable)
         protection = EndToEndProtection(ar_root, "BaseProtection")
         assert protection.parent == ar_root
-        assert protection.short_name == "BaseProtection"
+        assert protection.shortName == "BaseProtection"
 
     def test_initialization(self):
         """Test all __init__ field defaults per Table 4.97."""
@@ -342,7 +342,7 @@ class TestEndToEndProtectionSet:
         assert issubclass(EndToEndProtectionSet, ARElement)
         protection_set = EndToEndProtectionSet(ar_root, "SpecProtectionSet")
         assert protection_set.parent == ar_root
-        assert protection_set.short_name == "SpecProtectionSet"
+        assert protection_set.shortName == "SpecProtectionSet"
 
     def test_initialization(self):
         """Test all __init__ field defaults per Table 4.96."""
@@ -368,7 +368,7 @@ class TestEndToEndProtectionSet:
 
         protection = protection_set.createEndToEndProtection("TestProtection")
         assert protection is not None
-        assert protection.short_name == "TestProtection"
+        assert protection.shortName == "TestProtection"
         assert protection.parent == protection_set
         assert protection_set.getEndToEndProtections() == [protection]
 

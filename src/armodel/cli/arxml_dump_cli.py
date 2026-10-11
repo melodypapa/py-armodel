@@ -34,13 +34,13 @@ def show_variable_access(indent: int, variable_access: VariableAccess):
 
 def show_port(indent: int, port_prototype: PortPrototype):
     if isinstance(port_prototype, RPortPrototype):
-        print("%s-RPort: %s (%s)" % (" " * indent, port_prototype.short_name, _ref_value(port_prototype.getRequiredInterfaceTRef())))
+        print("%s-RPort: %s (%s)" % (" " * indent, port_prototype.shortName, _ref_value(port_prototype.getRequiredInterfaceTRef())))
         for client_com_spec in port_prototype.getClientComSpecs():
             print("%s    : %s (ClientComSpec)" % (" " * (indent + 2), _ref_value(client_com_spec.getOperationRef())))
         for receiver_com_spec in port_prototype.getNonqueuedReceiverComSpecs():
             print("%s    : %s (NonqueuedReceiverComSpec)" % (" " * (indent + 2), _ref_value(receiver_com_spec.getDataElementRef())))
     elif isinstance(port_prototype, PPortPrototype):
-        print("%s-PPort: %s (%s)" % (" " * indent, port_prototype.short_name, _ref_value(port_prototype.getProvidedInterfaceTRef())))
+        print("%s-PPort: %s (%s)" % (" " * indent, port_prototype.shortName, _ref_value(port_prototype.getProvidedInterfaceTRef())))
         for sender_com_spec in port_prototype.getNonqueuedSenderComSpecs():
             print("%s    : %s (NonqueuedSenderComSpec)" % (" " * (indent + 2), _ref_value(sender_com_spec.getDataElementRef())))
     else:
@@ -49,8 +49,8 @@ def show_port(indent: int, port_prototype: PortPrototype):
 
 def show_type(indent: int, data_type: ImplementationDataType):
     parent = data_type.parent
-    parent_full_name = parent.full_name if isinstance(parent, Identifiable) else ""
-    print("%s-Implementation Type: %s (%s)" % (" " * indent, data_type.short_name, parent_full_name))
+    parent_full_name = parent.fullName if isinstance(parent, Identifiable) else ""
+    print("%s-Implementation Type: %s (%s)" % (" " * indent, data_type.shortName, parent_full_name))
     print("%s                    : %s" % (" " * indent, data_type.getCategory()))
     sw_data_def_props = data_type.getSwDataDefProps()
     if sw_data_def_props is not None:
@@ -64,41 +64,41 @@ def show_type(indent: int, data_type: ImplementationDataType):
 
 
 def show_data_type_mapping(indent: int, mapping_set: DataTypeMappingSet):
-    print("%s- Data Mapping Set <%s>:" % (" " * indent, mapping_set.short_name))
+    print("%s- Data Mapping Set <%s>:" % (" " * indent, mapping_set.shortName))
     for mapping in mapping_set.getDataTypeMaps():
         print("%s- appl: %s" % (" " * (indent + 2), _ref_value(mapping.applicationDataTypeRef)))
         print("%s- impl: %s" % (" " * (indent + 4), _ref_value(mapping.implementationDataTypeRef)))
 
 
 def show_behavior(indent: int, behavior: SwcInternalBehavior):
-    print("%s-Behavior: %s" % (" " * indent, behavior.short_name))
+    print("%s-Behavior: %s" % (" " * indent, behavior.shortName))
     for runnable in behavior.getRunnableEntities():
-        print("%s-Runnable: %s" % (" " * (indent + 2), runnable.short_name))
+        print("%s-Runnable: %s" % (" " * (indent + 2), runnable.shortName))
         print("%s-symbol: %s" % (" " * (indent + 4), runnable.symbol))
         for variable_access in runnable.getDataReceivePointByArguments():
-            print("%s-drpa: %s" % (" " * (indent + 4), variable_access.short_name))
+            print("%s-drpa: %s" % (" " * (indent + 4), variable_access.shortName))
             show_variable_access(indent + 9, variable_access)
         for variable_access in runnable.getDataSendPoints():
-            print("%s-dsp : %s" % (" " * (indent + 4), variable_access.short_name))
+            print("%s-dsp : %s" % (" " * (indent + 4), variable_access.shortName))
             show_variable_access(indent + 9, variable_access)
         for server_call_point in runnable.getServerCallPoints():
-            print("%s-scp : %s" % (" " * (indent + 4), server_call_point.short_name))
+            print("%s-scp : %s" % (" " * (indent + 4), server_call_point.shortName))
             operation_iref = server_call_point.getOperationIRef()
             if operation_iref is not None:
                 print("%s: %s" % (" " * (indent + 9), _ref_value(operation_iref.getContextRPortRef())))
                 print("%s: %s" % (" " * (indent + 9), _ref_value(operation_iref.getTargetRequiredOperationRef())))
     for event in behavior.getOperationInvokedEvents():
-        print("   - OperationInvokedEvent : %s" % event.short_name)
+        print("   - OperationInvokedEvent : %s" % event.shortName)
         print("                           : %s" % _ref_value(event.getStartOnEventRef()))
     for timing_event in behavior.getTimingEvents():
         period_ms = timing_event.periodMs
         print("")
-        print("   - TimingEvent : %s (%d ms)" % (timing_event.short_name, period_ms if period_ms is not None else 0))
+        print("   - TimingEvent : %s (%d ms)" % (timing_event.shortName, period_ms if period_ms is not None else 0))
         print("                 : %s" % _ref_value(timing_event.getStartOnEventRef()))
 
 
 def show_sw_component(indent: int, sw_component: SwComponentType):
-    print("%s%s" % (" " * indent, sw_component.short_name))
+    print("%s%s" % (" " * indent, sw_component.shortName))
     for r_prototype in sw_component.getRPortPrototypes():
         show_port(indent + 2, r_prototype)
     for p_prototype in sw_component.getPPortPrototypes():
@@ -110,29 +110,29 @@ def show_sw_component(indent: int, sw_component: SwComponentType):
 
 
 def show_sender_receiver_interface(indent: int, sr_interface: SenderReceiverInterface):
-    print("%s%s" % (" " * indent, sr_interface.short_name))
+    print("%s%s" % (" " * indent, sr_interface.shortName))
     for data_element in sr_interface.getDataElements():
-        print("%sData Element:%s (%s) " % (" " * (indent + 2), data_element.short_name, _ref_value(data_element.getTypeTRef())))
+        print("%sData Element:%s (%s) " % (" " * (indent + 2), data_element.shortName, _ref_value(data_element.getTypeTRef())))
 
 
 def show_client_server_interface(indent: int, cs_interface: ClientServerInterface):
-    print("%s%s" % (" " * indent, cs_interface.short_name))
+    print("%s%s" % (" " * indent, cs_interface.shortName))
     for operation in cs_interface.getOperations():
-        print("%sOperation:%s" % (" " * (indent + 2), operation.short_name))
+        print("%sOperation:%s" % (" " * (indent + 2), operation.shortName))
         for argument in operation.getArguments():
-            print("%s         :%s (%s: %s)" % (" " * (indent + 2), argument.short_name, argument.direction, _ref_value(argument.getTypeTRef())))
+            print("%s         :%s (%s: %s)" % (" " * (indent + 2), argument.shortName, argument.direction, _ref_value(argument.getTypeTRef())))
 
 
 def show_bsw_internal_behavior(indent: int, behavior: BswInternalBehavior):
     document = AUTOSAR.getInstance()
 
-    print("%s-%s" % (" " * indent, behavior.short_name))
+    print("%s-%s" % (" " * indent, behavior.shortName))
 
     for event in behavior.getBswModeSwitchEvents():
-        print("%s-%s" % (" " * (indent + 2), event.short_name))
+        print("%s-%s" % (" " * (indent + 2), event.shortName))
 
     for timing_event in behavior.getBswTimingEvents():
-        print("%s-%s" % (" " * (indent + 2), timing_event.short_name))
+        print("%s-%s" % (" " * (indent + 2), timing_event.shortName))
         starts_on_event_path = _ref_value(timing_event.getStartsOnEventRef())
         print("%s-%s: %s" % (" " * (indent + 4), "StartsOnEventRef", starts_on_event_path))
         if starts_on_event_path is None:
@@ -140,7 +140,7 @@ def show_bsw_internal_behavior(indent: int, behavior: BswInternalBehavior):
         starts_on_event = document.find(starts_on_event_path)
         if not isinstance(starts_on_event, BswModuleEntity):
             continue
-        print("%s-%s: %s" % (" " * (indent + 4), "StartsOnEvent", starts_on_event.short_name))
+        print("%s-%s: %s" % (" " * (indent + 4), "StartsOnEvent", starts_on_event.shortName))
         implemented_entry_path = _ref_value(starts_on_event.getImplementedEntryRef())
         print("%s-%s: %s" % (" " * (indent + 4), "ImplementedEntryRef", implemented_entry_path))
         if implemented_entry_path is None:
@@ -148,19 +148,19 @@ def show_bsw_internal_behavior(indent: int, behavior: BswInternalBehavior):
         implemented_entry = document.find(implemented_entry_path)
         if not isinstance(implemented_entry, BswModuleEntry):
             continue
-        print("%s-%s: %s" % (" " * (indent + 4), "ImplementedEntry", implemented_entry.short_name))
+        print("%s-%s: %s" % (" " * (indent + 4), "ImplementedEntry", implemented_entry.shortName))
         print("%s-%s: %s" % (" " * (indent + 6), "Service Id", implemented_entry.getServiceId()))
 
 
 def show_bsw_module_description(indent: int, description: BswModuleDescription):
-    print("%s-%s" % (" " * indent, description.short_name))
+    print("%s-%s" % (" " * indent, description.shortName))
 
     for behavior in description.getInternalBehaviors():
         show_bsw_internal_behavior(indent + 2, behavior)
 
 
 def show_ar_package(indent: int, ar_package: ARPackage):
-    print("%s-%s (Pkg)" % (" " * indent, ar_package.short_name))
+    print("%s-%s (Pkg)" % (" " * indent, ar_package.shortName))
 
     for sub_package in ar_package.getARPackages():
         show_ar_package(indent + 2, sub_package)

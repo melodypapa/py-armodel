@@ -184,7 +184,7 @@ class TestAbstractAUTOSAR:
     def test_full_name_property(self):
         """Test the full_name property."""
         autosar = AbstractAUTOSAR()
-        assert autosar.full_name == ""
+        assert autosar.fullName == ""
 
     def test_clear(self):
         """Test the clear method."""

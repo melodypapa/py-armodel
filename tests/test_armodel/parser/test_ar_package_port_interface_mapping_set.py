@@ -83,7 +83,7 @@ class TestReadPortInterfaceMappingSet:
         )
 
         mappings = mapping_set.getPortInterfaceMappings()
-        assert [m.short_name for m in mappings] == ["vpm", "csim", "mim"]
+        assert [m.shortName for m in mappings] == ["vpm", "csim", "mim"]
         assert isinstance(mappings[0], VariableAndParameterInterfaceMapping)
         assert isinstance(mappings[1], ClientServerInterfaceMapping)
         assert isinstance(mappings[2], ModeInterfaceMapping)
@@ -113,7 +113,7 @@ class TestReadPortInterfaceMappingSet:
 
         mappings = mapping_set.getPortInterfaceMappings()
         assert len(mappings) == 1
-        assert mappings[0].short_name == "tim"
+        assert mappings[0].shortName == "tim"
 
         trigger_mappings = mappings[0].getTriggerMappings()
         assert len(trigger_mappings) == 1

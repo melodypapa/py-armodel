@@ -165,25 +165,25 @@ class SwComponentType(ARElement, ABC):
         """
         Convenience getter for the PPortPrototype instances aggregated by this SwComponentType.
         """
-        return list(sorted([c for c in self.ports if isinstance(c, PPortPrototype)], key=lambda o: o.short_name))
+        return list(sorted([c for c in self.ports if isinstance(c, PPortPrototype)], key=lambda o: o.shortName))
 
     def getRPortPrototypes(self) -> List[RPortPrototype]:
         """
         Convenience getter for the RPortPrototype instances aggregated by this SwComponentType.
         """
-        return list(sorted([c for c in self.ports if isinstance(c, RPortPrototype)], key=lambda o: o.short_name))
+        return list(sorted([c for c in self.ports if isinstance(c, RPortPrototype)], key=lambda o: o.shortName))
 
     def getPRPortPrototypes(self) -> List[PRPortPrototype]:
         """
         Convenience getter for the PRPortPrototype instances aggregated by this SwComponentType.
         """
-        return list(sorted([c for c in self.ports if isinstance(c, PRPortPrototype)], key=lambda o: o.short_name))
+        return list(sorted([c for c in self.ports if isinstance(c, PRPortPrototype)], key=lambda o: o.shortName))
 
     def getPortPrototypes(self) -> List[PortPrototype]:
         """
         Convenience getter for all PortPrototype instances aggregated by this SwComponentType.
         """
-        return list(sorted(filter(lambda c: isinstance(c, PortPrototype), self.ports), key=lambda o: o.short_name))
+        return list(sorted(filter(lambda c: isinstance(c, PortPrototype), self.ports), key=lambda o: o.shortName))
 
     def createPortGroup(self, short_name: str) -> PortGroup:
         """

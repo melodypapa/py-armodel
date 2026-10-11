@@ -51,7 +51,7 @@ def test_ecuc_value_collection_initialization_defaults():
     collection = EcucValueCollection(parent, "test_collection")
 
     assert collection.parent == parent
-    assert collection.short_name == "test_collection"
+    assert collection.shortName == "test_collection"
     assert collection.ecucValueRefs == []
     assert collection.getEcucValueRefs() == []
     assert collection.ecuExtractRef is None
@@ -148,7 +148,7 @@ def test_module_configuration_initialization_defaults():
     module_configuration = ModuleConfiguration(parent, "test_module_configuration")
 
     assert module_configuration.parent == parent
-    assert module_configuration.short_name == "test_module_configuration"
+    assert module_configuration.shortName == "test_module_configuration"
     assert module_configuration.containers == []
     assert module_configuration.getContainers() == []
     assert module_configuration.definitionRef is None
@@ -172,7 +172,7 @@ def test_module_configuration_create_container():
 
     container = module_configuration.createContainer("OsOS")
     assert container is not None
-    assert container.short_name == "OsOS"
+    assert container.shortName == "OsOS"
     assert module_configuration.getContainers() == [container]
 
     duplicate = module_configuration.createContainer("OsOS")
@@ -852,7 +852,7 @@ def test_ecuc_container_value_initialization_defaults():
     container = EcucContainerValue(parent, "test_container")
 
     assert container.parent == parent
-    assert container.short_name == "test_container"
+    assert container.shortName == "test_container"
     assert container.getDefinitionRef() is None
     assert container.getParameterValues() == []
     assert container.getReferenceValues() == []
@@ -929,7 +929,7 @@ def test_ecuc_container_value_create_sub_container():
 
     sub = container.createSubContainer("sub_container")
     assert sub is not None
-    assert sub.short_name == "sub_container"
+    assert sub.shortName == "sub_container"
     assert container.getSubContainers() == [sub]
 
     duplicate = container.createSubContainer("sub_container")
@@ -977,7 +977,7 @@ def test_ecuc_module_configuration_values_initialization_defaults():
     values = EcucModuleConfigurationValues(parent, "test_module_config")
 
     assert values.parent == parent
-    assert values.short_name == "test_module_config"
+    assert values.shortName == "test_module_config"
     assert values.containers == []
     assert values.getContainers() == []
     assert values.getContainers() is values.getContainers()
@@ -1006,7 +1006,7 @@ def test_ecuc_module_configuration_values_create_container():
 
     container1 = values.createContainer("OsOS")
     assert container1 is not None
-    assert container1.short_name == "OsOS"
+    assert container1.shortName == "OsOS"
     container2 = values.createContainer("CanIf")
     assert values.getContainers() == [container1, container2]
 
@@ -1201,7 +1201,7 @@ def test_ecuc_module_def():
 
     # Test initial values
     assert module_def.parent == parent
-    assert module_def.short_name == "test_module_def"
+    assert module_def.shortName == "test_module_def"
     assert module_def.apiServicePrefix is None
     assert module_def.containers == []
     assert module_def.postBuildVariantSupport is None

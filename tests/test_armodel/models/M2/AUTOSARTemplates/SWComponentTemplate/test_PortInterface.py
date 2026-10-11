@@ -81,7 +81,7 @@ class TestNvDataInterface:
         nv_interface = NvDataInterface(ar_root, "TestNvDataInterface")
 
         assert nv_interface.parent == ar_root
-        assert nv_interface.short_name == "TestNvDataInterface"
+        assert nv_interface.shortName == "TestNvDataInterface"
         assert nv_interface.isService is None
         assert nv_interface.serviceKind is None
         assert nv_interface.getNvDatas() == []
@@ -102,7 +102,7 @@ class TestParameterInterface:
         param_interface = ParameterInterface(ar_root, "TestParameterInterface")
 
         assert param_interface.parent == ar_root
-        assert param_interface.short_name == "TestParameterInterface"
+        assert param_interface.shortName == "TestParameterInterface"
         assert param_interface.isService is None
         assert param_interface.serviceKind is None
         assert param_interface.parameters == []
@@ -110,7 +110,7 @@ class TestParameterInterface:
         # Test parameters methods
         param_data = param_interface.createParameterDataPrototype("TestParamData")
         assert param_data is not None
-        assert param_data.short_name == "TestParamData"
+        assert param_data.shortName == "TestParamData"
         assert param_data in param_interface.getParameters()
 
 
@@ -234,7 +234,7 @@ class TestSenderReceiverInterface:
         sr_interface = SenderReceiverInterface(ar_root, "TestSenderReceiverInterface")
 
         assert sr_interface.parent == ar_root
-        assert sr_interface.short_name == "TestSenderReceiverInterface"
+        assert sr_interface.shortName == "TestSenderReceiverInterface"
         assert sr_interface.isService is None
         assert sr_interface.serviceKind is None
         assert sr_interface.invalidationPolicies == []
@@ -253,7 +253,7 @@ class TestSenderReceiverInterface:
         # Test dataElement methods
         data_element = sr_interface.createDataElement("TestDataElement")
         assert data_element is not None
-        assert data_element.short_name == "TestDataElement"
+        assert data_element.shortName == "TestDataElement"
         assert data_element in sr_interface.getDataElements()
 
         # Test invalidation policy creation
@@ -290,7 +290,7 @@ class TestArgumentDataPrototype:
         arg_proto = ArgumentDataPrototype(ar_root, "TestArgumentDataPrototype")
 
         assert arg_proto.parent == ar_root
-        assert arg_proto.short_name == "TestArgumentDataPrototype"
+        assert arg_proto.shortName == "TestArgumentDataPrototype"
         assert arg_proto.direction is None
         assert arg_proto.serverArgumentImplPolicy is None
 
@@ -319,7 +319,7 @@ class TestApplicationError:
         app_error = ApplicationError(ar_root, "TestApplicationError")
 
         assert app_error.parent == ar_root
-        assert app_error.short_name == "TestApplicationError"
+        assert app_error.shortName == "TestApplicationError"
         assert app_error.getErrorCode() is None
 
     def test_application_error_get_set_error_code(self):
@@ -348,7 +348,7 @@ class TestClientServerOperation:
         operation = ClientServerOperation(ar_root, "TestClientServerOperation")
 
         assert operation.parent == ar_root
-        assert operation.short_name == "TestClientServerOperation"
+        assert operation.shortName == "TestClientServerOperation"
         assert operation.arguments == []
         assert operation.possibleErrorRefs == []
 
@@ -376,20 +376,20 @@ class TestClientServerInterface:
         cs_interface = ClientServerInterface(ar_root, "TestClientServerInterface")
 
         assert cs_interface.parent == ar_root
-        assert cs_interface.short_name == "TestClientServerInterface"
+        assert cs_interface.shortName == "TestClientServerInterface"
         assert cs_interface.isService is None
         assert cs_interface.serviceKind is None
 
         # Test operation methods
         operation = cs_interface.createOperation("TestOperation")
         assert operation is not None
-        assert operation.short_name == "TestOperation"
+        assert operation.shortName == "TestOperation"
         assert operation in cs_interface.getOperations()
 
         # Test application error methods
         app_error = cs_interface.createApplicationError("TestAppError")
         assert app_error is not None
-        assert app_error.short_name == "TestAppError"
+        assert app_error.shortName == "TestAppError"
         assert app_error in cs_interface.getPossibleErrors()
 
 
@@ -403,7 +403,7 @@ class TestTriggerInterface:
         trigger_interface = TriggerInterface(ar_root, "TestTriggerInterface")
 
         assert trigger_interface.parent == ar_root
-        assert trigger_interface.short_name == "TestTriggerInterface"
+        assert trigger_interface.shortName == "TestTriggerInterface"
         assert trigger_interface.isService is None
         assert trigger_interface.serviceKind is None
         assert trigger_interface.getTriggers() == []
@@ -419,7 +419,7 @@ class TestModeSwitchInterface:
         mode_interface = ModeSwitchInterface(ar_root, "TestModeSwitchInterface")
 
         assert mode_interface.parent == ar_root
-        assert mode_interface.short_name == "TestModeSwitchInterface"
+        assert mode_interface.shortName == "TestModeSwitchInterface"
         assert mode_interface.isService is None
         assert mode_interface.serviceKind is None
         assert mode_interface.getModeGroup() is None
@@ -432,7 +432,7 @@ class TestModeSwitchInterface:
 
         mode_group = mode_interface.createModeGroup("TestModeGroup")
         assert mode_group is not None
-        assert mode_group.short_name == "TestModeGroup"
+        assert mode_group.shortName == "TestModeGroup"
         assert mode_interface.getModeGroup() is mode_group
 
     def test_mode_switch_interface_create_mode_group_duplicate(self):
@@ -582,7 +582,7 @@ class TestClientServerInterfaceMapping:
         cs_mapping = ClientServerInterfaceMapping(ar_root, "TestClientServerInterfaceMapping")
 
         assert cs_mapping.parent == ar_root
-        assert cs_mapping.short_name == "TestClientServerInterfaceMapping"
+        assert cs_mapping.shortName == "TestClientServerInterfaceMapping"
         assert cs_mapping.errorMappings == []
         assert cs_mapping.operationMappings == []
 
@@ -607,7 +607,7 @@ class TestVariableAndParameterInterfaceMapping:
         vp_mapping = VariableAndParameterInterfaceMapping(ar_root, "TestVariableAndParameterInterfaceMapping")
 
         assert vp_mapping.parent == ar_root
-        assert vp_mapping.short_name == "TestVariableAndParameterInterfaceMapping"
+        assert vp_mapping.shortName == "TestVariableAndParameterInterfaceMapping"
         assert vp_mapping.dataMappings == []
 
         # Test dataMappings methods
@@ -626,7 +626,7 @@ class TestModeInterfaceMapping:
         mode_mapping = ModeInterfaceMapping(ar_root, "TestModeInterfaceMapping")
 
         assert mode_mapping.parent == ar_root
-        assert mode_mapping.short_name == "TestModeInterfaceMapping"
+        assert mode_mapping.shortName == "TestModeInterfaceMapping"
         assert mode_mapping.modeMapping is None
 
         # Test modeMapping methods
@@ -647,7 +647,7 @@ class TestTriggerInterfaceMapping:
         trigger_mapping = TriggerInterfaceMapping(ar_root, "TestTriggerInterfaceMapping")
 
         assert trigger_mapping.parent == ar_root
-        assert trigger_mapping.short_name == "TestTriggerInterfaceMapping"
+        assert trigger_mapping.shortName == "TestTriggerInterfaceMapping"
         assert trigger_mapping.triggerMappings == []
 
         # Test triggerMapping methods
@@ -668,7 +668,7 @@ class TestModeDeclarationMapping:
         mode_decl_mapping = ModeDeclarationMapping(ar_root, "TestModeDeclarationMapping")
 
         assert mode_decl_mapping.parent == ar_root
-        assert mode_decl_mapping.short_name == "TestModeDeclarationMapping"
+        assert mode_decl_mapping.shortName == "TestModeDeclarationMapping"
         assert mode_decl_mapping.firstModeRefs == []
         assert mode_decl_mapping.secondModeRef is None
 
@@ -723,7 +723,7 @@ class TestModeDeclarationMappingSet:
         # Test modeDeclarationMappings methods
         mode_decl_mapping = mode_decl_mapping_set.createModeDeclarationMapping("TestModeDeclMapping")
         assert mode_decl_mapping is not None
-        assert mode_decl_mapping.short_name == "TestModeDeclMapping"
+        assert mode_decl_mapping.shortName == "TestModeDeclMapping"
         assert mode_decl_mapping in mode_decl_mapping_set.getModeDeclarationMappings()
 
     def test_mode_declaration_mapping_set_create_duplicate_protection(self):
@@ -749,28 +749,28 @@ class TestPortInterfaceMappingSet:
         mapping_set = PortInterfaceMappingSet(ar_root, "TestPortInterfaceMappingSet")
 
         assert mapping_set.parent == ar_root
-        assert mapping_set.short_name == "TestPortInterfaceMappingSet"
+        assert mapping_set.shortName == "TestPortInterfaceMappingSet"
         assert mapping_set.portInterfaceMappings == []
 
         # Test various mapping creation methods
         vp_mapping = mapping_set.createVariableAndParameterInterfaceMapping("TestVPMapping")
         assert vp_mapping is not None
-        assert vp_mapping.short_name == "TestVPMapping"
+        assert vp_mapping.shortName == "TestVPMapping"
         assert vp_mapping in mapping_set.getPortInterfaceMappings()
 
         cs_mapping = mapping_set.createClientServerInterfaceMapping("TestCSMapping")
         assert cs_mapping is not None
-        assert cs_mapping.short_name == "TestCSMapping"
+        assert cs_mapping.shortName == "TestCSMapping"
         assert cs_mapping in mapping_set.getPortInterfaceMappings()
 
         mode_mapping = mapping_set.createModeInterfaceMapping("TestModeMapping")
         assert mode_mapping is not None
-        assert mode_mapping.short_name == "TestModeMapping"
+        assert mode_mapping.shortName == "TestModeMapping"
         assert mode_mapping in mapping_set.getPortInterfaceMappings()
 
         trigger_mapping = mapping_set.createTriggerInterfaceMapping("TestTriggerMapping")
         assert trigger_mapping is not None
-        assert trigger_mapping.short_name == "TestTriggerMapping"
+        assert trigger_mapping.shortName == "TestTriggerMapping"
         assert trigger_mapping in mapping_set.getPortInterfaceMappings()
 
 

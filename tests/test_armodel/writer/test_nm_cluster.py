@@ -123,7 +123,7 @@ class TestWriteNmCluster:
         assert parsed.getCommunicationClusterRef().getDest() == "CAN-CLUSTER"
         assert parsed.getNmChannelId().getValue() == 3
         assert parsed.getNmChannelSleepMaster().getValue() is True
-        assert [node.short_name for node in parsed.getNmNodes()] == ["Node1"]
+        assert [node.shortName for node in parsed.getNmNodes()] == ["Node1"]
         assert parsed.getNmNodeDetectionEnabled().getValue() is True
         assert parsed.getNmNodeIdEnabled().getValue() is True
         assert parsed.getNmPncParticipation().getValue() is False

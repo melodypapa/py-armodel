@@ -33,7 +33,7 @@ class TestTDEventSLLET:
         ar_root = document.createARPackage("AUTOSAR")
         event = _ConcreteTDEventSLLET(ar_root, "SLLET1")
         assert event is not None
-        assert event.short_name == "SLLET1"
+        assert event.shortName == "SLLET1"
 
 
 class TestTDEventSLLETPort:
@@ -42,7 +42,7 @@ class TestTDEventSLLETPort:
         ar_root = document.createARPackage("AUTOSAR")
         event = TDEventSLLETPort(ar_root, "SLLETPort1")
         assert event is not None
-        assert event.short_name == "SLLETPort1"
+        assert event.shortName == "SLLETPort1"
 
     def test_base_is_tdevent_sllet(self):
         assert issubclass(TDEventSLLETPort, TDEventSLLET)

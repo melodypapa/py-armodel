@@ -74,6 +74,6 @@ class TestWriteFlexrayNmNode:
         parsed = nodes[0]
         assert isinstance(parsed, FlexrayNmNode)
         assert isinstance(parsed, NmNode)
-        assert parsed.short_name == "FrNode1"
+        assert parsed.shortName == "FrNode1"
         assert parsed.getControllerRef().getValue() == "/Topology/Ctrl1"
         assert parsed.getNmNodeId().getValue() == 7

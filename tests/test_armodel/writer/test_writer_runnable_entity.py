@@ -117,27 +117,27 @@ def test_round_trip_preserves_field_values():
         assert len(runnable_2.getArguments()) == 1
         assert len(runnable_2.getAsynchronousServerCallResultPoints()) == 1
         assert len(runnable_2.getDataReadAccesses()) == 1
-        assert runnable_2.getDataReadAccesses()[0].short_name == "Read1"
+        assert runnable_2.getDataReadAccesses()[0].shortName == "Read1"
         assert len(runnable_2.getDataReceivePointByArguments()) == 1
         assert len(runnable_2.getDataReceivePointByValues()) == 1
         assert len(runnable_2.getDataSendPoints()) == 1
-        assert runnable_2.getDataSendPoints()[0].short_name == "Send1"
+        assert runnable_2.getDataSendPoints()[0].shortName == "Send1"
         assert len(runnable_2.getDataWriteAccesses()) == 1
         assert len(runnable_2.getExternalTriggeringPoints()) == 1
         assert len(runnable_2.getInternalTriggeringPoints()) == 1
-        assert runnable_2.getInternalTriggeringPoints()[0].short_name == "InternalTrig"
+        assert runnable_2.getInternalTriggeringPoints()[0].shortName == "InternalTrig"
         assert len(runnable_2.getModeAccessPoints()) == 1
         assert len(runnable_2.getModeSwitchPoints()) == 1
         assert len(runnable_2.getParameterAccesses()) == 1
-        assert runnable_2.getParameterAccesses()[0].short_name == "Param1"
+        assert runnable_2.getParameterAccesses()[0].shortName == "Param1"
         assert len(runnable_2.getReadLocalVariables()) == 1
         assert len(runnable_2.getServerCallPoints()) == 2
         assert len(runnable_2.getSynchronousServerCallPoint()) == 1
-        assert runnable_2.getSynchronousServerCallPoint()[0].short_name == "Sync1"
+        assert runnable_2.getSynchronousServerCallPoint()[0].shortName == "Sync1"
         assert len(runnable_2.getAsynchronousServerCallPoint()) == 1
-        assert runnable_2.getAsynchronousServerCallPoint()[0].short_name == "Async1"
+        assert runnable_2.getAsynchronousServerCallPoint()[0].shortName == "Async1"
         assert len(runnable_2.getWaitPoints()) == 1
-        assert runnable_2.getWaitPoints()[0].short_name == "Wait1"
+        assert runnable_2.getWaitPoints()[0].shortName == "Wait1"
         assert len(runnable_2.getWrittenLocalVariables()) == 1
     finally:
         if os.path.exists(file_path):

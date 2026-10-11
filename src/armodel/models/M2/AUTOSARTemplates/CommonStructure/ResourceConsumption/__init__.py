@@ -289,7 +289,7 @@ class ResourceConsumption(Identifiable):
 
     def getExecutionTimes(self) -> List[ExecutionTime]:
         """Collection of the execution time descriptions for this implementation. The aggregation of executionTime is subject to variability with the purpose to support the conditional existence of runnable entities."""
-        return sorted(self.executionTimes, key=lambda o: o.short_name)
+        return sorted(self.executionTimes, key=lambda o: o.shortName)
 
     def createMeasuredHeapUsage(self, short_name: str) -> MeasuredHeapUsage:
         """
@@ -341,7 +341,7 @@ class ResourceConsumption(Identifiable):
 
     def getHeapUsages(self) -> List[HeapUsage]:
         """Collection of the heap memory allocated by this implementation."""
-        return sorted(self.heapUsages, key=lambda o: o.short_name)
+        return sorted(self.heapUsages, key=lambda o: o.shortName)
 
     def createMemorySection(self, short_name: str) -> MemorySection:
         """
@@ -361,7 +361,7 @@ class ResourceConsumption(Identifiable):
 
     def getMemorySections(self) -> List[MemorySection]:
         """An abstract memory section required by this Implementation."""
-        return sorted(self.memorySections, key=lambda o: o.short_name)
+        return sorted(self.memorySections, key=lambda o: o.shortName)
 
     def getMemorySection(self, short_name: str) -> Optional[MemorySection]:
         """
@@ -373,7 +373,7 @@ class ResourceConsumption(Identifiable):
         Returns:
             MemorySection instance with the specified short name, or None if not found
         """
-        return next((o for o in self.referrableElements if isinstance(o, MemorySection) and o.short_name == short_name), None)
+        return next((o for o in self.referrableElements if isinstance(o, MemorySection) and o.shortName == short_name), None)
 
     def createSectionNamePrefix(self, short_name: str) -> SectionNamePrefix:
         """
@@ -393,7 +393,7 @@ class ResourceConsumption(Identifiable):
 
     def getSectionNamePrefixes(self) -> List[SectionNamePrefix]:
         """A prefix to be used for the memory section symbol in the code."""
-        return sorted(self.sectionNamePrefixes, key=lambda o: o.short_name)
+        return sorted(self.sectionNamePrefixes, key=lambda o: o.shortName)
 
     def createMeasuredStackUsage(self, short_name: str) -> MeasuredStackUsage:
         """
@@ -445,4 +445,4 @@ class ResourceConsumption(Identifiable):
 
     def getStackUsages(self) -> List[StackUsage]:
         """Collection of the stack memory usage for each runnable entity of this implementation. The aggregation of Stack Usage is subject to variability with the purpose to support the conditional existence of runnable entities."""
-        return sorted(self.stackUsages, key=lambda o: o.short_name)
+        return sorted(self.stackUsages, key=lambda o: o.shortName)

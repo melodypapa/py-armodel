@@ -92,6 +92,6 @@ class TestWriteJ1939NmCluster:
         assert len(clusters) == 1
         parsed = clusters[0]
         assert isinstance(parsed, J1939NmCluster)
-        assert parsed.short_name == "J1939Cluster1"
+        assert parsed.shortName == "J1939Cluster1"
         assert parsed.getAddressClaimEnabled().getValue() is True
         assert parsed.getUsesDynamicAddressing().getValue() is False

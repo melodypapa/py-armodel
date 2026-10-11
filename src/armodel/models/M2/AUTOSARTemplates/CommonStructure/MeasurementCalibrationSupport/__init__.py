@@ -895,7 +895,7 @@ class McDataInstance(Identifiable, VariationPointCapable):
         This relation indicates, that the target element is part of a "struct" which is given by the source element. This information will be used by the final generator to set up the correct addressing scheme. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=subElement.shortName, sub Element.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
         """
         for sub_element in self.subElements:
-            if sub_element.short_name == short_name:
+            if sub_element.shortName == short_name:
                 return sub_element
         sub_element = McDataInstance(self, short_name)
         self.subElements.append(sub_element)
@@ -982,7 +982,7 @@ class McSupportData(ARObject):
         A data instance to be used for calibration. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=mcParameterInstance.shortName, mc ParameterInstance.variationPoint.shortLabel vh.latestBindingTime=postBuild
         """
         for instance in self.mcParameterInstances:
-            if instance.short_name == short_name:
+            if instance.shortName == short_name:
                 return instance
         instance = McDataInstance(self, short_name)
         self.mcParameterInstances.append(instance)
@@ -1000,7 +1000,7 @@ class McSupportData(ARObject):
         A None value is a no-op and does not overwrite an existing mcVariableInstances.
         """
         for instance in self.mcVariableInstances:
-            if instance.short_name == short_name:
+            if instance.shortName == short_name:
                 return instance
         instance = McDataInstance(self, short_name)
         self.mcVariableInstances.append(instance)

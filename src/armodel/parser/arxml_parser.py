@@ -6279,7 +6279,7 @@ class ARXMLParser(AbstractARXMLParser):
                 self.notImplemented("Unsupported Service Dependencies <%s>" % tag_name)
 
     def readBswInternalBehavior(self, element: ET.Element, behavior: BswInternalBehavior):
-        self.logger.debug("Read BswInternalBehavior <%s>" % behavior.full_name)
+        self.logger.debug("Read BswInternalBehavior <%s>" % behavior.fullName)
 
         # read the internal behavior
         self.readInternalBehavior(element, behavior)

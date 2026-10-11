@@ -81,7 +81,7 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_PortInterface:
         assert isinstance(mapping, PortInterfaceMapping)
 
         assert mapping.parent == ar_root
-        assert mapping.short_name == "cs_mapping"
+        assert mapping.shortName == "cs_mapping"
 
     def test_PortInterface(self):
         with pytest.raises(TypeError) as err:
@@ -108,7 +108,7 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_PortInterface:
         assert isinstance(data_if, NvDataInterface)
 
         assert data_if.parent == ar_root
-        assert data_if.short_name == "NvDataInterface"
+        assert data_if.shortName == "NvDataInterface"
 
     def test_NvDataInterface_nv_datas_are_typed_and_idempotent(self):
         document = AUTOSAR.getInstance()
@@ -143,7 +143,7 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_PortInterface:
         assert isinstance(data_if, ParameterInterface)
 
         assert data_if.parent == ar_root
-        assert data_if.short_name == "ParameterInterface"
+        assert data_if.shortName == "ParameterInterface"
 
     def test_ParameterInterface_parameters(self):
         document = AUTOSAR.getInstance()
@@ -218,7 +218,7 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_PortInterface:
         assert isinstance(app_error, ApplicationError)
 
         assert app_error.parent == ar_root
-        assert app_error.short_name == "ApplicationError"
+        assert app_error.shortName == "ApplicationError"
 
     def test_ClientServerOperation(self):
         document = AUTOSAR.getInstance()
@@ -235,12 +235,12 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_PortInterface:
         assert isinstance(operation, MultilanguageReferrable)
         assert isinstance(operation, Referrable)
         assert isinstance(operation, ClientServerOperation)
-        assert operation.short_name == "client_server_operation"
+        assert operation.shortName == "client_server_operation"
 
         assert operation.getDiagArgIntegrity() is None
 
         prototype = operation.createArgumentDataPrototype("argument_data_prototype1")
-        assert prototype.short_name == "argument_data_prototype1"
+        assert prototype.shortName == "argument_data_prototype1"
 
         assert len(operation.getArguments()) == 1
         assert operation.getArguments()[0] == prototype
@@ -292,7 +292,7 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_PortInterface:
 
         element = cs_if.createOperation("operation")
         assert isinstance(element, ClientServerOperation)
-        assert element.short_name == "operation"
+        assert element.shortName == "operation"
         assert len(cs_if.getOperations()) == 1
 
         element2 = cs_if.getOperations()[0]
@@ -300,7 +300,7 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_PortInterface:
 
         element = cs_if.createApplicationError("error")
         assert isinstance(element, ApplicationError)
-        assert element.short_name == "error"
+        assert element.shortName == "error"
         assert len(cs_if.getPossibleErrors()) == 1
 
         element2 = cs_if.getPossibleErrors()[0]
@@ -361,7 +361,7 @@ class TestPortInterfaceMappingSet:
         obj = PortInterfaceMappingSet(AUTOSAR.getInstance(), "pim_set")
 
         assert obj.parent == AUTOSAR.getInstance()
-        assert obj.short_name == "pim_set"
+        assert obj.shortName == "pim_set"
         assert obj.getPortInterfaceMappings() == []
 
         # Base chain (Table 4.19): most-derived model base = ARElement
@@ -378,7 +378,7 @@ class TestPortInterfaceMappingSet:
         cs = obj.createClientServerInterfaceMapping("cs_mapping")
         assert isinstance(cs, ClientServerInterfaceMapping)
         assert cs.parent is obj
-        assert cs.short_name == "cs_mapping"
+        assert cs.shortName == "cs_mapping"
 
         vp = obj.createVariableAndParameterInterfaceMapping("vp_mapping")
         assert isinstance(vp, VariableAndParameterInterfaceMapping)

@@ -155,7 +155,7 @@ class TestVariableDataPrototype:
         var_proto = VariableDataPrototype(ar_root, "TestVariableDataPrototype")
 
         assert var_proto.parent == ar_root
-        assert var_proto.short_name == "TestVariableDataPrototype"
+        assert var_proto.shortName == "TestVariableDataPrototype"
         assert var_proto.swDataDefProps is None
         assert var_proto.typeTRef is None
         assert var_proto.initValue is None
@@ -231,7 +231,7 @@ class TestApplicationArrayElement:
 
         assert isinstance(array_element, ApplicationCompositeElementDataPrototype)
         assert array_element.parent == ar_root
-        assert array_element.short_name == "TestApplicationArrayElement"
+        assert array_element.shortName == "TestApplicationArrayElement"
         assert array_element.swDataDefProps is None
         assert array_element.typeTRef is None
         assert array_element.arraySizeHandling is None
@@ -381,7 +381,7 @@ class TestApplicationRecordElement:
         record_element = ApplicationRecordElement(ar_root, "TestApplicationRecordElement")
 
         assert record_element.parent == ar_root
-        assert record_element.short_name == "TestApplicationRecordElement"
+        assert record_element.shortName == "TestApplicationRecordElement"
         assert record_element.swDataDefProps is None
         assert record_element.typeTRef is None
         assert record_element.isOptional is None
@@ -417,7 +417,7 @@ class TestParameterDataPrototype:
         param_proto = ParameterDataPrototype(ar_root, "TestParameterDataPrototype")
 
         assert param_proto.parent == ar_root
-        assert param_proto.short_name == "TestParameterDataPrototype"
+        assert param_proto.shortName == "TestParameterDataPrototype"
         assert param_proto.swDataDefProps is None
         assert param_proto.typeTRef is None
         assert param_proto.initValue is None

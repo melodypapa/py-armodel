@@ -140,7 +140,7 @@ class TestNmCluster:
         cluster = UdpNmCluster(MockParent(), "cluster")
         node = cluster.createUdpNmNode("UdpNode")
         assert node is not None
-        assert node.short_name == "UdpNode"
+        assert node.shortName == "UdpNode"
         assert cluster.createUdpNmNode("UdpNode") is node
 
 
@@ -433,7 +433,7 @@ class TestNmConfig:
     def test_create_nm_ecu_appends_to_nm_if_ecus(self):
         config = NmConfig(MockParent(), "config")
         ecu = config.createNmEcu("NmEcu1")
-        assert ecu.short_name == "NmEcu1"
+        assert ecu.shortName == "NmEcu1"
         assert config.getNmIfEcus() == [ecu]
         assert config.createNmEcu("NmEcu1") is ecu
 
@@ -754,7 +754,7 @@ class Test_NetworkManagement:
 
         cluster = config.createCanNmCluster("TestCanCluster")
         assert cluster is not None
-        assert cluster.short_name == "TestCanCluster"
+        assert cluster.shortName == "TestCanCluster"
         assert cluster in config.referrableElements
 
         # Test that creating the same cluster again returns the existing one
@@ -768,7 +768,7 @@ class Test_NetworkManagement:
 
         cluster = config.createUdpNmCluster("TestUdpCluster")
         assert cluster is not None
-        assert cluster.short_name == "TestUdpCluster"
+        assert cluster.shortName == "TestUdpCluster"
         assert cluster in config.referrableElements
 
         # Test that creating the same cluster again returns the existing one
@@ -832,7 +832,7 @@ class Test_NetworkManagement:
 
         ecu = config.createNmEcu("TestNmEcu")
         assert ecu is not None
-        assert ecu.short_name == "TestNmEcu"
+        assert ecu.shortName == "TestNmEcu"
         assert ecu in config.referrableElements
         assert ecu in config.getNmIfEcus()
 
@@ -847,7 +847,7 @@ class Test_NetworkManagement:
 
         node = cluster.createCanNmNode("TestCanNode")
         assert node is not None
-        assert node.short_name == "TestCanNode"
+        assert node.shortName == "TestCanNode"
         assert node in cluster.referrableElements
         assert node in cluster.getNmNodes()
 
@@ -862,7 +862,7 @@ class Test_NetworkManagement:
 
         node = cluster.createUdpNmNode("TestUdpNode")
         assert node is not None
-        assert node.short_name == "TestUdpNode"
+        assert node.shortName == "TestUdpNode"
         assert node in cluster.referrableElements
         assert node in cluster.getNmNodes()
 

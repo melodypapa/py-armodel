@@ -323,7 +323,7 @@ class ModeDeclarationGroup(AtpType):
         Returns:
             List of ModeDeclaration instances
         """
-        return list(sorted((a for a in self.referrableElements if isinstance(a, ModeDeclaration)), key=lambda o: o.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, ModeDeclaration)), key=lambda o: o.shortName))
 
     def setInitialModeRef(self, ref: Optional[RefType]) -> ModeDeclarationGroup:
         """

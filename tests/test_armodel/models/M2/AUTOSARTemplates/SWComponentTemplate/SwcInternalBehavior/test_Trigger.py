@@ -24,7 +24,7 @@ class TestInternalTriggeringPoint:
         trigger_point = InternalTriggeringPoint(ar_root, "TestInternalTriggeringPoint")
 
         assert trigger_point.parent == ar_root
-        assert trigger_point.short_name == "TestInternalTriggeringPoint"
+        assert trigger_point.shortName == "TestInternalTriggeringPoint"
         assert trigger_point.returnValueProvision is None
         assert trigger_point.swImplPolicy is None
 

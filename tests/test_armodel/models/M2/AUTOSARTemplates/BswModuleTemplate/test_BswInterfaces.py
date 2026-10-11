@@ -121,7 +121,7 @@ class TestBswModuleDependency:
         ar_root = document.createARPackage("AUTOSAR")
         dep = BswModuleDependency(ar_root, "test_dependency")
 
-        assert dep.short_name == "test_dependency"
+        assert dep.shortName == "test_dependency"
         assert dep.getTargetModuleId() is None
         assert dep.getTargetModuleRef() is None
 
@@ -183,7 +183,7 @@ class TestBswModuleEntry:
         ar_root = document.createARPackage("AUTOSAR")
         entry = BswModuleEntry(ar_root, "test_entry")
 
-        assert entry.short_name == "test_entry"
+        assert entry.shortName == "test_entry"
         assert entry.getArguments() == []
         assert entry.getBswEntryKind() is None
         assert entry.getCallType() is None
@@ -212,7 +212,7 @@ class TestBswModuleEntry:
 
         arg = entry.createArgument("test_arg")
 
-        assert arg.short_name == "test_arg"
+        assert arg.shortName == "test_arg"
         assert len(entry.getArguments()) == 1
         assert entry.getArguments()[0] == arg
 
@@ -344,7 +344,7 @@ class TestBswModuleEntry:
 
         return_type = entry.createReturnType("return_type")
 
-        assert return_type.short_name == "return_type"
+        assert return_type.shortName == "return_type"
         assert entry.getReturnType() == return_type
 
     def test_get_set_role(self):
@@ -418,7 +418,7 @@ class TestBswModuleClientServerEntry:
         ar_root = document.createARPackage("AUTOSAR")
         entry = BswModuleClientServerEntry(ar_root, "test_client_server_entry")
 
-        assert entry.short_name == "test_client_server_entry"
+        assert entry.shortName == "test_client_server_entry"
         assert entry.getEncapsulatedEntryRef() is None
         assert entry.getIsReentrant() is None
         assert entry.getIsSynchronous() is None
@@ -484,7 +484,7 @@ class TestBswEntryRelationshipSet:
 
     def test_initialization(self):
         entry_set = self._make_set()
-        assert entry_set.short_name == "test_entry_relationship_set"
+        assert entry_set.shortName == "test_entry_relationship_set"
         assert entry_set.getBswEntryRelationships() == []
 
     def test_add_bsw_entry_relationship(self):

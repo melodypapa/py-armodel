@@ -35,7 +35,7 @@ class TestParameterAccess:
         param_access = ParameterAccess(ar_root, "TestParameterAccess")
 
         assert param_access.parent == ar_root
-        assert param_access.short_name == "TestParameterAccess"
+        assert param_access.shortName == "TestParameterAccess"
         assert param_access.returnValueProvision is None
         assert param_access.accessedParameter is None
         assert param_access.swDataDefProps is None
@@ -103,7 +103,7 @@ class TestVariableAccess:
         var_access = VariableAccess(ar_root, "TestVariableAccess")
 
         assert var_access.parent == ar_root
-        assert var_access.short_name == "TestVariableAccess"
+        assert var_access.shortName == "TestVariableAccess"
         assert var_access.returnValueProvision is None
         assert var_access.accessedVariable is None
         assert var_access.scope is None

@@ -133,7 +133,7 @@ class TestEcucContainerValueReadWrite:
 
         assert len(reloaded.getSubContainers()) == 1
         reloaded_sub = reloaded.getSubContainers()[0]
-        assert reloaded_sub.short_name == "SwComponentInstance"
+        assert reloaded_sub.shortName == "SwComponentInstance"
         assert reloaded_sub.getDefinitionRef().getValue() == "/AUTOSAR/EcucDefs/Rte/RteGeneration/SwComponentInstance"
         assert len(reloaded_sub.getReferenceValues()) == 1
         reloaded_sub_reference = reloaded_sub.getReferenceValues()[0]
@@ -217,7 +217,7 @@ class TestEcucContainerValueReadWrite:
 
         reloaded = EcucContainerValue(None, "Parent")
         parser.readEcucContainerValue(_ns_wrap(parent), reloaded)
-        assert [sub.short_name for sub in reloaded.getSubContainers()] == ["First", "Second"]
+        assert [sub.shortName for sub in reloaded.getSubContainers()] == ["First", "Second"]
         assert reloaded.getSubContainers()[0].getDefinitionRef().getValue() == "/EcucDefs/First"
         assert reloaded.getSubContainers()[1].getDefinitionRef().getValue() == "/EcucDefs/Second"
 

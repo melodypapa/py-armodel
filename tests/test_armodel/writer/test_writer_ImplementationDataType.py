@@ -104,20 +104,20 @@ class TestImplementationDataTypeRoundTrip:
             assert len(data_types) == 1
             data_type_2 = data_types[0]
             assert isinstance(data_type_2, ImplementationDataType)
-            assert data_type_2.short_name == "StructType"
+            assert data_type_2.shortName == "StructType"
             assert data_type_2.getDynamicArraySizeProfile().getValue() == "VARIABLE-LENGTH"
             assert data_type_2.getIsStructWithOptionalElement().getValue() is True
 
             sub_elements = data_type_2.getSubElements()
             assert len(sub_elements) == 2
-            assert sub_elements[0].short_name == "Size"
+            assert sub_elements[0].shortName == "Size"
             assert sub_elements[0].getArraySize().getValue() == 8
             assert sub_elements[0].getArraySizeSemantics().getValue() == ArraySizeSemanticsEnum.FIXED_SIZE
-            assert sub_elements[1].short_name == "Payload"
+            assert sub_elements[1].shortName == "Payload"
 
             symbol_props = data_type_2.getSymbolProps()
             assert symbol_props is not None
-            assert symbol_props.short_name == "Sym"
+            assert symbol_props.shortName == "Sym"
             assert symbol_props.getSymbol().getValue() == "REASON_SYM"
 
             assert data_type_2.getTypeEmitter().getValue() == "RTE"
@@ -147,7 +147,7 @@ class TestImplementationDataTypeRoundTrip:
 
             data_types = document_2.getARPackages()[0].getImplementationDataTypes()
             assert len(data_types) == 1
-            assert data_types[0].short_name == "PlainType"
+            assert data_types[0].shortName == "PlainType"
             assert data_types[0].getDynamicArraySizeProfile() is None
             assert data_types[0].getIsStructWithOptionalElement() is None
             assert data_types[0].getSubElements() == []

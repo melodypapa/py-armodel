@@ -32,7 +32,7 @@ class TestServerCallPoint:
         assert isinstance(call_point, AbstractAccessPoint)
         assert isinstance(call_point, AtpStructureElement)
         assert call_point.parent == ar_root
-        assert call_point.short_name == "TestServerCallPoint"
+        assert call_point.shortName == "TestServerCallPoint"
         assert call_point.operationIRef is None
         assert call_point.timeout is None
 

@@ -57,7 +57,7 @@ class TestParseNmCluster:
         nodes = cluster.getNmNodes()
         assert len(nodes) == 1
         assert isinstance(nodes[0], NmNode)
-        assert nodes[0].short_name == "Node1"
+        assert nodes[0].shortName == "Node1"
         assert cluster.getNmNodeDetectionEnabled().getValue() is True
         assert cluster.getNmNodeIdEnabled().getValue() is True
         assert cluster.getNmPncParticipation().getValue() is False

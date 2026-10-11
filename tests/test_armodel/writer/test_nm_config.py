@@ -116,7 +116,7 @@ class TestWriteNmConfig:
         parsed = NmConfig(MockParent(), "NmConfig1")
         ARXMLParser().readNmConfig(root[0][0], parsed)
 
-        cluster_names = [cluster.short_name for cluster in parsed.getNmClusters()]
+        cluster_names = [cluster.shortName for cluster in parsed.getNmClusters()]
         assert cluster_names == ["CanCluster1", "FrCluster1", "J1939Cluster1"]
         assert isinstance(parsed.getNmClusters()[0], CanNmCluster)
         assert isinstance(parsed.getNmClusters()[1], FlexrayNmCluster)
@@ -131,5 +131,5 @@ class TestWriteNmConfig:
         ecus = parsed.getNmIfEcus()
         assert len(ecus) == 1
         assert isinstance(ecus[0], NmEcu)
-        assert ecus[0].short_name == "NmEcu1"
+        assert ecus[0].shortName == "NmEcu1"
         assert ecus[0].getNmComControlEnabled().getValue() is True

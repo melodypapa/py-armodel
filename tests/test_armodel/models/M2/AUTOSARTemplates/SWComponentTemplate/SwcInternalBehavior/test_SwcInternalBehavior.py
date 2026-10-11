@@ -53,7 +53,7 @@ class TestAsynchronousServerCallResultPoint:
         result_point = AsynchronousServerCallResultPoint(ar_root, "TestAsynchronousServerCallResultPoint")
 
         assert result_point.parent == ar_root
-        assert result_point.short_name == "TestAsynchronousServerCallResultPoint"
+        assert result_point.shortName == "TestAsynchronousServerCallResultPoint"
         assert result_point.asynchronousServerCallPointRef is None
         assert isinstance(result_point, AbstractAccessPoint)
 
@@ -78,7 +78,7 @@ class TestAsynchronousServerCallPoint:
         call_point = AsynchronousServerCallPoint(ar_root, "TestAsynchronousServerCallPoint")
 
         assert call_point.parent == ar_root
-        assert call_point.short_name == "TestAsynchronousServerCallPoint"
+        assert call_point.shortName == "TestAsynchronousServerCallPoint"
         assert call_point.returnValueProvision is None
         assert call_point.operationIRef is None
         assert call_point.timeout is None
@@ -99,7 +99,7 @@ class TestSynchronousServerCallPoint:
         call_point = SynchronousServerCallPoint(ar_root, "TestSynchronousServerCallPoint")
 
         assert call_point.parent == ar_root
-        assert call_point.short_name == "TestSynchronousServerCallPoint"
+        assert call_point.shortName == "TestSynchronousServerCallPoint"
         assert call_point.returnValueProvision is None
         assert call_point.operationIRef is None
         assert call_point.timeout is None
@@ -129,7 +129,7 @@ class TestRunnableEntity:
         runnable = RunnableEntity(ar_root, "TestRunnableEntity")
 
         assert runnable.parent == ar_root
-        assert runnable.short_name == "TestRunnableEntity"
+        assert runnable.shortName == "TestRunnableEntity"
         assert runnable.arguments == []
         assert runnable.asynchronousServerCallResultPoints == []
         assert runnable.canBeInvokedConcurrently is None
@@ -171,47 +171,47 @@ class TestRunnableEntity:
         _var_access = VariableAccess(ar_root, "TestDataAccess")
         data_access = runnable._createVariableAccess("TestDataAccess", runnable.dataReadAccesses)
         assert data_access is not None
-        assert data_access.short_name == "TestDataAccess"
+        assert data_access.shortName == "TestDataAccess"
         assert data_access in runnable.getDataReadAccesses()
 
         # Test parameter access methods
         param_access = runnable.createParameterAccess("TestParamAccess")
         assert param_access is not None
-        assert param_access.short_name == "TestParamAccess"
+        assert param_access.shortName == "TestParamAccess"
         assert param_access in runnable.getParameterAccesses()
 
         # Test server call point methods
         async_call_point = runnable.createAsynchronousServerCallPoint("TestAsyncCall")
         assert async_call_point is not None
-        assert async_call_point.short_name == "TestAsyncCall"
+        assert async_call_point.shortName == "TestAsyncCall"
         assert async_call_point in runnable.getAsynchronousServerCallPoint()
 
         sync_call_point = runnable.createSynchronousServerCallPoint("TestSyncCall")
         assert sync_call_point is not None
-        assert sync_call_point.short_name == "TestSyncCall"
+        assert sync_call_point.shortName == "TestSyncCall"
         assert sync_call_point in runnable.getSynchronousServerCallPoint()
 
         result_point = runnable.createAsynchronousServerCallResultPoint("TestResultPoint")
         assert result_point is not None
-        assert result_point.short_name == "TestResultPoint"
+        assert result_point.shortName == "TestResultPoint"
         assert result_point in runnable.getAsynchronousServerCallResultPoints()
 
         # Test internal triggering point methods
         trigger_point = runnable.createInternalTriggeringPoint("TestTrigger")
         assert trigger_point is not None
-        assert trigger_point.short_name == "TestTrigger"
+        assert trigger_point.shortName == "TestTrigger"
         # Note: getInternalTriggeringPoints uses filter, so we don't check for it in the list directly
 
         # Test mode switch point methods
         mode_switch_point = runnable.createModeSwitchPoint("TestModeSwitch")
         assert mode_switch_point is not None
-        assert mode_switch_point.short_name == "TestModeSwitch"
+        assert mode_switch_point.shortName == "TestModeSwitch"
         assert mode_switch_point in runnable.getModeSwitchPoints()
 
         # Test waitPoint methods
         wait_point = runnable.createWaitPoint("TestWaitPoint")
         assert wait_point is not None
-        assert wait_point.short_name == "TestWaitPoint"
+        assert wait_point.shortName == "TestWaitPoint"
         assert wait_point in runnable.getWaitPoints()
         assert runnable.createWaitPoint("TestWaitPoint") == wait_point
         assert len(runnable.getWaitPoints()) == 1
@@ -282,7 +282,7 @@ class TestSwcInternalBehavior:
         behavior = SwcInternalBehavior(ar_root, "TestSwcInternalBehavior")
 
         assert behavior.parent == ar_root
-        assert behavior.short_name == "TestSwcInternalBehavior"
+        assert behavior.shortName == "TestSwcInternalBehavior"
         assert behavior.arTypedPerInstanceMemories == []
         assert behavior.events == []
         assert behavior.exclusiveAreaPolicies == []
@@ -346,90 +346,90 @@ class TestSwcInternalBehavior:
         # Test event creation methods
         init_event = behavior.createInitEvent("TestInitEvent")
         assert init_event is not None
-        assert init_event.short_name == "TestInitEvent"
+        assert init_event.shortName == "TestInitEvent"
         assert init_event in behavior.getInitEvents()
 
         timing_event = behavior.createTimingEvent("TestTimingEvent")
         assert timing_event is not None
-        assert timing_event.short_name == "TestTimingEvent"
+        assert timing_event.shortName == "TestTimingEvent"
         assert timing_event in behavior.getTimingEvents()
 
         operation_invoked_event = behavior.createOperationInvokedEvent("TestOperationInvokedEvent")
         assert operation_invoked_event is not None
-        assert operation_invoked_event.short_name == "TestOperationInvokedEvent"
+        assert operation_invoked_event.shortName == "TestOperationInvokedEvent"
         assert operation_invoked_event in behavior.getOperationInvokedEvents()
 
         data_received_event = behavior.createDataReceivedEvent("TestDataReceivedEvent")
         assert data_received_event is not None
-        assert data_received_event.short_name == "TestDataReceivedEvent"
+        assert data_received_event.shortName == "TestDataReceivedEvent"
         assert data_received_event in behavior.getDataReceivedEvents()
 
         swc_mode_switch_event = behavior.createSwcModeSwitchEvent("TestSwcModeSwitchEvent")
         assert swc_mode_switch_event is not None
-        assert swc_mode_switch_event.short_name == "TestSwcModeSwitchEvent"
+        assert swc_mode_switch_event.shortName == "TestSwcModeSwitchEvent"
         assert swc_mode_switch_event in behavior.getSwcModeSwitchEvents()
 
         internal_trigger_event = behavior.createInternalTriggerOccurredEvent("TestInternalTriggerEvent")
         assert internal_trigger_event is not None
-        assert internal_trigger_event.short_name == "TestInternalTriggerEvent"
+        assert internal_trigger_event.shortName == "TestInternalTriggerEvent"
         assert internal_trigger_event in behavior.getInternalTriggerOccurredEvents()
 
         mode_switched_ack_event = behavior.createModeSwitchedAckEvent("TestModeSwitchedAckEvent")
         assert mode_switched_ack_event is not None
-        assert mode_switched_ack_event.short_name == "TestModeSwitchedAckEvent"
+        assert mode_switched_ack_event.shortName == "TestModeSwitchedAckEvent"
         assert mode_switched_ack_event in behavior.getModeSwitchedAckEvents()
 
         background_event = behavior.createBackgroundEvent("TestBackgroundEvent")
         assert background_event is not None
-        assert background_event.short_name == "TestBackgroundEvent"
+        assert background_event.shortName == "TestBackgroundEvent"
         assert background_event in behavior.getBackgroundEvents()
 
         data_send_completed_event = behavior.createDataSendCompletedEvent("TestDataSendCompletedEvent")
         assert data_send_completed_event is not None
-        assert data_send_completed_event.short_name == "TestDataSendCompletedEvent"
+        assert data_send_completed_event.shortName == "TestDataSendCompletedEvent"
         assert data_send_completed_event in behavior.getDataSendCompletedEvents()
 
         # Test service dependency methods
         service_dep = behavior.createSwcServiceDependency("TestServiceDep")
         assert service_dep is not None
-        assert service_dep.short_name == "TestServiceDep"
+        assert service_dep.shortName == "TestServiceDep"
         assert service_dep in behavior.getSwcServiceDependencies()
 
         # Test runnable entity methods
         runnable = behavior.createRunnableEntity("TestRunnable")
         assert runnable is not None
-        assert runnable.short_name == "TestRunnable"
+        assert runnable.shortName == "TestRunnable"
         assert runnable in behavior.getRunnableEntities()
 
         # Test data prototype methods
         ar_typed_mem = behavior.createArTypedPerInstanceMemory("TestArTypedMem")
         assert ar_typed_mem is not None
-        assert ar_typed_mem.short_name == "TestArTypedMem"
+        assert ar_typed_mem.shortName == "TestArTypedMem"
         assert ar_typed_mem in behavior.getArTypedPerInstanceMemories()
 
         explicit_var = behavior.createExplicitInterRunnableVariable("TestExplicitVar")
         assert explicit_var is not None
-        assert explicit_var.short_name == "TestExplicitVar"
+        assert explicit_var.shortName == "TestExplicitVar"
         assert explicit_var in behavior.getExplicitInterRunnableVariables()
 
         implicit_var = behavior.createImplicitInterRunnableVariable("TestImplicitVar")
         assert implicit_var is not None
-        assert implicit_var.short_name == "TestImplicitVar"
+        assert implicit_var.shortName == "TestImplicitVar"
         assert implicit_var in behavior.getImplicitInterRunnableVariables()
 
         per_instance_mem = behavior.createPerInstanceMemory("TestPerInstanceMem")
         assert per_instance_mem is not None
-        assert per_instance_mem.short_name == "TestPerInstanceMem"
+        assert per_instance_mem.shortName == "TestPerInstanceMem"
         assert per_instance_mem in behavior.getPerInstanceMemories()
 
         per_instance_param = behavior.createPerInstanceParameter("TestPerInstanceParam")
         assert per_instance_param is not None
-        assert per_instance_param.short_name == "TestPerInstanceParam"
+        assert per_instance_param.shortName == "TestPerInstanceParam"
         assert per_instance_param in behavior.getPerInstanceParameters()
 
         shared_param = behavior.createSharedParameter("TestSharedParam")
         assert shared_param is not None
-        assert shared_param.short_name == "TestSharedParam"
+        assert shared_param.shortName == "TestSharedParam"
         assert shared_param in behavior.getSharedParameters()
 
         # Test included data type set methods
@@ -475,7 +475,7 @@ class TestSwcInternalBehavior:
 
         data_access = runnable.createDataReadAccess("TestDataReadAccess")
         assert data_access is not None
-        assert data_access.short_name == "TestDataReadAccess"
+        assert data_access.shortName == "TestDataReadAccess"
         assert data_access in runnable.dataReadAccesses
 
     def test_runnable_entity_create_data_receive_point_by_argument(self):
@@ -486,7 +486,7 @@ class TestSwcInternalBehavior:
 
         data_point = runnable.createDataReceivePointByArgument("TestDataReceivePoint")
         assert data_point is not None
-        assert data_point.short_name == "TestDataReceivePoint"
+        assert data_point.shortName == "TestDataReceivePoint"
         assert data_point in runnable.dataReceivePointByArguments
 
     def test_runnable_entity_get_data_receive_point_by_values(self):
@@ -536,7 +536,7 @@ class TestSwcInternalBehavior:
 
         event = behavior.createAsynchronousServerCallReturnsEvent("TestAsyncReturnsEvent")
         assert event is not None
-        assert event.short_name == "TestAsyncReturnsEvent"
+        assert event.shortName == "TestAsyncReturnsEvent"
         assert event in behavior.referrableElements
 
     def test_swc_internal_behavior_get_runnable_entity(self):

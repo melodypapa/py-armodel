@@ -166,10 +166,10 @@ class TestCollectableElement:
         # Add an element
         class MockReferrable:
             def __init__(self, short_name):
-                self.short_name = short_name
+                self.shortName = short_name
 
             def getShortName(self):
-                return self.short_name
+                return self.shortName
 
         mock_element = MockReferrable("TestElement")
         obj.addReferrableElement(mock_element)
@@ -192,10 +192,10 @@ class TestCollectableElement:
         # Add an element
         class MockReferrable:
             def __init__(self, short_name):
-                self.short_name = short_name
+                self.shortName = short_name
 
             def getShortName(self):
-                return self.short_name
+                return self.shortName
 
         mock_element = MockReferrable("TestElement")
         obj.addReferrableElement(mock_element)
@@ -468,10 +468,10 @@ class TestCollectableElement:
         # Add an element
         class MockReferrable:
             def __init__(self, short_name):
-                self.short_name = short_name
+                self.shortName = short_name
 
             def getShortName(self):
-                return self.short_name
+                return self.shortName
 
         mock_element = MockReferrable("TestElement")
         obj.addReferrableElement(mock_element)

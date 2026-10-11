@@ -48,7 +48,7 @@ def test_hw_type_init():
 
     # Verify initial values
     assert hw_type.parent == parent
-    assert hw_type.short_name == "test_hw_type"
+    assert hw_type.shortName == "test_hw_type"
 
 
 def test_hw_type_is_concrete():
@@ -124,7 +124,7 @@ def test_hw_attribute_def_defaults():
     hw_attr_def = HwAttributeDef(parent, "test_hw_attr_def")
 
     assert hw_attr_def.parent == parent
-    assert hw_attr_def.short_name == "test_hw_attr_def"
+    assert hw_attr_def.shortName == "test_hw_attr_def"
     assert hw_attr_def.hwAttributeLiterals == []
     assert hw_attr_def.isRequired is None
     assert hw_attr_def.unitRef is None
@@ -190,7 +190,7 @@ def test_hw_attribute_def_create_hw_attribute_literal():
     hw_attr_def = HwAttributeDef(None, "test_hw_attr_def")
 
     literal = hw_attr_def.createHwAttributeLiteral("literal1")
-    assert literal.short_name == "literal1"
+    assert literal.shortName == "literal1"
     assert literal in hw_attr_def.getHwAttributeLiterals()
 
     assert hw_attr_def.createHwAttributeLiteral("literal1") is literal
@@ -224,7 +224,7 @@ def test_hw_category_defaults():
     hw_category = HwCategory(parent, "test_hw_category")
 
     assert hw_category.parent == parent
-    assert hw_category.short_name == "test_hw_category"
+    assert hw_category.shortName == "test_hw_category"
     assert hw_category.hwAttributeDefs == []
 
 
@@ -249,7 +249,7 @@ def test_hw_category_create_hw_attribute_def():
     hw_category = HwCategory(None, "test_hw_category")
 
     attr_def = hw_category.createHwAttributeDef("attr_def1")
-    assert attr_def.short_name == "attr_def1"
+    assert attr_def.shortName == "attr_def1"
     assert attr_def in hw_category.getHwAttributeDefs()
 
     assert hw_category.createHwAttributeDef("attr_def1") is attr_def
