@@ -576,7 +576,7 @@ pending that confirmation.
     path, getDest() SDG-CLASS));
     sync commit 207e9e324
 
-- [ ] `SdgReference` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.32, p.101
+- [x] `SdgReference` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.32, p.101
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/SpecialDataDef.py
   - [x] Step 1 — Sync members & description from spec
     - note (Step 1): Table 4.32 (leading-caption; p.101 via pdf_page.py); Base row has NO SdgElementWithGid (XSD SDG-REFERENCE group embeds no SDG-ELEMENT-WITH-GID) → SdgReference(SdgAttribute); attr destSdg (SdgClass, 0..1, ref) → destSdgRef.
@@ -606,9 +606,25 @@ pending that confirmation.
     - note (Step 7): 6-column block + release column; marker withheld (batch mode).
   - [x] Step 8 — Deviations
     - note (Step 8): none.
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (362 passed / 0 failed
-    family suites; 14,043 passed / 0 failed models+parser+writer sweep); 9b deferred to
-    batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a re-run 2026-10-11 (full suite 26,135
+    passed; ruff / black / flake8 / mypy (279 files) clean; member-annotation gate 3 passed);
+    9b confirmed 2026-10-11 (user approval, `# Spec verified: R23-11` marker written in
+    SpecialDataDef.py)
+    2026-10-11 (Rule 0026 audit vs source — re-verified rather than trusting the row's
+    "steps 1-8 done" prose: audit_class.py PASS on every gate; Table 4.32 block carries
+    exactly one attribute row, destSdg (SdgClass, 0..1, ref) → destSdgRef
+    Optional[RefType] per Rule 0001.5 Ref suffix, declared PEP 526 annotated (Rule 0003,
+    no trailing `# type:`); Base row carries no SdgElementWithGid and no
+    AbstractVariationRestriction → single base SdgAttribute, runtime-confirmed
+    (__bases__ == ('SdgAttribute',)), so the class correctly carries NO gid — the family's
+    negative control, with SdgAggregationWithVariation (3 bases) as the positive control;
+    reader calls setDestSdgRef on DEST-SDG-REF and writer calls getDestSdgRef, checked
+    independently (Rule 0025), so reader [x] on the setter row and writer [x] on the getter
+    row; both spec Notes AST-diffed VERBATIM at all four placements — class docstring,
+    __init__ inline comment, and both accessor docstrings — not eyeballed, given the
+    multi-sentence destSdg Note; no Tags: tail in this table; round-trip asserts field
+    values (path + getDest() SDG-CLASS));
+    sync commit <TBD>
 
 - [ ] `SdgAbstractForeignReference` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.33, p.102
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/SpecialDataDef.py
