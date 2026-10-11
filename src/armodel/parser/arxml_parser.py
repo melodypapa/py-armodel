@@ -9468,23 +9468,40 @@ class ARXMLParser(AbstractARXMLParser):
         if chapter_model_element is not None:
             chapter.setChapterModel(self.readChapterModel(chapter_model_element, chapter))
 
-    def readChapterModel(self, element: ET.Element, parent: Chapter) -> ChapterModel:
-        chapter_model = ChapterModel()
+    def readChapterModelChapterContent(self, element: ET.Element, parent: Chapter, chapter_model: ChapterModel):
         chapter_content_element = self.find(element, "CHAPTER-CONTENT")
         if chapter_content_element is not None:
             chapter_model.setChapterContent(self.readChapterContent(chapter_content_element, parent))
+
+    def readChapterModelTopic1(self, element: ET.Element, parent: Chapter, chapter_model: ChapterModel):
+        """The TOPIC-OR-MSR-QUERY group is inlined under CHAPTER-MODEL, so there is no element of its own to
+        find — its TOPIC-1 / MSR-QUERY-TOPIC-1 payloads are looked up on the owning element."""
         topic_elements = self.findall(element, "TOPIC-1")
         msr_query_topic1_element = self.find(element, "MSR-QUERY-TOPIC-1")
         if len(topic_elements) > 0 or msr_query_topic1_element is not None:
             topic_or_msr_query = TopicOrMsrQuery()
             self.readTopicOrMsrQuery(element, parent, topic_or_msr_query)
             chapter_model.setTopic1(topic_or_msr_query)
+
+    def readChapterModelChapter(self, element: ET.Element, parent: Chapter, chapter_model: ChapterModel):
+        """The CHAPTER-OR-MSR-QUERY group is inlined under CHAPTER-MODEL — see readChapterModelTopic1."""
         chapter_elements = self.findall(element, "CHAPTER")
         msr_query_chapter_element = self.find(element, "MSR-QUERY-CHAPTER")
         if len(chapter_elements) > 0 or msr_query_chapter_element is not None:
             chapter_or_msr_query = ChapterOrMsrQuery()
             self.readChapterOrMsrQuery(element, parent, chapter_or_msr_query)
             chapter_model.setChapter(chapter_or_msr_query)
+
+    def readChapterModel(self, element: ET.Element, parent: Chapter) -> ChapterModel:
+        chapter_model = ChapterModel()
+        # Mirror of writeChapterModel: the CHAPTER-MODEL wrapper stands for ChapterModel alone,
+        # so the ARObject level (S/T) is read onto this instance here (Rule 0025).
+        self.readARObject(element, chapter_model)
+        # Payload order follows the XSD sequenceOffsets (30 < 170 < 200), not the displayed
+        # spec row order — Rule 0001.11 keeps those two orders independent.
+        self.readChapterModelChapterContent(element, parent, chapter_model)
+        self.readChapterModelTopic1(element, parent, chapter_model)
+        self.readChapterModelChapter(element, parent, chapter_model)
         return chapter_model
 
     def readChapterOrMsrQuery(self, element: ET.Element, parent: Chapter, chapter_or_msr_query: ChapterOrMsrQuery):

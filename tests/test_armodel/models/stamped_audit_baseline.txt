@@ -32,7 +32,6 @@ BulkNvDataDescriptor
 CanXlFrameTriggeringProps
 CanXlProps
 Caption
-ChapterModel
 ClientIdRange
 ClientServerApplicationErrorMapping
 ClientServerOperationMapping

@@ -4037,17 +4037,33 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeChapterModel(child_element, chapter_model)
         self.writeVariationPointCapable(child_element, chapter)
 
-    def writeChapterModel(self, element: ET.Element, chapter_model: ChapterModel):
-        child_element = ET.SubElement(element, "CHAPTER-MODEL")
+    def writeChapterModelChapterContent(self, element: ET.Element, chapter_model: ChapterModel):
         chapter_content = chapter_model.getChapterContent()
         if chapter_content is not None:
-            self.writeChapterContent(child_element, chapter_content)
+            self.writeChapterContent(element, chapter_content)
+
+    def writeChapterModelTopic1(self, element: ET.Element, chapter_model: ChapterModel):
         topic1 = chapter_model.getTopic1()
         if topic1 is not None:
-            self.writeTopicOrMsrQuery(child_element, topic1)
+            self.writeTopicOrMsrQuery(element, topic1)
+
+    def writeChapterModelChapter(self, element: ET.Element, chapter_model: ChapterModel):
         chapter = chapter_model.getChapter()
         if chapter is not None:
-            self.writeChapterOrMsrQuery(child_element, chapter)
+            self.writeChapterOrMsrQuery(element, chapter)
+
+    def writeChapterModel(self, element: ET.Element, chapter_model: ChapterModel):
+        child_element = ET.SubElement(element, "CHAPTER-MODEL")
+        # The CHAPTER-MODEL wrapper stands for ChapterModel alone (XSD complexType CHAPTER-MODEL
+        # carries the AR-OBJECT group; the inlined TopicOrMsrQuery / ChapterOrMsrQuery groups
+        # deliberately do not write ARObject here — they share this element). Writing S/T at
+        # the ChapterModel level keeps Rule 0025 base coverage without the three-way collision.
+        self.writeARObject(child_element, chapter_model)
+        # Payload order follows the XSD sequenceOffsets (30 < 170 < 200), not the displayed
+        # spec row order — Rule 0001.11 keeps those two orders independent.
+        self.writeChapterModelChapterContent(child_element, chapter_model)
+        self.writeChapterModelTopic1(child_element, chapter_model)
+        self.writeChapterModelChapter(child_element, chapter_model)
 
     def writePredefinedChapter(self, element: ET.Element, predefined: Optional[PredefinedChapter]):
         if predefined is not None:

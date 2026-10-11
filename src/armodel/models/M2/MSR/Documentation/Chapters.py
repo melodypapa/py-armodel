@@ -150,7 +150,7 @@ class ChapterModel(ARObject):
 
     # ChapterModel method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.59, p.330
-    # Spec verified: R23-11 (2026-09-27, user 9b confirmation)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] setChapter         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
@@ -159,6 +159,12 @@ class ChapterModel(ARObject):
     # [x] getChapterContent  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setTopic1          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getTopic1          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    #
+    # NOTE: the inherited ARObject level (S/T) is covered by the class's own readChapterModel /
+    # writeChapterModel, which call readARObject / writeARObject on this instance (Rule 0025).
+    # XSD complexType CHAPTER-MODEL includes the AR-OBJECT group, and the <CHAPTER-MODEL> wrapper
+    # stands for ChapterModel alone — the inlined TopicOrMsrQuery / ChapterOrMsrQuery groups share
+    # that element and deliberately do not write ARObject, so there is no three-way collision.
 
     def __init__(self):
         super().__init__()
