@@ -5029,10 +5029,10 @@ class ARXMLWriter(AbstractARXMLWriter):
         if msr_query_props is not None:
             child_element = ET.SubElement(element, "MSR-QUERY-PROPS")
             self.writeARObject(child_element, msr_query_props)
-            self.setChildElementOptionalLiteral(child_element, "COMMENT", msr_query_props.getComment())
             self.setChildElementOptionalLiteral(child_element, "MSR-QUERY-NAME", msr_query_props.getMsrQueryName())
             for msr_query_arg in msr_query_props.getMsrQueryArgs():
                 self.setMsrQueryArg(child_element, msr_query_arg)
+            self.setChildElementOptionalLiteral(child_element, "COMMENT", msr_query_props.getComment())
 
     def setMsrQueryArg(self, element: ET.Element, msr_query_arg: MsrQueryArg):
         child_element = ET.SubElement(element, "MSR-QUERY-ARG")
