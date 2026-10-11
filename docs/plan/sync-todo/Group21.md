@@ -439,7 +439,7 @@ pending that confirmation.
     docstring verbatim from Table 4.27 Note via spec shifted Class-cell convention);
     sync commit 1b8f81805
 
-- [ ] `SdgPrimitiveAttribute` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.29, p.101
+- [x] `SdgPrimitiveAttribute` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.29, p.101
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/SpecialDataDef.py
   - [x] Step 1 — Sync members & description from spec
     - note (Step 1): Table 4.29 (leading-caption page-split; p.101 via pdf_page.py); Base row: full chain → SdgPrimitiveAttribute(SdgAbstractPrimitiveAttribute); zero own attribute rows (category/pattern semantics come from the inherited value restriction).
@@ -469,9 +469,17 @@ pending that confirmation.
     - note (Step 7): 6-column block + release column; marker withheld (batch mode).
   - [x] Step 8 — Deviations
     - note (Step 8): none.
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (362 passed / 0 failed
-    family suites; 14,043 passed / 0 failed models+parser+writer sweep); 9b deferred to
-    batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a re-run 2026-10-11 (15 family tests pass;
+    ruff / mypy / black clean on SpecialDataDef.py); 9b confirmed 2026-10-11 (user approval,
+    `# Spec verified: R23-11` marker written in SpecialDataDef.py)
+    2026-10-11 (Rule 0026 audit vs source — re-verified rather than trusting the row's
+    "steps 1-8 done" prose: audit_class.py PASS, BLOCK/ROWS/SPECLINE/CITATION/SPEC-BASE/
+    DOC/SPACING/DOCTAIL/BASE/MEMBER all clean; Table 4.28/4.29 markdown blocks carry zero
+    own attribute rows, so the class is a pure pass-through; Base row (no
+    AbstractVariationRestriction) → most-derived SdgAbstractPrimitiveAttribute; Class cell
+    has no "(abstract)" so no instantiation guard; docstring verbatim from the Table 4.28
+    Class cell via the spec shifted Class-cell convention);
+    sync commit <TBD>
 
 - [ ] `SdgPrimitiveAttributeWithVariation` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.30, p.101
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/SpecialDataDef.py
