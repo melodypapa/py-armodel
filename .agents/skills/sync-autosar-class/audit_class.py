@@ -25,6 +25,15 @@ eyeball these — see Rule 0024 / 0025 in rules.md):
            Rule 0013.1 forbids calling it *twice*; this catches never calling it
            at all, which is the same silent data loss in the other direction.
 
+  MEMBER   the reader/writer pair for the class reaches the reader/writer helper
+           of every class it aggregates (`List[M]` / `Optional[M]` members in
+           `__init__`/`clear`, `createXxx` results, and mixin class-level
+           members such as `VariationPointCapable.variationPoint`). A shared
+           helper's existence is not evidence an aggregator calls it (Rule
+           0001.7): a member whose helper is unreachable from the entry point
+           is silently dropped on round-trip. Members with no helper of their
+           own (inline emission per Rule 0025) only warn.
+
   DOC      `__init__` carries no docstring (Rule 0012.2.4). A `Tags:`/`Stereotypes:`
            tail in a class / `__init__` member / accessor docstring is **expected**
            and reported as INFO — the spec `Note` is copied verbatim including the
@@ -696,11 +705,18 @@ def _entry_points(mc: Dict[str, Set[str]], primaries: Sequence[str], hooks: Sequ
 # depth 5 and unbounded find nothing extra — so a deeper walk would only make the
 # check more permissive without surfacing another real gap.
 _REACH_DEPTH = 3
+# Member dispatch nests deeper than base-helper delegation ("Dispatch nests — a
+# subtype that itself aggregates is its own dispatcher", Rule 0001.7): the System
+# chapter path alone is 4 hops (readSystem → readSystemDocumentations →
+# readSystemDocumentation → readSwComponentDocumentationElement → createChapter).
+# Member targets are member-name-specific (unlike the generic readARObject), so a
+# deeper walk stays safe here.
+_MEMBER_REACH_DEPTH = 6
 
 
 @lru_cache(maxsize=None)
-def _reaches(side: str, fn: str, targets: frozenset) -> bool:
-    """Does `fn` call one of `targets`, directly or via <= _REACH_DEPTH helpers?
+def _reaches(side: str, fn: str, targets: frozenset, depth: int = _REACH_DEPTH) -> bool:
+    """Does `fn` call one of `targets`, directly or via <= `depth` helpers?
 
     Delegation is normal in this codebase (a reader for a concrete class often
     calls a helper for a base class, which is what calls readIdentifiable), so a
@@ -713,23 +729,23 @@ def _reaches(side: str, fn: str, targets: frozenset) -> bool:
     seen = {fn}
     frontier = [(fn, 0)]
     while frontier:
-        cur, depth = frontier.pop()
-        if depth >= _REACH_DEPTH:
+        cur, d = frontier.pop()
+        if d >= depth:
             continue
         for nxt in graph.get(cur, ()):
             if nxt in targets:
                 return True
             if nxt not in seen:
                 seen.add(nxt)
-                frontier.append((nxt, depth + 1))
+                frontier.append((nxt, d + 1))
     return False
 
 
-def _reaches_any(side: str, entry_points: Sequence[str], targets: Set[str]) -> Optional[str]:
+def _reaches_any(side: str, entry_points: Sequence[str], targets: Set[str], depth: int = _REACH_DEPTH) -> Optional[str]:
     """The first entry point that reaches one of `targets`, directly or transitively."""
     frozen = frozenset(targets)
     for fn in entry_points:
-        if _reaches(side, fn, frozen):
+        if _reaches(side, fn, frozen, depth):
             return fn
     return None
 
@@ -832,6 +848,248 @@ def check_base(rep: Report, cls: str, node: ast.ClassDef, enum: bool) -> None:
 
 
 # --------------------------------------------------------------------------- #
+# MEMBER — Rule 0001.7: the aggregator must dispatch to every member class
+# --------------------------------------------------------------------------- #
+
+_TYPING_CONTAINERS = {"Optional", "List", "Dict", "Set", "Tuple", "Union", "Callable", "Type", "Sequence", "Iterable", "Final", "ClassVar"}
+# Value-carried roots: a class whose base chain reaches one of these is serialized
+# as element text or an attribute value (Rule 0013.2) and has no member helper to
+# dispatch to — refs (`RefType`), enums, literals, primitives. `RefType` breaks the
+# chain rule (it derives from `ARObject`, not the literal family) but is carried as
+# an element's text + DEST attribute via getChildElementOptionalRefType; TRefType/
+# IRefType inherit from it and are covered transitively.
+_VALUE_CARRIED_ROOTS = {"ARLiteral", "AREnum", "ARType", "RefType"}
+
+# Capability aliases: a mixin-sourced member may be dispatched through the
+# capability helper instead of the member's own — `readVariationPointCapable`
+# reads the VARIATION-POINT element and calls setVariationPoint internally, so
+# reaching it is as good as reaching readVariationPoint (Rule 0025 naming).
+_MEMBER_ALIASES = {("parser", "VariationPoint"): ("readVariationPointCapable",), ("writer", "VariationPoint"): ("writeVariationPointCapable",)}
+
+
+@lru_cache(maxsize=None)
+def _xsd_text() -> str:
+    p = _REPO_ROOT / "autosar" / "R23-11" / "xsd" / "AUTOSAR_00052.xsd"
+    return read(p) if p.exists() else ""
+
+
+@lru_cache(maxsize=None)
+def _xsd_group_declares(cls: str, element: str) -> str:
+    """Does the class's UPPER_SNAKE element group in the R23-11 XSD declare `element`?
+
+    Returns "declares" | "lacks" | "unmapped". The mixin capability is applied
+    repo-wide in the model, but the XSD decides per class whether it is active
+    (Rule 0015: the schema is the serialization source of truth) — so a missing
+    dispatch only fails when the schema actually allows the element.
+    """
+    text = _xsd_text()
+    if not text:
+        return "unmapped"
+    upper = re.sub(r"(?<=[a-z0-9])(?=[A-Z])", "-", cls).upper()
+    m = re.search(r'<xsd:group name="%s">' % re.escape(upper), text)
+    if not m:
+        return "unmapped"
+    end = text.find("</xsd:group>", m.end())
+    return "declares" if element in text[m.end():end] else "lacks"
+
+
+@lru_cache(maxsize=None)
+def _model_class_anns() -> Dict[str, Tuple[str, ...]]:
+    """Class-level annotated type names per models class ({name: (inner type names)}).
+
+    The mixin pattern (Rule 0020/0021) declares members as class-level annotated
+    defaults — `VariationPointCapable.variationPoint: Optional[VariationPoint] = None`
+    — which never appear in a concrete class's `__init__`. Without this map a mixin
+    capability is invisible to the member check, and the exact shape that silently
+    dropped VARIATION-POINT on `BswVariableAccess` passes unnoticed.
+    """
+    out: Dict[str, Tuple[str, ...]] = {}
+    for p in MODELS_DIR.rglob("*.py"):
+        try:
+            t = ast.parse(read(p))
+        except SyntaxError:
+            continue
+        for n in ast.walk(t):
+            if isinstance(n, ast.ClassDef):
+                names: List[str] = []
+                for item in n.body:
+                    if isinstance(item, ast.AnnAssign):
+                        names.extend(_annotation_type_names(item.annotation))
+                out.setdefault(n.name, tuple(names))
+    return out
+
+
+def _annotation_type_names(ann: Optional[ast.expr]) -> List[str]:
+    """Inner type names of an annotation: `X`, `Optional[X]`, `List[X]`, quoted `"X"`."""
+    if isinstance(ann, ast.Constant) and isinstance(ann.value, str):
+        return [ann.value] if ann.value.isidentifier() else []
+    if isinstance(ann, ast.Name):
+        return [ann.id]
+    if isinstance(ann, ast.Attribute):
+        return [ann.attr]
+    if isinstance(ann, ast.Subscript):
+        return _annotation_type_names(ann.slice)
+    if isinstance(ann, ast.Tuple):
+        out: List[str] = []
+        for elt in ann.elts:
+            out.extend(_annotation_type_names(elt))
+        return out
+    return []
+
+
+def _is_value_carried(cls: str, base_map: Dict[str, List[str]]) -> bool:
+    seen: Set[str] = set()
+    frontier = [cls]
+    while frontier:
+        cur = frontier.pop()
+        if cur in _VALUE_CARRIED_ROOTS:
+            return True
+        if cur in seen:
+            continue
+        seen.add(cur)
+        frontier.extend(base_map.get(cur, []))
+    return False
+
+
+def _member_candidates(node: ast.ClassDef, base_map: Dict[str, List[str]]) -> List[str]:
+    """Every aggregated member class of `node`: stored members (`__init__`/`clear`
+    annotated assignments), registry-aggregator members (`createXxx` return types),
+    and mixin class-level members inherited from the base chain."""
+    names: List[str] = []
+    for n in ast.walk(node):
+        if isinstance(n, ast.AnnAssign):
+            names.extend(_annotation_type_names(n.annotation))
+    for fn in node.body:
+        if isinstance(fn, (ast.FunctionDef, ast.AsyncFunctionDef)) and fn.name.startswith("create") and fn.returns is not None:
+            names.extend(_annotation_type_names(fn.returns))
+    seen: Set[str] = {node.name}
+    frontier = list(base_map.get(node.name, []))
+    while frontier:
+        b = frontier.pop(0)
+        if b in seen:
+            continue
+        seen.add(b)
+        names.extend(_model_class_anns().get(b, ()))
+        frontier.extend(base_map.get(b, []))
+    out: List[str] = []
+    for name in names:
+        if name in _TYPING_CONTAINERS or name not in base_map or _is_value_carried(name, base_map):
+            continue
+        if name not in out:
+            out.append(name)
+    return out
+
+
+def check_members(rep: Report, cls: str, node: ast.ClassDef, enum: bool) -> None:
+    """Rule 0001.7, mechanical: a shared helper's existence is not evidence an
+    aggregator calls it. Every aggregated member class's reader/writer helper must
+    be reachable from the class's own reader/writer entry point — the same
+    confirmed-vs-guessed entry-point semantics as BASE, at the deeper dispatch
+    nesting members legitimately use.
+
+    Reader-side coverage accepts helper dispatch OR inline construction (the
+    parser calling the model's `create<Member>` factory or constructing the member
+    directly). Writer-side inline emission is mechanically invisible — getters
+    carry no member name — so a writer FAIL is a hand-verify prompt, exactly like
+    BASE's indirect-reach warnings."""
+    base_map = _model_base_map()
+    if enum or _is_value_carried(cls, base_map):
+        rep.ok("MEMBER", "value-carried type — serialized as text/attribute value, no member dispatch of its own")
+        return
+    members = _member_candidates(node, base_map)
+    if not members:
+        rep.ok("MEMBER", "no aggregated member classes")
+        return
+    pcalls = collect_calls(PARSER)
+    wcalls = collect_calls(WRITER)
+    if not pcalls or not wcalls:
+        rep.warn("MEMBER", "parser/writer source not found — skipped")
+        return
+    known_r = known_helper_names(PARSER, ABSTRACT_PARSER)
+    known_w = known_helper_names(WRITER, ABSTRACT_WRITER)
+    confirmed_r = [f for f in ("read" + cls, "get" + cls) if f in pcalls]
+    confirmed_w = [f for f in ("write" + cls, "set" + cls) if f in wcalls]
+    r_pts = confirmed_r or _entry_points(pcalls, ("read" + cls, "get" + cls), (cls, "create" + cls, "get" + cls), cls)
+    w_pts = confirmed_w or _entry_points(wcalls, ("write" + cls, "set" + cls), ("get" + cls, "set" + cls, "create" + cls), cls)
+
+    for side, entry_pts, confirmed, known_fns, verb in (("parser", r_pts, confirmed_r, known_r, "reader"), ("writer", w_pts, confirmed_w, known_w, "writer")):
+        have, lack = [], []
+        for m in members:
+            pref = "read" if side == "parser" else "write"
+            alt = "get" if side == "parser" else "set"
+            # Reader side: building the member inline is legitimate coverage too —
+            # either through the model's create factory (`documentation.createChapter`)
+            # or by constructing it directly (`AnyInstanceRef()`). Those calls carry
+            # the member's own name, so they join the target set unfiltered; a member
+            # is uncovered only when NOTHING named after it is reachable.
+            # Writer side: emission goes through getters with no name evidence, so
+            # only the named helpers (write<Member>/set<Member>/aliases) count.
+            extra = (m, "create" + m) if side == "parser" else ()
+            targets = {t for t in (pref + m, alt + m) + _MEMBER_ALIASES.get((side, m), ()) + extra if t in known_fns or t in extra}
+            if not targets:
+                lack.append(m)
+            else:
+                have.append((m, targets))
+        if lack:
+            rep.warn(
+                "MEMBER",
+                "%d aggregated member class(es) of %s own no %s helper — inline emission is legitimate (Rule 0025 naming); verify their attributes are covered: %s"
+                % (len(lack), cls, verb, ", ".join(sorted(lack)[:6])),
+            )
+        if not entry_pts:
+            rep.warn("MEMBER", "no %s entry point found for %s — cannot verify dispatch of %d member class(es): %s" % (verb, cls, len(have), ", ".join(sorted(m for m, _ in have)[:6])))
+            continue
+        if not have:
+            rep.ok("MEMBER", "%s dispatch — no %s-helper members to verify (%d member(s) are inline-emitted or value-carried)" % (verb, verb, len(lack)))
+            continue
+        reached_direct: List[str] = []
+        reached_indirect: List[str] = []
+        missing: List[str] = []
+        dormant: List[str] = []
+        for m, targets in have:
+            frozen = frozenset(targets)
+            hit_fn = _reaches_any(side, entry_pts, set(targets), _MEMBER_REACH_DEPTH)
+            if hit_fn is None:
+                # The mixin capability is applied repo-wide in the model but the XSD
+                # decides per class whether the element exists at all (Rule 0015) —
+                # a missing dispatch on a group that lacks the element is a dormant
+                # capability, warned not failed.
+                if m == "VariationPoint" and _xsd_group_declares(cls, "VARIATION-POINT") in ("lacks", "unmapped"):
+                    dormant.append(m)
+                else:
+                    missing.append(m)
+            elif frozen & collect_calls(PARSER if side == "parser" else WRITER)[hit_fn]:
+                reached_direct.append(m)
+            else:
+                reached_indirect.append(m)
+        if dormant:
+            rep.warn(
+                "MEMBER",
+                "%s does not dispatch %s (mixin capability) but the class's XSD group does not declare VARIATION-POINT / is unmapped — capability dormant, confirm the schema lookup: %s"
+                % (verb, ", ".join(sorted(dormant)), cls),
+            )
+        if missing:
+            detail = ", ".join(sorted(missing)[:8])
+            if confirmed:
+                rep.fail(
+                    "MEMBER",
+                    "%s entry point(s) %s never dispatch to %d aggregated member class helper(s): %s — the member's elements are silently dropped on round-trip (Rule 0001.7)"
+                    % (verb, ", ".join(confirmed[:3]), len(missing), detail),
+                )
+            else:
+                rep.warn(
+                    "MEMBER",
+                    "%s name-matched candidate(s) %s do not reach %d member helper(s): %s — confirm by hand that the aggregator dispatches them (Rule 0001.7)"
+                    % (verb, ", ".join(entry_pts[:3]), len(missing), detail),
+                )
+            continue
+        note = ", ".join(reached_direct[:6]) if reached_direct else ", ".join(reached_indirect[:6])
+        shape = "directly" if reached_direct and not reached_indirect else ("indirectly (via shared helpers)" if reached_indirect and not reached_direct else "directly + indirectly")
+        if len(have) - len(dormant) > 0:
+            rep.ok("MEMBER", "%s dispatch reaches all %d aggregated member class helper(s) (%s): %s" % (verb, len(have) - len(dormant), shape, note))
+
+
+# --------------------------------------------------------------------------- #
 # driver
 # --------------------------------------------------------------------------- #
 
@@ -864,6 +1122,7 @@ def audit_one(cls: str, path: Path) -> Report:
     check_spacing(rep, lines, start, end)
     check_doc_tail(rep, node, lines, start, end)
     check_base(rep, cls, node, enum)
+    check_members(rep, cls, node, enum)
     return rep
 
 

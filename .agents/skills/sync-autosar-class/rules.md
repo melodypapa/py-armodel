@@ -227,6 +227,18 @@ all agree; Rule 0001.3). Do not stop at the field default:
   round-trip. The checklist (Rule 0002) is **blind** to this — verify by grepping the
   reader and writer for each field's XML tag. A shared `readXxx`/`writeXxx` helper's
   existence is **not** evidence a given aggregator calls it — grep each aggregator.
+  **Mechanical (MEMBER):** `audit_class.py` derives each class's aggregated member
+  classes from its model AST — `__init__`/`clear` annotated members, `createXxx`
+  return types, and base-chain class-level members (the Rule 0020/0021 mixin pattern,
+  e.g. `VariationPointCapable.variationPoint`) — filtering out value-carried types
+  (`ARLiteral`/`AREnum`/`ARType` families and `RefType`), then verifies the class's
+  reader entry point reaches `read<Member>`/`get<Member>` and the writer reaches
+  `write<Member>`/`set<Member>` (same confirmed-vs-guessed entry-point semantics as
+  Rule 0025). A confirmed entry point that reaches no helper for a member is a FAIL;
+  a member with no helper of its own (legitimate inline emission) warns. This is what
+  catches the `BswVariableAccess` shape: the class mixed in `VariationPointCapable`,
+  the XSD group declared `VARIATION-POINT`, and neither reader nor writer ever
+  dispatched it — while every checklist row read `[x]`.
 - **Polymorphic dispatch (five-place pattern):** a concrete subtype of an abstract base
   needs (a) the subtype class, (b) the aggregator's `createXxx`/`getXxxs` + checklist
   rows, (c) the reader dispatch branch, (d) the writer dispatch branch, (e) reader
