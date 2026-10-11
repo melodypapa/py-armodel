@@ -45,16 +45,16 @@ class TestImplementationDataTypeReader:
 
         sub_elements = data_type.getSubElements()
         assert len(sub_elements) == 2
-        assert sub_elements[0].short_name == "Size"
+        assert sub_elements[0].shortName == "Size"
         assert sub_elements[0].parent is data_type
         assert sub_elements[0].getArraySize().getValue() == 8
         assert sub_elements[0].getArraySizeSemantics().getValue() == "FIXED-SIZE"
-        assert sub_elements[1].short_name == "Payload"
+        assert sub_elements[1].shortName == "Payload"
         assert sub_elements[1].getIsOptional().getValue() is True
 
         symbol_props = data_type.getSymbolProps()
         assert symbol_props is not None
-        assert symbol_props.short_name == "Sym"
+        assert symbol_props.shortName == "Sym"
         assert symbol_props.parent is data_type
         assert symbol_props.getSymbol().getValue() == "REASON_SYM"
 

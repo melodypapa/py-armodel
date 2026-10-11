@@ -209,7 +209,7 @@ class TestBaseType:
         sw_base_type = SwBaseType(parent_obj, "test_type")
 
         assert sw_base_type.parent is parent_obj
-        assert sw_base_type.short_name == "test_type"
+        assert sw_base_type.shortName == "test_type"
 
         definition = sw_base_type.getBaseTypeDefinition()
         assert isinstance(definition, BaseTypeDirectDefinition)
@@ -278,7 +278,7 @@ class TestSwBaseType:
         sw_base_type = SwBaseType(parent_obj, "uint8")
 
         assert sw_base_type.parent is parent_obj
-        assert sw_base_type.short_name == "uint8"
+        assert sw_base_type.shortName == "uint8"
 
         definition = sw_base_type.getBaseTypeDefinition()
         assert isinstance(definition, BaseTypeDirectDefinition)

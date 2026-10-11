@@ -23,7 +23,7 @@ class TestBswModuleDescription:
         ar_root = document.createARPackage("AUTOSAR")
         desc = BswModuleDescription(ar_root, "test_bsw_module")
 
-        assert desc.short_name == "test_bsw_module"
+        assert desc.shortName == "test_bsw_module"
         assert desc.getBswModuleDependencies() == []
         assert desc.getBswModuleDocumentation() is None
         assert desc.getExpectedEntryRefs() == []
@@ -47,7 +47,7 @@ class TestBswModuleDescription:
 
         dependency = desc.createBswModuleDependency("test_dependency")
 
-        assert dependency.short_name == "test_dependency"
+        assert dependency.shortName == "test_dependency"
         assert len(desc.getBswModuleDependencies()) == 1
         assert desc.getBswModuleDependencies()[0] == dependency
 
@@ -174,7 +174,7 @@ class TestBswModuleDescription:
 
         behavior = desc.createBswInternalBehavior("test_behavior")
 
-        assert behavior.short_name == "test_behavior"
+        assert behavior.shortName == "test_behavior"
         assert len(desc.getInternalBehaviors()) == 1
         assert desc.getInternalBehaviors()[0] == behavior
 
@@ -212,7 +212,7 @@ class TestBswModuleDescription:
 
         entry = desc.createProvidedClientServerEntry("test_entry")
 
-        assert entry.short_name == "test_entry"
+        assert entry.shortName == "test_entry"
         assert len(desc.getProvidedClientServerEntries()) == 1
         assert desc.getProvidedClientServerEntries()[0] == entry
 
@@ -232,7 +232,7 @@ class TestBswModuleDescription:
 
         data = desc.createProvidedData("test_data")
 
-        assert data.short_name == "test_data"
+        assert data.shortName == "test_data"
         assert len(desc.getProvidedDatas()) == 1
         assert desc.getProvidedDatas()[0] == data
 
@@ -252,7 +252,7 @@ class TestBswModuleDescription:
 
         mode_group = desc.createProvidedModeGroup("test_mode_group")
 
-        assert mode_group.short_name == "test_mode_group"
+        assert mode_group.shortName == "test_mode_group"
         assert len(desc.getProvidedModeGroups()) == 1
         assert desc.getProvidedModeGroups()[0] == mode_group
 
@@ -272,7 +272,7 @@ class TestBswModuleDescription:
 
         trigger = desc.createReleasedTrigger("test_trigger")
 
-        assert trigger.short_name == "test_trigger"
+        assert trigger.shortName == "test_trigger"
         assert len(desc.getReleasedTriggers()) == 1
         assert desc.getReleasedTriggers()[0] == trigger
 
@@ -292,7 +292,7 @@ class TestBswModuleDescription:
 
         entry = desc.createRequiredClientServerEntry("test_required_entry")
 
-        assert entry.short_name == "test_required_entry"
+        assert entry.shortName == "test_required_entry"
         assert len(desc.getRequiredClientServerEntries()) == 1
         assert desc.getRequiredClientServerEntries()[0] == entry
 
@@ -312,7 +312,7 @@ class TestBswModuleDescription:
 
         data = desc.createRequiredData("test_required_data")
 
-        assert data.short_name == "test_required_data"
+        assert data.shortName == "test_required_data"
         assert len(desc.getRequiredDatas()) == 1
         assert desc.getRequiredDatas()[0] == data
 
@@ -332,7 +332,7 @@ class TestBswModuleDescription:
 
         mode_group = desc.createRequiredModeGroup("test_required_mode_group")
 
-        assert mode_group.short_name == "test_required_mode_group"
+        assert mode_group.shortName == "test_required_mode_group"
         assert len(desc.getRequiredModeGroups()) == 1
         assert desc.getRequiredModeGroups()[0] == mode_group
 
@@ -352,6 +352,6 @@ class TestBswModuleDescription:
 
         trigger = desc.createRequiredTrigger("test_required_trigger")
 
-        assert trigger.short_name == "test_required_trigger"
+        assert trigger.shortName == "test_required_trigger"
         assert len(desc.getRequiredTriggers()) == 1
         assert desc.getRequiredTriggers()[0] == trigger

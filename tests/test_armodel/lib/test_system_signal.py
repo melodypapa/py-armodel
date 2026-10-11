@@ -106,9 +106,9 @@ class TestSystemSignalAnalyzer:
 
         # Create mock system signals
         signal1 = Mock(spec=SystemSignal)
-        signal1.short_name = "Signal1"
+        signal1.shortName = "Signal1"
         signal2 = Mock(spec=SystemSignal)
-        signal2.short_name = "Signal2"
+        signal2.shortName = "Signal2"
 
         parent_pkg.getARPackages.return_value = []
         parent_pkg.getSystemSignals.return_value = [signal1, signal2]
@@ -131,7 +131,7 @@ class TestSystemSignalAnalyzer:
         # Create mock package with system signals
         pkg = Mock(spec=ARPackage)
         signal = Mock(spec=SystemSignal)
-        signal.short_name = "TestSignal"
+        signal.shortName = "TestSignal"
 
         document.getARPackages.return_value = [pkg]
         pkg.getARPackages.return_value = []
@@ -152,11 +152,11 @@ class TestSystemSignalAnalyzer:
 
         # Add mock system signals
         signal1 = Mock(spec=SystemSignal)
-        signal1.short_name = "SignalB"
-        signal1.full_name = "Full.SignalB"
+        signal1.shortName = "SignalB"
+        signal1.fullName = "Full.SignalB"
         signal2 = Mock(spec=SystemSignal)
-        signal2.short_name = "SignalA"
-        signal2.full_name = "Full.SignalA"
+        signal2.shortName = "SignalA"
+        signal2.fullName = "Full.SignalA"
 
         analyzer.system_signals = [signal1, signal2]
 
@@ -186,11 +186,11 @@ class TestSystemSignalAnalyzer:
 
         # Add mock system signals
         signal1 = Mock(spec=SystemSignal)
-        signal1.short_name = "SignalB"
-        signal1.full_name = "Full.SignalB"
+        signal1.shortName = "SignalB"
+        signal1.fullName = "Full.SignalB"
         signal2 = Mock(spec=SystemSignal)
-        signal2.short_name = "SignalA"
-        signal2.full_name = "Full.SignalA"
+        signal2.shortName = "SignalA"
+        signal2.fullName = "Full.SignalA"
 
         analyzer.system_signals = [signal1, signal2]
 

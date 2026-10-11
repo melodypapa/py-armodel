@@ -150,7 +150,7 @@ class TestWriteFlexrayNmCluster:
         assert len(clusters) == 1
         parsed = clusters[0]
         assert isinstance(parsed, FlexrayNmCluster)
-        assert parsed.short_name == "Fr1"
+        assert parsed.shortName == "Fr1"
         assert parsed.getNmCarWakeUpBitPosition().getValue() == 5
         assert parsed.getNmCarWakeUpFilterEnabled().getValue() is True
         assert parsed.getNmCarWakeUpFilterNodeId().getValue() == 120

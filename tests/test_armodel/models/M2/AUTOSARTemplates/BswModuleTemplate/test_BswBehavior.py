@@ -89,7 +89,7 @@ class TestBswModuleCallPoint:
         # Test with BswDirectCallPoint (a concrete subclass)
         call_point = BswDirectCallPoint(ar_root, "test_call_point")
 
-        assert call_point.short_name == "test_call_point"
+        assert call_point.shortName == "test_call_point"
 
     def test_initialization(self):
         """Test that a concrete subclass initializes its fields with the spec defaults."""
@@ -141,7 +141,7 @@ class TestBswAsynchronousServerCallPoint:
         ar_root = document.createARPackage("AUTOSAR")
         async_call_point = BswAsynchronousServerCallPoint(ar_root, "test_async_call")
 
-        assert async_call_point.short_name == "test_async_call"
+        assert async_call_point.shortName == "test_async_call"
         assert async_call_point.getCalledEntryRef() is None
 
     def test_set_called_entry_ref(self):
@@ -171,7 +171,7 @@ class TestBswDirectCallPoint:
         ar_root = document.createARPackage("AUTOSAR")
         direct_call_point = BswDirectCallPoint(ar_root, "test_direct_call")
 
-        assert direct_call_point.short_name == "test_direct_call"
+        assert direct_call_point.shortName == "test_direct_call"
         assert direct_call_point.getCalledEntryRef() is None
         assert direct_call_point.getCalledFromWithinExclusiveAreaRef() is None
         assert direct_call_point.getContextLimitationRefs() == []
@@ -236,7 +236,7 @@ class TestBswSynchronousServerCallPoint:
         ar_root = document.createARPackage("AUTOSAR")
         sync_call_point = BswSynchronousServerCallPoint(ar_root, "test_sync_call")
 
-        assert sync_call_point.short_name == "test_sync_call"
+        assert sync_call_point.shortName == "test_sync_call"
         assert sync_call_point.getCalledEntryRef() is None
         assert sync_call_point.getCalledFromWithinExclusiveAreaRef() is None
         assert sync_call_point.getContextLimitationRefs() == []
@@ -300,7 +300,7 @@ class TestBswAsynchronousServerCallResultPoint:
         ar_root = document.createARPackage("AUTOSAR")
         async_result_point = BswAsynchronousServerCallResultPoint(ar_root, "test_async_result")
 
-        assert async_result_point.short_name == "test_async_result"
+        assert async_result_point.shortName == "test_async_result"
         assert async_result_point.getAsynchronousServerCallPointRef() is None
 
     def test_get_set_asynchronous_server_call_point_ref(self):
@@ -438,7 +438,7 @@ class TestBswModuleEntity:
 
         call_point = entity.createBswAsynchronousServerCallPoint("test_async_call_point")
 
-        assert call_point.short_name == "test_async_call_point"
+        assert call_point.shortName == "test_async_call_point"
         assert len(entity.getCallPoints()) == 1
 
     def test_create_bsw_synchronous_server_call_point(self):
@@ -448,7 +448,7 @@ class TestBswModuleEntity:
 
         call_point = entity.createBswSynchronousServerCallPoint("test_sync_call_point")
 
-        assert call_point.short_name == "test_sync_call_point"
+        assert call_point.shortName == "test_sync_call_point"
         assert len(entity.getCallPoints()) == 1
 
     def test_get_data_receive_points(self):
@@ -465,7 +465,7 @@ class TestBswModuleEntity:
 
         data_point = entity.createDataReceivePoint("test_data_receive_point")
 
-        assert data_point.short_name == "test_data_receive_point"
+        assert data_point.shortName == "test_data_receive_point"
         assert len(entity.getDataReceivePoints()) == 1
 
     def test_get_data_send_points(self):
@@ -482,7 +482,7 @@ class TestBswModuleEntity:
 
         data_point = entity.createDataSendPoint("test_data_send_point")
 
-        assert data_point.short_name == "test_data_send_point"
+        assert data_point.shortName == "test_data_send_point"
         assert len(entity.getDataSendPoints()) == 1
 
     def test_get_implemented_entry_ref(self):
@@ -584,7 +584,7 @@ class TestBswCalledEntity:
         ar_root = document.createARPackage("AUTOSAR")
         entity = BswCalledEntity(ar_root, "test_called_entity")
 
-        assert entity.short_name == "test_called_entity"
+        assert entity.shortName == "test_called_entity"
         assert entity.getShortName() == "test_called_entity"
         assert isinstance(entity, BswModuleEntity)
         assert entity.getParent() is ar_root
@@ -598,7 +598,7 @@ class TestBswSchedulableEntity:
         ar_root = document.createARPackage("AUTOSAR")
         entity = BswSchedulableEntity(ar_root, "test_schedulable_entity")
 
-        assert entity.short_name == "test_schedulable_entity"
+        assert entity.shortName == "test_schedulable_entity"
         assert entity.getShortName() == "test_schedulable_entity"
         assert isinstance(entity, BswModuleEntity)
         assert entity.getParent() is ar_root
@@ -629,7 +629,7 @@ class TestBswInterruptEntity:
         ar_root = document.createARPackage("AUTOSAR")
         entity = BswInterruptEntity(ar_root, "test_interrupt_entity")
 
-        assert entity.short_name == "test_interrupt_entity"
+        assert entity.shortName == "test_interrupt_entity"
         assert entity.getInterruptCategory() is None
         assert entity.getInterruptSource() is None
 
@@ -699,7 +699,7 @@ class TestBswEvent:
         ar_root = document.createARPackage("AUTOSAR")
         event = BswOperationInvokedEvent(ar_root, "test_event")
 
-        assert event.short_name == "test_event"
+        assert event.shortName == "test_event"
         assert event.getContextLimitationRefs() == []
         assert event.getDisabledInModeIRefs() == []
         assert event.getStartsOnEventRef() is None
@@ -761,7 +761,7 @@ class TestBswOperationInvokedEvent:
         ar_root = document.createARPackage("AUTOSAR")
         event = BswOperationInvokedEvent(ar_root, "test_operation_invoked_event")
 
-        assert event.short_name == "test_operation_invoked_event"
+        assert event.shortName == "test_operation_invoked_event"
         assert event.getEntryRef() is None
 
     def test_get_set_entry_ref(self):
@@ -818,7 +818,7 @@ class TestBswModeSwitchEvent:
         ar_root = document.createARPackage("AUTOSAR")
         event = BswModeSwitchEvent(ar_root, "test_mode_switch_event")
 
-        assert event.short_name == "test_mode_switch_event"
+        assert event.shortName == "test_mode_switch_event"
         assert event.getActivation() is None
         assert event.getModeIRefs() == []
 
@@ -895,7 +895,7 @@ class TestBswModeManagerErrorEvent:
         ar_root = document.createARPackage("AUTOSAR")
         event = BswModeManagerErrorEvent(ar_root, "test_mode_manager_error_event")
 
-        assert event.short_name == "test_mode_manager_error_event"
+        assert event.shortName == "test_mode_manager_error_event"
         assert event.getModeGroupRef() is None
 
     def test_get_set_mode_group_ref(self):
@@ -953,7 +953,7 @@ class TestBswModeSwitchedAckEvent:
         ar_root = document.createARPackage("AUTOSAR")
         event = BswModeSwitchedAckEvent(ar_root, "test_mode_switched_ack_event")
 
-        assert event.short_name == "test_mode_switched_ack_event"
+        assert event.shortName == "test_mode_switched_ack_event"
         assert event.getModeGroupRef() is None
 
     def test_get_set_mode_group_ref(self):
@@ -1011,7 +1011,7 @@ class TestBswAsynchronousServerCallReturnsEvent:
         ar_root = document.createARPackage("AUTOSAR")
         event = BswAsynchronousServerCallReturnsEvent(ar_root, "test_async_server_call_returns_event")
 
-        assert event.short_name == "test_async_server_call_returns_event"
+        assert event.shortName == "test_async_server_call_returns_event"
         assert event.getEventSourceRef() is None
 
     def test_get_set_event_source_ref(self):
@@ -1069,7 +1069,7 @@ class TestBswTimingEvent:
         ar_root = document.createARPackage("AUTOSAR")
         event = BswTimingEvent(ar_root, "test_timing_event")
 
-        assert event.short_name == "test_timing_event"
+        assert event.shortName == "test_timing_event"
         assert event.getPeriod() is None
         assert event.periodMs is None
 
@@ -1134,7 +1134,7 @@ class TestBswDataReceivedEvent:
         ar_root = document.createARPackage("AUTOSAR")
         event = BswDataReceivedEvent(ar_root, "test_data_received_event")
 
-        assert event.short_name == "test_data_received_event"
+        assert event.shortName == "test_data_received_event"
         assert event.getDataRef() is None
 
     def test_set_data_ref(self):
@@ -1177,7 +1177,7 @@ class TestBswInternalTriggerOccurredEvent:
         ar_root = document.createARPackage("AUTOSAR")
         event = BswInternalTriggerOccurredEvent(ar_root, "test_internal_trigger_event")
 
-        assert event.short_name == "test_internal_trigger_event"
+        assert event.shortName == "test_internal_trigger_event"
         assert event.getEventSourceRef() is None
 
     def test_set_event_source_ref(self):
@@ -1477,7 +1477,7 @@ class TestBswBackgroundEvent:
         ar_root = document.createARPackage("AUTOSAR")
         event = BswBackgroundEvent(ar_root, "test_background_event")
 
-        assert event.short_name == "test_background_event"
+        assert event.shortName == "test_background_event"
         assert event.getShortName() == "test_background_event"
         assert isinstance(event, BswScheduleEvent)
         assert event.getParent() is ar_root
@@ -1491,7 +1491,7 @@ class TestBswOsTaskExecutionEvent:
         ar_root = document.createARPackage("AUTOSAR")
         event = BswOsTaskExecutionEvent(ar_root, "test_os_task_event")
 
-        assert event.short_name == "test_os_task_event"
+        assert event.shortName == "test_os_task_event"
         assert event.getShortName() == "test_os_task_event"
         assert isinstance(event, BswScheduleEvent)
         assert event.getParent() is ar_root
@@ -1505,7 +1505,7 @@ class TestBswExternalTriggerOccurredEvent:
         ar_root = document.createARPackage("AUTOSAR")
         event = BswExternalTriggerOccurredEvent(ar_root, "test_external_trigger_event")
 
-        assert event.short_name == "test_external_trigger_event"
+        assert event.shortName == "test_external_trigger_event"
         assert event.getTriggerRef() is None
 
     def test_get_set_trigger_ref(self):
@@ -2098,7 +2098,7 @@ class TestBswInternalTriggeringPoint:
         ar_root = document.createARPackage("AUTOSAR")
         point = BswInternalTriggeringPoint(ar_root, "test_internal_triggering_point")
 
-        assert point.short_name == "test_internal_triggering_point"
+        assert point.shortName == "test_internal_triggering_point"
         assert point.getSwImplPolicy() is None
 
     def test_set_sw_impl_policy(self):
@@ -2135,7 +2135,7 @@ class TestBswInternalBehavior:
         ar_root = document.createARPackage("AUTOSAR")
         behavior = BswInternalBehavior(ar_root, "test_internal_behavior")
 
-        assert behavior.short_name == "test_internal_behavior"
+        assert behavior.shortName == "test_internal_behavior"
 
     def test_get_set_ar_typed_per_instance_memories(self):
         document = AUTOSAR.getInstance()
@@ -2381,7 +2381,7 @@ class TestBswInternalBehavior:
 
         point = behavior.createBswInternalTriggeringPoint("test_point")
 
-        assert point.short_name == "test_point"
+        assert point.shortName == "test_point"
         assert len(behavior.getInternalTriggeringPoints()) == 1
 
     def test_create_bsw_called_entity(self):
@@ -2391,7 +2391,7 @@ class TestBswInternalBehavior:
 
         entity = behavior.createBswCalledEntity("test_called_entity")
 
-        assert entity.short_name == "test_called_entity"
+        assert entity.shortName == "test_called_entity"
         assert len(behavior.getBswCalledEntities()) == 1
 
     def test_get_bsw_called_entities(self):
@@ -2412,7 +2412,7 @@ class TestBswInternalBehavior:
 
         entity = behavior.createBswSchedulableEntity("test_schedulable_entity")
 
-        assert entity.short_name == "test_schedulable_entity"
+        assert entity.shortName == "test_schedulable_entity"
         assert len(behavior.getBswSchedulableEntities()) == 1
 
     def test_get_bsw_schedulable_entities(self):
@@ -2433,7 +2433,7 @@ class TestBswInternalBehavior:
 
         entity = behavior.createBswInterruptEntity("test_interrupt_entity")
 
-        assert entity.short_name == "test_interrupt_entity"
+        assert entity.shortName == "test_interrupt_entity"
         assert len(behavior.getBswInterruptEntities()) == 1
 
     def test_get_bsw_interrupt_entities(self):
@@ -2465,7 +2465,7 @@ class TestBswInternalBehavior:
 
         event = behavior.createBswModeSwitchEvent("test_mode_switch_event")
 
-        assert event.short_name == "test_mode_switch_event"
+        assert event.shortName == "test_mode_switch_event"
         assert len(behavior.getBswModeSwitchEvents()) == 1
 
     def test_get_bsw_mode_switch_events(self):
@@ -2486,7 +2486,7 @@ class TestBswInternalBehavior:
 
         event = behavior.createBswModeManagerErrorEvent("test_mode_manager_error_event")
 
-        assert event.short_name == "test_mode_manager_error_event"
+        assert event.shortName == "test_mode_manager_error_event"
         assert len(behavior.getBswModeManagerErrorEvents()) == 1
 
     def test_get_bsw_mode_manager_error_events(self):
@@ -2507,7 +2507,7 @@ class TestBswInternalBehavior:
 
         event = behavior.createBswModeSwitchedAckEvent("test_mode_switched_ack_event")
 
-        assert event.short_name == "test_mode_switched_ack_event"
+        assert event.shortName == "test_mode_switched_ack_event"
         assert len(behavior.getBswModeSwitchedAckEvents()) == 1
 
     def test_get_bsw_mode_switched_ack_events(self):
@@ -2528,7 +2528,7 @@ class TestBswInternalBehavior:
 
         event = behavior.createBswAsynchronousServerCallReturnsEvent("test_async_server_call_returns_event")
 
-        assert event.short_name == "test_async_server_call_returns_event"
+        assert event.shortName == "test_async_server_call_returns_event"
         assert len(behavior.getBswAsynchronousServerCallReturnsEvents()) == 1
 
     def test_get_bsw_asynchronous_server_call_returns_events(self):
@@ -2549,7 +2549,7 @@ class TestBswInternalBehavior:
 
         event = behavior.createBswTimingEvent("test_timing_event")
 
-        assert event.short_name == "test_timing_event"
+        assert event.shortName == "test_timing_event"
         assert len(behavior.getBswTimingEvents()) == 1
 
     def test_get_bsw_timing_events(self):
@@ -2570,7 +2570,7 @@ class TestBswInternalBehavior:
 
         event = behavior.createBswDataReceivedEvent("test_data_received_event")
 
-        assert event.short_name == "test_data_received_event"
+        assert event.shortName == "test_data_received_event"
         assert len(behavior.getBswDataReceivedEvents()) == 1
 
     def test_get_bsw_data_received_events(self):
@@ -2591,7 +2591,7 @@ class TestBswInternalBehavior:
 
         event = behavior.createBswInternalTriggerOccurredEvent("test_internal_trigger_occurred_event")
 
-        assert event.short_name == "test_internal_trigger_occurred_event"
+        assert event.shortName == "test_internal_trigger_occurred_event"
         assert len(behavior.getBswInternalTriggerOccurredEvents()) == 1
 
     def test_get_bsw_internal_trigger_occurred_events(self):
@@ -2612,7 +2612,7 @@ class TestBswInternalBehavior:
 
         event = behavior.createBswExternalTriggerOccurredEvent("test_external_trigger_occurred_event")
 
-        assert event.short_name == "test_external_trigger_occurred_event"
+        assert event.shortName == "test_external_trigger_occurred_event"
         assert len(behavior.getBswExternalTriggerOccurredEvents()) == 1
 
     def test_get_bsw_external_trigger_occurred_events(self):
@@ -2633,7 +2633,7 @@ class TestBswInternalBehavior:
 
         event = behavior.createBswOperationInvokedEvent("test_operation_invoked_event")
 
-        assert event.short_name == "test_operation_invoked_event"
+        assert event.shortName == "test_operation_invoked_event"
         assert len(behavior.getBswOperationInvokedEvents()) == 1
 
     def test_get_bsw_operation_invoked_events(self):
@@ -2654,7 +2654,7 @@ class TestBswInternalBehavior:
 
         event = behavior.createBswBackgroundEvent("test_background_event")
 
-        assert event.short_name == "test_background_event"
+        assert event.shortName == "test_background_event"
         assert len(behavior.getBswBackgroundEvents()) == 1
 
     def test_get_bsw_background_events(self):
@@ -2861,7 +2861,7 @@ class TestBswDistinguishedPartition:
         ar_root = document.createARPackage("AUTOSAR")
         partition = BswDistinguishedPartition(ar_root, "test_partition")
 
-        assert partition.short_name == "test_partition"
+        assert partition.shortName == "test_partition"
         assert partition.getShortName() == "test_partition"
         assert partition.getParent() is ar_root
 

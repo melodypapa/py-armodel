@@ -178,7 +178,7 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
         port_prototype = PRPortPrototype(ar_root, "TestPort")
 
         assert port_prototype.parent == ar_root
-        assert port_prototype.short_name == "TestPort"
+        assert port_prototype.shortName == "TestPort"
         assert port_prototype.clientServerAnnotations == []
         assert port_prototype.delegatedPortAnnotation is None
         assert port_prototype.ioHwAbstractionServerAnnotations == []
@@ -400,7 +400,7 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
 
         test_component = TestSwComponentType(ar_root, "TestSwComponent")
         assert test_component is not None
-        assert test_component.short_name == "TestSwComponent"
+        assert test_component.shortName == "TestSwComponent"
         assert isinstance(test_component, SwComponentType)
 
     def test_AtomicSwComponentType_abstract(self):
@@ -416,7 +416,7 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
 
         test_component = TestAtomicSwComponentType(ar_root, "TestAtomicSwComponent")
         assert test_component is not None
-        assert test_component.short_name == "TestAtomicSwComponent"
+        assert test_component.shortName == "TestAtomicSwComponent"
         assert isinstance(test_component, AtomicSwComponentType)
         assert isinstance(test_component, SwComponentType)
 
@@ -667,14 +667,14 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
         behavior = swc.createSwcInternalBehavior("TestBehavior")
         assert swc.getInternalBehavior() == behavior
         assert swc.createSwcInternalBehavior("TestBehavior") == behavior
-        assert behavior.short_name == "TestBehavior"
+        assert behavior.shortName == "TestBehavior"
         assert behavior in swc.referrableElements
 
         # Test symbol props creation returns the existing element on re-create
         symbol_props = swc.createSymbolProps("TestSymbolProps")
         assert swc.getSymbolProps() == symbol_props
         assert swc.createSymbolProps("TestSymbolProps") == symbol_props
-        assert symbol_props.short_name == "TestSymbolProps"
+        assert symbol_props.shortName == "TestSymbolProps"
         assert symbol_props in swc.referrableElements
 
     def test_AtomicSwComponentType_base_properties(self):
@@ -824,15 +824,15 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
 
         # Test all port creation methods
         p_port = swc.createPPortPrototype("PPort")
-        assert p_port.short_name == "PPort"
+        assert p_port.shortName == "PPort"
         assert p_port in swc.getPPortPrototypes()
 
         r_port = swc.createRPortPrototype("RPort")
-        assert r_port.short_name == "RPort"
+        assert r_port.shortName == "RPort"
         assert r_port in swc.getRPortPrototypes()
 
         pr_port = swc.createPRPortPrototype("PRPort")
-        assert pr_port.short_name == "PRPort"
+        assert pr_port.shortName == "PRPort"
         assert pr_port in swc.getPRPortPrototypes()
 
         # Test getPortPrototypes
@@ -862,7 +862,7 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
 
         # Test port group creation
         port_group = swc.createPortGroup("TestGroup")
-        assert port_group.short_name == "TestGroup"
+        assert port_group.shortName == "TestGroup"
         assert port_group in swc.getPortGroups()
 
         # Test port group methods
@@ -924,7 +924,7 @@ class TestSymbolProps:
         symbol_props = self._make()
 
         assert symbol_props.parent is not None
-        assert symbol_props.short_name == "TestSymbol"
+        assert symbol_props.shortName == "TestSymbol"
         assert isinstance(symbol_props, ImplementationProps)
         assert symbol_props.getSymbol() is None
 
@@ -1233,14 +1233,14 @@ class Test_SwComponentType_Spec:
     def test_create_consistency_needs_duplicate_returns_existing(self):
         swc = self._make()
         needs = swc.createConsistencyNeeds("Needs")
-        assert needs.short_name == "Needs"
+        assert needs.shortName == "Needs"
         assert swc.createConsistencyNeeds("Needs") is needs
         assert swc.getConsistencyNeeds() == [needs]
 
     def test_create_port_group_duplicate_returns_existing(self):
         swc = self._make()
         group = swc.createPortGroup("Group")
-        assert group.short_name == "Group"
+        assert group.shortName == "Group"
         assert swc.createPortGroup("Group") is group
 
     def test_type_hints(self):
@@ -1387,7 +1387,7 @@ class Test_ParameterSwComponentType_Spec:
     def test_inherited_base_accessors(self):
         swc = self._make()
         swc.createPPortPrototype("P1")
-        assert [p.short_name for p in swc.getPorts()] == ["P1"]
+        assert [p.shortName for p in swc.getPorts()] == ["P1"]
 
 
 ATOMIC_SW_COMPONENT_TYPE_CLASS_NOTE = "An atomic software component is atomic in the sense that it cannot be further decomposed and distributed across multiple ECUs."
@@ -1446,14 +1446,14 @@ class Test_AtomicSwComponentType_Spec:
     def test_create_swc_internal_behavior_duplicate_returns_existing(self):
         swc = self._make()
         behavior = swc.createSwcInternalBehavior("Behavior")
-        assert behavior.short_name == "Behavior"
+        assert behavior.shortName == "Behavior"
         assert swc.createSwcInternalBehavior("Behavior") is behavior
         assert swc.getInternalBehavior() is behavior
 
     def test_create_symbol_props_duplicate_returns_existing(self):
         swc = self._make()
         props = swc.createSymbolProps("Sym")
-        assert props.short_name == "Sym"
+        assert props.shortName == "Sym"
         assert swc.createSymbolProps("Sym") is props
         assert swc.getSymbolProps() is props
 
@@ -1511,7 +1511,7 @@ class Test_ApplicationSwComponentType_Spec:
     def test_inherited_accessors_via_concrete_class(self):
         swc = self._make()
         swc.createPPortPrototype("P1")
-        assert [p.short_name for p in swc.getPorts()] == ["P1"]
+        assert [p.shortName for p in swc.getPorts()] == ["P1"]
         behavior = swc.createSwcInternalBehavior("B")
         assert swc.getInternalBehavior() is behavior
         assert swc.createSymbolProps("S") is swc.getSymbolProps()
@@ -1559,7 +1559,7 @@ class Test_ServiceSwComponentType_Spec:
     def test_inherited_accessors_via_concrete_class(self):
         swc = self._make()
         swc.createRPortPrototype("R1")
-        assert [p.short_name for p in swc.getPorts()] == ["R1"]
+        assert [p.shortName for p in swc.getPorts()] == ["R1"]
         behavior = swc.createSwcInternalBehavior("B")
         assert swc.getInternalBehavior() is behavior
         assert swc.createSymbolProps("S") is swc.getSymbolProps()
@@ -1656,12 +1656,12 @@ class Test_NvBlockSwComponentType_Spec:
         swc = self._make()
         descriptor = swc.createBulkNvDataDescriptor("Bulk1")
         assert isinstance(descriptor, BulkNvDataDescriptor)
-        assert descriptor.short_name == "Bulk1"
+        assert descriptor.shortName == "Bulk1"
         assert swc.getBulkNvDataDescriptors() == [descriptor]
         assert swc.bulkNvDataDescriptors == [descriptor]
         assert swc.createBulkNvDataDescriptor("Bulk1") is descriptor
         swc.createBulkNvDataDescriptor("Bulk2")
-        assert [d.short_name for d in swc.getBulkNvDataDescriptors()] == ["Bulk1", "Bulk2"]
+        assert [d.shortName for d in swc.getBulkNvDataDescriptors()] == ["Bulk1", "Bulk2"]
 
     def test_create_get_nv_block_descriptors(self):
         from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.NvBlockComponent import NvBlockDescriptor
@@ -1669,12 +1669,12 @@ class Test_NvBlockSwComponentType_Spec:
         swc = self._make()
         descriptor = swc.createNvBlockDescriptor("Nv1")
         assert isinstance(descriptor, NvBlockDescriptor)
-        assert descriptor.short_name == "Nv1"
+        assert descriptor.shortName == "Nv1"
         assert swc.getNvBlockDescriptors() == [descriptor]
         assert swc.nvBlockDescriptors == [descriptor]
         assert swc.createNvBlockDescriptor("Nv1") is descriptor
         swc.createNvBlockDescriptor("Nv2")
-        assert [d.short_name for d in swc.getNvBlockDescriptors()] == ["Nv1", "Nv2"]
+        assert [d.shortName for d in swc.getNvBlockDescriptors()] == ["Nv1", "Nv2"]
 
     def test_type_hints(self):
         import typing

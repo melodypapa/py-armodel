@@ -147,7 +147,7 @@ class TestApplicationPrimitiveDataType:
         primitive_type = ApplicationPrimitiveDataType(ar_root, "TestApplicationPrimitiveDataType")
 
         assert primitive_type.parent == ar_root
-        assert primitive_type.short_name == "TestApplicationPrimitiveDataType"
+        assert primitive_type.shortName == "TestApplicationPrimitiveDataType"
         assert primitive_type.swDataDefProps is None
 
         # Test swDataDefProps methods
@@ -181,7 +181,7 @@ class TestApplicationArrayDataType:
         array_type = ApplicationArrayDataType(ar_root, "TestApplicationArrayDataType")
 
         assert array_type.parent == ar_root
-        assert array_type.short_name == "TestApplicationArrayDataType"
+        assert array_type.shortName == "TestApplicationArrayDataType"
         assert array_type.dynamicArraySizeProfile is None
         assert array_type.element is None
         assert array_type.getDynamicArraySizeProfile() is None
@@ -245,7 +245,7 @@ class TestApplicationArrayDataType:
 
         array_element = array_type.createApplicationArrayElement("TestArrayElement")
         assert array_element is not None
-        assert array_element.short_name == "TestArrayElement"
+        assert array_element.shortName == "TestArrayElement"
         assert array_element.parent == array_type
         assert array_type.element is array_element
         assert array_type.getApplicationArrayElement() is array_element
@@ -291,7 +291,7 @@ class TestApplicationRecordDataType:
         record_type = ApplicationRecordDataType(ar_root, "TestApplicationRecordDataType")
 
         assert record_type.parent == ar_root
-        assert record_type.short_name == "TestApplicationRecordDataType"
+        assert record_type.shortName == "TestApplicationRecordDataType"
         assert record_type.swDataDefProps is None
         assert record_type.elements == []
         assert record_type.getElements() == []
@@ -322,7 +322,7 @@ class TestApplicationRecordDataType:
         second = record_type.createApplicationRecordElement("Second")
 
         assert isinstance(first, ApplicationRecordElement)
-        assert first.short_name == "First"
+        assert first.shortName == "First"
         assert first.parent == record_type
         assert record_type.elements == [first, second]
         assert record_type.getElements() == [first, second]
@@ -436,7 +436,7 @@ class TestDataTypeMappingSet:
         mapping_set = DataTypeMappingSet(ar_root, "TestDataTypeMappingSet")
 
         assert mapping_set.parent == ar_root
-        assert mapping_set.short_name == "TestDataTypeMappingSet"
+        assert mapping_set.shortName == "TestDataTypeMappingSet"
         assert mapping_set.dataTypeMaps == []
         assert mapping_set.modeRequestTypeMaps == []
         assert isinstance(mapping_set, AtpBlueprintable)

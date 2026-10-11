@@ -5,6 +5,8 @@ in the GenericStructure module.
 
 from __future__ import annotations
 
+import warnings
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
     BinaryManifestItemValue,
@@ -93,16 +95,29 @@ class Referrable(ARObject, ABC):
 
     # Referrable method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.10, p.63
+    # Spec verified: R23-11 (2026-10-11, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] shortName              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] shortName              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] short_name             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] short_name             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getShortName           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] getParent              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] fullName              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] full_name              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getFullName            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] addShortNameFragment   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getShortNameFragments  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    #
+    # The Table 4.10 `shortName` attribute is the plain attribute `self.shortName` (the spec
+    # Attribute-column name, Rule 0001.5); `getShortName()` is its accessor. The `short_name`
+    # property rows above are the deprecated backward-compatibility alias only — it emits a
+    # DeprecationWarning and forwards to `shortName`.
+    #
+    # Internal members (no Table 4.10 counterpart — structural link / derived path helpers,
+    # cf. the ARObject `parent` decision in docs/examples/method_deviation_by_class_v2.md):
+    # `parent`/`getParent` carry the containment link every Referrable is constructed with;
+    # `fullName`/`getFullName` derive the slash-joined qualified path from it. `full_name` is the
+    # deprecated alias of `fullName` (paired with the `shortName`/`short_name` aliasing above).
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is Referrable:
@@ -112,28 +127,42 @@ class Referrable(ARObject, ABC):
 
         self.parent: ARObject = parent
 
-        self.short_name: str = short_name
+        # This specifies an identifying shortName for the object. It needs to be unique within its context and is intended for humans but even more for technical reference. Stereotypes: atpIdentityContributor Tags: xml.enforceMinMultiplicity=true xml.sequenceOffset=-100
+        self.shortName: str = short_name
 
         # This specifies how the Referrable.shortName is composed of several shortNameFragments. Tags: xml.sequenceOffset=-90
         self.shortNameFragments: List[ShortNameFragment] = []
 
     @property
-    def shortName(self) -> str:
-        """str: The short name of this referrable element."""
-        return self.short_name
+    def short_name(self) -> str:
+        """
+        Deprecated alias for `shortName`, the Table 4.10 attribute name.
 
-    @shortName.setter
-    def shortName(self, value: str):
-        self.short_name = value
+        Use `shortName` (or `getShortName()`) instead; this alias is kept only for
+        backward compatibility and will be removed.
+        """
+        warnings.warn("Referrable.short_name is deprecated; use Referrable.shortName instead.", DeprecationWarning, stacklevel=2)
+        return self.shortName
+
+    @short_name.setter
+    def short_name(self, value: str):
+        """
+        Deprecated alias for `shortName`, the Table 4.10 attribute name.
+
+        Use `shortName` instead; this alias is kept only for backward compatibility
+        and will be removed.
+        """
+        warnings.warn("Referrable.short_name is deprecated; use Referrable.shortName instead.", DeprecationWarning, stacklevel=2)
+        self.shortName = value
 
     def getShortName(self) -> str:
         """
-        Gets the short name of this referrable element.
+        This specifies an identifying shortName for the object. It needs to be unique within its context and is intended for humans but even more for technical reference. Stereotypes: atpIdentityContributor Tags: xml.enforceMinMultiplicity=true xml.sequenceOffset=-100
 
         Returns:
-            The short name of this element
+            The identifying shortName of this element
         """
-        return self.short_name
+        return self.shortName
 
     def getParent(self) -> ARObject:
         """
@@ -145,11 +174,31 @@ class Referrable(ARObject, ABC):
         return self.parent
 
     @property
-    def full_name(self) -> str:
+    def fullName(self) -> str:
         """
         str: The full name of this element, including the parent's full name.
+
+        Raises:
+            TypeError: if the parent is neither an `Identifiable` nor a document root.
         """
-        return cast(Identifiable, self.parent).full_name + "/" + self.short_name
+        # Imported here, not at module scope: AutosarTopLevelStructure imports Identifiable,
+        # so a top-level import of AbstractAUTOSAR would be circular.
+        from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AbstractAUTOSAR
+
+        if not isinstance(self.parent, (Identifiable, AbstractAUTOSAR)):
+            raise TypeError("Referrable.fullName requires an Identifiable or document-root parent; got %s. Pass an Identifiable (or a document root) as the parent." % type(self.parent).__name__)
+        return self.parent.fullName + "/" + self.shortName
+
+    @property
+    def full_name(self) -> str:
+        """
+        Deprecated alias for `fullName`.
+
+        Use `fullName` (or `getFullName()`) instead; this alias is kept only for
+        backward compatibility and will be removed.
+        """
+        warnings.warn("Referrable.full_name is deprecated; use Referrable.fullName instead.", DeprecationWarning, stacklevel=2)
+        return self.fullName
 
     def getFullName(self) -> str:
         """
@@ -158,11 +207,11 @@ class Referrable(ARObject, ABC):
         Returns:
             The full name of this element
         """
-        return self.full_name
+        return self.fullName
 
     def addShortNameFragment(self, value: Optional[ShortNameFragment]) -> Referrable:
         """
-        Adds a short name fragment that specifies how the shortName is composed of several shortNameFragments.
+        This specifies how the Referrable.shortName is composed of several shortNameFragments. Tags: xml.sequenceOffset=-90
         A None value is a no-op and does not append anything.
 
         Args:
@@ -177,7 +226,7 @@ class Referrable(ARObject, ABC):
 
     def getShortNameFragments(self) -> List[ShortNameFragment]:
         """
-        Gets the short name fragments that specify how the shortName is composed of several shortNameFragments.
+        This specifies how the Referrable.shortName is composed of several shortNameFragments. Tags: xml.sequenceOffset=-90
 
         Returns:
             List of ShortNameFragment instances

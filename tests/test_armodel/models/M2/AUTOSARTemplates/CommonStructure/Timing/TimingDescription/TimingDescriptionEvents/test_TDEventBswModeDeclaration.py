@@ -15,7 +15,7 @@ class TestTDEventBswModeDeclaration:
         ar_root = document.createARPackage("AUTOSAR")
         event = TDEventBswModeDeclaration(ar_root, "BswMode1")
         assert event is not None
-        assert event.short_name == "BswMode1"
+        assert event.shortName == "BswMode1"
 
     def test_not_abstract(self):
         assert issubclass(TDEventBswModeDeclaration, TDEventBsw)

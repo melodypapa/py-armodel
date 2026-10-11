@@ -23,7 +23,7 @@ def test_hw_pin_init():
 
     # Verify initial values
     assert hw_pin.parent == parent
-    assert hw_pin.short_name == "test_hw_pin"
+    assert hw_pin.shortName == "test_hw_pin"
     assert hw_pin.hwAttributeValues == []
     assert hw_pin.hwCategoryRefs == []
     assert hw_pin.hwTypeRef is None
@@ -119,7 +119,7 @@ def test_hw_pin_group_content_getters_and_setters():
     # Test createHwPin
     new_pin = hw_pin_group_content.createHwPin("new_pin")
     assert new_pin is not None
-    assert new_pin.short_name == "new_pin"
+    assert new_pin.shortName == "new_pin"
     assert hw_pin_group_content.getHwPin() == new_pin
 
     # Test getHwPin
@@ -128,7 +128,7 @@ def test_hw_pin_group_content_getters_and_setters():
     # Test createHwPinGroup and getHwPinGroup
     hw_pin_group = hw_pin_group_content.createHwPinGroup("test_pin_group")
     assert isinstance(hw_pin_group, HwPinGroup)
-    assert hw_pin_group.short_name == "test_pin_group"
+    assert hw_pin_group.shortName == "test_pin_group"
     assert hw_pin_group_content.getHwPinGroup() == hw_pin_group
 
     # Duplicate short name returns the existing child
@@ -152,7 +152,7 @@ def test_hw_pin_group_init():
 
     # Verify initial values
     assert hw_pin_group.parent == parent
-    assert hw_pin_group.short_name == "test_hw_pin_group"
+    assert hw_pin_group.shortName == "test_hw_pin_group"
     assert hw_pin_group.hwAttributeValues == []
     assert hw_pin_group.hwCategoryRefs == []
     assert hw_pin_group.hwTypeRef is None
@@ -200,7 +200,7 @@ def test_hw_element_init():
 
     # Verify initial values
     assert hw_element.parent == parent
-    assert hw_element.short_name == "test_hw_element"
+    assert hw_element.shortName == "test_hw_element"
     assert hw_element.hwAttributeValues == []
     assert hw_element.hwCategoryRefs == []
     assert hw_element.hwTypeRef is None
@@ -242,7 +242,7 @@ def test_hw_element_getters_and_setters():
     # Test createHwPinGroup
     new_pin_group = hw_element.createHwPinGroup("new_pin_group")
     assert new_pin_group is not None
-    assert new_pin_group.short_name == "new_pin_group"
+    assert new_pin_group.shortName == "new_pin_group"
     assert new_pin_group in hw_element.getHwPinGroups()
 
     # Test nestedElementRefs adder and getter

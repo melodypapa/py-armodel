@@ -107,7 +107,7 @@ class TestApplicationArrayElementRoundTrip:
 
             array_element = data_type_2.getApplicationArrayElement()
             assert array_element is not None
-            assert array_element.short_name == "Elem"
+            assert array_element.shortName == "Elem"
             assert array_element.getTypeTRef().getValue() == "/DataTypes/uint8"
             assert array_element.getTypeTRef().getDest() == "APPLICATION-PRIMITIVE-DATA-TYPE"
             assert array_element.getArraySizeHandling().getValue() == ArraySizeHandlingEnum.ALL_INDICES_SAME_ARRAY_SIZE
@@ -140,7 +140,7 @@ class TestApplicationArrayElementRoundTrip:
             assert len(data_types) == 1
             array_element = data_types[0].getApplicationArrayElement()
             assert array_element is not None
-            assert array_element.short_name == "Elem"
+            assert array_element.shortName == "Elem"
             assert array_element.getTypeTRef() is None
             assert array_element.getArraySizeHandling() is None
             assert array_element.getArraySizeSemantics() is None

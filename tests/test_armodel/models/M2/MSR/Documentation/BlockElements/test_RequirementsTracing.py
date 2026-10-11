@@ -254,7 +254,7 @@ class TestTraceableTable:
         """Test that a TraceableTable object can be initialized with default values."""
         traceable_table = TraceableTable(None, "TraceableTable")
         assert traceable_table.parent is None
-        assert traceable_table.short_name == "TraceableTable"
+        assert traceable_table.shortName == "TraceableTable"
         assert traceable_table.table is None
         assert traceable_table.traceRefs == []
         assert traceable_table.si is None

@@ -18,7 +18,7 @@ class TestPerInstanceMemory:
         memory = PerInstanceMemory(ar_root, "TestPerInstanceMemory")
 
         assert memory.parent == ar_root
-        assert memory.short_name == "TestPerInstanceMemory"
+        assert memory.shortName == "TestPerInstanceMemory"
         assert memory.initValue is None
         assert memory.swDataDefProps is None
         assert memory.type is None

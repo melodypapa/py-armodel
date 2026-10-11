@@ -53,7 +53,7 @@ class TestPlatformModuleEthernetEndpointConfiguration:
     def test_initialization(self):
         config = _new_configuration("test_platformmoduleethernetendpointconfiguration")
 
-        assert config.short_name == "test_platformmoduleethernetendpointconfiguration"
+        assert config.shortName == "test_platformmoduleethernetendpointconfiguration"
         assert config.getCommunicationConnectorRef() is None
         assert config.getIpv4MulticastIpAddress() is None
         assert config.getIpv6MulticastIpAddress() is None

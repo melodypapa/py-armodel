@@ -29,7 +29,7 @@ class TestConsistencyNeeds:
         assert issubclass(ConsistencyNeeds, VariationPointCapable)
         consistency_needs = ConsistencyNeeds(ar_root, "BaseNeeds")
         assert consistency_needs.parent == ar_root
-        assert consistency_needs.short_name == "BaseNeeds"
+        assert consistency_needs.shortName == "BaseNeeds"
 
     def test_initialization(self):
         """Test all __init__ field defaults per Table 4.99."""

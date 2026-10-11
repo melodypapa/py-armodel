@@ -126,7 +126,7 @@ class TestWriteSwcServiceDependency:
             swc_2 = document_2.getARPackages()[0].getSwComponentTypes()[0]
             dependency_2 = swc_2.getInternalBehavior().getSwcServiceDependencies()[0]
 
-            assert dependency_2.short_name == "Dep"
+            assert dependency_2.shortName == "Dep"
             assert len(dependency_2.getAssignedData()) == 1
             assert dependency_2.getAssignedData()[0].getRole().getValue() == "ramMirror"
             assert dependency_2.getAssignedData()[0].getUsedPimRef().getValue() == "/Pkg/Swc/IB/Pim"
@@ -137,7 +137,7 @@ class TestWriteSwcServiceDependency:
 
             needs_2 = dependency_2.getServiceNeeds()
             assert isinstance(needs_2, DltUserNeeds)
-            assert needs_2.short_name == dlt.short_name
+            assert needs_2.shortName == dlt.shortName
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)

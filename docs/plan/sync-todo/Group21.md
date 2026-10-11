@@ -207,18 +207,28 @@ pending that confirmation.
       member-type docstrings to be verbatim before the consuming class is stamped; the user
       confirmed the stamp scoped to this class's own table anyway. **Those rows are still
       owed a real sync pass** — see their rows further down this file.
-- [x] `Referrable` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.10, p.63 — already verified (short-circuit 2026-09-30)
+- [x] `Referrable` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.10, p.63
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
   - [x] Step 1 — Sync members & description from spec
+    - note (Step 1): Table 4.10 (**leading-caption page-split** — the attr rows precede the caption; the header `Class | Referrable (abstract)` block sits above it, so the rows must be read from that block, not the one captioned `Table 4.11`); p.63 via the pdf_page cache. Class kind = **Class** (not Enumeration), abstract per the header; Package `M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::Identifiable` ✓; Base `ARObject` → most-derived `ARObject` ✓; Subclasses row lists `Caption, DefItem, DocumentationContext, Identifiable, SdgCaption, TraceReferrable, Traceable`. 2 Attribute rows in displayed order, **shortName first**: `shortName` (Identifier, Mult `1`, attr) and `shortNameFragment` (ShortNameFragment, Mult `*`, aggr, `Tags: xml.sequenceOffset=-90`). XSD group `REFERRABLE` (AUTOSAR_00052.xsd l.96601) confirms the order SHORT-NAME → SHORT-NAME-FRAGMENTS and the shortName tail `xml.enforceMinMultiplicity=true xml.sequenceOffset=-100`.
   - [x] Step 2 — Write model class unit test (Red)
+    - note (Step 2): `TestReferrable` existed but pinned none of the spec Notes. Added 6 tests to `test_Identifiable.py`: class-docstring verbatim, `__init__` has no docstring, per-attribute Note verbatim (comment + getter + setter, `Tags:` tail included), the spec `*` → plural `List` shape, plus `shortName`-as-spec-field and `short_name`-deprecation (added in the later rename pass). **Red**: `test_short_name_member_notes_verbatim` + `test_short_name_fragment_member_notes_verbatim` both failed — the source paraphrased the Notes ("Gets the short name of this referrable element.") and `getShortNameFragments` dropped its `Tags:` tail.
   - [x] Step 3 — Implement model class (Green)
+    - note (Step 3): field-to-spec cross-check passes **both directions** — no field or accessor change needed. 2 spec attrs ↔ 2 fields; `shortNameFragments: List[ShortNameFragment]` for the spec `*` (Rule 0001.4); `getShortNameFragments`/`addShortNameFragment` match the writer/reader pair. Green except the docstring subset owned by Step 4.
   - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    - note (Step 4): full wipe of the class docstring, all accessor docstrings and the inline `__init__` member comments (Rule 0012.2.3), then rewritten from the Table 4.10 `Note` cells. **Fix**: the shortName Note (incl. `Stereotypes: atpIdentityContributor Tags: xml.enforceMinMultiplicity=true xml.sequenceOffset=-100`) and the shortNameFragment Note (incl. `Tags: xml.sequenceOffset=-90`) now appear verbatim at all three levels. Verified by **AST diff against the markdown**, script-bound to the Table 4.10 block only (8/8 placements OK) — not by trusting the test constants. The audit's pre-existing DOCTAIL warning (`getShortNameFragments` omitting the `xml.*` tags) is resolved.
   - [x] Step 5 — Write reader/writer round-trip test (Red)
+    - note (Step 5): the gap was coverage, not behaviour — nothing pinned `readReferrable`/`writeReferrable`. New `tests/test_armodel/parser/test_referrable.py` (5 tests: fragment read, empty wrapper, absent wrapper, multi-fragment order + typing, inherited S/T) and `tests/test_armodel/writer/test_referrable.py` (5 helper-level + a document-level save→load round-trip). Two Red items were **test-fixture defects, not product defects**: bare `ET.fromstring` elements lacked the AUTOSAR namespace the parser resolves through (fixed with the `NS` fixture), and the in-memory element hand-off cannot work at all because the writer emits un-namespaced children while the parser resolves via its namespace map — so the round-trip test was converted to a real save/load. XSD validation (Rule 0027) then caught a malformed `T` timestamp in the test data (`...T10:00:00` has no timezone); fixed to `...Z`.
   - [x] Step 6 — Update parser & writer (Green)
+    - note (Steps 5/6): **no parser/writer change needed** — `readReferrable` (arxml_parser.py l.3209) already calls `readARObject` and populates both attributes via mutators; `writeReferrable` (arxml_writer.py l.2919) already calls `writeARObject` and reads both via getters. Rule 0025 satisfied and confirmed **independently on each side**. Name pairs match 1:1 (Rule 0013.2). No chained `set`/`create`/`add` on a receiver.
   - [x] Step 7 — Update checklist comment
+    - note (Step 7): 6-column block + release column, contiguous above `__init__`, 10 rows in source order (Rule 0024); `# Spec:` in canonical single-corpus form. `audit_class.py` BLOCK/ROWS/SPECLINE/CITATION/SPACING/DOCTAIL/BASE/MEMBER all clean. **Marker deliberately withheld until 9b** (Rule 0012.1).
   - [x] Step 8 — Deviations
+    - note (Step 8): field-to-spec cross-check passes both directions, so **no `naming`/`type`/`missing` row** — the section recorded only the framework members (`parent`, `fullName`) plus the two deprecated aliases. Section **deleted from the tracker at stamp time** per the standing decision (a stamped class leaves the work queue).
   - [x] Step 9 — Verify (9a) + confirm (9b)
-  - note: already-verified short-circuit 2026-09-30 (Group21 header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped; sync commit 4e60d3a34.
+- note (Step 9): **9a** — full suite **26,135 passed**; ruff / mypy (279 files) / black / flake8 clean; member-annotation gate (Rule 0022) 3 passed; `audit_class.py` PASS on every gate. **9b** — confirmed by the user 2026-10-11; marker `# Spec verified: R23-11 (2026-10-11, user 9b confirmation)` written immediately after the `# Spec:` line; post-stamp audit STAMP clean. sync commit 4e60d3a34
+  - note: row reopened 2026-10-10. The prior "already verified (short-circuit 2026-09-30)" note was **STALE** — `# Spec verified: R23-11` was **not** present in src (same defect as the `Identifier` / `LLongName` / `MixedContentForLongName` rows above). Unstamped ⇒ sync from the beginning (Rule 0012.1 / 0026). 9 steps re-run in full.
+  - note (scope, user-directed 2026-10-11): this row's commit also carries two repo-wide member renames and a `parent`-validation fix, all user-requested in the same session — `short_name` → `shortName` (spec Attribute-column name, Rule 0001.5) and `full_name` → `fullName`, each keeping its old name as a deprecated warning alias; and `fullName`'s parent check moved off a blind `cast(Identifiable, ...)` to `isinstance(self.parent, (Identifiable, AbstractAUTOSAR))`. 165 src + 395 test call sites migrated; `parent` stays annotated `ARObject` (the `AUTOSAR` root is not an `Identifiable` and is the parent of top-level packages). Two stale fixtures were exposed by the stricter check and fixed. 100 files total.
 - [x] `ReferrableSubtypesEnum` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.15, p.73
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
   - [x] Step 1 — Sync members & description from spec
@@ -390,7 +400,7 @@ pending that confirmation.
     2026-10-09 (Rule 0026 audit vs source: all 9a automated + 9b manual checks green;
     `# Spec verified: R23-11` marker written); sync commit 41952ae2f
 
-- [ ] `SdgAbstractPrimitiveAttribute` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.28, p.100
+- [x] `SdgAbstractPrimitiveAttribute` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.28, p.100
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/SpecialDataDef.py
   - [x] Step 1 — Sync members & description from spec
     - note (Step 1): Table 4.28 (p.100 via pdf_page.py); abstract (spec header); Base row adds AbstractValueRestriction → SdgAbstractPrimitiveAttribute(SdgElementWithGid, SdgAttribute, AbstractValueRestriction, ABC); zero own attribute rows.
@@ -420,11 +430,16 @@ pending that confirmation.
     - note (Step 7): 6-column block + release column; marker withheld (batch mode).
   - [x] Step 8 — Deviations
     - note (Step 8): none beyond the mixin-pattern notes on SdgElementWithGid/AbstractValueRestriction.
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (362 passed / 0 failed
-    family suites; 14,043 passed / 0 failed models+parser+writer sweep); 9b deferred to
-    batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a re-run 2026-10-11 (15 family + 43 sdg
+    parser/writer tests pass; ruff + mypy clean); 9b confirmed 2026-10-11 (user approval,
+    `# Spec verified: R23-11` marker written in SpecialDataDef.py)
+    2026-10-11 (Rule 0026 audit vs source: audit_class.py PASS — BLOCK/ROWS/STAMP/CITATION/
+    SPEC-BASE/BASE/MEMBER/DOCTAIL/SPACING all clean; spec alignment verified Table 4.28
+    zero own attributes, base chain SdgElementWithGid+SdgAttribute+AbstractValueRestriction+ABC;
+    docstring verbatim from Table 4.27 Note via spec shifted Class-cell convention);
+    sync commit 1b8f81805
 
-- [ ] `SdgPrimitiveAttribute` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.29, p.101
+- [x] `SdgPrimitiveAttribute` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.29, p.101
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/SpecialDataDef.py
   - [x] Step 1 — Sync members & description from spec
     - note (Step 1): Table 4.29 (leading-caption page-split; p.101 via pdf_page.py); Base row: full chain → SdgPrimitiveAttribute(SdgAbstractPrimitiveAttribute); zero own attribute rows (category/pattern semantics come from the inherited value restriction).
@@ -454,9 +469,17 @@ pending that confirmation.
     - note (Step 7): 6-column block + release column; marker withheld (batch mode).
   - [x] Step 8 — Deviations
     - note (Step 8): none.
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (362 passed / 0 failed
-    family suites; 14,043 passed / 0 failed models+parser+writer sweep); 9b deferred to
-    batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a re-run 2026-10-11 (15 family tests pass;
+    ruff / mypy / black clean on SpecialDataDef.py); 9b confirmed 2026-10-11 (user approval,
+    `# Spec verified: R23-11` marker written in SpecialDataDef.py)
+    2026-10-11 (Rule 0026 audit vs source — re-verified rather than trusting the row's
+    "steps 1-8 done" prose: audit_class.py PASS, BLOCK/ROWS/SPECLINE/CITATION/SPEC-BASE/
+    DOC/SPACING/DOCTAIL/BASE/MEMBER all clean; Table 4.28/4.29 markdown blocks carry zero
+    own attribute rows, so the class is a pure pass-through; Base row (no
+    AbstractVariationRestriction) → most-derived SdgAbstractPrimitiveAttribute; Class cell
+    has no "(abstract)" so no instantiation guard; docstring verbatim from the Table 4.28
+    Class cell via the spec shifted Class-cell convention);
+    sync commit 1297ebe97
 
 - [ ] `SdgPrimitiveAttributeWithVariation` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.30, p.101
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/SpecialDataDef.py

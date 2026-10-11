@@ -1017,91 +1017,91 @@ class SwcInternalBehavior(InternalBehavior, VariationPointCapable):
         """
         This is a RTEEvent specified for the particular Swc InternalBehavior. The aggregation of RTEEvent is subject to variability with the purpose to support the conditional existence of RTE events. Note: the number of RTE events might vary due to the conditional existence of PortPrototypes using Data ReceivedEvents or due to different scheduling needs of algorithms. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=event.shortName, event.variationPoint.short Label vh.latestBindingTime=preCompileTime
         """
-        return sorted(self.events, key=lambda e: e.short_name)
+        return sorted(self.events, key=lambda e: e.shortName)
 
     def getOperationInvokedEvents(self) -> List[OperationInvokedEvent]:
         """
         This is a RTEEvent specified for the particular Swc InternalBehavior. The aggregation of RTEEvent is subject to variability with the purpose to support the conditional existence of RTE events. Note: the number of RTE events might vary due to the conditional existence of PortPrototypes using Data ReceivedEvents or due to different scheduling needs of algorithms. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=event.shortName, event.variationPoint.short Label vh.latestBindingTime=preCompileTime
         """
-        return sorted([c for c in self.events if isinstance(c, OperationInvokedEvent)], key=lambda e: e.short_name)
+        return sorted([c for c in self.events if isinstance(c, OperationInvokedEvent)], key=lambda e: e.shortName)
 
     def getInitEvents(self) -> List[InitEvent]:
         """
         This is a RTEEvent specified for the particular Swc InternalBehavior. The aggregation of RTEEvent is subject to variability with the purpose to support the conditional existence of RTE events. Note: the number of RTE events might vary due to the conditional existence of PortPrototypes using Data ReceivedEvents or due to different scheduling needs of algorithms. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=event.shortName, event.variationPoint.short Label vh.latestBindingTime=preCompileTime
         """
-        return sorted([c for c in self.events if isinstance(c, InitEvent)], key=lambda e: e.short_name)
+        return sorted([c for c in self.events if isinstance(c, InitEvent)], key=lambda e: e.shortName)
 
     def getTimingEvents(self) -> List[TimingEvent]:
         """
         This is a RTEEvent specified for the particular Swc InternalBehavior. The aggregation of RTEEvent is subject to variability with the purpose to support the conditional existence of RTE events. Note: the number of RTE events might vary due to the conditional existence of PortPrototypes using Data ReceivedEvents or due to different scheduling needs of algorithms. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=event.shortName, event.variationPoint.short Label vh.latestBindingTime=preCompileTime
         """
-        return sorted([c for c in self.events if isinstance(c, TimingEvent)], key=lambda e: e.short_name)
+        return sorted([c for c in self.events if isinstance(c, TimingEvent)], key=lambda e: e.shortName)
 
     def getDataReceivedEvents(self) -> List[DataReceivedEvent]:
         """
         This is a RTEEvent specified for the particular Swc InternalBehavior. The aggregation of RTEEvent is subject to variability with the purpose to support the conditional existence of RTE events. Note: the number of RTE events might vary due to the conditional existence of PortPrototypes using Data ReceivedEvents or due to different scheduling needs of algorithms. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=event.shortName, event.variationPoint.short Label vh.latestBindingTime=preCompileTime
         """
-        return sorted([c for c in self.events if isinstance(c, DataReceivedEvent)], key=lambda e: e.short_name)
+        return sorted([c for c in self.events if isinstance(c, DataReceivedEvent)], key=lambda e: e.shortName)
 
     def getSwcModeSwitchEvents(self) -> List[SwcModeSwitchEvent]:
         """
         This is a RTEEvent specified for the particular Swc InternalBehavior. The aggregation of RTEEvent is subject to variability with the purpose to support the conditional existence of RTE events. Note: the number of RTE events might vary due to the conditional existence of PortPrototypes using Data ReceivedEvents or due to different scheduling needs of algorithms. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=event.shortName, event.variationPoint.short Label vh.latestBindingTime=preCompileTime
         """
-        return sorted([c for c in self.events if isinstance(c, SwcModeSwitchEvent)], key=lambda e: e.short_name)
+        return sorted([c for c in self.events if isinstance(c, SwcModeSwitchEvent)], key=lambda e: e.shortName)
 
     def getSwcModeManagerErrorEvents(self) -> List[SwcModeManagerErrorEvent]:
         """
         This is a RTEEvent specified for the particular Swc InternalBehavior. The aggregation of RTEEvent is subject to variability with the purpose to support the conditional existence of RTE events. Note: the number of RTE events might vary due to the conditional existence of PortPrototypes using Data ReceivedEvents or due to different scheduling needs of algorithms. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=event.shortName, event.variationPoint.short Label vh.latestBindingTime=preCompileTime
         """
-        return sorted([c for c in self.events if isinstance(c, SwcModeManagerErrorEvent)], key=lambda e: e.short_name)
+        return sorted([c for c in self.events if isinstance(c, SwcModeManagerErrorEvent)], key=lambda e: e.shortName)
 
     def getInternalTriggerOccurredEvents(self) -> List[InternalTriggerOccurredEvent]:
         """
         This is a RTEEvent specified for the particular Swc InternalBehavior. The aggregation of RTEEvent is subject to variability with the purpose to support the conditional existence of RTE events. Note: the number of RTE events might vary due to the conditional existence of PortPrototypes using Data ReceivedEvents or due to different scheduling needs of algorithms. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=event.shortName, event.variationPoint.short Label vh.latestBindingTime=preCompileTime
         """
-        return sorted([c for c in self.events if isinstance(c, InternalTriggerOccurredEvent)], key=lambda e: e.short_name)
+        return sorted([c for c in self.events if isinstance(c, InternalTriggerOccurredEvent)], key=lambda e: e.shortName)
 
     def getModeSwitchedAckEvents(self) -> List[ModeSwitchedAckEvent]:
         """
         This is a RTEEvent specified for the particular Swc InternalBehavior. The aggregation of RTEEvent is subject to variability with the purpose to support the conditional existence of RTE events. Note: the number of RTE events might vary due to the conditional existence of PortPrototypes using Data ReceivedEvents or due to different scheduling needs of algorithms. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=event.shortName, event.variationPoint.short Label vh.latestBindingTime=preCompileTime
         """
-        return sorted([c for c in self.events if isinstance(c, ModeSwitchedAckEvent)], key=lambda e: e.short_name)
+        return sorted([c for c in self.events if isinstance(c, ModeSwitchedAckEvent)], key=lambda e: e.shortName)
 
     def getBackgroundEvents(self) -> List[BackgroundEvent]:
         """
         This is a RTEEvent specified for the particular Swc InternalBehavior. The aggregation of RTEEvent is subject to variability with the purpose to support the conditional existence of RTE events. Note: the number of RTE events might vary due to the conditional existence of PortPrototypes using Data ReceivedEvents or due to different scheduling needs of algorithms. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=event.shortName, event.variationPoint.short Label vh.latestBindingTime=preCompileTime
         """
-        return sorted([c for c in self.events if isinstance(c, BackgroundEvent)], key=lambda e: e.short_name)
+        return sorted([c for c in self.events if isinstance(c, BackgroundEvent)], key=lambda e: e.shortName)
 
     def getDataSendCompletedEvents(self) -> List[DataSendCompletedEvent]:
         """
         This is a RTEEvent specified for the particular Swc InternalBehavior. The aggregation of RTEEvent is subject to variability with the purpose to support the conditional existence of RTE events. Note: the number of RTE events might vary due to the conditional existence of PortPrototypes using Data ReceivedEvents or due to different scheduling needs of algorithms. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=event.shortName, event.variationPoint.short Label vh.latestBindingTime=preCompileTime
         """
-        return sorted([c for c in self.events if isinstance(c, DataSendCompletedEvent)], key=lambda e: e.short_name)
+        return sorted([c for c in self.events if isinstance(c, DataSendCompletedEvent)], key=lambda e: e.shortName)
 
     def getExternalTriggerOccurredEvents(self) -> List[ExternalTriggerOccurredEvent]:
         """
         This is a RTEEvent specified for the particular Swc InternalBehavior. The aggregation of RTEEvent is subject to variability with the purpose to support the conditional existence of RTE events. Note: the number of RTE events might vary due to the conditional existence of PortPrototypes using Data ReceivedEvents or due to different scheduling needs of algorithms. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=event.shortName, event.variationPoint.short Label vh.latestBindingTime=preCompileTime
         """
-        return sorted([c for c in self.events if isinstance(c, ExternalTriggerOccurredEvent)], key=lambda e: e.short_name)
+        return sorted([c for c in self.events if isinstance(c, ExternalTriggerOccurredEvent)], key=lambda e: e.shortName)
 
     def getTransformerHardErrorEvents(self) -> List[TransformerHardErrorEvent]:
         """
         This is a RTEEvent specified for the particular Swc InternalBehavior. The aggregation of RTEEvent is subject to variability with the purpose to support the conditional existence of RTE events. Note: the number of RTE events might vary due to the conditional existence of PortPrototypes using Data ReceivedEvents or due to different scheduling needs of algorithms. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=event.shortName, event.variationPoint.short Label vh.latestBindingTime=preCompileTime
         """
-        return sorted([c for c in self.events if isinstance(c, TransformerHardErrorEvent)], key=lambda e: e.short_name)
+        return sorted([c for c in self.events if isinstance(c, TransformerHardErrorEvent)], key=lambda e: e.shortName)
 
     def getOsTaskExecutionEvents(self) -> List[OsTaskExecutionEvent]:
         """
         This is a RTEEvent specified for the particular Swc InternalBehavior. The aggregation of RTEEvent is subject to variability with the purpose to support the conditional existence of RTE events. Note: the number of RTE events might vary due to the conditional existence of PortPrototypes using Data ReceivedEvents or due to different scheduling needs of algorithms. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=event.shortName, event.variationPoint.short Label vh.latestBindingTime=preCompileTime
         """
-        return sorted([c for c in self.events if isinstance(c, OsTaskExecutionEvent)], key=lambda e: e.short_name)
+        return sorted([c for c in self.events if isinstance(c, OsTaskExecutionEvent)], key=lambda e: e.shortName)
 
     def getSwcServiceDependencies(self) -> List[SwcServiceDependency]:
         """
         Defines the requirements on AUTOSAR Services for a particular item. The aggregation of SwcServiceDependency is subject to variability with the purpose to support the conditional existence of ports as well as the conditional existence of ServiceNeeds. The SwcServiceDependency owned by an SwcInternal Behavior can be located in a different physical file in order to support that SwcServiceDependency might be provided in later development steps or even by different expert domain (e.g OBD expert for Obd related Service Needs) tools. Therefore the aggregation is <<atp Splitable>>. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=serviceDependency.shortName, service Dependency.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
         """
-        return sorted(self.serviceDependencies, key=lambda e: e.short_name)
+        return sorted(self.serviceDependencies, key=lambda e: e.shortName)
 
     def getEvent(self, short_name: str) -> RTEEvent:
         """
@@ -1111,7 +1111,7 @@ class SwcInternalBehavior(InternalBehavior, VariationPointCapable):
 
     def getVariableDataPrototypes(self) -> List[VariableDataPrototype]:
         """Gets all VariableDataPrototype instances owned by this behavior, sorted by short name."""
-        return sorted([c for c in self.referrableElements if isinstance(c, VariableDataPrototype)], key=lambda e: e.short_name)
+        return sorted([c for c in self.referrableElements if isinstance(c, VariableDataPrototype)], key=lambda e: e.shortName)
 
     def createRunnableEntity(self, short_name: str) -> RunnableEntity:
         """
@@ -1127,7 +1127,7 @@ class SwcInternalBehavior(InternalBehavior, VariationPointCapable):
         """
         This is a RunnableEntity specified for the particular Swc InternalBehavior. The aggregation of RunnableEntity is subject to variability with the purpose to support the conditional existence of RunnableEntities. Note: the number of RunnableEntities might vary due to the conditional existence of Port Prototypes using DataReceivedEvents or due to different scheduling needs of algorithms. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=runnable.shortName, runnable.variation Point.shortLabel vh.latestBindingTime=preCompileTime
         """
-        return sorted(self.runnables, key=lambda r: r.short_name)
+        return sorted(self.runnables, key=lambda r: r.shortName)
 
     def getRunnableEntity(self, short_name: str) -> RunnableEntity:
         """

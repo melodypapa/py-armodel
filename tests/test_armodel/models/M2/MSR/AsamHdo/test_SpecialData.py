@@ -111,7 +111,7 @@ class TestSdg:
 
         # Test that the caption is properly attached
         assert caption.parent == sdg
-        assert caption.short_name == "test_caption"
+        assert caption.shortName == "test_caption"
 
     def test_sdg_contents_type_methods(self):
         """Test setting and getting the sdg contents type."""

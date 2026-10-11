@@ -153,7 +153,7 @@ class TestSwcServiceDependency:
         service_dep = SwcServiceDependency(ar_root, "TestSwcServiceDependency")
 
         assert service_dep.parent == ar_root
-        assert service_dep.short_name == "TestSwcServiceDependency"
+        assert service_dep.shortName == "TestSwcServiceDependency"
         assert service_dep.assignedData == []
         assert service_dep.assignedPort == []
         assert service_dep.representedPortGroupRef is None
@@ -331,7 +331,7 @@ class TestSwcServiceDependency:
             needs = getattr(service_dep, factory)("Needs%d" % index)
             assert isinstance(needs, needs_type)
             assert isinstance(needs, ServiceNeeds)
-            assert needs.short_name == "Needs%d" % index
+            assert needs.shortName == "Needs%d" % index
             assert needs.parent is service_dep
             if getter is not None:
                 assert needs in getattr(service_dep, getter)()
@@ -423,7 +423,7 @@ class TestSwcServiceDependencyRoundTrip:
 
             swc_2 = document_2.getARPackages()[0].getSwComponentTypes()[0]
             behavior_2 = swc_2.getInternalBehavior()
-            deps_2 = {d.short_name: d for d in behavior_2.getSwcServiceDependencies()}
+            deps_2 = {d.shortName: d for d in behavior_2.getSwcServiceDependencies()}
 
             enable_2 = deps_2["EnableDep"].getServiceNeeds()
             assert enable_2.getShortName() == "EnableNeeds"

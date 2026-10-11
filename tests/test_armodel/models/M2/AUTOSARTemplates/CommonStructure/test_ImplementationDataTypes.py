@@ -99,7 +99,7 @@ class TestImplementationDataTypeElement:
         ar_root = parent.createARPackage("AUTOSAR")
         element = ImplementationDataTypeElement(ar_root, "TestElement")
         assert element.parent == ar_root
-        assert element.short_name == "TestElement"
+        assert element.shortName == "TestElement"
         assert element.arrayImplPolicy is None
         assert element.arraySize is None
         assert element.arraySizeHandling is None

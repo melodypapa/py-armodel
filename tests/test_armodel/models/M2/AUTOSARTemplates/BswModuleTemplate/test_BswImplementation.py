@@ -25,7 +25,7 @@ class TestBswImplementation:
         ar_root = document.createARPackage("AUTOSAR")
         impl = BswImplementation(ar_root, "test_bsw_implementation")
 
-        assert impl.short_name == "test_bsw_implementation"
+        assert impl.shortName == "test_bsw_implementation"
         assert impl.getArReleaseVersion() is None
         assert impl.getBehaviorRef() is None
         assert impl.getPreconfiguredConfigurationRefs() == []

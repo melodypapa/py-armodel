@@ -36,8 +36,8 @@ class SwComponentAnalyzer:
         else:
             swc_list = self.swcs
 
-        for swc in sorted(swc_list, key=lambda o: o.short_name):
+        for swc in sorted(swc_list, key=lambda o: o.shortName):
             if option["format"] == "long":
-                logger.info("%s" % swc.full_name)
+                logger.info("%s" % swc.fullName)
             else:
-                logger.info("%s" % swc.short_name)
+                logger.info("%s" % swc.shortName)

@@ -53,5 +53,5 @@ class TestParseJ1939NmCluster:
         clusters = config.getNmClusters()
         assert len(clusters) == 1
         assert isinstance(clusters[0], J1939NmCluster)
-        assert clusters[0].short_name == "J1939Cluster1"
+        assert clusters[0].shortName == "J1939Cluster1"
         assert clusters[0].getAddressClaimEnabled().getValue() is True

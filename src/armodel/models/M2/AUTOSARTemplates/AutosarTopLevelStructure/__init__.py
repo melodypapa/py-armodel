@@ -1,3 +1,4 @@
+import warnings
 from typing import Dict, List, Optional, cast
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
@@ -217,8 +218,19 @@ class AbstractAUTOSAR(ARObject):
         pass
 
     @property
-    def full_name(self):
+    def fullName(self):
         return ""
+
+    @property
+    def full_name(self):
+        """
+        Deprecated alias for `fullName`.
+
+        Use `fullName` instead; this alias is kept only for backward compatibility
+        and will be removed.
+        """
+        warnings.warn("AUTOSAR.full_name is deprecated; use AUTOSAR.fullName instead.", DeprecationWarning, stacklevel=2)
+        return self.fullName
 
     def clear(self):
         # The root has no parent and no short name (it is the singleton top-level element).

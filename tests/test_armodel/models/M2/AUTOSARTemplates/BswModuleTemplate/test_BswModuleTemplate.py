@@ -13,7 +13,7 @@ class TestBswModuleDescription:
         ar_root = document.createARPackage("AUTOSAR")
         bsw_module_description = BswModuleDescription(ar_root, "bsw_module")
         assert bsw_module_description is not None
-        assert bsw_module_description.short_name == "bsw_module"
+        assert bsw_module_description.shortName == "bsw_module"
 
     def test_category(self):
         document = AUTOSAR.getInstance()
@@ -36,7 +36,7 @@ class Test_M2_AUTOSARTemplates_BswModuleTemplate_BswInterfaces:
         ar_root = document.createARPackage("AUTOSAR")
         entry = BswModuleEntry(ar_root, "bsw_entry")
         assert entry is not None
-        assert entry.short_name == "bsw_entry"
+        assert entry.shortName == "bsw_entry"
 
 
 class Test_M2_AUTOSARTemplates_BswModuleTemplate_BswBehavior:
@@ -52,4 +52,4 @@ class Test_M2_AUTOSARTemplates_BswModuleTemplate_BswBehavior:
         ar_root = document.createARPackage("AUTOSAR")
         entity = BswCalledEntity(ar_root, "bsw_called_entity")
         assert entity is not None
-        assert entity.short_name == "bsw_called_entity"
+        assert entity.shortName == "bsw_called_entity"

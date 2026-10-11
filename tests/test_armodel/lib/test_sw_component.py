@@ -81,9 +81,9 @@ class TestSwComponentAnalyzer:
 
         # Create mock SW components
         swc1 = Mock(spec=AtomicSwComponentType)
-        swc1.short_name = "Component1"
+        swc1.shortName = "Component1"
         swc2 = Mock(spec=AtomicSwComponentType)
-        swc2.short_name = "Component2"
+        swc2.shortName = "Component2"
 
         parent_pkg.getARPackages.return_value = []
         parent_pkg.getSwComponentTypes.return_value = [swc1, swc2]
@@ -106,7 +106,7 @@ class TestSwComponentAnalyzer:
         # Create mock package with SW components
         pkg = Mock(spec=ARPackage)
         swc = Mock(spec=AtomicSwComponentType)
-        swc.short_name = "TestComponent"
+        swc.shortName = "TestComponent"
 
         document.getARPackages.return_value = [pkg]
         pkg.getARPackages.return_value = []
@@ -127,11 +127,11 @@ class TestSwComponentAnalyzer:
 
         # Add mock SW components
         swc1 = Mock(spec=AtomicSwComponentType)
-        swc1.short_name = "ComponentB"
-        swc1.full_name = "Full.ComponentB"
+        swc1.shortName = "ComponentB"
+        swc1.fullName = "Full.ComponentB"
         swc2 = Mock(spec=AtomicSwComponentType)
-        swc2.short_name = "ComponentA"
-        swc2.full_name = "Full.ComponentA"
+        swc2.shortName = "ComponentA"
+        swc2.fullName = "Full.ComponentA"
 
         analyzer.swcs = [swc1, swc2]
 
@@ -162,11 +162,11 @@ class TestSwComponentAnalyzer:
 
         # Add mock SW components
         swc1 = Mock(spec=AtomicSwComponentType)
-        swc1.short_name = "ComponentB"
-        swc1.full_name = "Full.ComponentB"
+        swc1.shortName = "ComponentB"
+        swc1.fullName = "Full.ComponentB"
         swc2 = Mock(spec=AtomicSwComponentType)
-        swc2.short_name = "ComponentA"
-        swc2.full_name = "Full.ComponentA"
+        swc2.shortName = "ComponentA"
+        swc2.fullName = "Full.ComponentA"
 
         analyzer.swcs = [swc1, swc2]
 
@@ -197,13 +197,13 @@ class TestSwComponentAnalyzer:
         # Create mock SW components of different types but make them properly recognizable
         # We'll set up the mock to return True/False for isinstance checks with specific types
         atomic_swc = Mock()
-        atomic_swc.short_name = "AtomicComponent"
-        atomic_swc.full_name = "Full.AtomicComponent"
+        atomic_swc.shortName = "AtomicComponent"
+        atomic_swc.fullName = "Full.AtomicComponent"
         type(atomic_swc).return_value = False  # isinstance(atomic_swc, CompositionSwComponentType) should return False
 
         composition_swc = Mock()
-        composition_swc.short_name = "CompositionComponent"
-        composition_swc.full_name = "Full.CompositionComponent"
+        composition_swc.shortName = "CompositionComponent"
+        composition_swc.fullName = "Full.CompositionComponent"
         type(composition_swc).return_value = True  # isinstance(composition_swc, CompositionSwComponentType) should return True
 
         analyzer.swcs = [atomic_swc, composition_swc]

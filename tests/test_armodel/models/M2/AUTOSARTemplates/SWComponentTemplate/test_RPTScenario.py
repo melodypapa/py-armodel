@@ -111,7 +111,7 @@ class TestExternalTriggeringPointIdent:
         ident = ExternalTriggeringPointIdent(ar_root, "TestExternalTriggeringPointIdent")
 
         assert ident.parent == ar_root
-        assert ident.short_name == "TestExternalTriggeringPointIdent"
+        assert ident.shortName == "TestExternalTriggeringPointIdent"
         # ExternalTriggeringPointIdent inherits from IdentCaption, which doesn't have returnValueProvision
         # That attribute is only on InternalTriggeringPoint (which inherits from AbstractAccessPoint)
         assert isinstance(ident, IdentCaption)

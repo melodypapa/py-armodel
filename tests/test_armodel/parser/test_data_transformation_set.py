@@ -10,7 +10,7 @@ import xml.etree.ElementTree as ET
 import pytest
 
 from armodel.models import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AbstractAUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import DataTransformation, DataTransformationSet, TransformationTechnology
 from armodel.parser.arxml_parser import ARXMLParser
@@ -26,12 +26,11 @@ def reset_autosar():
     AUTOSAR.getInstance().new()
 
 
-class MockParent(ARObject):
-    def __init__(self):
-        super().__init__()
+class MockParent(AbstractAUTOSAR):
+    """Stands in for the document root, which is the parent of top-level packages."""
 
     @property
-    def full_name(self) -> str:
+    def fullName(self) -> str:
         return ""
 
 

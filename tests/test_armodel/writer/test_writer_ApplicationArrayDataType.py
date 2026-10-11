@@ -89,12 +89,12 @@ class TestApplicationArrayDataTypeRoundTrip:
             assert len(data_types) == 1
             data_type_2 = data_types[0]
             assert isinstance(data_type_2, ApplicationArrayDataType)
-            assert data_type_2.short_name == "ArrayType"
+            assert data_type_2.shortName == "ArrayType"
             assert data_type_2.getDynamicArraySizeProfile().getValue() == "VARIABLE-LENGTH"
 
             array_element = data_type_2.getApplicationArrayElement()
             assert array_element is not None
-            assert array_element.short_name == "Elem"
+            assert array_element.shortName == "Elem"
             assert array_element.getTypeTRef().getValue() == "/DataTypes/uint8"
             assert array_element.getTypeTRef().getDest() == "APPLICATION-PRIMITIVE-DATA-TYPE"
             assert array_element.getMaxNumberOfElements().getValue() == 4
@@ -123,7 +123,7 @@ class TestApplicationArrayDataTypeRoundTrip:
 
             data_types = document_2.getARPackages()[0].getApplicationArrayDataTypes()
             assert len(data_types) == 1
-            assert data_types[0].short_name == "PlainArrayType"
+            assert data_types[0].shortName == "PlainArrayType"
             assert data_types[0].getDynamicArraySizeProfile() is None
             assert data_types[0].getApplicationArrayElement() is None
         finally:

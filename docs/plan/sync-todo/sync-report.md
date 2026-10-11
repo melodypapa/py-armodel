@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 816 | 42.7% |
-| [x] Deferred | 84 | 4.4% |
+| [x] Done | 819 | 42.9% |
+| [x] Deferred | 83 | 4.3% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 1000 | 52.4% |
+| [ ] Deferred | 998 | 52.3% |
 | [ ] Implemented | 10 | 0.5% |
 | [ ] Created | 0 | 0.0% |
 | [ ] Pending | 0 | 0.0% |
@@ -1465,7 +1465,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `ReferenceCondition`                                    | [ ] Deferred| N/A                                      | Group36          |
 | `ReferenceTailoring`                                    | [ ] Deferred| N/A                                      | Group36          |
 | `ReferenceValueSpecification`                           | [ ] Deferred| 8186029562                               | Group28          |
-| `Referrable`                                            | [x] Deferred| 4e60d3a344                               | Group21          |
+| `Referrable`                                            | [x] Done    | 4e60d3a344                               | Group21          |
 | `ReferrableSubtypesEnum`                                | [x] Done    | a097cb3d4f                               | Group21          |
 | `RegularExpression`                                     | [ ] Deferred| N/A                                      | Group21          |
 | `RelativeTolerance`                                     | [ ] Deferred| 358656e2a4                               | Group31          |
@@ -1532,7 +1532,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `SdClientConfig`                                        | [x] Done    | 8e0c8857ad                               | Group7           |
 | `SdServerConfig`                                        | [x] Done    | f509df9d94                               | Group16          |
 | `SdgAbstractForeignReference`                           | [ ] Deferred| N/A                                      | Group21          |
-| `SdgAbstractPrimitiveAttribute`                         | [ ] Deferred| N/A                                      | Group21          |
+| `SdgAbstractPrimitiveAttribute`                         | [x] Done    | 1b8f818050                               | Group21          |
 | `SdgAggregationWithVariation`                           | [ ] Deferred| N/A                                      | Group21          |
 | `SdgAttribute`                                          | [x] Done    | 41952ae2fd                               | Group21          |
 | `SdgClass`                                              | [x] Done    | cfa7402dec                               | Group21          |
@@ -1540,7 +1540,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `SdgElementWithGid`                                     | [x] Done    | f7d552948b                               | Group21          |
 | `SdgForeignReference`                                   | [ ] Deferred| N/A                                      | Group21          |
 | `SdgForeignReferenceWithVariation`                      | [ ] Deferred| N/A                                      | Group21          |
-| `SdgPrimitiveAttribute`                                 | [ ] Deferred| N/A                                      | Group21          |
+| `SdgPrimitiveAttribute`                                 | [x] Done    | 1297ebe97b                               | Group21          |
 | `SdgPrimitiveAttributeWithVariation`                    | [ ] Deferred| N/A                                      | Group21          |
 | `SdgReference`                                          | [ ] Deferred| N/A                                      | Group21          |
 | `SdgTailoring`                                          | [ ] Deferred| N/A                                      | Group36          |

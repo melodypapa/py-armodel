@@ -32,7 +32,7 @@ class TestApplicationArrayDataTypeReader:
 
         array_element = data_type.getApplicationArrayElement()
         assert array_element is not None
-        assert array_element.short_name == "Elem"
+        assert array_element.shortName == "Elem"
         assert array_element.parent is data_type
         assert array_element.getTypeTRef().getValue() == "/DataTypes/uint8"
         assert array_element.getTypeTRef().getDest() == "APPLICATION-PRIMITIVE-DATA-TYPE"

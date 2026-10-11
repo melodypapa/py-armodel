@@ -254,7 +254,7 @@ class TestBulkNvDataDescriptor:
         descriptor = BulkNvDataDescriptor(None, "BulkDescriptor")
 
         assert descriptor is not None
-        assert descriptor.short_name == "BulkDescriptor"
+        assert descriptor.shortName == "BulkDescriptor"
         assert descriptor.bulkNvBlock is None
         assert descriptor.nvBlockDataMappings == []
 
@@ -425,7 +425,7 @@ class TestNvBlockDescriptor:
         descriptor = NvBlockDescriptor(None, "NvBlockDesc")
 
         assert descriptor is not None
-        assert descriptor.short_name == "NvBlockDesc"
+        assert descriptor.shortName == "NvBlockDesc"
         for attr in NBD_ATTR_NOTES:
             value = getattr(descriptor, attr)
             if attr in NBD_LIST_ACCESSORS:

@@ -1943,7 +1943,7 @@ class TestServiceSwComponentTypeRoundTrip:
             swc_2 = next(s for s in package.getSwComponentTypes() if isinstance(s, ServiceSwComponentType))
             assert isinstance(swc_2, ServiceSwComponentType)
             assert swc_2.getShortName() == "SvcSwc"
-            assert [p.short_name for p in swc_2.getPorts()] == ["ModeRequest"]
+            assert [p.shortName for p in swc_2.getPorts()] == ["ModeRequest"]
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)
@@ -2011,10 +2011,10 @@ class TestNvBlockSwComponentTypeRoundTrip:
             assert isinstance(swc_2, NvBlockSwComponentType)
             assert swc_2.getShortName() == "NvSwc"
             bulk_descriptors = swc_2.getBulkNvDataDescriptors()
-            assert [d.short_name for d in bulk_descriptors] == ["Bulk1", "Bulk2"]
+            assert [d.shortName for d in bulk_descriptors] == ["Bulk1", "Bulk2"]
             assert bulk_descriptors[0].getBulkNvBlock() is not None
-            assert bulk_descriptors[0].getBulkNvBlock().short_name == "BulkBlock1"
-            assert [d.short_name for d in swc_2.getNvBlockDescriptors()] == ["Nv1"]
+            assert bulk_descriptors[0].getBulkNvBlock().shortName == "BulkBlock1"
+            assert [d.shortName for d in swc_2.getNvBlockDescriptors()] == ["Nv1"]
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)

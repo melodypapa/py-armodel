@@ -39,7 +39,7 @@ class TestSymbolProps:
         symbol_props = SymbolProps(ar_root, "TestSymbolProps")
 
         assert symbol_props.parent == ar_root
-        assert symbol_props.short_name == "TestSymbolProps"
+        assert symbol_props.shortName == "TestSymbolProps"
 
 
 class TestPortPrototype:
@@ -61,7 +61,7 @@ class TestPortPrototype:
         port_proto = PRPortPrototype(ar_root, "TestPortPrototype")
 
         assert port_proto.parent == ar_root
-        assert port_proto.short_name == "TestPortPrototype"
+        assert port_proto.shortName == "TestPortPrototype"
         assert port_proto.clientServerAnnotations == []
         assert port_proto.delegatedPortAnnotation is None
         assert port_proto.ioHwAbstractionServerAnnotations == []
@@ -131,7 +131,7 @@ class TestAbstractProvidedPortPrototype:
         provided_port = PPortPrototype(ar_root, "TestAbstractProvidedPortPrototype")
 
         assert provided_port.parent == ar_root
-        assert provided_port.short_name == "TestAbstractProvidedPortPrototype"
+        assert provided_port.shortName == "TestAbstractProvidedPortPrototype"
         assert provided_port.clientServerAnnotations == []
         assert provided_port.delegatedPortAnnotation is None
         assert provided_port.ioHwAbstractionServerAnnotations == []
@@ -175,7 +175,7 @@ class TestAbstractRequiredPortPrototype:
         required_port = RPortPrototype(ar_root, "TestAbstractRequiredPortPrototype")
 
         assert required_port.parent == ar_root
-        assert required_port.short_name == "TestAbstractRequiredPortPrototype"
+        assert required_port.shortName == "TestAbstractRequiredPortPrototype"
         assert required_port.clientServerAnnotations == []
         assert required_port.delegatedPortAnnotation is None
         assert required_port.ioHwAbstractionServerAnnotations == []
@@ -210,7 +210,7 @@ class TestPPortPrototype:
         p_port = PPortPrototype(ar_root, "TestPPortPrototype")
 
         assert p_port.parent == ar_root
-        assert p_port.short_name == "TestPPortPrototype"
+        assert p_port.shortName == "TestPPortPrototype"
         assert p_port.clientServerAnnotations == []
         assert p_port.delegatedPortAnnotation is None
         assert p_port.ioHwAbstractionServerAnnotations == []
@@ -241,7 +241,7 @@ class TestRPortPrototype:
         r_port = RPortPrototype(ar_root, "TestRPortPrototype")
 
         assert r_port.parent == ar_root
-        assert r_port.short_name == "TestRPortPrototype"
+        assert r_port.shortName == "TestRPortPrototype"
         assert r_port.clientServerAnnotations == []
         assert r_port.delegatedPortAnnotation is None
         assert r_port.ioHwAbstractionServerAnnotations == []
@@ -281,7 +281,7 @@ class TestPRPortPrototype:
         pr_port = PRPortPrototype(ar_root, "TestPRPortPrototype")
 
         assert pr_port.parent == ar_root
-        assert pr_port.short_name == "TestPRPortPrototype"
+        assert pr_port.shortName == "TestPRPortPrototype"
         assert pr_port.providedComSpecs == []
         assert pr_port.requiredComSpecs == []
         assert pr_port.providedRequiredInterfaceTRef is None
@@ -321,7 +321,7 @@ class TestPortGroup:
         port_group = PortGroup(ar_root, "TestPortGroup")
 
         assert port_group.parent == ar_root
-        assert port_group.short_name == "TestPortGroup"
+        assert port_group.shortName == "TestPortGroup"
         assert isinstance(port_group, AtpStructureElement)
         assert port_group.innerGroupIRefs == []
         assert port_group.outerPortRefs == []
@@ -398,7 +398,7 @@ class TestSwComponentType:
         comp_type = ApplicationSwComponentType(ar_root, "TestSwComponentType")
 
         assert comp_type.parent == ar_root
-        assert comp_type.short_name == "TestSwComponentType"
+        assert comp_type.shortName == "TestSwComponentType"
         assert comp_type.ports == []
         assert comp_type.portGroups == []
 
@@ -417,7 +417,7 @@ class TestAtomicSwComponentType:
         atomic_comp_type = ConcreteAtomicInitSwComponentType(ar_root, "TestAtomicSwComponentType")
 
         assert atomic_comp_type.parent == ar_root
-        assert atomic_comp_type.short_name == "TestAtomicSwComponentType"
+        assert atomic_comp_type.shortName == "TestAtomicSwComponentType"
         assert atomic_comp_type.ports == []
         assert atomic_comp_type.portGroups == []
         assert atomic_comp_type.internalBehavior is None
@@ -434,7 +434,7 @@ class TestEcuAbstractionSwComponentType:
         comp_type = EcuAbstractionSwComponentType(ar_root, "TestEcuAbstractionSwComponentType")
 
         assert comp_type.parent == ar_root
-        assert comp_type.short_name == "TestEcuAbstractionSwComponentType"
+        assert comp_type.shortName == "TestEcuAbstractionSwComponentType"
         assert comp_type.ports == []
         assert comp_type.portGroups == []
         assert comp_type.internalBehavior is None
@@ -460,7 +460,7 @@ class TestApplicationSwComponentType:
         comp_type = ApplicationSwComponentType(ar_root, "TestApplicationSwComponentType")
 
         assert comp_type.parent == ar_root
-        assert comp_type.short_name == "TestApplicationSwComponentType"
+        assert comp_type.shortName == "TestApplicationSwComponentType"
         assert comp_type.ports == []
         assert comp_type.portGroups == []
         assert comp_type.internalBehavior is None
@@ -477,7 +477,7 @@ class TestComplexDeviceDriverSwComponentType:
         comp_type = ComplexDeviceDriverSwComponentType(ar_root, "TestComplexDeviceDriverSwComponentType")
 
         assert comp_type.parent == ar_root
-        assert comp_type.short_name == "TestComplexDeviceDriverSwComponentType"
+        assert comp_type.shortName == "TestComplexDeviceDriverSwComponentType"
         assert comp_type.ports == []
         assert comp_type.portGroups == []
         assert comp_type.internalBehavior is None
@@ -503,7 +503,7 @@ class TestNvBlockSwComponentType:
         comp_type = NvBlockSwComponentType(ar_root, "TestNvBlockSwComponentType")
 
         assert comp_type.parent == ar_root
-        assert comp_type.short_name == "TestNvBlockSwComponentType"
+        assert comp_type.shortName == "TestNvBlockSwComponentType"
         assert comp_type.ports == []
         assert comp_type.portGroups == []
         assert comp_type.internalBehavior is None
@@ -532,7 +532,7 @@ class TestSensorActuatorSwComponentType:
         comp_type = SensorActuatorSwComponentType(ar_root, "TestSensorActuatorSwComponentType")
 
         assert comp_type.parent == ar_root
-        assert comp_type.short_name == "TestSensorActuatorSwComponentType"
+        assert comp_type.shortName == "TestSensorActuatorSwComponentType"
         assert comp_type.ports == []
         assert comp_type.portGroups == []
         assert comp_type.internalBehavior is None
@@ -561,7 +561,7 @@ class TestServiceProxySwComponentType:
         comp_type = ServiceProxySwComponentType(ar_root, "TestServiceProxySwComponentType")
 
         assert comp_type.parent == ar_root
-        assert comp_type.short_name == "TestServiceProxySwComponentType"
+        assert comp_type.shortName == "TestServiceProxySwComponentType"
         assert comp_type.ports == []
         assert comp_type.portGroups == []
         assert comp_type.internalBehavior is None
@@ -578,7 +578,7 @@ class TestServiceSwComponentType:
         comp_type = ServiceSwComponentType(ar_root, "TestServiceSwComponentType")
 
         assert comp_type.parent == ar_root
-        assert comp_type.short_name == "TestServiceSwComponentType"
+        assert comp_type.shortName == "TestServiceSwComponentType"
         assert comp_type.ports == []
         assert comp_type.portGroups == []
         assert comp_type.internalBehavior is None
@@ -595,7 +595,7 @@ class TestCompositionSwComponentType:
         comp_type = CompositionSwComponentType(ar_root, "TestCompositionSwComponentType")
 
         assert comp_type.parent == ar_root
-        assert comp_type.short_name == "TestCompositionSwComponentType"
+        assert comp_type.shortName == "TestCompositionSwComponentType"
         assert comp_type.ports == []
         assert comp_type.portGroups == []
         assert comp_type.components == []
@@ -610,7 +610,7 @@ class TestCompositionSwComponentType:
         # Test component methods
         comp_proto = comp_type.createSwComponentPrototype("TestComponent")
         assert comp_proto is not None
-        assert comp_proto.short_name == "TestComponent"
+        assert comp_proto.shortName == "TestComponent"
         assert comp_proto in comp_type.getComponents()
 
         # Test data type mapping methods
@@ -624,31 +624,31 @@ class TestCompositionSwComponentType:
         # Test connector methods
         assembly_connector = comp_type.createAssemblySwConnector("TestAssemblyConnector")
         assert assembly_connector is not None
-        assert assembly_connector.short_name == "TestAssemblyConnector"
+        assert assembly_connector.shortName == "TestAssemblyConnector"
         assert assembly_connector in comp_type.getAssemblySwConnectors()
 
         delegation_connector = comp_type.createDelegationSwConnector("TestDelegationConnector")
         assert delegation_connector is not None
-        assert delegation_connector.short_name == "TestDelegationConnector"
+        assert delegation_connector.shortName == "TestDelegationConnector"
         assert delegation_connector in comp_type.getDelegationSwConnectors()
 
         # Test port creation methods
         p_port = comp_type.createPPortPrototype("TestPPort")
         assert p_port is not None
-        assert p_port.short_name == "TestPPort"
+        assert p_port.shortName == "TestPPort"
         assert p_port in comp_type.getPPortPrototypes()
 
         r_port = comp_type.createRPortPrototype("TestRPort")
         assert r_port is not None
-        assert r_port.short_name == "TestRPort"
+        assert r_port.shortName == "TestRPort"
         assert r_port in comp_type.getRPortPrototypes()
 
         pr_port = comp_type.createPRPortPrototype("TestPRPort")
         assert pr_port is not None
-        assert pr_port.short_name == "TestPRPort"
+        assert pr_port.shortName == "TestPRPort"
         assert pr_port in comp_type.getPRPortPrototypes()
 
         port_group = comp_type.createPortGroup("TestPortGroup")
         assert port_group is not None
-        assert port_group.short_name == "TestPortGroup"
+        assert port_group.shortName == "TestPortGroup"
         assert port_group in comp_type.getPortGroups()

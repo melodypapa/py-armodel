@@ -52,7 +52,7 @@ class TestSWComponents:
     def test_composition_sw_component_types(self):
         document = AUTOSAR.getInstance()
         sw_component = document.find("/DemoApplication/SwComponentTypes/TopLevelComposition")
-        assert sw_component.short_name == "TopLevelComposition"
+        assert sw_component.shortName == "TopLevelComposition"
         assert isinstance(sw_component, CompositionSwComponentType)
         ports = sw_component.getPorts()
         assert len(ports) == 2
@@ -67,7 +67,7 @@ class TestSWComponents:
 
         connector_name_list = set()
         for sw_connector in sw_component.getAssemblySwConnectors():
-            connector_name_list.add(sw_connector.short_name)
+            connector_name_list.add(sw_connector.shortName)
 
         assert connector_name_list == set(["a6a18805580c94537a4c82f6c289a4d", "ac681652833fb4b12b920adab33a73b", "ac681652833fb4b12b920adab33a73c"])
 

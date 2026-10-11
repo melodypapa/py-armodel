@@ -43,7 +43,7 @@ class TestSwcImplementation:
         ar_root = parent.createARPackage("AUTOSAR")
         impl = SwcImplementation(ar_root, "TestSwcImplementation")
         assert impl.parent == ar_root
-        assert impl.short_name == "TestSwcImplementation"
+        assert impl.shortName == "TestSwcImplementation"
         assert impl.behaviorRef is None
         assert impl.perInstanceMemorySizes == []
         assert impl.requiredRTEVendor is None

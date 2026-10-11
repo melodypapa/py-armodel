@@ -86,7 +86,7 @@ class TestIdsmModuleInstantiation:
     def test_initialization(self):
         inst = _new_instance("test_idsmmoduleinstantiation")
 
-        assert inst.short_name == "test_idsmmoduleinstantiation"
+        assert inst.shortName == "test_idsmmoduleinstantiation"
         assert inst.getNetworkInterfaceRefs() == []
         assert inst.getTimeBaseRef() is None
 

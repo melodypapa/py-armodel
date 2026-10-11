@@ -514,7 +514,7 @@ class CompositionSwComponentType(SwComponentType):
         Returns:
             List of AssemblySwConnector instances
         """
-        return list(sorted([e for e in self.connectors if isinstance(e, AssemblySwConnector)], key=lambda c: c.short_name))
+        return list(sorted([e for e in self.connectors if isinstance(e, AssemblySwConnector)], key=lambda c: c.shortName))
 
     def getDelegationSwConnectors(self) -> List[DelegationSwConnector]:
         """
@@ -523,7 +523,7 @@ class CompositionSwComponentType(SwComponentType):
         Returns:
             List of DelegationSwConnector instances
         """
-        return list(sorted([e for e in self.connectors if isinstance(e, DelegationSwConnector)], key=lambda c: c.short_name))
+        return list(sorted([e for e in self.connectors if isinstance(e, DelegationSwConnector)], key=lambda c: c.shortName))
 
     def getPassThroughSwConnectors(self) -> List[PassThroughSwConnector]:
         """
@@ -532,7 +532,7 @@ class CompositionSwComponentType(SwComponentType):
         Returns:
             List of PassThroughSwConnector instances
         """
-        return list(sorted([e for e in self.connectors if isinstance(e, PassThroughSwConnector)], key=lambda c: c.short_name))
+        return list(sorted([e for e in self.connectors if isinstance(e, PassThroughSwConnector)], key=lambda c: c.shortName))
 
     def removeAllAssemblySwConnector(self):
         """

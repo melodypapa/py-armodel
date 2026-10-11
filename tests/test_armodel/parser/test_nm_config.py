@@ -65,7 +65,7 @@ class TestParseNmConfig:
     def test_parse_clusters(self):
         config = self._parse(CONFIG_XML)
         clusters = config.getNmClusters()
-        assert [cluster.short_name for cluster in clusters] == ["CanCluster1", "FrCluster1", "J1939Cluster1"]
+        assert [cluster.shortName for cluster in clusters] == ["CanCluster1", "FrCluster1", "J1939Cluster1"]
         assert isinstance(clusters[1], FlexrayNmCluster)
         assert clusters[1].getNmVotingCycle().getValue() == 1
         assert isinstance(clusters[2], J1939NmCluster)
@@ -85,7 +85,7 @@ class TestParseNmConfig:
         ecus = config.getNmIfEcus()
         assert len(ecus) == 1
         assert isinstance(ecus[0], NmEcu)
-        assert ecus[0].short_name == "NmEcu1"
+        assert ecus[0].shortName == "NmEcu1"
         assert ecus[0].getNmComControlEnabled().getValue() is True
 
     def test_parse_empty_config(self):

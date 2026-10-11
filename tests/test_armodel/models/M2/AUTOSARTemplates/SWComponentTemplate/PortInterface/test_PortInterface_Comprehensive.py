@@ -142,7 +142,7 @@ class TestTriggerInterface:
 
         assert trigger_interface.getTriggers() == []
         assert trigger_interface.parent == ar_root
-        assert trigger_interface.short_name == "TestTriggerInterface"
+        assert trigger_interface.shortName == "TestTriggerInterface"
 
 
 class TestModeSwitchInterface:
@@ -156,7 +156,7 @@ class TestModeSwitchInterface:
 
         assert mode_switch_interface.getModeGroup() is None
         assert mode_switch_interface.parent == ar_root
-        assert mode_switch_interface.short_name == "TestModeSwitchInterface"
+        assert mode_switch_interface.shortName == "TestModeSwitchInterface"
 
         # Test createModeGroup and getModeGroup
         mode_group = mode_switch_interface.createModeGroup("TestModeGroup")
@@ -179,7 +179,7 @@ class TestPortInterfaceMapping:
 
         test_mapping = TestPortInterfaceMapping(ar_root, "TestPortInterfaceMapping")
         assert test_mapping is not None
-        assert test_mapping.short_name == "TestPortInterfaceMapping"
+        assert test_mapping.shortName == "TestPortInterfaceMapping"
 
         # Test that the original abstract class raises NotImplementedError
         with pytest.raises(TypeError):
@@ -619,7 +619,7 @@ class TestClientServerInterfaceMapping:
         assert mapping.errorMappings == []
         assert mapping.operationMappings == []
         assert mapping.parent == ar_root
-        assert mapping.short_name == "TestClientServerInterfaceMapping"
+        assert mapping.shortName == "TestClientServerInterfaceMapping"
 
         # Test setters and getters
         error_mapping = ClientServerApplicationErrorMapping()
@@ -642,7 +642,7 @@ class TestVariableAndParameterInterfaceMapping:
 
         assert mapping.dataMappings == []
         assert mapping.parent == ar_root
-        assert mapping.short_name == "TestVariableAndParameterInterfaceMapping"
+        assert mapping.shortName == "TestVariableAndParameterInterfaceMapping"
 
         # Test setters and getters
         data_mapping = DataPrototypeMapping()
@@ -661,7 +661,7 @@ class TestModeInterfaceMapping:
 
         assert mapping.modeMapping is None
         assert mapping.parent == ar_root
-        assert mapping.short_name == "TestModeInterfaceMapping"
+        assert mapping.shortName == "TestModeInterfaceMapping"
 
         # Test setter and getter - create a mock mapping object for testing
         class MockModeDeclarationGroupPrototypeMapping:
@@ -686,7 +686,7 @@ class TestTriggerInterfaceMapping:
 
         assert mapping.triggerMappings == []
         assert mapping.parent == ar_root
-        assert mapping.short_name == "TestTriggerInterfaceMapping"
+        assert mapping.shortName == "TestTriggerInterfaceMapping"
 
     def test_trigger_interface_mapping_heritage(self):
         """TriggerInterfaceMapping's most-derived direct base is PortInterfaceMapping (Table 4.30 Base chain)."""
@@ -729,7 +729,7 @@ class TestModeDeclarationMapping:
         assert mapping.getFirstModeRefs() == []
         assert mapping.getSecondModeRef() is None
         assert mapping.parent == ar_root
-        assert mapping.short_name == "TestModeDeclarationMapping"
+        assert mapping.shortName == "TestModeDeclarationMapping"
 
         # Test setters and getters
         first_ref = RefType()
@@ -766,7 +766,7 @@ class TestModeDeclarationMappingSet:
 
         assert mapping_set.getModeDeclarationMappings() == []
         assert mapping_set.parent == ar_root
-        assert mapping_set.short_name == "TestModeDeclarationMappingSet"
+        assert mapping_set.shortName == "TestModeDeclarationMappingSet"
 
         # Test createModeDeclarationMapping
         mode_mapping = mapping_set.createModeDeclarationMapping("TestMapping")
@@ -785,7 +785,7 @@ class TestPortInterfaceMappingSet:
 
         assert mapping_set.getPortInterfaceMappings() == []
         assert mapping_set.parent == ar_root
-        assert mapping_set.short_name == "TestPortInterfaceMappingSet"
+        assert mapping_set.shortName == "TestPortInterfaceMappingSet"
 
         # Test creating different types of mappings
         var_param_mapping = mapping_set.createVariableAndParameterInterfaceMapping("VarParamMapping")

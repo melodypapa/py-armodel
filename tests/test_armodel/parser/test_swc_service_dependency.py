@@ -56,7 +56,7 @@ class TestSwcServiceDependencyReader:
         dependencies = behavior.getSwcServiceDependencies()
         assert len(dependencies) == 1
         dependency = dependencies[0]
-        assert dependency.short_name == "Dep"
+        assert dependency.shortName == "Dep"
 
         assert len(dependency.getAssignedData()) == 1
         assert dependency.getAssignedData()[0].getRole().getValue() == "ramMirror"
@@ -70,7 +70,7 @@ class TestSwcServiceDependencyReader:
 
         needs = dependency.getServiceNeeds()
         assert isinstance(needs, NvBlockNeeds)
-        assert needs.short_name == "NvNeeds"
+        assert needs.shortName == "NvNeeds"
         assert needs.getReadonly().getValue() is True
         assert needs.getReliability().getValue() == "NO-PROTECTION"
 
@@ -97,4 +97,4 @@ class TestSwcServiceDependencyReader:
         dependency = behavior.getSwcServiceDependencies()[0]
         assert dependency.getDiagnosticRelevance().getValue() == "IS-RELEVANT"
         assert dependency.getSymbolicNameProps().getShortName() == "SNP"
-        assert dependency.getServiceNeeds().short_name == "DltNeeds"
+        assert dependency.getServiceNeeds().shortName == "DltNeeds"

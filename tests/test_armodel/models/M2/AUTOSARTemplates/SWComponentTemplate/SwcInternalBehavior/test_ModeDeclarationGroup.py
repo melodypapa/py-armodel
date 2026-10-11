@@ -85,7 +85,7 @@ class TestModeSwitchPoint:
         mode_switch_point = ModeSwitchPoint(ar_root, "TestModeSwitchPoint")
 
         assert mode_switch_point.parent == ar_root
-        assert mode_switch_point.short_name == "TestModeSwitchPoint"
+        assert mode_switch_point.shortName == "TestModeSwitchPoint"
         assert mode_switch_point.returnValueProvision is None
         assert mode_switch_point.modeGroupIRef is None
 

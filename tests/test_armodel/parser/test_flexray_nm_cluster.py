@@ -69,5 +69,5 @@ class TestParseFlexrayNmCluster:
         clusters = config.getNmClusters()
         assert len(clusters) == 1
         assert isinstance(clusters[0], FlexrayNmCluster)
-        assert clusters[0].short_name == "Fr1"
+        assert clusters[0].shortName == "Fr1"
         assert clusters[0].getNmVotingCycle().getValue() == 1

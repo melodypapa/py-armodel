@@ -32,14 +32,14 @@ class ConnectorXlsReport(ExcelReporter):
             self._parse_pkg(pkg)
 
     def _write_assembly_sw_connection(self, swc: CompositionSwComponentType, index=0):
-        sheet = self.wb.create_sheet("%s - AC" % swc.short_name, index)
+        sheet = self.wb.create_sheet("%s - AC" % swc.shortName, index)
         title_row = ["Short Name", "Provide SW-C", "PPort", "Request SW-C", "RPort"]
         self.write_title_row(sheet, title_row)
 
         row = 2
         for connector in swc.getAssemblySwConnectors():
-            self._logger.debug("Write AssemblySwConnection %s" % connector.short_name)
-            self.write_cell(sheet, row, 1, connector.short_name)
+            self._logger.debug("Write AssemblySwConnection %s" % connector.shortName)
+            self.write_cell(sheet, row, 1, connector.shortName)
             provider_iref = connector.providerIRef
             if provider_iref is not None:
                 self.write_cell(sheet, row, 2, self._ref_value(provider_iref.contextComponentRef))
@@ -53,14 +53,14 @@ class ConnectorXlsReport(ExcelReporter):
         self.auto_width(sheet)
 
     def _write_delegation_sw_connection(self, swc: CompositionSwComponentType, index=0):
-        sheet = self.wb.create_sheet("%s - DC" % swc.short_name, index)
+        sheet = self.wb.create_sheet("%s - DC" % swc.shortName, index)
         title_row = ["Short Name", "Inner SW-C", "Inner PPort", "Outer PPort", "Inner RPort", "Outer RPort"]
         self.write_title_row(sheet, title_row)
 
         row = 2
         for connector in swc.getDelegationSwConnectors():
-            self._logger.debug("Write DelegationSwConnection %s" % connector.short_name)
-            self.write_cell(sheet, row, 1, connector.short_name)
+            self._logger.debug("Write DelegationSwConnection %s" % connector.shortName)
+            self.write_cell(sheet, row, 1, connector.shortName)
 
             inner_port_iref = connector.innerPortIRef
             if inner_port_iref is not None and isinstance(inner_port_iref, PPortInCompositionInstanceRef):
@@ -77,7 +77,7 @@ class ConnectorXlsReport(ExcelReporter):
                 elif outer_port_ref.dest == "R-PORT-PROTOTYPE":
                     self.write_cell(sheet, row, 6, self._ref_value(outer_port_ref))
                 else:
-                    raise ValueError("Invalid OUTER-PORT-REF of SwConnector <%s>" % connector.short_name)
+                    raise ValueError("Invalid OUTER-PORT-REF of SwConnector <%s>" % connector.shortName)
             row += 1
 
         self.auto_width(sheet)
@@ -86,8 +86,8 @@ class ConnectorXlsReport(ExcelReporter):
         swc_list = filter(lambda o: isinstance(o, CompositionSwComponentType), self.swcs)
 
         idx = 1
-        for swc in sorted(swc_list, key=lambda o: o.short_name):
-            self._logger.info("CompositionSwComponentType %s" % swc.short_name)
+        for swc in sorted(swc_list, key=lambda o: o.shortName):
+            self._logger.info("CompositionSwComponentType %s" % swc.shortName)
             self._write_assembly_sw_connection(swc, idx)
             self._write_delegation_sw_connection(swc, idx + 1)
             idx += 2

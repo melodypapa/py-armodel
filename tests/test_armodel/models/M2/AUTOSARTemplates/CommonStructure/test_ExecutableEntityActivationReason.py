@@ -17,7 +17,7 @@ class TestExecutableEntityActivationReason:
         assert isinstance(obj, ARObject)
         assert isinstance(obj, Referrable)
         assert isinstance(obj, ImplementationProps)
-        assert obj.short_name == "act_reason"
+        assert obj.shortName == "act_reason"
         assert obj.bitPosition is None
         assert obj.getBitPosition() is None
         assert obj.getSymbol() is None

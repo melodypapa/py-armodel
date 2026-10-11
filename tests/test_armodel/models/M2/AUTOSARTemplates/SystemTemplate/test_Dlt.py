@@ -158,7 +158,7 @@ class TestDltLogChannel:
         assert isinstance(channel, Referrable)
         assert isinstance(channel, MultilanguageReferrable)
         assert isinstance(channel, Identifiable)
-        assert channel.short_name == "dlt_log_channel"
+        assert channel.shortName == "dlt_log_channel"
         assert channel.getApplicationContextRefs() == []
         assert channel.getDefaultTraceState() is None
         assert channel.getDltMessageRefs() == []

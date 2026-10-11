@@ -428,7 +428,7 @@ class BswModuleEntry(AtpBlueprintable):
         return self
 
     def __str__(self) -> str:
-        return "BswModuleEntry(%s)" % self.short_name
+        return "BswModuleEntry(%s)" % self.shortName
 
 
 class BswModuleClientServerEntry(Referrable, VariationPointCapable):

@@ -49,7 +49,7 @@ class Test_Fibex4FlexrayCommunication:
         frame = FlexrayFrame(parent, "test_flexray_frame")
 
         assert isinstance(frame, Frame)
-        assert frame.short_name == "test_flexray_frame"
+        assert frame.shortName == "test_flexray_frame"
 
     def test_flexray_frame_creation(self):
         """Test FlexrayFrame class creation to ensure the __init__ method is covered."""
@@ -57,7 +57,7 @@ class Test_Fibex4FlexrayCommunication:
         frame = FlexrayFrame(parent, "test_frame")
 
         # Verify that the frame was created properly
-        assert frame.short_name == "test_frame"
+        assert frame.shortName == "test_frame"
         assert frame.parent == parent
 
 
@@ -158,7 +158,7 @@ class TestFlexrayFrameTriggering:
         parent = MockParent()
         triggering = FlexrayFrameTriggering(parent, "ft")
 
-        assert triggering.short_name == "ft"
+        assert triggering.shortName == "ft"
         assert triggering.getAbsolutelyScheduledTimings() == []
         assert triggering.getAllowDynamicLSduLength() is None
         assert triggering.getMessageId() is None
@@ -282,7 +282,7 @@ class Test_FlexrayFrameSpec:
     def test_concrete_instantiation(self):
         parent = MockParent()
         frame = FlexrayFrame(parent, "fr_frame")
-        assert frame.short_name == "fr_frame"
+        assert frame.shortName == "fr_frame"
         assert FlexrayFrame.__abstractmethods__ == frozenset() if hasattr(FlexrayFrame, "__abstractmethods__") else True
 
 

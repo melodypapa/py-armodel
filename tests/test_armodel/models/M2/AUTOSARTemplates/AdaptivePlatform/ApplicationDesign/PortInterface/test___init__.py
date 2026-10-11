@@ -16,7 +16,7 @@ class TestField:
         ar_root = document.createARPackage("AUTOSAR")
         obj = Field(ar_root, "test_field")
 
-        assert obj.short_name == "test_field"
+        assert obj.shortName == "test_field"
 
     def test_get_hasGetter(self):
         """Test getting hasGetter."""

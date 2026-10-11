@@ -39,7 +39,7 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Composition:
         component_prototype = SwComponentPrototype(ar_root, "TestComponentPrototype")
 
         assert component_prototype.parent == ar_root
-        assert component_prototype.short_name == "TestComponentPrototype"
+        assert component_prototype.shortName == "TestComponentPrototype"
         assert component_prototype.getTypeTRef() is None
 
         # Test setters and getters
@@ -72,7 +72,7 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Composition:
 
         test_connector = TestSwConnector(ar_root, "TestSwConnector")
         assert test_connector is not None
-        assert test_connector.short_name == "TestSwConnector"
+        assert test_connector.shortName == "TestSwConnector"
         assert isinstance(test_connector, SwConnector)
 
     def test_SwConnector_initialization(self):
@@ -106,7 +106,7 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Composition:
         assembly_connector = AssemblySwConnector(ar_root, "TestAssemblySwConnector")
 
         assert assembly_connector.parent == ar_root
-        assert assembly_connector.short_name == "TestAssemblySwConnector"
+        assert assembly_connector.shortName == "TestAssemblySwConnector"
         assert assembly_connector.mappingRef is None
         assert assembly_connector.providerIRef is None
         assert assembly_connector.requesterIRef is None
@@ -137,7 +137,7 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Composition:
         delegation_connector = DelegationSwConnector(ar_root, "TestDelegationSwConnector")
 
         assert delegation_connector.parent == ar_root
-        assert delegation_connector.short_name == "TestDelegationSwConnector"
+        assert delegation_connector.shortName == "TestDelegationSwConnector"
         assert delegation_connector.mappingRef is None
         assert delegation_connector.innerPortIRef is None
         assert delegation_connector.outerPortRef is None
@@ -185,7 +185,7 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Composition:
         pass_through_connector = PassThroughSwConnector(ar_root, "TestPassThroughSwConnector")
 
         assert pass_through_connector.parent == ar_root
-        assert pass_through_connector.short_name == "TestPassThroughSwConnector"
+        assert pass_through_connector.shortName == "TestPassThroughSwConnector"
         assert pass_through_connector.mappingRef is None
         assert pass_through_connector.providedOuterPortRef is None
         assert pass_through_connector.requiredOuterPortRef is None
@@ -324,7 +324,7 @@ class TestCompositionSwComponentType:
 
         prototype = composition.createSwComponentPrototype("Cmp1")
         assert isinstance(prototype, SwComponentPrototype)
-        assert prototype.short_name == "Cmp1"
+        assert prototype.shortName == "Cmp1"
         assert composition.getComponents() == [prototype]
 
         prototype_again = composition.createSwComponentPrototype("Cmp1")

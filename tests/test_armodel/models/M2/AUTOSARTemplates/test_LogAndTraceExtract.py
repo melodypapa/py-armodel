@@ -110,7 +110,7 @@ class TestDltArgument:
         assert isinstance(argument, Referrable)
         assert isinstance(argument, MultilanguageReferrable)
         assert isinstance(argument, Identifiable)
-        assert argument.short_name == "dlt_argument"
+        assert argument.shortName == "dlt_argument"
         assert argument.getDltArgumentEntries() == []
         assert argument.getLength() is None
         assert argument.getNetworkRepresentation() is None
@@ -127,7 +127,7 @@ class TestDltArgument:
         argument = self._create_argument()
         entry = argument.createDltArgumentEntry("entry1")
         assert isinstance(entry, DltArgument)
-        assert entry.short_name == "entry1"
+        assert entry.shortName == "entry1"
         assert entry.parent == argument
         assert argument.getDltArgumentEntries() == [entry]
         entry2 = argument.createDltArgumentEntry("entry1")
@@ -135,7 +135,7 @@ class TestDltArgument:
         assert len(argument.getDltArgumentEntries()) == 1
         entry3 = argument.createDltArgumentEntry("entry2")
         assert entry3 is not entry
-        assert entry3.short_name == "entry2"
+        assert entry3.shortName == "entry2"
         assert len(argument.getDltArgumentEntries()) == 2
         sub = entry.createDltArgumentEntry("sub_entry")
         assert sub.parent == entry
@@ -228,7 +228,7 @@ class TestDltMessage:
         assert isinstance(message, MultilanguageReferrable)
         assert isinstance(message, Identifiable)
         assert isinstance(message, VariationPointCapable)
-        assert message.short_name == "dlt_message"
+        assert message.shortName == "dlt_message"
         assert message.getDltArguments() == []
         assert message.getMessageId() is None
         assert message.getMessageLineNumber() is None
@@ -245,7 +245,7 @@ class TestDltMessage:
         message = self._create_message()
         argument = message.createDltArgument("arg1")
         assert isinstance(argument, DltArgument)
-        assert argument.short_name == "arg1"
+        assert argument.shortName == "arg1"
         assert argument.parent == message
         assert message.getDltArguments() == [argument]
         argument2 = message.createDltArgument("arg1")
@@ -253,7 +253,7 @@ class TestDltMessage:
         assert len(message.getDltArguments()) == 1
         argument3 = message.createDltArgument("arg2")
         assert argument3 is not argument
-        assert argument3.short_name == "arg2"
+        assert argument3.shortName == "arg2"
         assert len(message.getDltArguments()) == 2
 
     def test_get_set_message_id(self):
@@ -344,7 +344,7 @@ class TestDltContext:
         assert isinstance(context, MultilanguageReferrable)
         assert isinstance(context, Identifiable)
         assert isinstance(context, ARElement)
-        assert context.short_name == "dlt_context"
+        assert context.shortName == "dlt_context"
         assert context.getContextDescription() is None
         assert context.getContextId() is None
         assert context.getDltMessageRefs() == []
@@ -427,7 +427,7 @@ class TestDltApplication:
         assert isinstance(application, MultilanguageReferrable)
         assert isinstance(application, Identifiable)
         assert isinstance(application, VariationPointCapable)
-        assert application.short_name == "dlt_application"
+        assert application.shortName == "dlt_application"
         assert application.getApplicationDescription() is None
         assert application.getApplicationId() is None
         assert application.getContextRefs() == []
@@ -505,7 +505,7 @@ class TestDltEcu:
         assert isinstance(ecu, MultilanguageReferrable)
         assert isinstance(ecu, Identifiable)
         assert isinstance(ecu, ARElement)
-        assert ecu.short_name == "dlt_ecu"
+        assert ecu.shortName == "dlt_ecu"
         assert ecu.getApplications() == []
         assert ecu.getEcuId() is None
 
@@ -518,7 +518,7 @@ class TestDltEcu:
         ecu = self._create_ecu()
         application = ecu.createApplication("app1")
         assert isinstance(application, DltApplication)
-        assert application.short_name == "app1"
+        assert application.shortName == "app1"
         assert application.parent == ecu
         assert ecu.getApplications() == [application]
         application2 = ecu.createApplication("app1")
@@ -526,7 +526,7 @@ class TestDltEcu:
         assert len(ecu.getApplications()) == 1
         application3 = ecu.createApplication("app2")
         assert application3 is not application
-        assert application3.short_name == "app2"
+        assert application3.shortName == "app2"
         assert len(ecu.getApplications()) == 2
 
     def test_get_set_ecu_id(self):

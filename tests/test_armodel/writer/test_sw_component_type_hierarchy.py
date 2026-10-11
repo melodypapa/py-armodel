@@ -77,7 +77,7 @@ class TestSwComponentTypeBaseRoundTrip:
         parsed = parsed_pkg.getReferrableElement("App", ApplicationSwComponentType)
         assert parsed is not None
         ports = parsed.getPorts()
-        assert [p.short_name for p in ports] == ["P1", "R1", "PR1"]
+        assert [p.shortName for p in ports] == ["P1", "R1", "PR1"]
         assert isinstance(ports[0], PPortPrototype)
         assert isinstance(ports[1], RPortPrototype)
         assert isinstance(ports[2], PRPortPrototype)
@@ -217,10 +217,10 @@ class TestAtomicSwComponentTypeRoundTrip:
         assert parsed is not None
         behavior = parsed.getInternalBehavior()
         assert behavior is not None
-        assert behavior.short_name == "Behavior"
+        assert behavior.shortName == "Behavior"
         symbol_props = parsed.getSymbolProps()
         assert symbol_props is not None
-        assert symbol_props.short_name == "Sym"
+        assert symbol_props.shortName == "Sym"
 
     def test_xsd_element_order_behavior_before_symbol_props(self):
         swc = self._build()
@@ -258,4 +258,4 @@ class TestApplicationSwComponentTypeRoundTrip:
         parsed = parsed_pkg.getReferrableElement("App", ApplicationSwComponentType)
         assert parsed is not None
         assert isinstance(parsed, ApplicationSwComponentType)
-        assert [p.short_name for p in parsed.getPorts()] == ["P1"]
+        assert [p.shortName for p in parsed.getPorts()] == ["P1"]

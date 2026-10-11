@@ -108,6 +108,95 @@ class TestReferrable:
     Test class for Referrable functionality.
     """
 
+    # Table 4.10 Notes (R23-11, AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, p.63), copied verbatim.
+    CLASS_NOTE = "Instances of this class can be referred to by their identifier (while adhering to namespace borders)."
+    SHORT_NAME_NOTE = (
+        "This specifies an identifying shortName for the object. It needs to be unique within its context and is intended for humans "
+        "but even more for technical reference. Stereotypes: atpIdentityContributor Tags: xml.enforceMinMultiplicity=true xml.sequenceOffset=-100"
+    )
+    SHORT_NAME_FRAGMENT_NOTE = "This specifies how the Referrable.shortName is composed of several shortNameFragments. Tags: xml.sequenceOffset=-90"
+
+    def _concrete(self):
+        """
+        Return a concrete Referrable subclass instance for testing the abstract base.
+        """
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+
+        class ConcreteReferrable(Referrable):
+            def __init__(self, parent, short_name):
+                super().__init__(parent, short_name)
+
+        return ConcreteReferrable(ar_root, "TestReferrable")
+
+    def test_class_docstring_verbatim(self):
+        """
+        Test that the class docstring is the Table 4.10 Note verbatim.
+        """
+        assert Referrable.__doc__.strip() == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ has no docstring (spec Notes live in inline member comments).
+        """
+        assert Referrable.__init__.__doc__ is None
+
+    def test_short_name_member_notes_verbatim(self):
+        """
+        Test that the shortName Notes are the Table 4.10 Note verbatim on the __init__ comment and the getShortName accessor.
+        """
+        source = inspect.getsource(Referrable.__init__)
+        assert self.SHORT_NAME_NOTE in source
+
+        assert Referrable.getShortName.__doc__.strip().startswith(self.SHORT_NAME_NOTE)
+
+    def test_short_name_is_the_spec_named_field(self):
+        """
+        Test that the Table 4.10 `shortName` attribute is carried on the spec-named field (Rule 0001.5), not on a snake_case alias.
+        """
+        source = inspect.getsource(Referrable.__init__)
+        assert "self.shortName: str = short_name" in source
+        assert "self.short_name: str" not in source
+
+        obj = self._concrete()
+        assert obj.shortName == "TestReferrable"
+        assert obj.getShortName() == obj.shortName
+
+        obj.shortName = "Renamed"
+        assert obj.getShortName() == "Renamed"
+
+    def test_short_name_alias_is_deprecated(self):
+        """
+        Test that the legacy `short_name` alias still reads/writes but warns (DeprecationWarning).
+        """
+        obj = self._concrete()
+
+        with pytest.warns(DeprecationWarning, match="short_name is deprecated"):
+            assert obj.short_name == "TestReferrable"
+
+        with pytest.warns(DeprecationWarning, match="short_name is deprecated"):
+            obj.short_name = "ViaAlias"
+
+        assert obj.shortName == "ViaAlias"
+
+    def test_short_name_fragment_member_notes_verbatim(self):
+        """
+        Test that the shortNameFragment Note is the Table 4.10 Note verbatim on the __init__ comment, the adder and the getter.
+        """
+        source = inspect.getsource(Referrable.__init__)
+        assert self.SHORT_NAME_FRAGMENT_NOTE in source
+
+        assert Referrable.addShortNameFragment.__doc__.strip().startswith(self.SHORT_NAME_FRAGMENT_NOTE)
+        assert Referrable.getShortNameFragments.__doc__.strip().startswith(self.SHORT_NAME_FRAGMENT_NOTE)
+
+    def test_short_name_fragment_shape_is_plural_list(self):
+        """
+        Test that the spec `*` multiplicity maps to a List field with plural accessors.
+        """
+        assert inspect.getsource(Referrable.__init__).count("self.shortNameFragments: List[ShortNameFragment] = []") == 1
+        obj = self._concrete()
+        assert isinstance(obj.getShortNameFragments(), list)
+
     def test_abstract_initialization(self):
         """
         Test that Referrable cannot be instantiated directly (abstract class).
@@ -166,9 +255,9 @@ class TestReferrable:
         obj = ConcreteReferrable(ar_root, "TestName")
         assert obj.getParent() == ar_root
 
-    def test_full_name_property(self):
+    def test_fullName_property(self):
         """
-        Test full_name property and getFullName method.
+        Test fullName property and getFullName method.
         """
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
@@ -180,8 +269,77 @@ class TestReferrable:
         obj = ConcreteReferrable(ar_root, "TestName")
         # The full name should be parent's full name + / + short name
         # The parent (ar_root) full name starts with /, so result is /AUTOSAR/TestName
-        assert obj.full_name == "/AUTOSAR/TestName"
+        assert obj.fullName == "/AUTOSAR/TestName"
         assert obj.getFullName() == "/AUTOSAR/TestName"
+
+    def test_fullName_accepts_document_root_parent(self):
+        """
+        Test that a non-Identifiable parent is accepted when it does expose a str fullName (the AUTOSAR root).
+        """
+        root = AUTOSAR.getInstance()
+        root.createARPackage("AUTOSAR")
+
+        class ConcreteReferrable(Referrable):
+            def __init__(self, parent, short_name):
+                super().__init__(parent, short_name)
+
+        obj = ConcreteReferrable(root, "TestName")
+        assert obj.fullName == "/TestName"
+
+    def test_fullName_rejects_parent_without_fullName(self):
+        """
+        Test that a parent that is neither an Identifiable nor a document root raises a clear TypeError
+        naming the offending type, rather than an AttributeError from deep inside the property.
+        """
+
+        class PlainARObject(ARObject):
+            def __init__(self):
+                super().__init__()
+
+        class ConcreteReferrable(Referrable):
+            def __init__(self, parent, short_name):
+                super().__init__(parent, short_name)
+
+        obj = ConcreteReferrable(PlainARObject(), "TestName")
+        with pytest.raises(TypeError, match="PlainARObject"):
+            _ = obj.fullName
+
+    def test_fullName_rejects_none_parent(self):
+        """
+        Test that a None parent raises the same clear TypeError instead of an AttributeError.
+        """
+
+        class ConcreteReferrable(Referrable):
+            def __init__(self, parent, short_name):
+                super().__init__(parent, short_name)
+
+        obj = ConcreteReferrable(None, "TestName")
+        with pytest.raises(TypeError, match="NoneType"):
+            _ = obj.fullName
+
+    def test_full_name_alias_is_deprecated(self):
+        """
+        Test that the legacy `full_name` alias still reads but warns (DeprecationWarning) and agrees with fullName.
+        """
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+
+        class ConcreteReferrable(Referrable):
+            def __init__(self, parent, short_name):
+                super().__init__(parent, short_name)
+
+        obj = ConcreteReferrable(ar_root, "TestName")
+        with pytest.warns(DeprecationWarning, match="full_name is deprecated"):
+            assert obj.full_name == obj.fullName
+
+    def test_parent_annotation_is_arobject(self):
+        """
+        Test that `parent` is annotated ARObject — any container is accepted at construction, and
+        fullName enforces the stronger `fullName` requirement at access time.
+        """
+        hints = typing.get_type_hints(Referrable.__init__)
+        assert hints["parent"] is ARObject
+        assert hints["short_name"] is str
 
     def test_get_short_name_fragments_empty_default(self):
         """

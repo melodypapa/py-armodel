@@ -50,7 +50,7 @@ class TestParseFlexrayNmNode:
         node = nodes[0]
         assert isinstance(node, FlexrayNmNode)
         assert isinstance(node, NmNode)
-        assert node.short_name == "FrNode1"
+        assert node.shortName == "FrNode1"
         assert node.getNmNodeId().getValue() == 7
 
     def test_parse_empty_nm_nodes(self):
