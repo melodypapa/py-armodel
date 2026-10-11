@@ -626,10 +626,10 @@ pending that confirmation.
     values (path + getDest() SDG-CLASS));
     sync commit e9ff581c2
 
-- [ ] `SdgAbstractForeignReference` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.33, p.102
+- [x] `SdgAbstractForeignReference` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.33, p.102
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/SpecialDataDef.py
   - [x] Step 1 — Sync members & description from spec
-    - note (Step 1): Table 4.33 (header-cell lookup; p.102 via pdf_page.py); abstract (spec header); Base row: ARObject, AMR, Identifiable, MLR, Referrable, SdgAttribute, SdgElementWithGid → SdgAbstractForeignReference(SdgElementWithGid, SdgAttribute, ABC); attr destMetaClass (MetaClassName, 0..1, attr → Optional[str]).
+    - note (Step 1): Table 4.33 (header-cell lookup; p.102 via pdf_page.py); abstract (spec header); Base row: ARObject, AMR, Identifiable, MLR, Referrable, SdgAttribute, SdgElementWithGid → SdgAbstractForeignReference(SdgElementWithGid, SdgAttribute, ABC); attr destMetaClass (MetaClassName, 0..1, attr → Optional[MetaClassName]; **retyped from Optional[str] at 9b**, see Step 9).
   - [x] Step 2 — Write model class unit test (Red)
     - note (Step 2): tests added in test_SpecialDataDef.py (family suite: abstract
       rejections, member round-trips, adder chaining) — seen Red (classes did not exist
@@ -655,10 +655,43 @@ pending that confirmation.
   - [x] Step 7 — Update checklist comment
     - note (Step 7): 6-column block + release column; marker withheld (batch mode).
   - [x] Step 8 — Deviations
-    - note (Step 8): destMetaClass typed Optional[str] (MetaClassName primitive has no src class).
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (362 passed / 0 failed
-    family suites; 14,043 passed / 0 failed models+parser+writer sweep); 9b deferred to
-    batch confirmation (user instruction)
+    - note (Step 8): the recorded `Optional[str]` type deviation is **RESOLVED and removed**
+      (Rule 0014 to-fix, not accepted). Its stated rationale — "MetaClassName primitive has no
+      src class" — had gone stale: MetaClassName was synced 2026-10-12 (Table 4.36, commit
+      90d04a5ad), i.e. *after* this row's Step 8 was written. Retyped to the spec class at 9b
+      (user-directed); no deviation row remains, so nothing withholds the stamp. Remaining
+      follow-up debt, deliberately **not** touched here (separate already-stamped row):
+      `SdgClass.extendsMetaClass` has the same spec type but is still `Optional[str`.
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (362 passed / 0 failed
+    family suites; 14,043 passed / 0 failed models+parser+writer sweep); **9b run and confirmed
+    2026-10-12** (Rule 0026 audit vs source, not trusting the row's steps-1-8 prose — the audit
+    itself passed, so the drift was confined to the Step 8 note).
+    - note (9b, re-verified rather than assumed): abstract Class kind + `type(self) is` guard;
+      exactly one spec Attribute row (`destMetaClass`) ↔ one field + one accessor pair, no
+      fabrication/flattening; Base row → `(SdgAttribute, SdgElementWithGid, ABC)` with runtime
+      `__bases__` confirmation; Package → `SpecialDataDef.py` in a leaf package, top-level export
+      resolves; docstrings AST-diffed VERBATIM at all four placements (class + comment + getter +
+      setter) including the spec's lowercase "specifies..."; PEP 526 `Optional[MetaClassName]`
+      matches `0..1`; reader and writer checked INDEPENDENTLY for the base helper
+      (`readIdentifiable` / `writeIdentifiable`, exactly once each — Rule 0025/0013.1); no
+      chained mutators in the Sdg block; writer XML order `GID` → `DEST-META-CLASS` matches the
+      XSD `SDG-FOREIGN-REFERENCE` sequence.
+    - note (9b, retype): user chose to retype rather than accept. Added the
+      `getChildElementOptionalMetaClassName` / `setChildElementOptionalMetaClassName` leaf-helper
+      pair in the abstract parser/writer (mirroring the CategoryString / DiagRequirementIdString
+      house shape; the writer side is a one-line delegation to `setChildElementOptionalLiteral`),
+      rewired 4 call sites (2 readers + 2 writers) and 10 test call sites across 3 test files.
+      Round-trip proven lossless **with the spec type preserved** —
+      `<DEST-META-CLASS>ARPackage</DEST-META-CLASS>` re-parses as a `MetaClassName` instance, not
+      a plain `ARLiteral` (the Rule 0013.2 failure mode).
+    - note (9a re-run after the retype): full suite **26,150 passed / 0 failed**; mypy Success
+      (279 source files); ruff clean; black clean (2880 files); flake8 E9,F63,F7,F82 clean;
+      Rule 0022 member-annotation gate 3 passed; Sdg family 18 passed; `audit_class.py` PASS with
+      STAMP now reporting the marker over 3 `[x]` rows. `regen_sync_todo.py --check` drift is the
+      pre-existing batch-deferral artifact shared with this file's MetaClassName /
+      CIdentifierWithIndex / StrongRevisionLabelString rows — not introduced here.
+    - note: `# Spec verified: R23-11 (2026-10-12, user 9b confirmation)` written immediately after
+      the `# Spec:` line (Rule 0012.1); post-stamp audit STAMP clean, `=> PASS`; sync commit below.
 
 - [ ] `SdgForeignReference` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.34, p.102
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/SpecialDataDef.py

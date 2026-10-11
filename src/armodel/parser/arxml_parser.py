@@ -16991,12 +16991,12 @@ class ARXMLParser(AbstractARXMLParser):
     def readSdgForeignReference(self, element: ET.Element, attribute: SdgForeignReference):
         self.readIdentifiable(element, attribute)
         attribute.setGid(self.getChildElementOptionalNameToken(element, "GID"))
-        attribute.setDestMetaClass(self.getChildElementOptionalStringValue(element, "DEST-META-CLASS"))
+        attribute.setDestMetaClass(self.getChildElementOptionalMetaClassName(element, "DEST-META-CLASS"))
 
     def readSdgForeignReferenceWithVariation(self, element: ET.Element, attribute: SdgForeignReferenceWithVariation):
         self.readIdentifiable(element, attribute)
         attribute.setGid(self.getChildElementOptionalNameToken(element, "GID"))
-        attribute.setDestMetaClass(self.getChildElementOptionalStringValue(element, "DEST-META-CLASS"))
+        attribute.setDestMetaClass(self.getChildElementOptionalMetaClassName(element, "DEST-META-CLASS"))
         self.readAbstractVariationRestriction(element, attribute)
 
     def readEvaluatedVariantSetApprovalStatus(self, element: ET.Element, variant_set: EvaluatedVariantSet):

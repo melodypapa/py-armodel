@@ -13,6 +13,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
+    MetaClassName,
     NameToken,
     RefType,
 )
@@ -346,6 +347,7 @@ class SdgAbstractForeignReference(SdgAttribute, SdgElementWithGid, ABC):
 
     # SdgAbstractForeignReference method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.33, p.102
+    # Spec verified: R23-11 (2026-10-12, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__          [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
     # [x] getDestMetaClass  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -359,9 +361,9 @@ class SdgAbstractForeignReference(SdgAttribute, SdgElementWithGid, ABC):
         super().__init__(parent, short_name)
 
         # specifies the destination meta-class of the reference.
-        self.destMetaClass: Optional[str] = None
+        self.destMetaClass: Optional[MetaClassName] = None
 
-    def getDestMetaClass(self) -> Optional[str]:
+    def getDestMetaClass(self) -> Optional[MetaClassName]:
         """
         specifies the destination meta-class of the reference.
 
@@ -370,7 +372,7 @@ class SdgAbstractForeignReference(SdgAttribute, SdgElementWithGid, ABC):
         """
         return self.destMetaClass
 
-    def setDestMetaClass(self, value: Optional[str]):
+    def setDestMetaClass(self, value: Optional[MetaClassName]):
         """
         specifies the destination meta-class of the reference.
 

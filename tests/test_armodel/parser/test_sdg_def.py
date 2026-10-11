@@ -133,10 +133,10 @@ class TestReadSdgDef:
             assert agg.getSubSdgRef().getValue() == "/AUTOSAR/SdgDefs/MySdgDef/MySdgClass"
 
             fref = by_type["SdgForeignReference"][0]
-            assert fref.getDestMetaClass() == "ARPackage"
+            assert fref.getDestMetaClass().getValue() == "ARPackage"
 
             fref_wv = by_type["SdgForeignReferenceWithVariation"][0]
-            assert fref_wv.getDestMetaClass() == "ARPackage"
+            assert fref_wv.getDestMetaClass().getValue() == "ARPackage"
 
             refs = sdg_class.getSdgConstraintRefs()
             assert len(refs) == 1
