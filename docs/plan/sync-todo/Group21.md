@@ -437,7 +437,7 @@ pending that confirmation.
     SPEC-BASE/BASE/MEMBER/DOCTAIL/SPACING all clean; spec alignment verified Table 4.28
     zero own attributes, base chain SdgElementWithGid+SdgAttribute+AbstractValueRestriction+ABC;
     docstring verbatim from Table 4.27 Note via spec shifted Class-cell convention);
-    sync commit <TBD>
+    sync commit 1b8f81805
 
 - [ ] `SdgPrimitiveAttribute` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.29, p.101
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/SpecialDataDef.py
