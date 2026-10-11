@@ -18641,6 +18641,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readAnyInstanceRef(self, element: ET.Element, instance_ref: AnyInstanceRef) -> AnyInstanceRef:
         self.readARObject(element, instance_ref)
+        self.readVariationPointCapable(element, instance_ref)
         instance_ref.setBaseRef(self.getChildElementOptionalRefType(element, "BASE-REF"))
         for ref in self.getChildElementRefTypeList(element, "CONTEXT-ELEMENT-REF"):
             instance_ref.addContextElementRef(ref)

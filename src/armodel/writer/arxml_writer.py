@@ -17520,6 +17520,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         for ref in instance_ref.getContextElementRefs():
             self.setChildElementOptionalRefType(element, "CONTEXT-ELEMENT-REF", ref)
         self.setChildElementOptionalRefType(element, "TARGET-REF", instance_ref.getTargetRef())
+        self.writeVariationPointCapable(element, instance_ref)
         return instance_ref
 
     def setAnyInstanceRef(self, element: ET.Element, key, instance_ref: Optional[AnyInstanceRef]):
