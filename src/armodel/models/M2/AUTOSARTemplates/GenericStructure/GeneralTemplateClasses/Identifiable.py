@@ -7,6 +7,7 @@ from __future__ import annotations
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
+    BinaryManifestItemValue,
     ClassTailoring,
     CpSoftwareClusterCommunicationResourceProps,
     FMAttributeValue,
@@ -75,6 +76,13 @@ if TYPE_CHECKING:
     from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
     from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ArraySizeSemanticsEnum
     from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagEventDebounceAlgorithm, DiagEventDebounceCounterBased, DiagEventDebounceMonitorInternal, DiagEventDebounceTimeBased
+    from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import (
+        ModeDeclarationGroupPrototypeInSystemInstanceRef,
+        OperationInSystemInstanceRef,
+        ParameterDataPrototypeInSystemInstanceRef,
+        TriggerInSystemInstanceRef,
+        VariableDataPrototypeInSystemInstanceRef,
+    )
     from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 
 
@@ -1153,7 +1161,42 @@ class CpSoftwareClusterCommunicationResource(CpSoftwareClusterResource):
 
 
 class CpSoftwareClusterServiceResource(CpSoftwareClusterResource):
-    pass
+    """Represents a single resource required or provided by a CP Software Cluster which relates to the BSW."""
+
+    # CpSoftwareClusterServiceResource method parity checklist:
+    # Spec: R23-11/AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 11.14, p.904 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addResourceNeedsRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getResourceNeedsRefs  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    #
+    # The Table 11.14 attribute resourceNeeds (kind ref, mult *) is modeled as resourceNeedsRefs
+    # per the ref-kind naming rule (sibling ecuScope -> ecuScopeRefs); the XSD group
+    # (AUTOSAR_00052.xsd l.24595) wraps the unbounded RESOURCE-NEEDS-REF choice in a 0..1
+    # RESOURCE-NEEDS-REFS wrapper, emitted only when non-empty. [constr_5181] applies to the
+    # inherited Identifiable.category attribute — no own member to model here.
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Refernce(s) to one or multiple EcucContainerValue(s) qualifying the characteristics of the resource.
+        self.resourceNeedsRefs: List[RefType] = []
+
+    def addResourceNeedsRef(self, value: Optional[RefType]) -> CpSoftwareClusterServiceResource:
+        """
+        Refernce(s) to one or multiple EcucContainerValue(s) qualifying the characteristics of the resource.
+
+        A None value is a no-op and does not append to resourceNeedsRefs.
+        """
+        if value is not None:
+            self.resourceNeedsRefs.append(value)
+        return self
+
+    def getResourceNeedsRefs(self) -> List[RefType]:
+        """
+        Refernce(s) to one or multiple EcucContainerValue(s) qualifying the characteristics of the resource.
+        """
+        return self.resourceNeedsRefs
 
 
 class DiagnosticAuthTransmitCertificateEvaluation(Identifiable):
@@ -2910,12 +2953,100 @@ class SpecificationDocumentScope(SpecElementScope):
         return self.documentElementScopes
 
 
-class BinaryManifestItem(Identifiable):
-    pass
-
-
 class BinaryManifestItemDefinition(Identifiable):
-    pass
+    """
+    This meta-class provides the ability to define the handle definition or an auxiliary field of a binary manifest resource.
+    """
+
+    # BinaryManifestItemDefinition method parity checklist:
+    # Spec: R23-11/AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 11.23, p.920 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createAuxiliaryFieldDefinition [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAuxiliaryFieldDefinitions   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getIsOptional                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIsOptional                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSize                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSize                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # The spec Base row and the XSD complexType BINARY-MANIFEST-ITEM-DEFINITION
+    # (AUTOSAR_00052.xsd l.8680, which chains the AR-OBJECT, REFERRABLE, MULTILANGUAGE-REFERRABLE
+    # and IDENTIFIABLE groups before BINARY-MANIFEST-ITEM-DEFINITION — no
+    # BINARY-MANIFEST-ADDRESSABLE-OBJECT group, unlike the sibling BinaryManifestItem) make
+    # Identifiable the most-derived base (Rule 0001.2). The XSD group (AUTOSAR_00052.xsd l.8647)
+    # orders AUXILIARY-FIELD-DEFINITIONS, IS-OPTIONAL, SIZE after the Identifiable level;
+    # AUXILIARY-FIELD-DEFINITIONS wraps the unbounded BINARY-MANIFEST-ITEM-DEFINITION
+    # self-aggregation and the wrapper is written/read only when non-empty. The markdown table Note
+    # cells wrap identifiers mid-token ("Binary ManifestItemDefinitions", "BinaryManifest
+    # ResourceDefinition"); the docstrings use the continuous identifier forms confirmed by the XSD
+    # documentation (l.8656 / l.8667). The auxiliaryFieldDefinition attribute (kind aggr, mult *) is
+    # modeled as auxiliaryFieldDefinitions with createAuxiliaryFieldDefinition /
+    # getAuxiliaryFieldDefinitions per the Referrable-aggregation shape (createAuxiliaryField
+    # precedent). The readBinaryManifestItemDefinition / writeBinaryManifestItemDefinition helpers
+    # are wired for the AUXILIARY-FIELD-DEFINITIONS self-recursion; the aggregator dispatch
+    # (BinaryManifestResourceDefinition.itemDefinition, Table 11.21) is owned by the synced
+    # readBinaryManifestResourceDefinition / writeBinaryManifestResourceDefinition pair, whose
+    # ITEM-DEFINITIONS wrapper feeds the items through them.
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This aggregation is used to define structured BinaryManifestItemDefinitions.
+        self.auxiliaryFieldDefinitions: List[BinaryManifestItemDefinition] = []
+
+        # If true, the handle definition or auxiliary field of a binary manifest resource is optional and may not be used in all BinaryManifestResources referring to this BinaryManifestResourceDefinition.
+        self.isOptional: Optional[Boolean] = None
+
+        # This attribute provides the ability to specify the size of the enclosing BinaryManifestResourceDefinition.
+        self.size: Optional[PositiveInteger] = None
+
+    def createAuxiliaryFieldDefinition(self, short_name: str) -> BinaryManifestItemDefinition:
+        """
+        This aggregation is used to define structured BinaryManifestItemDefinitions.
+        """
+        if not self.IsReferrableElementExists(short_name, BinaryManifestItemDefinition):
+            auxiliary_field_definition = BinaryManifestItemDefinition(self, short_name)
+            self.addReferrableElement(auxiliary_field_definition)
+            self.auxiliaryFieldDefinitions.append(auxiliary_field_definition)
+        return cast(BinaryManifestItemDefinition, self.getReferrableElement(short_name, BinaryManifestItemDefinition))
+
+    def getAuxiliaryFieldDefinitions(self) -> List[BinaryManifestItemDefinition]:
+        """
+        This aggregation is used to define structured BinaryManifestItemDefinitions.
+        """
+        return self.auxiliaryFieldDefinitions
+
+    def getIsOptional(self) -> Optional[Boolean]:
+        """
+        If true, the handle definition or auxiliary field of a binary manifest resource is optional and may not be used in all BinaryManifestResources referring to this BinaryManifestResourceDefinition.
+        """
+        return self.isOptional
+
+    def setIsOptional(self, value: Optional[Boolean]) -> BinaryManifestItemDefinition:
+        """
+        If true, the handle definition or auxiliary field of a binary manifest resource is optional and may not be used in all BinaryManifestResources referring to this BinaryManifestResourceDefinition.
+
+        A None value is a no-op and does not overwrite an existing isOptional.
+        """
+        if value is not None:
+            self.isOptional = value
+        return self
+
+    def getSize(self) -> Optional[PositiveInteger]:
+        """
+        This attribute provides the ability to specify the size of the enclosing BinaryManifestResourceDefinition.
+        """
+        return self.size
+
+    def setSize(self, value: Optional[PositiveInteger]) -> BinaryManifestItemDefinition:
+        """
+        This attribute provides the ability to specify the size of the enclosing BinaryManifestResourceDefinition.
+
+        A None value is a no-op and does not overwrite an existing size.
+        """
+        if value is not None:
+            self.size = value
+        return self
 
 
 class BinaryManifestAddressableObject(Identifiable, ABC):
@@ -2935,8 +3066,9 @@ class BinaryManifestAddressableObject(Identifiable, ABC):
     # The XSD BINARY-MANIFEST-ADDRESSABLE-OBJECT group (AUTOSAR_00052.xsd l.8552) orders ADDRESS,
     # SYMBOL after the Identifiable level. The reusable readBinaryManifestAddressableObject /
     # writeBinaryManifestAddressableObject helpers own that group for the concrete subclass element
-    # (BINARY-MANIFEST-ITEM / BINARY-MANIFEST-META-DATA-FIELD); the subclass dispatch is pending —
-    # BinaryManifestItem is an unsynced later-wave stub and the BinaryManifestMetaDataField
+    # (BINARY-MANIFEST-ITEM / BINARY-MANIFEST-META-DATA-FIELD); the subclass dispatch is wired for
+    # BINARY-MANIFEST-ITEM by the BinaryManifestItem sync (Table 11.22) via
+    # readBinaryManifestItem / writeBinaryManifestItem, while the BinaryManifestMetaDataField
     # aggregator (CpSoftwareClusterBinaryManifestDescriptor.metaDataField) is a later-wave class.
     # The address attribute's spec Type Address is a referenced primitive implemented from
     # AUTOSAR_FO_TPS_GenericStructureTemplate.pdf Table 4.40, p.107 (Rule 0001.10).
@@ -2983,6 +3115,123 @@ class BinaryManifestAddressableObject(Identifiable, ABC):
         """
         if value is not None:
             self.symbol = value
+        return self
+
+
+class BinaryManifestItem(BinaryManifestAddressableObject):
+    """
+    This meta-class represents the ability to describe a specific handle or auxiliary field in the context of binary manifest resource.
+    """
+
+    # BinaryManifestItem method parity checklist:
+    # Spec: R23-11/AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 11.22, p.919 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createAuxiliaryField  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAuxiliaryFields    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getDefaultValue       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDefaultValue       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIsUnused           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIsUnused           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getValue              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setValue              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # The spec Base row and the XSD complexType BINARY-MANIFEST-ITEM (AUTOSAR_00052.xsd l.8629,
+    # which chains the AR-OBJECT, REFERRABLE, MULTILANGUAGE-REFERRABLE, IDENTIFIABLE and
+    # BINARY-MANIFEST-ADDRESSABLE-OBJECT groups before BINARY-MANIFEST-ITEM) make
+    # BinaryManifestAddressableObject the most-derived base (Rule 0001.2). The XSD group
+    # (AUTOSAR_00052.xsd l.8574) orders IS-UNUSED, VALUE, DEFAULT-VALUE (sequenceOffset=10),
+    # AUXILIARY-FIELDS (sequenceOffset=20) after the BinaryManifestAddressableObject level; VALUE /
+    # DEFAULT-VALUE wrap a 0..1 choice of BINARY-MANIFEST-ITEM-NUMERICAL-VALUE /
+    # BINARY-MANIFEST-ITEM-POINTER-VALUE, AUXILIARY-FIELDS wraps the unbounded BINARY-MANIFEST-ITEM
+    # self-aggregation; the wrappers are written/read only when non-empty. The markdown table Note
+    # cells wrap identifiers mid-token ("Binary ManifestItems", "BinaryManifest ItemDefinition",
+    # "BinaryManifestItem Value"); the docstrings use the continuous identifier forms confirmed by
+    # the XSD documentation (l.8583 / l.8617 / l.8589). The auxiliaryField attribute (kind aggr,
+    # mult *) is modeled as auxiliaryFields with createAuxiliaryField/getAuxiliaryFields per the
+    # Referrable-aggregation shape (createItem precedent); the BinaryManifestItemValue 0..1
+    # aggregations use plain setters (not Referrable children). The aggregator wiring of this sync
+    # also upgraded the readBinaryManifestResource / writeBinaryManifestResource ITEMS dispatch
+    # from the identity-only placeholder (Rule 0001.7 debt resolved, cf. DdsCpDomain /
+    # DdsCpPartition) and the BinaryManifestItemValue note's pending aggregator dispatch.
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This aggregation is used to define structured BinaryManifestItems. Tags: xml.sequenceOffset=20
+        self.auxiliaryFields: List[BinaryManifestItem] = []
+
+        # This aggregation represents the definition of a default value for a binary manifest handle or an auxiliaryField. This value shall be taken if no connection for this resource is possible. Tags: xml.sequenceOffset=10
+        self.defaultValue: Optional[BinaryManifestItemValue] = None
+
+        # If true, the handle or auxiliary field in the context of binary manifest resource relates to an optional BinaryManifestItemDefinition and is not used.
+        self.isUnused: Optional[Boolean] = None
+
+        # This aggregation represents the definition of a value for a binary manifest handle or an auxiliaryField. This value shall be taken to establish a connection.
+        self.value: Optional[BinaryManifestItemValue] = None
+
+    def createAuxiliaryField(self, short_name: str) -> BinaryManifestItem:
+        """
+        This aggregation is used to define structured BinaryManifestItems. Tags: xml.sequenceOffset=20
+        """
+        if not self.IsReferrableElementExists(short_name, BinaryManifestItem):
+            auxiliary_field = BinaryManifestItem(self, short_name)
+            self.addReferrableElement(auxiliary_field)
+            self.auxiliaryFields.append(auxiliary_field)
+        return cast(BinaryManifestItem, self.getReferrableElement(short_name, BinaryManifestItem))
+
+    def getAuxiliaryFields(self) -> List[BinaryManifestItem]:
+        """
+        This aggregation is used to define structured BinaryManifestItems. Tags: xml.sequenceOffset=20
+        """
+        return self.auxiliaryFields
+
+    def getDefaultValue(self) -> Optional[BinaryManifestItemValue]:
+        """
+        This aggregation represents the definition of a default value for a binary manifest handle or an auxiliaryField. This value shall be taken if no connection for this resource is possible. Tags: xml.sequenceOffset=10
+        """
+        return self.defaultValue
+
+    def setDefaultValue(self, value: Optional[BinaryManifestItemValue]) -> BinaryManifestItem:
+        """
+        This aggregation represents the definition of a default value for a binary manifest handle or an auxiliaryField. This value shall be taken if no connection for this resource is possible. Tags: xml.sequenceOffset=10
+
+        A None value is a no-op and does not overwrite an existing defaultValue.
+        """
+        if value is not None:
+            self.defaultValue = value
+        return self
+
+    def getIsUnused(self) -> Optional[Boolean]:
+        """
+        If true, the handle or auxiliary field in the context of binary manifest resource relates to an optional BinaryManifestItemDefinition and is not used.
+        """
+        return self.isUnused
+
+    def setIsUnused(self, value: Optional[Boolean]) -> BinaryManifestItem:
+        """
+        If true, the handle or auxiliary field in the context of binary manifest resource relates to an optional BinaryManifestItemDefinition and is not used.
+
+        A None value is a no-op and does not overwrite an existing isUnused.
+        """
+        if value is not None:
+            self.isUnused = value
+        return self
+
+    def getValue(self) -> Optional[BinaryManifestItemValue]:
+        """
+        This aggregation represents the definition of a value for a binary manifest handle or an auxiliaryField. This value shall be taken to establish a connection.
+        """
+        return self.value
+
+    def setValue(self, value: Optional[BinaryManifestItemValue]) -> BinaryManifestItem:
+        """
+        This aggregation represents the definition of a value for a binary manifest handle or an auxiliaryField. This value shall be taken to establish a connection.
+
+        A None value is a no-op and does not overwrite an existing value.
+        """
+        if value is not None:
+            self.value = value
         return self
 
 
@@ -3042,14 +3291,6 @@ class BinaryManifestMetaDataField(BinaryManifestAddressableObject):
         return self
 
 
-class BinaryManifestProvideResource(Identifiable):
-    pass
-
-
-class BinaryManifestRequireResource(Identifiable):
-    pass
-
-
 class BinaryManifestResource(Identifiable, ABC):
     """
     This meta-class acts as an abstract base class for specializations.
@@ -3072,9 +3313,9 @@ class BinaryManifestResource(Identifiable, ABC):
     # readBinaryManifestResource / writeBinaryManifestResource helpers own that group for the
     # concrete subclass element (BINARY-MANIFEST-PROVIDE-RESOURCE / BINARY-MANIFEST-REQUIRE-RESOURCE);
     # the subclass dispatch is pending — BinaryManifestProvideResource / BinaryManifestRequireResource
-    # are unsynced later-wave stubs. ITEMS children are serialized identity-only (Rule 0001.7 debt):
-    # BinaryManifestItem (Table 11.22) is an unsynced stub — its own sync replaces the placeholder
-    # (cf. DdsCpDomain / DdsCpPartition).
+    # are unsynced later-wave stubs. ITEMS children are fully serialized via the synced
+    # readBinaryManifestItem / writeBinaryManifestItem (Table 11.22) — the identity-only placeholder
+    # debt was resolved by the BinaryManifestItem sync (cf. DdsCpDomain / DdsCpPartition).
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is BinaryManifestResource:
@@ -3140,12 +3381,260 @@ class BinaryManifestResource(Identifiable, ABC):
         return self
 
 
+class BinaryManifestProvideResource(BinaryManifestResource):
+    """
+    This meta-class represents a provided resource in the binary manifest.
+    """
+
+    # BinaryManifestProvideResource method parity checklist:
+    # Spec: R23-11/AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 11.18, p.914 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getNumberOfNotifierSets           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNumberOfNotifierSets           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSupportsMultipleNotifierSets   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSupportsMultipleNotifierSets   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # The spec Base row and the XSD complexType BINARY-MANIFEST-PROVIDE-RESOURCE
+    # (AUTOSAR_00052.xsd l.8834, which chains the BINARY-MANIFEST-RESOURCE group before
+    # BINARY-MANIFEST-PROVIDE-RESOURCE) make BinaryManifestResource the most-derived base
+    # (Rule 0001.2) — the stub's Identifiable base is superseded. The Table 11.18 Attribute
+    # column holds only the two own rows; the inherited members (globalResourceId, items,
+    # resourceRef) live on the abstract base's own table (Table 11.19, already synced) and are
+    # not re-flattened here (Rule 0001.3). The readBinaryManifestProvideResource /
+    # writeBinaryManifestProvideResource helpers call the readBinaryManifestResource /
+    # writeBinaryManifestResource base pair (Rule 0025) and own the own-attribute group; the
+    # aggregator dispatch (CpSoftwareClusterBinaryManifestDescriptor.provideResource, XSD
+    # PROVIDE-RESOURCES, AUTOSAR_00052.xsd l.24176) is pending — the descriptor is an unsynced
+    # stub whose call-site dispatch lands with its own sync.
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This attribute provides an upper limit for the number of notifiers for this resource.
+        self.numberOfNotifierSets: Optional[PositiveInteger] = None
+
+        # This attribute indicates whether the enclosing BinaryManifestResource supports multiple notifiers sets.
+        self.supportsMultipleNotifierSets: Optional[Boolean] = None
+
+    def getNumberOfNotifierSets(self) -> Optional[PositiveInteger]:
+        """
+        This attribute provides an upper limit for the number of notifiers for this resource.
+        """
+        return self.numberOfNotifierSets
+
+    def setNumberOfNotifierSets(self, value: Optional[PositiveInteger]) -> BinaryManifestProvideResource:
+        """
+        This attribute provides an upper limit for the number of notifiers for this resource.
+
+        A None value is a no-op and does not overwrite an existing numberOfNotifierSets.
+        """
+        if value is not None:
+            self.numberOfNotifierSets = value
+        return self
+
+    def getSupportsMultipleNotifierSets(self) -> Optional[Boolean]:
+        """
+        This attribute indicates whether the enclosing BinaryManifestResource supports multiple notifiers sets.
+        """
+        return self.supportsMultipleNotifierSets
+
+    def setSupportsMultipleNotifierSets(self, value: Optional[Boolean]) -> BinaryManifestProvideResource:
+        """
+        This attribute indicates whether the enclosing BinaryManifestResource supports multiple notifiers sets.
+
+        A None value is a no-op and does not overwrite an existing supportsMultipleNotifierSets.
+        """
+        if value is not None:
+            self.supportsMultipleNotifierSets = value
+        return self
+
+
+class BinaryManifestRequireResource(BinaryManifestResource):
+    """
+    This meta-class represents a required resource in the binary manifest.
+    """
+
+    # BinaryManifestRequireResource method parity checklist:
+    # Spec: R23-11/AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 11.20, p.916 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getConnectionIsMandatory  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setConnectionIsMandatory  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # The spec Base row and the XSD complexType BINARY-MANIFEST-REQUIRE-RESOURCE
+    # (AUTOSAR_00052.xsd l.8868, which chains the BINARY-MANIFEST-RESOURCE group before
+    # BINARY-MANIFEST-REQUIRE-RESOURCE) make BinaryManifestResource the most-derived base
+    # (Rule 0001.2) — the stub's Identifiable base and the todo row hint are superseded. The
+    # Table 11.20 Attribute column holds only the one own row; the inherited members
+    # (globalResourceId, items, resourceRef) live on the abstract base's own table
+    # (Table 11.19, already synced) and are not re-flattened here (Rule 0001.3). The
+    # readBinaryManifestRequireResource / writeBinaryManifestRequireResource helpers call the
+    # readBinaryManifestResource / writeBinaryManifestResource base pair (Rule 0025) and own
+    # the own-attribute group; the aggregator dispatch (CpSoftwareClusterBinaryManifestDescriptor
+    # .requireResource, XSD REQUIRE-RESOURCES, AUTOSAR_00052.xsd l.24187) is pending — the
+    # descriptor is an unsynced stub whose call-site dispatch lands with its own sync.
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This attribute indicates whether the connection of the enclosing BinaryManifestResource is mandatory.
+        self.connectionIsMandatory: Optional[Boolean] = None
+
+    def getConnectionIsMandatory(self) -> Optional[Boolean]:
+        """
+        This attribute indicates whether the connection of the enclosing BinaryManifestResource is mandatory.
+        """
+        return self.connectionIsMandatory
+
+    def setConnectionIsMandatory(self, value: Optional[Boolean]) -> BinaryManifestRequireResource:
+        """
+        This attribute indicates whether the connection of the enclosing BinaryManifestResource is mandatory.
+
+        A None value is a no-op and does not overwrite an existing connectionIsMandatory.
+        """
+        if value is not None:
+            self.connectionIsMandatory = value
+        return self
+
+
 class BinaryManifestResourceDefinition(Identifiable):
-    pass
+    """
+    This meta-class represents the ability to specify a resource definition that provides information that can be shared by all resources that refer to the respective resource definition.
+    """
+
+    # BinaryManifestResourceDefinition method parity checklist:
+    # Spec: R23-11/AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 11.21, p.917 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createItemDefinition  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getItemDefinitions    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    #
+    # The spec Base row and the XSD complexType BINARY-MANIFEST-RESOURCE-DEFINITION
+    # (AUTOSAR_00052.xsd l.8968, which chains the AR-OBJECT, REFERRABLE, MULTILANGUAGE-REFERRABLE
+    # and IDENTIFIABLE groups before BINARY-MANIFEST-RESOURCE-DEFINITION — no complexContent
+    # extension) make Identifiable the most-derived base (Rule 0001.2). The XSD group
+    # (AUTOSAR_00052.xsd l.8947) wraps the unbounded BINARY-MANIFEST-ITEM-DEFINITION aggregation
+    # (pureMM.isOrdered="true") in the ITEM-DEFINITIONS element, which is read whenever present and
+    # written only when non-empty. The markdown table Type cell wraps the member type mid-token
+    # ("BinaryManifestItem Definition"); the docstrings use the continuous form confirmed by the
+    # XSD element (l.8961). The itemDefinition attribute (kind aggr, mult *, ordered) is modeled as
+    # itemDefinitions with createItemDefinition / getItemDefinitions per the
+    # BinaryManifestItemDefinition.auxiliaryFieldDefinitions shape (Referrable-aggregation). The
+    # readBinaryManifestResourceDefinition / writeBinaryManifestResourceDefinition helpers dispatch
+    # the ITEM-DEFINITIONS items through the synced readBinaryManifestItemDefinition /
+    # writeBinaryManifestItemDefinition pair; the spec Aggregated-by row names
+    # CpSoftwareClusterBinaryManifestDescriptor.resourceDefinition (XSD RESOURCE-DEFINITIONS,
+    # AUTOSAR_00052.xsd l.24198), an unsynced stub whose call-site dispatch lands with its own sync.
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This aggregation specifies the collection of handle definitions in the context of the enclosing binary manifest resource definitions.
+        self.itemDefinitions: List[BinaryManifestItemDefinition] = []
+
+    def createItemDefinition(self, short_name: str) -> BinaryManifestItemDefinition:
+        """
+        This aggregation specifies the collection of handle definitions in the context of the enclosing binary manifest resource definitions.
+        """
+        if not self.IsReferrableElementExists(short_name, BinaryManifestItemDefinition):
+            item_definition = BinaryManifestItemDefinition(self, short_name)
+            self.addReferrableElement(item_definition)
+            self.itemDefinitions.append(item_definition)
+        return cast(BinaryManifestItemDefinition, self.getReferrableElement(short_name, BinaryManifestItemDefinition))
+
+    def getItemDefinitions(self) -> List[BinaryManifestItemDefinition]:
+        """
+        This aggregation specifies the collection of handle definitions in the context of the enclosing binary manifest resource definitions.
+        """
+        return self.itemDefinitions
 
 
 class CpSoftwareClusterToResourceMapping(Identifiable):
-    pass
+    """
+    This meta class maps a service resource to CP Software Clusters. By this mapping it's specified whether the Software Cluster has to provide or to require the resource.
+    """
+
+    # CpSoftwareClusterToResourceMapping method parity checklist:
+    # Spec: R23-11/AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 11.16, p.907 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getProviderRef         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setProviderRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addRequesterRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRequesterRefs       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getServiceResourceRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setServiceResourceRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # The Table 11.16 attribute requester (kind ref, mult *) is modeled as requesterRefs
+    # per the ref-kind naming rule (sibling resourceNeeds -> resourceNeedsRefs); the XSD
+    # group (AUTOSAR_00052.xsd l.24782) wraps the unbounded REQUESTER-REF choice in a 0..1
+    # REQUESTER-REFS wrapper, emitted only when non-empty. The XSD group additionally
+    # carries a VARIATION-POINT element (l.24834) with no Table 11.16 attribute row — not
+    # modeled (the PDF/markdown table wins, Rule 0015). The spec attribute types
+    # CpSoftwareCluster / CpSoftwareClusterServiceResource travel in the DEST attribute;
+    # the REF-kind members are modeled as RefType like every sibling mapping
+    # (softwareClusterRef, communicationResourceRef precedents).
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # CP Software Cluster providing the resource
+        self.providerRef: Optional[RefType] = None
+
+        # CP Software Cluster requesting the resource
+        self.requesterRefs: List[RefType] = []
+
+        # Service resource for which the mapping applies.
+        self.serviceResourceRef: Optional[RefType] = None
+
+    def getProviderRef(self) -> Optional[RefType]:
+        """
+        CP Software Cluster providing the resource
+        """
+        return self.providerRef
+
+    def setProviderRef(self, value: Optional[RefType]) -> CpSoftwareClusterToResourceMapping:
+        """
+        CP Software Cluster providing the resource
+
+        A None value is a no-op and does not overwrite an existing providerRef.
+        """
+        if value is not None:
+            self.providerRef = value
+        return self
+
+    def addRequesterRef(self, value: Optional[RefType]) -> CpSoftwareClusterToResourceMapping:
+        """
+        CP Software Cluster requesting the resource
+
+        A None value is a no-op and does not add to requesterRefs.
+        """
+        if value is not None:
+            self.requesterRefs.append(value)
+        return self
+
+    def getRequesterRefs(self) -> List[RefType]:
+        """
+        CP Software Cluster requesting the resource
+        """
+        return self.requesterRefs
+
+    def getServiceResourceRef(self) -> Optional[RefType]:
+        """
+        Service resource for which the mapping applies.
+        """
+        return self.serviceResourceRef
+
+    def setServiceResourceRef(self, value: Optional[RefType]) -> CpSoftwareClusterToResourceMapping:
+        """
+        Service resource for which the mapping applies.
+
+        A None value is a no-op and does not overwrite an existing serviceResourceRef.
+        """
+        if value is not None:
+            self.serviceResourceRef = value
+        return self
 
 
 class DdsCpDomain(Identifiable):
@@ -4340,7 +4829,152 @@ class GlobalTimeFrSlave(GlobalTimeSlave):
 
 
 class PortElementToCommunicationResourceMapping(Identifiable):
-    pass
+    """
+    This meta class maps a communication resource to CP Software Clusters. In this case the kind of Port Prototype specified whether the Software Cluster has to provide or to require the resource.
+    """
+
+    # PortElementToCommunicationResourceMapping method parity checklist:
+    # Spec: R23-11/AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 11.15, p.905 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getClientServerOperationIRef        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setClientServerOperationIRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCommunicationResourceRef         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCommunicationResourceRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getModeDeclarationGroupPrototypeIRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setModeDeclarationGroupPrototypeIRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getParameterDataPrototypeIRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setParameterDataPrototypeIRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTriggerIRef                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTriggerIRef                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVariableDataPrototypeIRef        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setVariableDataPrototypeIRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # The Table 11.15 iref-kind rows are modeled with the IRef suffix per the ref-kind
+    # naming rule (sibling TriggerToSignalMapping.triggerIRef); member types
+    # OperationInSystemInstanceRef / ModeDeclarationGroupPrototypeInSystemInstanceRef /
+    # ParameterDataPrototypeInSystemInstanceRef / TriggerInSystemInstanceRef /
+    # VariableDataPrototypeInSystemInstanceRef are the InstanceRef implementations named
+    # by the spec rows. The XSD group (AUTOSAR_00052.xsd l.92033) additionally carries a
+    # VARIATION-POINT element (l.92083) with no Table 11.15 attribute row — not modeled
+    # (the PDF/markdown table wins, Rule 0015).
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # ClientServerOperation instance qualifying the communication resource InstanceRef implemented by: OperationInSystemInstanceRef
+        self.clientServerOperationIRef: Optional[OperationInSystemInstanceRef] = None
+
+        # Communication resource for which the mapping applies.
+        self.communicationResourceRef: Optional[RefType] = None
+
+        # ModeDeclarationGroupPrototype instance qualifying the communication resource InstanceRef implemented by: ModeDeclarationGroupPrototypeInSystemInstanceRef
+        self.modeDeclarationGroupPrototypeIRef: Optional[ModeDeclarationGroupPrototypeInSystemInstanceRef] = None
+
+        # ParameterDataPrototype instance qualifying the communication resource. InstanceRef implemented by: ParameterDataPrototypeInSystemInstanceRef
+        self.parameterDataPrototypeIRef: Optional[ParameterDataPrototypeInSystemInstanceRef] = None
+
+        # Trigger instance qualifying the communication resource. InstanceRef implemented by: TriggerInSystemInstanceRef
+        self.triggerIRef: Optional[TriggerInSystemInstanceRef] = None
+
+        # VariableDataPrototype instance qualifying the communication resource InstanceRef implemented by: VariableDataPrototypeInSystemInstanceRef
+        self.variableDataPrototypeIRef: Optional[VariableDataPrototypeInSystemInstanceRef] = None
+
+    def getClientServerOperationIRef(self) -> Optional[OperationInSystemInstanceRef]:
+        """
+        ClientServerOperation instance qualifying the communication resource InstanceRef implemented by: OperationInSystemInstanceRef
+        """
+        return self.clientServerOperationIRef
+
+    def setClientServerOperationIRef(self, value: Optional[OperationInSystemInstanceRef]) -> PortElementToCommunicationResourceMapping:
+        """
+        ClientServerOperation instance qualifying the communication resource InstanceRef implemented by: OperationInSystemInstanceRef
+
+        A None value is a no-op and does not overwrite an existing clientServerOperationIRef.
+        """
+        if value is not None:
+            self.clientServerOperationIRef = value
+        return self
+
+    def getCommunicationResourceRef(self) -> Optional[RefType]:
+        """
+        Communication resource for which the mapping applies.
+        """
+        return self.communicationResourceRef
+
+    def setCommunicationResourceRef(self, value: Optional[RefType]) -> PortElementToCommunicationResourceMapping:
+        """
+        Communication resource for which the mapping applies.
+
+        A None value is a no-op and does not overwrite an existing communicationResourceRef.
+        """
+        if value is not None:
+            self.communicationResourceRef = value
+        return self
+
+    def getModeDeclarationGroupPrototypeIRef(self) -> Optional[ModeDeclarationGroupPrototypeInSystemInstanceRef]:
+        """
+        ModeDeclarationGroupPrototype instance qualifying the communication resource InstanceRef implemented by: ModeDeclarationGroupPrototypeInSystemInstanceRef
+        """
+        return self.modeDeclarationGroupPrototypeIRef
+
+    def setModeDeclarationGroupPrototypeIRef(self, value: Optional[ModeDeclarationGroupPrototypeInSystemInstanceRef]) -> PortElementToCommunicationResourceMapping:
+        """
+        ModeDeclarationGroupPrototype instance qualifying the communication resource InstanceRef implemented by: ModeDeclarationGroupPrototypeInSystemInstanceRef
+
+        A None value is a no-op and does not overwrite an existing modeDeclarationGroupPrototypeIRef.
+        """
+        if value is not None:
+            self.modeDeclarationGroupPrototypeIRef = value
+        return self
+
+    def getParameterDataPrototypeIRef(self) -> Optional[ParameterDataPrototypeInSystemInstanceRef]:
+        """
+        ParameterDataPrototype instance qualifying the communication resource. InstanceRef implemented by: ParameterDataPrototypeInSystemInstanceRef
+        """
+        return self.parameterDataPrototypeIRef
+
+    def setParameterDataPrototypeIRef(self, value: Optional[ParameterDataPrototypeInSystemInstanceRef]) -> PortElementToCommunicationResourceMapping:
+        """
+        ParameterDataPrototype instance qualifying the communication resource. InstanceRef implemented by: ParameterDataPrototypeInSystemInstanceRef
+
+        A None value is a no-op and does not overwrite an existing parameterDataPrototypeIRef.
+        """
+        if value is not None:
+            self.parameterDataPrototypeIRef = value
+        return self
+
+    def getTriggerIRef(self) -> Optional[TriggerInSystemInstanceRef]:
+        """
+        Trigger instance qualifying the communication resource. InstanceRef implemented by: TriggerInSystemInstanceRef
+        """
+        return self.triggerIRef
+
+    def setTriggerIRef(self, value: Optional[TriggerInSystemInstanceRef]) -> PortElementToCommunicationResourceMapping:
+        """
+        Trigger instance qualifying the communication resource. InstanceRef implemented by: TriggerInSystemInstanceRef
+
+        A None value is a no-op and does not overwrite an existing triggerIRef.
+        """
+        if value is not None:
+            self.triggerIRef = value
+        return self
+
+    def getVariableDataPrototypeIRef(self) -> Optional[VariableDataPrototypeInSystemInstanceRef]:
+        """
+        VariableDataPrototype instance qualifying the communication resource InstanceRef implemented by: VariableDataPrototypeInSystemInstanceRef
+        """
+        return self.variableDataPrototypeIRef
+
+    def setVariableDataPrototypeIRef(self, value: Optional[VariableDataPrototypeInSystemInstanceRef]) -> PortElementToCommunicationResourceMapping:
+        """
+        VariableDataPrototype instance qualifying the communication resource InstanceRef implemented by: VariableDataPrototypeInSystemInstanceRef
+
+        A None value is a no-op and does not overwrite an existing variableDataPrototypeIRef.
+        """
+        if value is not None:
+            self.variableDataPrototypeIRef = value
+        return self
 
 
 class UserDefinedGlobalTimeSlave(GlobalTimeSlave):

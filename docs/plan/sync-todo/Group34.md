@@ -188,15 +188,21 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `TransformationPropsSet` — ARElement — R23-11 CP_TPS_SystemTemplate Table 7.14, p.782
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note: no `# Spec verified:` stamp written — deferred to the later batch confirmation gate.
+  - note: Table 7.14 markdown table is image-only in the CP corpus (caption at l.20186); member set derived
+    from AUTOSAR_00052.xsd l.125546-125569 as documented ground-truth fallback — single `*` aggr
+    `transformationProps` -> TransformationProps (abstract). The XSD choice adds
+    AP-SOMEIP-TRANSFORMATION-PROPS (AdaptivePlatform corpus, no CP table, no codebase class);
+    reader records it via notImplemented, writer dispatches the two implemented subtypes only.
 
 - [ ] `TransformationProps` — ARObject — R23-11 CP_TPS_SystemTemplate Table 7.15, p.783
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
@@ -332,14 +338,14 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `GlobalTimeDomain` — ARElement — R23-11 CP_TPS_SystemTemplate Table 9.1, p.859
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
 - [ ] `AbstractGlobalTimeDomainProps` — ARObject — R23-11 CP_TPS_SystemTemplate Table 9.2, p.859
@@ -668,14 +674,14 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `CpSoftwareClusterResourcePool` — ARElement — R23-11 CP_TPS_SystemTemplate Table 11.5, p.901
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
 - [ ] `CpSoftwareClusterCommunicationResource` — CpSoftwareClusterResource — R23-11 CP_TPS_SystemTemplate Table 11.8, p.902
@@ -752,62 +758,139 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `CpSoftwareClusterServiceResource` — CpSoftwareClusterResource — R23-11 CP_TPS_SystemTemplate Table 11.14, p.904
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+  - [x] Step 1 — Sync members & description from spec
+  - Note: markdown Table 11.14 recovered (l.23381): single attribute `resourceNeeds` (EcucContainerValue, *, ref), Note "Refernce(s) to one or multiple EcucContainerValue(s) qualifying the characteristics of the resource."; XSD group AUTOSAR_00052.xsd l.24595 matches (0..1 RESOURCE-NEEDS-REFS wrapper, unbounded RESOURCE-NEEDS-REF choice). Page p.904 via pdf_page.py. Member modeled as `resourceNeedsRefs: List[RefType]` per ref-kind naming (sibling `ecuScope`→`ecuScopeRefs` precedent).
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
 - [ ] `PortElementToCommunicationResourceMapping` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 11.15, p.905
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+  - [x] Step 1 — Sync members & description from spec
+  - Note: markdown Table 11.15 recovered (l.23412): 6 attributes, all 0..1 — clientServerOperation (ClientServerOperation, iref), communicationResource (CpSoftwareClusterCommunicationResource, ref), modeDeclarationGroupPrototype (ModeDeclarationGroupPrototype, iref), parameterDataPrototype (ParameterDataPrototype, iref), trigger (Trigger, iref), variableDataPrototype (VariableDataPrototype, iref); XSD group AUTOSAR_00052.xsd l.92033 matches 1:1 (IREF/REF element names + order). Page p.905 via pdf_page.py. iref-kind members modeled with IRef suffix per Rule 0001.5 (sibling TriggerToSignalMapping.triggerIRef precedent). Member types ModeDeclarationGroupPrototypeInSystemInstanceRef and ParameterDataPrototypeInSystemInstanceRef do not exist yet (XSD-only, tracked in xsd_classes.md) — created alongside per the XSD groups l.82093/l.87933. XSD VARIATION-POINT (l.92083) not modeled: absent from the Table 11.15 attribute rows (PDF wins, Rule 0015).
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - Note: the five InstanceRef member types are cross-package TYPE_CHECKING names in Identifiable.py (SystemTemplate.InstanceRefs → GeneralTemplateClasses import web; a bottom-of-module runtime import explodes the CommonStructure hub mid-bootstrap — DiagnosticDataElement.swDataDefProps precedent), so those annotations are pinned in raw string form in the test; communicationResourceRef (RefType) resolves at runtime.
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - Note: the pre-sync stub was `pass` (no docstrings existed to wipe); class + 12 accessor docstrings + 6 inline __init__ comments written verbatim from the Table 11.15 Note column.
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - Note: reader tests (full six-member XML with complete context chains inside each IREF + empty element) and writer tests (XSD-order tag assertion, empty element, round-trips through both parent dispatches CpSoftwareClusterMappingSet and SystemMapping, empty-wrapper case) confirmed Red: 7 failures, AttributeError for missing read/writePortElementToCommunicationResourceMapping.
+  - [x] Step 6 — Update parser & writer (Green)
+  - Note: parser gains getModeDeclarationGroupPrototypeInSystemInstanceRef/getParameterDataPrototypeInSystemInstanceRef readers (InstanceRefs import extended, placed beside getTriggerInSystemInstanceRef) plus readPortElementToCommunicationResourceMapping (readIdentifiable base call per Rule 0025, six attributes in XSD group order, returns the populated instance like sibling readCpSoftwareClusterServiceResource); both dispatch sites (readSystemMappingPortElementToComResourceMappings, readCpSoftwareClusterMappingSet) rewired from readIdentifiable to the new reader. Writer mirrors this with setModeDeclarationGroupPrototypeInSystemInstanceRef/setParameterDataPrototypeInSystemInstanceRef (placed beside setTriggerInSystemInstanceRef) and writePortElementToCommunicationResourceMapping (writeIdentifiable base call, six set* calls in XSD order); both dispatch sites rewired. Round-trip test serialization fixed to the test_system_mapping.py pattern (xmlns injected on PARENT via replace, root[0] re-parsed) after the WRAP-wrapper trick indexed the wrong element.
+  - [x] Step 7 — Update checklist comment
+  - Note: 13-row checklist contiguous above __init__ in Identifiable.py, all rows [x], citation `# Spec: R23-11/AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 11.15, p.905 (R23-11)`; NO `# Spec verified:` marker per deferred-stamp instruction. audit_class.py PASS (missing-marker = INFO acceptable).
+  - [x] Step 8 — Deviations
+  - Note: (1) iref-kind members named with IRef suffix (clientServerOperationIRef, modeDeclarationGroupPrototypeIRef, parameterDataPrototypeIRef, triggerIRef, variableDataPrototypeIRef) per Rule 0001.5 — the mission's "Ref suffix" example applies only to the ref-kind communicationResourceRef; (2) XSD VARIATION-POINT (AUTOSAR_00052.xsd l.92083) not modeled — absent from the Table 11.15 attribute rows (PDF wins, Rule 0015); (3) two member types (ModeDeclarationGroupPrototypeInSystemInstanceRef, ParameterDataPrototypeInSystemInstanceRef) are XSD-only (no table in repo corpus) created from XSD groups l.82093/l.87933 mirroring RteEventInCompositionInstanceRef, pre-tracked in xsd_classes.md l.350/l.375; (4) the five InstanceRef member annotations are TYPE_CHECKING strings in Identifiable.py (circular import otherwise — DiagnosticDataElement precedent).
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
 - [ ] `CpSoftwareClusterToResourceMapping` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 11.16, p.907
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+  - [x] Step 1 — Sync members & description from spec
+  - Note: markdown Table 11.16 recovered (l.23462): 3 attributes, all kind ref — provider (CpSoftwareCluster, 0..1), requester (CpSoftwareCluster, *), serviceResource (CpSoftwareClusterServiceResource, 0..1); Base row ARObject/Identifiable/MultilanguageReferrable/Referrable → Identifiable. XSD group AUTOSAR_00052.xsd l.24782 matches 1:1 (PROVIDER-REF, REQUESTER-REFS wrapper over unbounded REQUESTER-REF choice, SERVICE-RESOURCE-REF). Page p.907 per Group34 queue row. ref-kind members named with the Ref/Refs suffix per Rule 0001.5 (requester * → requesterRefs). Member type CpSoftwareClusterServiceResource already synced (Table 11.14); CpSoftwareCluster is the DEST-constrained ref target. XSD VARIATION-POINT (l.24834) not modeled: absent from the Table 11.16 attribute rows (PDF wins, Rule 0015).
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - Note: REF-kind members modeled as RefType (sibling softwareClusterRef/communicationResourceRef precedents — the concrete spec types travel in the DEST attribute); all annotations runtime-resolvable (no TYPE_CHECKING strings needed).
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - Note: the pre-sync stub was `pass` (no docstrings existed to wipe); class + 6 accessor docstrings + 3 inline __init__ comments written verbatim from the Table 11.16 Note column.
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - Note: reader tests (full three-member XML with REQUESTER-REFS wrapper + empty element) and writer tests (XSD-order tag assertion, empty element, round-trips through both parent dispatches CpSoftwareClusterMappingSet and SystemMapping, empty-wrapper case) confirmed Red: 7 failures, AttributeError for missing read/writeCpSoftwareClusterToResourceMapping.
+  - [x] Step 6 — Update parser & writer (Green)
+  - Note: parser gains readCpSoftwareClusterToResourceMapping (readIdentifiable base call per Rule 0025, three attributes in XSD group order, returns the populated instance) plus the readSystemMappingSoftwareClusterToResourceMappings dispatch helper wired into readSystemMapping (alphabetical position); the readCpSoftwareClusterMappingSet dispatch rewired from readIdentifiable to the new reader. Writer mirrors this with writeCpSoftwareClusterToResourceMapping (writeIdentifiable base call, caller-created element, REQUESTER-REFS wrapper emitted only when non-empty) plus writeSystemMappingSoftwareClusterToResourceMappings wired into writeSystemMapping; both dispatch sites rewired. Round-trip test serialization uses the test_system_mapping.py pattern (xmlns injected on PARENT via replace, root[0] re-parsed).
+  - [x] Step 7 — Update checklist comment
+  - Note: 7-row checklist contiguous above __init__ in Identifiable.py, all rows [x], citation `# Spec: R23-11/AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 11.16, p.907 (R23-11)`; NO `# Spec verified:` marker per deferred-stamp instruction. audit_class.py PASS (missing-marker INFO + the single-corpus SPECLINE WARN shared with sibling Table 11.15).
+  - [x] Step 8 — Deviations
+  - Note: (1) requester (kind ref, mult *) named requesterRefs with the REQUESTER-REFS wrapper emitted only when non-empty, per the ref-kind naming rule and the resourceNeedsRefs sibling precedent; (2) XSD VARIATION-POINT (AUTOSAR_00052.xsd l.24834) not modeled — absent from the Table 11.16 attribute rows (PDF wins, Rule 0015), same disposition as sibling Table 11.15; (3) REF-kind members modeled as RefType (spec types CpSoftwareCluster / CpSoftwareClusterServiceResource travel in the DEST attribute) — established codebase convention for ref rows, not a deviation.
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
 - [ ] `CpSoftwareClusterBinaryManifestDescriptor` — ARElement — R23-11 CP_TPS_SystemTemplate Table 11.17, p.913
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+  - Step 1 finding: markdown Table 11.17 recovered intact (l.23583-23597) — concrete Class, Base
+    most-derived = ARElement, Aggregated by ARPackage.element. Members (displayed order):
+    cpSoftwareCluster (CpSoftwareCluster, 0..1, ref → cpSoftwareClusterRef: Optional[RefType]),
+    metaDataField (BinaryManifestMetaDataField, *, aggr), provideResource (BinaryManifestProvideResource, *, aggr),
+    requireResource (BinaryManifestRequireResource, *, aggr), resourceDefinition
+    (BinaryManifestResourceDefinition, *, aggr), softwareClusterId (PositiveInteger, 0..1, attr).
+    The markdown Note cells wrap identifiers mid-token ("cpSoftware Cluster", "BinaryManifestMeta
+    DataField", "softwareCluster Id", "Cp SoftwareCluster.softwareClusterId"); continuous forms
+    confirmed by the XSD group appinfo (AUTOSAR_00052.xsd l.24143-24217). XSD group matches the
+    table 1:1 (no deviations). All four aggregation wrappers dispatch to the synced
+    readBinaryManifest*/writeBinaryManifest* helpers per their checklist notes.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
 - [ ] `BinaryManifestProvideResource` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 11.18, p.914
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+  - [x] Step 1 — Sync members & description from spec
+  - Note: markdown Table 11.18 recovered (l.23610): concrete Class; Base row most-derived =
+    `BinaryManifestResource` (abstract, Table 11.19, already synced in Identifiable.py) — FIXED
+    from the todo row hint `Identifiable` (Rule 0001.2); XSD complexType
+    BINARY-MANIFEST-PROVIDE-RESOURCE (AUTOSAR_00052.xsd l.8834) chains the
+    BINARY-MANIFEST-RESOURCE group before its own group, confirming the base. Own attributes
+    (displayed order): numberOfNotifierSets (PositiveInteger, 0..1, attr), 
+    supportsMultipleNotifierSets (Boolean, 0..1, attr); XSD group (l.8812) matches 1:1. The
+    mission's pre-verified members globalResourceId/item/resource belong to the abstract base
+    Table 11.19 (already synced: globalResourceId is PositiveInteger, not string/Guid;
+    items createItem/getItems; resourceRef RefType) — Rule 0001.3 forbids re-flattening them
+    on the subclass. Aggregated by CpSoftwareClusterBinaryManifestDescriptor.provideResource
+    (XSD PROVIDE-RESOURCES l.24176, unbounded choice) — descriptor unsynced stub; call-site
+    dispatch lands with its own sync (BinaryManifestResourceDefinition precedent).
+  - [x] Step 2 — Write model class unit test (Red)
+  - Note: 10 tests confirmed Red — issubclass/isinstance failures against BinaryManifestResource
+    (stub base Identifiable) + AttributeError for the four missing accessors.
+  - [x] Step 3 — Implement model class (Green)
+  - Note: stub `(Identifiable): pass` replaced by `BinaryManifestProvideResource(BinaryManifestResource)`
+    relocated after the base class in Identifiable.py (the base is defined later in the module —
+    the old stub position precedes it); PEP 526 annotations Optional[PositiveInteger] /
+    Optional[Boolean] in spec row order; guarded setters return self.
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - Note: the pre-sync stub was `pass` (no docstrings existed to wipe); class docstring +
+    4 accessor docstrings + 2 inline __init__ comments written verbatim from the Table 11.18
+    Note column ("Binary ManifestResource" mid-token wrap in the markdown resolved to the
+    continuous form confirmed by the XSD doc, l.8827).
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - Note: reader tests (full element XML covering the inherited base group GLOBAL-RESOURCE-ID /
+    ITEMS / nested item IS-UNUSED + the two own attributes, plus empty element) and writer tests
+    (XSD-order tag assertion across both groups, empty element, direct round-trip through the
+    helper pair, empty-wrapper case) confirmed Red: 6 failures, AttributeError for missing
+    read/writeBinaryManifestProvideResource.
+  - [x] Step 6 — Update parser & writer (Green)
+  - Note: parser gains readBinaryManifestProvideResource (readBinaryManifestResource base call
+    per Rule 0025, the two own attributes in XSD group order l.8812, returns the populated
+    instance) placed after readBinaryManifestResource; writer mirrors this with
+    writeBinaryManifestProvideResource (writeBinaryManifestResource base call, caller-created
+    element) placed after writeBinaryManifestResource; both import blocks extended with
+    BinaryManifestProvideResource. Aggregator dispatch (CpSoftwareClusterBinaryManifestDescriptor
+    PROVIDE-RESOURCES l.24176) not wired today — descriptor is an unsynced stub; lands with its
+    own sync (BinaryManifestResourceDefinition precedent).
+  - [x] Step 7 — Update checklist comment
+  - Note: 5-row checklist contiguous above __init__ in Identifiable.py, all rows [x], citation
+    `# Spec: R23-11/AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 11.18, p.914 (R23-11)`; NO
+    `# Spec verified:` marker per deferred-stamp instruction. audit_class.py PASS (missing-marker
+    INFO + the single-corpus SPECLINE WARN shared with sibling Tables 11.15/11.16).
+  - [x] Step 8 — Deviations
+  - Note: (1) base-class correction — spec Base row most-derived = `BinaryManifestResource`
+    (XSD l.8834 chains BINARY-MANIFEST-RESOURCE before BINARY-MANIFEST-PROVIDE-RESOURCE),
+    superseding the stub's `Identifiable` and the todo row hint (Rule 0001.2); (2) the mission's
+    pre-verified members globalResourceId/item/resource belong to the abstract base's own
+    Table 11.19 (already synced: globalResourceId is PositiveInteger per XSD l.8893, not
+    string/Guid; items via createItem/getItems; resourceRef as RefType) — not re-flattened on
+    the subclass (Rule 0001.3), so Table 11.18 contributes exactly its two own attribute rows;
+    (3) no own aggregation members, hence no create/add factories — scalar accessors in
+    getter-first shape; (4) aggregator dispatch pending with the descriptor sync (precedent:
+    BinaryManifestResourceDefinition); no VARIATION-POINT element in the class's XSD group
+    (l.8812-8832) — nothing to model.
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
 - [ ] `BinaryManifestResource` — ARObject — R23-11 CP_TPS_SystemTemplate Table 11.19, p.916
@@ -824,50 +907,109 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `BinaryManifestRequireResource` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 11.20, p.916
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+  - Step 1 finding: markdown Table 11.20 recovered (l.23673): concrete Class; Base row most-derived =
+    `BinaryManifestResource` (abstract, Table 11.19, already synced) — the row's "Identifiable" hint is
+    only the indirect ancestor; the XSD complexType BINARY-MANIFEST-REQUIRE-RESOURCE (AUTOSAR_00052.xsd
+    l.8868) chains the BINARY-MANIFEST-RESOURCE group before its own group (l.8852), confirming the base
+    (Rule 0001.2). Own attribute (displayed order): connectionIsMandatory (Boolean, 0..1, attr) — the
+    markdown wraps the name mid-token ("connectionIs Mandatory"); the XSD appinfo (l.8862) confirms the
+    continuous form. The inherited members (globalResourceId, items, resourceRef) live on the base's own
+    Table 11.19 and are not re-flattened (Rule 0001.3). Aggregated by
+    CpSoftwareClusterBinaryManifestDescriptor.requireResource (XSD REQUIRE-RESOURCES l.24187) —
+    descriptor unsynced stub; call-site dispatch lands with its own sync (ProvideResource precedent).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - Note: 9 tests confirmed Red — issubclass/isinstance failures against BinaryManifestResource
+    (stub base Identifiable) + AttributeError for the missing accessor + StopIteration for the
+    missing __init__.
+  - [x] Step 3 — Implement model class (Green)
+  - Note: stub `(Identifiable): pass` removed and `BinaryManifestRequireResource(BinaryManifestResource)`
+    implemented after the base/sibling in Identifiable.py (the old stub position preceded the base);
+    PEP 526 annotation Optional[Boolean] in spec row order; guarded setter returns self.
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - Note: the pre-sync stub was `pass` (no docstrings existed to wipe); class docstring +
+    2 accessor docstrings + 1 inline __init__ comment written verbatim from the Table 11.20
+    Note column ("connectionIs Mandatory" mid-token wrap in the markdown resolved to the
+    continuous form confirmed by the XSD appinfo, l.8862).
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - Note: reader tests (full element XML covering the inherited base group GLOBAL-RESOURCE-ID /
+    ITEMS / nested item IS-UNUSED + the own attribute, plus empty element) and writer tests
+    (XSD-order tag assertion across both groups, empty element, direct round-trip through the
+    helper pair, empty-wrapper case) confirmed Red: 6 failures, AttributeError for missing
+    read/writeBinaryManifestRequireResource.
+  - [x] Step 6 — Update parser & writer (Green)
+  - Note: parser gains readBinaryManifestRequireResource (readBinaryManifestResource base call
+    per Rule 0025, the own attribute in XSD group order l.8852, returns the populated instance)
+    placed after readBinaryManifestProvideResource; writer mirrors this with
+    writeBinaryManifestRequireResource (writeBinaryManifestResource base call, caller-created
+    element) placed after writeBinaryManifestProvideResource; both import blocks extended with
+    BinaryManifestRequireResource. Aggregator dispatch (CpSoftwareClusterBinaryManifestDescriptor
+    REQUIRE-RESOURCES l.24187) not wired today — descriptor is an unsynced stub; lands with its
+    own sync (BinaryManifestResourceDefinition precedent).
+  - [x] Step 7 — Update checklist comment
+  - Note: 3-row checklist contiguous above __init__ in Identifiable.py, all rows [x], citation
+    `# Spec: R23-11/AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 11.20, p.916 (R23-11)`; NO
+    `# Spec verified:` marker per deferred-stamp instruction. audit_class.py PASS (missing-marker
+    INFO + the single-corpus SPECLINE WARN shared with sibling Tables 11.15/11.16/11.18).
+  - [x] Step 8 — Deviations
+  - Note: (1) base-class correction — spec Base row most-derived = `BinaryManifestResource`
+    (XSD l.8868 chains BINARY-MANIFEST-RESOURCE before BINARY-MANIFEST-REQUIRE-RESOURCE),
+    superseding the stub's `Identifiable` and the todo row hint (Rule 0001.2); (2) the inherited
+    members globalResourceId/item/resource belong to the abstract base's own Table 11.19
+    (already synced) — not re-flattened on the subclass (Rule 0001.3), so Table 11.20
+    contributes exactly its one own attribute row; (3) markdown mid-token wrap
+    "connectionIs Mandatory" resolved to the continuous `connectionIsMandatory` per the XSD
+    appinfo (l.8862) — sibling precedent (Tables 11.18/11.21); (4) no own aggregation members,
+    hence no create/add factories — scalar accessor pair in getter-first shape; (5) aggregator
+    dispatch pending with the descriptor sync (precedent: BinaryManifestResourceDefinition);
+    no VARIATION-POINT element in the class's XSD group (l.8852-8866) — nothing to model; the
+    constr_5192-5196 constraints reference inherited/base members (globalResourceId, item,
+    resourceDefinition) or the unmodeled resourceGuardValue (no Attribute row, Rule 0015 —
+    same disposition as base Table 11.19).
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
 - [ ] `BinaryManifestResourceDefinition` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 11.21, p.917
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+  - Step 1 finding: single member `itemDefinition` (aggr, `*`, ordered) → BinaryManifestItemDefinition, modeled as
+    `itemDefinitions` + `createItemDefinition`/`getItemDefinitions` (Referrable-aggregation shape); base stays
+    Identifiable — the XSD complexType (l.8968) chains the IDENTIFIABLE group with no complexContent extension.
+    The XSD aggregator is CpSoftwareClusterBinaryManifestDescriptor (RESOURCE-DEFINITIONS, l.24198) — not
+    BinaryManifestResource; that aggregator is an unsynced stub, so the class's own read/write helpers own the
+    ITEM-DEFINITIONS dispatch into the synced BinaryManifestItemDefinition pair. No deviations.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
 - [ ] `BinaryManifestItem` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 11.22, p.919
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+  - Step 1 finding: spec Base row and the XSD complexType BINARY-MANIFEST-ITEM (AUTOSAR_00052.xsd l.8629, group l.8574) make `BinaryManifestAddressableObject` the most-derived base — the row's "Identifiable" hint is only the indirect ancestor; the stub is re-based accordingly (Rule 0001.2).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
 - [ ] `BinaryManifestItemDefinition` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 11.23, p.920
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+  - Step 1 finding: spec Base row (ARObject, Identifiable, MultilanguageReferrable, Referrable) and the XSD complexType BINARY-MANIFEST-ITEM-DEFINITION (AUTOSAR_00052.xsd l.8680 — no BINARY-MANIFEST-ADDRESSABLE-OBJECT group, unlike sibling BinaryManifestItem) keep `Identifiable` as the most-derived base (Rule 0001.2); the row's "Identifiable" hint is confirmed. Markdown Note cells wrap identifiers mid-token; docstrings use the continuous forms confirmed by the XSD documentation (l.8656 / l.8667). `# Spec verified:` marker deferred to the batch confirmation per user instruction.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
 - [ ] `BinaryManifestAddressableObject` — ARObject — R23-11 CP_TPS_SystemTemplate Table 11.24, p.921

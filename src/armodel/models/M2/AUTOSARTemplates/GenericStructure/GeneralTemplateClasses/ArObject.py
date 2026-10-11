@@ -2953,9 +2953,9 @@ class BinaryManifestItemValue(ARObject, ABC):
     # (AUTOSAR_00052.xsd l.8763) has an empty sequence; the reusable readBinaryManifestItemValue /
     # writeBinaryManifestItemValue helpers own the ARObject level of the concrete subclass element
     # (BINARY-MANIFEST-ITEM-NUMERICAL-VALUE / BINARY-MANIFEST-ITEM-POINTER-VALUE) and are called by
-    # the BinaryManifestItemNumericalValue / BinaryManifestItemPointerValue readers/writers.
-    # Aggregator dispatch (BinaryManifestItem.value / BinaryManifestItem.defaultValue) is pending —
-    # BinaryManifestItem is an unsynced later-wave stub.
+    # the BinaryManifestItemNumericalValue / BinaryManifestItemPointerValue readers/writers; the
+    # aggregator dispatch (BinaryManifestItem.value / BinaryManifestItem.defaultValue) is wired by
+    # the BinaryManifestItem sync (Table 11.22).
 
     def __init__(self):
         if type(self) is BinaryManifestItemValue:

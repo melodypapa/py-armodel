@@ -45,6 +45,7 @@ if TYPE_CHECKING:
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
+    AbstractGlobalTimeDomainProps,
     CalibrationParameterValue,
     FMFeatureDecomposition,
     DiagnosticCommonProps,
@@ -56,6 +57,8 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticParameter,
     DiagnosticSupportInfoByte,
     DiagnosticTestIdentifier,
+    GlobalTimeCorrectionProps,
+    NetworkSegmentIdentification,
     PhysicalDimensionMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
@@ -70,8 +73,26 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticRequestRoutineResults,
     DiagnosticStartRoutine,
     DiagnosticStopRoutine,
+    BinaryManifestMetaDataField,
+    BinaryManifestProvideResource,
+    BinaryManifestRequireResource,
+    BinaryManifestResourceDefinition,
+    CpSoftwareClusterCommunicationResource,
+    CpSoftwareClusterResource,
+    CpSoftwareClusterServiceResource,
+    GlobalTimeCanMaster,
+    GlobalTimeCanSlave,
+    GlobalTimeEthMaster,
+    GlobalTimeEthSlave,
+    GlobalTimeFrMaster,
+    GlobalTimeFrSlave,
+    GlobalTimeGateway,
+    GlobalTimeMaster,
+    GlobalTimeSlave,
     Identifiable,
     Referrable,
+    UserDefinedGlobalTimeMaster,
+    UserDefinedGlobalTimeSlave,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import CollectableElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Enumerations import BindingTimeEnum
@@ -2876,6 +2897,34 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(element)
         return cast(SignalServiceTranslationPropsSet, self.getReferrableElement(short_name, SignalServiceTranslationPropsSet))
 
+    def createTransformationPropsSet(self, short_name: str) -> TransformationPropsSet:
+
+        if not self.IsReferrableElementExists(short_name, TransformationPropsSet):
+            element = TransformationPropsSet(self, short_name)
+            self.addReferrableElement(element)
+        return cast(TransformationPropsSet, self.getReferrableElement(short_name, TransformationPropsSet))
+
+    def createGlobalTimeDomain(self, short_name: str) -> GlobalTimeDomain:
+
+        if not self.IsReferrableElementExists(short_name, GlobalTimeDomain):
+            element = GlobalTimeDomain(self, short_name)
+            self.addReferrableElement(element)
+        return cast(GlobalTimeDomain, self.getReferrableElement(short_name, GlobalTimeDomain))
+
+    def createCpSoftwareClusterResourcePool(self, short_name: str) -> CpSoftwareClusterResourcePool:
+
+        if not self.IsReferrableElementExists(short_name, CpSoftwareClusterResourcePool):
+            element = CpSoftwareClusterResourcePool(self, short_name)
+            self.addReferrableElement(element)
+        return cast(CpSoftwareClusterResourcePool, self.getReferrableElement(short_name, CpSoftwareClusterResourcePool))
+
+    def createCpSoftwareClusterBinaryManifestDescriptor(self, short_name: str) -> CpSoftwareClusterBinaryManifestDescriptor:
+
+        if not self.IsReferrableElementExists(short_name, CpSoftwareClusterBinaryManifestDescriptor):
+            element = CpSoftwareClusterBinaryManifestDescriptor(self, short_name)
+            self.addReferrableElement(element)
+        return cast(CpSoftwareClusterBinaryManifestDescriptor, self.getReferrableElement(short_name, CpSoftwareClusterBinaryManifestDescriptor))
+
     def createISignalIPdu(self, short_name: str) -> ISignalIPdu:
 
         if not self.IsReferrableElementExists(short_name, ISignalIPdu):
@@ -5420,6 +5469,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.EnvironmentalCondition
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.MeasurementAndCalibration.InterpolationRoutineMappingSet import InterpolationRoutineMappingSet  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import SwcImplementation  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate import ClientIdDefinitionSet, CpSoftwareCluster, CpSoftwareClusterMappingSet, System  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import SOMEIPTransformationProps, TransformationProps, UserDefinedTransformationProps  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import OsTaskProxy  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import ApplicationPartition, J1939ControllerApplication  # noqa: E402
@@ -12237,11 +12287,224 @@ class PostBuildVariantCriterionValueSet(ARElement):
 
 
 class CpSoftwareClusterBinaryManifestDescriptor(ARElement):
-    pass
+    """
+    This meta-class has the ability to act as a hub for all information related to the binary manifest of a given CP software cluster. The manifest is subject to integrator work and therefore not a part of the definition of the CP software cluster itself. Tags: atp.recommendedPackage=CpSoftwareClusterBinaryManifestDescriptors
+    """
+
+    # CpSoftwareClusterBinaryManifestDescriptor method parity checklist:
+    # Spec: R23-11/AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 11.17, p.913 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCpSoftwareClusterRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCpSoftwareClusterRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createMetaDataField         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMetaDataFields           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createProvideResource       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getProvideResources         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createRequireResource       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRequireResources         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createResourceDefinition    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getResourceDefinitions      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getSoftwareClusterId        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSoftwareClusterId        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # The markdown Table 11.17 Note cells wrap identifiers mid-token ("cpSoftware Cluster",
+    # "BinaryManifestMeta DataField", "softwareCluster Id", "Cp SoftwareCluster.softwareClusterId");
+    # the continuous forms are confirmed by the XSD appinfo qualifiedNames (AUTOSAR_00052.xsd
+    # l.24143-24217). The resource-family aggregations dispatch to the synced reader/writer helpers
+    # (PROVIDE-RESOURCES l.24176, REQUIRE-RESOURCES l.24187, RESOURCE-DEFINITIONS l.24198) and the
+    # meta-data aggregation to readBinaryManifestMetaDataField/writeBinaryManifestMetaDataField
+    # (META-DATA-FIELDS l.24165), all per the XSD wrapper-element lists.
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This reference identifies the CpSoftwareCluster to which the enclosing CpSoftwareClusterBinaryManifestDescriptor belongs, The CpSoftwareClusterBinaryManifestDescriptor is defined in an integration phase while the referenced CpSoftwareCluster represents a design element. Therefore, it makes sense to use a reference rather than an aggregation in the relation of the two meta-classes.
+        self.cpSoftwareClusterRef: Optional[RefType] = None
+
+        # This aggregation identifies the collection of meta-data contained in the enclosing binary manifest.
+        self.metaDataFields: List[BinaryManifestMetaDataField] = []
+
+        # This aggregation represents the collection of provided resources in the enclosing binary manifest.
+        self.provideResources: List[BinaryManifestProvideResource] = []
+
+        # This aggregation represents the collection of required resources in the enclosing binary manifest.
+        self.requireResources: List[BinaryManifestRequireResource] = []
+
+        # This aggregation represents the collection of binary manifest resource definitions that belong to the enclosing CpSoftwareClusterBinaryManifestDescriptor.
+        self.resourceDefinitions: List[BinaryManifestResourceDefinition] = []
+
+        # This attribute represents the value of the id of the corresponding CP software cluster. This id is assigned by an integrator, but may also be copied from CpSoftwareCluster.softwareClusterId if available.
+        self.softwareClusterId: Optional[PositiveInteger] = None
+
+    def getCpSoftwareClusterRef(self) -> Optional[RefType]:
+        """
+        This reference identifies the CpSoftwareCluster to which the enclosing CpSoftwareClusterBinaryManifestDescriptor belongs, The CpSoftwareClusterBinaryManifestDescriptor is defined in an integration phase while the referenced CpSoftwareCluster represents a design element. Therefore, it makes sense to use a reference rather than an aggregation in the relation of the two meta-classes.
+        """
+        return self.cpSoftwareClusterRef
+
+    def setCpSoftwareClusterRef(self, value: Optional[RefType]) -> CpSoftwareClusterBinaryManifestDescriptor:
+        """
+        This reference identifies the CpSoftwareCluster to which the enclosing CpSoftwareClusterBinaryManifestDescriptor belongs, The CpSoftwareClusterBinaryManifestDescriptor is defined in an integration phase while the referenced CpSoftwareCluster represents a design element. Therefore, it makes sense to use a reference rather than an aggregation in the relation of the two meta-classes.
+
+        A None value is a no-op and does not overwrite an existing cpSoftwareClusterRef.
+        """
+        if value is not None:
+            self.cpSoftwareClusterRef = value
+        return self
+
+    def createMetaDataField(self, short_name: str) -> BinaryManifestMetaDataField:
+        """
+        This aggregation identifies the collection of meta-data contained in the enclosing binary manifest.
+        """
+        if not self.IsReferrableElementExists(short_name, BinaryManifestMetaDataField):
+            element = BinaryManifestMetaDataField(self, short_name)
+            self.addReferrableElement(element)
+            self.metaDataFields.append(element)
+        return cast(BinaryManifestMetaDataField, self.getReferrableElement(short_name, BinaryManifestMetaDataField))
+
+    def getMetaDataFields(self) -> List[BinaryManifestMetaDataField]:
+        """
+        This aggregation identifies the collection of meta-data contained in the enclosing binary manifest.
+        """
+        return self.metaDataFields
+
+    def createProvideResource(self, short_name: str) -> BinaryManifestProvideResource:
+        """
+        This aggregation represents the collection of provided resources in the enclosing binary manifest.
+        """
+        if not self.IsReferrableElementExists(short_name, BinaryManifestProvideResource):
+            element = BinaryManifestProvideResource(self, short_name)
+            self.addReferrableElement(element)
+            self.provideResources.append(element)
+        return cast(BinaryManifestProvideResource, self.getReferrableElement(short_name, BinaryManifestProvideResource))
+
+    def getProvideResources(self) -> List[BinaryManifestProvideResource]:
+        """
+        This aggregation represents the collection of provided resources in the enclosing binary manifest.
+        """
+        return self.provideResources
+
+    def createRequireResource(self, short_name: str) -> BinaryManifestRequireResource:
+        """
+        This aggregation represents the collection of required resources in the enclosing binary manifest.
+        """
+        if not self.IsReferrableElementExists(short_name, BinaryManifestRequireResource):
+            element = BinaryManifestRequireResource(self, short_name)
+            self.addReferrableElement(element)
+            self.requireResources.append(element)
+        return cast(BinaryManifestRequireResource, self.getReferrableElement(short_name, BinaryManifestRequireResource))
+
+    def getRequireResources(self) -> List[BinaryManifestRequireResource]:
+        """
+        This aggregation represents the collection of required resources in the enclosing binary manifest.
+        """
+        return self.requireResources
+
+    def createResourceDefinition(self, short_name: str) -> BinaryManifestResourceDefinition:
+        """
+        This aggregation represents the collection of binary manifest resource definitions that belong to the enclosing CpSoftwareClusterBinaryManifestDescriptor.
+        """
+        if not self.IsReferrableElementExists(short_name, BinaryManifestResourceDefinition):
+            element = BinaryManifestResourceDefinition(self, short_name)
+            self.addReferrableElement(element)
+            self.resourceDefinitions.append(element)
+        return cast(BinaryManifestResourceDefinition, self.getReferrableElement(short_name, BinaryManifestResourceDefinition))
+
+    def getResourceDefinitions(self) -> List[BinaryManifestResourceDefinition]:
+        """
+        This aggregation represents the collection of binary manifest resource definitions that belong to the enclosing CpSoftwareClusterBinaryManifestDescriptor.
+        """
+        return self.resourceDefinitions
+
+    def getSoftwareClusterId(self) -> Optional[PositiveInteger]:
+        """
+        This attribute represents the value of the id of the corresponding CP software cluster. This id is assigned by an integrator, but may also be copied from CpSoftwareCluster.softwareClusterId if available.
+        """
+        return self.softwareClusterId
+
+    def setSoftwareClusterId(self, value: Optional[PositiveInteger]) -> CpSoftwareClusterBinaryManifestDescriptor:
+        """
+        This attribute represents the value of the id of the corresponding CP software cluster. This id is assigned by an integrator, but may also be copied from CpSoftwareCluster.softwareClusterId if available.
+
+        A None value is a no-op and does not overwrite an existing softwareClusterId.
+        """
+        if value is not None:
+            self.softwareClusterId = value
+        return self
 
 
 class CpSoftwareClusterResourcePool(ARElement):
-    pass
+    """
+    Represents the pool of resources which can be provided or required by CP Software Clusters. Tags: atp.recommendedPackage=CpSoftwareClusterResourcePools
+    """
+
+    # CpSoftwareClusterResourcePool method parity checklist:
+    # Spec: R23-11/AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 11.5, p.901 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addEcuScopeRef                               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEcuScopeRefs                              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createCpSoftwareClusterCommunicationResource [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createCpSoftwareClusterServiceResource       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getResources                                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    #
+    # The markdown Table 11.5 resource Type cell renders "CpSoftwareCluster Resource"
+    # (a line-wrap artifact); the XSD RESOURCES choice (AUTOSAR_00052.xsd l.24497) names the
+    # abstract CP-SOFTWARE-CLUSTER-RESOURCE only through its two concrete subtypes
+    # CP-SOFTWARE-CLUSTER-COMMUNICATION-RESOURCE / CP-SOFTWARE-CLUSTER-SERVICE-RESOURCE,
+    # so the aggregation owns the two concrete create factories and no abstract adder.
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This reference identifies the EcuInstance in which the resource pool is defined. Stereotypes: atpSplitable Tags: atp.Splitkey=ecuScope
+        self.ecuScopeRefs: List[RefType] = []
+
+        # This aggregation represents the collection of resources in the enclosing resource pool. Stereotypes: atpSplitable Tags: atp.Splitkey=resource.shortName
+        self.resources: List[CpSoftwareClusterResource] = []
+
+    def addEcuScopeRef(self, value: Optional[RefType]) -> CpSoftwareClusterResourcePool:
+        """
+        This reference identifies the EcuInstance in which the resource pool is defined. Stereotypes: atpSplitable Tags: atp.Splitkey=ecuScope
+
+        A None value is a no-op and does not append to ecuScopeRefs.
+        """
+        if value is not None:
+            self.ecuScopeRefs.append(value)
+        return self
+
+    def getEcuScopeRefs(self) -> List[RefType]:
+        """
+        This reference identifies the EcuInstance in which the resource pool is defined. Stereotypes: atpSplitable Tags: atp.Splitkey=ecuScope
+        """
+        return self.ecuScopeRefs
+
+    def createCpSoftwareClusterCommunicationResource(self, short_name: str) -> CpSoftwareClusterCommunicationResource:
+        """
+        This aggregation represents the collection of resources in the enclosing resource pool. Stereotypes: atpSplitable Tags: atp.Splitkey=resource.shortName
+        """
+        if not self.IsReferrableElementExists(short_name, CpSoftwareClusterCommunicationResource):
+            element = CpSoftwareClusterCommunicationResource(self, short_name)
+            self.addReferrableElement(element)
+            self.resources.append(element)
+        return cast(CpSoftwareClusterCommunicationResource, self.getReferrableElement(short_name, CpSoftwareClusterCommunicationResource))
+
+    def createCpSoftwareClusterServiceResource(self, short_name: str) -> CpSoftwareClusterServiceResource:
+        """
+        This aggregation represents the collection of resources in the enclosing resource pool. Stereotypes: atpSplitable Tags: atp.Splitkey=resource.shortName
+        """
+        if not self.IsReferrableElementExists(short_name, CpSoftwareClusterServiceResource):
+            element = CpSoftwareClusterServiceResource(self, short_name)
+            self.addReferrableElement(element)
+            self.resources.append(element)
+        return cast(CpSoftwareClusterServiceResource, self.getReferrableElement(short_name, CpSoftwareClusterServiceResource))
+
+    def getResources(self) -> List[CpSoftwareClusterResource]:
+        """
+        This aggregation represents the collection of resources in the enclosing resource pool. Stereotypes: atpSplitable Tags: atp.Splitkey=resource.shortName
+        """
+        return self.resources
 
 
 class CryptoServiceKey(ARElement):
@@ -12438,7 +12701,348 @@ class GeneralPurposeConnection(ARElement):
 
 
 class GlobalTimeDomain(ARElement):
-    pass
+    """
+    This represents the ability to define a global time domain. Tags: atp.recommendedPackage=GlobalTimeDomains
+    """
+
+    # GlobalTimeDomain method parity checklist:
+    # Spec: R23-11/AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.1, p.859 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDebounceTime                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDebounceTime                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDomainId                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDomainId                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createGlobalTimeGateway            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getGateways                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getGlobalTimeCorrectionProps       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setGlobalTimeCorrectionProps       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getGlobalTimeDomainProperty        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setGlobalTimeDomainProperty        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createGlobalTimeCanMaster          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createGlobalTimeEthMaster          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createGlobalTimeFrMaster           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createUserDefinedGlobalTimeMaster  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getGlobalTimeMaster                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addGlobalTimeSubDomainRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getGlobalTimeSubDomainRefs         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getNetworkSegmentId                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNetworkSegmentId                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOffsetTimeDomainRef             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOffsetTimeDomainRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPduTriggeringRef                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPduTriggeringRef                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createGlobalTimeCanSlave           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createGlobalTimeEthSlave           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createGlobalTimeFrSlave            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createUserDefinedGlobalTimeSlave   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSlaves                          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getSyncLossTimeout                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSyncLossTimeout                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # The markdown Table 9.1 globalTimeSubDomain Note cell is truncated mid-Tags
+    # ("Tags: atp.Splitkey=globalTimeSubDomain.globalTimeDomain,"); the tail is completed
+    # from the XSD GLOBAL-TIME-SUB-DOMAINS appinfo (AUTOSAR_00052.xsd l.64513):
+    # "globalTimeSubDomain.variationPoint.shortLabel vh.latestBindingTime=postBuild".
+    # Rule 0015: the XSD GLOBAL-TIME-DOMAIN-PROPERTYS / GLOBAL-TIME-MASTERS wrappers are
+    # unbounded choices, but the PDF Table 9.1 declares globalTimeDomainProperty 0..1 and
+    # globalTimeMaster 0..1 — the PDF wins (single-valued slots; the reader is last-wins);
+    # the removed XSD-only members (COMMUNICATION-CLUSTER-REFS, FOLLOW-UP-TIMEOUT-VALUE,
+    # GLOBAL-TIME-PDU-REF, GLOBAL-TIME-PDU-TRIGGERING-REF, GLOBAL-TIME-DOMAIN-PROPS, MASTER,
+    # SUB-DOMAIN-REFS, SYNC-LOSS-THRESHOLD) are not modeled. The VARIATION-POINT nested in
+    # GLOBAL-TIME-DOMAIN-REF-CONDITIONAL / PDU-TRIGGERING-REF-CONDITIONAL is not represented
+    # (bare RefType), per sibling precedent for REF-CONDITIONAL wrappers.
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Defines the minimum amount of time between two time sync messages are transmitted.
+        self.debounceTime: Optional[TimeValue] = None
+
+        # This represents the ID of the GlobalTimeDomain used in the network messages sent on behalf of global time management.
+        self.domainId: Optional[PositiveInteger] = None
+
+        # A GlobalTimeGateway may exist in the context of a GlobalTimeDomain to actively update the global time information as it is routed from one GlobalTimeDomain to another. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=gateway.shortName, gateway.variation Point.shortLabel vh.latestBindingTime=postBuild
+        self.gateways: List[GlobalTimeGateway] = []
+
+        # Defintion of attributes for rate and offset correction.
+        self.globalTimeCorrectionProps: Optional[GlobalTimeCorrectionProps] = None
+
+        # Additional properties of the GlobalTimeDomain. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=globalTimeDomainProperty, globalTime DomainProperty.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        self.globalTimeDomainProperty: Optional[AbstractGlobalTimeDomainProps] = None
+
+        # This represents the single master of a GlobalTime Domain. A GlobalTimeDomain may have no GlobalTime Domain.master, e.g. when it gets its time from a GPS receiver. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=globalTimeMaster.shortName, globalTime Master.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        self.globalTimeMaster: Optional[GlobalTimeMaster] = None
+
+        # By this means it is possible to create a hierarchy of sub Domains where one global time domain can declare one or more other global time domains as its subDomains. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=globalTimeSubDomain.globalTimeDomain, globalTimeSubDomain.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        self.globalTimeSubDomainRefs: List[RefType] = []
+
+        # Defines the numerical identification of a GlobalTime sub domain.
+        self.networkSegmentId: Optional[NetworkSegmentIdentification] = None
+
+        # Reference to a synchronized time domain this offset time domain is based on. The reference source is the offset time domain. The reference target is the synchronized time domain.
+        self.offsetTimeDomainRef: Optional[RefType] = None
+
+        # This PduTriggering will be taken to transmit the global time information from a GlobalTimeMaster to a the associated GlobalTimeSlaves. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=pduTriggering.pduTriggering, pdu Triggering.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        self.pduTriggeringRef: Optional[RefType] = None
+
+        # This represents the collections of slaves of the Global TimeDomain. A GlobalTimeDomain may have no Global TimeDomain.slaves, e.g. when it propagates its time directly to sub domains. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=slave.shortName, slave.variationPoint.short Label vh.latestBindingTime=postBuild
+        self.slaves: List[GlobalTimeSlave] = []
+
+        # This attribute describes the timeout for the situation that the time synchronization gets lost in the scope of the time domain.
+        self.syncLossTimeout: Optional[TimeValue] = None
+
+    def getDebounceTime(self) -> Optional[TimeValue]:
+        """
+        Defines the minimum amount of time between two time sync messages are transmitted.
+        """
+        return self.debounceTime
+
+    def setDebounceTime(self, value: Optional[TimeValue]) -> GlobalTimeDomain:
+        """
+        Defines the minimum amount of time between two time sync messages are transmitted.
+
+        A None value is a no-op and does not overwrite an existing debounceTime.
+        """
+        if value is not None:
+            self.debounceTime = value
+        return self
+
+    def getDomainId(self) -> Optional[PositiveInteger]:
+        """
+        This represents the ID of the GlobalTimeDomain used in the network messages sent on behalf of global time management.
+        """
+        return self.domainId
+
+    def setDomainId(self, value: Optional[PositiveInteger]) -> GlobalTimeDomain:
+        """
+        This represents the ID of the GlobalTimeDomain used in the network messages sent on behalf of global time management.
+
+        A None value is a no-op and does not overwrite an existing domainId.
+        """
+        if value is not None:
+            self.domainId = value
+        return self
+
+    def createGlobalTimeGateway(self, short_name: str) -> GlobalTimeGateway:
+        """
+        A GlobalTimeGateway may exist in the context of a GlobalTimeDomain to actively update the global time information as it is routed from one GlobalTimeDomain to another. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=gateway.shortName, gateway.variation Point.shortLabel vh.latestBindingTime=postBuild
+        """
+        if not self.IsReferrableElementExists(short_name, GlobalTimeGateway):
+            element = GlobalTimeGateway(self, short_name)
+            self.addReferrableElement(element)
+            self.gateways.append(element)
+        return cast(GlobalTimeGateway, self.getReferrableElement(short_name, GlobalTimeGateway))
+
+    def getGateways(self) -> List[GlobalTimeGateway]:
+        """
+        A GlobalTimeGateway may exist in the context of a GlobalTimeDomain to actively update the global time information as it is routed from one GlobalTimeDomain to another. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=gateway.shortName, gateway.variation Point.shortLabel vh.latestBindingTime=postBuild
+        """
+        return self.gateways
+
+    def getGlobalTimeCorrectionProps(self) -> Optional[GlobalTimeCorrectionProps]:
+        """
+        Defintion of attributes for rate and offset correction.
+        """
+        return self.globalTimeCorrectionProps
+
+    def setGlobalTimeCorrectionProps(self, value: Optional[GlobalTimeCorrectionProps]) -> GlobalTimeDomain:
+        """
+        Defintion of attributes for rate and offset correction.
+
+        A None value is a no-op and does not overwrite an existing globalTimeCorrectionProps.
+        """
+        if value is not None:
+            self.globalTimeCorrectionProps = value
+        return self
+
+    def getGlobalTimeDomainProperty(self) -> Optional[AbstractGlobalTimeDomainProps]:
+        """
+        Additional properties of the GlobalTimeDomain. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=globalTimeDomainProperty, globalTime DomainProperty.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
+        return self.globalTimeDomainProperty
+
+    def setGlobalTimeDomainProperty(self, value: Optional[AbstractGlobalTimeDomainProps]) -> GlobalTimeDomain:
+        """
+        Additional properties of the GlobalTimeDomain. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=globalTimeDomainProperty, globalTime DomainProperty.variationPoint.shortLabel vh.latestBindingTime=postBuild
+
+        A None value is a no-op and does not overwrite an existing globalTimeDomainProperty.
+        """
+        if value is not None:
+            self.globalTimeDomainProperty = value
+        return self
+
+    def createGlobalTimeCanMaster(self, short_name: str) -> GlobalTimeCanMaster:
+        """
+        This represents the single master of a GlobalTime Domain. A GlobalTimeDomain may have no GlobalTime Domain.master, e.g. when it gets its time from a GPS receiver. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=globalTimeMaster.shortName, globalTime Master.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
+        if not self.IsReferrableElementExists(short_name, GlobalTimeCanMaster):
+            element = GlobalTimeCanMaster(self, short_name)
+            self.addReferrableElement(element)
+            self.globalTimeMaster = element
+        return cast(GlobalTimeCanMaster, self.getReferrableElement(short_name, GlobalTimeCanMaster))
+
+    def createGlobalTimeEthMaster(self, short_name: str) -> GlobalTimeEthMaster:
+        """
+        This represents the single master of a GlobalTime Domain. A GlobalTimeDomain may have no GlobalTime Domain.master, e.g. when it gets its time from a GPS receiver. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=globalTimeMaster.shortName, globalTime Master.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
+        if not self.IsReferrableElementExists(short_name, GlobalTimeEthMaster):
+            element = GlobalTimeEthMaster(self, short_name)
+            self.addReferrableElement(element)
+            self.globalTimeMaster = element
+        return cast(GlobalTimeEthMaster, self.getReferrableElement(short_name, GlobalTimeEthMaster))
+
+    def createGlobalTimeFrMaster(self, short_name: str) -> GlobalTimeFrMaster:
+        """
+        This represents the single master of a GlobalTime Domain. A GlobalTimeDomain may have no GlobalTime Domain.master, e.g. when it gets its time from a GPS receiver. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=globalTimeMaster.shortName, globalTime Master.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
+        if not self.IsReferrableElementExists(short_name, GlobalTimeFrMaster):
+            element = GlobalTimeFrMaster(self, short_name)
+            self.addReferrableElement(element)
+            self.globalTimeMaster = element
+        return cast(GlobalTimeFrMaster, self.getReferrableElement(short_name, GlobalTimeFrMaster))
+
+    def createUserDefinedGlobalTimeMaster(self, short_name: str) -> UserDefinedGlobalTimeMaster:
+        """
+        This represents the single master of a GlobalTime Domain. A GlobalTimeDomain may have no GlobalTime Domain.master, e.g. when it gets its time from a GPS receiver. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=globalTimeMaster.shortName, globalTime Master.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
+        if not self.IsReferrableElementExists(short_name, UserDefinedGlobalTimeMaster):
+            element = UserDefinedGlobalTimeMaster(self, short_name)
+            self.addReferrableElement(element)
+            self.globalTimeMaster = element
+        return cast(UserDefinedGlobalTimeMaster, self.getReferrableElement(short_name, UserDefinedGlobalTimeMaster))
+
+    def getGlobalTimeMaster(self) -> Optional[GlobalTimeMaster]:
+        """
+        This represents the single master of a GlobalTime Domain. A GlobalTimeDomain may have no GlobalTime Domain.master, e.g. when it gets its time from a GPS receiver. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=globalTimeMaster.shortName, globalTime Master.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
+        return self.globalTimeMaster
+
+    def addGlobalTimeSubDomainRef(self, value: Optional[RefType]) -> GlobalTimeDomain:
+        """
+        By this means it is possible to create a hierarchy of sub Domains where one global time domain can declare one or more other global time domains as its subDomains. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=globalTimeSubDomain.globalTimeDomain, globalTimeSubDomain.variationPoint.shortLabel vh.latestBindingTime=postBuild
+
+        A None value is a no-op and does not append to globalTimeSubDomainRefs.
+        """
+        if value is not None:
+            self.globalTimeSubDomainRefs.append(value)
+        return self
+
+    def getGlobalTimeSubDomainRefs(self) -> List[RefType]:
+        """
+        By this means it is possible to create a hierarchy of sub Domains where one global time domain can declare one or more other global time domains as its subDomains. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=globalTimeSubDomain.globalTimeDomain, globalTimeSubDomain.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
+        return self.globalTimeSubDomainRefs
+
+    def getNetworkSegmentId(self) -> Optional[NetworkSegmentIdentification]:
+        """
+        Defines the numerical identification of a GlobalTime sub domain.
+        """
+        return self.networkSegmentId
+
+    def setNetworkSegmentId(self, value: Optional[NetworkSegmentIdentification]) -> GlobalTimeDomain:
+        """
+        Defines the numerical identification of a GlobalTime sub domain.
+
+        A None value is a no-op and does not overwrite an existing networkSegmentId.
+        """
+        if value is not None:
+            self.networkSegmentId = value
+        return self
+
+    def getOffsetTimeDomainRef(self) -> Optional[RefType]:
+        """
+        Reference to a synchronized time domain this offset time domain is based on. The reference source is the offset time domain. The reference target is the synchronized time domain.
+        """
+        return self.offsetTimeDomainRef
+
+    def setOffsetTimeDomainRef(self, value: Optional[RefType]) -> GlobalTimeDomain:
+        """
+        Reference to a synchronized time domain this offset time domain is based on. The reference source is the offset time domain. The reference target is the synchronized time domain.
+
+        A None value is a no-op and does not overwrite an existing offsetTimeDomainRef.
+        """
+        if value is not None:
+            self.offsetTimeDomainRef = value
+        return self
+
+    def getPduTriggeringRef(self) -> Optional[RefType]:
+        """
+        This PduTriggering will be taken to transmit the global time information from a GlobalTimeMaster to a the associated GlobalTimeSlaves. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=pduTriggering.pduTriggering, pdu Triggering.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
+        return self.pduTriggeringRef
+
+    def setPduTriggeringRef(self, value: Optional[RefType]) -> GlobalTimeDomain:
+        """
+        This PduTriggering will be taken to transmit the global time information from a GlobalTimeMaster to a the associated GlobalTimeSlaves. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=pduTriggering.pduTriggering, pdu Triggering.variationPoint.shortLabel vh.latestBindingTime=postBuild
+
+        A None value is a no-op and does not overwrite an existing pduTriggeringRef.
+        """
+        if value is not None:
+            self.pduTriggeringRef = value
+        return self
+
+    def createGlobalTimeCanSlave(self, short_name: str) -> GlobalTimeCanSlave:
+        """
+        This represents the collections of slaves of the Global TimeDomain. A GlobalTimeDomain may have no Global TimeDomain.slaves, e.g. when it propagates its time directly to sub domains. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=slave.shortName, slave.variationPoint.short Label vh.latestBindingTime=postBuild
+        """
+        if not self.IsReferrableElementExists(short_name, GlobalTimeCanSlave):
+            element = GlobalTimeCanSlave(self, short_name)
+            self.addReferrableElement(element)
+            self.slaves.append(element)
+        return cast(GlobalTimeCanSlave, self.getReferrableElement(short_name, GlobalTimeCanSlave))
+
+    def createGlobalTimeEthSlave(self, short_name: str) -> GlobalTimeEthSlave:
+        """
+        This represents the collections of slaves of the Global TimeDomain. A GlobalTimeDomain may have no Global TimeDomain.slaves, e.g. when it propagates its time directly to sub domains. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=slave.shortName, slave.variationPoint.short Label vh.latestBindingTime=postBuild
+        """
+        if not self.IsReferrableElementExists(short_name, GlobalTimeEthSlave):
+            element = GlobalTimeEthSlave(self, short_name)
+            self.addReferrableElement(element)
+            self.slaves.append(element)
+        return cast(GlobalTimeEthSlave, self.getReferrableElement(short_name, GlobalTimeEthSlave))
+
+    def createGlobalTimeFrSlave(self, short_name: str) -> GlobalTimeFrSlave:
+        """
+        This represents the collections of slaves of the Global TimeDomain. A GlobalTimeDomain may have no Global TimeDomain.slaves, e.g. when it propagates its time directly to sub domains. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=slave.shortName, slave.variationPoint.short Label vh.latestBindingTime=postBuild
+        """
+        if not self.IsReferrableElementExists(short_name, GlobalTimeFrSlave):
+            element = GlobalTimeFrSlave(self, short_name)
+            self.addReferrableElement(element)
+            self.slaves.append(element)
+        return cast(GlobalTimeFrSlave, self.getReferrableElement(short_name, GlobalTimeFrSlave))
+
+    def createUserDefinedGlobalTimeSlave(self, short_name: str) -> UserDefinedGlobalTimeSlave:
+        """
+        This represents the collections of slaves of the Global TimeDomain. A GlobalTimeDomain may have no Global TimeDomain.slaves, e.g. when it propagates its time directly to sub domains. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=slave.shortName, slave.variationPoint.short Label vh.latestBindingTime=postBuild
+        """
+        if not self.IsReferrableElementExists(short_name, UserDefinedGlobalTimeSlave):
+            element = UserDefinedGlobalTimeSlave(self, short_name)
+            self.addReferrableElement(element)
+            self.slaves.append(element)
+        return cast(UserDefinedGlobalTimeSlave, self.getReferrableElement(short_name, UserDefinedGlobalTimeSlave))
+
+    def getSlaves(self) -> List[GlobalTimeSlave]:
+        """
+        This represents the collections of slaves of the Global TimeDomain. A GlobalTimeDomain may have no Global TimeDomain.slaves, e.g. when it propagates its time directly to sub domains. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=slave.shortName, slave.variationPoint.short Label vh.latestBindingTime=postBuild
+        """
+        return self.slaves
+
+    def getSyncLossTimeout(self) -> Optional[TimeValue]:
+        """
+        This attribute describes the timeout for the situation that the time synchronization gets lost in the scope of the time domain.
+        """
+        return self.syncLossTimeout
+
+    def setSyncLossTimeout(self, value: Optional[TimeValue]) -> GlobalTimeDomain:
+        """
+        This attribute describes the timeout for the situation that the time synchronization gets lost in the scope of the time domain.
+
+        A None value is a no-op and does not overwrite an existing syncLossTimeout.
+        """
+        if value is not None:
+            self.syncLossTimeout = value
+        return self
 
 
 class IdsCommonElement(ARElement, ABC):
@@ -13154,4 +13758,54 @@ class LogAndTraceMessageCollectionSet(ARElement):
 
 
 class TransformationPropsSet(ARElement):
-    pass
+    """
+    Collection of TransformationProps. Tags: atp.recommendedPackage=TransformationPropsSets
+    """
+
+    # TransformationPropsSet method parity checklist:
+    # Spec: R23-11/AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.14, p.782
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createSOMEIPTransformationProps       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createUserDefinedTransformationProps  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTransformationProps                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    #
+    # Table 7.14 models the single `*` aggr row transformationProps -> TransformationProps
+    # (abstract). Per Rule 0001.6 an abstract aggregated Identifiable child gets one
+    # createXxx factory per concrete subtype; the XSD TRANSFORMATION-PROPSS wrapper
+    # (AUTOSAR_00052.xsd l.125546) carries a third choice member AP-SOMEIP-TRANSFORMATION-PROPS
+    # whose class belongs to the AdaptivePlatform corpus (upstream AUTOSAR_AP_TPS_SystemDesign,
+    # no CP_TPS table, no codebase class) — the reader records it via notImplemented, the
+    # writer dispatches on the implemented subtypes only.
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Transformer specific configuration properties.
+        self.transformationProps: List[TransformationProps] = []
+
+    def createSOMEIPTransformationProps(self, short_name: str) -> SOMEIPTransformationProps:
+        """
+        Transformer specific configuration properties.
+        """
+        if not self.IsReferrableElementExists(short_name, SOMEIPTransformationProps):
+            element = SOMEIPTransformationProps(self, short_name)
+            self.addReferrableElement(element)
+            self.transformationProps.append(element)
+        return cast(SOMEIPTransformationProps, self.getReferrableElement(short_name, SOMEIPTransformationProps))
+
+    def createUserDefinedTransformationProps(self, short_name: str) -> UserDefinedTransformationProps:
+        """
+        Transformer specific configuration properties.
+        """
+        if not self.IsReferrableElementExists(short_name, UserDefinedTransformationProps):
+            element = UserDefinedTransformationProps(self, short_name)
+            self.addReferrableElement(element)
+            self.transformationProps.append(element)
+        return cast(UserDefinedTransformationProps, self.getReferrableElement(short_name, UserDefinedTransformationProps))
+
+    def getTransformationProps(self) -> List[TransformationProps]:
+        """
+        Transformer specific configuration properties.
+        """
+        return self.transformationProps

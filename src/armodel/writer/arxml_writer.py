@@ -446,6 +446,10 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     FMFeatureModel,
     FMFeatureSelectionSet,
     ReferenceBase,
+    TransformationPropsSet,
+    GlobalTimeDomain,
+    CpSoftwareClusterResourcePool,
+    CpSoftwareClusterBinaryManifestDescriptor,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import AclObjectSet, AclOperation, AclPermission, AclRole
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import DiagnosticCustomServiceInstance, DiagnosticMapping
@@ -634,6 +638,8 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     BinaryManifestAddressableObject,
+    BinaryManifestItem,
+    BinaryManifestItemDefinition,
     FMAttributeDef,
     AggregationTailoring,
     ClassContentConditional,
@@ -657,9 +663,13 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     FMFeatureRestriction,
     FMFeatureSelection,
     BinaryManifestMetaDataField,
+    BinaryManifestProvideResource,
+    BinaryManifestRequireResource,
     BinaryManifestResource,
+    BinaryManifestResourceDefinition,
     CpSoftwareClusterCommunicationResource,
     CpSoftwareClusterResource,
+    CpSoftwareClusterServiceResource,
     CpSoftwareClusterToResourceMapping,
     DdsCpConsumedServiceInstance,
     DdsCpDomain,
@@ -1369,6 +1379,8 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import (
     PortGroupInSystemInstanceRef,
     VariableDataPrototypeInSystemInstanceRef,
     TriggerInSystemInstanceRef,
+    ModeDeclarationGroupPrototypeInSystemInstanceRef,
+    ParameterDataPrototypeInSystemInstanceRef,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import (
     CanNmCluster,
@@ -6075,6 +6087,28 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.setChildElementOptionalRefType(child_element, "CONTEXT-COMPONENT-REF", component_ref)
             self.setChildElementOptionalRefType(child_element, "CONTEXT-PORT-REF", ref.getContextPortRef())
             self.setChildElementOptionalRefType(child_element, "TARGET-TRIGGER-REF", ref.getTargetTriggerRef())
+
+    def setModeDeclarationGroupPrototypeInSystemInstanceRef(self, element: ET.Element, tag_name: str, ref: Optional[ModeDeclarationGroupPrototypeInSystemInstanceRef]):
+        if ref is not None:
+            child_element = ET.SubElement(element, tag_name)
+            self.writeARObject(child_element, ref)
+            self.setChildElementOptionalRefType(child_element, "BASE-REF", ref.getBaseRef())
+            self.setChildElementOptionalRefType(child_element, "CONTEXT-COMPOSITION-REF", ref.getContextCompositionRef())
+            for component_ref in ref.getContextComponentRefs():
+                self.setChildElementOptionalRefType(child_element, "CONTEXT-COMPONENT-REF", component_ref)
+            self.setChildElementOptionalRefType(child_element, "CONTEXT-PORT-REF", ref.getContextPortRef())
+            self.setChildElementOptionalRefType(child_element, "TARGET-MODE-DECLARATION-GROUP-PROTOTYPE-REF", ref.getTargetModeDeclarationGroupPrototypeRef())
+
+    def setParameterDataPrototypeInSystemInstanceRef(self, element: ET.Element, tag_name: str, ref: Optional[ParameterDataPrototypeInSystemInstanceRef]):
+        if ref is not None:
+            child_element = ET.SubElement(element, tag_name)
+            self.writeARObject(child_element, ref)
+            self.setChildElementOptionalRefType(child_element, "BASE-REF", ref.getBaseRef())
+            self.setChildElementOptionalRefType(child_element, "CONTEXT-COMPOSITION-REF", ref.getContextCompositionRef())
+            for component_ref in ref.getContextComponentRefs():
+                self.setChildElementOptionalRefType(child_element, "CONTEXT-COMPONENT-REF", component_ref)
+            self.setChildElementOptionalRefType(child_element, "CONTEXT-PORT-REF", ref.getContextPortRef())
+            self.setChildElementOptionalRefType(child_element, "TARGET-PARAMETER-DATA-PROTOTYPE-REF", ref.getTargetParameterDataPrototypeRef())
 
     def setPortGroupInSystemInstanceRef(self, element: ET.Element, tag_name: str, ref: PortGroupInSystemInstanceRef):
         if ref is not None:
@@ -14808,6 +14842,21 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalTimeValue(child_element, "RATE-CORRECTION-MEASUREMENT-DURATION", props.getRateCorrectionMeasurementDuration())
         self.setChildElementOptionalPositiveInteger(child_element, "RATE-CORRECTIONS-PER-MEASUREMENT-DURATION", cast(Integer, props.getRateCorrectionsPerMeasurementDuration()))
 
+    def writeTransformationPropsSet(self, element: ET.Element, props_set: TransformationPropsSet):
+        self.logger.debug("TransformationPropsSet %s" % props_set.getShortName())
+        child_element = ET.SubElement(element, "TRANSFORMATION-PROPS-SET")
+        self.writeIdentifiable(child_element, props_set)
+        props_list = props_set.getTransformationProps()
+        if len(props_list) > 0:
+            wrapper_element = ET.SubElement(child_element, "TRANSFORMATION-PROPSS")
+            for props in props_list:
+                if isinstance(props, SOMEIPTransformationProps):
+                    self.writeSOMEIPTransformationProps(ET.SubElement(wrapper_element, "SOMEIP-TRANSFORMATION-PROPS"), props)
+                elif isinstance(props, UserDefinedTransformationProps):
+                    self.writeUserDefinedTransformationProps(ET.SubElement(wrapper_element, "USER-DEFINED-TRANSFORMATION-PROPS"), props)
+                else:
+                    self.notImplemented("Unsupported TransformationProps subtype <%s>" % type(props).__name__)
+
     def writeTransformationProps(self, element: ET.Element, props: TransformationProps):
         # Populates the concrete subclass element (AP-SOMEIP-/SOMEIP-/USER-DEFINED-
         # TRANSFORMATION-PROPS) created by the caller; the XSD TRANSFORMATION-PROPS group
@@ -14832,6 +14881,79 @@ class ARXMLWriter(AbstractARXMLWriter):
         # sequence, so the helper owns only the Identifiable level reached through
         # writeTransformationProps.
         self.writeTransformationProps(element, props)
+
+    def writeGlobalTimeDomain(self, element: ET.Element, domain: GlobalTimeDomain):
+        # The XSD GLOBAL-TIME-DOMAIN group (AUTOSAR_00052.xsd l.64373) element order is
+        # DEBOUNCE-TIME, DOMAIN-ID, GATEWAYS, GLOBAL-TIME-CORRECTION-PROPS,
+        # GLOBAL-TIME-DOMAIN-PROPERTYS, GLOBAL-TIME-MASTERS, GLOBAL-TIME-SUB-DOMAINS,
+        # NETWORK-SEGMENT-ID, OFFSET-TIME-DOMAIN-REF, PDU-TRIGGERINGS, SLAVES,
+        # SYNC-LOSS-TIMEOUT; the aggregation wrappers are emitted only when non-empty.
+        self.logger.debug("GlobalTimeDomain %s" % domain.getShortName())
+        child_element = ET.SubElement(element, "GLOBAL-TIME-DOMAIN")
+        self.writeIdentifiable(child_element, domain)
+        self.setChildElementOptionalTimeValue(child_element, "DEBOUNCE-TIME", domain.getDebounceTime())
+        self.setChildElementOptionalPositiveInteger(child_element, "DOMAIN-ID", cast(Integer, domain.getDomainId()))
+        gateways = domain.getGateways()
+        if len(gateways) > 0:
+            wrapper_element = ET.SubElement(child_element, "GATEWAYS")
+            for gateway in gateways:
+                self.writeGlobalTimeGateway(ET.SubElement(wrapper_element, "GLOBAL-TIME-GATEWAY"), gateway)
+        correction_props = domain.getGlobalTimeCorrectionProps()
+        if correction_props is not None:
+            self.writeGlobalTimeCorrectionProps(child_element, correction_props)
+        props = domain.getGlobalTimeDomainProperty()
+        if props is not None:
+            wrapper_element = ET.SubElement(child_element, "GLOBAL-TIME-DOMAIN-PROPERTYS")
+            if isinstance(props, CanGlobalTimeDomainProps):
+                self.writeCanGlobalTimeDomainProps(ET.SubElement(wrapper_element, "CAN-GLOBAL-TIME-DOMAIN-PROPS"), props)
+            elif isinstance(props, EthGlobalTimeDomainProps):
+                self.writeEthGlobalTimeDomainProps(ET.SubElement(wrapper_element, "ETH-GLOBAL-TIME-DOMAIN-PROPS"), props)
+            elif isinstance(props, FrGlobalTimeDomainProps):
+                self.writeFrGlobalTimeDomainProps(ET.SubElement(wrapper_element, "FR-GLOBAL-TIME-DOMAIN-PROPS"), props)
+            else:
+                self.notImplemented("Unsupported AbstractGlobalTimeDomainProps subtype <%s>" % type(props).__name__)
+        master = domain.getGlobalTimeMaster()
+        if master is not None:
+            wrapper_element = ET.SubElement(child_element, "GLOBAL-TIME-MASTERS")
+            if isinstance(master, GlobalTimeCanMaster):
+                self.writeGlobalTimeCanMaster(ET.SubElement(wrapper_element, "GLOBAL-TIME-CAN-MASTER"), master)
+            elif isinstance(master, GlobalTimeEthMaster):
+                self.writeGlobalTimeEthMaster(ET.SubElement(wrapper_element, "GLOBAL-TIME-ETH-MASTER"), master)
+            elif isinstance(master, GlobalTimeFrMaster):
+                self.writeGlobalTimeFrMaster(ET.SubElement(wrapper_element, "GLOBAL-TIME-FR-MASTER"), master)
+            elif isinstance(master, UserDefinedGlobalTimeMaster):
+                self.writeUserDefinedGlobalTimeMaster(ET.SubElement(wrapper_element, "USER-DEFINED-GLOBAL-TIME-MASTER"), master)
+            else:
+                self.notImplemented("Unsupported GlobalTimeMaster subtype <%s>" % type(master).__name__)
+        sub_domain_refs = domain.getGlobalTimeSubDomainRefs()
+        if len(sub_domain_refs) > 0:
+            wrapper_element = ET.SubElement(child_element, "GLOBAL-TIME-SUB-DOMAINS")
+            for ref in sub_domain_refs:
+                conditional_element = ET.SubElement(wrapper_element, "GLOBAL-TIME-DOMAIN-REF-CONDITIONAL")
+                self.setChildElementOptionalRefType(conditional_element, "GLOBAL-TIME-DOMAIN-REF", ref)
+        segment_id = domain.getNetworkSegmentId()
+        if segment_id is not None:
+            self.writeNetworkSegmentIdentification(child_element, segment_id)
+        self.setChildElementOptionalRefType(child_element, "OFFSET-TIME-DOMAIN-REF", domain.getOffsetTimeDomainRef())
+        if domain.getPduTriggeringRef() is not None:
+            wrapper_element = ET.SubElement(child_element, "PDU-TRIGGERINGS")
+            conditional_element = ET.SubElement(wrapper_element, "PDU-TRIGGERING-REF-CONDITIONAL")
+            self.setChildElementOptionalRefType(conditional_element, "PDU-TRIGGERING-REF", domain.getPduTriggeringRef())
+        slaves = domain.getSlaves()
+        if len(slaves) > 0:
+            wrapper_element = ET.SubElement(child_element, "SLAVES")
+            for slave in slaves:
+                if isinstance(slave, GlobalTimeCanSlave):
+                    self.writeGlobalTimeCanSlave(ET.SubElement(wrapper_element, "GLOBAL-TIME-CAN-SLAVE"), slave)
+                elif isinstance(slave, GlobalTimeEthSlave):
+                    self.writeGlobalTimeEthSlave(ET.SubElement(wrapper_element, "GLOBAL-TIME-ETH-SLAVE"), slave)
+                elif isinstance(slave, GlobalTimeFrSlave):
+                    self.writeGlobalTimeFrSlave(ET.SubElement(wrapper_element, "GLOBAL-TIME-FR-SLAVE"), slave)
+                elif isinstance(slave, UserDefinedGlobalTimeSlave):
+                    self.writeUserDefinedGlobalTimeSlave(ET.SubElement(wrapper_element, "USER-DEFINED-GLOBAL-TIME-SLAVE"), slave)
+                else:
+                    self.notImplemented("Unsupported GlobalTimeSlave subtype <%s>" % type(slave).__name__)
+        self.setChildElementOptionalTimeValue(child_element, "SYNC-LOSS-TIMEOUT", domain.getSyncLossTimeout())
 
     def writeGlobalTimeSlave(self, element: ET.Element, slave: GlobalTimeSlave):
         # Populates the concrete subclass element (GLOBAL-TIME-CAN-/ETH-/FR-/USER-DEFINED-
@@ -15049,8 +15171,8 @@ class ARXMLWriter(AbstractARXMLWriter):
         # Populates the concrete subclass element (BINARY-MANIFEST-PROVIDE-RESOURCE /
         # BINARY-MANIFEST-REQUIRE-RESOURCE) created by the caller; the XSD BINARY-MANIFEST-RESOURCE
         # group (AUTOSAR_00052.xsd l.8886) orders GLOBAL-RESOURCE-ID, ITEMS, RESOURCE-REF. ITEMS
-        # children are emitted identity-only: BinaryManifestItem (Table 11.22) is an unsynced stub
-        # (Rule 0001.7 debt); the wrapper is written only when non-empty.
+        # children are fully serialized via the synced writeBinaryManifestItem (Table 11.22); the
+        # wrapper is written only when non-empty.
         self.writeIdentifiable(element, resource)
         self.setChildElementOptionalPositiveInteger(element, "GLOBAL-RESOURCE-ID", cast(Integer, resource.getGlobalResourceId()))
         items = resource.getItems()
@@ -15058,8 +15180,31 @@ class ARXMLWriter(AbstractARXMLWriter):
             items_tag = ET.SubElement(element, "ITEMS")
             for item in items:
                 item_element = ET.SubElement(items_tag, "BINARY-MANIFEST-ITEM")
-                self.writeIdentifiable(item_element, item)
+                self.writeBinaryManifestItem(item_element, item)
         self.setChildElementOptionalRefType(element, "RESOURCE-REF", resource.getResourceRef())
+
+    def writeBinaryManifestProvideResource(self, element: ET.Element, provide_resource: BinaryManifestProvideResource):
+        # Populates the BINARY-MANIFEST-PROVIDE-RESOURCE element created by the caller; the XSD
+        # BINARY-MANIFEST-PROVIDE-RESOURCE group (AUTOSAR_00052.xsd l.8812) orders
+        # NUMBER-OF-NOTIFIER-SETS, SUPPORTS-MULTIPLE-NOTIFIER-SETS after the BINARY-MANIFEST-RESOURCE
+        # group, which the writeBinaryManifestResource base helper owns. The spec Aggregated-by row
+        # names CpSoftwareClusterBinaryManifestDescriptor.provideResource (XSD PROVIDE-RESOURCES,
+        # AUTOSAR_00052.xsd l.24176), an unsynced stub — its call-site dispatch lands with that
+        # class's own sync.
+        self.writeBinaryManifestResource(element, provide_resource)
+        self.setChildElementOptionalPositiveInteger(element, "NUMBER-OF-NOTIFIER-SETS", cast(Integer, provide_resource.getNumberOfNotifierSets()))
+        self.setChildElementOptionalBooleanValue(element, "SUPPORTS-MULTIPLE-NOTIFIER-SETS", provide_resource.getSupportsMultipleNotifierSets())
+
+    def writeBinaryManifestRequireResource(self, element: ET.Element, require_resource: BinaryManifestRequireResource):
+        # Populates the BINARY-MANIFEST-REQUIRE-RESOURCE element created by the caller; the XSD
+        # BINARY-MANIFEST-REQUIRE-RESOURCE group (AUTOSAR_00052.xsd l.8852) orders
+        # CONNECTION-IS-MANDATORY after the BINARY-MANIFEST-RESOURCE group, which the
+        # writeBinaryManifestResource base helper owns. The spec Aggregated-by row names
+        # CpSoftwareClusterBinaryManifestDescriptor.requireResource (XSD REQUIRE-RESOURCES,
+        # AUTOSAR_00052.xsd l.24187), an unsynced stub — its call-site dispatch lands with that
+        # class's own sync.
+        self.writeBinaryManifestResource(element, require_resource)
+        self.setChildElementOptionalBooleanValue(element, "CONNECTION-IS-MANDATORY", require_resource.getConnectionIsMandatory())
 
     def writeBinaryManifestAddressableObject(self, element: ET.Element, obj: BinaryManifestAddressableObject):
         # Populates the concrete subclass element (BINARY-MANIFEST-ITEM /
@@ -15069,6 +15214,39 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeIdentifiable(element, obj)
         self.setChildElementOptionalAddress(element, "ADDRESS", obj.getAddress())
         self.setChildElementOptionalSymbolString(element, "SYMBOL", obj.getSymbol())
+
+    def writeBinaryManifestItem(self, element: ET.Element, item: BinaryManifestItem):
+        # Populates the BINARY-MANIFEST-ITEM element created by the caller; the XSD
+        # BINARY-MANIFEST-ITEM group (AUTOSAR_00052.xsd l.8574) orders IS-UNUSED, VALUE,
+        # DEFAULT-VALUE, AUXILIARY-FIELDS after the BinaryManifestAddressableObject level; VALUE /
+        # DEFAULT-VALUE wrap a 0..1 choice of BINARY-MANIFEST-ITEM-NUMERICAL-VALUE /
+        # BINARY-MANIFEST-ITEM-POINTER-VALUE and AUXILIARY-FIELDS wraps the unbounded
+        # BINARY-MANIFEST-ITEM self-aggregation; the wrappers are written only when non-empty.
+        self.writeBinaryManifestAddressableObject(element, item)
+        self.setChildElementOptionalBooleanValue(element, "IS-UNUSED", item.getIsUnused())
+        value = item.getValue()
+        if value is not None:
+            value_element = ET.SubElement(element, "VALUE")
+            if isinstance(value, BinaryManifestItemNumericalValue):
+                self.writeBinaryManifestItemNumericalValue(ET.SubElement(value_element, "BINARY-MANIFEST-ITEM-NUMERICAL-VALUE"), value)
+            elif isinstance(value, BinaryManifestItemPointerValue):
+                self.writeBinaryManifestItemPointerValue(ET.SubElement(value_element, "BINARY-MANIFEST-ITEM-POINTER-VALUE"), value)
+            else:
+                self.notImplemented("Unsupported element type of <%s> of BinaryManifestItem value" % type(value))
+        default_value = item.getDefaultValue()
+        if default_value is not None:
+            default_value_element = ET.SubElement(element, "DEFAULT-VALUE")
+            if isinstance(default_value, BinaryManifestItemNumericalValue):
+                self.writeBinaryManifestItemNumericalValue(ET.SubElement(default_value_element, "BINARY-MANIFEST-ITEM-NUMERICAL-VALUE"), default_value)
+            elif isinstance(default_value, BinaryManifestItemPointerValue):
+                self.writeBinaryManifestItemPointerValue(ET.SubElement(default_value_element, "BINARY-MANIFEST-ITEM-POINTER-VALUE"), default_value)
+            else:
+                self.notImplemented("Unsupported element type of <%s> of BinaryManifestItem defaultValue" % type(default_value))
+        auxiliary_fields = item.getAuxiliaryFields()
+        if len(auxiliary_fields) > 0:
+            auxiliary_fields_element = ET.SubElement(element, "AUXILIARY-FIELDS")
+            for auxiliary_field in auxiliary_fields:
+                self.writeBinaryManifestItem(ET.SubElement(auxiliary_fields_element, "BINARY-MANIFEST-ITEM"), auxiliary_field)
 
     def writeBinaryManifestItemValue(self, element: ET.Element, value: BinaryManifestItemValue):
         # Populates the concrete subclass element (BINARY-MANIFEST-ITEM-NUMERICAL-VALUE /
@@ -15091,6 +15269,41 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeBinaryManifestItemValue(element, value)
         self.setChildElementOptionalAddress(element, "ADDRESS", value.getAddress())
         self.setChildElementOptionalSymbolString(element, "SYMBOL", value.getSymbol())
+
+    def writeBinaryManifestItemDefinition(self, element: ET.Element, item_definition: BinaryManifestItemDefinition):
+        # Populates the BINARY-MANIFEST-ITEM-DEFINITION element created by the caller; the XSD
+        # BINARY-MANIFEST-ITEM-DEFINITION group (AUTOSAR_00052.xsd l.8647) orders
+        # AUXILIARY-FIELD-DEFINITIONS, IS-OPTIONAL, SIZE after the Identifiable level;
+        # AUXILIARY-FIELD-DEFINITIONS wraps the unbounded BINARY-MANIFEST-ITEM-DEFINITION
+        # self-aggregation and the wrapper is written only when non-empty. The aggregator dispatch
+        # (BinaryManifestResourceDefinition.itemDefinition, Table 11.21) is owned by
+        # writeBinaryManifestResourceDefinition, which emits the ITEM-DEFINITIONS wrapper and
+        # feeds the items through this helper.
+        self.writeIdentifiable(element, item_definition)
+        auxiliary_field_definitions = item_definition.getAuxiliaryFieldDefinitions()
+        if len(auxiliary_field_definitions) > 0:
+            auxiliary_field_definitions_element = ET.SubElement(element, "AUXILIARY-FIELD-DEFINITIONS")
+            for auxiliary_field_definition in auxiliary_field_definitions:
+                self.writeBinaryManifestItemDefinition(ET.SubElement(auxiliary_field_definitions_element, "BINARY-MANIFEST-ITEM-DEFINITION"), auxiliary_field_definition)
+        self.setChildElementOptionalBooleanValue(element, "IS-OPTIONAL", item_definition.getIsOptional())
+        self.setChildElementOptionalPositiveInteger(element, "SIZE", cast(Integer, item_definition.getSize()))
+
+    def writeBinaryManifestResourceDefinition(self, element: ET.Element, resource_definition: BinaryManifestResourceDefinition):
+        # Populates the BINARY-MANIFEST-RESOURCE-DEFINITION element created by the caller; the XSD
+        # BINARY-MANIFEST-RESOURCE-DEFINITION group (AUTOSAR_00052.xsd l.8947) wraps the unbounded
+        # BINARY-MANIFEST-ITEM-DEFINITION aggregation (pureMM.isOrdered="true") in the
+        # ITEM-DEFINITIONS element; the wrapper is written only when non-empty and the items are
+        # dispatched through writeBinaryManifestItemDefinition (the aggregator side of the
+        # BinaryManifestResourceDefinition.itemDefinition aggregation, Table 11.21). The spec
+        # Aggregated-by row names CpSoftwareClusterBinaryManifestDescriptor.resourceDefinition
+        # (XSD RESOURCE-DEFINITIONS, AUTOSAR_00052.xsd l.24198), an unsynced stub — its call-site
+        # dispatch lands with that class's own sync.
+        self.writeIdentifiable(element, resource_definition)
+        item_definitions = resource_definition.getItemDefinitions()
+        if len(item_definitions) > 0:
+            item_definitions_element = ET.SubElement(element, "ITEM-DEFINITIONS")
+            for item_definition in item_definitions:
+                self.writeBinaryManifestItemDefinition(ET.SubElement(item_definitions_element, "BINARY-MANIFEST-ITEM-DEFINITION"), item_definition)
 
     def setGlobalTimeProps(self, element: ET.Element, key: str, props: Optional[GlobalTimeCouplingPortProps]):
         if props is not None:
@@ -16313,13 +16526,22 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     self.notImplemented("Unsupported MappingConstraint %s" % type(constraint))
 
+    def writePortElementToCommunicationResourceMapping(self, element: ET.Element, mapping: PortElementToCommunicationResourceMapping):
+        self.writeIdentifiable(element, mapping)
+        self.setOperationInSystemInstanceRef(element, "CLIENT-SERVER-OPERATION-IREF", mapping.getClientServerOperationIRef())
+        self.setChildElementOptionalRefType(element, "COMMUNICATION-RESOURCE-REF", mapping.getCommunicationResourceRef())
+        self.setModeDeclarationGroupPrototypeInSystemInstanceRef(element, "MODE-DECLARATION-GROUP-PROTOTYPE-IREF", mapping.getModeDeclarationGroupPrototypeIRef())
+        self.setParameterDataPrototypeInSystemInstanceRef(element, "PARAMETER-DATA-PROTOTYPE-IREF", mapping.getParameterDataPrototypeIRef())
+        self.setTriggerInSystemInstanceRef(element, "TRIGGER-IREF", mapping.getTriggerIRef())
+        self.setVariableDataPrototypeInSystemInstanceRef(element, "VARIABLE-DATA-PROTOTYPE-IREF", mapping.getVariableDataPrototypeIRef())
+
     def writeSystemMappingPortElementToComResourceMappings(self, element: ET.Element, mapping: SystemMapping):
         port_mappings = mapping.getPortElementToComResourceMappings()
         if len(port_mappings) > 0:
             mappings_tag = ET.SubElement(element, "PORT-ELEMENT-TO-COM-RESOURCE-MAPPINGS")
             for port_mapping in port_mappings:
                 child_element = ET.SubElement(mappings_tag, "PORT-ELEMENT-TO-COMMUNICATION-RESOURCE-MAPPING")
-                self.writeIdentifiable(child_element, port_mapping)
+                self.writePortElementToCommunicationResourceMapping(child_element, port_mapping)
 
     def writeSystemMappingSwcToApplicationPartitionMappings(self, element: ET.Element, mapping: SystemMapping):
         swc_mappings = mapping.getSwcToApplicationPartitionMappings()
@@ -16639,6 +16861,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeSystemMappingRteEventToOsTaskProxyMappings(child_element, mapping)
         self.writeSystemMappingSignalPathConstraints(child_element, mapping)
         self.writeSystemMappingSoftwareClusterToApplicationPartitionMappings(child_element, mapping)
+        self.writeSystemMappingSoftwareClusterToResourceMappings(child_element, mapping)
         self.writeSystemMappingSwClusterMappings(child_element, mapping)
         self.writeSystemMappingSwImplMappings(child_element, mapping)
         self.writeSystemMappingSwMappings(child_element, mapping)
@@ -16851,6 +17074,17 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     self.notImplemented("Unsupported SoftwareClusterToApplicationPartitionMapping %s" % type(sc_mapping))
 
+    def writeSystemMappingSoftwareClusterToResourceMappings(self, element: ET.Element, mapping: SystemMapping):
+        mappings = mapping.getSoftwareClusterToResourceMappings()
+        if len(mappings) > 0:
+            mappings_tag = ET.SubElement(element, "SOFTWARE-CLUSTER-TO-RESOURCE-MAPPINGS")
+            for scr_mapping in mappings:
+                if isinstance(scr_mapping, CpSoftwareClusterToResourceMapping):
+                    child_element = ET.SubElement(mappings_tag, "CP-SOFTWARE-CLUSTER-TO-RESOURCE-MAPPING")
+                    self.writeCpSoftwareClusterToResourceMapping(child_element, scr_mapping)
+                else:
+                    self.notImplemented("Unsupported SoftwareClusterToResourceMapping %s" % type(scr_mapping))
+
     def writeSystemSignalToCommunicationResourceMapping(self, element: ET.Element, mapping: SystemSignalToCommunicationResourceMapping):
         child_element = ET.SubElement(element, "SYSTEM-SIGNAL-TO-COMMUNICATION-RESOURCE-MAPPING")
         self.writeIdentifiable(child_element, mapping)
@@ -16883,6 +17117,16 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     self.notImplemented("Unsupported SystemSignalGroupToComResourceMapping %s" % type(group_mapping))
 
+    def writeCpSoftwareClusterToResourceMapping(self, element: ET.Element, mapping: CpSoftwareClusterToResourceMapping):
+        self.writeIdentifiable(element, mapping)
+        self.setChildElementOptionalRefType(element, "PROVIDER-REF", mapping.getProviderRef())
+        refs = mapping.getRequesterRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(element, "REQUESTER-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "REQUESTER-REF", ref)
+        self.setChildElementOptionalRefType(element, "SERVICE-RESOURCE-REF", mapping.getServiceResourceRef())
+
     def writeCpSoftwareClusterMappingSet(self, element: ET.Element, mapping_set: CpSoftwareClusterMappingSet):
         child_element = ET.SubElement(element, "CP-SOFTWARE-CLUSTER-MAPPING-SET")
         self.writeARElement(child_element, mapping_set)
@@ -16892,7 +17136,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             for port_mapping in port_mappings:
                 if isinstance(port_mapping, PortElementToCommunicationResourceMapping):
                     port_element = ET.SubElement(mappings_tag, "PORT-ELEMENT-TO-COMMUNICATION-RESOURCE-MAPPING")
-                    self.writeIdentifiable(port_element, port_mapping)
+                    self.writePortElementToCommunicationResourceMapping(port_element, port_mapping)
                 else:
                     self.notImplemented("Unsupported PortElementToComResourceMapping %s" % type(port_mapping))
         res_mappings = mapping_set.getResourceToApplicationPartitionMappings()
@@ -16912,7 +17156,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             for scr_mapping in scr_mappings:
                 if isinstance(scr_mapping, CpSoftwareClusterToResourceMapping):
                     scr_element = ET.SubElement(mappings_tag, "CP-SOFTWARE-CLUSTER-TO-RESOURCE-MAPPING")
-                    self.writeIdentifiable(scr_element, scr_mapping)
+                    self.writeCpSoftwareClusterToResourceMapping(scr_element, scr_mapping)
                 else:
                     self.notImplemented("Unsupported SoftwareClusterToResourceMapping %s" % type(scr_mapping))
         swc_mappings = mapping_set.getSwcToApplicationPartitionMappings()
@@ -18549,6 +18793,78 @@ class ARXMLWriter(AbstractARXMLWriter):
             elif isinstance(props, DataComProps):
                 data_com_element = ET.SubElement(communication_resource_props_element, "DATA-COM-PROPS")
                 self.writeDataComProps(data_com_element, props)
+
+    def writeCpSoftwareClusterServiceResource(self, element: ET.Element, resource: CpSoftwareClusterServiceResource):
+        # Populates the CP-SOFTWARE-CLUSTER-SERVICE-RESOURCE element created by the caller;
+        # the XSD CP-SOFTWARE-CLUSTER-SERVICE-RESOURCE group (AUTOSAR_00052.xsd l.24595) carries
+        # the 0..1 RESOURCE-NEEDS-REFS wrapper (Table 11.14 resourceNeeds), emitted only when
+        # non-empty; the CpSoftwareClusterResource base level is owned by the base helper.
+        self.logger.debug("Write CpSoftwareClusterServiceResource %s" % resource.getShortName())
+        self.writeCpSoftwareClusterResource(element, resource)
+        resource_needs_refs = resource.getResourceNeedsRefs()
+        if len(resource_needs_refs) > 0:
+            refs_tag = ET.SubElement(element, "RESOURCE-NEEDS-REFS")
+            for ref in resource_needs_refs:
+                self.setChildElementOptionalRefType(refs_tag, "RESOURCE-NEEDS-REF", ref)
+
+    def writeCpSoftwareClusterResourcePool(self, element: ET.Element, resource_pool: CpSoftwareClusterResourcePool):
+        # The XSD CP-SOFTWARE-CLUSTER-RESOURCE-POOL group (AUTOSAR_00052.xsd l.24470) element
+        # order is ECU-SCOPE-REFS then RESOURCES; the aggregation wrappers are emitted only
+        # when non-empty and the RESOURCES choice names the concrete CpSoftwareClusterResource
+        # subtypes.
+        self.logger.debug("Write CpSoftwareClusterResourcePool %s" % resource_pool.getShortName())
+        child_element = ET.SubElement(element, "CP-SOFTWARE-CLUSTER-RESOURCE-POOL")
+        self.writeIdentifiable(child_element, resource_pool)
+        ecu_scope_refs = resource_pool.getEcuScopeRefs()
+        if len(ecu_scope_refs) > 0:
+            wrapper_element = ET.SubElement(child_element, "ECU-SCOPE-REFS")
+            for ref in ecu_scope_refs:
+                self.setChildElementOptionalRefType(wrapper_element, "ECU-SCOPE-REF", ref)
+        resources = resource_pool.getResources()
+        if len(resources) > 0:
+            wrapper_element = ET.SubElement(child_element, "RESOURCES")
+            for resource in resources:
+                if isinstance(resource, CpSoftwareClusterCommunicationResource):
+                    self.writeCpSoftwareClusterCommunicationResource(ET.SubElement(wrapper_element, "CP-SOFTWARE-CLUSTER-COMMUNICATION-RESOURCE"), resource)
+                elif isinstance(resource, CpSoftwareClusterServiceResource):
+                    self.writeCpSoftwareClusterServiceResource(ET.SubElement(wrapper_element, "CP-SOFTWARE-CLUSTER-SERVICE-RESOURCE"), resource)
+                else:
+                    self.notImplemented("Unsupported CpSoftwareClusterResource subtype <%s>" % type(resource).__name__)
+
+    def writeCpSoftwareClusterBinaryManifestDescriptor(self, element: ET.Element, descriptor: CpSoftwareClusterBinaryManifestDescriptor):
+        # The XSD CP-SOFTWARE-CLUSTER-BINARY-MANIFEST-DESCRIPTOR group (AUTOSAR_00052.xsd l.24143)
+        # element order is CP-SOFTWARE-CLUSTER-REF, META-DATA-FIELDS, PROVIDE-RESOURCES,
+        # REQUIRE-RESOURCES, RESOURCE-DEFINITIONS, SOFTWARE-CLUSTER-ID; the aggregation wrappers
+        # are emitted only when non-empty. The resource-family wrappers dispatch to the synced
+        # BinaryManifest* helpers (PROVIDE-RESOURCES l.24176 / REQUIRE-RESOURCES l.24187 /
+        # RESOURCE-DEFINITIONS l.24198, caller-created item elements) and META-DATA-FIELDS
+        # (l.24165) to writeBinaryManifestMetaDataField, which creates its own
+        # BINARY-MANIFEST-META-DATA-FIELD element.
+        self.logger.debug("CpSoftwareClusterBinaryManifestDescriptor %s" % descriptor.getShortName())
+        child_element = ET.SubElement(element, "CP-SOFTWARE-CLUSTER-BINARY-MANIFEST-DESCRIPTOR")
+        self.writeIdentifiable(child_element, descriptor)
+        self.setChildElementOptionalRefType(child_element, "CP-SOFTWARE-CLUSTER-REF", descriptor.getCpSoftwareClusterRef())
+        meta_data_fields = descriptor.getMetaDataFields()
+        if len(meta_data_fields) > 0:
+            wrapper_element = ET.SubElement(child_element, "META-DATA-FIELDS")
+            for field in meta_data_fields:
+                self.writeBinaryManifestMetaDataField(wrapper_element, field)
+        provide_resources = descriptor.getProvideResources()
+        if len(provide_resources) > 0:
+            wrapper_element = ET.SubElement(child_element, "PROVIDE-RESOURCES")
+            for provide_resource in provide_resources:
+                self.writeBinaryManifestProvideResource(ET.SubElement(wrapper_element, "BINARY-MANIFEST-PROVIDE-RESOURCE"), provide_resource)
+        require_resources = descriptor.getRequireResources()
+        if len(require_resources) > 0:
+            wrapper_element = ET.SubElement(child_element, "REQUIRE-RESOURCES")
+            for require_resource in require_resources:
+                self.writeBinaryManifestRequireResource(ET.SubElement(wrapper_element, "BINARY-MANIFEST-REQUIRE-RESOURCE"), require_resource)
+        resource_definitions = descriptor.getResourceDefinitions()
+        if len(resource_definitions) > 0:
+            wrapper_element = ET.SubElement(child_element, "RESOURCE-DEFINITIONS")
+            for resource_definition in resource_definitions:
+                self.writeBinaryManifestResourceDefinition(ET.SubElement(wrapper_element, "BINARY-MANIFEST-RESOURCE-DEFINITION"), resource_definition)
+        self.setChildElementOptionalPositiveInteger(child_element, "SOFTWARE-CLUSTER-ID", cast(Integer, descriptor.getSoftwareClusterId()))
 
     def writeDiagnosticEventToTroubleCodeJ1939Mapping(self, element: ET.Element, mapping: DiagnosticEventToTroubleCodeJ1939Mapping):
         self.logger.debug("Write DiagnosticEventToTroubleCodeJ1939Mapping %s" % mapping.getShortName())
@@ -21197,6 +21513,14 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeSystemSignal(element, ar_element)
         elif isinstance(ar_element, SignalServiceTranslationPropsSet):
             self.writeSignalServiceTranslationPropsSet(element, ar_element)
+        elif isinstance(ar_element, TransformationPropsSet):
+            self.writeTransformationPropsSet(element, ar_element)
+        elif isinstance(ar_element, GlobalTimeDomain):
+            self.writeGlobalTimeDomain(element, ar_element)
+        elif isinstance(ar_element, CpSoftwareClusterResourcePool):
+            self.writeCpSoftwareClusterResourcePool(element, ar_element)
+        elif isinstance(ar_element, CpSoftwareClusterBinaryManifestDescriptor):
+            self.writeCpSoftwareClusterBinaryManifestDescriptor(element, ar_element)
         elif isinstance(ar_element, ParameterInterface):
             self.writeParameterInterface(element, ar_element)
         elif isinstance(ar_element, NvDataInterface):
