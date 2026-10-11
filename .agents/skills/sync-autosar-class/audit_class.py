@@ -894,16 +894,16 @@ def _xsd_group_declares(cls: str, element: str) -> str:
 
 
 @lru_cache(maxsize=None)
-def _model_class_anns() -> Dict[str, Tuple[str, ...]]:
-    """Class-level annotated type names per models class ({name: (inner type names)}).
+def _model_class_stored() -> Dict[str, Tuple[Tuple[str, str], ...]]:
+    """(member type, attribute cap) pairs from class-level annotated defaults.
 
     The mixin pattern (Rule 0020/0021) declares members as class-level annotated
     defaults — `VariationPointCapable.variationPoint: Optional[VariationPoint] = None`
-    — which never appear in a concrete class's `__init__`. Without this map a mixin
+    — which never appear in a concrete class's `__init__`; without this map a mixin
     capability is invisible to the member check, and the exact shape that silently
-    dropped VARIATION-POINT on `BswVariableAccess` passes unnoticed.
-    """
-    out: Dict[str, Tuple[str, ...]] = {}
+    dropped VARIATION-POINT on `BswVariableAccess` passes unnoticed. Storage — not
+    lookup getters — defines membership."""
+    out: Dict[str, Tuple[Tuple[str, str], ...]] = {}
     for p in MODELS_DIR.rglob("*.py"):
         try:
             t = ast.parse(read(p))
@@ -911,11 +911,44 @@ def _model_class_anns() -> Dict[str, Tuple[str, ...]]:
             continue
         for n in ast.walk(t):
             if isinstance(n, ast.ClassDef):
-                names: List[str] = []
+                pairs: List[Tuple[str, str]] = []
                 for item in n.body:
                     if isinstance(item, ast.AnnAssign):
-                        names.extend(_annotation_type_names(item.annotation))
-                out.setdefault(n.name, tuple(names))
+                        target = item.target.id if isinstance(item.target, ast.Name) else None
+                        cap = (target[0].upper() + target[1:]) if target else None
+                        for tn in _annotation_type_names(item.annotation):
+                            pairs.append((tn, cap or tn))
+                out.setdefault(n.name, tuple(pairs))
+    return out
+
+
+@lru_cache(maxsize=None)
+def _model_class_accessors() -> Dict[str, Tuple[Tuple[str, str], ...]]:
+    """(member type, accessor name) pairs from accessor method annotations.
+
+    A `get*` return or `set*`/`add*` parameter typed with the member names the
+    exact call the parser/writer makes — however the attribute is spelled
+    (`self.data_constr_rule` is read through `getDataConstrRules`). These refine
+    the dispatch evidence for stored members; they never create members."""
+    out: Dict[str, Tuple[Tuple[str, str], ...]] = {}
+    for p in MODELS_DIR.rglob("*.py"):
+        try:
+            t = ast.parse(read(p))
+        except SyntaxError:
+            continue
+        for n in ast.walk(t):
+            if isinstance(n, ast.ClassDef):
+                pairs: List[Tuple[str, str]] = []
+                for fn in n.body:
+                    if not isinstance(fn, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                        continue
+                    if fn.name.startswith(("get", "create")) and fn.returns is not None:
+                        for tn in _annotation_type_names(fn.returns):
+                            pairs.append((tn, fn.name))
+                    elif fn.name.startswith(("set", "add")) and len(fn.args.args) > 1 and fn.args.args[1].annotation is not None:
+                        for tn in _annotation_type_names(fn.args.args[1].annotation):
+                            pairs.append((tn, fn.name))
+                out.setdefault(n.name, tuple(pairs))
     return out
 
 
@@ -951,17 +984,29 @@ def _is_value_carried(cls: str, base_map: Dict[str, List[str]]) -> bool:
     return False
 
 
-def _member_candidates(node: ast.ClassDef, base_map: Dict[str, List[str]]) -> List[str]:
-    """Every aggregated member class of `node`: stored members (`__init__`/`clear`
-    annotated assignments), registry-aggregator members (`createXxx` return types),
-    and mixin class-level members inherited from the base chain."""
-    names: List[str] = []
-    for n in ast.walk(node):
-        if isinstance(n, ast.AnnAssign):
-            names.extend(_annotation_type_names(n.annotation))
+def _member_candidates(node: ast.ClassDef, base_map: Dict[str, List[str]]) -> Dict[str, Set[str]]:
+    """Every aggregated member class of `node` mapped to the accessor names it is
+    read/written through ({member: {accessorName, ...}}).
+
+    Membership comes from STORAGE: `__init__`/`clear` annotated assignments
+    (attribute-cap fallback), base-chain class-level defaults (`_model_class_stored`
+    — the mixin pattern), and `createXxx` return types (registry aggregators).
+    Accessor methods (`_model_class_accessors`, own + base chain) then name the
+    exact calls the reader/writer makes — however the attribute is spelled
+    (`self.data_constr_rule` is read through `getDataConstrRules`). Lookup-style
+    getters never create members."""
+    caps: Dict[str, Set[str]] = {}
     for fn in node.body:
         if isinstance(fn, (ast.FunctionDef, ast.AsyncFunctionDef)) and fn.name.startswith("create") and fn.returns is not None:
-            names.extend(_annotation_type_names(fn.returns))
+            for tn in _annotation_type_names(fn.returns):
+                caps.setdefault(tn, set()).add(fn.name)
+    for n in ast.walk(node):
+        if isinstance(n, ast.AnnAssign):
+            target = n.target
+            attr = target.attr if isinstance(target, ast.Attribute) else (target.id if isinstance(target, ast.Name) else None)
+            cap = attr[0].upper() + attr[1:] if attr else None
+            for tn in _annotation_type_names(n.annotation):
+                caps.setdefault(tn, set()).add(cap or tn)
     seen: Set[str] = {node.name}
     frontier = list(base_map.get(node.name, []))
     while frontier:
@@ -969,15 +1014,31 @@ def _member_candidates(node: ast.ClassDef, base_map: Dict[str, List[str]]) -> Li
         if b in seen:
             continue
         seen.add(b)
-        names.extend(_model_class_anns().get(b, ()))
+        for tn, cap in _model_class_stored().get(b, ()):
+            caps.setdefault(tn, set()).add(cap)
         frontier.extend(base_map.get(b, []))
-    out: List[str] = []
-    for name in names:
+    for cls_or_base in [node.name] + [b for b in _all_bases(node.name, base_map)]:
+        for tn, acc in _model_class_accessors().get(cls_or_base, ()):
+            if tn in caps:
+                caps[tn].add(acc)
+    out: Dict[str, Set[str]] = {}
+    for name, cs in caps.items():
         if name in _TYPING_CONTAINERS or name not in base_map or _is_value_carried(name, base_map):
             continue
-        if name not in out:
-            out.append(name)
+        out[name] = cs
     return out
+
+
+def _all_bases(cls: str, base_map: Dict[str, List[str]]) -> List[str]:
+    seen: Set[str] = set()
+    frontier = list(base_map.get(cls, []))
+    while frontier:
+        b = frontier.pop(0)
+        if b in seen:
+            continue
+        seen.add(b)
+        frontier.extend(base_map.get(b, []))
+    return list(seen)
 
 
 def check_members(rep: Report, cls: str, node: ast.ClassDef, enum: bool) -> None:
@@ -1014,17 +1075,19 @@ def check_members(rep: Report, cls: str, node: ast.ClassDef, enum: bool) -> None
 
     for side, entry_pts, confirmed, known_fns, verb in (("parser", r_pts, confirmed_r, known_r, "reader"), ("writer", w_pts, confirmed_w, known_w, "writer")):
         have, lack = [], []
-        for m in members:
+        for m, maccs in members.items():
             pref = "read" if side == "parser" else "write"
             alt = "get" if side == "parser" else "set"
             # Reader side: building the member inline is legitimate coverage too —
-            # either through the model's create factory (`documentation.createChapter`)
-            # or by constructing it directly (`AnyInstanceRef()`). Those calls carry
-            # the member's own name, so they join the target set unfiltered; a member
-            # is uncovered only when NOTHING named after it is reachable.
-            # Writer side: emission goes through getters with no name evidence, so
-            # only the named helpers (write<Member>/set<Member>/aliases) count.
-            extra = (m, "create" + m) if side == "parser" else ()
+            # through the model's create factory (`documentation.createChapter`), by
+            # constructing it directly (`AnyInstanceRef()`), or via the attribute's
+            # mutators (`props.setCrcFlags`). Writer side: emission always goes
+            # through a model accessor (`props.getCrcFlags()`, `getDataConstrRules`)
+            # even when the element is emitted inline — those accessor names are the
+            # evidence for otherwise-invisible inline emission.
+            mutators = tuple(a for a in maccs if a.startswith(("set", "add"))) if side == "parser" else ()
+            getters = tuple(a for a in maccs if a.startswith("get")) if side == "writer" else ()
+            extra = ((m, "create" + m) + mutators + getters) if side == "parser" else (mutators + getters)
             targets = {t for t in (pref + m, alt + m) + _MEMBER_ALIASES.get((side, m), ()) + extra if t in known_fns or t in extra}
             if not targets:
                 lack.append(m)

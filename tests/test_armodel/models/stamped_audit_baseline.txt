@@ -37,9 +37,7 @@ ClientServerApplicationErrorMapping
 ClientServerOperationMapping
 CommunicationCluster
 CommunicationControllerMapping
-CompositeRuleBasedValueSpecification
 CompositionSwComponentType
-Compu
 CompuConstContent
 CompuNominatorDenominator
 CompuRationalCoeffs
@@ -57,13 +55,10 @@ CycleRepetitionType
 DataFilter
 DataPrototype
 DataPrototypeTransformationProps
-DelegationSwConnector
-DependencyOnArtifact
 Describable
 DiagEventDebounceAlgorithm
 DiagEventDebounceCounterBased
 DiagnosticAuthRoleProxy
-DiagnosticEnvConditionFormula
 DiagnosticEnvironmentalCondition
 DiagnosticEventNeeds
 DiagnosticIoControlNeeds
@@ -79,7 +74,6 @@ DocRevision
 Documentation
 DynamicPart
 DynamicPartAlternative
-EcuInstance
 EngineeringObject
 ErrorTracerNeeds
 ExecutionTime
@@ -104,7 +98,6 @@ ImplementationElementInParameterInstanceRef
 InnerDataPrototypeGroupInCompositionInstanceRef
 InnerRunnableEntityGroupInCompositionInstanceRef
 InstanceEventInCompositionInstanceRef
-InstanceReferenceValue
 IntegerValue
 InterpolationRoutine
 InterpolationRoutineMapping
@@ -125,23 +118,16 @@ McParameterElementGroup
 McSupportData
 McSwEmulationMethodSupport
 MemorySectionLocation
-MetaDataItem
 MetaDataItemSet
-MixedContentForOverviewParagraph
-MixedContentForParagraph
 ModeDrivenTransmissionModeCondition
 ModeGroupInAtomicSwcInstanceRef
 ModeInBswModuleDescriptionInstanceRef
-ModeSwitchPoint
 MsrQueryP2
 MsrQueryTopic1
 MultidimensionalTime
 NativeDeclarationString
 NmCluster
-NmConfig
-NmEcu
 Numerical
-NvBlockDescriptor
 OperationArgumentInComponentInstanceRef
 OrderedMaster
 OsTaskPreemptabilityEnum
@@ -181,7 +167,6 @@ Sd
 Sdf
 Sdg
 SdgCaption
-SdgClass
 SdgContents
 ServerCallPoint
 ServiceDependency
@@ -198,7 +183,6 @@ StructuredReq
 SubElementMapping
 SubElementRef
 SupervisedEntityNeeds
-SwAxisIndividual
 SwRecordLayoutV
 SwSystemconstDependentFormula
 SwSystemconstValue
@@ -214,7 +198,6 @@ TcpProps
 TcpRoleEnum
 TextTableMapping
 Tgroup
-TimeRangeType
 TimeSynchronization
 TimingClock
 TimingClockSyncAccuracy
