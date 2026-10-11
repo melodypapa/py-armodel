@@ -27,6 +27,11 @@ from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryChapter, MsrQue
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 
 
+def _strip_prefix(text: str, prefix: str) -> str:
+    # str.removeprefix is Python 3.9+; the CI matrix still runs 3.8.
+    return text[len(prefix) :] if text.startswith(prefix) else text
+
+
 class TestChapter:
     """Test class for Chapter class."""
 
@@ -80,7 +85,7 @@ class TestChapter:
         """Table 9.58 declares chapterModel (Mult 1) and helpEntry (Mult 0..1) as scalar attributes, so each
         accessor pair follows the scalar getter-first order of Rule 0001.11 (getter, then setter)."""
         source = inspect.getsource(Chapter)
-        order = [line.strip().split("(")[0].removeprefix("def ") for line in source.splitlines() if line.strip().startswith(("def get", "def set"))]
+        order = [line.strip().split("(")[0][4:] for line in source.splitlines() if line.strip().startswith(("def get", "def set"))]
         assert order == ["getChapterModel", "setChapterModel", "getHelpEntry", "setHelpEntry"]
 
 
@@ -103,7 +108,7 @@ class TestPredefinedChapter:
         """Table 9.62 declares chapterModel as Mult 1 / Kind aggr on an ARObject child, so the pair is the scalar
         get/set shape and follows the scalar getter-first order of Rule 0001.11 (getter, then setter)."""
         source = inspect.getsource(PredefinedChapter)
-        order = [line.strip().split("(")[0].removeprefix("def ") for line in source.splitlines() if line.strip().startswith(("def get", "def set"))]
+        order = [line.strip().split("(")[0][4:] for line in source.splitlines() if line.strip().startswith(("def get", "def set"))]
         assert order == ["getChapterModel", "setChapterModel"]
 
     def test_chapter_model_note_is_verbatim_with_tags_tail(self):
@@ -114,7 +119,7 @@ class TestPredefinedChapter:
         note = "This is the content of the predefined chapter."
 
         source = inspect.getsource(PredefinedChapter)
-        inline_comment = next(line.strip().removeprefix("# ") for line in source.splitlines() if line.strip().startswith("#") and note in line)
+        inline_comment = next(_strip_prefix(line.strip(), "# ") for line in source.splitlines() if line.strip().startswith("#") and note in line)
         assert inline_comment == f"{note} {tags_tail}"
 
         assert PredefinedChapter.getChapterModel.__doc__ is not None
@@ -156,7 +161,7 @@ class TestTopic1:
         """Table 9.73 declares helpEntry and topicContent as Mult 0..1 scalar attributes, so each accessor pair
         follows the scalar getter-first order of Rule 0001.11 (getter, then setter)."""
         source = inspect.getsource(Topic1)
-        order = [line.strip().split("(")[0].removeprefix("def ") for line in source.splitlines() if line.strip().startswith(("def get", "def set"))]
+        order = [line.strip().split("(")[0][4:] for line in source.splitlines() if line.strip().startswith(("def get", "def set"))]
         assert order == ["getHelpEntry", "setHelpEntry", "getTopicContent", "setTopicContent"]
 
     def test_is_variation_point_capable(self):
