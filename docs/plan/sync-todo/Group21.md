@@ -479,7 +479,7 @@ pending that confirmation.
     AbstractVariationRestriction) → most-derived SdgAbstractPrimitiveAttribute; Class cell
     has no "(abstract)" so no instantiation guard; docstring verbatim from the Table 4.28
     Class cell via the spec shifted Class-cell convention);
-    sync commit <TBD>
+    sync commit 1297ebe97
 
 - [ ] `SdgPrimitiveAttributeWithVariation` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.30, p.101
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/SpecialDataDef.py

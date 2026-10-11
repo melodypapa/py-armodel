@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 818 | 42.8% |
+| [x] Done | 819 | 42.9% |
 | [x] Deferred | 83 | 4.3% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 999 | 52.3% |
+| [ ] Deferred | 998 | 52.3% |
 | [ ] Implemented | 10 | 0.5% |
 | [ ] Created | 0 | 0.0% |
 | [ ] Pending | 0 | 0.0% |
@@ -1540,7 +1540,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `SdgElementWithGid`                                     | [x] Done    | f7d552948b                               | Group21          |
 | `SdgForeignReference`                                   | [ ] Deferred| N/A                                      | Group21          |
 | `SdgForeignReferenceWithVariation`                      | [ ] Deferred| N/A                                      | Group21          |
-| `SdgPrimitiveAttribute`                                 | [ ] Deferred| N/A                                      | Group21          |
+| `SdgPrimitiveAttribute`                                 | [x] Done    | 1297ebe97b                               | Group21          |
 | `SdgPrimitiveAttributeWithVariation`                    | [ ] Deferred| N/A                                      | Group21          |
 | `SdgReference`                                          | [ ] Deferred| N/A                                      | Group21          |
 | `SdgTailoring`                                          | [ ] Deferred| N/A                                      | Group36          |
