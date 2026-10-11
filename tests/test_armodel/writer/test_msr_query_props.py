@@ -62,8 +62,8 @@ class TestMsrQueryPropsWriter:
         element = ET.fromstring(
             """<MSR-QUERY-PROPS xmlns="http://autosar.org/schema/r4.0">
 <MSR-QUERY-NAME>MyQuery</MSR-QUERY-NAME>
-<MSR-QUERY-ARG SI="a1"><ARG>v1</ARG></MSR-QUERY-ARG>
-<MSR-QUERY-ARG SI="a2"><ARG>v2</ARG></MSR-QUERY-ARG>
+<MSR-QUERY-ARG SI="a1">v1</MSR-QUERY-ARG>
+<MSR-QUERY-ARG SI="a2">v2</MSR-QUERY-ARG>
 <COMMENT>a comment</COMMENT></MSR-QUERY-PROPS>"""
         )
 
