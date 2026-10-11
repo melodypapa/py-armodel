@@ -270,7 +270,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `Chapter`                                               | [x] Done    | bfaef7d30e                               | Group22          |
 | `ChapterContent`                                        | [x] Done    | dee07d0a3a                               | Group9           |
 | `ChapterEnumBreak`                                      | [x] Done    | 20e6ee88d0                               | Group3           |
-| `ChapterModel`                                          | [x] Done    | d3d61c9b2e                               | Group9           |
+| `ChapterModel`                                          | [x] Done    | 6a3f858082                               | Group9           |
 | `ChapterOrMsrQuery`                                     | [x] Done    | 53f6d29561                               | Group22          |
 | `ClassContentConditional`                               | [ ] Deferred| N/A                                      | Group36          |
 | `ClassTailoring`                                        | [ ] Deferred| N/A                                      | Group36          |

@@ -524,7 +524,7 @@ Status: **29/29** completed
 | `LVerbatim`                   | [x] Done | d616f3d1ef |
 | `ARList`                      | [x] Done | 2151ca0302 |
 | `ChapterContent`              | [x] Done | dee07d0a3a |
-| `ChapterModel`                | [x] Done | d3d61c9b2e |
+| `ChapterModel`                | [x] Done | 6a3f858082 |
 | `PrmCharContents`             | [x] Done | 9494a593a2 |
 | `PrmCharNumericalValue`       | [x] Done | 2f1c852dbb |
 | `PrmCharAbsTol`               | [x] Done | e6c467d5f8 |
