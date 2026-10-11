@@ -3371,6 +3371,14 @@ class MetaClassName(ARLiteral):
     Name of a class in the AUTOSAR Meta-Model. Tags: xml.xsd.customType=META-CLASS-NAME xml.xsd.pattern=[A-Z][a-zA-Z0-9_]* xml.xsd.type=string
     """
 
+    # MetaClassName method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.36, p.102
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
 
 class CIdentifierWithIndex(ARLiteral):
     r"""

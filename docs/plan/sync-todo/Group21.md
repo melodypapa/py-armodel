@@ -730,15 +730,28 @@ pending that confirmation.
 
 - [ ] `MetaClassName` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.36, p.102; also AUTOSAR_TPS_GenericStructureTemplate (R4.3.1) Table 4.39, p.83; also Table 4.66, p.94
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+    - note (Step 1): Primitive table (Package + Note + Tags only; no Attribute/Base rows):
+      "Name of a class in the AUTOSAR Meta-Model." Tags: xml.xsd.customType=META-CLASS-NAME
+      xml.xsd.pattern=[A-Z][a-zA-Z0-9_]* xml.xsd.type=string; p.102 via pdf_page.py;
+      cross-checked against AUTOSAR_00052.xsd line 140348 (complexType META-CLASS-NAME);
+      R4.3.1 Table 4.39 rendering is older ("Name of an class", no Tags) — R23-11 authoritative.
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+    - note (Step 5): N/A — value-carried primitive with no own XML element and no synced
+      consuming attribute (no parser/writer dispatch exists); checklist reader/writer [—]
+      (audit MEMBER: "value-carried type — serialized as text/attribute value").
+  - [x] Step 6 — Update parser & writer (Green)
+    - note (Step 6): N/A — no changes needed (type resolves from the consuming attribute).
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+    - note (Step 8): none.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-12 (audit PASS, 1 BASE
+    warning for the value-carried type, missing-marker INFO expected pre-9b; 4 model tests
+    + 307 PrimitiveTypes sibling tests + 4 export/annotation gate tests passed; mypy,
+    ruff, black clean)
 - [ ] `AbstractValueRestriction` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.37, p.103; also FO_TPS_StandardizationTemplate Table 6.9, p.87
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ModelRestrictionTypes.py
   - [x] Step 1 — Sync members & description from spec
