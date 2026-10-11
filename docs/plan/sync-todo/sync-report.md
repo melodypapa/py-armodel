@@ -10,12 +10,12 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 816 | 42.7% |
-| [x] Deferred | 84 | 4.4% |
+| [x] Done | 817 | 42.8% |
+| [x] Deferred | 83 | 4.3% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 988 | 51.7% |
+| [ ] Deferred | 1000 | 52.4% |
 | [ ] Implemented | 10 | 0.5% |
-| [ ] Created | 12 | 0.6% |
+| [ ] Created | 0 | 0.0% |
 | [ ] Pending | 0 | 0.0% |
 
 | Class Name                                              | Status      | Commit ID                                | Groups           |
@@ -134,16 +134,16 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `BaseTypeDirectDefinition`                              | [ ] Deferred| N/A                                      | Group28          |
 | `Baseline`                                              | [ ] Deferred| N/A                                      | Group36          |
 | `BinaryManifestAddressableObject`                       | [ ] Deferred| N/A                                      | Group34          |
-| `BinaryManifestItem`                                    | [ ] Created | N/A                                      | Group34          |
-| `BinaryManifestItemDefinition`                          | [ ] Created | N/A                                      | Group34          |
+| `BinaryManifestItem`                                    | [ ] Deferred| N/A                                      | Group34          |
+| `BinaryManifestItemDefinition`                          | [ ] Deferred| N/A                                      | Group34          |
 | `BinaryManifestItemNumericalValue`                      | [ ] Deferred| N/A                                      | Group34          |
 | `BinaryManifestItemPointerValue`                        | [ ] Deferred| N/A                                      | Group34          |
 | `BinaryManifestItemValue`                               | [ ] Deferred| N/A                                      | Group34          |
 | `BinaryManifestMetaDataField`                           | [ ] Deferred| N/A                                      | Group35          |
-| `BinaryManifestProvideResource`                         | [ ] Created | N/A                                      | Group34          |
-| `BinaryManifestRequireResource`                         | [ ] Created | N/A                                      | Group34          |
+| `BinaryManifestProvideResource`                         | [ ] Deferred| N/A                                      | Group34          |
+| `BinaryManifestRequireResource`                         | [ ] Deferred| N/A                                      | Group34          |
 | `BinaryManifestResource`                                | [ ] Deferred| N/A                                      | Group34          |
-| `BinaryManifestResourceDefinition`                      | [ ] Created | N/A                                      | Group34          |
+| `BinaryManifestResourceDefinition`                      | [ ] Deferred| N/A                                      | Group34          |
 | `BindingTimeEnum`                                       | [x] Done    | 53bf180881                               | Group8           |
 | `BlockState`                                            | [ ] Deferred| N/A                                      | Group36          |
 | `BlueprintFormula`                                      | [x] Done    | 6d8ace0288                               | Group8           |
@@ -367,17 +367,17 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `CouplingPortStructuralElement`                         | [x] Done    | 8404bbb94a                               | Group6           |
 | `CouplingPortTrafficClassAssignment`                    | [ ] Deferred| aacc9860e9                               | Group30          |
 | `CpSoftwareCluster`                                     | [x] Done    | 1194e00ca2                               | Group5           |
-| `CpSoftwareClusterBinaryManifestDescriptor`             | [ ] Created | N/A                                      | Group34          |
+| `CpSoftwareClusterBinaryManifestDescriptor`             | [ ] Deferred| N/A                                      | Group34          |
 | `CpSoftwareClusterCommunicationResource`                | [ ] Deferred| N/A                                      | Group34          |
 | `CpSoftwareClusterCommunicationResourceProps`           | [ ] Deferred| N/A                                      | Group34          |
 | `CpSoftwareClusterMappingSet`                           | [ ] Deferred| N/A                                      | Group31          |
 | `CpSoftwareClusterResource`                             | [ ] Deferred| 9c0046237b                               | Group26          |
-| `CpSoftwareClusterResourcePool`                         | [ ] Created | N/A                                      | Group34          |
+| `CpSoftwareClusterResourcePool`                         | [ ] Deferred| N/A                                      | Group34          |
 | `CpSoftwareClusterResourceToApplicationPartitionMapping` | [ ] Deferred| N/A                                      | Group31          |
-| `CpSoftwareClusterServiceResource`                      | [ ] Created | N/A                                      | Group34          |
+| `CpSoftwareClusterServiceResource`                      | [ ] Deferred| N/A                                      | Group34          |
 | `CpSoftwareClusterToApplicationPartitionMapping`        | [ ] Deferred| N/A                                      | Group31          |
 | `CpSoftwareClusterToEcuInstanceMapping`                 | [ ] Deferred| N/A                                      | Group31          |
-| `CpSoftwareClusterToResourceMapping`                    | [ ] Created | N/A                                      | Group34          |
+| `CpSoftwareClusterToResourceMapping`                    | [ ] Deferred| N/A                                      | Group34          |
 | `CpSwClusterResourceToDiagDataElemMapping`              | [ ] Deferred| 9c0046237b                               | Group26          |
 | `CpSwClusterResourceToDiagFunctionIdMapping`            | [ ] Deferred| 9c0046237b                               | Group26          |
 | `CpSwClusterToDiagEventMapping`                         | [ ] Deferred| 9c0046237b                               | Group26          |
@@ -994,7 +994,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `GlobalTimeCouplingPortProps`                           | [ ] Deferred| N/A                                      | Group34          |
 | `GlobalTimeCrcSupportEnum`                              | [ ] Deferred| N/A                                      | Group34          |
 | `GlobalTimeCrcValidationEnum`                           | [ ] Deferred| N/A                                      | Group34          |
-| `GlobalTimeDomain`                                      | [ ] Created | N/A                                      | Group34          |
+| `GlobalTimeDomain`                                      | [ ] Deferred| N/A                                      | Group34          |
 | `GlobalTimeEthMaster`                                   | [ ] Deferred| N/A                                      | Group34          |
 | `GlobalTimeEthSlave`                                    | [ ] Deferred| N/A                                      | Group34          |
 | `GlobalTimeFrMaster`                                    | [ ] Deferred| N/A                                      | Group34          |
@@ -1408,7 +1408,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `PncMapping`                                            | [ ] Deferred| N/A                                      | Group31          |
 | `PortAPIOption`                                         | [x] Done    | 7c67628122                               | Group2           |
 | `PortDefinedArgumentValue`                              | [x] Done    | 7fc79e4b73                               | Group2           |
-| `PortElementToCommunicationResourceMapping`             | [ ] Created | N/A                                      | Group34          |
+| `PortElementToCommunicationResourceMapping`             | [ ] Deferred| N/A                                      | Group34          |
 | `PortGroup`                                             | [x] Done    | d6512dbbec                               | Group2           |
 | `PortGroupInSystemInstanceRef`                          | [x] Done    | 19c327cca6                               | Group5           |
 | `PortInCompositionTypeInstanceRef`                      | [x] Done    | a6d84b2601                               | Group2           |
@@ -1465,7 +1465,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `ReferenceCondition`                                    | [ ] Deferred| N/A                                      | Group36          |
 | `ReferenceTailoring`                                    | [ ] Deferred| N/A                                      | Group36          |
 | `ReferenceValueSpecification`                           | [ ] Deferred| 8186029562                               | Group28          |
-| `Referrable`                                            | [x] Deferred| N/A                                      | Group21          |
+| `Referrable`                                            | [x] Done    | N/A                                      | Group21          |
 | `ReferrableSubtypesEnum`                                | [x] Done    | a097cb3d4f                               | Group21          |
 | `RegularExpression`                                     | [ ] Deferred| N/A                                      | Group21          |
 | `RelativeTolerance`                                     | [ ] Deferred| 358656e2a4                               | Group31          |
@@ -1837,7 +1837,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `TransformationDescription`                             | [ ] Deferred| N/A                                      | Group28          |
 | `TransformationISignalProps`                            | [x] Done    | 757aea1d17                               | Group6           |
 | `TransformationProps`                                   | [ ] Deferred| N/A                                      | Group34          |
-| `TransformationPropsSet`                                | [ ] Created | N/A                                      | Group34          |
+| `TransformationPropsSet`                                | [ ] Deferred| N/A                                      | Group34          |
 | `TransformationTechnology`                              | [ ] Deferred| fecff00ac5                               | Group27          |
 | `TransformerClassEnum`                                  | [ ] Deferred| N/A                                      | Group28          |
 | `TransformerHardErrorEvent`                             | [ ] Deferred| 8f21cc9672                               | Group28          |
