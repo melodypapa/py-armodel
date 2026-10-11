@@ -11,8 +11,6 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
     TDEventTriggerTypeEnum,
     TDEventVariableDataPrototype,
     TDEventVariableDataPrototypeTypeEnum,
-    TDEventVfb,
-    TDEventVfbPort,
     TDEventVfbReference,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, RefType
