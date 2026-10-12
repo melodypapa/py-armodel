@@ -359,7 +359,12 @@ pending that confirmation.
   - [x] Step 7 — Update checklist comment
     - note (Step 7): 6-column block + release column; marker withheld (batch mode).
   - [x] Step 8 — Deviations
-    - note (Step 8): extendsMetaClass typed Optional[str] (MetaClassName primitive has no src class); sdgConstraint typed List[RefType] (TraceableText ditto); SdgReference carries NO gid per its Base row/XSD group.
+    - note (Step 8, original wording, 2026-09-30 — partly superseded, see below):
+      extendsMetaClass typed Optional[str]; sdgConstraint typed List[RefType] "TraceableText
+      ditto"; SdgReference carries NO gid per its Base row/XSD group. **Caveat:** both "missing
+      src class" rationales were written before `MetaClassName`/`TraceableText` existed in src
+      and were never re-checked — the first turned out to be a real defect, the second a false
+      positive. Do not read either phrase as current evidence.
     - note (Step 8, partial resolution 2026-10-12): the **extendsMetaClass** deviation is
       RESOLVED and removed (Rule 0014 to-fix) — same stale-rationale defect as
       `SdgAbstractForeignReference.destMetaClass` fixed in commit 47b29adc7: MetaClassName was
@@ -369,11 +374,30 @@ pending that confirmation.
       needed, since XSD l.102102 types `EXTENDS-META-CLASS` as `AR:META-CLASS-NAME`, the same
       customType as `DEST-META-CLASS`. 4 call sites rewired (1 reader + 1 writer + 2 test asserts)
       plus 2 test setters; round-trip re-verified to preserve the spec type.
-      **Still open:** the **sdgConstraint** `List[RefType]` deviation remains — its stated reason
-      ("TraceableText ditto / no src class") is *also* stale, since `TraceableText` exists in
-      `M2/MSR/Documentation/BlockElements/RequirementsTracing.py` with its own Table 9.30. Left
-      alone here as it is a different attribute with a different type question (a `*`-multiplicity
-      `ref`, so the spec shape may well warrant `RefType`); flagged for its own pass.
+      **Investigated 2026-10-12 — the `sdgConstraint` "deviation" is NOT one; no code change.**
+      The original wording ("TraceableText ditto", i.e. missing src class) conflated two
+      independent spec columns: `TraceableText` is the **`Type`** column (what the reference
+      points at), while **`ref`** in the **`Kind`** column is what fixes the Python shape. For
+      `Kind ref` Rule 0001.5 mandates the `Ref`/`Refs` suffix + `RefType` — the target class is
+      never the field type, since the model stores a reference, not an instance. Three
+      independent confirmations:
+      (a) **Direct siblings in the same file** — `subSdg` (Table 4.31, Type `SdgClass`, Kind
+      `ref`) → `subSdgRef: Optional[RefType]` and `destSdg` (Table 4.32, Type `SdgClass`, Kind
+      `ref`) → `destSdgRef: Optional[RefType]`; both name a spec class that *does* exist in src
+      and are still `RefType`. Identical in kind, differing only in `0..1` vs `*`.
+      (b) **XSD ground truth** — `SDG-CONSTRAINT-REF` (l.102137-102144) is a `simpleContent`
+      extension of `AR:REF` with a required `DEST`, byte-for-byte the same shape as
+      `SUB-SDG-REF` (l.102017) and `DEST-SDG-REF` (l.102456).
+      (c) **The target type is not lost** — it rides the `DEST` attribute
+      (`TRACEABLE-TEXT--SUBTYPES-ENUM` → `TRACEABLE-TEXT`, l.125421), which the existing
+      reader/writer already round-trips; both parser and writer tests assert
+      `getDest() == "TRACEABLE-TEXT"`.
+      Multiplicity is also correct (`*` → `List[RefType]` + `addSdgConstraintRef` /
+      `getSdgConstraintRefs`, Rule 0001.4), the `Refs` suffix is applied, and reader/writer
+      coverage is `SDG-CONSTRAINT-REFS/SDG-CONSTRAINT-REF` via `getChildElementRefTypeList`.
+      **Retyping this to `List[TraceableText]` would have INTRODUCED a real deviation** and
+      broken the round-trip, since the XML carries a reference with `DEST`, not an embedded
+      `TraceableText`. The claim is retracted, not left open.
       SdgReference carries NO gid per its Base row/XSD group — accepted, unchanged.
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (362 passed / 0 failed
     family suites; 14,043 passed / 0 failed models+parser+writer sweep); 9b confirmed
