@@ -1250,7 +1250,7 @@ pending that confirmation.
     - note: marker `# Spec verified: R23-11 (2026-10-12, user 9b confirmation)` written
       immediately after the `# Spec:` line (Rule 0012.1); post-stamp audit `STAMP` clean
       ⇒ `=> PASS`.
-- [ ] `CategoryString` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.47, p.109
+- [x] `CategoryString` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.47, p.109
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
   - [x] Step 1 — Sync members & description from spec
     - note (Step 1): Table 4.47 (trailing-caption, p.109 via pdf_page.py); Note verbatim
@@ -1274,8 +1274,58 @@ pending that confirmation.
       (batch mode).
   - [x] Step 8 — Deviations
     - note (Step 8): none; no missing referenced classes.
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (127 passed / 0 failed
-    test_PrimitiveTypes.py); 9b deferred to batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+    - note (9b, Rule 0026 re-derived from source 2026-10-12, not trusted from the row's
+      steps-1-8 prose — user confirmed): **no drift found.** All 15 pre-stamp items pass.
+      Table 4.47 is a trailing-caption `Primitive` table (md L2930-2935, body above the
+      caption) with Package/Note rows only ⇒ zero own members, so the field-to-spec
+      cross-check passes **both** directions; no Base row ⇒ `ARLiteral` per Rule 0001.10,
+      runtime `__bases__ == (ARLiteral,)` confirmed (audit's SPEC-BASE INFO is that missing
+      Base row, verified by eye). Rules 0001.5/0001.6/0011/0008/0022 are vacuous (zero
+      members) — audit SPACING clean, Rule 0022 gate 3 passed, no `# type:` in the file.
+      **Docstrings verified by script diff, not by eye** (script bound to the Table 4.47
+      block only): class docstring prose byte-equal to the `Note` prose after
+      whitespace normalization, and the `Tags:` tail carries all 3 spec tags in order with
+      no extras or duplicates; the ``` `` ``` literal-code rendering of the pattern matches
+      the stamped siblings `CIdentifier` (4.45) / `CIdentifierWithIndex` (4.46).
+      Independently corroborated by the XSD: `<xsd:documentation>` of `CATEGORY-STRING`
+      (AUTOSAR_00052.xsd l.132313-132315) is byte-equal to the same prose and its appinfo
+      tags (l.132316) agree. `__init__` carries no docstring.
+      **Rule 0013.2 leaf pair confirmed on BOTH sides independently** (the writer's presence
+      was not used to infer the reader's): `getChildElementOptionalCategoryString`
+      (abstract_arxml_parser.py l.256 — constructs `CategoryString()`, `readARType`,
+      `setValue`) and `setChildElementOptionalCategoryString`
+      (abstract_arxml_writer.py l.178 — delegates to `setChildElementOptionalLiteral`);
+      3 typed consumer call sites each side, all on `CATEGORY`. Checklist `reader [—]`
+      `writer [—]` on the `__init__` row is correct (no own XML element), and the audit
+      BASE gate confirms `T` is preserved through `readARType`/`writeARType`.
+      Rule 0007: `GeneralTemplateClasses` has no subpackage dirs ⇒ leaf package ⇒
+      `PrimitiveTypes.py` correct; `armodel.CategoryString` resolves to the same class
+      object at runtime. Rule 0014: **no deviations** — the only mention of this class in
+      `docs/examples/method_deviation_by_class_v2.md` is under *"Appendix: classes without a
+      spec attribute table"*, which is the correct description of Table 4.47 rather than a
+      deviation row. Rule 0016.3: the R23-11 table exists, so the R4.3.1 fallback
+      (Table 4.50, p.89) correctly is **not** cited. Zero pre-existing markers in the block,
+      so the stamp was written once, in 9b.
+      **9a battery (re-run in this pass):** full suite **26,142 passed / 0 failed**
+      (26,129 unit + 13 integration round-trip, XSD validation gates ON per Rule 0027);
+      `test_PrimitiveTypes.py -k CategoryString` 2 passed; Rule 0022 member-annotation gate
+      3 passed; `mypy` **Success: no issues found in 279 source files** (the 13 pre-existing
+      openpyxl errors recorded on the SdgForeignReferenceWithVariation row are **not**
+      present in this environment); `ruff check src/armodel tests scripts` clean;
+      `flake8 --select=E9,F63,F7,F82` clean; `black --check` (200 cols) clean;
+      set-based AST checklist-vs-methods script PASS (`{__init__} == {__init__}`, 1 row,
+      6-column + release column, no `# type:`); `audit_class.py` => PASS on every gate;
+      `regen_sync_todo.py --check` => reports up to date.
+      **Direct lossless round-trip** (written for this pass, XSD validation left ON, not
+      opted out): set `CATEGORY` on a `ClientServerInterface` → `ARXMLWriter.save` →
+      `ARXMLParser.load` ⇒ value preserved, re-parses as a `CategoryString` instance (not a
+      bare `ARLiteral`/plain str — the Rule 0013.2 failure mode), and the unset case omits
+      the element entirely and re-parses as `None`.
+      Marker `# Spec verified: R23-11 (2026-10-12, user 9b confirmation)` written
+      immediately after the `# Spec:` line (Rule 0012.1); post-stamp audit STAMP clean,
+      `=> PASS`; exactly 1 marker in the block.
+    - note: sync commit recorded on the Step 9 line.
 - [ ] `DateTime` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.48, p.109
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
   - [x] Step 1 — Sync members & description from spec
