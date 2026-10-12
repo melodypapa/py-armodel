@@ -822,7 +822,7 @@ pending that confirmation.
       placeholder row, so nothing withholds the stamp.
       Marker `# Spec verified: R23-11 (2026-10-12, user 9b confirmation)` written
       immediately after the `# Spec:` line (Rule 0012.1); post-stamp audit STAMP clean,
-      `=> PASS`.
+      `=> PASS`; sync commit 13929a006.
     - note: `SdgForeignReferenceWithVariation` (Table 4.35) deliberately **not** touched
       in this session — Rule 0017.1, one class per session.
     - note: `regen_sync_todo.py --check` reported drift on two **pre-existing** rows

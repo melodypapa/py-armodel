@@ -1542,7 +1542,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `SdgClass`                                              | [x] Done    | cfa7402dec                               | Group21          |
 | `SdgDef`                                                | [x] Done    | N/A                                      | Group21          |
 | `SdgElementWithGid`                                     | [x] Done    | f7d552948b                               | Group21          |
-| `SdgForeignReference`                                   | [x] Done    | N/A                                      | Group21          |
+| `SdgForeignReference`                                   | [x] Done    | 13929a0060                               | Group21          |
 | `SdgForeignReferenceWithVariation`                      | [ ] Deferred| N/A                                      | Group21          |
 | `SdgPrimitiveAttribute`                                 | [x] Done    | 1297ebe97b                               | Group21          |
 | `SdgPrimitiveAttributeWithVariation`                    | [x] Done    | e8e6234b2d                               | Group21          |

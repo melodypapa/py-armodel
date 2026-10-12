@@ -894,7 +894,7 @@ Status: **35/59** completed
 | `SdgAggregationWithVariation`        | [x] Done     | 207e9e3241 |
 | `SdgReference`                       | [x] Done     | e9ff581c2c |
 | `SdgAbstractForeignReference`        | [x] Done     | 47b29adc7d |
-| `SdgForeignReference`                | [x] Done     | N/A        |
+| `SdgForeignReference`                | [x] Done     | 13929a0060 |
 | `SdgForeignReferenceWithVariation`   | [ ] Pending* | N/A        |
 | `MetaClassName`                      | [ ] Pending* | N/A        |
 | `AbstractValueRestriction`           | [ ] Pending* | N/A        |
