@@ -58,6 +58,60 @@ def test_resolve_row_normalizes_commit_id_to_git_abbreviation_length():
     assert len(row["commit"]) >= 10
 
 
+def test_resolve_row_reads_audit_only_flip_from_checklist_provenance():
+    provenance = subprocess.run(["git", "rev-parse", "HEAD"], check=True, capture_output=True, text=True).stdout.strip()
+    expected = subprocess.run(
+        ["git", "rev-parse", "--verify", "--quiet", "--short=10", f"{provenance}^{{commit}}"],
+        check=True,
+        capture_output=True,
+        text=True,
+    ).stdout.strip()
+
+    row = MODULE.resolve_row(
+        "Group29",
+        "SharedClass",
+        "x",
+        "- [x] `SharedClass` — AREnum — R23-11 Table 7.32, p.562",
+        f"  - Audit-only flip (Rule 0023/0026): class already carries `# Spec verified: R23-11` in src (checklist provenance `{provenance}`).",
+        {"SharedClass"},
+        set(),
+        set(),
+        {},
+        {},
+        {"SharedClass": {"Group29"}},
+    )
+
+    assert row["commit"] == expected
+    assert row["commit"] != "N/A"
+
+
+def test_resolve_row_prefers_sync_commit_over_checklist_provenance():
+    sync_commit = subprocess.run(["git", "rev-parse", "HEAD"], check=True, capture_output=True, text=True).stdout.strip()
+    provenance = subprocess.run(["git", "rev-parse", "HEAD~1"], check=True, capture_output=True, text=True).stdout.strip()
+    expected = subprocess.run(
+        ["git", "rev-parse", "--verify", "--quiet", "--short=10", f"{sync_commit}^{{commit}}"],
+        check=True,
+        capture_output=True,
+        text=True,
+    ).stdout.strip()
+
+    row = MODULE.resolve_row(
+        "Group29",
+        "SharedClass",
+        "x",
+        "- [x] `SharedClass` — AREnum — R23-11 Table 7.32, p.562",
+        f"  - note (Step 9): sync commit {sync_commit}\n  - note: checklist provenance `{provenance}`",
+        {"SharedClass"},
+        set(),
+        set(),
+        {},
+        {},
+        {"SharedClass": {"Group29"}},
+    )
+
+    assert row["commit"] == expected
+
+
 def test_main_uses_utf8_for_all_sync_file_reads_and_writes(tmp_path, monkeypatch):
     source = tmp_path / "src"
     source.mkdir()

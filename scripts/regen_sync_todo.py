@@ -10,6 +10,10 @@ Conventions this encodes (do not "simplify" without re-deriving them):
   Group row text — they are kept as long as they resolve to a real commit.
 - `commit:` patterns are harvested from the row HEADER only; block-wide harvesting
   grabs unrelated prose (dependency notes, parallel-worktree mentions).
+- Row-scoped tiers are stamp commit > sync commit > checklist provenance, all searched
+  across header+block. The provenance tier covers audit-only flips (Rule 0023/0026),
+  which change no src code and so have no sync commit of their own but cite the earlier
+  src sync commit as the class's checklist provenance.
 - Repeated class rows may occur within one Group file, but the same class may not
   appear in different Group files; cross-group duplicates fail parsing immediately.
 - The report's commit cell is a fallback source only when a class appears in one group.
@@ -36,6 +40,7 @@ COMMIT_ABBREV_LENGTH = 10
 HASH_RE = re.compile(r"[0-9a-fA-F]{7,40}")
 STAMP_COMMIT_RE = re.compile(r"stamp commit[:\s]*`?([0-9a-fA-F]{7,40})`?")
 SYNC_COMMIT_RE = re.compile(r"sync commit[:\s]*`?([0-9a-fA-F]{7,40})`?")
+PROVENANCE_COMMIT_RE = re.compile(r"checklist provenance[:\s]*`?([0-9a-fA-F]{7,40})`?")
 COMMIT_RE = re.compile(r"commit[:\s]*`?([0-9a-fA-F]{7,40})`?")
 ROW_RE = re.compile(r"^\s*- \[([ x])\] `([A-Za-z0-9_]+)`")
 STEP_RE = re.compile(r"^\s*- \[([ x])\] \*{0,2}Step (\d+)")
@@ -206,13 +211,11 @@ def resolve_row(g, name, checked, header_line, block, stamped, stubs, defined, c
     cv = cv_lst.pop(0) if cv_lst else None
     cv_ok = cv is not None and cv != "N/A" and revparse_ok(cv)
     sc = None
-    m = STAMP_COMMIT_RE.search(row_text)
-    if m and is_hash(m.group(1)) and revparse_ok(m.group(1)):
-        sc = m.group(1)
-    if not sc:
-        m = SYNC_COMMIT_RE.search(row_text)
+    for pattern in (STAMP_COMMIT_RE, SYNC_COMMIT_RE, PROVENANCE_COMMIT_RE):
+        m = pattern.search(row_text)
         if m and is_hash(m.group(1)) and revparse_ok(m.group(1)):
             sc = m.group(1)
+            break
     hc = None
     for m in COMMIT_RE.finditer(header_line):
         if is_hash(m.group(1)) and revparse_ok(m.group(1)):

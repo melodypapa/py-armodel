@@ -883,8 +883,8 @@ Status: **39/59** completed
 | `LLongName`                          | [x] Done     | c09bc8067d |
 | `MixedContentForLongName`            | [x] Done     | fdc7811f86 |
 | `Referrable`                         | [x] Done     | 4e60d3a344 |
-| `ReferrableSubtypesEnum`             | [x] Done     | N/A        |
-| `SdgDef`                             | [x] Done     | N/A        |
+| `ReferrableSubtypesEnum`             | [x] Done     | a097cb3d4f |
+| `SdgDef`                             | [x] Done     | c7d3958065 |
 | `SdgElementWithGid`                  | [x] Done     | f7d552948b |
 | `SdgClass`                           | [x] Done     | cfa7402dec |
 | `SdgAttribute`                       | [x] Done     | 41952ae2fd |
@@ -1519,12 +1519,12 @@ Status: **20/74** completed
 
 | Class Name                                     | Status       | Commit ID  |
 | ---------------------------------------------- | ------------ | ---------- |
-| `SwcExclusiveAreaPolicy`                       | [x] Done     | N/A        |
-| `RteApiReturnValueProvisionEnum`               | [x] Done     | N/A        |
+| `SwcExclusiveAreaPolicy`                       | [x] Done     | 95119649ae |
+| `RteApiReturnValueProvisionEnum`               | [x] Done     | e3d1262da1 |
 | `ExternalTriggeringPoint`                      | [ ] Pending* | 49038a9617 |
 | `IncludedDataTypeSet`                          | [ ] Pending* | 7ddafb5f11 |
 | `SwcServiceDependency`                         | [ ] Pending* | 38630f7a82 |
-| `SymbolicNameProps`                            | [x] Done     | N/A        |
+| `SymbolicNameProps`                            | [x] Done     | 16ed72ebe2 |
 | `VariationPointProxy`                          | [ ] Pending* | 128ce8e538 |
 | `SwcModeManagerErrorEvent`                     | [ ] Pending* | 545278ad92 |
 | `SensorActuatorSwComponentType`                | [ ] Pending* | 5395714191 |
@@ -1534,29 +1534,29 @@ Status: **20/74** completed
 | `NvBlockSwComponentType`                       | [ ] Pending* | d70be3bb2d |
 | `SwComponentDocumentation`                     | [ ] Pending* | 35074e8030 |
 | `AdditionalBindingTimeEnum`                    | [ ] Pending* | b72807df62 |
-| `FunctionInhibitionAvailabilityNeeds`          | [x] Done     | N/A        |
-| `DiagnosticOperationCycleNeeds`                | [x] Done     | N/A        |
-| `OperationCycleTypeEnum`                       | [x] Done     | N/A        |
-| `DiagnosticEnableConditionNeeds`               | [x] Done     | N/A        |
-| `EventAcceptanceStatusEnum`                    | [x] Done     | N/A        |
-| `DiagnosticStorageConditionNeeds`              | [x] Done     | N/A        |
-| `StorageConditionStatusEnum`                   | [x] Done     | N/A        |
-| `IndicatorStatusNeeds`                         | [x] Done     | N/A        |
-| `DiagnosticIndicatorTypeEnum`                  | [x] Done     | N/A        |
+| `FunctionInhibitionAvailabilityNeeds`          | [x] Done     | b41f6ecacf |
+| `DiagnosticOperationCycleNeeds`                | [x] Done     | b41f6ecacf |
+| `OperationCycleTypeEnum`                       | [x] Done     | b41f6ecacf |
+| `DiagnosticEnableConditionNeeds`               | [x] Done     | b41f6ecacf |
+| `EventAcceptanceStatusEnum`                    | [x] Done     | b41f6ecacf |
+| `DiagnosticStorageConditionNeeds`              | [x] Done     | b41f6ecacf |
+| `StorageConditionStatusEnum`                   | [x] Done     | 89407b6f0f |
+| `IndicatorStatusNeeds`                         | [x] Done     | 28746ce3cc |
+| `DiagnosticIndicatorTypeEnum`                  | [x] Done     | b41f6ecacf |
 | `ObdRatioServiceNeeds`                         | [ ] Pending* | 86d72d7d2c |
-| `ObdControlServiceNeeds`                       | [x] Done     | N/A        |
-| `ObdRatioConnectionKindEnum`                   | [x] Done     | N/A        |
-| `ObdPidServiceNeeds`                           | [x] Done     | N/A        |
-| `ObdInfoServiceNeeds`                          | [x] Done     | N/A        |
-| `ObdMonitorServiceNeeds`                       | [x] Done     | N/A        |
-| `DiagnosticMonitorUpdateKindEnum`              | [x] Done     | N/A        |
+| `ObdControlServiceNeeds`                       | [x] Done     | 7df83dbc96 |
+| `ObdRatioConnectionKindEnum`                   | [x] Done     | ed19e28c58 |
+| `ObdPidServiceNeeds`                           | [x] Done     | 4a01b231fd |
+| `ObdInfoServiceNeeds`                          | [x] Done     | 4a01b231fd |
+| `ObdMonitorServiceNeeds`                       | [x] Done     | 4a01b231fd |
+| `DiagnosticMonitorUpdateKindEnum`              | [x] Done     | 4a01b231fd |
 | `ObdRatioDenominatorNeeds`                     | [ ] Pending* | c4b99a4cf3 |
-| `DiagnosticDenominatorConditionEnum`           | [x] Done     | N/A        |
+| `DiagnosticDenominatorConditionEnum`           | [x] Done     | ed19e28c58 |
 | `DiagnosticTestResult`                         | [ ] Pending* | 30d1bea627 |
 | `DoIpRoutingActivationAuthenticationNeeds`     | [ ] Pending* | ee01eb9e60 |
 | `DoIpRoutingActivationConfirmationNeeds`       | [ ] Pending* | ca6b7d152b |
 | `SecureOnBoardCommunicationNeeds`              | [ ] Pending* | 294106f57d |
-| `VerificationStatusIndicationModeEnum`         | [x] Done     | N/A        |
+| `VerificationStatusIndicationModeEnum`         | [x] Done     | ed19e28c58 |
 | `IdsMgrNeeds`                                  | [ ] Pending* | 4c1801ebf6 |
 | `RapidPrototypingScenario`                     | [ ] Pending* | dcf4255cac |
 | `RptContainer`                                 | [ ] Pending* | 8c7d753249 |
