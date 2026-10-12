@@ -1067,7 +1067,7 @@ pending that confirmation.
     audit_class.py => PASS; ruff/flake8/black/mypy clean); 9b confirmed 2026-10-12
     (Rule 0026 audit vs source — the row's "steps 1-8 done" prose re-derived rather than
     trusted; it carried one false claim, corrected at Step 8); sync commit fdd8e3841
-- [ ] `CIdentifier` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.45, p.108; also FO_TPS_StandardizationTemplate Table 4.5, p.43
+- [x] `CIdentifier` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.45, p.108; also FO_TPS_StandardizationTemplate Table 4.5, p.43
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
   - [x] Step 1 — Sync members & description from spec
     - note (Step 1): Table 4.45 (leading-caption page-split, p.108 via pdf_page.py);
@@ -1078,16 +1078,23 @@ pending that confirmation.
       members, get/set chaining for blueprintValue and namePattern) and pass — no Red
       observable, nothing to fix.
   - [x] Step 3 — Implement model class (Green)
-    - note (Step 3): field-to-spec cross-check both directions PASSES as-is (Optional[str]
-      PEP 526 members, matched get/set pairs, no fabricated fields); Green.
+    - note (Step 3, REVISED at 9b): the original note claimed "field-to-spec cross-check
+      both directions PASSES as-is (Optional[str] PEP 526 members)". **That was wrong.**
+      The cross-check failed on the *element type*: the spec `Type` column is `String` and
+      the source used `Optional[str]`. Corrected at 9b — see the Step 9 note.
   - [x] Step 4 — Sync docstrings (wipe + rewrite)
-    - note (Step 4): class docstring = Table 4.45 Note verbatim + Tags (byte-identical —
-      no stale wording); member comments + accessor docstrings = table attr Notes
-      verbatim (blueprintValue carries atp.Status=draft accepted as-is); __init__ has no
-      docstring.
+    - note (Step 4, REVISED at 9b): the original note claimed the attr Notes were verbatim
+      and "byte-identical — no stale wording". **Not true for `blueprintValue`**, whose
+      `Tags:` tail was **doubled** at all three placements. Corrected at 9b — see the Step 9
+      note. `namePattern` and the class docstring were genuinely clean.
   - [x] Step 5 — Write reader/writer round-trip test (Red)
     - note (Steps 5/6): N/A — no own XML element; value serializes as the C-IDENTIFIER
-      literal on consuming elements; [—] reader/writer.
+      literal on consuming elements; [—] reader/writer. Verified independently at 9b:
+      `grep 'element name="C-IDENTIFIER"' autosar/R23-11/xsd/AUTOSAR_00052.xsd` returns
+      nothing — the type is a `simpleContent` extension of `C-IDENTIFIER--SIMPLE`, used
+      only as an attribute/element-text value on consumers. The typed leaf pair
+      `getChildElementOptionalCIdentifier`/`setChildElementOptionalCIdentifier` exists on
+      both parser and writer and is called at 10+ consumer sites (Rule 0013.2 pairs match).
   - [x] Step 6 — Update parser & writer (Green)
     - note (Steps 5/6): N/A — see Step 5.
   - [x] Step 7 — Update checklist comment
@@ -1095,11 +1102,69 @@ pending that confirmation.
       AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.45, p.108`; marker withheld
       (batch mode).
   - [x] Step 8 — Deviations
-    - note (Step 8): blueprintValue table Mult=1 vs XSD attribute optional (00052
-      attributeGroup C-IDENTIFIER l.14065) → Optional[str] kept, same treatment as the
-      stamped Identifier; namePattern 0..1 matches. No other deviations.
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (127 passed / 0 failed
-    test_PrimitiveTypes.py); 9b deferred to batch confirmation (user instruction)
+    - note (Step 8, original wording, 2026-09-30 — **RETRACTED as false 2026-10-12**, see
+      below): "blueprintValue table Mult=1 vs XSD attribute optional (00052 attributeGroup
+      C-IDENTIFIER l.14065) → Optional[str] kept, same treatment as the stamped Identifier;
+      namePattern 0..1 matches. No other deviations."
+      **Caveat:** that rationale was wrong on two counts and must not be read as evidence.
+      (a) It conflates the *Optional wrapper* with the *element type*. Mult `1` correctly
+      ⇒ `Optional[T]` (Rule 0001.4) — that part was right. But `str` is a **looser type**
+      than the spec's `String`, a Rule 0001.3 violation by the same logic as
+      "`ARNumerical` where the PDF says `PositiveInteger`".
+      (b) "same treatment as the stamped Identifier" was **factually wrong** — the stamped
+      `Identifier` (Table 4.5) types **both** members `Optional[String]`.
+    - note (Step 8, resolved 2026-10-12): **no deviation rows remain** (Rule 0014 to-fix,
+      resolved). Both members retyped to `Optional[String]` at 9b. Evidence:
+      (1) spec `Type` column = `String` for both rows; (2) XSD `attributeGroup C-IDENTIFIER`
+      (l.14065-14076) types both `BLUEPRINT-VALUE` and `NAME-PATTERN` as `AR:STRING--SIMPLE`;
+      (3) `String` is a synced class **in the same module** (Table 4.63, p.113, stamped);
+      (4) the stamped sibling `Identifier` uses `Optional[String]`; (5) repo-wide
+      `blueprintValue` declarations are **5× `Optional[String]` : 1× `Optional[str]`** —
+      and the one `str` was this class. Note the XSD also confirms the multiplicities the
+      note mis-cited: `pureMM.minOccurs="1"` on C-IDENTIFIER's BLUEPRINT-VALUE (table `1` ✓,
+      vs IDENTIFIER's `minOccurs="0"` / table `0..1`), `minOccurs="0"` on NAME-PATTERN
+      (table `0..1` ✓).
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+    - note (9a, 2026-10-12): full suite **26,142 passed / 0 failed** (integration round-trip
+      included); `test_PrimitiveTypes.py` 307 passed; Rule 0022 member-annotation gate 3
+      passed; `mypy` **Success, no issues found in 279 source files**; `ruff check
+      src/armodel tests scripts` clean; `flake8 --select=E9,F63,F7,F82` clean; `black
+      --check` (200 cols) clean; `audit_class.py CIdentifier` => PASS on every gate.
+    - note (9b, Rule 0026 — re-derived from source, NOT trusted from the row's steps 1-8
+      prose; user confirmed 2026-10-12): the audit passed, but the manual/Rule-0006.1
+      items it is blind to found **two real defects** — the same stale-rationale shape that
+      hit `SdgClass.sdgConstraint` and `SdgAbstractForeignReference.destMetaClass` earlier
+      in this file.
+      **Defect 1 (Rule 0012.2.5.3 / 0001.4) — doubled `Tags:` tail.** `blueprintValue`'s
+      spec Note carries `Tags: atp.Status=draft xml.attribute=true` exactly once; the
+      source carried it **twice** at all three placements (`__init__` comment,
+      `getBlueprintValue`, `setBlueprintValue`). Found by an AST diff against the
+      Table 4.45 block — not by reading the prose — then verified after the fix by the
+      same script (all 6 placements OK, `namePattern` was clean throughout).
+      **Defect 2 (Rule 0001.3 — type drift).** `Optional[str]` → `Optional[String]` on the
+      field, getter return and setter param (see the retracted/resolved Step 8 notes).
+      **Also applied (house consistency with the stamped sibling `Identifier`):** `->
+      "CIdentifier"` return annotations on both setters (repo-wide 3477 of 3667 two-arg
+      setters annotate; the module has no `from __future__ import annotations`, so a bare
+      name is impossible in a method body and the quoted form is the stamped precedent);
+      and `TestCIdentifier` updated to mirror `TestIdentifier` — `String()` instances plus
+      the Rule 0006 **None-no-op** asserts, which the test previously lacked entirely.
+      Re-confirmed clean at 9b: Table 4.45 header is `Primitive` ⇒ `ARLiteral`; 2 Attribute
+      rows ↔ 2 fields, field-to-spec cross-check passes **both** directions; class docstring
+      = Table 4.45 Note verbatim (XSD `C-IDENTIFIER` documentation + appinfo agree);
+      member/checklist order = markdown displayed order; `1` and `0..1` ⇒ `Optional[T]`;
+      `__init__` blank-line separation + no docstring; Package row → `PrimitiveTypes.py`
+      in leaf package `GeneralTemplateClasses` (Rule 0007, `armodel.CIdentifier` resolves);
+      reader/writer `[—]` justified **independently** (no `C-IDENTIFIER` element in the XSD,
+      the `simpleContent` value is carried by consumers via the typed leaf pair — the
+      writer's presence was not used to infer the reader's, Rule 0025).
+      Marker `# Spec verified: R23-11 (2026-10-12, user 9b confirmation)` written
+      immediately after the `# Spec:` line (Rule 0012.1); post-stamp audit STAMP clean,
+      `=> PASS`.
+    - note (out of scope, recorded for their own rows — **not** touched here, Rule 0017.1):
+      `SymbolString.namePattern` (Table 4.65, l.1542) carries the **same** `Optional[str]`
+      drift this row just fixed, and its Table 4.65 Note also references `CIdentifier` in
+      its wording. Its own sync row still carries `9b deferred`.
 - [ ] `CIdentifierWithIndex` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.46, p.108; also AUTOSAR_TPS_GenericStructureTemplate (R4.3.1) Table 4.52, p.90
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
   - [x] Step 1 — Sync members & description from spec

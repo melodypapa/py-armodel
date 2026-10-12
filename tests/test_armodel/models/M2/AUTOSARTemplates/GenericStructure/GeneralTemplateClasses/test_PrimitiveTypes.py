@@ -1313,9 +1313,14 @@ class TestCIdentifier:
         # Test get/set blueprint value
         assert c_id.getBlueprintValue() is None
 
-        result = c_id.setBlueprintValue("TestValue")
+        bp_value = String()
+        bp_value.setValue("TestValue")
+        result = c_id.setBlueprintValue(bp_value)
         assert result is c_id  # Verify method chaining
-        assert c_id.getBlueprintValue() == "TestValue"
+        assert c_id.getBlueprintValue() == bp_value
+
+        c_id.setBlueprintValue(None)
+        assert c_id.getBlueprintValue() == bp_value
 
     def test_name_pattern_methods(self):
         """
@@ -1326,9 +1331,14 @@ class TestCIdentifier:
         # Test get/set name pattern
         assert c_id.getNamePattern() is None
 
-        result = c_id.setNamePattern("TestPattern")
+        name_pattern = String()
+        name_pattern.setValue("TestPattern")
+        result = c_id.setNamePattern(name_pattern)
         assert result is c_id  # Verify method chaining
-        assert c_id.getNamePattern() == "TestPattern"
+        assert c_id.getNamePattern() == name_pattern
+
+        c_id.setNamePattern(None)
+        assert c_id.getNamePattern() == name_pattern
 
     def test_arnumerical_unsupported_type(self):
         """
