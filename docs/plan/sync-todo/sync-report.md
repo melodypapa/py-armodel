@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 823 | 43.0% |
+| [x] Done | 824 | 43.0% |
 | [x] Deferred | 83 | 4.3% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 998 | 52.1% |
+| [ ] Deferred | 997 | 52.1% |
 | [ ] Implemented | 10 | 0.5% |
 | [ ] Created | 1 | 0.1% |
 | [ ] Pending | 0 | 0.0% |
@@ -1470,7 +1470,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `ReferenceTailoring`                                    | [ ] Deferred| N/A                                      | Group36          |
 | `ReferenceValueSpecification`                           | [ ] Deferred| 8186029562                               | Group28          |
 | `Referrable`                                            | [x] Done    | 4e60d3a344                               | Group21          |
-| `ReferrableSubtypesEnum`                                | [x] Done    | a097cb3d4f                               | Group21          |
+| `ReferrableSubtypesEnum`                                | [x] Done    | N/A                                      | Group21          |
 | `RegularExpression`                                     | [ ] Deferred| N/A                                      | Group21          |
 | `RelativeTolerance`                                     | [ ] Deferred| 358656e2a4                               | Group31          |
 | `RequestResponseDelay`                                  | [x] Done    | 1c556f35b4                               | Group16          |
@@ -1540,9 +1540,9 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `SdgAggregationWithVariation`                           | [x] Done    | 207e9e3241                               | Group21          |
 | `SdgAttribute`                                          | [x] Done    | 41952ae2fd                               | Group21          |
 | `SdgClass`                                              | [x] Done    | cfa7402dec                               | Group21          |
-| `SdgDef`                                                | [x] Done    | c7d3958065                               | Group21          |
+| `SdgDef`                                                | [x] Done    | N/A                                      | Group21          |
 | `SdgElementWithGid`                                     | [x] Done    | f7d552948b                               | Group21          |
-| `SdgForeignReference`                                   | [ ] Deferred| N/A                                      | Group21          |
+| `SdgForeignReference`                                   | [x] Done    | N/A                                      | Group21          |
 | `SdgForeignReferenceWithVariation`                      | [ ] Deferred| N/A                                      | Group21          |
 | `SdgPrimitiveAttribute`                                 | [x] Done    | 1297ebe97b                               | Group21          |
 | `SdgPrimitiveAttributeWithVariation`                    | [x] Done    | e8e6234b2d                               | Group21          |

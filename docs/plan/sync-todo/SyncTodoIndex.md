@@ -875,7 +875,7 @@ Status: **29/29** completed
 
 ## Group21
 
-Status: **34/59** completed
+Status: **35/59** completed
 
 | Class Name                           | Status       | Commit ID  |
 | ------------------------------------ | ------------ | ---------- |
@@ -883,8 +883,8 @@ Status: **34/59** completed
 | `LLongName`                          | [x] Done     | c09bc8067d |
 | `MixedContentForLongName`            | [x] Done     | fdc7811f86 |
 | `Referrable`                         | [x] Done     | 4e60d3a344 |
-| `ReferrableSubtypesEnum`             | [x] Done     | a097cb3d4f |
-| `SdgDef`                             | [x] Done     | c7d3958065 |
+| `ReferrableSubtypesEnum`             | [x] Done     | N/A        |
+| `SdgDef`                             | [x] Done     | N/A        |
 | `SdgElementWithGid`                  | [x] Done     | f7d552948b |
 | `SdgClass`                           | [x] Done     | cfa7402dec |
 | `SdgAttribute`                       | [x] Done     | 41952ae2fd |
@@ -894,7 +894,7 @@ Status: **34/59** completed
 | `SdgAggregationWithVariation`        | [x] Done     | 207e9e3241 |
 | `SdgReference`                       | [x] Done     | e9ff581c2c |
 | `SdgAbstractForeignReference`        | [x] Done     | 47b29adc7d |
-| `SdgForeignReference`                | [ ] Pending* | N/A        |
+| `SdgForeignReference`                | [x] Done     | N/A        |
 | `SdgForeignReferenceWithVariation`   | [ ] Pending* | N/A        |
 | `MetaClassName`                      | [ ] Pending* | N/A        |
 | `AbstractValueRestriction`           | [ ] Pending* | N/A        |

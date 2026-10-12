@@ -741,7 +741,7 @@ pending that confirmation.
     - note: `# Spec verified: R23-11 (2026-10-12, user 9b confirmation)` written immediately after
       the `# Spec:` line (Rule 0012.1); post-stamp audit STAMP clean, `=> PASS`; sync commit 47b29adc7.
 
-- [ ] `SdgForeignReference` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.34, p.102
+- [x] `SdgForeignReference` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.34, p.102
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/SpecialDataDef.py
   - [x] Step 1 — Sync members & description from spec
     - note (Step 1): Table 4.34 (trailing-caption; p.102 via pdf_page.py); Base row: full chain incl. SdgAbstractForeignReference → SdgForeignReference(SdgAbstractForeignReference); zero own attribute rows.
@@ -771,9 +771,64 @@ pending that confirmation.
     - note (Step 7): 6-column block + release column; marker withheld (batch mode).
   - [x] Step 8 — Deviations
     - note (Step 8): none.
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (362 passed / 0 failed
-    family suites; 14,043 passed / 0 failed models+parser+writer sweep); 9b deferred to
-    batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+    - note (9a, re-run 2026-10-12): full suite **26,150 passed / 0 failed**
+      (integration round-trip included); member-annotation gate (Rule 0022) 3 passed;
+      Sdg family 18 passed (model + parser + writer); `ruff check src/armodel tests
+      scripts` clean; `flake8 --select=E9,F63,F7,F82` clean; `black --check` (200 cols,
+      4 touched files) unchanged; set-based checklist-vs-methods script green
+      (1 row, `checklist == methods == {__init__}`, no `# type:`); `audit_class.py
+      SdgForeignReference` => PASS. **`mypy` is NOT green repo-wide**: 13 pre-existing
+      errors in 3 unrelated files (`connector_xlsx_parser.py` x11, `excel_parser.py`,
+      `os_export.py`) — openpyxl `CellRichText` version drift on a clean `main`
+      working tree, zero errors in any Sdg/model file; not introduced here and out of
+      scope for this row.
+    - note (9b, Rule 0026 — re-derived from source, not trusted from the row prose):
+      all 16 pre-stamp items re-verified and the audit passed. **No drift found**
+      (unlike the Group16 rows, where 13 of 14 "steps 1-8 done" claims had drifted) —
+      the class source already matched its table on every axis.
+      (a) Table 4.34 (markdown L2720-2727) is a `Class` table with **one** `Attribute`
+      row, a literal `-` ⇒ zero own fields/accessors; the field-to-spec cross-check
+      therefore passes in **both** directions (nothing fabricated, nothing missing).
+      (b) Base row `ARObject , AbstractMultiplicityRestriction , Identifiable ,
+      MultilanguageReferrable , Referrable , SdgAbstract ForeignReference , SdgAttribute ,
+      SdgElementWithGid` — most-derived is **`SdgAbstractForeignReference`** (it itself
+      derives from `SdgElementWithGid`), runtime `__bases__`/MRO confirmed; source
+      `__init__(parent, short_name)` ✓. XSD `complexType SDG-FOREIGN-REFERENCE` is
+      `abstract="false"` (l.102318) ⇒ concrete, so the absence of an instantiation
+      guard is correct (the audit's SPEC-BASE reports "no readable Base row" only
+      because of the shifted Class-cell caption convention — verified by eye).
+      (c) **Reader and writer checked independently** (Rule 0025): `readSdgForeignReference`
+      (parser l.16991) calls `readIdentifiable` + `setGid(GID)` +
+      `setDestMetaClass(DEST-META-CLASS)`; `writeSdgForeignReference` (writer l.18039)
+      calls `writeIdentifiable` + `getGid()` + `getDestMetaClass()` — the writer's
+      `writeIdentifiable` was not used to infer the reader's. Rule 0013.2 name pairs
+      all matched, incl. the `get/setChildElementOptionalMetaClassName` leaf pair added
+      by the SdgAbstractForeignReference pass.
+      (d) **Writer XML order** `GID` → `DEST-META-CLASS` matches the XSD
+      `complexType` sequence (l.102324-102333: `SDG-ELEMENT-WITH-GID` precedes
+      `SDG-ABSTRACT-FOREIGN-REFERENCE`) — Rule 0011's XML-order half, kept independent
+      of member order (Rule 0011's other half is vacuous: zero own members).
+      (e) **Step 4's "Sdx" claim re-confirmed** — the sentence genuinely belongs to
+      this class and is not duplicated from the abstract: XSD group `SDG-FOREIGN-REFERENCE`
+      l.102311 carries it, group `SDG-ABSTRACT-FOREIGN-REFERENCE` l.101977 does not.
+      Class docstring AST-diffed **byte-equal** to both the Table 4.34 `Note` cell and
+      the XSD `documentation` (l.102320); `__init__` carries no docstring.
+      (f) Rule 0007: `GeneralTemplateClasses` is a **leaf** package (no subdirs) ⇒
+      `<PackageTail>.py` is the correct shape; class lives in `SpecialDataDef.py`, no
+      class-named submodule, no `X.py`+`X/` shadowing; `armodel.SdgForeignReference`
+      resolves at runtime.
+      (g) Rule 0014: **no deviations** — no `naming` / `type` / `missing` / Rule 0010
+      placeholder row, so nothing withholds the stamp.
+      Marker `# Spec verified: R23-11 (2026-10-12, user 9b confirmation)` written
+      immediately after the `# Spec:` line (Rule 0012.1); post-stamp audit STAMP clean,
+      `=> PASS`.
+    - note: `SdgForeignReferenceWithVariation` (Table 4.35) deliberately **not** touched
+      in this session — Rule 0017.1, one class per session.
+    - note: `regen_sync_todo.py --check` reported drift on two **pre-existing** rows
+      (`ReferrableSubtypesEnum`, `SdgDef` — index-held commit hashes the Group21 rows
+      no longer carry); reconciled by the mandatory `--write` in this pass, never by
+      hand-editing the generated reports.
 
 - [ ] `SdgForeignReferenceWithVariation` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.35, p.102
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/SpecialDataDef.py
