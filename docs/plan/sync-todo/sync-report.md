@@ -6,14 +6,14 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 ## Summary
 
-**1915 classes total**
+**1914 classes total**
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 824 | 43.0% |
+| [x] Done | 825 | 43.1% |
 | [x] Deferred | 83 | 4.3% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 997 | 52.1% |
+| [ ] Deferred | 995 | 52.0% |
 | [ ] Implemented | 10 | 0.5% |
 | [ ] Created | 1 | 0.1% |
 | [ ] Pending | 0 | 0.0% |
@@ -1257,7 +1257,6 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `MemorySection`                                         | [x] Done    | 6d92ecd979                               | Group20          |
 | `MemorySectionLocation`                                 | [x] Done    | N/A                                      | Group23          |
 | `MemorySectionType`                                     | [x] Deferred| 70ce06f500                               | Group22          |
-| `MetaClassName`                                         | [ ] Deferred| N/A                                      | Group21          |
 | `MetaDataItem`                                          | [x] Done    | e69a025254                               | Group2           |
 | `MetaDataItemSet`                                       | [x] Done    | e69a025254                               | Group2           |
 | `MimeTypeString`                                        | [x] Done    | 01cc23df4e                               | Group3           |
@@ -1543,7 +1542,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `SdgDef`                                                | [x] Done    | N/A                                      | Group21          |
 | `SdgElementWithGid`                                     | [x] Done    | f7d552948b                               | Group21          |
 | `SdgForeignReference`                                   | [x] Done    | 13929a0060                               | Group21          |
-| `SdgForeignReferenceWithVariation`                      | [ ] Deferred| N/A                                      | Group21          |
+| `SdgForeignReferenceWithVariation`                      | [x] Done    | b9f42c0d6e                               | Group21          |
 | `SdgPrimitiveAttribute`                                 | [x] Done    | 1297ebe97b                               | Group21          |
 | `SdgPrimitiveAttributeWithVariation`                    | [x] Done    | e8e6234b2d                               | Group21          |
 | `SdgReference`                                          | [x] Done    | e9ff581c2c                               | Group21          |
