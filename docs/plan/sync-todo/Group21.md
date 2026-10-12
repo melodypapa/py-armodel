@@ -333,7 +333,7 @@ pending that confirmation.
 - [x] `SdgClass` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.26, p.100
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/SpecialDataDef.py
   - [x] Step 1 — Sync members & description from spec
-    - note (Step 1): Table 4.26 (leading-caption page-split — attr rows in the continuation block, p.100 via pdf_page.py); Base row lists both SdgElementWithGid and Identifiable → dual inheritance SdgClass(SdgElementWithGid, Identifiable); attrs extendsMetaClass (MetaClassName, 0..1, attr → Optional[str]), caption (Boolean, 0..1, attr), attribute (SdgAttribute, *, aggr, ordered → attributes + addAttribute), sdgConstraint (TraceableText, *, ref → sdgConstraintRefs).
+    - note (Step 1): Table 4.26 (leading-caption page-split — attr rows in the continuation block, p.100 via pdf_page.py); Base row lists both SdgElementWithGid and Identifiable → dual inheritance SdgClass(SdgElementWithGid, Identifiable); attrs extendsMetaClass (MetaClassName, 0..1, attr → **Optional[MetaClassName]**; retyped from Optional[str] on 2026-10-12, see Step 9 of SdgAbstractForeignReference), caption (Boolean, 0..1, attr), attribute (SdgAttribute, *, aggr, ordered → attributes + addAttribute), sdgConstraint (TraceableText, *, ref → sdgConstraintRefs).
   - [x] Step 2 — Write model class unit test (Red)
     - note (Step 2): tests added in test_SpecialDataDef.py (family suite: abstract
       rejections, member round-trips, adder chaining) — seen Red (classes did not exist
@@ -360,10 +360,31 @@ pending that confirmation.
     - note (Step 7): 6-column block + release column; marker withheld (batch mode).
   - [x] Step 8 — Deviations
     - note (Step 8): extendsMetaClass typed Optional[str] (MetaClassName primitive has no src class); sdgConstraint typed List[RefType] (TraceableText ditto); SdgReference carries NO gid per its Base row/XSD group.
+    - note (Step 8, partial resolution 2026-10-12): the **extendsMetaClass** deviation is
+      RESOLVED and removed (Rule 0014 to-fix) — same stale-rationale defect as
+      `SdgAbstractForeignReference.destMetaClass` fixed in commit 47b29adc7: MetaClassName was
+      synced 2026-10-12 (Table 4.36, commit 90d04a5ad), after this note was written. Retyped to
+      `Optional[MetaClassName]`, reusing the
+      `get/setChildElementOptionalMetaClassName` pair added by that commit — no new leaf helper was
+      needed, since XSD l.102102 types `EXTENDS-META-CLASS` as `AR:META-CLASS-NAME`, the same
+      customType as `DEST-META-CLASS`. 4 call sites rewired (1 reader + 1 writer + 2 test asserts)
+      plus 2 test setters; round-trip re-verified to preserve the spec type.
+      **Still open:** the **sdgConstraint** `List[RefType]` deviation remains — its stated reason
+      ("TraceableText ditto / no src class") is *also* stale, since `TraceableText` exists in
+      `M2/MSR/Documentation/BlockElements/RequirementsTracing.py` with its own Table 9.30. Left
+      alone here as it is a different attribute with a different type question (a `*`-multiplicity
+      `ref`, so the spec shape may well warrant `RefType`); flagged for its own pass.
+      SdgReference carries NO gid per its Base row/XSD group — accepted, unchanged.
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (362 passed / 0 failed
     family suites; 14,043 passed / 0 failed models+parser+writer sweep); 9b confirmed
     2026-10-09 (Rule 0026 audit vs source: all 9a automated + 9b manual checks green;
     `# Spec verified: R23-11` marker written); sync commit cfa7402de
+    - note (9a re-run after the extendsMetaClass retype, 2026-10-12): full suite **26,150 passed
+      / 0 failed**; mypy Success (279 source files); ruff, black (2880 files), flake8 clean;
+      Rule 0022 gate 3 passed; Sdg family 18 passed; `audit_class.py SdgClass` => PASS.
+      The existing `# Spec verified: R23-11` marker was **left in place and not re-stamped**
+      (Rule 0012.1 — replace, never append; and a re-stamp would require its own 9b, which this
+      follow-up retype did not re-run for the whole class).
 
 - [x] `SdgAttribute` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.27, p.100
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/SpecialDataDef.py
@@ -659,9 +680,12 @@ pending that confirmation.
       (Rule 0014 to-fix, not accepted). Its stated rationale — "MetaClassName primitive has no
       src class" — had gone stale: MetaClassName was synced 2026-10-12 (Table 4.36, commit
       90d04a5ad), i.e. *after* this row's Step 8 was written. Retyped to the spec class at 9b
-      (user-directed); no deviation row remains, so nothing withholds the stamp. Remaining
-      follow-up debt, deliberately **not** touched here (separate already-stamped row):
-      `SdgClass.extendsMetaClass` has the same spec type but is still `Optional[str`.
+      (user-directed); no deviation row remains, so nothing withholds the stamp.
+    - note (Step 8, follow-up **closed** 2026-10-12): the sibling
+      `SdgClass.extendsMetaClass` — same spec type, same stale rationale — was flagged as
+      follow-up debt here and has since been retyped to `Optional[MetaClassName]` on its own
+      row, reusing the same leaf-helper pair. Both `MetaClassName`-typed Sdg attributes are now
+      spec-typed; no `Optional[str]` stands in for this primitive anywhere in the family.
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (362 passed / 0 failed
     family suites; 14,043 passed / 0 failed models+parser+writer sweep); **9b run and confirmed
     2026-10-12** (Rule 0026 audit vs source, not trusting the row's steps-1-8 prose — the audit

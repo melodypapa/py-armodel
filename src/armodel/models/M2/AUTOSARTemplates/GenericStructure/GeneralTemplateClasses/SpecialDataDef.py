@@ -122,7 +122,7 @@ class SdgClass(Identifiable, SdgElementWithGid):
         self.caption: Optional[Boolean] = None
 
         # The AUTOSAR Meta-Class that may be extended by this SdgClass. Tags: xml.sequenceOffset=10
-        self.extendsMetaClass: Optional[str] = None
+        self.extendsMetaClass: Optional[MetaClassName] = None
 
         # Semantic constraints that restrict the structure of the special data group. Tags: xml.sequenceOffset=40
         self.sdgConstraintRefs: List[RefType] = []
@@ -165,7 +165,7 @@ class SdgClass(Identifiable, SdgElementWithGid):
             self.caption = value
         return self
 
-    def getExtendsMetaClass(self) -> Optional[str]:
+    def getExtendsMetaClass(self) -> Optional[MetaClassName]:
         """
         The AUTOSAR Meta-Class that may be extended by this SdgClass. Tags: xml.sequenceOffset=10
 
@@ -174,7 +174,7 @@ class SdgClass(Identifiable, SdgElementWithGid):
         """
         return self.extendsMetaClass
 
-    def setExtendsMetaClass(self, value: Optional[str]):
+    def setExtendsMetaClass(self, value: Optional[MetaClassName]):
         """
         The AUTOSAR Meta-Class that may be extended by this SdgClass. Tags: xml.sequenceOffset=10
 

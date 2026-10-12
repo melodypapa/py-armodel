@@ -104,7 +104,7 @@ class TestReadSdgDef:
             sdg_class = sdg_classes[0]
             assert sdg_class.getShortName() == "MySdgClass"
             assert sdg_class.getGid().getValue() == "MY-CLASS-GID"
-            assert sdg_class.getExtendsMetaClass() == "ArPackage"
+            assert sdg_class.getExtendsMetaClass().getValue() == "ArPackage"
             assert sdg_class.getCaption().getValue() is True
 
             attributes = sdg_class.getAttributes()

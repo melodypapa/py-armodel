@@ -56,7 +56,7 @@ class TestSdgDefRoundTrip:
 
         sdg_class = SdgClass(sdg_def, "MySdgClass")
         sdg_class.setGid(NameToken().setValue("MY-CLASS-GID"))
-        sdg_class.setExtendsMetaClass("ArPackage")
+        sdg_class.setExtendsMetaClass(MetaClassName().setValue("ArPackage"))
         sdg_class.setCaption(Boolean().setValue(True))
         sdg_def.addSdgClass(sdg_class)
 
@@ -110,7 +110,7 @@ class TestSdgDefRoundTrip:
 
             assert reloaded.getShortName() == "MySdgClass"
             assert reloaded.getGid().getValue() == "MY-CLASS-GID"
-            assert reloaded.getExtendsMetaClass() == "ArPackage"
+            assert reloaded.getExtendsMetaClass().getValue() == "ArPackage"
             assert reloaded.getCaption().getValue() is True
 
             attributes = reloaded.getAttributes()

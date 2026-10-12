@@ -16927,7 +16927,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read SdgClass <%s>" % sdg_class.getShortName())
         self.readIdentifiable(element, sdg_class)
         sdg_class.setGid(self.getChildElementOptionalNameToken(element, "GID"))
-        sdg_class.setExtendsMetaClass(self.getChildElementOptionalStringValue(element, "EXTENDS-META-CLASS"))
+        sdg_class.setExtendsMetaClass(self.getChildElementOptionalMetaClassName(element, "EXTENDS-META-CLASS"))
         sdg_class.setCaption(self.getChildElementOptionalBooleanValue(element, "CAPTION"))
         self.readSdgClassAttributes(element, sdg_class)
         self.readSdgClassSdgConstraintRefs(element, sdg_class)

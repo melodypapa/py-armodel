@@ -97,8 +97,9 @@ class TestSdgClass:
     def test_members(self):
         sdg_def = _make_sdg_def()
         sdg_class = SdgClass(sdg_def, "MySdgClass")
-        assert sdg_class.setExtendsMetaClass("ArPackage") is sdg_class
-        assert sdg_class.getExtendsMetaClass() == "ArPackage"
+        assert sdg_class.setExtendsMetaClass(MetaClassName().setValue("ArPackage")) is sdg_class
+        assert sdg_class.getExtendsMetaClass().getValue() == "ArPackage"
+        assert isinstance(sdg_class.getExtendsMetaClass(), MetaClassName)
         caption = Boolean().setValue(True)
         assert sdg_class.setCaption(caption) is sdg_class
         assert sdg_class.getCaption() is caption
