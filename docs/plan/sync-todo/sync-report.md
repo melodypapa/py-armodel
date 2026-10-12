@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 826 | 43.2% |
+| [x] Done | 827 | 43.2% |
 | [x] Deferred | 83 | 4.3% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 994 | 51.9% |
+| [ ] Deferred | 993 | 51.9% |
 | [ ] Implemented | 10 | 0.5% |
 | [ ] Created | 1 | 0.1% |
 | [ ] Pending | 0 | 0.0% |
@@ -48,7 +48,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `AbstractRuleBasedValueSpecification`                   | [ ] Deferred| a9f7a78876                               | Group28          |
 | `AbstractSecurityEventFilter`                           | [ ] Deferred| N/A                                      | Group36          |
 | `AbstractServiceInstance`                               | [ ] Deferred| N/A                                      | Group32          |
-| `AbstractVariationRestriction`                          | [ ] Deferred| N/A                                      | Group21          |
+| `AbstractVariationRestriction`                          | [x] Done    | 731dacd640                               | Group21          |
 | `AccessCount`                                           | [x] Done    | e3d1262da1                               | Group22          |
 | `AccessCountSet`                                        | [x] Deferred| e3d1262da1                               | Group22          |
 | `AclObjectSet`                                          | [ ] Deferred| 11ad22dfad                               | Group22          |
