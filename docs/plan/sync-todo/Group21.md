@@ -1165,7 +1165,7 @@ pending that confirmation.
       `SymbolString.namePattern` (Table 4.65, l.1542) carries the **same** `Optional[str]`
       drift this row just fixed, and its Table 4.65 Note also references `CIdentifier` in
       its wording. Its own sync row still carries `9b deferred`.
-- [ ] `CIdentifierWithIndex` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.46, p.108; also AUTOSAR_TPS_GenericStructureTemplate (R4.3.1) Table 4.52, p.90
+- [x] `CIdentifierWithIndex` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.46, p.108; also AUTOSAR_TPS_GenericStructureTemplate (R4.3.1) Table 4.52, p.90 — sync commit a81628868
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
   - [x] Step 1 — Sync members & description from spec
     - note (Step 1): Table 4.46 (p.108 via pdf_page.py; caption + body adjacent, content

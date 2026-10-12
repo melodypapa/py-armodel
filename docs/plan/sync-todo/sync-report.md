@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 830 | 43.3% |
+| [x] Done | 831 | 43.4% |
 | [x] Deferred | 83 | 4.3% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 991 | 51.7% |
+| [ ] Deferred | 990 | 51.7% |
 | [ ] Implemented | 10 | 0.5% |
 | [ ] Created | 1 | 0.1% |
 | [ ] Pending | 0 | 0.0% |
@@ -234,7 +234,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `BusspecificNmEcu`                                      | [ ] Deferred| N/A                                      | Group33          |
 | `ByteOrderEnum`                                         | [ ] Deferred| N/A                                      | Group28          |
 | `CIdentifier`                                           | [x] Done    | N/A                                      | Group21          |
-| `CIdentifierWithIndex`                                  | [ ] Deferred| N/A                                      | Group21          |
+| `CIdentifierWithIndex`                                  | [x] Done    | a81628868d                               | Group21          |
 | `CSTransformerErrorReactionEnum`                        | [ ] Deferred| N/A                                      | Group34          |
 | `CalibrationParameterValue`                             | [ ] Deferred| 253d938ab0                               | Group28          |
 | `CalibrationParameterValueSet`                          | [ ] Deferred| 92d3b31318                               | Group28          |

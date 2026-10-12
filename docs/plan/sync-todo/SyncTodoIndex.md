@@ -875,7 +875,7 @@ Status: **29/29** completed
 
 ## Group21
 
-Status: **41/59** completed
+Status: **42/59** completed
 
 | Class Name                           | Status       | Commit ID  |
 | ------------------------------------ | ------------ | ---------- |
@@ -901,7 +901,7 @@ Status: **41/59** completed
 | `AbstractVariationRestriction`       | [x] Done     | 731dacd640 |
 | `FullBindingTimeEnum`                | [x] Done     | fdd8e3841d |
 | `CIdentifier`                        | [x] Done     | N/A        |
-| `CIdentifierWithIndex`               | [ ] Pending* | N/A        |
+| `CIdentifierWithIndex`               | [x] Done     | a81628868d |
 | `CategoryString`                     | [ ] Pending* | N/A        |
 | `DateTime`                           | [ ] Pending* | N/A        |
 | `DiagRequirementIdString`            | [ ] Pending* | N/A        |
