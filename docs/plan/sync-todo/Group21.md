@@ -889,7 +889,9 @@ pending that confirmation.
     - note (9a, 2026-10-12): full suite **26,150 passed / 0 failed**; model + Sdg family + member-annotation gate 22 passed; ruff, flake8, black clean; no `# type:`; audit PASS; top-level export `armodel.MetaClassName` resolves. Repo-wide mypy has the same 13 pre-existing openpyxl errors in unrelated files.
     - note (9b, Rule 0026 re-derived from source, user confirmed 2026-10-12): Primitive table with Package/Note/Tags only → zero own members; `ARLiteral` base; class docstring byte-equal to the Table 4.36 Note (Tags tail kept, matching the XSD `META-CLASS-NAME` annotation); no `# type:`; no deviations. Value serializes through the existing `get/setChildElementOptionalMetaClassName` pair. Marker `# Spec verified: R23-11 (2026-10-12, user 9b confirmation)` written after the `# Spec:` line; post-stamp audit PASS.
     - note: Step 2 produced no Red (model test pre-existed and passes), same as the other ARLiteral primitives.
-    - note: sync commit a8f36cd56. — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.37, p.103; also FO_TPS_StandardizationTemplate Table 6.9, p.87
+    - note: sync commit a8f36cd56.
+
+- [x] `AbstractValueRestriction` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.37, p.103; also FO_TPS_StandardizationTemplate Table 6.9, p.87
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ModelRestrictionTypes.py
   - [x] Step 1 — Sync members & description from spec
     - note (Step 1): Table 4.37 (header-cell lookup; p.103 via pdf_page.py); abstract
@@ -931,9 +933,10 @@ pending that confirmation.
       (PrimitiveAttributeCondition, SdgAbstractPrimitiveAttribute, ValueRestrictionWithSeverity)
       — SdgAbstractPrimitiveAttribute/ValueRestrictionWithSeverity handled in this
       batch/queue, PrimitiveAttributeCondition belongs to a later group row.
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (10 passed / 0 failed
-    new-file suite; GeneralTemplateClasses 349 passed); 9b deferred to batch
-    confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+    - note (9a, 2026-10-12): full suite **26,152 passed / 0 failed**; targeted family/MRO/annotation gates 3,367 passed; ruff, flake8, black clean; no `# type:`; audit PASS; top-level export resolves. Repo-wide mypy has the same 13 pre-existing openpyxl errors in unrelated files.
+    - note (9b, user confirmed 2026-10-12): fixes applied in this pass — abstract guard added (Red test `DID NOT RAISE TypeError` first, then `type(self) is` guard, plus the `__init__` checklist row); inline Note comments added above the five member declarations (were missing, Rule 0012.2); stale "no `__init__` here" comment rewritten. Docstrings verified verbatim against the Table 4.37 Note and each attribute Note. Class-level immutable defaults kept (Rule 0022). Marker `# Spec verified: R23-11 (2026-10-12, user 9b confirmation)` written after the `# Spec:` line.
+    - note: sync commit **see follow-up docs commit**.
 - [x] `AbstractVariationRestriction` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.38, p.104; also FO_TPS_StandardizationTemplate Table 6.13, p.89
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ModelRestrictionTypes.py
   - [x] Step 1 — Sync members & description from spec

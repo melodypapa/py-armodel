@@ -60,7 +60,9 @@ class AbstractValueRestriction(ARObject, ABC):
 
     # AbstractValueRestriction method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.37, p.103
+    # Spec verified: R23-11 (2026-10-12, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getMax           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setMax           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getMaxLength     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -72,16 +74,29 @@ class AbstractValueRestriction(ARObject, ABC):
     # [x] getPattern       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setPattern       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
-    # Class-level defaults — the ONLY initialization (VariationPointCapable mixin
-    # pattern, StereotypeMixins.py): no __init__ here. Referrable dispatches
-    # cooperatively, so an __init__ WOULD run under combined inheritance
-    # (e.g. SdgPrimitiveAttribute) — none is needed: every default is immutable
+    # Class-level defaults — the ONLY member initialization (VariationPointCapable
+    # mixin pattern, StereotypeMixins.py): every default is immutable
     # (Optional[...] = None), so sharing them across instances carries no hazard.
+    # Specifies the upper bounds for numeric values.
     max: Optional[Limit] = None
+
+    # Specifies the maximum number of characters of textual values.
     maxLength: Optional[PositiveInteger] = None
+
+    # Specifies the lower bounds for numeric values.
     min: Optional[Limit] = None
+
+    # Specifies the minimal number of characters of textual values.
     minLength: Optional[PositiveInteger] = None
+
+    # Defines the exact sequence of characters that are acceptable.
     pattern: Optional[RegularExpression] = None
+
+    def __init__(self):
+        if type(self) is AbstractValueRestriction:
+            raise TypeError("AbstractValueRestriction is an abstract class.")
+
+        super().__init__()
 
     def getMax(self) -> Optional[Limit]:
         """

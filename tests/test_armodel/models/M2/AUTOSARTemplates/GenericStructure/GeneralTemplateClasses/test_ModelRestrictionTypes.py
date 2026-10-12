@@ -96,6 +96,14 @@ class TestAbstractValueRestriction:
         assert obj.getPattern() is pattern
 
 
+class TestAbstractValueRestrictionAbstract:
+    """The abstract class rejects direct instantiation (Table 4.37, Class header)."""
+
+    def test_direct_instantiation_rejected(self):
+        with pytest.raises(TypeError):
+            AbstractValueRestriction()
+
+
 class TestAbstractVariationRestriction:
     """
     Test class for AbstractVariationRestriction functionality (Table 4.38).
