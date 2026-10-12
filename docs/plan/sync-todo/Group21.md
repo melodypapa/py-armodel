@@ -936,7 +936,7 @@ pending that confirmation.
   - [x] Step 9 — Verify (9a) + confirm (9b)
     - note (9a, 2026-10-12): full suite **26,152 passed / 0 failed**; targeted family/MRO/annotation gates 3,367 passed; ruff, flake8, black clean; no `# type:`; audit PASS; top-level export resolves. Repo-wide mypy has the same 13 pre-existing openpyxl errors in unrelated files.
     - note (9b, user confirmed 2026-10-12): fixes applied in this pass — abstract guard added (Red test `DID NOT RAISE TypeError` first, then `type(self) is` guard, plus the `__init__` checklist row); inline Note comments added above the five member declarations (were missing, Rule 0012.2); stale "no `__init__` here" comment rewritten. Docstrings verified verbatim against the Table 4.37 Note and each attribute Note. Class-level immutable defaults kept (Rule 0022). Marker `# Spec verified: R23-11 (2026-10-12, user 9b confirmation)` written after the `# Spec:` line.
-    - note: sync commit **see follow-up docs commit**.
+    - note: sync commit 638ddf100.
 - [x] `AbstractVariationRestriction` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.38, p.104; also FO_TPS_StandardizationTemplate Table 6.13, p.89
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ModelRestrictionTypes.py
   - [x] Step 1 — Sync members & description from spec
