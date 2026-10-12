@@ -11,6 +11,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     Limit,
+    MetaClassName,
     NameToken,
     PositiveInteger,
     RefType,
@@ -96,8 +97,9 @@ class TestSdgClass:
     def test_members(self):
         sdg_def = _make_sdg_def()
         sdg_class = SdgClass(sdg_def, "MySdgClass")
-        assert sdg_class.setExtendsMetaClass("ArPackage") is sdg_class
-        assert sdg_class.getExtendsMetaClass() == "ArPackage"
+        assert sdg_class.setExtendsMetaClass(MetaClassName().setValue("ArPackage")) is sdg_class
+        assert sdg_class.getExtendsMetaClass().getValue() == "ArPackage"
+        assert isinstance(sdg_class.getExtendsMetaClass(), MetaClassName)
         caption = Boolean().setValue(True)
         assert sdg_class.setCaption(caption) is sdg_class
         assert sdg_class.getCaption() is caption
@@ -178,10 +180,11 @@ class TestSdgAttributes:
         sdg_def = _make_sdg_def()
         sdg_class = SdgClass(sdg_def, "MySdgClass")
         attribute = SdgForeignReference(sdg_class, "FRef")
-        assert attribute.setDestMetaClass("ArPackage") is attribute
-        assert attribute.getDestMetaClass() == "ArPackage"
+        assert attribute.setDestMetaClass(MetaClassName().setValue("ArPackage")) is attribute
+        assert attribute.getDestMetaClass().getValue() == "ArPackage"
+        assert isinstance(attribute.getDestMetaClass(), MetaClassName)
 
         wv = SdgForeignReferenceWithVariation(sdg_class, "FRefWV")
-        wv.setDestMetaClass("ARPackage")
+        wv.setDestMetaClass(MetaClassName().setValue("ARPackage"))
         wv.setVariation(Boolean().setValue(False))
         assert wv.getVariation().getValue() is False

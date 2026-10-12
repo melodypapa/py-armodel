@@ -815,26 +815,27 @@ Status: **17/17** completed
 
 ## Group19
 
-Status: **16/16** completed
+Status: **16/17** completed
 
-| Class Name                       | Status   | Commit ID  |
-| -------------------------------- | -------- | ---------- |
-| `ConfigReferenceValue`           | [x] Done | 7ed4c9a4a4 |
-| `EcucValueCollection`            | [x] Done | b65b2313a2 |
-| `ModuleConfiguration`            | [x] Done | 5cedb145b9 |
-| `EcucConfigurationClassEnum`     | [x] Done | eb890b899c |
-| `EcucScopeEnum`                  | [x] Done | 096c9544fc |
-| `EcucDestinationUriDefRefType`   | [x] Done | 7047c575f7 |
-| `EcucBooleanParamDef`            | [x] Done | b40b99238a |
-| `EcucFloatParamDef`              | [x] Done | 454e47206b |
-| `EcucForeignReferenceDef`        | [x] Done | 958007001d |
-| `EcucLinkerSymbolDef`            | [x] Done | 776f61b1df |
-| `EcucReferenceDef`               | [x] Done | 0d45067479 |
-| `EcucSymbolicNameReferenceDef`   | [x] Done | 0d45067479 |
-| `EcucUriReferenceDef`            | [x] Done | 0d45067479 |
-| `EcucConditionFormula`           | [x] Done | 86096857ad |
-| `EcucParameterDerivationFormula` | [x] Done | 16bd8cd3d0 |
-| `EcucQueryExpression`            | [x] Done | a6ca958629 |
+| Class Name                       | Status      | Commit ID  |
+| -------------------------------- | ----------- | ---------- |
+| `ConfigReferenceValue`           | [x] Done    | 7ed4c9a4a4 |
+| `EcucValueCollection`            | [x] Done    | b65b2313a2 |
+| `ConfigurationVariant`           | [ ] Created | N/A        |
+| `ModuleConfiguration`            | [x] Done    | 5cedb145b9 |
+| `EcucConfigurationClassEnum`     | [x] Done    | eb890b899c |
+| `EcucScopeEnum`                  | [x] Done    | 096c9544fc |
+| `EcucDestinationUriDefRefType`   | [x] Done    | 7047c575f7 |
+| `EcucBooleanParamDef`            | [x] Done    | b40b99238a |
+| `EcucFloatParamDef`              | [x] Done    | 454e47206b |
+| `EcucForeignReferenceDef`        | [x] Done    | 958007001d |
+| `EcucLinkerSymbolDef`            | [x] Done    | 776f61b1df |
+| `EcucReferenceDef`               | [x] Done    | 0d45067479 |
+| `EcucSymbolicNameReferenceDef`   | [x] Done    | 0d45067479 |
+| `EcucUriReferenceDef`            | [x] Done    | 0d45067479 |
+| `EcucConditionFormula`           | [x] Done    | 86096857ad |
+| `EcucParameterDerivationFormula` | [x] Done    | 16bd8cd3d0 |
+| `EcucQueryExpression`            | [x] Done    | a6ca958629 |
 
 ## Group20
 
@@ -874,7 +875,7 @@ Status: **29/29** completed
 
 ## Group21
 
-Status: **30/55** completed
+Status: **34/59** completed
 
 | Class Name                           | Status       | Commit ID  |
 | ------------------------------------ | ------------ | ---------- |
@@ -889,16 +890,18 @@ Status: **30/55** completed
 | `SdgAttribute`                       | [x] Done     | 41952ae2fd |
 | `SdgAbstractPrimitiveAttribute`      | [x] Done     | 1b8f818050 |
 | `SdgPrimitiveAttribute`              | [x] Done     | 1297ebe97b |
-| `SdgPrimitiveAttributeWithVariation` | [ ] Pending* | N/A        |
-| `SdgAggregationWithVariation`        | [ ] Pending* | N/A        |
-| `SdgReference`                       | [ ] Pending* | N/A        |
-| `SdgAbstractForeignReference`        | [ ] Pending* | N/A        |
+| `SdgPrimitiveAttributeWithVariation` | [x] Done     | e8e6234b2d |
+| `SdgAggregationWithVariation`        | [x] Done     | 207e9e3241 |
+| `SdgReference`                       | [x] Done     | e9ff581c2c |
+| `SdgAbstractForeignReference`        | [x] Done     | 47b29adc7d |
 | `SdgForeignReference`                | [ ] Pending* | N/A        |
 | `SdgForeignReferenceWithVariation`   | [ ] Pending* | N/A        |
+| `MetaClassName`                      | [ ] Pending* | N/A        |
 | `AbstractValueRestriction`           | [ ] Pending* | N/A        |
 | `AbstractVariationRestriction`       | [ ] Pending* | N/A        |
 | `FullBindingTimeEnum`                | [ ] Pending* | N/A        |
 | `CIdentifier`                        | [ ] Pending* | N/A        |
+| `CIdentifierWithIndex`               | [ ] Pending* | N/A        |
 | `CategoryString`                     | [ ] Pending* | N/A        |
 | `DateTime`                           | [ ] Pending* | N/A        |
 | `DiagRequirementIdString`            | [ ] Pending* | N/A        |
@@ -907,6 +910,7 @@ Status: **30/55** completed
 | `McdIdentifier`                      | [ ] Pending* | N/A        |
 | `RegularExpression`                  | [ ] Pending* | N/A        |
 | `RevisionLabelString`                | [ ] Pending* | N/A        |
+| `StrongRevisionLabelString`          | [ ] Pending* | N/A        |
 | `SymbolString`                       | [ ] Pending* | N/A        |
 | `UriString`                          | [ ] Pending* | N/A        |
 | `VerbatimStringPlain`                | [ ] Pending* | N/A        |
@@ -927,6 +931,7 @@ Status: **30/55** completed
 | `NoteTypeEnum`                       | [x] Done*    | N/A        |
 | `Traceable`                          | [x] Done*    | N/A        |
 | `EmphasisText`                       | [x] Done*    | N/A        |
+| `ExtIdClassEnum`                     | [ ] Pending* | N/A        |
 | `IndexEntry`                         | [x] Done*    | N/A        |
 | `Superscript`                        | [x] Done*    | N/A        |
 | `Tt`                                 | [x] Done*    | N/A        |

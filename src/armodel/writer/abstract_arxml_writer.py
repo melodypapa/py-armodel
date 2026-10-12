@@ -25,6 +25,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Ip6AddressString,
     MacAddressString,
     McdIdentifier,
+    MetaClassName,
     NameToken,
     Numerical,
     PositiveUnlimitedInteger,
@@ -181,6 +182,9 @@ class AbstractARXMLWriter(ABC):
         self.setChildElementOptionalLiteral(element, key, literal)
 
     def setChildElementOptionalDiagRequirementIdString(self, element: ET.Element, key: str, literal: Optional[DiagRequirementIdString]):
+        self.setChildElementOptionalLiteral(element, key, literal)
+
+    def setChildElementOptionalMetaClassName(self, element: ET.Element, key: str, literal: Optional[MetaClassName]):
         self.setChildElementOptionalLiteral(element, key, literal)
 
     def setChildElementOptionalIp4AddressString(self, element: ET.Element, key: str, literal: Optional[Ip4AddressString]):

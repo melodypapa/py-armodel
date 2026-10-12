@@ -13,6 +13,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
+    MetaClassName,
     NameToken,
     RefType,
 )
@@ -121,7 +122,7 @@ class SdgClass(Identifiable, SdgElementWithGid):
         self.caption: Optional[Boolean] = None
 
         # The AUTOSAR Meta-Class that may be extended by this SdgClass. Tags: xml.sequenceOffset=10
-        self.extendsMetaClass: Optional[str] = None
+        self.extendsMetaClass: Optional[MetaClassName] = None
 
         # Semantic constraints that restrict the structure of the special data group. Tags: xml.sequenceOffset=40
         self.sdgConstraintRefs: List[RefType] = []
@@ -164,7 +165,7 @@ class SdgClass(Identifiable, SdgElementWithGid):
             self.caption = value
         return self
 
-    def getExtendsMetaClass(self) -> Optional[str]:
+    def getExtendsMetaClass(self) -> Optional[MetaClassName]:
         """
         The AUTOSAR Meta-Class that may be extended by this SdgClass. Tags: xml.sequenceOffset=10
 
@@ -173,7 +174,7 @@ class SdgClass(Identifiable, SdgElementWithGid):
         """
         return self.extendsMetaClass
 
-    def setExtendsMetaClass(self, value: Optional[str]):
+    def setExtendsMetaClass(self, value: Optional[MetaClassName]):
         """
         The AUTOSAR Meta-Class that may be extended by this SdgClass. Tags: xml.sequenceOffset=10
 
@@ -244,6 +245,7 @@ class SdgPrimitiveAttributeWithVariation(SdgAbstractPrimitiveAttribute, Abstract
 
     # SdgPrimitiveAttributeWithVariation method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.30, p.101
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__  [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
 
@@ -258,6 +260,7 @@ class SdgAggregationWithVariation(SdgAttribute, SdgElementWithGid, AbstractVaria
 
     # SdgAggregationWithVariation method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.31, p.101
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__       [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
     # [x] getSubSdgRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -301,6 +304,7 @@ class SdgReference(SdgAttribute):
 
     # SdgReference method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.32, p.101
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__       [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
     # [x] getDestSdgRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -343,6 +347,7 @@ class SdgAbstractForeignReference(SdgAttribute, SdgElementWithGid, ABC):
 
     # SdgAbstractForeignReference method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.33, p.102
+    # Spec verified: R23-11 (2026-10-12, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__          [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
     # [x] getDestMetaClass  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -356,9 +361,9 @@ class SdgAbstractForeignReference(SdgAttribute, SdgElementWithGid, ABC):
         super().__init__(parent, short_name)
 
         # specifies the destination meta-class of the reference.
-        self.destMetaClass: Optional[str] = None
+        self.destMetaClass: Optional[MetaClassName] = None
 
-    def getDestMetaClass(self) -> Optional[str]:
+    def getDestMetaClass(self) -> Optional[MetaClassName]:
         """
         specifies the destination meta-class of the reference.
 
@@ -367,7 +372,7 @@ class SdgAbstractForeignReference(SdgAttribute, SdgElementWithGid, ABC):
         """
         return self.destMetaClass
 
-    def setDestMetaClass(self, value: Optional[str]):
+    def setDestMetaClass(self, value: Optional[MetaClassName]):
         """
         specifies the destination meta-class of the reference.
 

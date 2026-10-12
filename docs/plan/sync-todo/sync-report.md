@@ -6,16 +6,16 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 ## Summary
 
-**1910 classes total**
+**1915 classes total**
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 819 | 42.9% |
+| [x] Done | 823 | 43.0% |
 | [x] Deferred | 83 | 4.3% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 998 | 52.3% |
+| [ ] Deferred | 998 | 52.1% |
 | [ ] Implemented | 10 | 0.5% |
-| [ ] Created | 0 | 0.0% |
+| [ ] Created | 1 | 0.1% |
 | [ ] Pending | 0 | 0.0% |
 
 | Class Name                                              | Status      | Commit ID                                | Groups           |
@@ -234,6 +234,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `BusspecificNmEcu`                                      | [ ] Deferred| N/A                                      | Group33          |
 | `ByteOrderEnum`                                         | [ ] Deferred| N/A                                      | Group28          |
 | `CIdentifier`                                           | [ ] Deferred| N/A                                      | Group21          |
+| `CIdentifierWithIndex`                                  | [ ] Deferred| N/A                                      | Group21          |
 | `CSTransformerErrorReactionEnum`                        | [ ] Deferred| N/A                                      | Group34          |
 | `CalibrationParameterValue`                             | [ ] Deferred| 253d938ab0                               | Group28          |
 | `CalibrationParameterValueSet`                          | [ ] Deferred| 92d3b31318                               | Group28          |
@@ -335,6 +336,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `ConditionalChangeNad`                                  | [ ] Deferred| N/A                                      | Group32          |
 | `ConfidenceInterval`                                    | [ ] Deferred| N/A                                      | Group35          |
 | `ConfigReferenceValue`                                  | [x] Done    | 7ed4c9a4a4                               | Group19          |
+| `ConfigurationVariant`                                  | [ ] Created | N/A                                      | Group19          |
 | `ConsistencyNeeds`                                      | [ ] Deferred| N/A                                      | Group28          |
 | `ConstantReference`                                     | [x] Done    | 4853348ea0                               | Group9           |
 | `ConstantSpecification`                                 | [x] Done    | 265721a764                               | Group9           |
@@ -905,6 +907,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `ExecutionTime`                                         | [x] Done    | N/A                                      | Group23          |
 | `ExecutionTimeConstraint`                               | [ ] Deferred| N/A                                      | Group35          |
 | `ExecutionTimeTypeEnum`                                 | [ ] Deferred| N/A                                      | Group35          |
+| `ExtIdClassEnum`                                        | [ ] Deferred| N/A                                      | Group21          |
 | `ExternalTriggerOccurredEvent`                          | [ ] Deferred| 84453723ad                               | Group28          |
 | `ExternalTriggeringPoint`                               | [ ] Deferred| 49038a9617                               | Group29          |
 | `ExternalTriggeringPointIdent`                          | [x] Done    | c04ca0f5b3                               | Group2           |
@@ -1254,6 +1257,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `MemorySection`                                         | [x] Done    | 6d92ecd979                               | Group20          |
 | `MemorySectionLocation`                                 | [x] Done    | N/A                                      | Group23          |
 | `MemorySectionType`                                     | [x] Deferred| 70ce06f500                               | Group22          |
+| `MetaClassName`                                         | [ ] Deferred| N/A                                      | Group21          |
 | `MetaDataItem`                                          | [x] Done    | e69a025254                               | Group2           |
 | `MetaDataItemSet`                                       | [x] Done    | e69a025254                               | Group2           |
 | `MimeTypeString`                                        | [x] Done    | 01cc23df4e                               | Group3           |
@@ -1531,9 +1535,9 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `ScheduleTableEntry`                                    | [ ] Deferred| e36b881da1                               | Group31          |
 | `SdClientConfig`                                        | [x] Done    | 8e0c8857ad                               | Group7           |
 | `SdServerConfig`                                        | [x] Done    | f509df9d94                               | Group16          |
-| `SdgAbstractForeignReference`                           | [ ] Deferred| N/A                                      | Group21          |
+| `SdgAbstractForeignReference`                           | [x] Done    | 47b29adc7d                               | Group21          |
 | `SdgAbstractPrimitiveAttribute`                         | [x] Done    | 1b8f818050                               | Group21          |
-| `SdgAggregationWithVariation`                           | [ ] Deferred| N/A                                      | Group21          |
+| `SdgAggregationWithVariation`                           | [x] Done    | 207e9e3241                               | Group21          |
 | `SdgAttribute`                                          | [x] Done    | 41952ae2fd                               | Group21          |
 | `SdgClass`                                              | [x] Done    | cfa7402dec                               | Group21          |
 | `SdgDef`                                                | [x] Done    | c7d3958065                               | Group21          |
@@ -1541,8 +1545,8 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `SdgForeignReference`                                   | [ ] Deferred| N/A                                      | Group21          |
 | `SdgForeignReferenceWithVariation`                      | [ ] Deferred| N/A                                      | Group21          |
 | `SdgPrimitiveAttribute`                                 | [x] Done    | 1297ebe97b                               | Group21          |
-| `SdgPrimitiveAttributeWithVariation`                    | [ ] Deferred| N/A                                      | Group21          |
-| `SdgReference`                                          | [ ] Deferred| N/A                                      | Group21          |
+| `SdgPrimitiveAttributeWithVariation`                    | [x] Done    | e8e6234b2d                               | Group21          |
+| `SdgReference`                                          | [x] Done    | e9ff581c2c                               | Group21          |
 | `SdgTailoring`                                          | [ ] Deferred| N/A                                      | Group36          |
 | `SecOcCryptoServiceMapping`                             | [x] Done    | eec98574a9                               | Group18          |
 | `SectionInitializationPolicyType`                       | [x] Deferred| 70ce06f500                               | Group22          |
@@ -1653,6 +1657,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `StreamFilterPortRange`                                 | [ ] Deferred| c97f9dd4ee                               | Group30          |
 | `StreamFilterRuleDataLinkLayer`                         | [ ] Deferred| 65ab0bd89a                               | Group30          |
 | `StreamFilterRuleIpTp`                                  | [ ] Deferred| 8989307d08                               | Group30          |
+| `StrongRevisionLabelString`                             | [ ] Deferred| N/A                                      | Group21          |
 | `StructuredReq`                                         | [x] Done    | d311fc7ce0                               | Group1           |
 | `SubElementMapping`                                     | [x] Done    | 5eadca7853                               | Group1           |
 | `SubElementRef`                                         | [x] Done    | 47b3052188                               | Group1           |

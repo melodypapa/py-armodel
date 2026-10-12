@@ -17981,7 +17981,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "SDG-CLASS")
         self.writeIdentifiable(child_element, sdg_class)
         self.setChildElementOptionalNameToken(child_element, "GID", sdg_class.getGid())
-        self.setChildElementOptionalStringValue(child_element, "EXTENDS-META-CLASS", sdg_class.getExtendsMetaClass())
+        self.setChildElementOptionalMetaClassName(child_element, "EXTENDS-META-CLASS", sdg_class.getExtendsMetaClass())
         self.setChildElementOptionalBooleanValue(child_element, "CAPTION", sdg_class.getCaption())
         self.writeSdgClassAttributes(child_element, sdg_class)
         self.writeSdgClassSdgConstraintRefs(child_element, sdg_class)
@@ -18040,13 +18040,13 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "SDG-FOREIGN-REFERENCE")
         self.writeIdentifiable(child_element, attribute)
         self.setChildElementOptionalNameToken(child_element, "GID", attribute.getGid())
-        self.setChildElementOptionalStringValue(child_element, "DEST-META-CLASS", attribute.getDestMetaClass())
+        self.setChildElementOptionalMetaClassName(child_element, "DEST-META-CLASS", attribute.getDestMetaClass())
 
     def writeSdgForeignReferenceWithVariation(self, element: ET.Element, attribute: SdgForeignReferenceWithVariation):
         child_element = ET.SubElement(element, "SDG-FOREIGN-REFERENCE-WITH-VARIATION")
         self.writeIdentifiable(child_element, attribute)
         self.setChildElementOptionalNameToken(child_element, "GID", attribute.getGid())
-        self.setChildElementOptionalStringValue(child_element, "DEST-META-CLASS", attribute.getDestMetaClass())
+        self.setChildElementOptionalMetaClassName(child_element, "DEST-META-CLASS", attribute.getDestMetaClass())
         self.writeAbstractVariationRestriction(child_element, attribute)
 
     def writeEvaluatedVariantSetApprovalStatus(self, element: ET.Element, variant_set: EvaluatedVariantSet):

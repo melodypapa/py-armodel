@@ -16,6 +16,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     Limit,
+    MetaClassName,
     NameToken,
     PositiveInteger,
     RefType,
@@ -55,7 +56,7 @@ class TestSdgDefRoundTrip:
 
         sdg_class = SdgClass(sdg_def, "MySdgClass")
         sdg_class.setGid(NameToken().setValue("MY-CLASS-GID"))
-        sdg_class.setExtendsMetaClass("ArPackage")
+        sdg_class.setExtendsMetaClass(MetaClassName().setValue("ArPackage"))
         sdg_class.setCaption(Boolean().setValue(True))
         sdg_def.addSdgClass(sdg_class)
 
@@ -81,11 +82,11 @@ class TestSdgDefRoundTrip:
         sdg_class.addAttribute(agg)
 
         fref = SdgForeignReference(sdg_class, "PackageRef")
-        fref.setDestMetaClass("ARPackage")
+        fref.setDestMetaClass(MetaClassName().setValue("ARPackage"))
         sdg_class.addAttribute(fref)
 
         fref_wv = SdgForeignReferenceWithVariation(sdg_class, "PackageRefWV")
-        fref_wv.setDestMetaClass("ARPackage")
+        fref_wv.setDestMetaClass(MetaClassName().setValue("ARPackage"))
         sdg_class.addAttribute(fref_wv)
 
         sdg_class.addSdgConstraintRef(RefType().setValue("/AUTOSAR/MyConstraint").setDest("TRACEABLE-TEXT"))
@@ -109,7 +110,7 @@ class TestSdgDefRoundTrip:
 
             assert reloaded.getShortName() == "MySdgClass"
             assert reloaded.getGid().getValue() == "MY-CLASS-GID"
-            assert reloaded.getExtendsMetaClass() == "ArPackage"
+            assert reloaded.getExtendsMetaClass().getValue() == "ArPackage"
             assert reloaded.getCaption().getValue() is True
 
             attributes = reloaded.getAttributes()
@@ -135,9 +136,9 @@ class TestSdgDefRoundTrip:
             assert agg_r.getSubSdgRef().getDest() == "SDG-CLASS"
 
             fref_r = by_name["PackageRef"]
-            assert fref_r.getDestMetaClass() == "ARPackage"
+            assert fref_r.getDestMetaClass().getValue() == "ARPackage"
             fref_wv_r = by_name["PackageRefWV"]
-            assert fref_wv_r.getDestMetaClass() == "ARPackage"
+            assert fref_wv_r.getDestMetaClass().getValue() == "ARPackage"
 
             refs = reloaded.getSdgConstraintRefs()
             assert len(refs) == 1

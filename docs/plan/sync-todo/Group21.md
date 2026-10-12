@@ -333,7 +333,7 @@ pending that confirmation.
 - [x] `SdgClass` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.26, p.100
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/SpecialDataDef.py
   - [x] Step 1 — Sync members & description from spec
-    - note (Step 1): Table 4.26 (leading-caption page-split — attr rows in the continuation block, p.100 via pdf_page.py); Base row lists both SdgElementWithGid and Identifiable → dual inheritance SdgClass(SdgElementWithGid, Identifiable); attrs extendsMetaClass (MetaClassName, 0..1, attr → Optional[str]), caption (Boolean, 0..1, attr), attribute (SdgAttribute, *, aggr, ordered → attributes + addAttribute), sdgConstraint (TraceableText, *, ref → sdgConstraintRefs).
+    - note (Step 1): Table 4.26 (leading-caption page-split — attr rows in the continuation block, p.100 via pdf_page.py); Base row lists both SdgElementWithGid and Identifiable → dual inheritance SdgClass(SdgElementWithGid, Identifiable); attrs extendsMetaClass (MetaClassName, 0..1, attr → **Optional[MetaClassName]**; retyped from Optional[str] on 2026-10-12, see Step 9 of SdgAbstractForeignReference), caption (Boolean, 0..1, attr), attribute (SdgAttribute, *, aggr, ordered → attributes + addAttribute), sdgConstraint (TraceableText, *, ref → sdgConstraintRefs).
   - [x] Step 2 — Write model class unit test (Red)
     - note (Step 2): tests added in test_SpecialDataDef.py (family suite: abstract
       rejections, member round-trips, adder chaining) — seen Red (classes did not exist
@@ -359,11 +359,56 @@ pending that confirmation.
   - [x] Step 7 — Update checklist comment
     - note (Step 7): 6-column block + release column; marker withheld (batch mode).
   - [x] Step 8 — Deviations
-    - note (Step 8): extendsMetaClass typed Optional[str] (MetaClassName primitive has no src class); sdgConstraint typed List[RefType] (TraceableText ditto); SdgReference carries NO gid per its Base row/XSD group.
+    - note (Step 8, original wording, 2026-09-30 — partly superseded, see below):
+      extendsMetaClass typed Optional[str]; sdgConstraint typed List[RefType] "TraceableText
+      ditto"; SdgReference carries NO gid per its Base row/XSD group. **Caveat:** both "missing
+      src class" rationales were written before `MetaClassName`/`TraceableText` existed in src
+      and were never re-checked — the first turned out to be a real defect, the second a false
+      positive. Do not read either phrase as current evidence.
+    - note (Step 8, partial resolution 2026-10-12): the **extendsMetaClass** deviation is
+      RESOLVED and removed (Rule 0014 to-fix) — same stale-rationale defect as
+      `SdgAbstractForeignReference.destMetaClass` fixed in commit 47b29adc7: MetaClassName was
+      synced 2026-10-12 (Table 4.36, commit 90d04a5ad), after this note was written. Retyped to
+      `Optional[MetaClassName]`, reusing the
+      `get/setChildElementOptionalMetaClassName` pair added by that commit — no new leaf helper was
+      needed, since XSD l.102102 types `EXTENDS-META-CLASS` as `AR:META-CLASS-NAME`, the same
+      customType as `DEST-META-CLASS`. 4 call sites rewired (1 reader + 1 writer + 2 test asserts)
+      plus 2 test setters; round-trip re-verified to preserve the spec type.
+      **Investigated 2026-10-12 — the `sdgConstraint` "deviation" is NOT one; no code change.**
+      The original wording ("TraceableText ditto", i.e. missing src class) conflated two
+      independent spec columns: `TraceableText` is the **`Type`** column (what the reference
+      points at), while **`ref`** in the **`Kind`** column is what fixes the Python shape. For
+      `Kind ref` Rule 0001.5 mandates the `Ref`/`Refs` suffix + `RefType` — the target class is
+      never the field type, since the model stores a reference, not an instance. Three
+      independent confirmations:
+      (a) **Direct siblings in the same file** — `subSdg` (Table 4.31, Type `SdgClass`, Kind
+      `ref`) → `subSdgRef: Optional[RefType]` and `destSdg` (Table 4.32, Type `SdgClass`, Kind
+      `ref`) → `destSdgRef: Optional[RefType]`; both name a spec class that *does* exist in src
+      and are still `RefType`. Identical in kind, differing only in `0..1` vs `*`.
+      (b) **XSD ground truth** — `SDG-CONSTRAINT-REF` (l.102137-102144) is a `simpleContent`
+      extension of `AR:REF` with a required `DEST`, byte-for-byte the same shape as
+      `SUB-SDG-REF` (l.102017) and `DEST-SDG-REF` (l.102456).
+      (c) **The target type is not lost** — it rides the `DEST` attribute
+      (`TRACEABLE-TEXT--SUBTYPES-ENUM` → `TRACEABLE-TEXT`, l.125421), which the existing
+      reader/writer already round-trips; both parser and writer tests assert
+      `getDest() == "TRACEABLE-TEXT"`.
+      Multiplicity is also correct (`*` → `List[RefType]` + `addSdgConstraintRef` /
+      `getSdgConstraintRefs`, Rule 0001.4), the `Refs` suffix is applied, and reader/writer
+      coverage is `SDG-CONSTRAINT-REFS/SDG-CONSTRAINT-REF` via `getChildElementRefTypeList`.
+      **Retyping this to `List[TraceableText]` would have INTRODUCED a real deviation** and
+      broken the round-trip, since the XML carries a reference with `DEST`, not an embedded
+      `TraceableText`. The claim is retracted, not left open.
+      SdgReference carries NO gid per its Base row/XSD group — accepted, unchanged.
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (362 passed / 0 failed
     family suites; 14,043 passed / 0 failed models+parser+writer sweep); 9b confirmed
     2026-10-09 (Rule 0026 audit vs source: all 9a automated + 9b manual checks green;
     `# Spec verified: R23-11` marker written); sync commit cfa7402de
+    - note (9a re-run after the extendsMetaClass retype, 2026-10-12): full suite **26,150 passed
+      / 0 failed**; mypy Success (279 source files); ruff, black (2880 files), flake8 clean;
+      Rule 0022 gate 3 passed; Sdg family 18 passed; `audit_class.py SdgClass` => PASS.
+      The existing `# Spec verified: R23-11` marker was **left in place and not re-stamped**
+      (Rule 0012.1 — replace, never append; and a re-stamp would require its own 9b, which this
+      follow-up retype did not re-run for the whole class).
 
 - [x] `SdgAttribute` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.27, p.100
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/SpecialDataDef.py
@@ -481,7 +526,7 @@ pending that confirmation.
     Class cell via the spec shifted Class-cell convention);
     sync commit 1297ebe97
 
-- [ ] `SdgPrimitiveAttributeWithVariation` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.30, p.101
+- [x] `SdgPrimitiveAttributeWithVariation` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.30, p.101
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/SpecialDataDef.py
   - [x] Step 1 — Sync members & description from spec
     - note (Step 1): Table 4.30 (trailing-caption; p.101 via pdf_page.py); Base row adds AbstractVariationRestriction → SdgPrimitiveAttributeWithVariation(SdgAbstractPrimitiveAttribute, AbstractVariationRestriction); zero own attribute rows.
@@ -511,11 +556,24 @@ pending that confirmation.
     - note (Step 7): 6-column block + release column; marker withheld (batch mode).
   - [x] Step 8 — Deviations
     - note (Step 8): none.
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (362 passed / 0 failed
-    family suites; 14,043 passed / 0 failed models+parser+writer sweep); 9b deferred to
-    batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a re-run 2026-10-11 (full suite 26,135
+    passed; ruff / black / flake8 / mypy (279 files) clean; member-annotation gate 3 passed);
+    9b confirmed 2026-10-11 (user approval, `# Spec verified: R23-11` marker written in
+    SpecialDataDef.py)
+    2026-10-11 (Rule 0026 audit vs source — re-verified rather than trusting the row's
+    "steps 1-8 done" prose: audit_class.py PASS — BLOCK/ROWS/SPECLINE/CITATION/DOC/
+    SPACING/DOCTAIL/BASE/MEMBER clean; SPEC-BASE reported "no readable Base row" (the
+    Table 4.30 content sits in the Table 4.29 block under the spec shifted Class-cell
+    convention) so the base was verified by eye per the spec's Base row —
+    AbstractVariationRestriction present, most-derived SdgAbstractPrimitiveAttribute,
+    role-branch AbstractVariationRestriction → (SdgAbstractPrimitiveAttribute,
+    AbstractVariationRestriction) as in source; zero own attribute rows (`–` ×5) so a pure
+    pass-through; docstring verbatim from the Table 4.29-block Class cell, no Tags: tail
+    in this table; parser/writer round-trip asserts field values (getVariation() False,
+    getValidBindingTimes()[0] POST-BUILD));
+    sync commit e8e6234b2
 
-- [ ] `SdgAggregationWithVariation` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.31, p.101
+- [x] `SdgAggregationWithVariation` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.31, p.101
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/SpecialDataDef.py
   - [x] Step 1 — Sync members & description from spec
     - note (Step 1): Table 4.31 (leading-caption; p.101 via pdf_page.py); Base row: ARObject, AMR, AbstractVariationRestriction, Identifiable, MLR, Referrable, SdgAttribute, SdgElementWithGid → SdgAggregationWithVariation(SdgElementWithGid, SdgAttribute, AbstractVariationRestriction); attr subSdg (SdgClass, 0..1, ref) → subSdgRef.
@@ -545,11 +603,25 @@ pending that confirmation.
     - note (Step 7): 6-column block + release column; marker withheld (batch mode).
   - [x] Step 8 — Deviations
     - note (Step 8): none.
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (362 passed / 0 failed
-    family suites; 14,043 passed / 0 failed models+parser+writer sweep); 9b deferred to
-    batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a re-run 2026-10-11 (full suite 26,135
+    passed; ruff / black / flake8 / mypy (279 files) clean; member-annotation gate 3 passed);
+    9b confirmed 2026-10-11 (user approval, `# Spec verified: R23-11` marker written in
+    SpecialDataDef.py)
+    2026-10-11 (Rule 0026 audit vs source — re-verified rather than trusting the row's
+    "steps 1-8 done" prose: audit_class.py PASS on every gate, SPEC-BASE reads the Base
+    row cleanly here (no eye-check fallback needed, unlike Table 4.30); unlike the sibling
+    pass-through classes this one owns a real attribute — Table 4.31 block carries exactly
+    one row, subSdg (SdgClass, 0..1, ref, Note "Supported sub Sdg Class") → subSdgRef
+    Optional[RefType] per Rule 0001.5 Ref suffix; Base row has no AbstractValueRestriction
+    so the triple base (SdgAttribute, SdgElementWithGid, AbstractVariationRestriction) is
+    faithful with no over-derivation; reader calls setSubSdgRef on SUB-SDG-REF and writer
+    calls getSubSdgRef, checked independently (Rule 0025), so reader [x] sits on the setter
+    row and writer [x] on the getter row; docstrings verbatim incl. "Represents 'sdg'", no
+    Tags: tail in this table; round-trip asserts field values (getSubSdgRef().getValue()
+    path, getDest() SDG-CLASS));
+    sync commit 207e9e324
 
-- [ ] `SdgReference` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.32, p.101
+- [x] `SdgReference` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.32, p.101
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/SpecialDataDef.py
   - [x] Step 1 — Sync members & description from spec
     - note (Step 1): Table 4.32 (leading-caption; p.101 via pdf_page.py); Base row has NO SdgElementWithGid (XSD SDG-REFERENCE group embeds no SDG-ELEMENT-WITH-GID) → SdgReference(SdgAttribute); attr destSdg (SdgClass, 0..1, ref) → destSdgRef.
@@ -579,14 +651,30 @@ pending that confirmation.
     - note (Step 7): 6-column block + release column; marker withheld (batch mode).
   - [x] Step 8 — Deviations
     - note (Step 8): none.
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (362 passed / 0 failed
-    family suites; 14,043 passed / 0 failed models+parser+writer sweep); 9b deferred to
-    batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a re-run 2026-10-11 (full suite 26,135
+    passed; ruff / black / flake8 / mypy (279 files) clean; member-annotation gate 3 passed);
+    9b confirmed 2026-10-11 (user approval, `# Spec verified: R23-11` marker written in
+    SpecialDataDef.py)
+    2026-10-11 (Rule 0026 audit vs source — re-verified rather than trusting the row's
+    "steps 1-8 done" prose: audit_class.py PASS on every gate; Table 4.32 block carries
+    exactly one attribute row, destSdg (SdgClass, 0..1, ref) → destSdgRef
+    Optional[RefType] per Rule 0001.5 Ref suffix, declared PEP 526 annotated (Rule 0003,
+    no trailing `# type:`); Base row carries no SdgElementWithGid and no
+    AbstractVariationRestriction → single base SdgAttribute, runtime-confirmed
+    (__bases__ == ('SdgAttribute',)), so the class correctly carries NO gid — the family's
+    negative control, with SdgAggregationWithVariation (3 bases) as the positive control;
+    reader calls setDestSdgRef on DEST-SDG-REF and writer calls getDestSdgRef, checked
+    independently (Rule 0025), so reader [x] on the setter row and writer [x] on the getter
+    row; both spec Notes AST-diffed VERBATIM at all four placements — class docstring,
+    __init__ inline comment, and both accessor docstrings — not eyeballed, given the
+    multi-sentence destSdg Note; no Tags: tail in this table; round-trip asserts field
+    values (path + getDest() SDG-CLASS));
+    sync commit e9ff581c2
 
-- [ ] `SdgAbstractForeignReference` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.33, p.102
+- [x] `SdgAbstractForeignReference` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.33, p.102
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/SpecialDataDef.py
   - [x] Step 1 — Sync members & description from spec
-    - note (Step 1): Table 4.33 (header-cell lookup; p.102 via pdf_page.py); abstract (spec header); Base row: ARObject, AMR, Identifiable, MLR, Referrable, SdgAttribute, SdgElementWithGid → SdgAbstractForeignReference(SdgElementWithGid, SdgAttribute, ABC); attr destMetaClass (MetaClassName, 0..1, attr → Optional[str]).
+    - note (Step 1): Table 4.33 (header-cell lookup; p.102 via pdf_page.py); abstract (spec header); Base row: ARObject, AMR, Identifiable, MLR, Referrable, SdgAttribute, SdgElementWithGid → SdgAbstractForeignReference(SdgElementWithGid, SdgAttribute, ABC); attr destMetaClass (MetaClassName, 0..1, attr → Optional[MetaClassName]; **retyped from Optional[str] at 9b**, see Step 9).
   - [x] Step 2 — Write model class unit test (Red)
     - note (Step 2): tests added in test_SpecialDataDef.py (family suite: abstract
       rejections, member round-trips, adder chaining) — seen Red (classes did not exist
@@ -612,10 +700,46 @@ pending that confirmation.
   - [x] Step 7 — Update checklist comment
     - note (Step 7): 6-column block + release column; marker withheld (batch mode).
   - [x] Step 8 — Deviations
-    - note (Step 8): destMetaClass typed Optional[str] (MetaClassName primitive has no src class).
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (362 passed / 0 failed
-    family suites; 14,043 passed / 0 failed models+parser+writer sweep); 9b deferred to
-    batch confirmation (user instruction)
+    - note (Step 8): the recorded `Optional[str]` type deviation is **RESOLVED and removed**
+      (Rule 0014 to-fix, not accepted). Its stated rationale — "MetaClassName primitive has no
+      src class" — had gone stale: MetaClassName was synced 2026-10-12 (Table 4.36, commit
+      90d04a5ad), i.e. *after* this row's Step 8 was written. Retyped to the spec class at 9b
+      (user-directed); no deviation row remains, so nothing withholds the stamp.
+    - note (Step 8, follow-up **closed** 2026-10-12): the sibling
+      `SdgClass.extendsMetaClass` — same spec type, same stale rationale — was flagged as
+      follow-up debt here and has since been retyped to `Optional[MetaClassName]` on its own
+      row, reusing the same leaf-helper pair. Both `MetaClassName`-typed Sdg attributes are now
+      spec-typed; no `Optional[str]` stands in for this primitive anywhere in the family.
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (362 passed / 0 failed
+    family suites; 14,043 passed / 0 failed models+parser+writer sweep); **9b run and confirmed
+    2026-10-12** (Rule 0026 audit vs source, not trusting the row's steps-1-8 prose — the audit
+    itself passed, so the drift was confined to the Step 8 note).
+    - note (9b, re-verified rather than assumed): abstract Class kind + `type(self) is` guard;
+      exactly one spec Attribute row (`destMetaClass`) ↔ one field + one accessor pair, no
+      fabrication/flattening; Base row → `(SdgAttribute, SdgElementWithGid, ABC)` with runtime
+      `__bases__` confirmation; Package → `SpecialDataDef.py` in a leaf package, top-level export
+      resolves; docstrings AST-diffed VERBATIM at all four placements (class + comment + getter +
+      setter) including the spec's lowercase "specifies..."; PEP 526 `Optional[MetaClassName]`
+      matches `0..1`; reader and writer checked INDEPENDENTLY for the base helper
+      (`readIdentifiable` / `writeIdentifiable`, exactly once each — Rule 0025/0013.1); no
+      chained mutators in the Sdg block; writer XML order `GID` → `DEST-META-CLASS` matches the
+      XSD `SDG-FOREIGN-REFERENCE` sequence.
+    - note (9b, retype): user chose to retype rather than accept. Added the
+      `getChildElementOptionalMetaClassName` / `setChildElementOptionalMetaClassName` leaf-helper
+      pair in the abstract parser/writer (mirroring the CategoryString / DiagRequirementIdString
+      house shape; the writer side is a one-line delegation to `setChildElementOptionalLiteral`),
+      rewired 4 call sites (2 readers + 2 writers) and 10 test call sites across 3 test files.
+      Round-trip proven lossless **with the spec type preserved** —
+      `<DEST-META-CLASS>ARPackage</DEST-META-CLASS>` re-parses as a `MetaClassName` instance, not
+      a plain `ARLiteral` (the Rule 0013.2 failure mode).
+    - note (9a re-run after the retype): full suite **26,150 passed / 0 failed**; mypy Success
+      (279 source files); ruff clean; black clean (2880 files); flake8 E9,F63,F7,F82 clean;
+      Rule 0022 member-annotation gate 3 passed; Sdg family 18 passed; `audit_class.py` PASS with
+      STAMP now reporting the marker over 3 `[x]` rows. `regen_sync_todo.py --check` drift is the
+      pre-existing batch-deferral artifact shared with this file's MetaClassName /
+      CIdentifierWithIndex / StrongRevisionLabelString rows — not introduced here.
+    - note: `# Spec verified: R23-11 (2026-10-12, user 9b confirmation)` written immediately after
+      the `# Spec:` line (Rule 0012.1); post-stamp audit STAMP clean, `=> PASS`; sync commit 47b29adc7.
 
 - [ ] `SdgForeignReference` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.34, p.102
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/SpecialDataDef.py
@@ -685,6 +809,30 @@ pending that confirmation.
     family suites; 14,043 passed / 0 failed models+parser+writer sweep); 9b deferred to
     batch confirmation (user instruction)
 
+- [ ] `MetaClassName` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.36, p.102; also AUTOSAR_TPS_GenericStructureTemplate (R4.3.1) Table 4.39, p.83; also Table 4.66, p.94
+  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
+  - [x] Step 1 — Sync members & description from spec
+    - note (Step 1): Primitive table (Package + Note + Tags only; no Attribute/Base rows):
+      "Name of a class in the AUTOSAR Meta-Model." Tags: xml.xsd.customType=META-CLASS-NAME
+      xml.xsd.pattern=[A-Z][a-zA-Z0-9_]* xml.xsd.type=string; p.102 via pdf_page.py;
+      cross-checked against AUTOSAR_00052.xsd line 140348 (complexType META-CLASS-NAME);
+      R4.3.1 Table 4.39 rendering is older ("Name of an class", no Tags) — R23-11 authoritative.
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+    - note (Step 5): N/A — value-carried primitive with no own XML element and no synced
+      consuming attribute (no parser/writer dispatch exists); checklist reader/writer [—]
+      (audit MEMBER: "value-carried type — serialized as text/attribute value").
+  - [x] Step 6 — Update parser & writer (Green)
+    - note (Step 6): N/A — no changes needed (type resolves from the consuming attribute).
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+    - note (Step 8): none.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-12 (audit PASS, 1 BASE
+    warning for the value-carried type, missing-marker INFO expected pre-9b; 4 model tests
+    + 307 PrimitiveTypes sibling tests + 4 export/annotation gate tests passed; mypy,
+    ruff, black clean)
 - [ ] `AbstractValueRestriction` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.37, p.103; also FO_TPS_StandardizationTemplate Table 6.9, p.87
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ModelRestrictionTypes.py
   - [x] Step 1 — Sync members & description from spec
@@ -843,6 +991,43 @@ pending that confirmation.
       stamped Identifier; namePattern 0..1 matches. No other deviations.
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (127 passed / 0 failed
     test_PrimitiveTypes.py); 9b deferred to batch confirmation (user instruction)
+- [ ] `CIdentifierWithIndex` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.46, p.108; also AUTOSAR_TPS_GenericStructureTemplate (R4.3.1) Table 4.52, p.90
+  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
+  - [x] Step 1 — Sync members & description from spec
+    - note (Step 1): Table 4.46 (p.108 via pdf_page.py; caption + body adjacent, content
+      self-named CIdentifierWithIndex / C-IDENTIFIER-WITH-INDEX); Package + Note rows
+      only, no Attribute rows — sole member is the inherited literal value; Note
+      verbatim + Tags tail carried into the class docstring.
+  - [x] Step 2 — Write model class unit test (Red)
+    - note (Step 2): 4 tests written first (init defaults, ARLiteral subclass, set/get
+      chaining, None no-op) — pass against the pre-existing stub, no behavioral Red
+      observable (stub already carried ARLiteral behavior, same as sibling
+      CIdentifier); Red state was the entry-gate audit FAIL (BLOCK).
+  - [x] Step 3 — Implement model class (Green)
+    - note (Step 3): explicit __init__ added (super-only — Table 4.46 has no Attribute
+      rows, sole member is the inherited literal value); field-to-spec cross-check both
+      directions passes (no own fields to match); kept at its existing position next to
+      MetaClassName (same module — Rule 0007 package/file shape correct).
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    - note (Step 4): old single-line docstring wiped; rewritten verbatim in sibling
+      CIdentifier's bullet-Tags form (Note sentence + xml.xsd.customType/pattern/type);
+      __init__ has no docstring.
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+    - note (Steps 5/6): N/A — no own XML element; value-carried literal rides
+      consuming elements' literal serialization; zero parser/writer references (grep)
+      — same finding as MetaClassName/CIdentifier; [—] reader/writer.
+  - [x] Step 6 — Update parser & writer (Green)
+    - note (Steps 5/6): N/A — see Step 5.
+  - [x] Step 7 — Update checklist comment
+    - note (Step 7): 6-column block with release column; `# Spec:
+      AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.46, p.108`; marker withheld
+      (batch mode).
+  - [x] Step 8 — Deviations
+    - note (Step 8): none — no Attribute rows, no missing referenced classes.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-12 (audit PASS 1 warning
+    BASE value-carried; 2376 passed GeneralTemplateClasses; ruff/black/mypy clean;
+    regen --check drift is the batch-deferral artifact shared with MetaClassName —
+    --write deferred per batch mode); 9b deferred to batch confirmation (user instruction)
 - [ ] `CategoryString` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.47, p.109
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
   - [x] Step 1 — Sync members & description from spec
@@ -1050,6 +1235,43 @@ pending that confirmation.
     - note (Step 8): none; no missing referenced classes.
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (139 passed / 0 failed
     test_PrimitiveTypes.py); 9b deferred to batch confirmation (user instruction)
+- [ ] `StrongRevisionLabelString` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.64, p.114
+  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
+  - [x] Step 1 — Sync members & description from spec
+    - note (Step 1): Table 4.64 (trailing-caption render, p.114 via pdf_page.py); Package
+      M2::...::GeneralTemplateClasses::PrimitiveTypes; kind Primitive — Package row + Note
+      only, zero Attribute/Base rows (sole member = inherited literal value); Note verbatim
+      + Tags; XSD AUTOSAR_00052.xsd:143564 grounds the pattern — markdown `[0-9a-z A-Z-]`
+      space and "Major Version" space are conversion artifacts (XSD: `[0-9a-zA-Z-]`,
+      "MajorVersion"), `&#124;` decoded to `|`.
+  - [x] Step 2 — Write model class unit test (Red)
+    - note (Step 2): test_StrongRevisionLabelString.py added (init + subclass-of-ARLiteral +
+      setValue/getValue round-trip + None no-op), sibling test shape; 4 passed — no Red
+      observable (pre-existing stub already inherits ARLiteral behavior, as with
+      TestRegularExpression).
+  - [x] Step 3 — Implement model class (Green)
+    - note (Step 3): explicit `__init__` added (super().__init__()); ARLiteral base kept —
+      zero own members, field-to-spec cross-check PASSES (no fabrication).
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    - note (Step 4): single-blob stub docstring REPLACED (Rule 0012.2.3 wipe-first) with the
+      Table 4.64 Note verbatim + bulleted legal patterns + Tags block (pattern per XSD
+      ground truth); __init__ has no docstring.
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+    - note (Steps 5/6): N/A — value-carried literal, no own XML element; consumed as
+      attribute/text value on consumer elements; no parser/writer dispatch exists.
+  - [x] Step 6 — Update parser & writer (Green)
+    - note (Steps 5/6): N/A — see Step 5.
+  - [x] Step 7 — Update checklist comment
+    - note (Step 7): 6-column block + release column; `# Spec:
+      AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.64, p.114`; marker withheld
+      (batch mode); audit PASS (BASE warn = value-carried type, expected).
+  - [x] Step 8 — Deviations
+    - note (Step 8): none; markdown render artifacts grounded on XSD
+      AUTOSAR_00052.xsd:143564 (see Step 1); no missing referenced classes.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-12 (2383 passed
+    GeneralTemplateClasses + member-annotations; audit PASS — BASE warn = value-carried
+    type; ruff/black/mypy clean; regen --check reports expected batch-deferral drift);
+    9b deferred to batch confirmation (user instruction)
 - [ ] `SymbolString` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.65, p.114
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
   - [x] Step 1 — Sync members & description from spec
@@ -1397,6 +1619,18 @@ pending that confirmation.
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b)
   - note: already-verified short-circuit 2026-09-30 (Group21 header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
+- [ ] `ExtIdClassEnum` — AREnum — R23-11 FO_TPS_GenericStructureTemplate Table 9.35, p.317; also AUTOSAR_TPS_GenericStructureTemplate (R4.3.1) Table 4.57, p.92; also Table 8.36, p.282
+  - module: M2/MSR/Documentation/TextModel/InlineAttributeEnums.py
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note: steps 1-8 done 2026-10-12; 9a battery green (audit PASS w/ missing-marker INFO, pytest 483 + 3 gate tests, ruff, black 200, mypy clean; regen --check drift deferred to batch stamp). Rule 0007 placement: spec Package row `M2::MSR::Documentation::TextModel::InlineAttributeEnums` → InlineAttributeEnums.py (not the PrimitiveTypes.py hint; no extId consumer exists in src). Table 9.35 is a Primitive table with zero Literal rows — XSD `EXT-ID-CLASS-ENUM--SIMPLE` restricts xsd:string with no enumeration facets; synced as instantiable zero-literal AREnum with string value semantics. Steps 5/6 N/A (standalone enum, no own XML element). Deviations: none.
 - [x] `IndexEntry` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 9.36, p.317 — already verified (short-circuit 2026-09-30)
   - module: M2/MSR/Documentation/TextModel/InlineTextElements.py
   - [x] Step 1 — Sync members & description from spec

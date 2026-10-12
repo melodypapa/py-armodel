@@ -28,6 +28,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Limit,
     MacAddressString,
     McdIdentifier,
+    MetaClassName,
     NameToken,
     Numerical,
     PositiveInteger,
@@ -293,6 +294,15 @@ class AbstractARXMLParser(ABC):
         value = None
         if child_element is not None:
             value = DiagRequirementIdString()
+            self.readARType(child_element, value)
+            value.setValue("" if child_element.text is None else child_element.text)
+        return value
+
+    def getChildElementOptionalMetaClassName(self, element: ET.Element, key: str) -> Optional[MetaClassName]:
+        child_element = self.find(element, key)
+        value = None
+        if child_element is not None:
+            value = MetaClassName()
             self.readARType(child_element, value)
             value.setValue("" if child_element.text is None else child_element.text)
         return value

@@ -104,7 +104,7 @@ class TestReadSdgDef:
             sdg_class = sdg_classes[0]
             assert sdg_class.getShortName() == "MySdgClass"
             assert sdg_class.getGid().getValue() == "MY-CLASS-GID"
-            assert sdg_class.getExtendsMetaClass() == "ArPackage"
+            assert sdg_class.getExtendsMetaClass().getValue() == "ArPackage"
             assert sdg_class.getCaption().getValue() is True
 
             attributes = sdg_class.getAttributes()
@@ -133,10 +133,10 @@ class TestReadSdgDef:
             assert agg.getSubSdgRef().getValue() == "/AUTOSAR/SdgDefs/MySdgDef/MySdgClass"
 
             fref = by_type["SdgForeignReference"][0]
-            assert fref.getDestMetaClass() == "ARPackage"
+            assert fref.getDestMetaClass().getValue() == "ARPackage"
 
             fref_wv = by_type["SdgForeignReferenceWithVariation"][0]
-            assert fref_wv.getDestMetaClass() == "ARPackage"
+            assert fref_wv.getDestMetaClass().getValue() == "ARPackage"
 
             refs = sdg_class.getSdgConstraintRefs()
             assert len(refs) == 1
