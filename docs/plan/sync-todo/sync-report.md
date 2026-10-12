@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 825 | 43.1% |
+| [x] Done | 826 | 43.2% |
 | [x] Deferred | 83 | 4.3% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 995 | 52.0% |
+| [ ] Deferred | 994 | 51.9% |
 | [ ] Implemented | 10 | 0.5% |
 | [ ] Created | 1 | 0.1% |
 | [ ] Pending | 0 | 0.0% |
@@ -48,7 +48,6 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `AbstractRuleBasedValueSpecification`                   | [ ] Deferred| a9f7a78876                               | Group28          |
 | `AbstractSecurityEventFilter`                           | [ ] Deferred| N/A                                      | Group36          |
 | `AbstractServiceInstance`                               | [ ] Deferred| N/A                                      | Group32          |
-| `AbstractValueRestriction`                              | [ ] Deferred| N/A                                      | Group21          |
 | `AbstractVariationRestriction`                          | [ ] Deferred| N/A                                      | Group21          |
 | `AccessCount`                                           | [x] Done    | e3d1262da1                               | Group22          |
 | `AccessCountSet`                                        | [x] Deferred| e3d1262da1                               | Group22          |
@@ -1257,6 +1256,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `MemorySection`                                         | [x] Done    | 6d92ecd979                               | Group20          |
 | `MemorySectionLocation`                                 | [x] Done    | N/A                                      | Group23          |
 | `MemorySectionType`                                     | [x] Deferred| 70ce06f500                               | Group22          |
+| `MetaClassName`                                         | [x] Done    | a8f36cd56b                               | Group21          |
 | `MetaDataItem`                                          | [x] Done    | e69a025254                               | Group2           |
 | `MetaDataItemSet`                                       | [x] Done    | e69a025254                               | Group2           |
 | `MimeTypeString`                                        | [x] Done    | 01cc23df4e                               | Group3           |

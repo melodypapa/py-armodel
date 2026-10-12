@@ -875,7 +875,7 @@ Status: **29/29** completed
 
 ## Group21
 
-Status: **36/58** completed
+Status: **37/58** completed
 
 | Class Name                           | Status       | Commit ID  |
 | ------------------------------------ | ------------ | ---------- |
@@ -896,7 +896,7 @@ Status: **36/58** completed
 | `SdgAbstractForeignReference`        | [x] Done     | 47b29adc7d |
 | `SdgForeignReference`                | [x] Done     | 13929a0060 |
 | `SdgForeignReferenceWithVariation`   | [x] Done     | b9f42c0d6e |
-| `AbstractValueRestriction`           | [ ] Pending* | N/A        |
+| `MetaClassName`                      | [x] Done     | a8f36cd56b |
 | `AbstractVariationRestriction`       | [ ] Pending* | N/A        |
 | `FullBindingTimeEnum`                | [ ] Pending* | N/A        |
 | `CIdentifier`                        | [ ] Pending* | N/A        |
