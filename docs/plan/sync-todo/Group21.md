@@ -1198,10 +1198,58 @@ pending that confirmation.
       (batch mode).
   - [x] Step 8 — Deviations
     - note (Step 8): none — no Attribute rows, no missing referenced classes.
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-12 (audit PASS 1 warning
-    BASE value-carried; 2376 passed GeneralTemplateClasses; ruff/black/mypy clean;
-    regen --check drift is the batch-deferral artifact shared with MetaClassName —
-    --write deferred per batch mode); 9b deferred to batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+    - note (9a, re-run 2026-10-12, full battery): full suite **26,154 passed / 0 failed**
+      (integration round-trip included, XSD validation gates ON per Rule 0027);
+      `test_CIdentifierWithIndex.py` 4 passed; `test_PrimitiveTypes.py` 307 passed;
+      Rule 0022 member-annotation gate 3 passed; set-based checklist-vs-methods script
+      green (`{__init__}` == `{__init__}`, no untested method, no `# type:`);
+      `mypy` **Success: no issues found in 279 source files** (the 13 pre-existing openpyxl
+      errors recorded on the SdgForeignReferenceWithVariation row are **not** present in
+      this environment — green repo-wide); ruff clean; flake8 E9,F63,F7,F82 clean;
+      black --check (200 cols) 2880 files unchanged; `audit_class.py` => PASS (0 failures,
+      1 WARN — resolved below); `regen_sync_todo.py --check` => **reports up to date**
+      (the batch-deferral drift the earlier note expected is gone — no `--write` needed).
+    - note (9b, Rule 0026 — every item re-derived from source, not trusted from the row's
+      steps-1-8 prose; user confirmed 2026-10-12): **no drift found.** All 14 items pass.
+      (a) Table 4.46 is a **leading-caption page-split** (caption md L2921, body
+      L2923-2926) with header cell `Primitive` ⇒ `ARLiteral` per Rule 0001.10, not a
+      `Class` table; runtime `__bases__ == (ARLiteral,)`; no Base row ⇒ `__init__(self)`.
+      (b) **Zero Attribute rows** ⇒ zero own fields/accessors; the field-to-spec cross-check
+      therefore passes in **both directions** (no fabrication, nothing missing).
+      (c) **Docstring verified by script diff, not by eye**: token sequence against the
+      markdown `Note` cell is identical — the only deltas are markdown bullet markers, the
+      `` `` `` literal-code rendering and the cell delimiter. Verbatim incl. the `Tags:`
+      tail (Rule 0012.2.5.3), byte-equal to the XSD `<xsd:documentation>` at
+      `AUTOSAR_00052.xsd` l.132052; r-string preserves the pattern backslashes;
+      `__init__` has no docstring. (d) Rule 0007: spec Package row
+      `…::GeneralTemplateClasses::PrimitiveTypes`, `GeneralTemplateClasses` is a **leaf**
+      package ⇒ `PrimitiveTypes.py` correct; `armodel.CIdentifierWithIndex` resolves.
+      (e) Rules 0001.5/0001.6/0011/0008/0003/0022 vacuous (zero members) — greps confirm
+      no `# type:`, no quoted annotations. (f) Rule 0014: no deviations, no Rule 0010
+      placeholder. (g) Rule 0002/0016.3: the R23-11 table **exists**, so the R4.3.1
+      fallback does not apply — R4.3.1 Table 4.52 is the older rendering (semicolon
+      tags, spurious space in `[a-zA-Z _]`) and is correctly not cited; page `p.108`
+      from `pdf_page.py`.
+    - note (audit `BASE` WARN — resolved, no code change): the audit warns that
+      `CIdentifierWithIndex` has no dedicated
+      `get/setChildElementOptionalCIdentifierWithIndex` leaf pair. Resolved on three
+      independent pieces of evidence, **not** by inferring from the writer (Rule 0025):
+      (1) XSD `complexType C-IDENTIFIER-WITH-INDEX` (`AUTOSAR_00052.xsd` l.132051-132061)
+      is `xsd:simpleContent` extending `C-IDENTIFIER-WITH-INDEX--SIMPLE` with only
+      `AR:AR-OBJECT` — **no child elements exist** to dispatch on;
+      (2) `grep 'type="AR:C-IDENTIFIER-WITH-INDEX"'` over the R23-11 XSD returns
+      **nothing** — no attribute or element in the schema consumes the type, and the
+      corpus markdown names the class **exactly once** (its own header cell, md L2923);
+      (3) the **consumed** sibling `CIdentifier` (Table 4.45) *does* carry the matched
+      `get/setChildElementOptionalCIdentifier` pair — 5 parser call sites (l.6608, 7037,
+      7050, 7051, 7635) and 5 writer call sites (l.6598, 8321, 8716, 8732, 8733), which
+      is what a consumed primitive looks like. Adding a leaf pair here would be dead code
+      with no call site; the `MEMBER` gate agrees independently ("value-carried type").
+      `reader`/`writer` `[—]` is correct and stands. Recorded as an accepted deviation.
+    - note: marker `# Spec verified: R23-11 (2026-10-12, user 9b confirmation)` written
+      immediately after the `# Spec:` line (Rule 0012.1); post-stamp audit `STAMP` clean
+      ⇒ `=> PASS`.
 - [ ] `CategoryString` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.47, p.109
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
   - [x] Step 1 — Sync members & description from spec

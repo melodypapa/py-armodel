@@ -3395,6 +3395,7 @@ class CIdentifierWithIndex(ARLiteral):
 
     # CIdentifierWithIndex method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.46, p.108
+    # Spec verified: R23-11 (2026-10-12, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
