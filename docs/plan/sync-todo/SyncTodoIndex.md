@@ -875,7 +875,7 @@ Status: **29/29** completed
 
 ## Group21
 
-Status: **42/59** completed
+Status: **43/59** completed
 
 | Class Name                           | Status       | Commit ID  |
 | ------------------------------------ | ------------ | ---------- |
@@ -902,7 +902,7 @@ Status: **42/59** completed
 | `FullBindingTimeEnum`                | [x] Done     | fdd8e3841d |
 | `CIdentifier`                        | [x] Done     | N/A        |
 | `CIdentifierWithIndex`               | [x] Done     | a81628868d |
-| `CategoryString`                     | [ ] Pending* | N/A        |
+| `CategoryString`                     | [x] Done     | 0608c23528 |
 | `DateTime`                           | [ ] Pending* | N/A        |
 | `DiagRequirementIdString`            | [ ] Pending* | N/A        |
 | `Ip4AddressString`                   | [ ] Pending* | N/A        |

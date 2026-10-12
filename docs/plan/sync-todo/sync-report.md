@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 831 | 43.4% |
+| [x] Done | 832 | 43.4% |
 | [x] Deferred | 83 | 4.3% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 990 | 51.7% |
+| [ ] Deferred | 989 | 51.6% |
 | [ ] Implemented | 10 | 0.5% |
 | [ ] Created | 1 | 0.1% |
 | [ ] Pending | 0 | 0.0% |
@@ -267,7 +267,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `CanTpConnection`                                       | [ ] Deferred| N/A                                      | Group33          |
 | `CanTpEcu`                                              | [ ] Deferred| N/A                                      | Group33          |
 | `CanTpNode`                                             | [ ] Deferred| N/A                                      | Group33          |
-| `CategoryString`                                        | [ ] Deferred| N/A                                      | Group21          |
+| `CategoryString`                                        | [x] Done    | 0608c23528                               | Group21          |
 | `Chapter`                                               | [x] Done    | bfaef7d30e                               | Group22          |
 | `ChapterContent`                                        | [x] Done    | dee07d0a3a                               | Group9           |
 | `ChapterEnumBreak`                                      | [x] Done    | 20e6ee88d0                               | Group3           |

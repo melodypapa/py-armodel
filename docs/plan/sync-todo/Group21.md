@@ -1325,7 +1325,7 @@ pending that confirmation.
       Marker `# Spec verified: R23-11 (2026-10-12, user 9b confirmation)` written
       immediately after the `# Spec:` line (Rule 0012.1); post-stamp audit STAMP clean,
       `=> PASS`; exactly 1 marker in the block.
-    - note: sync commit recorded on the Step 9 line.
+    - note: sync commit 0608c2352.
 - [ ] `DateTime` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.48, p.109
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
   - [x] Step 1 — Sync members & description from spec
