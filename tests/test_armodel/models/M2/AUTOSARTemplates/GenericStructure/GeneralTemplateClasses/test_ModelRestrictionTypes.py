@@ -3,6 +3,8 @@ Tests for the ModelRestrictionTypes module (FullBindingTimeEnum,
 AbstractValueRestriction, AbstractVariationRestriction).
 """
 
+import pytest
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ModelRestrictionTypes import (
     AbstractValueRestriction,
     AbstractVariationRestriction,
@@ -130,6 +132,14 @@ class TestAbstractVariationRestriction:
         times = [FullBindingTimeEnum().setValue(FullBindingTimeEnum.LINK_TIME)]
         assert obj.setValidBindingTimes(times) is obj
         assert obj.getValidBindingTimes() is times
+
+
+class TestAbstractVariationRestrictionAbstract:
+    """The abstract class rejects direct instantiation (Table 4.38, Class header)."""
+
+    def test_direct_instantiation_rejected(self):
+        with pytest.raises(TypeError):
+            AbstractVariationRestriction()
 
 
 class TestAbstractVariationRestrictionInit:

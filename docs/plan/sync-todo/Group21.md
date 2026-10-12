@@ -934,7 +934,7 @@ pending that confirmation.
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (10 passed / 0 failed
     new-file suite; GeneralTemplateClasses 349 passed); 9b deferred to batch
     confirmation (user instruction)
-- [ ] `AbstractVariationRestriction` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.38, p.104; also FO_TPS_StandardizationTemplate Table 6.13, p.89
+- [x] `AbstractVariationRestriction` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.38, p.104; also FO_TPS_StandardizationTemplate Table 6.13, p.89
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ModelRestrictionTypes.py
   - [x] Step 1 — Sync members & description from spec
     - note (Step 1): Table 4.38 (header-cell lookup; p.104 via pdf_page.py); abstract
@@ -976,9 +976,11 @@ pending that confirmation.
       (SdgAggregationWithVariation, SdgForeignReferenceWithVariation,
       SdgPrimitiveAttributeWithVariation, VariationRestrictionWithSeverity) handled in
       this batch/queue.
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (12 passed / 0 failed
-    new-file suite; GeneralTemplateClasses 642 passed); 9b deferred to batch
-    confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+    - note (9a, 2026-10-12): full suite **26,151 passed / 0 failed**; targeted family/MRO/annotation gates 3,368 passed; ruff, flake8, black clean; no `# type:`; audit PASS; top-level export resolves. Repo-wide mypy has the same 13 pre-existing openpyxl errors in unrelated files.
+    - note (9b, user confirmed 2026-10-12): fixes applied in this pass — abstract guard added (Red test `DID NOT RAISE TypeError` first, then `type(self) is` guard, matching the house shape); `variation` moved into `__init__` after `validBindingTimes` (spec displayed order, Rule 0003); checklist `setValidBindingTimes` reader corrected to `[—]` (the reader populates via `addValidBindingTime`). Docstrings verified byte-equal to the Table 4.38 class and attribute Notes. Marker `# Spec verified: R23-11 (2026-10-12, user 9b confirmation)` written after the `# Spec:` line.
+    - note: out of scope, recorded for their own rows: `VariationRestrictionWithSeverity` reader (`readVariationRestrictionWithSeverity`) overwrites the list via `setValidBindingTimes`; `AbstractValueRestriction` has the same missing abstract guard.
+    - note: sync commit **see follow-up docs commit**.
 - [ ] `FullBindingTimeEnum` — AREnum — R23-11 FO_TPS_GenericStructureTemplate Table 4.39, p.105; also FO_TPS_StandardizationTemplate Table 6.14, p.89
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ModelRestrictionTypes.py
   - [x] Step 1 — Sync members & description from spec

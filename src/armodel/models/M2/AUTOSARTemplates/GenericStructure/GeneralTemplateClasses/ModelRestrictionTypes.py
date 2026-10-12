@@ -225,11 +225,12 @@ class AbstractVariationRestriction(ARObject, ABC):
 
     # AbstractVariationRestriction method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.38, p.104
+    # Spec verified: R23-11 (2026-10-12, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] addValidBindingTime   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getValidBindingTimes  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setValidBindingTimes  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] setValidBindingTimes  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getVariation          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setVariation          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
@@ -238,14 +239,17 @@ class AbstractVariationRestriction(ARObject, ABC):
     # in the MRO, so its __init__ only runs because Referrable dispatches
     # cooperatively.
 
-    # Defines if the AUTOSAR model may define a Variation Point at this location. Tags: xml.sequenceOffset=10
-    variation: Optional[Boolean] = None
-
     def __init__(self):
+        if type(self) is AbstractVariationRestriction:
+            raise TypeError("AbstractVariationRestriction is an abstract class.")
+
         super().__init__()
 
         # List of valid binding times. Tags: xml.sequenceOffset=20
         self.validBindingTimes: List[FullBindingTimeEnum] = []
+
+        # Defines if the AUTOSAR model may define a Variation Point at this location. Tags: xml.sequenceOffset=10
+        self.variation: Optional[Boolean] = None
 
     def addValidBindingTime(self, value: FullBindingTimeEnum):
         """
