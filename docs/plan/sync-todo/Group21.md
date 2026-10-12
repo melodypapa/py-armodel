@@ -830,7 +830,7 @@ pending that confirmation.
       no longer carry); reconciled by the mandatory `--write` in this pass, never by
       hand-editing the generated reports.
 
-- [ ] `SdgForeignReferenceWithVariation` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.35, p.102
+- [x] `SdgForeignReferenceWithVariation` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.35, p.102
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/SpecialDataDef.py
   - [x] Step 1 — Sync members & description from spec
     - note (Step 1): Table 4.35 (leading-caption; p.102 via pdf_page.py); Base row adds AbstractVariationRestriction → SdgForeignReferenceWithVariation(SdgAbstractForeignReference, AbstractVariationRestriction); zero own attribute rows.
@@ -860,11 +860,10 @@ pending that confirmation.
     - note (Step 7): 6-column block + release column; marker withheld (batch mode).
   - [x] Step 8 — Deviations
     - note (Step 8): none.
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (362 passed / 0 failed
-    family suites; 14,043 passed / 0 failed models+parser+writer sweep); 9b deferred to
-    batch confirmation (user instruction)
-
-- [ ] `MetaClassName` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.36, p.102; also AUTOSAR_TPS_GenericStructureTemplate (R4.3.1) Table 4.39, p.83; also Table 4.66, p.94
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+    - note (9a, 2026-10-12): full suite **26,150 passed / 0 failed**; family + member-annotation gate 18 passed; ruff, flake8, black clean; no `# type:` in the file; audit PASS; top-level export `armodel.SdgForeignReferenceWithVariation` resolves. Repo-wide mypy has the same 13 pre-existing openpyxl errors in unrelated files noted on the previous row.
+    - note (9b, Rule 0026 re-derived from source, user confirmed 2026-10-12): Table 4.35 is a concrete `Class` with zero own attributes; Base → `SdgForeignReferenceWithVariation(SdgAbstractForeignReference, AbstractVariationRestriction)` (most-derived dual base, matches the Base row); XSD `abstract="false"`, sequence GID → DEST-META-CLASS → variation. Reader and writer each call their own base helpers (`readIdentifiable`/`writeIdentifiable`) and `read/writeAbstractVariationRestriction`, checked independently. Class docstring byte-equal to the Table 4.35 Note and the XSD doc ("Sdxf"). No deviations. Marker `# Spec verified: R23-11 (2026-10-12, user 9b confirmation)` written after the `# Spec:` line; post-stamp audit PASS.
+    - note: sync commit **see follow-up docs commit**. — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.36, p.102; also AUTOSAR_TPS_GenericStructureTemplate (R4.3.1) Table 4.39, p.83; also Table 4.66, p.94
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
   - [x] Step 1 — Sync members & description from spec
     - note (Step 1): Primitive table (Package + Note + Tags only; no Attribute/Base rows):
