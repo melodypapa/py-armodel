@@ -883,11 +883,11 @@ pending that confirmation.
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
     - note (Step 8): none.
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-12 (audit PASS, 1 BASE
-    warning for the value-carried type, missing-marker INFO expected pre-9b; 4 model tests
-    + 307 PrimitiveTypes sibling tests + 4 export/annotation gate tests passed; mypy,
-    ruff, black clean)
-- [ ] `AbstractValueRestriction` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.37, p.103; also FO_TPS_StandardizationTemplate Table 6.9, p.87
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+    - note (9a, 2026-10-12): full suite **26,150 passed / 0 failed**; model + Sdg family + member-annotation gate 22 passed; ruff, flake8, black clean; no `# type:`; audit PASS; top-level export `armodel.MetaClassName` resolves. Repo-wide mypy has the same 13 pre-existing openpyxl errors in unrelated files.
+    - note (9b, Rule 0026 re-derived from source, user confirmed 2026-10-12): Primitive table with Package/Note/Tags only → zero own members; `ARLiteral` base; class docstring byte-equal to the Table 4.36 Note (Tags tail kept, matching the XSD `META-CLASS-NAME` annotation); no `# type:`; no deviations. Value serializes through the existing `get/setChildElementOptionalMetaClassName` pair. Marker `# Spec verified: R23-11 (2026-10-12, user 9b confirmation)` written after the `# Spec:` line; post-stamp audit PASS.
+    - note: Step 2 produced no Red (model test pre-existed and passes), same as the other ARLiteral primitives.
+    - note: sync commit **see follow-up docs commit**. — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.37, p.103; also FO_TPS_StandardizationTemplate Table 6.9, p.87
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ModelRestrictionTypes.py
   - [x] Step 1 — Sync members & description from spec
     - note (Step 1): Table 4.37 (header-cell lookup; p.103 via pdf_page.py); abstract
