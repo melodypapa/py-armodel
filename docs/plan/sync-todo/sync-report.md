@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 828 | 43.2% |
+| [x] Done | 829 | 43.3% |
 | [x] Deferred | 83 | 4.3% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 993 | 51.9% |
+| [ ] Deferred | 992 | 51.8% |
 | [ ] Implemented | 10 | 0.5% |
 | [ ] Created | 1 | 0.1% |
 | [ ] Pending | 0 | 0.0% |
@@ -977,7 +977,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `FrameTriggering`                                       | [x] Done    | 206cf29517                               | Group5           |
 | `FreeFormat`                                            | [ ] Deferred| N/A                                      | Group32          |
 | `FreeFormatEntry`                                       | [ ] Deferred| e36b881da1                               | Group31          |
-| `FullBindingTimeEnum`                                   | [ ] Deferred| N/A                                      | Group21          |
+| `FullBindingTimeEnum`                                   | [x] Done    | fdd8e3841d                               | Group21          |
 | `FunctionGroupStateInFunctionGroupSetInstanceRef`       | [ ] Implemented| 48a3dcb2fa                               | Group36          |
 | `FunctionInhibitionAvailabilityNeeds`                   | [x] Done    | b41f6ecacf                               | Group29          |
 | `FunctionInhibitionNeeds`                               | [x] Done    | 5c4c0963af                               | Group4           |

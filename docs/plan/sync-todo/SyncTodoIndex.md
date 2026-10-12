@@ -875,7 +875,7 @@ Status: **29/29** completed
 
 ## Group21
 
-Status: **39/59** completed
+Status: **40/59** completed
 
 | Class Name                           | Status       | Commit ID  |
 | ------------------------------------ | ------------ | ---------- |
@@ -899,7 +899,7 @@ Status: **39/59** completed
 | `MetaClassName`                      | [x] Done     | a8f36cd56b |
 | `AbstractValueRestriction`           | [x] Done     | 638ddf100c |
 | `AbstractVariationRestriction`       | [x] Done     | 731dacd640 |
-| `FullBindingTimeEnum`                | [ ] Pending* | N/A        |
+| `FullBindingTimeEnum`                | [x] Done     | fdd8e3841d |
 | `CIdentifier`                        | [ ] Pending* | N/A        |
 | `CIdentifierWithIndex`               | [ ] Pending* | N/A        |
 | `CategoryString`                     | [ ] Pending* | N/A        |

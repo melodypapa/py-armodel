@@ -984,7 +984,7 @@ pending that confirmation.
     - note (9b, user confirmed 2026-10-12): fixes applied in this pass — abstract guard added (Red test `DID NOT RAISE TypeError` first, then `type(self) is` guard, matching the house shape); `variation` moved into `__init__` after `validBindingTimes` (spec displayed order, Rule 0003); checklist `setValidBindingTimes` reader corrected to `[—]` (the reader populates via `addValidBindingTime`). Docstrings verified byte-equal to the Table 4.38 class and attribute Notes. Marker `# Spec verified: R23-11 (2026-10-12, user 9b confirmation)` written after the `# Spec:` line.
     - note: out of scope, recorded for their own rows: `VariationRestrictionWithSeverity` reader (`readVariationRestrictionWithSeverity`) overwrites the list via `setValidBindingTimes`; `AbstractValueRestriction` has the same missing abstract guard.
     - note: sync commit 731dacd64.
-- [ ] `FullBindingTimeEnum` — AREnum — R23-11 FO_TPS_GenericStructureTemplate Table 4.39, p.105; also FO_TPS_StandardizationTemplate Table 6.14, p.89
+- [x] `FullBindingTimeEnum` — AREnum — R23-11 FO_TPS_GenericStructureTemplate Table 4.39, p.105; also FO_TPS_StandardizationTemplate Table 6.14, p.89
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ModelRestrictionTypes.py
   - [x] Step 1 — Sync members & description from spec
     - note (Step 1): Table 4.39 (leading-caption, p.105 via pdf_page.py); Enumeration
@@ -1013,12 +1013,60 @@ pending that confirmation.
       note; `# Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.39, p.105`;
       marker withheld (batch mode).
   - [x] Step 8 — Deviations
-    - note (Step 8): XSD-vs-PDF arbitration — the R23-11 XSD FULL-BINDING-TIME-ENUM
-      (00052 l.136988) carries only 5 literals (SYSTEM-DESIGN-TIME absent) while the
-      markdown/PDF table documents 6; per Rule 0015 the PDF/markdown table wins → 6
-      literals modeled (SYSTEM-DESIGN-TIME included). No missing referenced classes.
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (344 passed / 0 failed
-    GeneralTemplateClasses suite); 9b deferred to batch confirmation (user instruction)
+    - note (Step 8, original wording, 2026-09-30 — RETRACTED as false, see below):
+      "XSD-vs-PDF arbitration — the R23-11 XSD FULL-BINDING-TIME-ENUM (00052 l.136988)
+      carries only 5 literals (SYSTEM-DESIGN-TIME absent) while the markdown/PDF table
+      documents 6; per Rule 0015 the PDF/markdown table wins → 6 literals modeled."
+      **Caveat:** that XSD claim was never true; do not read it as current evidence.
+    - note (Step 8, resolved 2026-10-12): the premise is **false** — the XSD carries all
+      **6** literals, so there was never an XSD-vs-PDF conflict and no Rule 0015
+      arbitration applied. Verified by reading the simpleType extent itself:
+      `FULL-BINDING-TIME-ENUM--SIMPLE` spans 00052 l.136988–137055 (the next simpleType,
+      `FUNCTIONAL-CLUSTER-PERSISTENCY-ACCESS-ENUM--SIMPLE`, starts at l.137056) and
+      contains BLUEPRINT-DERIVATION-TIME, CODE-GENERATION-TIME, LINK-TIME, POST-BUILD,
+      PRE-COMPILE-TIME and SYSTEM-DESIGN-TIME. Set-compared programmatically:
+      `src literals == XSD literals == markdown Table 4.39 literals`. **No deviation
+      row remains** (Rule 0014 to-fix, resolved) — the 6-literal model was always correct,
+      only its stated rationale was wrong. Same stale-rationale defect shape as
+      `SdgClass.sdgConstraint` and `SdgAbstractForeignReference.destMetaClass` earlier in
+      this file. No missing referenced classes.
+    - note (9a, 2026-10-12): full suite **26,142 passed / 0 failed** (integration
+      round-trip included); GeneralTemplateClasses family **2,382 passed**; Rule 0022
+      member-annotation gate 3 passed; `audit_class.py FullBindingTimeEnum` => PASS on
+      every gate (STAMP reported the expected pre-stamp INFO); ruff / flake8 (E9,F63,F7,F82)
+      / black (200 cols) / mypy (279 source files) all clean.
+    - note (9b, re-derived from source 2026-10-12, not trusted from the row prose — 12
+      items presented and confirmed by the user): Enumeration kind confirmed from the
+      Table 4.39 header cell; Base `AREnum` (Enumeration table carries no Base row);
+      6 literals modeled with the field↔spec cross-check passing **both directions**.
+      Docstrings verified **by script diff, not by eye**: all 6 literal inline comments
+      byte-equal to their markdown `Description` **including the
+      `Tags: atp.EnumerationLiteralIndex=N` tail**, indices 0–5 correct. Table 4.39 carries
+      **no `Note` row**, so the class docstring is byte-equal to the XSD
+      `<xsd:documentation>` of `FULL-BINDING-TIME-ENUM` (00052 l.136976–136986) — the same
+      house sourcing as the sibling stamped enums.
+      **Member order investigated, not waved through (Rule 0011):** the markdown displays
+      the literals alphabetically but the source declares them in
+      `EnumerationLiteralIndex` order — the exact shape the skill flags as a red flag. The
+      house precedent resolves it in favour of the source: the **stamped**
+      `CouplingPortRatePolicyActionEnum` likewise declares `DROP_FRAME, BLOCK_SOURCE`
+      where its markdown displays `blockSource, dropFrame`. Enums follow
+      `EnumerationLiteralIndex`; the alphabetical render is a PDF artifact. Not a violation.
+      Steps 5/6 remain legitimately N/A for a standalone enum, confirmed **independently**
+      rather than by trusting the checklist: the reader really constructs the enum
+      (`arxml_parser.py` l.2925, l.16899) and the writer really emits it (l.2581, l.17954),
+      with parser + writer tests pinning the VALID-BINDING-TIME round-trip.
+      Rule 0007: `GeneralTemplateClasses` is a leaf package (no subdirs) ⇒
+      `<Package>.py` is the correct shape; `armodel.FullBindingTimeEnum` resolves.
+      Zero pre-existing markers in this class block (the 2 in the file belong to the
+      stamped siblings `AbstractValueRestriction` / `AbstractVariationRestriction`), so the
+      stamp was written once, in 9b, immediately after the `# Spec:` line (Rule 0012.1).
+    - note: sync commit recorded on the Step 9 line.
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a re-run 2026-10-12 (full suite 26,142
+    passed / 0 failed; GeneralTemplateClasses 2,382 passed; Rule 0022 gate 3 passed;
+    audit_class.py => PASS; ruff/flake8/black/mypy clean); 9b confirmed 2026-10-12
+    (Rule 0026 audit vs source — the row's "steps 1-8 done" prose re-derived rather than
+    trusted; it carried one false claim, corrected at Step 8); sync commit fdd8e3841
 - [ ] `CIdentifier` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.45, p.108; also FO_TPS_StandardizationTemplate Table 4.5, p.43
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
   - [x] Step 1 — Sync members & description from spec
