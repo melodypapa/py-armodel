@@ -875,7 +875,7 @@ Status: **29/29** completed
 
 ## Group21
 
-Status: **40/59** completed
+Status: **41/59** completed
 
 | Class Name                           | Status       | Commit ID  |
 | ------------------------------------ | ------------ | ---------- |
@@ -900,7 +900,7 @@ Status: **40/59** completed
 | `AbstractValueRestriction`           | [x] Done     | 638ddf100c |
 | `AbstractVariationRestriction`       | [x] Done     | 731dacd640 |
 | `FullBindingTimeEnum`                | [x] Done     | fdd8e3841d |
-| `CIdentifier`                        | [ ] Pending* | N/A        |
+| `CIdentifier`                        | [x] Done     | N/A        |
 | `CIdentifierWithIndex`               | [ ] Pending* | N/A        |
 | `CategoryString`                     | [ ] Pending* | N/A        |
 | `DateTime`                           | [ ] Pending* | N/A        |

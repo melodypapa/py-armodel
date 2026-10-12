@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 829 | 43.3% |
+| [x] Done | 830 | 43.3% |
 | [x] Deferred | 83 | 4.3% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 992 | 51.8% |
+| [ ] Deferred | 991 | 51.7% |
 | [ ] Implemented | 10 | 0.5% |
 | [ ] Created | 1 | 0.1% |
 | [ ] Pending | 0 | 0.0% |
@@ -233,7 +233,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `BusMirrorLinPidToCanIdMapping`                         | [ ] Deferred| N/A                                      | Group34          |
 | `BusspecificNmEcu`                                      | [ ] Deferred| N/A                                      | Group33          |
 | `ByteOrderEnum`                                         | [ ] Deferred| N/A                                      | Group28          |
-| `CIdentifier`                                           | [ ] Deferred| N/A                                      | Group21          |
+| `CIdentifier`                                           | [x] Done    | N/A                                      | Group21          |
 | `CIdentifierWithIndex`                                  | [ ] Deferred| N/A                                      | Group21          |
 | `CSTransformerErrorReactionEnum`                        | [ ] Deferred| N/A                                      | Group34          |
 | `CalibrationParameterValue`                             | [ ] Deferred| 253d938ab0                               | Group28          |
