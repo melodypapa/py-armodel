@@ -1886,6 +1886,19 @@ class TestDateTime:
         obj = DateTime().setValue("2009-07-23T14:38:00+01:00")
         assert obj.getValue() == "2009-07-23T14:38:00+01:00"
 
+    @pytest.mark.parametrize("spec_example", ["2009-07-23", "2009-07-23T14:38:00+01:00", "2009-07-23T13:38:00Z"])
+    def test_spec_example_values_round_trip(self, spec_example):
+        """The three Examples listed in the Table 4.48 Note are all legal values."""
+        obj = DateTime()
+        result = obj.setValue(spec_example)
+        assert result is obj  # Verify method chaining
+        assert obj.getValue() == spec_example
+
+    def test_set_value_none_is_noop(self):
+        obj = DateTime().setValue("2009-07-23")
+        obj.setValue(None)
+        assert obj.getValue() == "2009-07-23"
+
 
 class TestDiagRequirementIdString:
     """

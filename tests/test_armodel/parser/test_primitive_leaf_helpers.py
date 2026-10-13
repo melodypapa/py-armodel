@@ -10,6 +10,7 @@ import xml.etree.ElementTree as ET
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     CategoryString,
+    DateTime,
     DiagRequirementIdString,
     Ip4AddressString,
     Ip6AddressString,
@@ -110,3 +111,28 @@ class TestIpAddressStringLeaf:
 
         assert ARXMLParser().getChildElementOptionalIp4AddressString(element, "IPV-4-ADDRESS") is None
         assert ARXMLParser().getChildElementOptionalIp6AddressString(element, "IPV-6-ADDRESS") is None
+
+
+class TestDateTimeLeaf:
+    def test_reads_concrete_type_and_t(self):
+        element = ET.fromstring(f"<ROOT xmlns='{NS}'><DATE T='2023-11-11T00:00:00Z'>2009-07-23T14:38:00+01:00</DATE></ROOT>")
+
+        value = ARXMLParser().getChildElementOptionalDateTime(element, "DATE")
+
+        assert isinstance(value, DateTime)
+        assert value.getValue() == "2009-07-23T14:38:00+01:00"
+        assert value.timestamp == "2023-11-11T00:00:00Z"
+
+    def test_reads_date_only_value(self):
+        """The Table 4.48 pattern makes the time part optional: `yyyy-mm-dd` alone is legal."""
+        element = ET.fromstring(f"<ROOT xmlns='{NS}'><DATE>2009-07-23</DATE></ROOT>")
+
+        value = ARXMLParser().getChildElementOptionalDateTime(element, "DATE")
+
+        assert isinstance(value, DateTime)
+        assert value.getValue() == "2009-07-23"
+
+    def test_missing_returns_none(self):
+        element = ET.fromstring(f"<ROOT xmlns='{NS}'/>")
+
+        assert ARXMLParser().getChildElementOptionalDateTime(element, "DATE") is None

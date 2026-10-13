@@ -1332,26 +1332,172 @@ pending that confirmation.
     - note (Step 1): Table 4.48 (leading-caption page-split, p.109 via pdf_page.py);
       Note verbatim in docstring (kept r-string for the pattern backslashes) + Tags;
       zero attribute rows.
+    - note (Step 1, RE-DERIVED 2026-10-13 per Rule 0026 — the row's steps-1-8 prose was
+      re-checked against source, not trusted): Table 4.48 is a **leading-caption
+      page-split** (caption md L2937, body L2939-2942) and the next caption (`Table 4.49`)
+      terminates the block — a naive forward scan silently picks up Table 4.49's Note, so
+      any diff script here **must** stop at the next `Table ` line. Header cell `Primitive`
+      ⇒ `ARLiteral` per Rule 0001.10 (runtime `__bases__ == (ARLiteral,)` confirmed); **no
+      Base row**, **zero Attribute rows** ⇒ the field-to-spec cross-check passes in *both*
+      directions (nothing fabricated, nothing missing). Package row
+      `M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes` ✓
+      (Rule 0007: `GeneralTemplateClasses` is a leaf package ⇒ `PrimitiveTypes.py`;
+      `armodel.DateTime` resolves at runtime).
+      **Docstring verified by script diff, not by eye** (script bound to the Table 4.48
+      block only): the prose token sequence is **identical** to the markdown `Note` cell
+      after HTML-entity decoding (`&#124;` → `|`) and whitespace normalization, and the
+      3 `Tags:` tokens are set-equal **and order-equal** — `xml.xsd.customType=DATE`,
+      `xml.xsd.pattern=([0-9]{4}-[0-9]{2}-[0-9]{2})(T[0-9]{2}:[0-9]{2}:[0-9]{2}(Z|([+\-][0-9]{2}:[0-9]{2})))?`,
+      `xml.xsd.type=string` (Rule 0012.2.5.3, `Tags:` tail kept). **Third, independent
+      confirmation:** the XSD `<xsd:documentation>` of `complexType DATE`
+      (AUTOSAR_00052.xsd l.133333) is token-identical to the same prose and its appinfo tags
+      carry the identical 3 values, so markdown + XSD + source all agree. The
+      `Examples:` block is rendered as a list in the source (the markdown runs the three
+      examples inline) — same rendering as the stamped `CIdentifier` / `CIdentifierWithIndex`
+      siblings. `__init__` carries no docstring; zero own members.
   - [x] Step 2 — Write model class unit test (Red)
     - note (Step 2): TestDateTime added (init + setValue with a spec-format timestamp) —
       passes immediately (no Red observable, nothing to fix).
+    - note (Step 2, REVISED 2026-10-13): the original note's "nothing to fix" was accurate
+      about *behaviour* but the class sat **below the stamped house bar** — `TestDateTime`
+      was the only test in the primitive family that asserted neither **method chaining**
+      nor the Rule 0006 **None no-op** (compare the stamped `TestIdentifier`, which carries
+      both). Added 2 tests / 4 cases to `test_PrimitiveTypes.py`, keeping the local family's
+      compact no-docstring shape: `test_spec_example_values_round_trip` (parametrized over
+      the **three `Examples:` values straight out of the Table 4.48 Note** — `2009-07-23`,
+      `2009-07-23T14:38:00+01:00`, `2009-07-23T13:38:00Z` — also asserting the
+      `result is obj` chaining) and `test_set_value_none_is_noop` (`setValue(None)` must
+      not clear an existing value — the guard `ARLiteral.setValue` really has at
+      `PrimitiveTypes.py` l.109-113). Still **no Red observable**: the pre-existing
+      `ARLiteral` base already implements both contracts, so the new asserts passed on first
+      run — the Red state for this row is the entry gate / the Step-5 coverage gap, not a
+      behavioural failure.
   - [x] Step 3 — Implement model class (Green)
     - note (Step 3): field-to-spec cross-check PASSES (zero attrs; no fabricated members).
+    - note (Step 3, RE-DERIVED 2026-10-13): confirmed in **both** directions — Table 4.48
+      has zero Attribute rows and the class has zero own members / only `__init__`.
+      Explicit super-only `__init__(self)` kept (no Base row ⇒ no `(parent, short_name)`).
+      No change needed.
   - [x] Step 4 — Sync docstrings (wipe + rewrite)
     - note (Step 4): class docstring = Table 4.48 Note verbatim (line-wrapped, Examples
       block as rendered) + Tags; __init__ has no docstring.
+    - note (Step 4, RE-DERIVED 2026-10-13): **no change needed** — the existing docstring
+      is already verbatim, confirmed by the AST/token diff in Step 1 (prose identical, all
+      3 `Tags:` order-equal, XSD documentation agrees). This is **not** a fabricated
+      docstring like the `RegularExpression` / `UriString` rows in this file carried, so the
+      Rule 0012.2.3 wipe-and-rewrite produced no diff. Audit `DOC`/`DOCTAIL` confirm the
+      tail reaches every accessor (there are none — zero members).
   - [x] Step 5 — Write reader/writer round-trip test (Red)
     - note (Steps 5/6): N/A — no own XML element; DATE literal on consumers.
+    - note (Step 5, RE-DERIVED + CORRECTED 2026-10-13): the "N/A — no own XML element" half
+      is right (XSD `complexType DATE` l.133333 is `xsd:simpleContent` over
+      `AR:DATE--SIMPLE` with only the `AR-AR-OBJECT` attributeGroup — **no child elements**
+      to dispatch on), but the row implied **nothing** covered this class, which was
+      **false in both directions**:
+      (a) **The consumer round-trip was already pinned** — not by this family but by the
+      stamped `LifeCyclePeriod` row: `tests/test_armodel/writer/test_life_cycle_period.py`
+      `test_round_trip_values_preserved` (l.78-106) parses → writes → re-parses and asserts
+      `isinstance(reparsed.getDate(), DateTime)`, i.e. the exact Rule 0013.2 typed-
+      preservation property. `LifeCyclePeriod`/`LifeCycleInfo`/`LifeCycleInfoSet` all carry
+      `# Spec verified: R23-11` (Tables 12.3-12.5). No new round-trip test was needed, and
+      none was written.
+      (b) **The genuine gap was the leaf-helper pair in isolation.** A cross-reference of
+      all 34 `getChildElementOptional<Cls>` / `setChildElementOptional<Cls>` pairs against
+      the two leaf-helper test files showed `DateTime` was **the only member of its
+      sibling family** (`CategoryString`, `McdIdentifier`, `SymbolString`,
+      `DiagRequirementIdString`, `Ip4AddressString`, `Ip6AddressString` — all six already
+      covered by the preceding rows) with **no** `TestDateTimeLeaf`. Added, mirroring the
+      sibling shape: parser `TestDateTimeLeaf` (concrete type + `T` + value; **date-only**
+      value, since the Table 4.48 pattern makes the time part optional;
+      missing ⇒ `None`) and writer `TestDateTimeLeaf` (concrete type + `T` + value; date-only
+      value; `None` ⇒ emits nothing).
+      **Also confirmed independently on both sides** (Rule 0025 — the writer's presence was
+      **not** used to infer the reader's): `getChildElementOptionalDateTime`
+      (`abstract_arxml_parser.py` l.373) constructs `DateTime()` + `readARType` + `setValue`;
+      `setChildElementOptionalDateTime` (`abstract_arxml_writer.py` l.212) delegates to
+      `setChildElementOptionalLiteral`. Both are **genuinely live**, not dead code: 2 reader
+      call sites (`arxml_parser.py` l.3152 `DocRevision`, l.20593 `LifeCyclePeriod`) and 2
+      writer call sites (`arxml_writer.py` l.3315, l.18421) — which is why the XSD *does*
+      consume the type (`<xsd:element name="DATE" type="AR:DATE">` at DocRevision l.49509,
+      LifeCyclePeriod l.76715, Std l.113336, StructuredReq l.113709, Xdoc l.131009). This
+      is the opposite situation from the stamped `CIdentifierWithIndex`, whose row records a
+      BASE warn because **nothing** consumes its type.
+      **Red state: none behaviourally** (the helpers already work — 7 new tests passed on
+      first run). The observable Red was the coverage gap itself: nothing would have caught a
+      regression that dropped `DateTime()` construction and degraded the value to a bare
+      `ARLiteral`/plain `str`, which is the Rule 0013.2 failure mode.
   - [x] Step 6 — Update parser & writer (Green)
     - note (Steps 5/6): N/A — see Step 5.
+    - note (Step 6, RE-DERIVED 2026-10-13): **no parser/writer change needed** — verified,
+      not assumed. Reader and writer each checked separately (Rule 0025); Rule 0013.2 name
+      pairs match 1:1 (34 reader / 34 writer pairs defined, **zero reader-only or
+      writer-only** — a repo-wide check, so this class is not part of any asymmetry). No
+      chained mutators on a receiver in the DateTime path (the `DateTime().setValue(...)`
+      sites at `arxml_parser.py` l.3312/3330/8416 are constructor-nesting inside a single
+      call, not a chain, and they belong to the `Std`/`Xdoc`/`StructuredReq` rows).
+      **Round-trip proven lossless end-to-end** as a probe (build `LifeCycleInfoSet` →
+      `LifeCycleInfo` → `periodBegin.date` → `ARXMLWriter.save` → `ARXMLParser.load`, XSD
+      validation **ON**, not opted out): `<DATE>2009-07-23T14:38:00+01:00</DATE>` is emitted
+      in the correct XSD sequence position inside `PERIOD-BEGIN`, re-parses as a real
+      `DateTime` instance (not a bare literal), the value is preserved, and the unset case
+      omits the element entirely and re-parses as `None`.
   - [x] Step 7 — Update checklist comment
     - note (Step 7): 6-column block + release column; `# Spec:
       AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.48, p.109`; marker withheld
       (batch mode).
+    - note (Step 7, RE-DERIVED 2026-10-13): **no change needed** — already current: 6-column
+      block with the per-row `release` column, one contiguous run above `__init__`
+      (Rule 0024), and the `# Spec:` line in canonical single-corpus form (Rule 0023 not
+      triggered; the R4.3.1 corpus also carries Table 4.54 p.90 but Rule 0016.3 does not
+      apply because the R23-11 table exists). `audit_class.py` clean on BLOCK / ROWS /
+      SPECLINE / CITATION / SPACING / DOCTAIL / BASE / MEMBER / DOC; SPEC-BASE and STAMP
+      report INFO only (no Base row to read; marker correctly withheld pre-9b). Set-based
+      checklist-vs-methods script green: `checklist == methods == ['__init__']`, same order,
+      no `# type:` in the file, zero own annotated members (correct for a Primitive table).
   - [x] Step 8 — Deviations
     - note (Step 8): none; no missing referenced classes.
+    - note (Step 8, RE-DERIVED 2026-10-13): **no deviations** — the field-to-spec cross-check
+      passes in both directions, so no `naming` / `type` / `missing` / Rule 0010 placeholder
+      row exists and nothing withholds the stamp. The audit's `SPEC-BASE` INFO is only
+      "Table 4.48 carries no readable Base row", verified by eye (Primitive table ⇒
+      `ARLiteral`). **No missing referenced classes** — the class references none, and its
+      own type is referenced by classes that already exist.
+      **Recorded debt for OTHER rows, deliberately not touched here** (Rule 0017.1, one
+      class per session):
+      (a) The leaf-pair cross-reference found **13 other `ARLiteral` primitives with a live
+      `getChildElementOptional<Cls>`/`setChildElementOptional<Cls>` pair but no
+      `Test<Cls>Leaf` coverage**: `Address`, `AlignmentType`, `CIdentifier`, `CseCodeType`,
+      `Identifier`, `MacAddressString`, `MetaClassName`, `NameToken`, `RegularExpression`,
+      `RevisionLabelString`, `String`, `UriString`, `VerbatimString`. Most of these are
+      still `[ ]` rows in this file; the two that are already **stamped** (`Identifier`,
+      `MetaClassName`) are candidate leaf-test additions for a future drift pass.
+      (b) `arxml_writer.py` l.3308 carries a **commented-out** duplicate
+      `setChildElementOptionalDateTime(child_element, "DATE", revision.getDate())` inside
+      `writeDocRevision`; the live call is l.3315 (so **no Rule 0013.1 double-write** — only
+      one active call). Dead relic that belongs to the `DocRevision` row.
+      (c) `StrongRevisionLabelString`, `VerbatimStringPlain`, `CIdentifierWithIndex` and
+      `ReferrableSubtypesEnum` have **no** leaf pair at all. For `CIdentifierWithIndex` this
+      is already resolved and documented on its own row (nothing in the schema consumes it);
+      the other three are still `[ ]` rows and should get the same audit when they are synced.
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (127 passed / 0 failed
     test_PrimitiveTypes.py); 9b deferred to batch confirmation (user instruction)
+    - note (9a, RE-RUN 2026-10-13, full battery): full suite **26,165 passed / 0 failed**
+      (integration round-trip included, XSD validation gates ON per Rule 0027);
+      `test_PrimitiveTypes.py -k DateTime` **6 passed** (was 2);
+      both leaf-helper files together **28 passed** (was 21); Rule 0022 member-annotation
+      gate **3 passed**; `ruff check src/armodel tests scripts` clean; `flake8 --select=E9,
+      F63,F7,F82` clean; `black --check` (200 cols) unchanged on all 4 touched files;
+      `audit_class.py DateTime` => **PASS** on every gate; set-based checklist-vs-methods
+      script green (`['__init__'] == ['__init__']`, no `# type:`).
+      **`mypy` is NOT green repo-wide**: 13 pre-existing errors in 3 unrelated files
+      (`parser/connector_xlsx_parser.py` ×11, `parser/excel_parser.py`, `report/os_export.py`)
+      — the openpyxl `CellRichText` version drift already recorded on the
+      `SdgForeignReference` / `SdgForeignReferenceWithVariation` / `MetaClassName` rows of
+      this file. **Verified independent of this pass**: `git status` shows **zero `src/`
+      files modified** (this sync touched only 3 test files) and mypy is scoped to
+      `src/armodel`, so the result cannot be affected by these changes.
+    - note: `Step 9` stays `[ ]` until the user confirms 9b; the
+      `# Spec verified:` marker is deliberately withheld (Rule 0012.1).
 - [ ] `DiagRequirementIdString` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.49, p.109; also CP_TPS_SoftwareComponentTemplate Table 13.16, p.754
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
   - [x] Step 1 — Sync members & description from spec
