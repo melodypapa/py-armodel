@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 836 | 43.7% |
+| [x] Done | 837 | 43.7% |
 | [x] Deferred | 83 | 4.3% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 985 | 51.4% |
+| [ ] Deferred | 984 | 51.4% |
 | [ ] Implemented | 10 | 0.5% |
 | [ ] Created | 1 | 0.1% |
 | [ ] Pending | 0 | 0.0% |
@@ -1249,7 +1249,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `McParameterElementGroup`                               | [x] Done    | N/A                                      | Group23          |
 | `McSupportData`                                         | [x] Done    | N/A                                      | Group23          |
 | `McSwEmulationMethodSupport`                            | [x] Done    | N/A                                      | Group23          |
-| `McdIdentifier`                                         | [ ] Deferred| N/A                                      | Group21          |
+| `McdIdentifier`                                         | [x] Done    | 44ba9b8654                               | Group21          |
 | `MeasuredExecutionTime`                                 | [x] Done    | N/A                                      | Group23          |
 | `MeasuredHeapUsage`                                     | [x] Done    | N/A                                      | Group23          |
 | `MeasuredStackUsage`                                    | [x] Done    | 05f494e759                               | Group20          |

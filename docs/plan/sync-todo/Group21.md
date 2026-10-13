@@ -1834,7 +1834,7 @@ pending that confirmation.
       as **out of scope debt** on other rows: the consumer tests for `Ipv6Configuration` /
       `SwitchStreamFilterRule` / `PlatformModuleEthernetEndpointConfiguration` still use
       `::`-short-cut values (Rule 0017.1 — one class per session).
-- [ ] `McdIdentifier` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.54, p.111
+- [x] `McdIdentifier` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.54, p.111 — sync commit 44ba9b86
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
   - note (drift re-sync, user-directed 2026-10-13): **no `# Spec verified:` marker in
     src**, so the 2026-09-30 "steps 1-8 done" prose is not evidence (Rule 0026). Steps
