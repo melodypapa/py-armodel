@@ -15,6 +15,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Ip6AddressString,
     McdIdentifier,
     RegularExpression,
+    RevisionLabelString,
     SymbolString,
 )
 from armodel.writer.arxml_writer import ARXMLWriter
@@ -208,3 +209,35 @@ class TestRegularExpressionLeaf:
         ARXMLWriter().setChildElementOptionalRegularExpression(element, "PATTERN", None)
 
         assert element.find("PATTERN") is None
+
+
+class TestRevisionLabelStringLeaf:
+    def test_writes_concrete_type_and_t(self):
+        value = RevisionLabelString()
+        value.setValue("4.0.0")
+        value.timestamp = "2024-01-14T00:00:00Z"
+
+        element = ET.Element("ROOT")
+        ARXMLWriter().setChildElementOptionalRevisionLabelString(element, "REVISION-LABEL", value)
+
+        written = element.find("REVISION-LABEL")
+        assert written is not None
+        assert written.text == "4.0.0"
+        assert written.attrib["T"] == "2024-01-14T00:00:00Z"
+
+    def test_writes_semicolon_suffix_value(self):
+        """The Table 4.61 Note lists `4.0.0;12` as a legal pattern: `;` is one of the three allowed suffix separators."""
+        value = RevisionLabelString().setValue("4.0.0;12")
+
+        element = ET.Element("ROOT")
+        ARXMLWriter().setChildElementOptionalRevisionLabelString(element, "REVISION-LABEL", value)
+
+        written = element.find("REVISION-LABEL")
+        assert written is not None
+        assert written.text == "4.0.0;12"
+
+    def test_none_emits_nothing(self):
+        element = ET.Element("ROOT")
+        ARXMLWriter().setChildElementOptionalRevisionLabelString(element, "REVISION-LABEL", None)
+
+        assert element.find("REVISION-LABEL") is None

@@ -8,6 +8,8 @@ Writer counterpart: tests/test_armodel/writer/test_primitive_leaf_helpers.py
 
 import xml.etree.ElementTree as ET
 
+import pytest
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     CategoryString,
     DateTime,
@@ -16,6 +18,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Ip6AddressString,
     McdIdentifier,
     RegularExpression,
+    RevisionLabelString,
     SymbolString,
 )
 from armodel.parser.arxml_parser import ARXMLParser
@@ -170,3 +173,35 @@ class TestRegularExpressionLeaf:
         element = ET.fromstring(f"<ROOT xmlns='{NS}'/>")
 
         assert ARXMLParser().getChildElementOptionalRegularExpression(element, "PATTERN") is None
+
+
+class TestRevisionLabelStringLeaf:
+    def test_reads_concrete_type_and_t(self):
+        element = ET.fromstring(f"<ROOT xmlns='{NS}'><REVISION-LABEL T='2024-01-14T00:00:00Z'>4.0.0</REVISION-LABEL></ROOT>")
+
+        value = ARXMLParser().getChildElementOptionalRevisionLabelString(element, "REVISION-LABEL")
+
+        assert isinstance(value, RevisionLabelString)
+        assert value.getValue() == "4.0.0"
+        assert value.timestamp == "2024-01-14T00:00:00Z"
+
+    def test_reads_semicolon_suffix_value(self):
+        """The Table 4.61 Note lists `4.0.0;12` as a legal pattern: `;` is one of the three allowed suffix separators."""
+        element = ET.fromstring(f"<ROOT xmlns='{NS}'><REVISION-LABEL>4.0.0;12</REVISION-LABEL></ROOT>")
+
+        value = ARXMLParser().getChildElementOptionalRevisionLabelString(element, "REVISION-LABEL")
+
+        assert isinstance(value, RevisionLabelString)
+        assert value.getValue() == "4.0.0;12"
+
+    def test_rejects_text_violating_the_spec_pattern(self):
+        """The reader validates against `[0-9]+\\.[0-9]+\\.[0-9]+([\\._;].*)?`; a permissive ARLiteral would not."""
+        element = ET.fromstring(f"<ROOT xmlns='{NS}'><REVISION-LABEL>R23-11</REVISION-LABEL></ROOT>")
+
+        with pytest.raises(ValueError):
+            ARXMLParser().getChildElementOptionalRevisionLabelString(element, "REVISION-LABEL")
+
+    def test_missing_returns_none(self):
+        element = ET.fromstring(f"<ROOT xmlns='{NS}'/>")
+
+        assert ARXMLParser().getChildElementOptionalRevisionLabelString(element, "REVISION-LABEL") is None

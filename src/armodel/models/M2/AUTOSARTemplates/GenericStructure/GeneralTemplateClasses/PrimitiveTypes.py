@@ -872,7 +872,7 @@ class CIdentifier(ARLiteral):
 class RevisionLabelString(ARLiteral):
     r"""
     This primitive represents an internal AUTOSAR revision label which identifies an engineering object. It
-    represents a pattern which:
+    represents a pattern which
 
     * supports three integers representing from left to right MajorVersion, MinorVersion, PatchVersion.
     * may add an application specific suffix separated by one of ".", "_", ";".
@@ -893,6 +893,7 @@ class RevisionLabelString(ARLiteral):
 
     # RevisionLabelString method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.61, p.113
+    # Spec verified: R23-11 (2026-10-14, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 

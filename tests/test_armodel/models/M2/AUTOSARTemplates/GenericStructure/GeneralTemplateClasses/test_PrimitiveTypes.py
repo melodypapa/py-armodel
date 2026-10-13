@@ -652,7 +652,7 @@ class TestPrimitiveIdentifier:
         (UriString, "https://example.com/resource", "https://example.com/resource"),
         (BaseTypeEncodingString, "PACKED", "PACKED"),
         (PositiveUnlimitedInteger, "1", 1.0),
-        (RevisionLabelString, "R23-11", "R23-11"),
+        (RevisionLabelString, "4.0.0", "4.0.0"),
         (SymbolString, "MySymbol", "MySymbol"),
         (McdIdentifier, "meas_1", "meas_1"),
     ],
@@ -2086,6 +2086,58 @@ class TestRegularExpression:
         obj = RegularExpression().setValue("[0-9]+")
         obj.setValue(None)
         assert obj.getValue() == "[0-9]+"
+
+
+class TestRevisionLabelString:
+    """
+    Test class for RevisionLabelString functionality (Table 4.61).
+    """
+
+    def test_initialization(self):
+        obj = RevisionLabelString()
+        assert obj is not None
+        assert obj._value is None
+
+    def test_set_value(self):
+        obj = RevisionLabelString().setValue("4.0.0")
+        assert obj.getValue() == "4.0.0"
+
+    @pytest.mark.parametrize(
+        "pattern_value",
+        [
+            "4.0.0",
+            "4.0.0.1234565",
+            "4.0.0_vendor specific;13",
+            "4.0.0;12",
+            "1.0.0",
+        ],
+    )
+    def test_pattern_value_round_trip(self, pattern_value):
+        """Every value below satisfies the Table 4.61 Note pattern.
+
+        The first four are the Note's own "Legal patterns are for example:" list verbatim.
+        Each is machine-validated against the XSD `REVISION-LABEL-STRING--SIMPLE` pattern
+        facet (AUTOSAR_00052.xsd l.141826) with `re.fullmatch`, the same technique used for
+        McdIdentifier / Ip6AddressString.
+
+        No two-component value such as `4.0` and no over-long dotted value such as
+        `4.0.0.1.2` is used: the Note states the three integers "represent from left to
+        right MajorVersion, MinorVersion, PatchVersion" and that the suffix "may add an
+        application specific suffix separated by one of ".", "_", ";"". A permissive
+        ARLiteral would still accept those strings, so the spec — not the parser — is the
+        contract; the reader leaf helper
+        `getChildElementOptionalRevisionLabelString` rejects them with a ValueError
+        (abstract_arxml_parser.py l.361), which is what makes the fixture choice real.
+        """
+        obj = RevisionLabelString()
+        result = obj.setValue(pattern_value)
+        assert result is obj  # Verify method chaining
+        assert obj.getValue() == pattern_value
+
+    def test_set_value_none_is_noop(self):
+        obj = RevisionLabelString().setValue("4.0.0")
+        obj.setValue(None)
+        assert obj.getValue() == "4.0.0"
 
 
 class TestDiagnosticOccurrenceCounterProcessingEnum:
