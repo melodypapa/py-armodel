@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 832 | 43.4% |
+| [x] Done | 833 | 43.5% |
 | [x] Deferred | 83 | 4.3% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 989 | 51.6% |
+| [ ] Deferred | 988 | 51.6% |
 | [ ] Implemented | 10 | 0.5% |
 | [ ] Created | 1 | 0.1% |
 | [ ] Pending | 0 | 0.0% |
@@ -444,7 +444,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `DataTypeMappingSet`                                    | [x] Done    | 21ab486b53                               | Group2           |
 | `DataTypePolicyEnum`                                    | [ ] Implemented| N/A                                      | Group31          |
 | `DataWriteCompletedEvent`                               | [x] Done    | df2a6b3a70                               | Group12          |
-| `DateTime`                                              | [ ] Deferred| N/A                                      | Group21          |
+| `DateTime`                                              | [x] Done    | N/A                                      | Group21          |
 | `DcmIPdu`                                               | [x] Deferred| edf35e5e2a                               | Group31          |
 | `DdsCpConfig`                                           | [ ] Deferred| N/A                                      | Group32          |
 | `DdsCpConsumedServiceInstance`                          | [ ] Deferred| N/A                                      | Group32          |
@@ -1470,7 +1470,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `ReferenceTailoring`                                    | [ ] Deferred| N/A                                      | Group36          |
 | `ReferenceValueSpecification`                           | [ ] Deferred| 8186029562                               | Group28          |
 | `Referrable`                                            | [x] Done    | 4e60d3a344                               | Group21          |
-| `ReferrableSubtypesEnum`                                | [x] Done    | a097cb3d4f                               | Group21          |
+| `ReferrableSubtypesEnum`                                | [x] Done    | N/A                                      | Group21          |
 | `RegularExpression`                                     | [ ] Deferred| N/A                                      | Group21          |
 | `RelativeTolerance`                                     | [ ] Deferred| 358656e2a4                               | Group31          |
 | `RequestResponseDelay`                                  | [x] Done    | 1c556f35b4                               | Group16          |
@@ -1540,7 +1540,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `SdgAggregationWithVariation`                           | [x] Done    | 207e9e3241                               | Group21          |
 | `SdgAttribute`                                          | [x] Done    | 41952ae2fd                               | Group21          |
 | `SdgClass`                                              | [x] Done    | cfa7402dec                               | Group21          |
-| `SdgDef`                                                | [x] Done    | c7d3958065                               | Group21          |
+| `SdgDef`                                                | [x] Done    | N/A                                      | Group21          |
 | `SdgElementWithGid`                                     | [x] Done    | f7d552948b                               | Group21          |
 | `SdgForeignReference`                                   | [x] Done    | 13929a0060                               | Group21          |
 | `SdgForeignReferenceWithVariation`                      | [x] Done    | b9f42c0d6e                               | Group21          |

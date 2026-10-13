@@ -1326,7 +1326,7 @@ pending that confirmation.
       immediately after the `# Spec:` line (Rule 0012.1); post-stamp audit STAMP clean,
       `=> PASS`; exactly 1 marker in the block.
     - note: sync commit 0608c2352.
-- [ ] `DateTime` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.48, p.109
+- [x] `DateTime` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.48, p.109 — sync commit ca33022d0
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
   - [x] Step 1 — Sync members & description from spec
     - note (Step 1): Table 4.48 (leading-caption page-split, p.109 via pdf_page.py);
@@ -1479,8 +1479,12 @@ pending that confirmation.
       `ReferrableSubtypesEnum` have **no** leaf pair at all. For `CIdentifierWithIndex` this
       is already resolved and documented on its own row (nothing in the schema consumes it);
       the other three are still `[ ]` rows and should get the same audit when they are synced.
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (127 passed / 0 failed
-    test_PrimitiveTypes.py); 9b deferred to batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a RE-RUN 2026-10-13 (full battery, below);
+    9b confirmed 2026-10-13 (all 14 pre-stamp items re-derived from source per Rule 0026 —
+    the row's "steps 1-8 done" prose was audited, not trusted; marker
+    `# Spec verified: R23-11 (2026-10-13, user 9b confirmation)` written immediately after
+    the `# Spec:` line, exactly one marker in the block, post-stamp audit STAMP clean
+    ⇒ PASS); sync commit ca33022d0
     - note (9a, RE-RUN 2026-10-13, full battery): full suite **26,165 passed / 0 failed**
       (integration round-trip included, XSD validation gates ON per Rule 0027);
       `test_PrimitiveTypes.py -k DateTime` **6 passed** (was 2);

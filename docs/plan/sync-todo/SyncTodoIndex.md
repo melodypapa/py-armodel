@@ -875,7 +875,7 @@ Status: **29/29** completed
 
 ## Group21
 
-Status: **43/59** completed
+Status: **44/59** completed
 
 | Class Name                           | Status       | Commit ID  |
 | ------------------------------------ | ------------ | ---------- |
@@ -883,8 +883,8 @@ Status: **43/59** completed
 | `LLongName`                          | [x] Done     | c09bc8067d |
 | `MixedContentForLongName`            | [x] Done     | fdc7811f86 |
 | `Referrable`                         | [x] Done     | 4e60d3a344 |
-| `ReferrableSubtypesEnum`             | [x] Done     | a097cb3d4f |
-| `SdgDef`                             | [x] Done     | c7d3958065 |
+| `ReferrableSubtypesEnum`             | [x] Done     | N/A        |
+| `SdgDef`                             | [x] Done     | N/A        |
 | `SdgElementWithGid`                  | [x] Done     | f7d552948b |
 | `SdgClass`                           | [x] Done     | cfa7402dec |
 | `SdgAttribute`                       | [x] Done     | 41952ae2fd |
@@ -903,7 +903,7 @@ Status: **43/59** completed
 | `CIdentifier`                        | [x] Done     | N/A        |
 | `CIdentifierWithIndex`               | [x] Done     | a81628868d |
 | `CategoryString`                     | [x] Done     | 0608c23528 |
-| `DateTime`                           | [ ] Pending* | N/A        |
+| `DateTime`                           | [x] Done     | N/A        |
 | `DiagRequirementIdString`            | [ ] Pending* | N/A        |
 | `Ip4AddressString`                   | [ ] Pending* | N/A        |
 | `Ip6AddressString`                   | [ ] Pending* | N/A        |
