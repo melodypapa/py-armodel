@@ -19,7 +19,10 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSu
     McSupportData,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    CategoryString,
+    DateTime,
     McdIdentifier,
+    String,
 )
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
@@ -39,6 +42,10 @@ def _build_document(display_identifier):
     impl.setMcSupport(support)
 
     return document
+
+
+def _first_instance(document):
+    return document.getARPackages()[0].getBswImplementations()[0].getMcSupport().getMcVariableInstances()[0]
 
 
 def _save_and_reload(document):
@@ -90,4 +97,45 @@ class TestMcDataInstanceDisplayIdentifierRoundTrip:
         written, document_2 = _save_and_reload(document)
 
         assert "DISPLAY-IDENTIFIER" not in written
-        assert document_2.getARPackages()[0].getBswImplementations()[0].getMcSupport().getMcVariableInstances()[0].getDisplayIdentifier() is None
+        assert _first_instance(document_2).getDisplayIdentifier() is None
+
+
+class TestMcDataInstanceIdentifiableLevelRoundTrip:
+    """
+    Rule 0025 coverage: readMcDataInstance must read the Identifiable level itself.
+
+    The writer has always emitted ``T``/``UUID`` on ``<MC-DATA-INSTANCE>`` via
+    ``writeIdentifiable``, but the reader did not call any base helper, so the whole
+    Identifiable level was dropped on parse. These tests pin the attributes that level
+    owns so the reader side cannot regress silently again.
+    """
+
+    def test_round_trip_preserves_identifiable_level_attributes(self):
+        """Uuid, timestamp, category and shortName survive the round-trip."""
+        document = _build_document(None)
+        instance = _first_instance(document)
+        instance.setUuid(String().setValue("11111111-1111-1111-1111-111111111111"))
+        instance.setTimestamp(DateTime().setValue("2026-10-13T00:00:00Z"))
+        instance.setCategory(CategoryString().setValue("DATA_SET"))
+
+        written, document_2 = _save_and_reload(document)
+
+        assert 'UUID="11111111-1111-1111-1111-111111111111"' in written
+        assert 'T="2026-10-13T00:00:00Z"' in written
+        reparsed = _first_instance(document_2)
+        assert reparsed.getUuid().getValue() == "11111111-1111-1111-1111-111111111111"
+        assert reparsed.getTimestamp().getValue() == "2026-10-13T00:00:00Z"
+        assert reparsed.getCategory().getValue() == "DATA_SET"
+        assert reparsed.getShortName() == "MeasVar1"
+
+    def test_identifiable_level_survives_on_nested_sub_elements(self):
+        """The base helper also applies to each SUB-ELEMENTS/MC-DATA-INSTANCE."""
+        document = _build_document(None)
+        support = document.getARPackages()[0].getBswImplementations()[0].getMcSupport()
+        support.createMcVariableInstance("MeasVar2").createSubElement("Inner").setUuid(String().setValue("22222222-2222-2222-2222-222222222222"))
+
+        _, document_2 = _save_and_reload(document)
+
+        inner = document_2.getARPackages()[0].getBswImplementations()[0].getMcSupport().getMcVariableInstances()[1].getSubElements()[0]
+        assert inner.getShortName() == "Inner"
+        assert inner.getUuid().getValue() == "22222222-2222-2222-2222-222222222222"

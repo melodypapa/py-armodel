@@ -686,18 +686,18 @@ class McDataInstance(Identifiable, VariationPointCapable):
     # [x] setInstanceInMemory         [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
     # [x] getMcDataAccessDetails      [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
     # [x] setMcDataAccessDetails      [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
-    # [x] getMcDataAssignments        [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
     # [x] addMcDataAssignment         [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getMcDataAssignments      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] getResultingProperties      [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
     # [x] setResultingProperties      [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
-    # [x] getResultingRptSwPrototypingAccess[x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
-    # [x] setResultingRptSwPrototypingAccess[x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getResultingRptSwPrototypingAccess [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setResultingRptSwPrototypingAccess [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
     # [x] getRole                     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
     # [x] setRole                     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
     # [x] getRptImplPolicy            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
     # [x] setRptImplPolicy            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
-    # [x] getSubElements              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
     # [x] createSubElement            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getSubElements              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] getSymbol                   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
     # [x] setSymbol                   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
 

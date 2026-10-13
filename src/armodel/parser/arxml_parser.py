@@ -6940,6 +6940,7 @@ class ARXMLParser(AbstractARXMLParser):
             details.addVariableAccessIRef(iref)
 
     def readMcDataInstance(self, element: ET.Element, instance: McDataInstance):
+        self.readIdentifiable(element, instance)
         instance.setArraySize(self.getChildElementOptionalPositiveInteger(element, "ARRAY-SIZE"))
         instance.setDisplayIdentifier(self.getChildElementOptionalMcdIdentifier(element, "DISPLAY-IDENTIFIER"))
         instance.setFlatMapEntryRef(self.getChildElementOptionalRefType(element, "FLAT-MAP-ENTRY-REF"))
