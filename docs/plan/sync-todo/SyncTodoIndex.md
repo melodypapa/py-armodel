@@ -883,8 +883,8 @@ Status: **46/59** completed
 | `LLongName`                          | [x] Done     | c09bc8067d |
 | `MixedContentForLongName`            | [x] Done     | fdc7811f86 |
 | `Referrable`                         | [x] Done     | 4e60d3a344 |
-| `ReferrableSubtypesEnum`             | [x] Done     | N/A        |
-| `SdgDef`                             | [x] Done     | N/A        |
+| `ReferrableSubtypesEnum`             | [x] Done     | a097cb3d4f |
+| `SdgDef`                             | [x] Done     | c7d3958065 |
 | `SdgElementWithGid`                  | [x] Done     | f7d552948b |
 | `SdgClass`                           | [x] Done     | cfa7402dec |
 | `SdgAttribute`                       | [x] Done     | 41952ae2fd |
@@ -900,12 +900,12 @@ Status: **46/59** completed
 | `AbstractValueRestriction`           | [x] Done     | 638ddf100c |
 | `AbstractVariationRestriction`       | [x] Done     | 731dacd640 |
 | `FullBindingTimeEnum`                | [x] Done     | fdd8e3841d |
-| `CIdentifier`                        | [x] Done     | N/A        |
+| `CIdentifier`                        | [x] Done     | 8467b508ba |
 | `CIdentifierWithIndex`               | [x] Done     | a81628868d |
 | `CategoryString`                     | [x] Done     | 0608c23528 |
 | `DateTime`                           | [x] Done     | ca33022d0b |
 | `DiagRequirementIdString`            | [x] Done     | 14d04253a4 |
-| `Ip4AddressString`                   | [x] Done     | N/A        |
+| `Ip4AddressString`                   | [x] Done     | 6262697a38 |
 | `Ip6AddressString`                   | [ ] Pending* | N/A        |
 | `McdIdentifier`                      | [ ] Pending* | N/A        |
 | `RegularExpression`                  | [ ] Pending* | N/A        |

@@ -233,7 +233,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `BusMirrorLinPidToCanIdMapping`                         | [ ] Deferred| N/A                                      | Group34          |
 | `BusspecificNmEcu`                                      | [ ] Deferred| N/A                                      | Group33          |
 | `ByteOrderEnum`                                         | [ ] Deferred| N/A                                      | Group28          |
-| `CIdentifier`                                           | [x] Done    | N/A                                      | Group21          |
+| `CIdentifier`                                           | [x] Done    | 8467b508ba                               | Group21          |
 | `CIdentifierWithIndex`                                  | [x] Done    | a81628868d                               | Group21          |
 | `CSTransformerErrorReactionEnum`                        | [ ] Deferred| N/A                                      | Group34          |
 | `CalibrationParameterValue`                             | [ ] Deferred| 253d938ab0                               | Group28          |
@@ -1133,7 +1133,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `InvalidationPolicy`                                    | [x] Done    | 1000053d88                               | Group1           |
 | `InvertCondition`                                       | [ ] Deferred| N/A                                      | Group36          |
 | `IoHwAbstractionServerAnnotation`                       | [ ] Deferred| 315b01de98                               | Group27          |
-| `Ip4AddressString`                                      | [x] Done    | N/A                                      | Group21          |
+| `Ip4AddressString`                                      | [x] Done    | 6262697a38                               | Group21          |
 | `Ip6AddressString`                                      | [ ] Deferred| N/A                                      | Group21          |
 | `IpAddressKeepEnum`                                     | [x] Done    | 161a1b8215                               | Group16          |
 | `Ipv4AddressSourceEnum`                                 | [x] Done    | 8c0771cafd                               | Group16          |
@@ -1470,7 +1470,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `ReferenceTailoring`                                    | [ ] Deferred| N/A                                      | Group36          |
 | `ReferenceValueSpecification`                           | [ ] Deferred| 8186029562                               | Group28          |
 | `Referrable`                                            | [x] Done    | 4e60d3a344                               | Group21          |
-| `ReferrableSubtypesEnum`                                | [x] Done    | N/A                                      | Group21          |
+| `ReferrableSubtypesEnum`                                | [x] Done    | a097cb3d4f                               | Group21          |
 | `RegularExpression`                                     | [ ] Deferred| N/A                                      | Group21          |
 | `RelativeTolerance`                                     | [ ] Deferred| 358656e2a4                               | Group31          |
 | `RequestResponseDelay`                                  | [x] Done    | 1c556f35b4                               | Group16          |
@@ -1540,7 +1540,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `SdgAggregationWithVariation`                           | [x] Done    | 207e9e3241                               | Group21          |
 | `SdgAttribute`                                          | [x] Done    | 41952ae2fd                               | Group21          |
 | `SdgClass`                                              | [x] Done    | cfa7402dec                               | Group21          |
-| `SdgDef`                                                | [x] Done    | N/A                                      | Group21          |
+| `SdgDef`                                                | [x] Done    | c7d3958065                               | Group21          |
 | `SdgElementWithGid`                                     | [x] Done    | f7d552948b                               | Group21          |
 | `SdgForeignReference`                                   | [x] Done    | 13929a0060                               | Group21          |
 | `SdgForeignReferenceWithVariation`                      | [x] Done    | b9f42c0d6e                               | Group21          |
