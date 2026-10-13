@@ -1502,7 +1502,7 @@ pending that confirmation.
       `src/armodel`, so the result cannot be affected by these changes.
     - note: `Step 9` stays `[ ]` until the user confirms 9b; the
       `# Spec verified:` marker is deliberately withheld (Rule 0012.1).
-- [ ] `DiagRequirementIdString` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.49, p.109; also CP_TPS_SoftwareComponentTemplate Table 13.16, p.754
+- [x] `DiagRequirementIdString` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.49, p.109; also CP_TPS_SoftwareComponentTemplate Table 13.16, p.754 — sync commit fc2e23abe
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
   - [x] Step 1 — Sync members & description from spec
     - note (Step 1, original 2026-09-30): Table 4.49 FO_TPS primary (p.109 via
@@ -1647,16 +1647,16 @@ pending that confirmation.
       (batch mode).
   - [x] Step 8 — Deviations
     - note (Step 8): none; no missing referenced classes.
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a RE-RUN 2026-10-13 (this pass): full suite
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a RE-RUN 2026-10-13 (this pass): full suite
     **26,159 passed / 0 failed** (`scripts/run_tests.py --no-coverage`, integration
     round-trip included); `ruff check src/armodel tests scripts` clean; `black --check`
     clean on both touched files; `flake8 --select=E9,F63,F7,F82` clean; Rule 0022
     member-annotation gate **3 passed**; `audit_class.py DiagRequirementIdString` => **PASS**
-    on every gate (STAMP reports the expected pre-stamp state); `mypy` **Found 13 errors in 3
-    files** — the same pre-existing openpyxl `CellRichText` errors in
-    `connector_xlsx_parser.py` / `excel_parser.py` / `os_export.py`, none in a file this row
-    touches. **9b NOT yet run** — the `# Spec verified:` marker is withheld until the user
-    confirms the pre-stamp checklist (Rule 0006.1 / 0012.1).
+    on every gate; `mypy` **Found 13 errors in 3 files** — the same pre-existing openpyxl
+    `CellRichText` errors in `connector_xlsx_parser.py` / `excel_parser.py` / `os_export.py`,
+    none in a file this row touches. 9b confirmed by the user 2026-10-13 (all 10 pre-stamp
+    items); marker `# Spec verified: R23-11 (2026-10-13, user 9b confirmation)` written
+    after the `# Spec:` line; post-stamp audit `=> PASS`. Sync commit fc2e23abe.
 - [ ] `Ip4AddressString` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.51, p.110; also CP_TPS_SystemTemplate Table 6.142, p.468
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
   - [x] Step 1 — Sync members & description from spec

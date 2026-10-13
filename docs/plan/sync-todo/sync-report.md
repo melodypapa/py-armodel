@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 833 | 43.5% |
+| [x] Done | 834 | 43.6% |
 | [x] Deferred | 83 | 4.3% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 988 | 51.6% |
+| [ ] Deferred | 987 | 51.5% |
 | [ ] Implemented | 10 | 0.5% |
 | [ ] Created | 1 | 0.1% |
 | [ ] Pending | 0 | 0.0% |
@@ -444,7 +444,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `DataTypeMappingSet`                                    | [x] Done    | 21ab486b53                               | Group2           |
 | `DataTypePolicyEnum`                                    | [ ] Implemented| N/A                                      | Group31          |
 | `DataWriteCompletedEvent`                               | [x] Done    | df2a6b3a70                               | Group12          |
-| `DateTime`                                              | [x] Done    | N/A                                      | Group21          |
+| `DateTime`                                              | [x] Done    | ca33022d0b                               | Group21          |
 | `DcmIPdu`                                               | [x] Deferred| edf35e5e2a                               | Group31          |
 | `DdsCpConfig`                                           | [ ] Deferred| N/A                                      | Group32          |
 | `DdsCpConsumedServiceInstance`                          | [ ] Deferred| N/A                                      | Group32          |
@@ -493,7 +493,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `DiagEventDebounceMonitorInternal`                      | [x] Done    | 103cfd4316                               | Group4           |
 | `DiagEventDebounceTimeBased`                            | [ ] Deferred| eb9e198676                               | Group23          |
 | `DiagPduType`                                           | [x] Deferred| de6338d747                               | Group31          |
-| `DiagRequirementIdString`                               | [ ] Deferred| N/A                                      | Group21          |
+| `DiagRequirementIdString`                               | [x] Done    | fc2e23abe8                               | Group21          |
 | `DiagnosticAbstractAliasEvent`                          | [ ] Deferred| 5ff78dec55                               | Group25          |
 | `DiagnosticAbstractDataIdentifier`                      | [ ] Deferred| d32c585340                               | Group23          |
 | `DiagnosticAbstractParameter`                           | [ ] Deferred| 6665fb7d71                               | Group23          |
