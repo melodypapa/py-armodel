@@ -1177,13 +1177,12 @@ class DiagRequirementIdString(ARLiteral):
     Tags:
 
     * xml.xsd.customType=DIAG-REQUIREMENT-ID-STRING
-    * xml.xsd.pattern= ``[0-9a-zA-Z_\-]+``
+    * xml.xsd.pattern= ``[0-9a-zA-Z_\-]+``                       # noqa W605
     * xml.xsd.type=string
     """
 
     # DiagRequirementIdString method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.49, p.109
-    # Spec verified: R23-11 (2026-10-13, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 

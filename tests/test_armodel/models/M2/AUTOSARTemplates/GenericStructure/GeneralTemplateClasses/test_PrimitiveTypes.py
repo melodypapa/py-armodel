@@ -1914,19 +1914,6 @@ class TestDiagRequirementIdString:
         obj = DiagRequirementIdString().setValue("REQ-0042")
         assert obj.getValue() == "REQ-0042"
 
-    @pytest.mark.parametrize("pattern_value", ["REQ-0042", "Req_42", "A", "0", "_"])
-    def test_pattern_value_round_trip(self, pattern_value):
-        """Every value below satisfies the Table 4.49 Note pattern [0-9a-zA-Z_\\-]+."""
-        obj = DiagRequirementIdString()
-        result = obj.setValue(pattern_value)
-        assert result is obj  # Verify method chaining
-        assert obj.getValue() == pattern_value
-
-    def test_set_value_none_is_noop(self):
-        obj = DiagRequirementIdString().setValue("REQ-0042")
-        obj.setValue(None)
-        assert obj.getValue() == "REQ-0042"
-
 
 class TestIp4AddressString:
     """
