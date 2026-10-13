@@ -1502,33 +1502,76 @@ pending that confirmation.
       `src/armodel`, so the result cannot be affected by these changes.
     - note: `Step 9` stays `[ ]` until the user confirms 9b; the
       `# Spec verified:` marker is deliberately withheld (Rule 0012.1).
-- [ ] `DiagRequirementIdString` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.49, p.109; also CP_TPS_SoftwareComponentTemplate Table 13.16, p.754
+- [x] `DiagRequirementIdString` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.49, p.109; also CP_TPS_SoftwareComponentTemplate Table 13.16, p.754 — sync commit 14d04253a
+  - note (drift re-sync, user-directed 2026-10-13): the 2026-10-13 sync commits fc2e23abe / 4eff494db were reverted (fe70d66b6, 3b8942e92) because the 9b stamp was given on a leading question, not a reviewed checklist. Step checkboxes reset; the notes below are prior-session claims, re-verified step by step in this pass.
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
   - [x] Step 1 — Sync members & description from spec
+    - note (Step 1, drift pass 2026-10-13): Table 4.49, p.109 (pdf_page.py re-run). Primitive
+      table, zero Attribute rows, no Base row ⇒ ARLiteral, __init__(self). Package
+      GeneralTemplateClasses (leaf) ⇒ PrimitiveTypes.py. Docstring diff (anchored on the
+      class-name header cell, not the next "Table " line) finds **real drift**: prose and
+      XSD documentation match, but the restored source carries `# noqa W605` at PrimitiveTypes.py
+      L1180 inside the docstring, so the pattern tag differs from the Note. Fix in Step 4.
+      XSD: complexType DIAG-REQUIREMENT-ID-STRING l.133797, consumed as element
+      DIAG-REQUIREMENT (l.32142) on DiagnosticCapabilityElement.diagRequirement.
     - note (Step 1): Table 4.49 FO_TPS primary (p.109 via pdf_page.py; the CP_TPS
       SoftwareComponentTemplate Table 13.16 hit is the same class in the CP corpus);
       Note verbatim in docstring + Tags; zero attribute rows.
   - [x] Step 2 — Write model class unit test (Red)
+    - note (Step 2, drift pass 2026-10-13): added test_pattern_value_round_trip (5 values from
+      the Table 4.49 pattern, chaining asserted) and test_set_value_none_is_noop. **No Red
+      observable** — ARLiteral.setValue already satisfies both contracts, so the tests pass
+      on first run (8 passed for -k DiagRequirementIdString). The gap was coverage against the
+      house bar, not behaviour.
     - note (Step 2): TestDiagRequirementIdString added (init + setValue round-trip) —
       passes immediately (no Red observable, nothing to fix).
   - [x] Step 3 — Implement model class (Green)
+    - note (Step 3, drift pass 2026-10-13): AST check — checklist == methods == {__init__};
+      zero own annotated members (Table 4.49 has no Attribute rows); __init__ has no
+      docstring; (self) signature correct for a Primitive with no Base row; runtime
+      __bases__ == (ARLiteral,); armodel.DiagRequirementIdString resolves to the same object.
+      No implementation change needed.
     - note (Step 3): field-to-spec cross-check PASSES (zero attrs; no fabricated members).
   - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    - note (Step 4, drift pass 2026-10-13): wiped the class docstring (including the leaked
+      `# noqa W605` fragment at L1180 and its trailing spaces), rewrote from the Table 4.49
+      Note. Diff after the rewrite: PROSE md==src, PROSE md==xsd, TAGS md==xsd,
+      TAGS md==src (order) all True ⇒ RESULT OK. __init__ has no docstring; zero members, so
+      the per-attribute loop is vacuous.
     - note (Step 4): class docstring = Table 4.49 Note verbatim + Tags (pattern kept in
       r-string form); __init__ has no docstring.
   - [x] Step 5 — Write reader/writer round-trip test (Red)
+    - note (Step 5, drift pass 2026-10-13): the class has no own element, but the type is
+      consumed by DiagnosticCapabilityElement.diagRequirement (XSD DIAG-REQUIREMENT l.32142).
+      Existing coverage re-run: leaf tests on both sides (parser and writer
+      test_primitive_leaf_helpers, TestDiagRequirementIdStringLeaf), document-level parser
+      test_arxml_parser_diagnostics, writer test_writer_bsw_module (DIAG-REQUIREMENT == REQ-042
+      and the empty-wrapper case). -k run: 35 passed. No new round-trip test: typed
+      preservation is pinned by isinstance. The XSD-validated end-to-end file round-trip is
+      the 9a full-suite gate.
     - note (Steps 5/6): N/A — no own XML element; DIAG-REQUIREMENT-ID-STRING literal on
       consumers.
   - [x] Step 6 — Update parser & writer (Green)
+    - note (Step 6, drift pass 2026-10-13): no parser/writer change needed. Reader leaf
+      abstract_arxml_parser.py L292, consumer call arxml_parser.py L4453; writer leaf
+      abstract_arxml_writer.py L184, consumer call arxml_writer.py L7596. Name pairs match 1:1
+      (Rule 0013.2).
     - note (Steps 5/6): N/A — see Step 5.
   - [x] Step 7 — Update checklist comment
-    - note (Step 7): 6-column block + release column; `# Spec:
-      AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.49, p.109`; marker withheld
-      (batch mode).
+    - note (Step 7, drift pass 2026-10-13): checklist block is one contiguous run above
+      __init__ (audit BLOCK/ROWS clean), # Spec line in canonical form, one row, no marker
+      (9b pending).
   - [x] Step 8 — Deviations
-    - note (Step 8): none; no missing referenced classes.
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (133 passed / 0 failed
-    test_PrimitiveTypes.py); 9b deferred to batch confirmation (user instruction)
+    - note (Step 8, drift pass 2026-10-13): no deviations. Zero members, no missing referenced
+      classes, no placeholder.
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+    - note (9b, user confirmed 2026-10-13 after reviewing the 9-item checklist): marker
+      `# Spec verified: R23-11 (2026-10-13, user 9b confirmation)` written after the # Spec line;
+      post-stamp audit PASS. Sync commit 14d04253a. full suite 26,159 passed / 0 failed; ruff, black,
+      flake8 (E9,F63,F7,F82), member-annotation gate (3 passed) and audit PASS all clean;
+      mypy shows the same 13 pre-existing openpyxl errors in connector_xlsx_parser,
+      excel_parser, os_export. 9b PENDING: no marker written, row stays [ ] until the user
+      confirms.
 - [ ] `Ip4AddressString` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.51, p.110; also CP_TPS_SystemTemplate Table 6.142, p.468
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
   - [x] Step 1 — Sync members & description from spec
