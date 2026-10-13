@@ -1268,6 +1268,7 @@ class Ip6AddressString(ARLiteral):
 
     # Ip6AddressString method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.52, p.110
+    # Spec verified: R23-11 (2026-10-13, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 

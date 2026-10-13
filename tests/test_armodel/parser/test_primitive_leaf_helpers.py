@@ -98,12 +98,12 @@ class TestIpAddressStringLeaf:
         assert value.timestamp == "2023-10-10T00:00:00Z"
 
     def test_reads_concrete_ip6_type_and_t(self):
-        element = ET.fromstring(f"<ROOT xmlns='{NS}'><IPV-6-ADDRESS T='2023-10-10T00:00:00Z'>fe80::1</IPV-6-ADDRESS></ROOT>")
+        element = ET.fromstring(f"<ROOT xmlns='{NS}'><IPV-6-ADDRESS T='2023-10-10T00:00:00Z'>2001:0db8:0000:0000:0000:0000:0000:0001</IPV-6-ADDRESS></ROOT>")
 
         value = ARXMLParser().getChildElementOptionalIp6AddressString(element, "IPV-6-ADDRESS")
 
         assert isinstance(value, Ip6AddressString)
-        assert value.getValue() == "fe80::1"
+        assert value.getValue() == "2001:0db8:0000:0000:0000:0000:0000:0001"
         assert value.timestamp == "2023-10-10T00:00:00Z"
 
     def test_missing_returns_none(self):

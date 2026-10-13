@@ -1067,7 +1067,7 @@ pending that confirmation.
     audit_class.py => PASS; ruff/flake8/black/mypy clean); 9b confirmed 2026-10-12
     (Rule 0026 audit vs source — the row's "steps 1-8 done" prose re-derived rather than
     trusted; it carried one false claim, corrected at Step 8); sync commit fdd8e3841
-- [x] `CIdentifier` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.45, p.108; also FO_TPS_StandardizationTemplate Table 4.5, p.43
+- [x] `CIdentifier` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.45, p.108; also FO_TPS_StandardizationTemplate Table 4.5, p.43 — sync commit 8467b508b
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
   - [x] Step 1 — Sync members & description from spec
     - note (Step 1): Table 4.45 (leading-caption page-split, p.108 via pdf_page.py);
@@ -1572,7 +1572,7 @@ pending that confirmation.
       mypy shows the same 13 pre-existing openpyxl errors in connector_xlsx_parser,
       excel_parser, os_export. 9b PENDING: no marker written, row stays [ ] until the user
       confirms.
-- [x] `Ip4AddressString` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.51, p.110; also CP_TPS_SystemTemplate Table 6.142, p.468
+- [x] `Ip4AddressString` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.51, p.110; also CP_TPS_SystemTemplate Table 6.142, p.468 — sync commit 6262697a3
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
   - note (drift re-sync, 2026-10-13): no `# Spec verified:` marker in src, so the 2026-09-30 "steps 1-8 done" claims are not evidence. Steps reset to `[ ]` and walked again from Step 1 (Rule 0017.1 / 0026).
   - [x] Step 1 — Sync members & description from spec
@@ -1593,32 +1593,247 @@ pending that confirmation.
     - note (Step 8, drift pass 2026-10-13): no deviations. No `naming`/`type`/`missing` row; the field-to-spec cross-check passes trivially (zero members). The Table 4.51 `2[0-4] [0-9]` space is a markdown page-split artifact, not a deviation, since the XSD is authoritative and the source matches it. No missing referenced classes.
   - [x] Step 9 — Verify (9a) + confirm (9b)
     - note (9a, re-run 2026-10-13): full suite **26,178 passed / 0 failed** (integration round-trip included, XSD gates ON); Ip4 model + leaf-helper tests 15 passed; Rule 0022 member-annotation gate 3 passed; `ruff check src/armodel tests scripts` clean; `flake8 --select=E9,F63,F7,F82` clean; `black --check` clean on the 3 touched files; `mypy src/armodel` **13 errors in 3 unrelated files** (connector_xlsx_parser ×11, excel_parser, os_export — the openpyxl drift already recorded on earlier rows; none in PrimitiveTypes.py); `audit_class.py Ip4AddressString` => **PASS** (STAMP clean).
-    - note (9b, user confirmed 2026-10-13): marker `# Spec verified: R23-11 (2026-10-13, user 9b confirmation)` written immediately after the `# Spec:` line (Rule 0012.1). Sync commit: `feat: Ip4AddressString synced.` on `feature/g21-sync-fixes` (hash recorded in `git log`).
-- [ ] `Ip6AddressString` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.52, p.110; also CP_TPS_SystemTemplate Table 6.142, p.468
+    - note (9b, user confirmed 2026-10-13): marker `# Spec verified: R23-11 (2026-10-13, user 9b confirmation)` written immediately after the `# Spec:` line (Rule 0012.1). Sync commit `6262697a3` — `feat: Ip4AddressString synced.` on `feature/g21-sync-fixes` (recorded in the row header).
+- [ ] `Ip6AddressString` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.52, p.110; also CP_TPS_SystemTemplate Table 6.143, p.468
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
+  - note (drift re-sync, 2026-10-13): no `# Spec verified:` marker in src, so the 2026-09-30 "steps 1-8 done" claims are not evidence. Steps re-walked from Step 1 against source (Rule 0017.1 / 0026). **Citation defect found and fixed**: the row header cited `also CP_TPS_SystemTemplate Table 6.142` — that is **Ip4AddressString's** table (off-by-one, copied from the sibling row one above); `pdf_page.py Ip6AddressString` and the CP corpus both give **Table 6.143, p.468**, whose Note is identical to Table 4.52's. Corrected in the header.
   - [x] Step 1 — Sync members & description from spec
     - note (Step 1): Table 4.52 FO_TPS primary (p.110 via pdf_page.py); Note verbatim in
       docstring + Tags; zero attribute rows.
+    - note (Step 1, RE-DERIVED 2026-10-13 per Rule 0026 — the row's prose was re-checked
+      against source, not trusted): Table 4.52 is a `Primitive` table (Package + Note rows
+      only) ⇒ **no Base row** and **zero Attribute rows**, so the base is `ARLiteral` per
+      Rule 0001.10 (runtime `__bases__ == (ARLiteral,)` confirmed) with `__init__(self)`,
+      and the field↔spec cross-check passes in **both** directions — nothing fabricated,
+      nothing missing. Package row
+      `M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes` ⇒
+      `PrimitiveTypes.py`; `GeneralTemplateClasses` is a **leaf** package (Rule 0007) and
+      `armodel.Ip6AddressString` resolves to the same object. `__init__` has no docstring;
+      zero own members ⇒ no `__init__` attribute blocks to space (Rule 0008 vacuous); no
+      `# type:` anywhere in the file.
+      **Docstring verified by script diff against BOTH corpora, not by eye**: prose is
+      **token-identical** to the markdown `Note` cell *and* to the XSD `<xsd:documentation>`
+      of `complexType IP6-ADDRESS-STRING` (`AUTOSAR_00052.xsd` l.138640), and the 3 `Tags:`
+      are set-equal **and order-equal** across markdown, XSD `<xsd:appinfo source="tags">`
+      and source (`customType=IP6-ADDRESS-STRING`, `pattern=[0-9A-Fa-f]{1,4}(:[0-9A-Fa-f]{1,4}){7,7}|ANY`,
+      `type=string`) — three independent confirmations. The leaked-`# noqa` docstring defect
+      found on the `Ip4AddressString` sibling in the same file is **absent** here.
+      **No own XML element, justified independently of the writer** (Rule 0025): XSD
+      `complexType IP6-ADDRESS-STRING` is `xsd:simpleContent` over `IP6-ADDRESS-STRING--SIMPLE`
+      with only the `AR-OBJECT` attributeGroup — **no child elements exist** to dispatch on,
+      yet the type *is* consumed (`type="AR:IP6-ADDRESS-STRING"` at 17 sites incl.
+      `DEFAULT-ROUTER` l.74512, `IPV-6-ADDRESS` l.74554, `NETWORK-MASK` l.74626), which is the
+      `DateTime` shape, not the `CIdentifierWithIndex` one. The Rule 0013.2 leaf pair exists
+      on **both** sides — `getChildElementOptionalIp6AddressString`
+      (`abstract_arxml_parser.py` l.283: constructs `Ip6AddressString()` + `readARType` +
+      `setValue`) and `setChildElementOptionalIp6AddressString` (`abstract_arxml_writer.py`
+      l.193: delegates to `setChildElementOptionalLiteral`) — with 13 parser call sites.
+      The **writer** has 0 typed-helper call sites and instead calls the generic
+      `setChildElementOptionalLiteral` directly at 10+ sites (DEFAULT-GATEWAY, NETWORK-MASK,
+      DEFAULT-ROUTER, IPV-6-ADDRESS, DESTINATION-IP-ADDRESS, SOURCE-IP-ADDRESS, …), which
+      emits the same element; this is the whole-`ARLiteral`-family shape and is **identical
+      for the just-stamped `Ip4AddressString` sibling** (0 typed writer consumers there too),
+      so it is not a defect and not this row's to change (Rule 0017.1).
   - [x] Step 2 — Write model class unit test (Red)
     - note (Step 2): TestIp6AddressString added (init + setValue round-trip) — passes
       immediately (no Red observable, nothing to fix).
+    - note (Step 2, drift pass 2026-10-13): the 2026-09-30 test was init + one set/get only,
+      so it sat **below the stamped house bar** — `TestIp4AddressString` (Table 4.51, stamped
+      2026-10-13, one row up) and `TestDiagRequirementIdString` both assert method chaining
+      and the Rule 0006 **None no-op**; this class asserted neither. Added 2 tests /
+      6 cases to `test_PrimitiveTypes.py`: `test_pattern_value_round_trip` (parametrized over
+      **five values straight out of the Table 4.52 Note pattern** `[0-9A-Fa-f]{1,4}(:[0-9A-Fa-f]{1,4}){7,7}|ANY`
+      — the spec's own `FFFF:FFFF:...:FFFF` Notation example, minimum-width `0:0:0:0:0:0:0:0`,
+      `2001:db8:0:0:0:0:2:1`, a mixed-case/lower-case `aBcD:0000:ffff:...:0001`, and `ANY` —
+      also asserting the `result is obj` chaining) and `test_set_value_none_is_noop`
+      (`setValue(None)` must not clear an existing value — the guard `ARLiteral.setValue`
+      really has at `PrimitiveTypes.py` l.109-113). The docstring of the parametrized test
+      records why **no duplicate-colon value such as `::1` is used**: the Table 4.52 Note
+      states such short-cuts "are not allowed", so a permissive `ARLiteral` would still
+      accept the string — the spec, not the parser, is the contract. **No Red observable**:
+      the pre-existing `ARLiteral` base already implements both contracts, so the new asserts
+      passed on first run (8 passed for `-k Ip6AddressString`, was 2). The Red state for this
+      row is the entry-gate audit + the Step 1 citation defect, not a behavioural failure.
   - [x] Step 3 — Implement model class (Green)
     - note (Step 3): field-to-spec cross-check PASSES (zero attrs; no fabricated members).
+    - note (Step 3, drift pass 2026-10-13): **no implementation change needed**, re-derived
+      from source rather than trusted. AST: checklist `==` methods `== ['__init__']` (1 row,
+      source order); **zero own annotated members** (Table 4.52 has no Attribute rows, so the
+      sole member is the inherited literal value); `__init__` has no docstring; `(self)`
+      signature is correct for a Primitive with no Base row; runtime `__bases__ == (ARLiteral,)`;
+      `armodel.Ip6AddressString` resolves to the same class object. No `# type:` in the file.
   - [x] Step 4 — Sync docstrings (wipe + rewrite)
     - note (Step 4): class docstring = Table 4.52 Note verbatim + Tags (r-string pattern
       kept; Tags header colon normalized to house style); __init__ has no docstring.
+    - note (Step 4, drift pass 2026-10-13): **no change needed** — the existing docstring is
+      already verbatim, confirmed by the AST/token diff in Step 1 (prose token-identical to
+      the markdown Note and to the XSD `<xsd:documentation>`; all 3 `Tags:` order-equal and
+      value-identical across markdown, XSD appinfo and source). The Rule 0012.2.3
+      wipe-and-rewrite therefore produced **no diff**, which is the honest outcome and not a
+      skipped step — same as the stamped `DateTime` / `Ip4AddressString` siblings. This is
+      **not** a fabricated docstring like the `RegularExpression` / `UriString` rows in this
+      file carry, and the leaked-`# noqa` fragment found on the `Ip4AddressString` sibling is
+      absent here. Zero own members ⇒ no per-attribute docstring loop to run.
   - [x] Step 5 — Write reader/writer round-trip test (Red)
-    - note (Steps 5/6): N/A — no own XML element; IP4-ADDRESS-STRING literal on consumers.
+    - note (Steps 5/6): N/A — no own XML element; IP6-ADDRESS-STRING literal on consumers.
+    - note (Step 5, drift pass 2026-10-13): the row's "N/A — nothing covered it" is **wrong in
+      the same way it was for `DateTime`**, so the coverage was audited on both sides rather
+      than assumed:
+      (a) **The leaf-helper pair is already covered on both sides** —
+      `TestIp6AddressStringLeaf` in `tests/test_armodel/parser/test_primitive_leaf_helpers.py`
+      (concrete `Ip6AddressString` type + `T` + value; missing ⇒ `None`) and the mirror in
+      `tests/test_armodel/writer/test_primitive_leaf_helpers.py` (concrete type + `T` + value;
+      `None` ⇒ emits nothing). The parser test's `isinstance(value, Ip6AddressString)` is
+      exactly the Rule 0013.2 typed-preservation property. The writer test already had the
+      `None` case, which is why the `Ip4AddressString` pass had to **add**
+      `test_none_emits_nothing_ip4` rather than reuse an existing one.
+      (b) **The consumer round-trip was already pinned at document level** — not by this
+      family but by `tests/test_armodel/parser/test_stream_filter_ipv6_address.py`, which
+      asserts `isinstance(ipv6_address.getIpv6Address(), Ip6AddressString)` **and**
+      `isinstance(ipv6_address.getIpv6AddressMask(), Ip6AddressString)` after a real
+      `ARXMLParser.load`. Writer-side consumer tests: `test_ipv6_configuration.py`,
+      `test_switch_stream_filter_rule.py`,
+      `test_platform_module_ethernet_endpoint_configuration.py`.
+      **Real defect found and fixed in this row's own fixtures**: both leaf tests used
+      `fe80::1` as the value, a **duplicate-colon short-cut the Table 4.52 Note explicitly
+      forbids** ("Alternative notations, short-cuts with duplicate colons like ::, etc. ...
+      are not allowed"). A permissive `ARLiteral` accepts the string either way, so the
+      fixture never noticed — but a spec-violating fixture in a stamped class is exactly the
+      kind of quiet wrongness Rule 0026 exists to catch. Both fixtures re-pointed to the
+      spec-conformant `2001:0db8:0000:0000:0000:0000:0000:0001`. No test logic changed.
+      **Red state: none behaviourally** (the helpers already work — the 29 leaf-helper tests
+      pass on first run). The observable Red was the fixture defect itself.
+    - note (out of scope, recorded for their own rows — **not** touched here, Rule 0017.1):
+      the *consumer* tests still use duplicate-colon values in the same spec-violating shape
+      — `fe80::1` / `2001:db8::1` / `2001:db8::53` / `ff02::1` in `test_ipv6_configuration.py`,
+      `test_switch_stream_filter_rule.py` and
+      `test_platform_module_ethernet_endpoint_configuration.py`. Those files belong to the
+      `Ipv6Configuration` / `SwitchStreamFilterRule` /
+      `PlatformModuleEthernetEndpointConfiguration` rows, not to this one.
   - [x] Step 6 — Update parser & writer (Green)
     - note (Steps 5/6): N/A — see Step 5.
+    - note (Step 6, drift pass 2026-10-13): **no parser/writer change needed** — verified, not
+      assumed. Reader and writer each checked **separately** (Rule 0025 — the writer's presence
+      was *not* used to infer the reader's): reader `getChildElementOptionalIp6AddressString`
+      (`abstract_arxml_parser.py` l.283) constructs `Ip6AddressString()` + `readARType` +
+      `setValue` with 13 call sites; writer `setChildElementOptionalIp6AddressString`
+      (`abstract_arxml_writer.py` l.193) delegates to `setChildElementOptionalLiteral`.
+      Rule 0013.2 name pairs match 1:1. Both helpers are genuinely live, not dead code — the
+      reader has 13 call sites and the values are emitted at 10+ writer sites via the generic
+      literal helper. No chained `set(...).set(...)` in the Ip6 path; no Rule 0013.1 double-write.
   - [x] Step 7 — Update checklist comment
     - note (Step 7): 6-column block + release column; `# Spec:
       AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.52, p.110`; marker withheld
       (batch mode).
+    - note (Step 7, drift pass 2026-10-13): **no change needed** — the block is already
+      current: one contiguous 6-column run above `__init__` (audit `BLOCK`/`ROWS` clean,
+      1 row `== ['__init__']`), `# Spec:` in canonical single-corpus form (Rule 0023 not
+      triggered — the R23-11 FO_TPS Table 4.52 exists, so the R4.3.1 fallback does not apply).
+      `reader [—] writer [—]` on the `__init__` row is **correct** and was re-justified
+      independently in Step 1 (the XSD `complexType` is `simpleContent` with no child
+      elements, yet the type *is* consumed at 17 XSD sites — the `DateTime` shape). Exactly one
+      row, no `# type:`, release column `R23-11` on every row.
   - [x] Step 8 — Deviations
     - note (Step 8): none; no missing referenced classes.
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (137 passed / 0 failed
-    test_PrimitiveTypes.py); 9b deferred to batch confirmation (user instruction)
+    - note (Step 8, drift pass 2026-10-13): **no deviation rows remain**, so nothing withholds
+      the stamp (Rule 0014). The field↔spec cross-check passes in **both** directions (zero
+      Attribute rows ↔ zero own members); there is no `naming` / `type` / `missing` row and no
+      Rule 0010 placeholder. **No missing referenced classes** — the class references none, and
+      its own type is consumed by classes that already exist. Two non-deviation findings were
+      fixed rather than recorded as deviations: the Step 1 `also`-citation defect (Table 6.142
+      → 6.143, in the row header — the source `# Spec:` line was always correct) and the
+      Step 5 duplicate-colon test fixtures.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a RE-RUN 2026-10-13 (full battery, below);
+    9b confirmed 2026-10-13 (all 12 pre-stamp items re-derived from source per Rule 0026 —
+    the row's 2026-09-30 "steps 1-8 done" prose was audited, not trusted; marker
+    `# Spec verified: R23-11 (2026-10-13, user 9b confirmation)` written immediately after
+    the `# Spec:` line, exactly one marker in the block, post-stamp audit STAMP clean
+    ⇒ PASS)
+    - note (9a, RE-RUN 2026-10-13, full battery): full suite **26,184 passed / 0 failed**
+      (integration round-trip included, XSD validation gates ON per Rule 0027);
+      `test_PrimitiveTypes.py -k Ip6AddressString` **8 passed** (was 2);
+      both leaf-helper files together **29 passed**; the four Ip6 consumer suites
+      (`test_stream_filter_ipv6_address` parser, `test_ipv6_configuration`,
+      `test_switch_stream_filter_rule`, `test_platform_module_ethernet_endpoint_configuration`
+      writer) **15 passed**; Rule 0022 member-annotation gate **3 passed**;
+      `ruff check src/armodel tests scripts` clean; `flake8 --select=E9,F63,F7,F82` clean;
+      `black --check` (200 cols) unchanged on all 2880 files; set-based
+      checklist-vs-methods script green (`['__init__'] == ['__init__']`, 1 row, no `# type:`);
+      `audit_class.py Ip6AddressString` => **PASS** on every gate (BLOCK/ROWS/SPECLINE/
+      CITATION/SPACING/DOCTAIL/BASE/MEMBER/DOC clean; SPEC-BASE + STAMP report INFO only,
+      both expected pre-9b); `regen_sync_todo.py --check` => **reports up to date** (no
+      `--write` needed — this row is still `[ ]`, so the flip has not happened yet).
+      **`mypy src/armodel` is green repo-wide**: **Success, no issues found in 279 source
+      files** — the 13 pre-existing openpyxl `CellRichText` errors that the
+      `Ip4AddressString` / `DateTime` / `SdgForeignReference` rows recorded are **not**
+      present in this environment. **Verified independent of this pass**: `git status
+      --porcelain src/` is **empty** (this sync changed no `src/` file at all — only
+      tests + this todo file), so the result cannot be affected by these changes.
+    - note (9b, pre-stamp checklist presented and **confirmed by the user 2026-10-13**;
+    marker written immediately after the `# Spec:` line — all items re-derived from source,
+    not trusted from the row's 2026-09-30 prose):
+      (a) **Element kind + attributes (0001.1)** — Table 4.52 header cell is `Primitive`, so
+      this is not an `Enumeration` and carries no literals; it has **zero Attribute rows** and
+      the class has **zero own members / zero accessors** ⇒ the field↔spec cross-check passes
+      in **both** directions, nothing fabricated and nothing missing.
+      (b) **Most-derived base (0001.2)** — the table has **no Base row** ⇒ `ARLiteral` per
+      Rule 0001.10; runtime `__bases__ == (ARLiteral,)` confirmed (the audit's SPEC-BASE INFO
+      is only "no readable Base row", which for a Primitive table is the expected reading).
+      (c) **No flattening, no type drift (0001.3)** — a Primitive has no `ref`/`tref`/`aggr`
+      attributes, so the Kind-suffix rules (0001.5) and the create/set/add shape rules
+      (0001.6) are **vacuous**; nothing is inherited-and-flattened, and there is no element
+      type to drift (the sole member is the inherited literal value, typed by `ARLiteral`).
+      (d) **Reader + writer coverage (0001.7)** — `reader [—] writer [—]` on the `__init__`
+      row is **correct**, justified **independently of the writer** (Rule 0025): XSD
+      `complexType IP6-ADDRESS-STRING` (`AUTOSAR_00052.xsd` l.138640) is `xsd:simpleContent`
+      over `IP6-ADDRESS-STRING--SIMPLE` carrying only the `AR-OBJECT` attributeGroup, so
+      **no child elements exist to dispatch on** — yet the type *is* consumed
+      (`type="AR:IP6-ADDRESS-STRING"` at 17 XSD sites incl. `DEFAULT-ROUTER` l.74512,
+      `IPV-6-ADDRESS` l.74554, `NETWORK-MASK` l.74626). This is the `DateTime` shape, not the
+      `CIdentifierWithIndex` one where nothing consumes the type.
+      (e) **Member order (0011/0011.11)** — vacuous (zero own members). No reader/writer XML
+      element order to govern, since the class owns no element.
+      (f) **Docstrings verbatim (0012 / 0001.4)** — **verified by script diff, not by eye**,
+      against **three** independent sources: the class docstring prose is **token-identical**
+      to the markdown `Note` cell *and* to the XSD `<xsd:documentation>`; the 3 `Tags:` are
+      set-equal **and order-equal** across markdown, XSD `<xsd:appinfo source="tags">` and
+      source (`customType=IP6-ADDRESS-STRING`,
+      `pattern=[0-9A-Fa-f]{1,4}(:[0-9A-Fa-f]{1,4}){7,7}|ANY`, `type=string`). The
+      `Tags:` tail is kept, not dropped (0012.2.5.3). `__init__` carries **no** docstring
+      (0012.2.4/0012.2.5.2) — the class-level Note is in the class docstring only. Zero own
+      members ⇒ the per-attribute verbatim loop is vacuous. The leaked-`# noqa` docstring
+      defect found on the `Ip4AddressString` sibling is **absent** here.
+      (g) **`__init__` blank-line separation (0008)** — **vacuous**: zero own attribute
+      blocks, so there is nothing to glue. (This is exactly the check that is invisible to
+      automation and where glued fields pass every gate on a non-empty class — here it is
+      genuinely empty, confirmed by AST, not assumed.)
+      (h) **Quota shape vs multiplicity (0022)** — zero own members, so there is no
+      `Optional[T]` / `List[T]` choice to check; the Rule 0022 gate passes (3 passed) and no
+      `# type:` appears anywhere in `PrimitiveTypes.py` (Rule 0003).
+      (i) **Package location & file shape (0007)** — spec Package row
+      `M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes`;
+      `GeneralTemplateClasses` is a **leaf** package (no subdirs) ⇒ `PrimitiveTypes.py` is
+      the correct shape, with no class-named submodule and no `X.py` + `X/` shadowing;
+      `armodel.Ip6AddressString` resolves at runtime to the same class object.
+      (j) **Leaf helper pair + base helper (0013.2 / 0025)** — the typed pair
+      `getChildElementOptionalIp6AddressString` / `setChildElementOptionalIp6AddressString`
+      exists on **both** sides with matching names (no cross-pairing); the reader constructs
+      the type + `readARType` + `setValue` (13 call sites) and the writer delegates to
+      `setChildElementOptionalLiteral`, so `T` is preserved both ways. The **base** helper
+      requirement is **vacuous here**: an `ARLiteral` primitive owns no element and has no
+      inherited `S`/`T`/`SHORT-NAME` level of its own to drop — the `audit_class.py BASE`
+      gate agrees and passes.
+      (k) **Deviations (0014)** — **no `naming` / `type` / `missing` deviation row remains**
+      and no Rule 0010 placeholder, so nothing withholds the stamp. No missing referenced
+      classes.
+      (l) **Stamp decision (0012.1)** — the marker is written in this step only, once the
+      user confirms, immediately after the `# Spec:` line, replacing (never appending to) any
+      existing marker; there is currently **exactly zero** marker in the block.
+      Two defects were **fixed** rather than deferred: the row header's wrong `also` citation
+      (Table 6.142 → 6.143) and the two duplicate-colon test fixtures. One item is recorded
+      as **out of scope debt** on other rows: the consumer tests for `Ipv6Configuration` /
+      `SwitchStreamFilterRule` / `PlatformModuleEthernetEndpointConfiguration` still use
+      `::`-short-cut values (Rule 0017.1 — one class per session).
 - [ ] `McdIdentifier` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.54, p.111
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
   - [x] Step 1 — Sync members & description from spec

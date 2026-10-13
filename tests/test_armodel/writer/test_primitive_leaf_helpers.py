@@ -127,7 +127,7 @@ class TestIpAddressStringLeaf:
 
     def test_writes_concrete_ip6_type_and_t(self):
         value = Ip6AddressString()
-        value.setValue("fe80::1")
+        value.setValue("2001:0db8:0000:0000:0000:0000:0000:0001")
         value.timestamp = "2023-10-10T00:00:00Z"
 
         element = ET.Element("ROOT")
@@ -135,7 +135,7 @@ class TestIpAddressStringLeaf:
 
         written = element.find("IPV-6-ADDRESS")
         assert written is not None
-        assert written.text == "fe80::1"
+        assert written.text == "2001:0db8:0000:0000:0000:0000:0000:0001"
         assert written.attrib["T"] == "2023-10-10T00:00:00Z"
 
     def test_none_emits_nothing(self):

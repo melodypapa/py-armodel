@@ -1970,6 +1970,32 @@ class TestIp6AddressString:
         obj = Ip6AddressString().setValue("FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF")
         assert obj.getValue() == "FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF"
 
+    @pytest.mark.parametrize(
+        "pattern_value",
+        [
+            "FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF",
+            "0:0:0:0:0:0:0:0",
+            "2001:db8:0:0:0:0:2:1",
+            "aBcD:0000:ffff:0000:0000:0000:0000:0001",
+            "ANY",
+        ],
+    )
+    def test_pattern_value_round_trip(self, pattern_value):
+        """Every value below satisfies the Table 4.52 Note pattern (eight hex groups or ANY).
+
+        The Note explicitly forbids duplicate-colon short-cuts such as ``::1``, so no such
+        value is used here even though a permissive parser would accept the string.
+        """
+        obj = Ip6AddressString()
+        result = obj.setValue(pattern_value)
+        assert result is obj  # Verify method chaining
+        assert obj.getValue() == pattern_value
+
+    def test_set_value_none_is_noop(self):
+        obj = Ip6AddressString().setValue("FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF")
+        obj.setValue(None)
+        assert obj.getValue() == "FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF"
+
 
 class TestRegularExpression:
     """
