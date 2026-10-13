@@ -654,7 +654,7 @@ class TestPrimitiveIdentifier:
         (PositiveUnlimitedInteger, "1", 1.0),
         (RevisionLabelString, "R23-11", "R23-11"),
         (SymbolString, "MySymbol", "MySymbol"),
-        (McdIdentifier, "MCD-1", "MCD-1"),
+        (McdIdentifier, "meas_1", "meas_1"),
     ],
 )
 def test_remaining_primitive_types_support_initialization_and_value_roundtrip(primitive_type, value, expected):
@@ -1995,6 +1995,52 @@ class TestIp6AddressString:
         obj = Ip6AddressString().setValue("FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF")
         obj.setValue(None)
         assert obj.getValue() == "FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF"
+
+
+class TestMcdIdentifier:
+    """
+    Test class for McdIdentifier functionality (Table 4.54).
+    """
+
+    def test_initialization(self):
+        obj = McdIdentifier()
+        assert obj is not None
+        assert obj._value is None
+
+    def test_set_value(self):
+        obj = McdIdentifier().setValue("meas_1")
+        assert obj.getValue() == "meas_1"
+
+    @pytest.mark.parametrize(
+        "pattern_value",
+        [
+            "meas_1",
+            "my_identifier",
+            "_private",
+            "arr[10]",
+            "arr[idx]",
+            "obj.field.sub[3]",
+        ],
+    )
+    def test_pattern_value_round_trip(self, pattern_value):
+        """Every value below satisfies the Table 4.54 Note pattern.
+
+        The values are taken from the Note's own wording: letters/numerals/underscore,
+        an underscore as first character ("the first character shall be a letter or an
+        underscore"), brackets holding a number or an alpha-numerical string
+        ("description of the index of an array element"), and dotted sub-strings.
+        The hyphen is **not** in the pattern's character class, so no hyphenated value
+        is used here even though a permissive parser would accept the string.
+        """
+        obj = McdIdentifier()
+        result = obj.setValue(pattern_value)
+        assert result is obj  # Verify method chaining
+        assert obj.getValue() == pattern_value
+
+    def test_set_value_none_is_noop(self):
+        obj = McdIdentifier().setValue("meas_1")
+        obj.setValue(None)
+        assert obj.getValue() == "meas_1"
 
 
 class TestRegularExpression:

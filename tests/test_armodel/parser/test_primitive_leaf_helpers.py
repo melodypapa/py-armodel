@@ -40,12 +40,12 @@ class TestCategoryStringLeaf:
 
 class TestMcdIdentifierLeaf:
     def test_reads_concrete_type_and_t(self):
-        element = ET.fromstring(f"<ROOT xmlns='{NS}'><DISPLAY-IDENTIFIER T='2023-06-06T00:00:00Z'>DISP-1</DISPLAY-IDENTIFIER></ROOT>")
+        element = ET.fromstring(f"<ROOT xmlns='{NS}'><DISPLAY-IDENTIFIER T='2023-06-06T00:00:00Z'>DISP_1</DISPLAY-IDENTIFIER></ROOT>")
 
         value = ARXMLParser().getChildElementOptionalMcdIdentifier(element, "DISPLAY-IDENTIFIER")
 
         assert isinstance(value, McdIdentifier)
-        assert value.getValue() == "DISP-1"
+        assert value.getValue() == "DISP_1"
         assert value.timestamp == "2023-06-06T00:00:00Z"
 
     def test_missing_returns_none(self):

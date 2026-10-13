@@ -1565,7 +1565,7 @@ class SymbolString(ARLiteral):
 
 
 class McdIdentifier(ARLiteral):
-    """
+    r"""
     This primitive denotes a name used for measurement and calibration systems and shall follow the restrictions for an ASAM ASAP2 ident. For detailed syntax see the xsd.pattern. The size limitations are not captured.
 
     McdIdentifiers are random names which may contain characters A through Z, a through z, underscore (_), numerals 0 through 9, points ('.') and brackets ( '[',']' ).
@@ -1573,12 +1573,13 @@ class McdIdentifier(ARLiteral):
 
     Tags:
         * xml.xsd.customType=MCD-IDENTIFIER
-        * xml.xsd.pattern= ``[a-zA-Z_][a-zA-Z0-9_]*(\\[([a-zA-Z_][a-zA-Z0-9_]*|[0-9]+)\\])*(\\.[a-zA-Z_][a-zA-Z0-9_]*(\\[([a-zA-Z_][a-zA-Z0-9_]*|[0-9]+)\\])*)*``
+        * xml.xsd.pattern= ``[a-zA-Z_][a-zA-Z0-9_]*(\[([a-zA-Z_][a-zA-Z0-9_]*|[0-9]+)\])*(\.[a-zA-Z_][a-zA-Z0-9_]*(\[([a-zA-Z_][a-zA-Z0-9_]*|[0-9]+)\])*)*``
         * xml.xsd.type=string
     """
 
     # McdIdentifier method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.54, p.111
+    # Spec verified: R23-11 (2026-10-13, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 

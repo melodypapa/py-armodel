@@ -43,7 +43,7 @@ class TestCategoryStringLeaf:
 class TestMcdIdentifierLeaf:
     def test_writes_concrete_type_and_t(self):
         value = McdIdentifier()
-        value.setValue("DISP-1")
+        value.setValue("DISP_1")
         value.timestamp = "2023-06-06T00:00:00Z"
 
         element = ET.Element("ROOT")
@@ -51,7 +51,7 @@ class TestMcdIdentifierLeaf:
 
         written = element.find("DISPLAY-IDENTIFIER")
         assert written is not None
-        assert written.text == "DISP-1"
+        assert written.text == "DISP_1"
         assert written.attrib["T"] == "2023-06-06T00:00:00Z"
 
     def test_none_emits_nothing(self):

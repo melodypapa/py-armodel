@@ -1836,30 +1836,294 @@ pending that confirmation.
       `::`-short-cut values (Rule 0017.1 — one class per session).
 - [ ] `McdIdentifier` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.54, p.111
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
+  - note (drift re-sync, user-directed 2026-10-13): **no `# Spec verified:` marker in
+    src**, so the 2026-09-30 "steps 1-8 done" prose is not evidence (Rule 0026). Steps
+    re-walked from Step 1 against source, like the `DateTime` / `Ip4AddressString` /
+    `Ip6AddressString` / `DiagRequirementIdString` siblings in this same file.
+    Entry-gate `audit_class.py McdIdentifier` => **PASS** (BLOCK/ROWS/SPECLINE/CITATION/
+    SPACING/DOCTAIL/BASE/MEMBER/DOC clean; STAMP INFO = marker correctly withheld).
   - [x] Step 1 — Sync members & description from spec
-    - note (Step 1): Table 4.54 (trailing-caption, p.111 via pdf_page.py); Note verbatim
-      in docstring + Tags (MCD-IDENTIFIER pattern); zero attribute rows.
+    - note (Step 1): Table 4.54 (trailing-caption — body md L2983-2986, caption L2988;
+      p.111 via pdf_page.py). Header cell `Primitive` ⇒ `ARLiteral` per Rule 0001.10, **no
+      Base row** ⇒ `__init__(self)`; runtime `__bases__ == (ARLiteral,)` confirmed.
+      **Zero Attribute rows** (only Package + Note) ⇒ zero own members, so the
+      field↔spec cross-check passes in **both** directions (nothing fabricated, nothing
+      missing). Package row
+      `M2::…::GeneralTemplateClasses::PrimitiveTypes` ⇒ `PrimitiveTypes.py`;
+      `GeneralTemplateClasses` is a leaf package (Rule 0007) and `armodel.McdIdentifier`
+      resolves to the same class object.
+      **Docstring verified by script diff, not by eye** (script bound to the Table 4.54
+      block only, stopping at the next `Table ` line): the prose is **token-identical to
+      the XSD `<xsd:documentation>`** of `complexType MCD-IDENTIFIER`
+      (`AUTOSAR_00052.xsd` l.140190-140203), and the 3 `Tags:` are set-equal **and**
+      order-equal across markdown, XSD `<xsd:appinfo source="tags">` (l.140196) and
+      source — `customType=MCD-IDENTIFIER`, `pattern=…`, `type=string`. The `pattern`
+      is **byte-equal to the XSD appinfo pattern** *and* to `MCD-IDENTIFIER--SIMPLE`'s
+      `xsd:pattern` facet (l.140207), and the `Tags:` tail is kept (Rule 0012.2.5.3).
+      **The two deltas vs the markdown are page-split artifacts, not drift** — the
+      markdown renders `points ('. ')` and `brackets ( '[', ']' )` with stray spaces,
+      while the XSD and the source both carry `points ('.')` / `brackets ( '[',']' )`;
+      the markdown pattern likewise renders `[a-z A-Z0-9_]` with a space where the XSD
+      and source carry `[a-zA-Z0-9_]`. XSD is authoritative and **the source already
+      agrees with it** — the same shape recorded on the just-stamped `Ip4AddressString`
+      sibling.
+      **One real (cosmetic) divergence found**: the docstring is a plain `"""` string
+      carrying doubled backslashes (`\\[`), while **all 13 other backslash-bearing
+      pattern primitives in this module use the `r"""` form** — including the stamped
+      `MetaClassName` / `CIdentifierWithIndex` / `StrongRevisionLabelString` /
+      `DateTime` / `DiagRequirementIdString` / `Ip4AddressString` / `Ip6AddressString`
+      siblings. The runtime docstring value is identical (verified: rendered pattern ==
+      XSD pattern), so nothing is semantically wrong; fixed in Step 4 for house
+      consistency and text-level verbatim parity with the markdown.
+      **`reader [—] writer [—]` re-justified independently of the writer** (Rule 0025):
+      XSD `complexType MCD-IDENTIFIER` is `xsd:simpleContent` over
+      `MCD-IDENTIFIER--SIMPLE` with only the `AR-OBJECT` attributeGroup — **no child
+      elements exist** to dispatch on. But the type **is** consumed
+      (`<xsd:element name="DISPLAY-IDENTIFIER" type="AR:MCD-IDENTIFIER">` at l.79926),
+      so this is the **`DateTime` shape** (live typed leaf pair + real consumer), **not**
+      the `CIdentifierWithIndex` shape where nothing consumes the type. The one real
+      consumer is `McDataInstance.displayIdentifier`, whose spec rows (`AUTOSAR_FO_TPS_
+      GenericStructureTemplate.md`, `AUTOSAR_CP_TPS_SoftwareComponentTemplate.md` l.29213
+      and `…_BSWModuleDescriptionTemplate.md` l.4391) carry **Type `McdIdentifier`**.
+      **`RptHook.mcdIdentifier` is NOT a second consumer** — its spec row
+      (`AUTOSAR_CP_TPS_SoftwareComponentTemplate.md` Table 14.3, l.25524) types it
+      **`NameToken`**, so the source's `Optional[NameToken]` there is spec-correct
+      (XSD `MCD-IDENTIFIER` at l.100054 is `AR:NMTOKEN-STRING`, a different type).
+      No missing referenced classes (zero Attribute rows reference nothing).
   - [x] Step 2 — Write model class unit test (Red)
     - note (Step 2): init + value round-trip tests pre-existed (parametrized
       test_remaining_primitive_types_... entry McdIdentifier "MCD-1") and pass — no Red
       observable, nothing to fix.
+    - note (Step 2, drift pass 2026-10-13): the row's "nothing to fix" was accurate about
+      *behaviour* but the class sat **below the stamped house bar** — the pre-existing
+      coverage is one entry in the shared parametrized
+      `test_remaining_primitive_types_support_initialization_and_value_roundtrip`, which
+      asserts init + `setValue` chaining + value round-trip but **not** the Rule 0006
+      **None no-op**, unlike `TestDiagRequirementIdString` / `TestIp4AddressString` /
+      `TestIp6AddressString` (Tables 4.49 / 4.51 / 4.52, all stamped 2026-10-13, one to
+      three rows away). Added `TestMcdIdentifier` to `test_PrimitiveTypes.py` in the
+      sibling shape: `test_initialization`, `test_set_value`,
+      `test_pattern_value_round_trip` (6 values) and `test_set_value_none_is_noop`.
+      The 6 pattern values are drawn from the **Note's own wording** and were each
+      machine-validated against the XSD pattern facet
+      (`MCD-IDENTIFIER--SIMPLE`, `AUTOSAR_00052.xsd` l.140207) with `re.fullmatch` —
+      `meas_1`, `my_identifier`, `_private` (the Note's "first character shall be a
+      letter or an underscore"), `arr[10]` (bracket with a number), `arr[idx]` (bracket
+      with an alpha-numerical string), `obj.field.sub[3]` (dotted sub-strings).
+      **Real defect found and fixed — a spec-violating fixture.** Three McdIdentifier
+      fixtures used hyphenated values, and **the hyphen is not in the Table 4.54
+      pattern's character class**: `"MCD-1"` (the shared parametrized entry, which the
+      row's note cites as the existing coverage) and `"DISP-1"` in **both** leaf-helper
+      tests (`TestMcdIdentifierLeaf` in `tests/test_armodel/parser/` and
+      `tests/test_armodel/writer/test_primitive_leaf_helpers.py`). A permissive
+      `ARLiteral` accepts them, so no test noticed — but a fixture that violates the
+      class's own Note is the same quiet wrongness the `Ip6AddressString` row found with
+      `fe80::1`. Re-pointed to `"meas_1"` and `"DISP_1"` (both `re.fullmatch`-verified
+      against the XSD facet). **No integration fixture carries `DISPLAY-IDENTIFIER`**
+      (grep over `tests/integration_tests/` returns nothing), so no fixture was touched
+      for round-trip reasons.
+      **No behavioural Red**: the pre-existing `ARLiteral` base already satisfies both
+      contracts (`setValue` guards `None` and returns `self`, `PrimitiveTypes.py`
+      l.109-113), so the new asserts passed on first run — 10 passed for
+      `-k McdIdentifier` (was 2). The observable Red state for this row is the fixture
+      violation itself.
   - [x] Step 3 — Implement model class (Green)
     - note (Step 3): field-to-spec cross-check PASSES (zero attrs; no fabricated members).
+    - note (Step 3, drift pass 2026-10-13): **no implementation change needed**, re-derived
+      from source rather than trusted. AST: own methods == `['__init__']` (checklist ==
+      methods, 1 row, source order); **zero own annotated members** (Table 4.54 has no
+      Attribute rows, so the sole member is the inherited literal value);
+      `__init__(self)` signature is correct for a `Primitive` with no Base row;
+      `__init__` carries **no** docstring (Rule 0012.2.4/0012.2.5.2); runtime
+      `__bases__ == (ARLiteral,)`; no `# type:` anywhere in the file (Rule 0003).
+      Green: `test_PrimitiveTypes.py` **338 passed / 0 failed** after the Step 2 additions.
+      Rule 0001.5 (Kind suffix), 0001.6 (create vs set/add), 0011 (member order) and
+      0008 (attribute spacing) are **vacuous** — zero own members, so there is nothing to
+      name, shape, order or space; Rule 0022's quota shape is vacuous for the same reason
+      (the class declares no member).
   - [x] Step 4 — Sync docstrings (wipe + rewrite)
     - note (Step 4): class docstring = Table 4.54 Note verbatim (already verbatim,
       line-wrapped); __init__ has no docstring.
+    - note (Step 4, drift pass 2026-10-13): full **wipe + rewrite** executed per Rule
+      0012.2.3 — the class docstring was removed first, then rewritten from the Table
+      4.54 `Note`. The class owns exactly **one** docstring (no accessors, no member
+      comments), so the per-attribute loop is vacuous and `__init__` still carries no
+      docstring. **One change, and it is the Step 1 finding:** the docstring prefix was
+      converted from a plain `"""` carrying doubled backslashes (`\\[`, `\\.`) to the
+      **`r"""`** form with single backslashes — the form used by all 13 other
+      backslash-bearing pattern primitives in this module, including the stamped
+      `MetaClassName` / `CIdentifierWithIndex` / `StrongRevisionLabelString` /
+      `DateTime` / `DiagRequirementIdString` / `Ip4AddressString` / `Ip6AddressString`
+      siblings. The runtime docstring **value is unchanged** (verified before and after:
+      the rendered pattern is byte-equal to the XSD `MCD-IDENTIFIER--SIMPLE` pattern
+      facet); the change is source-text verbatim parity with the markdown plus house
+      consistency. The markdown `` ``pattern`` `` rendering is kept, as on the siblings.
+      **Verified by script diff against BOTH corpora, not by eye:** prose
+      token-identical to the XSD `<xsd:documentation>`; the 3 `Tags:` set-equal **and
+      order-equal** to markdown / XSD appinfo / source, with all values equal once the
+      markdown's page-split spaces are removed. **The only prose deltas vs the markdown
+      are the two page-split artifacts**, confirmed by a token-level unified diff:
+      `points ('.')` vs markdown `points ('. ')`, and `brackets ( '[',']' )` vs markdown
+      `brackets ( '[', ']' )` — the markdown rendering split the quoted tokens; the XSD
+      documentation carries the source's form in both cases, so the XSD form is kept.
+      No leaked `# noqa` fragment (the defect the `DiagRequirementIdString` /
+      `Ip4AddressString` rows found) and no stale sentence survives the wipe.
+      `test_PrimitiveTypes.py` 338 passed; audit still PASS.
   - [x] Step 5 — Write reader/writer round-trip test (Red)
     - note (Steps 5/6): N/A — no own XML element; MCD-IDENTIFIER literal on consumers.
+    - note (Step 5, drift pass 2026-10-13): the "N/A — no own XML element" half is right,
+      but coverage was audited on **both** sides rather than assumed (the row's "nothing
+      covered it" would have been wrong in the same direction as `DateTime`'s):
+      (a) **the leaf-helper pair is covered on both sides** —
+      `TestMcdIdentifierLeaf` in `tests/test_armodel/parser/test_primitive_leaf_helpers.py`
+      (concrete type + `T` + value; missing ⇒ `None`) and the mirror in
+      `tests/test_armodel/writer/test_primitive_leaf_helpers.py` (concrete type + `T` +
+      value; `None` ⇒ emits nothing). The parser test's
+      `isinstance(value, McdIdentifier)` **is** the Rule 0013.2 typed-preservation
+      property, and the writer already carried the `None` case.
+      (b) **The genuine gap was the consumer round-trip — nothing anywhere carried
+      `MC-SUPPORT`.** `grep -rl "MC-SUPPORT" tests/` returned **nothing** (no test at
+      all, parser or writer), so `DISPLAY-IDENTIFIER` had **never** been proven to
+      survive a real `save` → `load`. Added
+      `tests/test_armodel/writer/test_mc_data_instance.py`
+      (`TestMcDataInstanceDisplayIdentifierRoundTrip`, 3 tests) following the house
+      save/reload harness of `tests/test_armodel/writer/test_acl_role.py`:
+      build `AUTOSAR` → `ARPackage` → `BswImplementation` → `McSupportData` →
+      `createMcVariableInstance` → `setDisplayIdentifier`, then
+      `ARXMLWriter().save` → `ARXMLParser().load`, asserting (1) the element text is
+      emitted as `<DISPLAY-IDENTIFIER>meas_1</DISPLAY-IDENTIFIER>`, (2) the value
+      re-parses **as a `McdIdentifier` instance** (the Rule 0013.2 failure mode), (3) a
+      second value using the Note's bracket/dot forms (`obj.field.sub[3]`) round-trips
+      unchanged, and (4) the **empty case** — unset ⇒ no element in the file and
+      `getDisplayIdentifier() is None` on re-parse.
+      **XSD validation was left ON** (no `validate=False` opt-out, Rule 0027): the
+      writer `save` and parser `load` both validate against the bundled R23-11 schema.
+      **No behavioural Red** — 3 passed on first run; the observable Red state is the
+      unpinned path itself.
   - [x] Step 6 — Update parser & writer (Green)
     - note (Steps 5/6): N/A — see Step 5.
+    - note (Step 6, drift pass 2026-10-13): **no parser/writer change needed** —
+      verified, not assumed. Reader and writer checked **separately** (Rule 0025 — the
+      writer's presence was *not* used to infer the reader's):
+      `getChildElementOptionalMcdIdentifier` (`abstract_arxml_parser.py` l.322)
+      constructs `McdIdentifier()` + `readARType` + `setValue`;
+      `setChildElementOptionalMcdIdentifier` (`abstract_arxml_writer.py` l.181)
+      delegates to `setChildElementOptionalLiteral`.
+      **Rule 0013.2 name pairs verified by suffix over the whole parser/writer tree:
+      34 pairs, zero reader-only, zero writer-only** — `McdIdentifier` present on both
+      sides (a name-level `get*` vs `set*` diff is meaningless here; the *suffix* after
+      `ChildElementOptional` is what must match). Consumer call sites: reader
+      `arxml_parser.py` l.6944 (`readMcDataInstance` → `setDisplayIdentifier`), writer
+      `arxml_writer.py` l.8616 (`writeMcDataInstance` →
+      `setChildElementOptionalMcdIdentifier(element, "DISPLAY-IDENTIFIER", …)`).
+      Both helpers are **live, not dead code**. Writer XML order
+      `ARRAY-SIZE` → `DISPLAY-IDENTIFIER` → `FLAT-MAP-ENTRY-REF` matches the
+      `MC-DATA-INSTANCE` sequence. No chained `set(...).set(...)` on a receiver in this
+      path (the `grep` hits elsewhere in the file are pre-existing
+      `obj.setX(Type().setValue(...))` constructor-nesting, not chains); no Rule 0013.1
+      double-write. Round-trip proven lossless end-to-end by the new Step 5 test.
+    - note (Step 6, **cross-row defect found — NOT fixed here, Rule 0017.1**): while
+      verifying the consumer path on both sides, `readMcDataInstance`
+      (`arxml_parser.py` l.6942-6975) was found to call **no** base helper, while
+      `writeMcDataInstance` (l.8611) **does** call `writeIdentifiable` — the exact
+      Rule 0025 **asymmetry** ("the writer already called the base helper, so the
+      checklist row read `writer [x]` and the class looked covered; only the reader was
+      short"). Confirmed by probe, not by reading: setting `Uuid` + `Timestamp` on a
+      `McDataInstance`, saving and re-loading emits
+      `<MC-DATA-INSTANCE T="2026-10-13T00:00:00Z" UUID="11111111-…">` and re-parses
+      with **`uuid=None`, `T=None`** — the whole `Identifiable` level (`S`/`T`/`UUID`/
+      `ADMIN-DATA`/`CATEGORY`/`DESC`) is dropped on every `MC-DATA-INSTANCE`.
+      `audit_class.py McDataInstance` independently reports `BASE` as a
+      *"reaches … but indirectly — confirm the base helper is applied to THIS instance"*
+      warning plus a **`ROWS` FAIL** (25 methods vs 23 checklist rows, missing
+      `getResultingRptSwPrototypingAccess` / `setResultingRptSwPrototypingAccess`), so
+      that class is **not** synced under the current bar despite its
+      `# Spec verified: R23-11` stamp — its Group23 row was short-circuited
+      (`docs/plan/sync-todo/Group23.md:157`, all 9 steps still `[ ]`). Routing it there
+      is a **user decision** (Rule 0017.1 requires the user to say so explicitly before
+      a `[x]` row is reopened); it is raised again at 9b. **This does not affect
+      `McdIdentifier` itself** — `DISPLAY-IDENTIFIER` round-trips losslessly with its
+      spec type preserved, proven by the Step 5 test. The new test deliberately asserts
+      nothing about `McDataInstance`'s `S`/`T`, so it neither papers over that defect nor
+      depends on it.
   - [x] Step 7 — Update checklist comment
     - note (Step 7): 6-column block + release column (block inserted — the class had no
       checklist); `# Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.54,
       p.111`; marker withheld (batch mode).
+    - note (Step 7, drift pass 2026-10-13): **no change needed** — the block is already
+      at the current bar, re-checked rather than assumed: 6 columns
+      `impl / docstring / test / reader / writer / release` with the release token on the
+      row (Rule 0023 satisfied — not a 5-column block), **one contiguous run above
+      `__init__`** (Rule 0024, audit `BLOCK` clean), `# Spec:` in canonical
+      single-corpus form (Rule 0023 not triggered — the R23-11 FO_TPS Table 4.54 exists,
+      so the R4.3.1 fallback Table 4.65 does not apply), and the set-based script green:
+      `checklist == methods == {'__init__'}`, no method without test coverage, no
+      `# type:` in the file, exactly **0** provenance markers in the block (correctly
+      withheld pre-9b). `reader [—] writer [—]` on the `__init__` row is correct and was
+      re-justified **independently of the writer** in Step 1. `audit_class.py` BLOCK /
+      ROWS / SPECLINE / CITATION / SPACING / DOCTAIL / BASE / MEMBER / DOC all clean;
+      SPEC-BASE and STAMP report INFO only, both expected before 9b.
   - [x] Step 8 — Deviations
     - note (Step 8): none; no missing referenced classes.
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (139 passed / 0 failed
-    test_PrimitiveTypes.py); 9b deferred to batch confirmation (user instruction)
+    - note (Step 8, drift pass 2026-10-13): **no deviation rows remain**, so nothing
+      withholds the stamp (Rule 0014). The field↔spec cross-check passes in **both**
+      directions — Table 4.54 carries **zero** Attribute rows and the class carries
+      **zero** own members/accessors, so nothing is fabricated and nothing is missing;
+      there is no `naming` / `type` / `missing` row and no Rule 0010 placeholder.
+      **No missing referenced classes** — the class references nothing, and its own type
+      is consumed by `McDataInstance.displayIdentifier` / `McSupportData`
+      (spec Type `McdIdentifier`), which already exist.
+      The only mention of this class in `docs/examples/method_deviation_by_class_v2.md`
+      (l.2178) is under **"## Appendix: classes without a spec attribute table"**
+      (heading at l.2097) — the correct description of a `Primitive` table with no
+      `Attribute` rows, **not** a deviation row. Same finding as the stamped
+      `CategoryString` row.
+      **Non-deviation findings were fixed or routed rather than recorded here:** the
+      Step 2 spec-violating fixtures (`MCD-1`, `DISP-1` → `meas_1`, `DISP_1`), the Step 4
+      docstring-prefix inconsistency (`"""` + `\\` → `r"""`), and the Step 6
+      `readMcDataInstance` Rule 0025 asymmetry — the last one belongs to the
+      `McDataInstance` row (`docs/plan/sync-todo/Group23.md:157`) and is **not** this
+      row's to fix (Rule 0017.1).
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a RE-RUN 2026-10-13 (full battery, below);
+    9b confirmed 2026-10-13 (all 12 pre-stamp items re-derived from source per Rule 0026 —
+    the row's 2026-09-30 "steps 1-8 done" prose was audited, not trusted; marker
+    `# Spec verified: R23-11 (2026-10-13, user 9b confirmation)` written immediately after
+    the `# Spec:` line, post-stamp audit STAMP clean => PASS)
+    - note (9a, RE-RUN 2026-10-13, drift pass — full battery): full suite **26,196 passed
+      / 0 failed** (integration round-trip included, XSD validation gates ON per Rule
+      0027); `test_PrimitiveTypes.py` **338 passed** (was 328); `-k McdIdentifier`
+      **10 passed** (was 2); both leaf-helper files together **29 passed**; new
+      `tests/test_armodel/writer/test_mc_data_instance.py` **3 passed**; Rule 0022
+      member-annotation gate **3 passed**; `ruff check src/armodel tests scripts` clean
+      (one `W292 no newline at end of file` in the new file was caught and fixed);
+      `flake8 --select=E9,F63,F7,F82` clean; `black --check` (200 cols) clean on all
+      **2897** files; set-based checklist-vs-methods script green
+      (`{'__init__'} == {'__init__'}`, 1 row, no `# type:`); `audit_class.py
+      McdIdentifier` => **PASS** on every gate (BLOCK/ROWS/SPECLINE/CITATION/SPACING/
+      DOCTAIL/BASE/MEMBER/DOC clean; SPEC-BASE + STAMP report INFO only, both expected
+      pre-9b); `regen_sync_todo.py --check` => **reports up to date** (no `--write` needed
+      — this row is still `[ ]`, so the flip has not happened yet).
+      **`mypy src/armodel` is green repo-wide**: **Success, no issues found in 279 source
+      files** — the 13 pre-existing openpyxl `CellRichText` errors recorded on the
+      `Ip4AddressString` / `DateTime` / `SdgForeignReference` rows are **not** present in
+      this environment. Verified independent of this pass: the only `src/` file touched
+      is `PrimitiveTypes.py` (a docstring-prefix change, no code).
+    - note: **9b CONFIRMED by the user 2026-10-13** — the complete 12-item pre-stamp
+      checklist was presented (element kind + both-direction field↔spec cross-check,
+      most-derived base, no fabrication/type drift, Kind-suffix and create/set/add and
+      member-order vacuity, reader+writer coverage justified independently of the writer,
+      docstrings verbatim by script diff against **both** corpora, Rule 0008 spacing,
+      quota shape, Rule 0007 package/file shape + runtime export, Rule 0007 leaf-pair
+      parity, deviations, stamp decision) and every item passed. Marker
+      `# Spec verified: R23-11 (2026-10-13, user 9b confirmation)` written immediately
+      after the `# Spec:` line (Rule 0012.1); post-stamp audit `STAMP` reports
+      *"marker … with all 1 rows `[x]`"* => **PASS**.
+    - note: the user was additionally asked what to do about the Step 6 cross-row
+      `McDataInstance` Rule 0025 defect and **directed that it be fixed immediately**
+      (a deliberate override of Rule 0017.1's one-class-per-session rule, given here as
+      explicit user direction). That fix is tracked on the `McDataInstance` row in
+      `docs/plan/sync-todo/Group23.md`, not here.
+    - note: sync commit recorded on the row header.
 - [ ] `RegularExpression` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.60, p.112
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
   - [x] Step 1 — Sync members & description from spec
