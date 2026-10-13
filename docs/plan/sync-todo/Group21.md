@@ -2124,7 +2124,7 @@ pending that confirmation.
       explicit user direction). That fix is tracked on the `McDataInstance` row in
       `docs/plan/sync-todo/Group23.md`, not here.
     - note: sync commit recorded on the row header.
-- [ ] `RegularExpression` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.60, p.112
+- [x] `RegularExpression` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.60, p.112 — sync commit 50da7d5e2
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
   - note (drift re-sync, 2026-10-14): no `# Spec verified:` marker in src, so the 2026-09-30
     "steps 1-8 done" prose is not evidence (Rule 0026). Steps re-walked from Step 1 against
