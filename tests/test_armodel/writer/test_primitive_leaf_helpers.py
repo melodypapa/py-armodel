@@ -14,6 +14,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Ip4AddressString,
     Ip6AddressString,
     McdIdentifier,
+    RegularExpression,
     SymbolString,
 )
 from armodel.writer.arxml_writer import ARXMLWriter
@@ -175,3 +176,35 @@ class TestDateTimeLeaf:
         ARXMLWriter().setChildElementOptionalDateTime(element, "DATE", None)
 
         assert element.find("DATE") is None
+
+
+class TestRegularExpressionLeaf:
+    def test_writes_concrete_type_and_t(self):
+        value = RegularExpression()
+        value.setValue("[0-9]+")
+        value.timestamp = "2023-12-12T00:00:00Z"
+
+        element = ET.Element("ROOT")
+        ARXMLWriter().setChildElementOptionalRegularExpression(element, "PATTERN", value)
+
+        written = element.find("PATTERN")
+        assert written is not None
+        assert written.text == "[0-9]+"
+        assert written.attrib["T"] == "2023-12-12T00:00:00Z"
+
+    def test_writes_alternation_value(self):
+        """Table 4.60 has no pattern facet, so any XML Schema regex is a legal value."""
+        value = RegularExpression().setValue("critical|significant|minor|low")
+
+        element = ET.Element("ROOT")
+        ARXMLWriter().setChildElementOptionalRegularExpression(element, "REGULAR-EXPRESSION", value)
+
+        written = element.find("REGULAR-EXPRESSION")
+        assert written is not None
+        assert written.text == "critical|significant|minor|low"
+
+    def test_none_emits_nothing(self):
+        element = ET.Element("ROOT")
+        ARXMLWriter().setChildElementOptionalRegularExpression(element, "PATTERN", None)
+
+        assert element.find("PATTERN") is None

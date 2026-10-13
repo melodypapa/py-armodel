@@ -2126,30 +2126,237 @@ pending that confirmation.
     - note: sync commit recorded on the row header.
 - [ ] `RegularExpression` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.60, p.112
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
+  - note (drift re-sync, 2026-10-14): no `# Spec verified:` marker in src, so the 2026-09-30
+    "steps 1-8 done" prose is not evidence (Rule 0026). Steps re-walked from Step 1 against
+    source, like the `DateTime` / `Ip4AddressString` / `Ip6AddressString` / `DiagRequirementIdString`
+    / `McdIdentifier` siblings in this file. **Entry gate `audit_class.py RegularExpression`
+    => PASS** (BLOCK/ROWS/SPECLINE/CITATION/SPACING/DOCTAIL/BASE/MEMBER/DOC clean; STAMP +
+    SPEC-BASE INFO both expected pre-9b) — but the audit is blind to test coverage, and
+    **two real gaps were found that the row's prose concealed**: (1) the model test asserted
+    neither method chaining nor the Rule 0006 None no-op, (2) the typed leaf-helper pair is
+    **live on both sides** with a real consumer, yet no `TestRegularExpressionLeaf` existed.
+    The row's "N/A — no own XML element" (Step 5) was half-right: correct that the class owns
+    no element, wrong as a claim that nothing needed pinning. **This is exactly the debt the
+    `DateTime` row's Step 8(a) already listed** (`RegularExpression` named among the 13
+    primitives with a live pair and no leaf test) — the row was written before that audit.
+    No product defect: no `src/` file changed in this pass.
   - [x] Step 1 — Sync members & description from spec
     - note (Step 1): Table 4.60 (trailing-caption, p.112 via pdf_page.py); Note verbatim
       in docstring + Tags; zero attribute rows.
+    - note (Step 1, drift pass 2026-10-14): the row's caption placement was **wrong** —
+      Table 4.60 is a **leading-caption** block (caption md L3029, body L3031-3034); the
+      next caption (`Table 4.61: RevisionLabelString`, L3043) is *trailing* and sits after
+      the RevisionLabelString body, so a naive forward scan runs off the end of the block and
+      picks up Table 4.61's rows. Any diff script here must anchor on the class-name caption
+      and stop at the next `Table ` line (the same trap the `DateTime` row hit at Table
+      4.48). Re-derived: header cell `Primitive` ⇒ `ARLiteral` per Rule 0001.10 (runtime
+      `__bases__ == (ARLiteral,)` confirmed); **no Base row** and **zero Attribute rows**
+      ⇒ the field↔spec cross-check passes in **both** directions — nothing fabricated,
+      nothing missing. Package row
+      `M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes` ⇒
+      `PrimitiveTypes.py`; `GeneralTemplateClasses` is a **leaf** package (only `__pycache__`
+      inside) per Rule 0007, and `armodel.RegularExpression` resolves to the same class
+      object as `armodel.models.RegularExpression`.
+      **Docstring verified by script diff against BOTH corpora, not by eye:** prose is
+      **token-identical** to the markdown `Note` cell *and* to the XSD
+      `<xsd:documentation>` of `complexType REGULAR-EXPRESSION` (`AUTOSAR_00052.xsd`
+      l.141582-141586, whose blank-line-wrapped URL flattens to exactly the markdown prose);
+      the 2 `Tags:` are set-equal **and order-equal** across markdown, XSD
+      `<xsd:appinfo source="tags">` (l.141587: `customType="REGULAR-EXPRESSION"`,
+      `type="string"`) and source. The `Tags:` tail is kept (Rule 0012.2.5.3).
+      `__init__` carries **no** docstring; zero own members ⇒ no per-attribute loop to run.
+      `REGULAR-EXPRESSION--SIMPLE` (l.141597) is a **bare `xsd:string` restriction with no
+      `xsd:pattern` facet** — the opposite of `McdIdentifier` / `Ip6AddressString`, so no
+      fixture value can be machine-validated against a pattern (see Step 2).
   - [x] Step 2 — Write model class unit test (Red)
     - note (Step 2): TestRegularExpression added (init + setValue round-trip) — passes
       immediately (no Red observable; the prior instantiability-only test stays).
+    - note (Step 2, drift pass 2026-10-14): the row's "nothing to fix" was accurate about
+      *behaviour* but the class sat **below the stamped house bar** — the pre-existing
+      `TestRegularExpression` was only `test_initialization` + `test_set_value`, asserting
+      neither **method chaining** nor the Rule 0006 **None no-op**, unlike every stamped
+      sibling in the file (`TestMcdIdentifier`, `TestDateTime`, `TestIp4AddressString`,
+      `TestIp6AddressString`, `TestDiagRequirementIdString`). Added 2 tests / 8 cases to
+      `test_PrimitiveTypes.py`, keeping the local family's compact no-docstring shape:
+      `test_value_round_trip` (parametrized over six XML Schema regexes, also asserting
+      `obj.setValue(value) is obj`) and `test_set_value_none_is_noop` (`setValue(None)`
+      must not clear an existing value — the guard `ARLiteral.setValue` really has at
+      `PrimitiveTypes.py` l.109-113). The test docstring records **why no `re.fullmatch`
+      gate is possible** here (unlike the McdIdentifier/Ip6 rows): Table 4.60 carries no
+      `xml.xsd.pattern` tag and `REGULAR-EXPRESSION--SIMPLE` is a bare `xsd:string`, so the
+      values are drawn from the real spec usages consumers already carry — the PATTERN of
+      `AbstractValueRestriction` (Table 4.37) and the REGULAR-EXPRESSION of
+      `EcucAbstractStringParamDef` (XSD l.51146).
+      **No behavioural Red**: the pre-existing `ARLiteral` base already implements both
+      contracts, so the new asserts passed on first run — 9 passed for `-k RegularExpression`
+      (was 2). The observable Red state for this row is the two coverage gaps themselves.
   - [x] Step 3 — Implement model class (Green)
     - note (Step 3): field-to-spec cross-check PASSES (zero attrs; no fabricated members).
+    - note (Step 3, drift pass 2026-10-14): **no implementation change needed**, re-derived
+      from source rather than trusted. AST: own methods == `['__init__']` (checklist ==
+      methods, 1 row, source order); **zero own annotated members** (Table 4.60 has no
+      Attribute rows, so the sole member is the inherited literal value);
+      `__init__(self)` signature is correct for a `Primitive` with no Base row;
+      `__init__` carries **no** docstring; runtime `__bases__ == (ARLiteral,)`; no `# type:`
+      anywhere in the file (Rule 0003). Rules 0001.5 (Kind suffix), 0001.6 (create/set/add),
+      0011 (member order) and 0008 (attribute spacing) are **vacuous** — zero own members,
+      so there is nothing to name, shape, order or space; Rule 0022's quota shape is vacuous
+      for the same reason (gate still run at 9a: 3 passed).
   - [x] Step 4 — Sync docstrings (wipe + rewrite)
     - note (Step 4): FABRICATED class docstring ("Represents a regular expression in
       AUTOSAR models...") REPLACED with the Table 4.60 Note verbatim + Tags (Rule 0012.2.3
       wipe-first); __init__ has no docstring.
+    - note (Step 4, drift pass 2026-10-14): **no change needed** — the replacement really is
+      verbatim, confirmed by the AST/token diff in Step 1 against both corpora (prose
+      identical; both `Tags:` order-equal and value-identical). The Rule 0012.2.3
+      wipe-and-rewrite therefore produced **no diff**, which is the honest outcome and not a
+      skipped step — same as the stamped `DateTime` / `Ip4AddressString` / `Ip6AddressString`
+      siblings. This is **not** a fabricated docstring (the defect the same file still
+      records on the `UriString` row). Zero own members ⇒ the per-attribute docstring loop
+      is vacuous; `__init__` carries no docstring; `Tags:` tail kept at the class level
+      (Rule 0012.2.5.3), which is the only place one exists.
   - [x] Step 5 — Write reader/writer round-trip test (Red)
     - note (Steps 5/6): N/A — no own XML element; REGULAR-EXPRESSION literal on consumers.
+    - note (Step 5, drift pass 2026-10-14): the "N/A — no own XML element" half is right
+      (XSD `complexType REGULAR-EXPRESSION` l.141580 is `xsd:simpleContent` over
+      `REGULAR-EXPRESSION--SIMPLE` with only the `AR-OBJECT` attributeGroup — **no child
+      elements exist** to dispatch on), but the implied "nothing covered it" was **wrong**:
+      the typed leaf-helper pair is **live on both sides** with real consumers, i.e. the
+      `DateTime` shape, not the `CIdentifierWithIndex` one. (1) The type **is** consumed:
+      `<xsd:element name="REGULAR-EXPRESSION" type="AR:REGULAR-EXPRESSION">` in group
+      `ECUC-ABSTRACT-STRING-PARAM-DEF-CONTENT` (l.51146) = `EcucAbstractStringParamDef.regularExpression`;
+      and the model-side consumer `AbstractValueRestriction.pattern` (Table 4.37) is typed
+      `RegularExpression`. (2) The pair exists and is used:
+      `getChildElementOptionalRegularExpression` (`abstract_arxml_parser.py` l.344 —
+      constructs `RegularExpression()` + `readARType` + `setValue`) and
+      `setChildElementOptionalRegularExpression` (`abstract_arxml_writer.py` l.172 —
+      delegates to `setChildElementOptionalLiteral`), with the consumer call sites
+      `arxml_parser.py` l.16910 (reader, `setPattern`) and `arxml_writer.py` l.17965
+      (writer, `getPattern`).
+      **Real gap found and closed** — neither leaf-helper file had a `TestRegularExpressionLeaf`
+      (they cover `CategoryString`, `McdIdentifier`, `SymbolString`, `DiagRequirementIdString`,
+      `Ip4AddressString`/`Ip6AddressString`, `DateTime` — six families, this one missing).
+      Added, in the sibling shape: parser `TestRegularExpressionLeaf` (concrete type + `T` +
+      value; an alternation value; `<PATTERN/>` ⇒ empty string; missing ⇒ `None`) and writer
+      `TestRegularExpressionLeaf` (concrete type + `T` + value; alternation; `None` ⇒ emits
+      nothing). **36 passed** across the two files (was 29).
+      **Test strength proven, not asserted**: mutating the reader leaf to construct `ARLiteral()`
+      instead of `RegularExpression()` turned 3 of the 4 new parser cases Red with
+      `isinstance(<ARLiteral object>, RegularExpression)` — exactly the Rule 0013.2
+      typed-preservation failure mode the `McdIdentifier` row found. Mutant reverted;
+      `git diff --stat src/` empty afterwards.
+      The existing consumer tests (`test_abstract_value_restriction.py` parser + writer,
+      `test_sdg_def.py`, `test_writer_ecuc_def.py`) assert `getPattern().getValue()` /
+      `getRegularExpression().getValue()` but **not** `isinstance(..., RegularExpression)` —
+      that property was previously unpinned anywhere, which is what the new leaf tests fix.
   - [x] Step 6 — Update parser & writer (Green)
     - note (Steps 5/6): N/A — see Step 5.
+    - note (Step 6, drift pass 2026-10-14): **no parser/writer change needed** — verified,
+      not assumed. Reader and writer each checked **separately** (Rule 0025 — the writer's
+      presence was *not* used to infer the reader's): reader l.344 constructs the concrete
+      type + `readARType` + `setValue`; writer l.172 delegates to
+      `setChildElementOptionalLiteral`. Rule 0013.2 name pairs verified by suffix over the
+      whole parser/writer tree: **34 reader pairs / 34 writer pairs, zero reader-only, zero
+      writer-only** — a repo-wide check, so this class is not part of any asymmetry. No
+      chained `set(...).set(...)` on a receiver in the RegularExpression path (`NONE`), and
+      **no Rule 0013.1 double-write** — the writer has exactly **1** call site of
+      `setChildElementOptionalRegularExpression`. Round-trip proven lossless by the new
+      Step 5 leaf tests.
   - [x] Step 7 — Update checklist comment
     - note (Step 7): 6-column block + release column; `# Spec:
       AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.60, p.112`; marker withheld
       (batch mode).
+    - note (Step 7, drift pass 2026-10-14): **no change needed** — already at the current
+      bar, re-checked rather than assumed: 6 columns
+      `impl / docstring / test / reader / writer / release` with the release token on the row
+      (Rule 0023 satisfied — not a 5-column block), **one contiguous run above `__init__`**
+      (Rule 0024; audit `BLOCK`/`ROWS` clean, rows l.1519-1522 above `__init__` l.1524),
+      `# Spec:` in canonical single-corpus form (Rule 0023 not triggered — the R23-11 FO_TPS
+      Table 4.60 exists, so the R4.3.1 fallback Table 4.78, p.98 correctly is **not**
+      cited). Set-based AST checklist-vs-methods script green: `methods == rows == ['__init__']`,
+      same order, all `[x]`, no `# type:` in the file, exactly **0** provenance markers in
+      the block (correctly withheld pre-9b). `reader [—] writer [—]` on the `__init__` row
+      is correct and was re-justified **independently of the writer** in Step 5.
   - [x] Step 8 — Deviations
     - note (Step 8): none; no missing referenced classes.
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (139 passed / 0 failed
-    test_PrimitiveTypes.py); 9b deferred to batch confirmation (user instruction)
+    - note (Step 8, drift pass 2026-10-14): **no deviation rows remain**, so nothing
+      withholds the stamp (Rule 0014). The field↔spec cross-check passes in **both**
+      directions (zero Attribute rows ↔ zero own members); there is no `naming` / `type` /
+      `missing` row and no Rule 0010 placeholder. **No missing referenced classes** — the
+      class references none, and its own type is consumed by classes that already exist
+      (`AbstractValueRestriction.pattern`, `EcucAbstractStringParamDef.regularExpression`).
+      The only mention of this class in `docs/examples/method_deviation_by_class_v2.md`
+      (l.2176) sits under **"## Appendix: classes without a spec attribute table"**
+      (heading l.2097, next `##` at l.2224) — the correct description of a `Primitive` table
+      with no `Attribute` rows, **not** a deviation row, and **not** in the Rule 0007
+      package-location appendix. Same finding as the stamped `CategoryString` / `McdIdentifier`.
+      **Non-deviation findings were fixed rather than recorded here**: the Step 2 house-bar
+      test gap and the Step 5 leaf-coverage gap. Rule 0016.3: the R23-11 table exists, so the
+      R4.3.1 fallback does not apply.
+    - note (out of scope, recorded for their own rows — **not** touched here, Rule 0017.1):
+      the ECUC consumer does **not** preserve the spec type. `readEcucAbstractStringParamDef`
+      / `…ReferenceDef` (`arxml_parser.py` l.16633, 16642, 16651, 16660, 16700) read the
+      element with the **generic** `getChildElementOptionalLiteral` and then
+      `cast(Optional[RegularExpression], …)` it, while `writeEcucAbstractStringParamDef`
+      (l.13879) emits via the generic `setChildElementOptionalLiteral`. Verified by probe,
+      not by reading: the typed helper returns a real `RegularExpression` (`isinstance` True)
+      whereas the generic one returns a bare `ARLiteral` (`isinstance` False) — so after a
+      real `ARXMLParser.load`, `EcucAbstractStringParamDef.getRegularExpression()` yields an
+      `ARLiteral`, i.e. the Rule 0013.2 typed-preservation property is **not** met on that
+      path, and the `cast` asserts a type the XML does not guarantee. This belongs to the
+      ECUC consumer classes' own rows, not to this one (Rule 0017.1). The same row-family
+      debt the `Ip6AddressString` sibling recorded for its writer-side consumers, but here
+      it is **reader-side too**, which makes it a stronger candidate for that pass.
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+    - note (9a, RE-RUN 2026-10-14, full battery): full suite **26,212 passed / 0 failed**
+      (integration round-trip included, XSD validation gates ON per Rule 0027);
+      `test_PrimitiveTypes.py -k RegularExpression` **9 passed** (was 2); both leaf-helper
+      files together **36 passed** (was 29); Rule 0022 member-annotation gate **3 passed**;
+      `ruff check src/armodel tests scripts` clean; `flake8 --select=E9,F63,F7,F82` clean;
+      `black --check` (200 cols) clean on all **2897** files; set-based checklist-vs-methods
+      script green (`['__init__'] == ['__init__']`, all `[x]`, no `# type:`);
+      `audit_class.py RegularExpression` => **PASS** on every gate;
+      `regen_sync_todo.py --check` => **reports up to date** (no `--write` needed yet — this
+      row is still `[ ]`, so the flip has not happened).
+      **`mypy src/armodel` is green repo-wide**: **Success, no issues found in 279 source
+      files** — the 13 pre-existing openpyxl `CellRichText` errors recorded on the
+      `Ip4AddressString` / `DateTime` / `SdgForeignReference` rows are **not** present in
+      this environment. Verified independent of this pass: `git diff --stat src/` is
+      **empty** — this sync changed no `src/` file at all (docstrings were already verbatim),
+      only 3 test files + this todo file.
+    - note (9b, 2026-10-14, **CONFIRMED by the user** after reviewing the full 12-item
+      pre-stamp checklist): marker
+      `# Spec verified: R23-11 (2026-10-14, user 9b confirmation)` written immediately after
+      the `# Spec:` line (Rule 0012.1), replacing (never appending to) any existing marker —
+      there was exactly **0** before. Post-stamp audit `STAMP` reports
+      *"marker … with all 1 rows `[x]`"* ⇒ **PASS**.
+    - note (9b detail, all items re-derived from source — **not** trusted from the row's
+      2026-09-30 prose, per Rule 0026): (a) Table 4.60 is a **leading-caption** `Primitive`
+      table with Package + Note rows only ⇒ zero Attribute rows ↔ zero own members, the
+      field↔spec cross-check passes **both** directions; (b) no Base row ⇒ `ARLiteral` per
+      Rule 0001.10, runtime `__bases__ == (ARLiteral,)` confirmed; (c) 0001.5/0001.6 **vacuous**
+      (no `ref`/`tref`/`aggr` attrs) — nothing flattened, no element type to drift;
+      (d) `reader [—] writer [—]` correct, justified **independently of the writer** —
+      XSD `complexType REGULAR-EXPRESSION` (l.141580) is `xsd:simpleContent` with no child
+      elements, while the type **is** consumed at XSD l.51146
+      (`EcucAbstractStringParamDef.regularExpression`) ⇒ the `DateTime` shape, not
+      `CIdentifierWithIndex`'s; (e) member order **vacuous**; (f) docstrings verified **by
+      script diff against both corpora** — prose token-identical to the markdown `Note` *and*
+      the XSD `<xsd:documentation>`, both `Tags:` set- and order-equal — `Tags:` tail kept,
+      `__init__` has no docstring; (g) Rule 0008 **vacuous** (zero attribute blocks — the
+      check invisible to automation that glued fields slip past on a non-empty class);
+      (h) Rule 0022 **vacuous** (zero members), gate nonetheless run: 3 passed, no `# type:`;
+      (i) Rule 0007 — leaf package, `PrimitiveTypes.py`, `armodel.RegularExpression`
+      resolves to the same object; (j) Rule 0013.2 **34 reader / 34 writer pairs, zero
+      reader-only, zero writer-only**; base-helper requirement vacuous (ARLiteral owns no
+      element); no chained mutators, no double-write (1 writer call site); (k) Rule 0014
+      **no deviations**, tracker entry is the appendix listing, not a deviation row;
+      (l) Rule 0012.1 stamp decision honoured.
+      **No product defect was found** — `git diff --stat src/` was empty before the stamp,
+      i.e. the class already matched Table 4.60 on every axis. The two items fixed were
+      **test-coverage** gaps (Steps 2 and 5), the same shape the `DateTime`,
+      `Ip4AddressString`, `Ip6AddressString` and `McdIdentifier` drift passes each found.
+    - note: sync commit recorded on the row header.
 - [ ] `RevisionLabelString` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.61, p.113
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
   - [x] Step 1 — Sync members & description from spec

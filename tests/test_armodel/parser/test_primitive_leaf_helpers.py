@@ -15,6 +15,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Ip4AddressString,
     Ip6AddressString,
     McdIdentifier,
+    RegularExpression,
     SymbolString,
 )
 from armodel.parser.arxml_parser import ARXMLParser
@@ -136,3 +137,36 @@ class TestDateTimeLeaf:
         element = ET.fromstring(f"<ROOT xmlns='{NS}'/>")
 
         assert ARXMLParser().getChildElementOptionalDateTime(element, "DATE") is None
+
+
+class TestRegularExpressionLeaf:
+    def test_reads_concrete_type_and_t(self):
+        element = ET.fromstring(f"<ROOT xmlns='{NS}'><PATTERN T='2023-12-12T00:00:00Z'>[0-9]+</PATTERN></ROOT>")
+
+        value = ARXMLParser().getChildElementOptionalRegularExpression(element, "PATTERN")
+
+        assert isinstance(value, RegularExpression)
+        assert value.getValue() == "[0-9]+"
+        assert value.timestamp == "2023-12-12T00:00:00Z"
+
+    def test_reads_alternation_value(self):
+        """Table 4.60 has no pattern facet, so any XML Schema regex is a legal value."""
+        element = ET.fromstring(f"<ROOT xmlns='{NS}'><REGULAR-EXPRESSION>critical|significant|minor|low</REGULAR-EXPRESSION></ROOT>")
+
+        value = ARXMLParser().getChildElementOptionalRegularExpression(element, "REGULAR-EXPRESSION")
+
+        assert isinstance(value, RegularExpression)
+        assert value.getValue() == "critical|significant|minor|low"
+
+    def test_empty_element_becomes_empty_string(self):
+        element = ET.fromstring(f"<ROOT xmlns='{NS}'><PATTERN/></ROOT>")
+
+        value = ARXMLParser().getChildElementOptionalRegularExpression(element, "PATTERN")
+
+        assert isinstance(value, RegularExpression)
+        assert value.getValue() == ""
+
+    def test_missing_returns_none(self):
+        element = ET.fromstring(f"<ROOT xmlns='{NS}'/>")
+
+        assert ARXMLParser().getChildElementOptionalRegularExpression(element, "PATTERN") is None

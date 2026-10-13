@@ -2057,6 +2057,36 @@ class TestRegularExpression:
         obj = RegularExpression().setValue("[0-9]+")
         assert obj.getValue() == "[0-9]+"
 
+    @pytest.mark.parametrize(
+        "value",
+        [
+            "[0-9]+",
+            "[a-z]*",
+            "[a-zA-Z_][a-zA-Z0-9_]*",
+            "critical|significant|minor|low",
+            "\\p{L}\\p{N}",
+            "(?:[a-z]{2,4}|[0-9]{3})-",
+        ],
+    )
+    def test_value_round_trip(self, value):
+        """
+        Table 4.60 carries no `xml.xsd.pattern` tag and `REGULAR-EXPRESSION--SIMPLE`
+        (AUTOSAR_00052.xsd l.141597) is a bare `xsd:string` restriction, so the values are
+        XML Schema regexes rather than pattern-facet-validated literals — no `re.fullmatch`
+        gate is possible here (unlike McdIdentifier / Ip6AddressString). They are drawn
+        from the real spec usages already carried by consumers: the PATTERN of
+        AbstractValueRestriction (Table 4.37) and the REGULAR-EXPRESSION of
+        EcucAbstractStringParamDef (XSD l.51146).
+        """
+        obj = RegularExpression()
+        assert obj.setValue(value) is obj
+        assert obj.getValue() == value
+
+    def test_set_value_none_is_noop(self):
+        obj = RegularExpression().setValue("[0-9]+")
+        obj.setValue(None)
+        assert obj.getValue() == "[0-9]+"
+
 
 class TestDiagnosticOccurrenceCounterProcessingEnum:
     """
