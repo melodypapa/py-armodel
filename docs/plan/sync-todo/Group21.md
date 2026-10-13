@@ -1594,7 +1594,7 @@ pending that confirmation.
   - [x] Step 9 — Verify (9a) + confirm (9b)
     - note (9a, re-run 2026-10-13): full suite **26,178 passed / 0 failed** (integration round-trip included, XSD gates ON); Ip4 model + leaf-helper tests 15 passed; Rule 0022 member-annotation gate 3 passed; `ruff check src/armodel tests scripts` clean; `flake8 --select=E9,F63,F7,F82` clean; `black --check` clean on the 3 touched files; `mypy src/armodel` **13 errors in 3 unrelated files** (connector_xlsx_parser ×11, excel_parser, os_export — the openpyxl drift already recorded on earlier rows; none in PrimitiveTypes.py); `audit_class.py Ip4AddressString` => **PASS** (STAMP clean).
     - note (9b, user confirmed 2026-10-13): marker `# Spec verified: R23-11 (2026-10-13, user 9b confirmation)` written immediately after the `# Spec:` line (Rule 0012.1). Sync commit `6262697a3` — `feat: Ip4AddressString synced.` on `feature/g21-sync-fixes` (recorded in the row header).
-- [ ] `Ip6AddressString` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.52, p.110; also CP_TPS_SystemTemplate Table 6.143, p.468
+- [x] `Ip6AddressString` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.52, p.110; also CP_TPS_SystemTemplate Table 6.143, p.468 — sync commit 9abf35e87e
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
   - note (drift re-sync, 2026-10-13): no `# Spec verified:` marker in src, so the 2026-09-30 "steps 1-8 done" claims are not evidence. Steps re-walked from Step 1 against source (Rule 0017.1 / 0026). **Citation defect found and fixed**: the row header cited `also CP_TPS_SystemTemplate Table 6.142` — that is **Ip4AddressString's** table (off-by-one, copied from the sibling row one above); `pdf_page.py Ip6AddressString` and the CP corpus both give **Table 6.143, p.468**, whose Note is identical to Table 4.52's. Corrected in the header.
   - [x] Step 1 — Sync members & description from spec
@@ -1743,12 +1743,12 @@ pending that confirmation.
       fixed rather than recorded as deviations: the Step 1 `also`-citation defect (Table 6.142
       → 6.143, in the row header — the source `# Spec:` line was always correct) and the
       Step 5 duplicate-colon test fixtures.
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a RE-RUN 2026-10-13 (full battery, below);
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a RE-RUN 2026-10-13 (full battery, below);
     9b confirmed 2026-10-13 (all 12 pre-stamp items re-derived from source per Rule 0026 —
     the row's 2026-09-30 "steps 1-8 done" prose was audited, not trusted; marker
     `# Spec verified: R23-11 (2026-10-13, user 9b confirmation)` written immediately after
     the `# Spec:` line, exactly one marker in the block, post-stamp audit STAMP clean
-    ⇒ PASS)
+    ⇒ PASS); sync commit 9abf35e87e
     - note (9a, RE-RUN 2026-10-13, full battery): full suite **26,184 passed / 0 failed**
       (integration round-trip included, XSD validation gates ON per Rule 0027);
       `test_PrimitiveTypes.py -k Ip6AddressString` **8 passed** (was 2);
