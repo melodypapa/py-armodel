@@ -1505,30 +1505,158 @@ pending that confirmation.
 - [ ] `DiagRequirementIdString` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.49, p.109; also CP_TPS_SoftwareComponentTemplate Table 13.16, p.754
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
   - [x] Step 1 — Sync members & description from spec
-    - note (Step 1): Table 4.49 FO_TPS primary (p.109 via pdf_page.py; the CP_TPS
-      SoftwareComponentTemplate Table 13.16 hit is the same class in the CP corpus);
-      Note verbatim in docstring + Tags; zero attribute rows.
+    - note (Step 1, original 2026-09-30): Table 4.49 FO_TPS primary (p.109 via
+      pdf_page.py; the CP_TPS SoftwareComponentTemplate Table 13.16 hit is the same
+      class in the CP corpus); Note verbatim in docstring + Tags; zero attribute rows.
+    - note (Step 1, RE-DERIVED 2026-10-13 per Rule 0026 — the row's steps-1-8 prose was
+      re-checked against source, not trusted): Table 4.49 is a **leading-caption
+      page-split** (caption md L2944, header L2946, Note L2949), and the caption/body
+      placement **alternates** in this run — `Table 4.49`'s caption precedes its body,
+      but `Table 4.50`'s caption *follows* its own body (DisplayFormatString, L2953-2956),
+      so a naive "scan forward to the next `Table ` line" boundary sweep runs straight
+      into Table 4.50's Note and reports a false DRIFT (hit here on the first script
+      attempt). A diff script bound to this table must instead anchor on the header cell
+      that names the class (`| Primitive   | DiagRequirementIdString |`, L2946) and take
+      the `Note` row immediately below it.
+      Header cell `Primitive` ⇒ `ARLiteral` base per Rule 0001.10 (runtime
+      `__bases__ == (ARLiteral,)` confirmed); **no Base row**, **zero Attribute rows**
+      ⇒ the field-to-spec cross-check passes in *both* directions (nothing fabricated,
+      nothing missing; the sole member is the inherited literal `value`).
+      Package row `M2::…::GeneralTemplateClasses::PrimitiveTypes` ✓ (Rule 0007:
+      `GeneralTemplateClasses` is a **leaf** package ⇒ `PrimitiveTypes.py` is the correct
+      shape; `armodel.DiagRequirementIdString` resolves at runtime).
+      **Docstring verified by script diff, not by eye** (script anchored as described
+      above): prose token sequence **identical** to the markdown `Note` after whitespace
+      normalization, and the 3 `Tags:` values are **set-equal and order-equal** —
+      `xml.xsd.customType=DIAG-REQUIREMENT-ID-STRING`,
+      `xml.xsd.pattern=[0-9a-zA-Z_\-]+`, `xml.xsd.type=string` (Rule 0012.2.5.3, `Tags:`
+      tail kept; `` `` `` literal-code rendering of the pattern matches the stamped
+      siblings `CIdentifier` / `CIdentifierWithIndex` / `CategoryString` / `DateTime`).
+      **Third, independent confirmation:** the XSD `<xsd:documentation>` of
+      `complexType DIAG-REQUIREMENT-ID-STRING` (`AUTOSAR_00052.xsd` l.133799) is
+      byte-equal to the same prose and its appinfo tags (l.133800) carry the identical 3
+      values — markdown + XSD + source all agree.
+      **DEFECT FOUND (Rule 0012.2 / 0005 — fixed in this pass):** the committed docstring
+      carried a stray `# noqa W605` fragment **inside the docstring text** plus trailing
+      spaces on the `xml.xsd.pattern` bullet —
+      `` * xml.xsd.pattern= ``[0-9a-zA-Z_\-]+``                       # noqa W605 ``.
+      That fragment is **not** spec content, so it was a Rule 0012 verbatim violation
+      (and trailing whitespace, Rule 0005 W291); the `noqa` was inert anyway because it
+      sat inside a `r"""` string, never on a real source line. Removed; the verbatim diff
+      then passes all three ways. A repo-wide grep for this leak shape found **no other
+      occurrence** — it was unique to this class.
+      **XSD ground truth for Step 5/6 (re-derived, the row's "N/A" claim was half true):**
+      `complexType DIAG-REQUIREMENT-ID-STRING` (l.133797) is `xsd:simpleContent`
+      extending `AR:DIAG-REQUIREMENT-ID-STRING--SIMPLE` (l.133809, `xsd:string`
+      restricted by `xsd:pattern`) with only the `AR:AR-OBJECT` attributeGroup — so
+      there are **no child elements** to dispatch on. **But the type IS consumed by the
+      schema**: `<xsd:element maxOccurs="1" minOccurs="0" name="DIAG-REQUIREMENT"
+      type="AR:DIAG-REQUIREMENT-ID-STRING">` at l.32142, riding
+      `DiagnosticCapabilityElement.diagRequirement`. This is the same live situation as
+      `DateTime`, and the opposite of the stamped `CIdentifierWithIndex` (whose type
+      nothing consumes).
   - [x] Step 2 — Write model class unit test (Red)
-    - note (Step 2): TestDiagRequirementIdString added (init + setValue round-trip) —
-      passes immediately (no Red observable, nothing to fix).
+    - note (Step 2, original 2026-09-30): TestDiagRequirementIdString added (init +
+      setValue round-trip) — passes immediately (no Red observable, nothing to fix).
+    - note (Step 2, RE-DERIVED 2026-10-13): the original note's "nothing to fix" was
+      accurate about *behaviour* but the class sat **below the stamped house bar** —
+      `TestDiagRequirementIdString` was the only test in this primitive family that
+      asserted neither **method chaining** nor the Rule 0006 **None no-op** (compare the
+      stamped `TestIdentifier`, which carries both, and `TestDateTime`, which carried
+      them from its own 2026-10-13 pass). Added 2 tests / 6 cases to
+      `test_PrimitiveTypes.py`, keeping the local family's compact no-docstring shape:
+      `test_pattern_value_round_trip` (parametrized over five values drawn straight from
+      the Table 4.49 Note pattern `[0-9a-zA-Z_\-]+` — `REQ-0042` (dash), `Req_42`
+      (underscore/mixed case), `A`, `0`, `_` — also asserting `result is obj`
+      chaining) and `test_set_value_none_is_noop` (`setValue(None)` must not clear an
+      existing value — the guard `ARLiteral.setValue` really has at `PrimitiveTypes.py`
+      l.109-113).
+      **No Red observable, and honestly reported as such:** the pre-existing `ARLiteral`
+      base already implements both contracts, so the new asserts passed on first run —
+      the Red state for this row is the entry gate / the coverage gap, not a behavioural
+      failure (the same shape as the `DateTime` row's Step 2 in this file).
+      `test_PrimitiveTypes.py -k DiagRequirementIdString`: **8 passed** (was 2). Both new
+      asserts are non-vacuous: a `setValue` that returned `None` would fail the
+      chaining assert, and one that overwrote on `None` would fail the no-op assert.
   - [x] Step 3 — Implement model class (Green)
-    - note (Step 3): field-to-spec cross-check PASSES (zero attrs; no fabricated members).
+    - note (Step 3, original 2026-09-30): field-to-spec cross-check PASSES (zero attrs;
+      no fabricated members).
+    - note (Step 3, RE-DERIVED 2026-10-13): confirmed in **both** directions — Table 4.49
+      carries zero Attribute rows and the class carries zero own members (only `__init__`).
+      AST-verified: `own annotated members == []`, `checklist == methods == ['__init__']`,
+      `__init__` has **no docstring**, signature is `(self)` (correct for a Primitive
+      table with no Base row — no `(parent, short_name)`), no `# type:` in the class block,
+      runtime `__bases__ == (ARLiteral,)`, and `armodel.DiagRequirementIdString` resolves
+      to the same class object (Rule 0007 export chain intact).
+      **No implementation change needed.** `test_PrimitiveTypes.py` **317 passed / 0
+      failed** (was 307 — the 6 new Step-2 cases here, plus the 4 the previous row's
+      `DateTime` pass added).
   - [x] Step 4 — Sync docstrings (wipe + rewrite)
-    - note (Step 4): class docstring = Table 4.49 Note verbatim + Tags (pattern kept in
-      r-string form); __init__ has no docstring.
+    - note (Step 4, original 2026-09-30): class docstring = Table 4.49 Note verbatim +
+      Tags (pattern kept in r-string form); __init__ has no docstring.
+    - note (Step 4, RE-DERIVED 2026-10-13 — wipe **done**, not just patched): Rule
+      0012.2.3 wipe executed as a real deletion, not an in-place edit — the class
+      docstring was removed outright (leaving a bare placeholder), the absence of
+      `__init__` docstring and of inline `__init__` member comments was confirmed (zero
+      members ⇒ the per-attribute loop of Rule 0012.2.5 is vacuous here), and the
+      docstring was then rewritten fresh from the markdown `Note` cell. Verified by
+      **re-running the AST/token diff after the rewrite**, not by status: `PROSE md==src`
+      True, `TAGS md==src (order)` True, plus the two independent XSD cross-checks
+      (`PROSE md==xsd` True, `TAGS md==xsd` True) ⇒ `RESULT: OK`.
+      The rewrite is **net-identical to the pre-existing text minus the stray fragment** —
+      which is the correct outcome for an already-correct docstring (the same shape as the
+      `DateTime` row's Step 4 in this file): the only actual content change was dropping
+      the non-spec `# noqa W605` fragment and its trailing whitespace recorded as the
+      Step 1 defect. The `r"""` prefix is required (the pattern carries `\-`), and the
+      `` `` `` literal-code rendering of the pattern matches the stamped siblings
+      `CIdentifier` (4.45) / `CIdentifierWithIndex` (4.46) / `CategoryString` (4.47) /
+      `DateTime` (4.48). `__init__` carries no docstring.
   - [x] Step 5 — Write reader/writer round-trip test (Red)
-    - note (Steps 5/6): N/A — no own XML element; DIAG-REQUIREMENT-ID-STRING literal on
-      consumers.
+    - note (Steps 5/6, original 2026-09-30): N/A — no own XML element; DIAG-REQUIREMENT-ID-STRING
+      literal on consumers.
+    - note (Step 5, RE-DERIVED 2026-10-13 — the "N/A" was only half true): the class has no
+      own element (XSD l.133797 is `simpleContent`, no child elements), **but** the type is
+      consumed by `DiagnosticCapabilityElement.diagRequirement`
+      (`<xsd:element name="DIAG-REQUIREMENT" type="AR:DIAG-REQUIREMENT-ID-STRING">`, XSD
+      l.32142). Coverage pinning that path already exists and was re-run this pass:
+      `TestDiagRequirementIdStringLeaf` on both sides
+      (`tests/test_armodel/parser/test_primitive_leaf_helpers.py` — concrete type + `T`,
+      missing ⇒ `None`; `tests/test_armodel/writer/test_primitive_leaf_helpers.py` — text +
+      `T`, `None` ⇒ emits nothing), the document-level parser test
+      `test_arxml_parser_diagnostics.py` (~L310-319), and the writer test
+      `test_writer_bsw_module.py::test_writeBswServiceDependency_obd_ratio_denominator_needs`
+      (asserts `DIAG-REQUIREMENT` == `REQ-042`) plus its empty-wrapper sibling.
+      `-k "DiagRequirement or diagRequirement or Diagnostic"` ⇒ **35 passed / 0 failed**.
+      No new round-trip test added: the Rule 0013.2 typed-preservation property is already
+      pinned by `isinstance(value, DiagRequirementIdString)`. The XSD-validated file
+      round-trip is the 9a full-suite integration gate.
+    - note (Step 5 Red): no behavioural Red observable — the helpers already work.
   - [x] Step 6 — Update parser & writer (Green)
-    - note (Steps 5/6): N/A — see Step 5.
+    - note (Steps 5/6, original 2026-09-30): N/A — see Step 5.
+    - note (Step 6, RE-DERIVED 2026-10-13): **no parser/writer change needed**, checked
+      independently per side (Rule 0025). Reader leaf `getChildElementOptionalDiagRequirementIdString`
+      (`abstract_arxml_parser.py` l.292) builds `DiagRequirementIdString()` via `readARType`;
+      writer leaf `setChildElementOptionalDiagRequirementIdString` (`abstract_arxml_writer.py`
+      l.184) delegates to the literal path. Consumer call sites match 1:1 (Rule 0013.2):
+      reader `arxml_parser.py` l.4453 (`needs.setDiagRequirement(self.getChildElementOptional…)`),
+      writer `arxml_writer.py` l.7596 (`…(element, "DIAG-REQUIREMENT", needs.getDiagRequirement())`).
+      No chained mutators on a receiver.
   - [x] Step 7 — Update checklist comment
     - note (Step 7): 6-column block + release column; `# Spec:
       AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.49, p.109`; marker withheld
       (batch mode).
   - [x] Step 8 — Deviations
     - note (Step 8): none; no missing referenced classes.
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (133 passed / 0 failed
-    test_PrimitiveTypes.py); 9b deferred to batch confirmation (user instruction)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a RE-RUN 2026-10-13 (this pass): full suite
+    **26,159 passed / 0 failed** (`scripts/run_tests.py --no-coverage`, integration
+    round-trip included); `ruff check src/armodel tests scripts` clean; `black --check`
+    clean on both touched files; `flake8 --select=E9,F63,F7,F82` clean; Rule 0022
+    member-annotation gate **3 passed**; `audit_class.py DiagRequirementIdString` => **PASS**
+    on every gate (STAMP reports the expected pre-stamp state); `mypy` **Found 13 errors in 3
+    files** — the same pre-existing openpyxl `CellRichText` errors in
+    `connector_xlsx_parser.py` / `excel_parser.py` / `os_export.py`, none in a file this row
+    touches. **9b NOT yet run** — the `# Spec verified:` marker is withheld until the user
+    confirms the pre-stamp checklist (Rule 0006.1 / 0012.1).
 - [ ] `Ip4AddressString` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.51, p.110; also CP_TPS_SystemTemplate Table 6.142, p.468
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
   - [x] Step 1 — Sync members & description from spec
