@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 834 | 43.6% |
+| [x] Done | 835 | 43.6% |
 | [x] Deferred | 83 | 4.3% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 987 | 51.5% |
+| [ ] Deferred | 986 | 51.5% |
 | [ ] Implemented | 10 | 0.5% |
 | [ ] Created | 1 | 0.1% |
 | [ ] Pending | 0 | 0.0% |
@@ -1133,7 +1133,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `InvalidationPolicy`                                    | [x] Done    | 1000053d88                               | Group1           |
 | `InvertCondition`                                       | [ ] Deferred| N/A                                      | Group36          |
 | `IoHwAbstractionServerAnnotation`                       | [ ] Deferred| 315b01de98                               | Group27          |
-| `Ip4AddressString`                                      | [ ] Deferred| N/A                                      | Group21          |
+| `Ip4AddressString`                                      | [x] Done    | N/A                                      | Group21          |
 | `Ip6AddressString`                                      | [ ] Deferred| N/A                                      | Group21          |
 | `IpAddressKeepEnum`                                     | [x] Done    | 161a1b8215                               | Group16          |
 | `Ipv4AddressSourceEnum`                                 | [x] Done    | 8c0771cafd                               | Group16          |

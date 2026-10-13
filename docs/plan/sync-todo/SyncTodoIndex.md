@@ -875,7 +875,7 @@ Status: **29/29** completed
 
 ## Group21
 
-Status: **45/59** completed
+Status: **46/59** completed
 
 | Class Name                           | Status       | Commit ID  |
 | ------------------------------------ | ------------ | ---------- |
@@ -905,7 +905,7 @@ Status: **45/59** completed
 | `CategoryString`                     | [x] Done     | 0608c23528 |
 | `DateTime`                           | [x] Done     | ca33022d0b |
 | `DiagRequirementIdString`            | [x] Done     | 14d04253a4 |
-| `Ip4AddressString`                   | [ ] Pending* | N/A        |
+| `Ip4AddressString`                   | [x] Done     | N/A        |
 | `Ip6AddressString`                   | [ ] Pending* | N/A        |
 | `McdIdentifier`                      | [ ] Pending* | N/A        |
 | `RegularExpression`                  | [ ] Pending* | N/A        |

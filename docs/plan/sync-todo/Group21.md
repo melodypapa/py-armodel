@@ -1572,31 +1572,28 @@ pending that confirmation.
       mypy shows the same 13 pre-existing openpyxl errors in connector_xlsx_parser,
       excel_parser, os_export. 9b PENDING: no marker written, row stays [ ] until the user
       confirms.
-- [ ] `Ip4AddressString` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.51, p.110; also CP_TPS_SystemTemplate Table 6.142, p.468
+- [x] `Ip4AddressString` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.51, p.110; also CP_TPS_SystemTemplate Table 6.142, p.468
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
+  - note (drift re-sync, 2026-10-13): no `# Spec verified:` marker in src, so the 2026-09-30 "steps 1-8 done" claims are not evidence. Steps reset to `[ ]` and walked again from Step 1 (Rule 0017.1 / 0026).
   - [x] Step 1 — Sync members & description from spec
-    - note (Step 1): Table 4.51 FO_TPS primary (p.110 via pdf_page.py); Note verbatim in
-      docstring + Tags; zero attribute rows.
+    - note (Step 1, drift pass 2026-10-13): Table 4.51, p.110 (pdf_page.py re-run). Primitive table, zero Attribute rows, no Base row ⇒ ARLiteral, __init__(self). Package GeneralTemplateClasses (leaf) ⇒ PrimitiveTypes.py. XSD complexType IP4-ADDRESS-STRING customType ✓ (AUTOSAR_00052.xsd l.138626). Markdown Note has `2[0-4] [0-9]` with a space — page-split artifact; XSD and the source both carry `2[0-4][0-9]`, so the XSD form is authoritative.
   - [x] Step 2 — Write model class unit test (Red)
-    - note (Step 2): TestIp4AddressString added (init + setValue round-trip) — passes
-      immediately (no Red observable, nothing to fix).
+    - note (Step 2, drift pass 2026-10-13): the 2026-09-30 test was init + one set/get only. Added `test_pattern_value_round_trip` (5 values: dotted quads + `ANY`, chaining asserted) and `test_set_value_none_is_noop` — house bar set by TestDiagRequirementIdString. **No Red observable**: the ARLiteral base already satisfies both contracts, so the new cases pass on first run (8 passed `-k Ip4AddressString`). Gap was coverage, not behaviour.
   - [x] Step 3 — Implement model class (Green)
-    - note (Step 3): field-to-spec cross-check PASSES (zero attrs; no fabricated members).
+    - note (Step 3, drift pass 2026-10-13): no implementation change needed. Table 4.51 has zero Attribute rows, so there are zero own members and no fabricated fields. AST: checklist == methods == {__init__}; `__init__` has no docstring; runtime `__bases__ == (ARLiteral,)`.
   - [x] Step 4 — Sync docstrings (wipe + rewrite)
-    - note (Step 4): class docstring = Table 4.51 Note verbatim + Tags (r-string pattern
-      kept; Tags header colon normalized to house style); __init__ has no docstring.
+    - note (Step 4, drift pass 2026-10-13): **real defect found and fixed** — the r-string pattern line carried a leaked `        # noqa E501` fragment inside the docstring (same leak shape as DiagRequirementIdString). Wiped and rewrote from the Table 4.51 Note. Verified by script diff: prose byte-equal to the markdown Note (whitespace-normalised); `customType` and `type` tags equal; pattern equal to the XSD appinfo pattern `AUTOSAR_00052.xsd` l.138626; markdown pattern equal to source once the page-split space in `2[0-4] [0-9]` is removed; no `noqa` remains.
   - [x] Step 5 — Write reader/writer round-trip test (Red)
-    - note (Steps 5/6): N/A — no own XML element; IP4-ADDRESS-STRING literal on consumers.
+    - note (Steps 5/6, drift pass 2026-10-13): N/A as a standalone class (no own XML element). Coverage of the value form verified on both sides: parser `TestIpAddressStringLeaf` (concrete `Ip4AddressString` type + missing ⇒ None); writer `TestIpAddressStringLeaf` had populated-only coverage, so **added `test_none_emits_nothing_ip4`** (the Ip6 sibling already had it). Consumer round-trips already pin the typed value (`test_network_endpoint_address` parser/writer, `test_dhcp_server_configuration` writer, `test_ipv4_rule`). Red state: the new None case passes on first run, so no behavioural Red — coverage gap only.
   - [x] Step 6 — Update parser & writer (Green)
-    - note (Steps 5/6): N/A — see Step 5.
+    - note (Steps 5/6, drift pass 2026-10-13): no parser/writer change needed. Reader `getChildElementOptionalIp4AddressString` (abstract_arxml_parser.py l.274) constructs `Ip4AddressString()` + `readARType` + `setValue`; writer `setChildElementOptionalIp4AddressString` (abstract_arxml_writer.py l.190) delegates to `setChildElementOptionalLiteral`. Name pair matches 1:1 (Rule 0013.2). Both checked independently (Rule 0025).
   - [x] Step 7 — Update checklist comment
-    - note (Step 7): 6-column block + release column; `# Spec:
-      AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.51, p.110`; marker withheld
-      (batch mode).
+    - note (Step 7, drift pass 2026-10-13): one contiguous 6-column block with release column above `__init__` (lines 1247-1250), `# Spec:` in canonical single-corpus form, 1 row. `audit_class.py Ip4AddressString` BLOCK/ROWS/SPECLINE/CITATION/SPACING/DOCTAIL/BASE/MEMBER/DOC all clean (`=> PASS`). Marker deliberately withheld until 9b (Rule 0012.1).
   - [x] Step 8 — Deviations
-    - note (Step 8): none; no missing referenced classes.
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (135 passed / 0 failed
-    test_PrimitiveTypes.py); 9b deferred to batch confirmation (user instruction)
+    - note (Step 8, drift pass 2026-10-13): no deviations. No `naming`/`type`/`missing` row; the field-to-spec cross-check passes trivially (zero members). The Table 4.51 `2[0-4] [0-9]` space is a markdown page-split artifact, not a deviation, since the XSD is authoritative and the source matches it. No missing referenced classes.
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+    - note (9a, re-run 2026-10-13): full suite **26,178 passed / 0 failed** (integration round-trip included, XSD gates ON); Ip4 model + leaf-helper tests 15 passed; Rule 0022 member-annotation gate 3 passed; `ruff check src/armodel tests scripts` clean; `flake8 --select=E9,F63,F7,F82` clean; `black --check` clean on the 3 touched files; `mypy src/armodel` **13 errors in 3 unrelated files** (connector_xlsx_parser ×11, excel_parser, os_export — the openpyxl drift already recorded on earlier rows; none in PrimitiveTypes.py); `audit_class.py Ip4AddressString` => **PASS** (STAMP clean).
+    - note (9b, user confirmed 2026-10-13): marker `# Spec verified: R23-11 (2026-10-13, user 9b confirmation)` written immediately after the `# Spec:` line (Rule 0012.1). Sync commit: `feat: Ip4AddressString synced.` on `feature/g21-sync-fixes` (hash recorded in `git log`).
 - [ ] `Ip6AddressString` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.52, p.110; also CP_TPS_SystemTemplate Table 6.142, p.468
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
   - [x] Step 1 — Sync members & description from spec

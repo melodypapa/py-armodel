@@ -1942,6 +1942,19 @@ class TestIp4AddressString:
         obj = Ip4AddressString().setValue("255.255.255.255")
         assert obj.getValue() == "255.255.255.255"
 
+    @pytest.mark.parametrize("pattern_value", ["255.255.255.255", "0.0.0.0", "192.168.0.1", "10.0.0.1", "ANY"])
+    def test_pattern_value_round_trip(self, pattern_value):
+        """Every value below satisfies the Table 4.51 Note pattern (dotted quad or ANY)."""
+        obj = Ip4AddressString()
+        result = obj.setValue(pattern_value)
+        assert result is obj  # Verify method chaining
+        assert obj.getValue() == pattern_value
+
+    def test_set_value_none_is_noop(self):
+        obj = Ip4AddressString().setValue("255.255.255.255")
+        obj.setValue(None)
+        assert obj.getValue() == "255.255.255.255"
+
 
 class TestIp6AddressString:
     """

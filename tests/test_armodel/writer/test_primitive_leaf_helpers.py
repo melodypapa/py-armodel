@@ -119,6 +119,12 @@ class TestIpAddressStringLeaf:
         assert written.text == "192.168.0.1"
         assert written.attrib["T"] == "2023-10-10T00:00:00Z"
 
+    def test_none_emits_nothing_ip4(self):
+        element = ET.Element("ROOT")
+        ARXMLWriter().setChildElementOptionalIp4AddressString(element, "IPV-4-ADDRESS", None)
+
+        assert element.find("IPV-4-ADDRESS") is None
+
     def test_writes_concrete_ip6_type_and_t(self):
         value = Ip6AddressString()
         value.setValue("fe80::1")
