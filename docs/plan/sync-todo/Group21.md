@@ -2357,7 +2357,7 @@ pending that confirmation.
       **test-coverage** gaps (Steps 2 and 5), the same shape the `DateTime`,
       `Ip4AddressString`, `Ip6AddressString` and `McdIdentifier` drift passes each found.
     - note: sync commit recorded on the row header.
-- [ ] `RevisionLabelString` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.61, p.113
+- [x] `RevisionLabelString` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.61, p.113 — sync commit 2b739f406
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
   - note (drift re-sync, 2026-10-14): **no `# Spec verified:` marker in src**, so the
     2026-09-30 "steps 1-8 done" prose is not evidence (Rule 0026). Steps re-walked from

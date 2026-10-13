@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 838 | 43.8% |
+| [x] Done | 839 | 43.8% |
 | [x] Deferred | 83 | 4.3% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 983 | 51.3% |
+| [ ] Deferred | 982 | 51.3% |
 | [ ] Implemented | 10 | 0.5% |
 | [ ] Created | 1 | 0.1% |
 | [ ] Pending | 0 | 0.0% |
@@ -1478,7 +1478,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `ResourceConsumption`                                   | [x] Done    | 0404020952                               | Group1           |
 | `RestrictionWithSeverity`                               | [ ] Deferred| N/A                                      | Group36          |
 | `ResumePosition`                                        | [x] Done    | 40c0abb9b1                               | Group17          |
-| `RevisionLabelString`                                   | [ ] Deferred| N/A                                      | Group21          |
+| `RevisionLabelString`                                   | [x] Done    | 2b739f4066                               | Group21          |
 | `RoleBasedBswModuleEntryAssignment`                     | [x] Done    | N/A                                      | Group23          |
 | `RoleBasedDataAssignment`                               | [x] Done    | 5989355419                               | Group10          |
 | `RoleBasedDataTypeAssignment`                           | [x] Done    | N/A                                      | Group23          |

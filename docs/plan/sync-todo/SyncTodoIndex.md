@@ -875,7 +875,7 @@ Status: **29/29** completed
 
 ## Group21
 
-Status: **49/59** completed
+Status: **50/59** completed
 
 | Class Name                           | Status       | Commit ID  |
 | ------------------------------------ | ------------ | ---------- |
@@ -909,7 +909,7 @@ Status: **49/59** completed
 | `Ip6AddressString`                   | [x] Done     | 9abf35e87e |
 | `McdIdentifier`                      | [x] Done     | 44ba9b8654 |
 | `RegularExpression`                  | [x] Done     | 50da7d5e2a |
-| `RevisionLabelString`                | [ ] Pending* | N/A        |
+| `RevisionLabelString`                | [x] Done     | 2b739f4066 |
 | `StrongRevisionLabelString`          | [ ] Pending* | N/A        |
 | `SymbolString`                       | [ ] Pending* | N/A        |
 | `UriString`                          | [ ] Pending* | N/A        |
