@@ -6,9 +6,14 @@ in the GenericStructure module.
 from __future__ import annotations
 
 from abc import ABC
+import logging
 import re
-from typing import List, Optional, Sequence, Union
+from typing import Dict, List, Optional, Sequence, Union
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.validation import PrimitivePatternError, get_context, is_warning_mode
+
+_logger = logging.getLogger(__name__)
+_PATTERN_CACHE: Dict[str, re.Pattern] = {}
 
 
 class ARType(ABC):
@@ -74,10 +79,30 @@ class ARLiteral(ARType):
     # [ ] getValue                     [x] impl  [x] docstring  [ ] test
     # [ ] setValue                     [x] impl  [x] docstring  [ ] test
 
+    PATTERN: Optional[str] = None
+
     def __init__(self) -> None:
         super().__init__()
 
         self._value: Optional[str] = None
+
+    def checkValue(self, val: Optional[str]) -> None:
+        """Raises PrimitivePatternError if val violates the class PATTERN; logs a warning instead when warning mode is active."""
+        if self.PATTERN is None or not isinstance(val, str) or val == "":
+            return
+        compiled = _PATTERN_CACHE.get(self.PATTERN)
+        if compiled is None:
+            compiled = re.compile(self.PATTERN)
+            _PATTERN_CACHE[self.PATTERN] = compiled
+        if compiled.fullmatch(val) is None:
+            if is_warning_mode():
+                context = get_context()
+                if context is not None:
+                    _logger.warning('<%s> value "%s" does not match pattern "%s" (%s)', context, val, self.PATTERN, type(self).__name__)
+                else:
+                    _logger.warning('value "%s" does not match pattern "%s" (%s)', val, self.PATTERN, type(self).__name__)
+                return
+            raise PrimitivePatternError(type(self).__name__, val, self.PATTERN)
 
     @property
     def value(self) -> str:
@@ -90,6 +115,7 @@ class ARLiteral(ARType):
     def value(self, val: str):
         if not isinstance(val, str):
             raise ValueError("Unsupported Type <%s>" % type(val))
+        self.checkValue(val)
         self._value = val
 
     def __str__(self) -> str:
