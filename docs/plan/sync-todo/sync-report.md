@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 839 | 43.8% |
+| [x] Done | 840 | 43.9% |
 | [x] Deferred | 83 | 4.3% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 982 | 51.3% |
+| [ ] Deferred | 981 | 51.2% |
 | [ ] Implemented | 10 | 0.5% |
 | [ ] Created | 1 | 0.1% |
 | [ ] Pending | 0 | 0.0% |
@@ -1657,7 +1657,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `StreamFilterPortRange`                                 | [ ] Deferred| c97f9dd4ee                               | Group30          |
 | `StreamFilterRuleDataLinkLayer`                         | [ ] Deferred| 65ab0bd89a                               | Group30          |
 | `StreamFilterRuleIpTp`                                  | [ ] Deferred| 8989307d08                               | Group30          |
-| `StrongRevisionLabelString`                             | [ ] Deferred| N/A                                      | Group21          |
+| `StrongRevisionLabelString`                             | [x] Done    | 953a92b70d                               | Group21          |
 | `StructuredReq`                                         | [x] Done    | d311fc7ce0                               | Group1           |
 | `SubElementMapping`                                     | [x] Done    | 5eadca7853                               | Group1           |
 | `SubElementRef`                                         | [x] Done    | 47b3052188                               | Group1           |

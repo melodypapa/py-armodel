@@ -2723,7 +2723,7 @@ pending that confirmation.
       are candidate leaf-test additions for a future drift pass; the rest are still `[ ]`
       rows further down this file.
     - note: sync commit recorded on the row header.
-- [ ] `StrongRevisionLabelString` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.64, p.114
+- [x] `StrongRevisionLabelString` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.64, p.114 — sync commit 953a92b70
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
   - note (drift re-sync, 2026-10-14): re-derived every Steps 1-8 claim from source and the
     spec rather than trusting the row prose (Rule 0026). The row held on almost every axis

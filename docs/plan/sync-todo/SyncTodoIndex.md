@@ -875,7 +875,7 @@ Status: **29/29** completed
 
 ## Group21
 
-Status: **50/59** completed
+Status: **51/59** completed
 
 | Class Name                           | Status       | Commit ID  |
 | ------------------------------------ | ------------ | ---------- |
@@ -910,7 +910,7 @@ Status: **50/59** completed
 | `McdIdentifier`                      | [x] Done     | 44ba9b8654 |
 | `RegularExpression`                  | [x] Done     | 50da7d5e2a |
 | `RevisionLabelString`                | [x] Done     | 2b739f4066 |
-| `StrongRevisionLabelString`          | [ ] Pending* | N/A        |
+| `StrongRevisionLabelString`          | [x] Done     | 953a92b70d |
 | `SymbolString`                       | [ ] Pending* | N/A        |
 | `UriString`                          | [ ] Pending* | N/A        |
 | `VerbatimStringPlain`                | [ ] Pending* | N/A        |
