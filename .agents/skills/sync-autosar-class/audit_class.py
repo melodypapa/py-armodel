@@ -1323,6 +1323,24 @@ def check_members(rep: Report, cls: str, node: ast.ClassDef, enum: bool) -> None
             rep.ok("MEMBER", "%s dispatch reaches all %d aggregated member class helper(s) (%s): %s" % (verb, len(have) - len(dormant), shape, note))
 
 
+def check_pattern(rep: Report, node: ast.ClassDef) -> None:
+    doc = ast.get_docstring(node) or ""
+    if "xml.xsd.pattern=" not in doc:
+        return
+    for stmt in node.body:
+        targets = []
+        if isinstance(stmt, ast.Assign):
+            targets = [t.id for t in stmt.targets if isinstance(t, ast.Name)]
+        elif isinstance(stmt, ast.AnnAssign) and isinstance(stmt.target, ast.Name):
+            targets = [stmt.target.id]
+        if "PATTERN" in targets:
+            return
+    rep.warn(
+        "PATTERN",
+        "Rule 0028: docstring carries xml.xsd.pattern but no PATTERN attribute is declared — add the XSD-facet regex (an inherited attribute from a pattern-declaring base satisfies the rule; verify by hand)",
+    )
+
+
 # --------------------------------------------------------------------------- #
 # driver
 # --------------------------------------------------------------------------- #
@@ -1358,6 +1376,7 @@ def audit_one(cls: str, path: Path) -> Report:
     check_doc_tail(rep, node, lines, start, end)
     check_base(rep, cls, node, enum)
     check_members(rep, cls, node, enum)
+    check_pattern(rep, node)
     return rep
 
 

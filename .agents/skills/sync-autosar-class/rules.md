@@ -2236,3 +2236,22 @@ silently drops the inherited members (SHORT-NAME, LONG-NAME, UUID) from its
 XML. Late-bound classes (the `__bases__ = (ARElement,)` pattern) are judged by
 their effective runtime chain. Over-derivation warns: it may be a recorded
 deviation.
+
+## Rule 0028 — Constrained literal classes carry `PATTERN` *(added after the primitive pattern validation feature, 2026-10-14)*
+
+An `ARLiteral` subclass whose value space is regex-constrained — its docstring carries
+`xml.xsd.pattern=...` and/or its `xml.xsd.customType` has an `<xsd:pattern>` facet in the release
+XSD — must declare a `PATTERN` class attribute holding that regex:
+
+1. The release XSD is authoritative; the docstring's `xml.xsd.pattern` line is the fallback only
+   when the XSD has no matching facet. Never copy the markdown rendering verbatim (escapes are
+   mangled).
+2. Declare it as a raw string immediately after the method-parity checklist block, before
+   `__init__`: `PATTERN = r"..."`.
+3. Classes without a constraint inherit `ARLiteral.PATTERN = None` and are skipped by the
+   runtime check — do not add `PATTERN` to them.
+4. `Numerical`/`ARType` numeric subclasses are excluded (they parse values numerically, not
+   by regex).
+5. `audit_class.py` reports a `PATTERN` warning when a docstring carries `xml.xsd.pattern=` but
+   no `PATTERN` attribute is declared on the class; an attribute inherited from a
+   pattern-declaring base satisfies the rule (verify by hand).
