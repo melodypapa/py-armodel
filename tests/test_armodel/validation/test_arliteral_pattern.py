@@ -34,6 +34,13 @@ class TestCheckValue:
         assert literal.value == "9bad"
         assert any("9bad" in record.message and "test.arxml" in record.message for record in caplog.records)
 
+    def test_warning_mode_without_context_omits_prefix(self, caplog):
+        literal = _DummyLiteral()
+        with warning_mode(True), caplog.at_level(logging.WARNING, logger="armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes"):
+            literal.value = "9bad"
+        assert literal.value == "9bad"
+        assert any("9bad" in record.message and "<" not in record.message for record in caplog.records)
+
     def test_none_pattern_passthrough(self):
         literal = _UnconstrainedLiteral()
         literal.value = "anything ! goes"

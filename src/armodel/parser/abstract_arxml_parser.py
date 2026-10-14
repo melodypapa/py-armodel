@@ -132,7 +132,7 @@ class AbstractARXMLParser(ABC):
         if child_element is not None:
             literal = ARLiteral()
             self.readARType(child_element, literal)
-            literal._value = child_element.text
+            literal.setValue(child_element.text)
             return literal
         self.raiseError("The attribute %s of <%s> has not been defined" % (key, short_name))
         return None
