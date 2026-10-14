@@ -16,6 +16,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     McdIdentifier,
     RegularExpression,
     RevisionLabelString,
+    StrongRevisionLabelString,
     SymbolString,
 )
 from armodel.writer.arxml_writer import ARXMLWriter
@@ -241,3 +242,46 @@ class TestRevisionLabelStringLeaf:
         ARXMLWriter().setChildElementOptionalRevisionLabelString(element, "REVISION-LABEL", None)
 
         assert element.find("REVISION-LABEL") is None
+
+
+class TestStrongRevisionLabelStringLeaf:
+    def test_writes_concrete_type_and_t(self):
+        value = StrongRevisionLabelString()
+        value.setValue("1.0.0-alpha+001")
+        value.timestamp = "2026-10-14T00:00:00Z"
+
+        element = ET.Element("ROOT")
+        ARXMLWriter().setChildElementOptionalStrongRevisionLabelString(element, "VERSION", value)
+
+        written = element.find("VERSION")
+        assert written is not None
+        assert written.text == "1.0.0-alpha+001"
+        assert written.attrib["T"] == "2026-10-14T00:00:00Z"
+
+    def test_writes_build_metadata_value(self):
+        """The Table 4.64 Note lists `1.0.0+20130313144700` as a legal pattern: bare `+build-metadata` with no pre-release part."""
+        value = StrongRevisionLabelString().setValue("1.0.0+20130313144700")
+
+        element = ET.Element("ROOT")
+        ARXMLWriter().setChildElementOptionalStrongRevisionLabelString(element, "VERSION", value)
+
+        written = element.find("VERSION")
+        assert written is not None
+        assert written.text == "1.0.0+20130313144700"
+
+    def test_writes_dotted_pre_release_and_metadata_value(self):
+        """The Table 4.64 Note lists `1.0.0-beta+exp.sha.5114f85`: dotted identifiers on both the `-` and `+` sides."""
+        value = StrongRevisionLabelString().setValue("1.0.0-beta+exp.sha.5114f85")
+
+        element = ET.Element("ROOT")
+        ARXMLWriter().setChildElementOptionalStrongRevisionLabelString(element, "VERSION", value)
+
+        written = element.find("VERSION")
+        assert written is not None
+        assert written.text == "1.0.0-beta+exp.sha.5114f85"
+
+    def test_none_emits_nothing(self):
+        element = ET.Element("ROOT")
+        ARXMLWriter().setChildElementOptionalStrongRevisionLabelString(element, "VERSION", None)
+
+        assert element.find("VERSION") is None

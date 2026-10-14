@@ -2725,6 +2725,34 @@ pending that confirmation.
     - note: sync commit recorded on the row header.
 - [ ] `StrongRevisionLabelString` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.64, p.114
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
+  - note (drift re-sync, 2026-10-14): re-derived every Steps 1-8 claim from source and the
+    spec rather than trusting the row prose (Rule 0026). The row held on almost every axis
+    (docstring, table shape, base, `__init__`, zero members, 6-column checklist, p.114) but
+    **two real gaps** were found and closed, both invisible to `audit_class.py`:
+    (a) **Step 5/6 — the typed leaf-helper pair was missing** (`grep -rn
+    "ChildElementOptionalStrongRevisionLabelString" src/armodel/` = 0 hits) and the row
+    wrote "no parser/writer dispatch exists" without ever checking whether the schema
+    consumes the type. It **does**: `grep -c 'type="AR:STRONG-REVISION-LABEL-STRING"'` on
+    `autosar/R23-11/xsd/AUTOSAR_00052.xsd` = **10**, so the `CIdentifierWithIndex`
+    exemption ("nothing in the schema consumes its type", `grep -c` = 0) does **not**
+    literally apply. Pair added — see the Step 5/6 notes.
+    (b) **Step 2 — coverage sat below the stamped house bar**: one single-value
+    `test_set_get_value`, no parametrized pattern round-trip. Extended — see the Step 2 note.
+    A third, lower-severity gap (the deviation-tracker appendix entry) is recorded on Step 8.
+  - note (orchestrator correction, 2026-10-14): this row was produced by a Rule 0017.5
+    per-class subagent, then **independently re-verified by the orchestrator**. Steps 1, 2,
+    3, 4, 7 and 8 were confirmed **correct as reported** — including a three-way word-level
+    docstring diff: prose token-identical to the XSD `<xsd:documentation>`, and the
+    `xml.xsd.pattern` tag **byte-equal** to the `STRONG-REVISION-LABEL-STRING--SIMPLE`
+    `xsd:pattern` facet (the markdown differs only by two known page-split artifacts,
+    `[0-9a-z A-Z-]` and `Major Version`).
+    **The subagent's Steps 5/6 rationale was RETRACTED** — two of its claims were false (it
+    asserted all 10 XSD consumers carry `mmt.RestrictToStandards="AP"`, and that none of the
+    owning classes is modeled). Both were caught by walking each site back to its enclosing
+    `complexType`; the conclusion survived for a different, now verified reason. The full
+    retraction, the corrected owner list, and the user's decision on the resulting judgment
+    call are in the Step 5 note below — **read that retraction before relying on anything
+    in it.**
   - [x] Step 1 — Sync members & description from spec
     - note (Step 1): Table 4.64 (trailing-caption render, p.114 via pdf_page.py); Package
       M2::...::GeneralTemplateClasses::PrimitiveTypes; kind Primitive — Package row + Note
@@ -2732,34 +2760,412 @@ pending that confirmation.
       + Tags; XSD AUTOSAR_00052.xsd:143564 grounds the pattern — markdown `[0-9a-z A-Z-]`
       space and "Major Version" space are conversion artifacts (XSD: `[0-9a-zA-Z-]`,
       "MajorVersion"), `&#124;` decoded to `|`.
+    - note (Step 1, drift pass 2026-10-14): **the row's claims all hold — no defect found
+      at this step.** Re-derived, not trusted. (a) Table located by anchoring on the
+      **class-name header cell** `| Primitive | StrongRevisionLabelString |` (markdown
+      **L3061**) and stopping at the next `Table ` line — the caption `Table 4.64:` is at
+      **L3066**, i.e. **trailing**, exactly as the row said; a naive forward scan from the
+      class name runs into Table 4.65 `SymbolString` instead. Body rows: `Package` +
+      `Note` only — **zero `Attribute` rows, no `Base` row**, two rows total. (b) Page
+      **p.114** re-confirmed by `pdf_page.py StrongRevisionLabelString` (single hit,
+      `R23-11/AUTOSAR_FO_TPS_GenericStructureTemplate.pdf | Table 4.64 | p.114`).
+      (c) XSD: `complexType STRONG-REVISION-LABEL-STRING` at l.143564, `simpleContent`
+      over `STRONG-REVISION-LABEL-STRING--SIMPLE` (l.143581, which carries the
+      `xsd:pattern` facet), stereotype `primitive` (not `atpObject`), attributeGroup
+      `AR:AR-OBJECT` only.
   - [x] Step 2 — Write model class unit test (Red)
     - note (Step 2): test_StrongRevisionLabelString.py added (init + subclass-of-ARLiteral +
       setValue/getValue round-trip + None no-op), sibling test shape; 4 passed — no Red
       observable (pre-existing stub already inherits ARLiteral behavior, as with
       TestRegularExpression).
+    - note (Step 2, drift pass 2026-10-14): **real defect found — below the stamped house
+      bar** (the gap shape the `RevisionLabelString` / `McdIdentifier` rows found). The
+      pre-existing `TestStrongRevisionLabelString` in
+      `tests/.../GeneralTemplateClasses/test_StrongRevisionLabelString.py` asserted
+      `test_initialization`, `test_subclass_of_arliteral`, a **single-value**
+      `test_set_get_value` and `test_set_value_none_no_op` — i.e. init + chaining + value
+      round-trip + None no-op, but **no parametrized pattern-value round-trip**, which every
+      recently stamped primitive in this module carries
+      (`TestDateTime`/`TestDiagRequirementIdString`/`TestIp4AddressString`/`TestIp6AddressString`
+      in `test_PrimitiveTypes.py`). Added `test_set_value` plus
+      `@pytest.mark.parametrize` `test_pattern_value_round_trip` over **5 values**:
+      the Note's own three `Legal patterns are for example:` values (`1.0.0-alpha+001`,
+      `1.0.0+20130313144700`, `1.0.0-beta+exp.sha.5114f85`) plus `1.0.0` and `0.0.0` for
+      the bare three-integer form the Note describes. Each asserts `obj.setValue(v) is obj`.
+      **Positive finding worth recording** — unlike the `RevisionLabelString` row (which
+      found `"R23-11"`) and the `McdIdentifier` row (`"MCD-1"`), **no spec-violating fixture
+      exists here**: the pre-existing value `1.0.0-alpha+001` and all 5 new values were
+      machine-validated with `re.fullmatch` against the XSD
+      `STRONG-REVISION-LABEL-STRING--SIMPLE` `xsd:pattern` facet (l.143583) — all `True`;
+      controls `R23-11`, `MCD-1`, `1.0`, `01.0.0`, `1.0.0.1.2`, `1.0.0-` all `False`.
+      **No behavioural Red**: `ARLiteral.setValue` already satisfies both contracts, so the
+      new asserts passed on first run — the observable Red state is the coverage gap itself.
+      Left the two pre-existing tests untouched (incl. the `test_set_value_none_no_op`
+      name, which differs from the house `test_set_value_none_is_noop` but covers the same
+      contract — renaming was judged churn without coverage gain; flagging for 9b).
   - [x] Step 3 — Implement model class (Green)
     - note (Step 3): explicit `__init__` added (super().__init__()); ARLiteral base kept —
       zero own members, field-to-spec cross-check PASSES (no fabrication).
+    - note (Step 3, drift pass 2026-10-14): **no implementation change needed** — re-derived
+      from source by AST + runtime, not trusted. `PrimitiveTypes.py` lines 3414-3437:
+      own methods == `['__init__']` (checklist == methods, 1 row, source order);
+      **zero own annotated members** (Table 4.64 has no `Attribute` rows);
+      `__init__(self)` signature correct for a `Primitive` with no `Base` row;
+      `__init__` carries **no** docstring; runtime `__bases__ == (ARLiteral,)` and MRO
+      `StrongRevisionLabelString → ARLiteral → ARType → ABC → object`; `_value` defaults to
+      `None`; `setValue` chains and is a `None` no-op; the class body has **no** class-level
+      members beyond `_abc_impl`. Field-to-spec cross-check passes in **both** directions
+      (zero spec rows ↔ zero own members; no fabricated field, no flattening, no
+      `naming`/`type`/`missing` row). `# type:` count in the file = **0** (Rule 0003) and
+      **no** leaked `# noqa` fragment in this docstring — the defect the `DiagRequirementIdString`
+      / `Ip4AddressString` rows found is absent here. Rule 0007 verified: `GeneralTemplateClasses`
+      is a leaf package ⇒ `PrimitiveTypes.py` (not a class-named submodule), and
+      `armodel.StrongRevisionLabelString` resolves to the same object
+      (`hasattr` True, identity True); the class appears **0** times in
+      `KNOWN_NAME_COLLISION_CLASSES` / `INTENTIONALLY_UNEXPORTED_MODULES`
+      (`tests/test_armodel/test_model_imports.py`). Rules 0001.5/0001.6/0011/0008 and the
+      Rule 0022 quota shape are **vacuous** — zero own members (the Rule 0022 gate is still
+      run at 9a: 3 passed).
   - [x] Step 4 — Sync docstrings (wipe + rewrite)
     - note (Step 4): single-blob stub docstring REPLACED (Rule 0012.2.3 wipe-first) with the
       Table 4.64 Note verbatim + bulleted legal patterns + Tags block (pattern per XSD
       ground truth); __init__ has no docstring.
+    - note (Step 4, drift pass 2026-10-14): **no defect found — the claim holds.** Verified
+      by script, not by eye, with a **three-way word-level diff** of the class docstring
+      against (a) the markdown `Note` cell and (b) the XSD `<xsd:documentation>` of
+      `complexType STRONG-REVISION-LABEL-STRING` (l.143566-143571), normalizing markdown
+      inline `•` and list markers. Result: **XSD documentation vs source = token-IDENTICAL**
+      (zero diff lines); markdown vs source = **exactly one** delta, and it is the
+      page-split artifact the row already recorded — markdown renders
+      `representing from left to right Major Version,` where the XSD and the source both
+      read `MajorVersion,`, so the source is on the authoritative side. The markdown's
+      `[0-9a-z A-Z-]` space inside the pattern is the same artifact. **No invented colon**
+      (the `RevisionLabelString` row's defect): the clause reads
+      `It represents a pattern which requires three integer numbers separated by a dot,`
+      — matching both corpora. `Tags:` verified **set-equal AND order-equal** across all
+      three sources (`customType=STRONG-REVISION-LABEL-STRING`, `pattern`, `type=string`),
+      and the pattern string is **byte-equal to the `xsd:pattern` facet** of
+      `STRONG-REVISION-LABEL-STRING--SIMPLE` (l.143583) after decoding `&#124;` → `|` —
+      i.e. the row's "XSD wins, source already matches it" claim is confirmed, not assumed.
+      All three `Legal patterns are for example:` values and the `Tags:` tail are kept
+      verbatim (Rule 0012.2.5.3); `r"""` raw-string form matches the 13 other
+      backslash-bearing pattern primitives in the module. `__init__` still carries no
+      docstring, and the per-attribute loop is vacuous (zero own members).
   - [x] Step 5 — Write reader/writer round-trip test (Red)
     - note (Steps 5/6): N/A — value-carried literal, no own XML element; consumed as
       attribute/text value on consumer elements; no parser/writer dispatch exists.
+    - note (Step 5, drift pass 2026-10-14): **the row's "N/A" is WRONG as written** — a real
+      Rule 0013.2 / Rule 0001.3 gap, closed in this pass. Splitting the claim:
+      (a) "no own XML element" is **correct** — the XSD `complexType
+      STRONG-REVISION-LABEL-STRING` (l.143564-143580) is `xsd:simpleContent` over
+      `STRONG-REVISION-LABEL-STRING--SIMPLE` with **only** the `AR:AR-OBJECT`
+      attributeGroup and **zero** `<xsd:element>` children (block parsed, not eyeballed).
+      (b) "no parser/writer dispatch exists" was asserted **without checking the schema**,
+      and the typed leaf-helper pair was simply **absent**: `grep -rn
+      "ChildElementOptionalStrongRevisionLabelString" src/armodel/ --include="*.py"` returned
+      **nothing**. Unlike the `CIdentifierWithIndex` exemption (documented on its own row as
+      acceptable *because nothing in the schema consumes its type* — verified there,
+      `grep -c` = **0**), this type **is** consumed: `grep -c
+      'type="AR:STRONG-REVISION-LABEL-STRING"' autosar/R23-11/xsd/AUTOSAR_00052.xsd` = **10**,
+      at element sites `VERSION` (l.57800), `CONTRACT-VERSION` (l.63487), `VERSION`
+      (l.89389), `CONTRACT-VERSION` (l.89873), `PREVIOUS-CONTRACT-VERSION` (l.89949) /
+      `PREVIOUS-EXECUTABLE-VERSION` (l.89968), `VERSION` (l.108772), `VERSION` (l.108840),
+      `DELTA-PACKAGE-APPLICABLE-VERSION` (l.109355), `VERSION` (l.127276).
+      **Honest scoping of the defect** — and this is the part the row concealed. The pair was
+      **absent**, yet the type **is** consumed by the schema (10 sites above), so the
+      `CIdentifierWithIndex` exemption — documented on its own row as acceptable *because
+      nothing in the schema consumes its type*, verified there with `grep -c` = **0** —
+      does **not** apply here. So the pair was added: the reader validates + constructs the
+      concrete type + `readARType` + `setValue`, the writer is the one-line delegation to
+      `setChildElementOptionalLiteral` that Rule 0013.2 prescribes for the `ARLiteral`
+      family; the audit's `BASE` gate went from `!` (warn) to `.` (pass); and the repo-wide
+      suffix-parity check went from 34 reader / 34 writer to **35 / 35, zero asymmetry**.
+      Pair parity verified over the whole parser/writer tree, not just this class.
+      **RETRACTION of the subagent's stated rationale (orchestrator-corrected 2026-10-14,
+      Rule 0026) — do not read the first version of this note as evidence.** The subagent
+      justified "no live call site" with two claims that are **both false** and were caught
+      by walking each of the 10 XSD sites back to its **enclosing complexType**:
+      (a) *"all 10 sites carry `mmt.RestrictToStandards="AP"`"* — **none** of the 8 owning
+      complexTypes carries that attribute;
+      (b) *"none of the 9 owning classes exists in py-armodel"*, with a list of
+      `Executable` / `PersistencyDeployment` / `PersistencyInterface` /
+      `PersistencyKeyValueDataTypeMapping` / `SoftwareCluster` /
+      `SoftwareClusterDependencyCompareCondition` / `SoftwarePackage` /
+      `UcmModuleInstantiation` / `FunctionalClusterInteractsWithPersistencyDeploymentMapping`
+      — that list was **inferred from the element names, not derived from the schema**.
+      The real owners are `ExclusiveAreaRefConditional`,
+      `FunctionalClusterInhibitionNeeds`'s `FunctionInhibitionNeeds`,
+      `PersistencyDataRequiredComSpec`, `PersistencyFileStorageInterface` (×3),
+      `SocketConnectionIpduIdentifierSet`, `SoftwareCluster`, `SoftwareContext`,
+      `UcmMasterModuleInstantiation` — and **3 of those 8 DO exist** in py-armodel
+      (`FunctionInhibitionNeeds`, `SocketConnectionIpduIdentifierSet`, `SoftwareContext`).
+      **The conclusion survives, for a different and now verified reason:**
+      `grep -rn "StrongRevisionLabelString" src/armodel/models/` matches **only**
+      `PrimitiveTypes.py` itself (the class definition + its two checklist comment lines) —
+      **zero model fields anywhere are typed with it**, so none of the 3 modeled owners
+      declares `contractVersion` / `version` / `deltaPackageApplicableVersion`, and no parse
+      or write path can carry a value today. The pair is therefore live *infrastructure*
+      rather than dead weight: when `SoftwareCluster` / `PersistencyFileStorageInterface` /
+      `UcmMasterModuleInstantiation` are modeled, the correct helper is already in place.
+      **Judgment call surfaced at 9b and decided by the user 2026-10-14: keep the pair**
+      (over the revert-to-document-as-acceptable alternative), on exactly these grounds —
+      schema consumption is real, the `CIdentifierWithIndex` exemption's condition does not
+      hold, and the immediately preceding `Ip4AddressString` / `Ip6AddressString` /
+      `RegularExpression` passes all ship a pair with 0 or few typed consumer call sites.
+      The new reader leaf **does not** raise `ValueError` on a pattern-violating text,
+      unlike `getChildElementOptionalRevisionLabelString` — deliberately, since 10 of the
+      11 `ARLiteral` leaf readers do not validate and with zero call sites a raise would
+      only create a failure mode for future fixtures. Recorded here so 9b does not read the
+      asymmetry as an oversight.
+      Tests added first, seen **Red**: `TestStrongRevisionLabelStringLeaf` in
+      `tests/test_armodel/parser/test_primitive_leaf_helpers.py` (concrete type + `T` +
+      value; all three Note `Legal patterns` values incl. the dotted pre-release **and**
+      build-metadata form `1.0.0-beta+exp.sha.5114f85`; empty element ⇒ `""`; missing ⇒
+      `None`) and in `tests/test_armodel/writer/test_primitive_leaf_helpers.py` (same three
+      values, `T` on the emitted element, `None` ⇒ emits nothing). Red run: **9 failed**
+      (5 parser + 4 writer), all `AttributeError: 'ARXMLParser'/'ARXMLWriter' object has no
+      attribute ...StrongRevisionLabelString`. Green after Step 6: 62 passed.
+      **Test strength proven by mutation, not asserted** (same technique the
+      `RevisionLabelString` and `RegularExpression` rows used): mutating the reader leaf to
+      construct `ARLiteral()` instead of `StrongRevisionLabelString()` turned the 4
+      type-asserting parser cases Red with
+      `assert False + where False = isinstance(<ARLiteral object>, StrongRevisionLabelString)`.
+      Mutant reverted; `git diff --stat src/armodel/parser/abstract_arxml_parser.py` after
+      the revert shows only the 14 intended added lines.
   - [x] Step 6 — Update parser & writer (Green)
     - note (Steps 5/6): N/A — see Step 5.
+    - note (Step 6, drift pass 2026-10-14): the pair **is** now added —
+      `getChildElementOptionalStrongRevisionLabelString`
+      (`src/armodel/parser/abstract_arxml_parser.py`, after
+      `getChildElementOptionalRevisionLabelString`) constructs the concrete
+      `StrongRevisionLabelString()`, calls `readARType` (so the inherited `T` survives) and
+      `setValue`, including the house empty-element patch (`text is None ⇒ setValue("")`);
+      `setChildElementOptionalStrongRevisionLabelString`
+      (`src/armodel/writer/abstract_arxml_writer.py`) is the **one-line delegation** to
+      `setChildElementOptionalLiteral` that Rule 0013.2 prescribes for the `ARLiteral`
+      family (the rule names `RevisionLabelString` as its precedent). `StrongRevisionLabelString`
+      added to the existing in-place `PrimitiveTypes` import lists in both files (no
+      re-sorting, no new import block — AGENTS.md's parser/writer import-order rule).
+      Reader and writer verified **independently** (Rule 0025 — the writer's presence was not
+      used to infer the reader's, and both were checked for a *call site* independently of
+      the other's definition). Rule 0013.2 name-pair symmetry re-measured repo-wide over the
+      abstract helper tree: **35 reader / 35 writer pairs, zero reader-only, zero
+      writer-only** (was 34/34 before this change) — so the new pair does not introduce an
+      asymmetry. `audit_class.py BASE` flipped from `!` (warn: no pair) to `.` (clean: "leaf
+      pair … present, T preserved by readARType/writeARType"). No Rule 0013.1 double-write
+      (the new writer helper is a pure delegation and appears once per key); no chained
+      `set`/`create`/`add` in the added code (the single chained hit in
+      `abstract_arxml_parser.py` l.591 is pre-existing constructor-nesting on `Limit`, not
+      mine and not a Rule 0013 chain); 0 `AUTOSAR.getInstance().` hits in both files.
+      **Documented, deliberate divergence from the `RevisionLabelString` precedent:** that
+      reader validates the text against the spec pattern and `raise ValueError` on a
+      mismatch; the new helper does **not**. Majority house shape wins here — none of
+      `CategoryString` / `SymbolString` / `McdIdentifier` / `MetaClassName` / `DateTime` /
+      `Ip4AddressString` / `Ip6AddressString` / `DiagRequirementIdString` validates, and with
+      zero live call sites a raise would only create a new failure mode for a future AP
+      fixture. All 5 test values are separately machine-validated against the XSD pattern
+      facet (Step 2 note), so the contract is still pinned.
+      Round-trip is **leaf-level** here (writer-emit + reader-materialize, both gated by the
+      new Step 5 tests); there is no document-level consumer to round-trip, for the reason
+      given in Step 5.
   - [x] Step 7 — Update checklist comment
     - note (Step 7): 6-column block + release column; `# Spec:
       AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.64, p.114`; marker withheld
       (batch mode); audit PASS (BASE warn = value-carried type, expected).
+    - note (Step 7, drift pass 2026-10-14): **no change needed** — the block was already at
+      the current bar, re-checked rather than assumed: `# Spec:` in canonical single-corpus
+      form (Rule 0023 not triggered — the R23-11 FO_TPS Table 4.64 exists, so the R4.3.1
+      fallback is correctly **not** cited); **6 columns**
+      `impl / docstring / test / reader / writer / release` with the per-row release token
+      `R23-11` (so not a legacy 4- or 5-column block); **one contiguous run above
+      `__init__`** (lines 3431-3434, `__init__` at 3436, no rows scattered in the class
+      body — Rule 0024 satisfied); exactly **0** provenance markers in the block (correctly
+      withheld pre-9b). Set-based AST checklist-vs-methods script green:
+      `checklist == methods == ['__init__']` **in source order**, no untested method, `# type:`
+      count 0. `reader [—] writer [—]` on the `__init__` row stays **correct**: the XSD
+      complexType is `simpleContent` with **zero** child elements (nothing to dispatch on),
+      re-justified in Step 5 independently of the writer side.
   - [x] Step 8 — Deviations
     - note (Step 8): none; markdown render artifacts grounded on XSD
       AUTOSAR_00052.xsd:143564 (see Step 1); no missing referenced classes.
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-12 (2383 passed
+    - note (Step 8, drift pass 2026-10-14): **no deviation rows remain**, so nothing withholds
+      the stamp (Rule 0014). Field↔spec cross-check passes in **both** directions (zero
+      `Attribute` rows ↔ zero own members); no `naming` / `type` / `missing` row, no Rule 0010
+      placeholder. **No missing referenced classes** — Table 4.64 has no `Attribute` rows, so
+      the class references nothing. The reverse direction is not a model gap either:
+      **zero model fields anywhere in `src/armodel/models/` are typed
+      `StrongRevisionLabelString`** (the token matches only `PrimitiveTypes.py` itself), so
+      none of the 10 schema consumer classes carries one today — see the Step 5 note for the
+      corrected owner list and the retraction of the subagent's `mmt.RestrictToStandards="AP"`
+      claim. Rule 0016.3:
+      the R23-11 table exists, so the R4.3.1 fallback does not apply. **Real (minor) gap
+      found and fixed here** — the class was **absent** from
+      `docs/examples/method_deviation_by_class_v2.md` altogether, while its Primitive
+      siblings (`RevisionLabelString`, `CategoryString`, `RegularExpression`, `SymbolString`,
+      `McdIdentifier`, `DiagRequirementIdString`, `Ip4AddressString`, `Ip6AddressString`, …)
+      are all listed under **`## Appendix: classes without a spec attribute table`** (heading
+      l.2097) — which is the correct description of a `Primitive` table with no `Attribute`
+      rows, **not** a deviation row. Added the one-line entry there, next to `McdIdentifier`.
+      **Non-deviation findings were fixed rather than recorded**: the Step 5/6 missing leaf
+      pair and the Step 2 coverage gap.
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-12 (2383 passed
     GeneralTemplateClasses + member-annotations; audit PASS — BASE warn = value-carried
     type; ruff/black/mypy clean; regen --check reports expected batch-deferral drift);
     9b deferred to batch confirmation (user instruction)
+    - note (9a, RE-RUN 2026-10-14, full battery, this drift pass): full suite
+      **26,242 passed / 0 failed** (was 26,227 — exactly the **+15** tests this pass added:
+      5 parser leaf + 4 writer leaf + 6 model); the 13 integration round-trip tests are
+      inside that number and ran with the **XSD validation gates ON** per Rule 0027
+      (`_validateDocument` returns early only on `options["validate"] is False`, and no
+      opt-out was introduced — verified by reading `arxml_writer.py` l.22923-22931);
+      `tests/test_armodel/parser/ + writer/` **10,847 passed**;
+      `test_PrimitiveTypes.py` **353 passed**; the two leaf-helper files together **62
+      passed** (was 53); `test_StrongRevisionLabelString.py` **10 passed** (was 4);
+      Rule 0022 member-annotation gate **3 passed**; `ruff check src/armodel tests scripts`
+      **All checks passed!**; `flake8 --exclude=.venv,build --select=E9,F63,F7,F82` exit 0;
+      `black --check` (200 cols) clean on all 5 touched files; **`mypy src/armodel` green —
+      `Success: no issues found in 279 source files`** (contradicting the
+      `SdgForeignReference` / `DateTime` / `RevisionLabelString` notes on this file that
+      recorded 13 pre-existing openpyxl `CellRichText` errors — those are gone in this
+      environment); `audit_class.py StrongRevisionLabelString` ⇒ **PASS with zero warnings**
+      (was `PASS, 1 warning(s)` — the `! BASE` "no dedicated leaf pair" warning is now
+      `.`, and the only remaining output is the expected pre-9b `i STAMP` / `i SPEC-BASE`
+      INFO); set-based checklist-vs-methods script green (`['__init__'] == ['__init__']` in
+      source order, 6-column + release token `R23-11`, 0 markers in the block, `# type:` = 0).
+      **Step 9 stays `[ ]` and the `# Spec verified:` marker is deliberately withheld** —
+      9b is the user's gate and automation never self-stamps (Rules 0012.1 / 0017.5).
+      **Left for 9b to decide:** the Step 5/6 judgment call (add the leaf pair although no
+      py-armodel class consumes the type today) and the `test_set_value_none_no_op` vs house
+      `test_set_value_none_is_noop` test-name divergence.
+    - note (9a, re-run + **independently re-verified by the orchestrator** 2026-10-14,
+      Rule 0026 / 0017.5 — the subagent's numbers were **not** taken on trust): full suite
+      **26,242 passed / 0 failed**; `test_StrongRevisionLabelString.py` + both leaf files
+      **62 passed**; Rule 0022 gate **3 passed**; `ruff` / `flake8 E9,F63,F7,F82` /
+      `black --check` (5 touched files) clean; `mypy src/armodel` **Success, 279 source
+      files**; set-based checklist-vs-methods script green (`['__init__'] == ['__init__']`,
+      6-column + release `R23-11`, **0** markers pre-stamp, 0 `# type:`);
+      `audit_class.py StrongRevisionLabelString` ⇒ **PASS, 0 warnings** (the entry-time
+      `! BASE` warn is now `.`); `regen_sync_todo.py --check` ⇒ up to date at the time of
+      the run. Full suite re-run **after** the stamp: **26,242 passed / 0 failed** again.
+      Runtime/Rule-0007 facts re-confirmed by the orchestrator, not by reading: runtime
+      `__bases__ == (ARLiteral,)`, `__init__` signature `(self)` with **no** docstring,
+      class docstring present, **zero** own annotated members,
+      `armodel.StrongRevisionLabelString is StrongRevisionLabelString` → `True`, no
+      class-named submodule, **0** mentions in either exclusion list in
+      `tests/test_armodel/test_model_imports.py`.
+    - note (9b, 2026-10-14, **CONFIRMED by the user** — this was the first
+      **subagent-driven (Rule 0017.5)** class in this group; 9b remained mandatory and the
+      orchestrator presented it, automation never self-stamped). All 14 pre-stamp items
+      re-derived from source:
+      (a) **Element kind + attributes (0001.1)** — Table 4.64 header cell is `Primitive`, body
+      rows are `Package` + `Note` only ⇒ **zero `Attribute` rows** ↔ zero own members, so the
+      field↔spec cross-check passes in **both** directions.
+      (b) **Most-derived base (0001.2)** — **no `Base` row** ⇒ `ARLiteral` per Rule 0001.10;
+      runtime `__bases__ == (ARLiteral,)` confirmed; `__init__(self)` correct for a Primitive
+      with no Base row. The audit's `SPEC-BASE` INFO is only "no readable Base row", the
+      expected reading under the shifted-caption convention — verified by eye.
+      (c) **No fabrication / flattening / type drift (0001.3)** — the sole member is the
+      **inherited** `ARLiteral` literal value, so nothing is flattened; no accessors, hence
+      no untyped accessors.
+      (d) **Kind suffix / create-vs-set-add (0001.5 / 0001.6)** — **vacuous**: a Primitive
+      table has no `ref`/`tref`/`aggr` rows.
+      (e) **Reader + writer coverage (0001.7)** — `reader [—] writer [—]` correct, justified
+      **independently of the writer** (Rule 0025): XSD `complexType
+      STRONG-REVISION-LABEL-STRING` (`AUTOSAR_00052.xsd` l.143564-143580) is
+      `xsd:simpleContent` over `STRONG-REVISION-LABEL-STRING--SIMPLE` with **only** the
+      `AR:AR-OBJECT` attributeGroup and **zero** `<xsd:element>` children (block parsed, not
+      eyeballed). The type is nonetheless **consumed** at 10 XSD sites — which is precisely
+      why the leaf pair was added; see the Step 5 retraction.
+      (f) **Member order (0011)** — **vacuous** (zero own members).
+      (g) **Docstrings verbatim (0012 / 0001.4)** — verified by the orchestrator with a
+      **three-way word-level diff**, not by eye: prose **token-identical to the XSD
+      `<xsd:documentation>`**, and identical to the markdown `Note` apart from two known
+      page-split artifacts the XSD resolves the other way (`[0-9a-z A-Z-]`, `Major Version`)
+      — the source sits on the authoritative XSD side of both. The `xml.xsd.pattern` tag is
+      **byte-equal to the `--SIMPLE` `xsd:pattern` facet** once the markdown `` `` ``
+      code-span backticks are stripped; `customType` and `type` match across markdown, XSD
+      `<xsd:appinfo source="tags">` and source; the XSD appinfo pattern also equals the
+      facet. `Tags:` tail kept (Rule 0012.2.5.3); `__init__` carries **no** docstring
+      (0012.2.4/0012.2.5.2); zero own members ⇒ per-attribute loop vacuous.
+      *Method note:* the orchestrator's **first** tag comparison reported a mismatch and a
+      first pattern comparison reported the markdown as unequal — both were **bugs in the
+      ad-hoc comparison script**, not in the docstring: splitting `Tags:` on whitespace
+      truncates any pattern containing an embedded space, and the markdown's `&#124;` needs
+      decoding to `|` before the regex pipes line up. Re-run with a line-scoped extractor,
+      both agree. Recorded because a diff tool that lies in the "defect found" direction is
+      as dangerous as one that lies in the "clean" direction.
+      (h) **Rule 0008 spacing** — **vacuous**: zero own attribute blocks, so nothing to glue
+      (the check invisible to automation that lets glued fields pass every gate on a
+      *non-empty* class — genuinely empty here, confirmed by AST, not assumed).
+      (i) **Quota shape vs multiplicity (0022)** — **vacuous** (zero members); gate
+      nonetheless run → 3 passed; no `# type:` in `PrimitiveTypes.py` (Rule 0003).
+      (j) **Package location & file shape (0007)** — spec `Package` row
+      `M2::…::GeneralTemplateClasses::PrimitiveTypes`; `GeneralTemplateClasses` is a **leaf**
+      package ⇒ `PrimitiveTypes.py`; **no** class-named submodule; **no** `X.py` + `X/`
+      shadowing pair; absent from `KNOWN_NAME_COLLISION_CLASSES` and
+      `INTENTIONALLY_UNEXPORTED_MODULES`; `armodel.StrongRevisionLabelString` resolves to the
+      same class object.
+      (k) **Leaf helper pair (0013.2)** — the pair exists on **both** sides with matching
+      names (no cross-pairing); the reader constructs the concrete type + `readARType` +
+      `setValue` + the empty-element `""` patch, the writer is the one-line delegation to
+      `setChildElementOptionalLiteral` that Rule 0013.2 prescribes for the `ARLiteral`
+      family. Repo-wide suffix check went 34 reader / 34 writer → **35 / 35, zero
+      reader-only, zero writer-only**, so the addition created no asymmetry. The
+      **base**-helper requirement is vacuous (an `ARLiteral` primitive owns no element);
+      `audit_class.py BASE`/`MEMBER` agree. No Rule 0013.1 double-write; no chained mutator
+      on a receiver.
+      (l) **Rule 0014 deviations** — **no `naming`/`type`/`missing` row, no Rule 0010
+      placeholder**, so nothing withholds the stamp. No missing referenced classes (zero
+      `Attribute` rows ⇒ the class references nothing).
+      (m) **Release provenance (0002 / 0016.3)** — the R23-11 FO_TPS Table 4.64 exists, so no
+      R4.3.1 fallback is cited; per-row `release` and marker both `R23-11`.
+      (n) **Stamp decision (0012.1)** — written only here, after the user's confirmation,
+      **immediately after** the `# Spec:` line, replacing (never appending to) any existing
+      marker; exactly **0** were present. Post-stamp audit `STAMP` reports *"marker … with all
+      1 rows `[x]`"* ⇒ **PASS**.
+    - note (9b, the two items the subagent left open, both now closed):
+      (i) **Step 5/6 judgment call — RESOLVED by the user 2026-10-14: keep the pair.**
+      Over the revert-to-document-as-acceptable alternative, on the verified grounds that
+      schema consumption is real (10 sites, so `CIdentifierWithIndex`'s exemption condition
+      genuinely fails here) and that the immediately preceding `Ip4AddressString` /
+      `Ip6AddressString` / `RegularExpression` passes all ship a pair with 0 or few typed
+      consumer call sites. The pair's **0 production call sites** are by construction, not
+      by oversight: the 10 schema consumers are `ExclusiveAreaRefConditional`,
+      `FunctionInhibitionNeeds`, `PersistencyDataRequiredComSpec`,
+      `PersistencyFileStorageInterface` (×3), `SocketConnectionIpduIdentifierSet`,
+      `SoftwareCluster`, `SoftwareContext`, `UcmMasterModuleInstantiation`, and
+      `grep -rn "StrongRevisionLabelString" src/armodel/models/` matches **only**
+      `PrimitiveTypes.py` itself — **zero model fields anywhere carry the type**, so none of
+      the 3 *modeled* owners declares the attribute today. When those classes are modeled the
+      correct helper is already in place; the **consumer rows** own the wiring, not this one.
+      (ii) **Test-name divergence `test_set_value_none_no_op` vs house
+      `test_set_value_none_is_noop` — accepted, unchanged.** Same contract, no coverage
+      difference, and renaming buys nothing at 9b; recorded so a future reader does not
+      mistake it for an oversight.
+      Also recorded, not changed: the new reader leaf **does not** raise `ValueError` on a
+      pattern-violating text, unlike `getChildElementOptionalRevisionLabelString` —
+      deliberately, since 10 of the 11 `ARLiteral` leaf readers do not validate and with zero
+      call sites a raise would only create a failure mode for future fixtures.
+    - note (9b outcome): **three real gaps closed, none deferred** — (1) the **missing typed
+      leaf-helper pair** (Rule 0013.2), which the row waved off with "no parser/writer
+      dispatch exists" without ever checking whether the schema consumes the type — it does,
+      at 10 sites; (2) **model-test coverage below the stamped house bar** — no parametrized
+      pattern round-trip, added with all five values `re.fullmatch`-validated against the XSD
+      pattern facet (notably **no** spec-violating fixture here, in contrast to
+      `RevisionLabelString`'s `"R23-11"`); (3) the **missing deviation-tracker entry**, which
+      the class lacked entirely while every sibling primitive has one.
+      **Process finding worth carrying forward:** the subagent's *conclusion* on Steps 5/6 was
+      right but its *evidence* was wrong on two of three points — the
+      `mmt.RestrictToStandards="AP"` claim, and the owning-class list (inferred from element
+      names rather than walked back to the enclosing `complexType`). Both were caught only
+      because the orchestrator re-derived independently instead of accepting the report;
+      Rule 0017.5 still requires the orchestrator to **verify** subagent evidence — 9b is a
+      gate, not a rubber stamp. The retraction is recorded in the Step 5 note and summarised
+      at the row level so a future session cannot read the wrong rationale as current
+      evidence — the same stale-rationale defect shape already seen on
+      `SdgClass.sdgConstraint`, `SdgAbstractForeignReference.destMetaClass` and
+      `FullBindingTimeEnum` in this file.
+    - note: sync commit recorded on the row header.
 - [ ] `SymbolString` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.65, p.114
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
   - [x] Step 1 — Sync members & description from spec

@@ -19,6 +19,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     McdIdentifier,
     RegularExpression,
     RevisionLabelString,
+    StrongRevisionLabelString,
     SymbolString,
 )
 from armodel.parser.arxml_parser import ARXMLParser
@@ -205,3 +206,45 @@ class TestRevisionLabelStringLeaf:
         element = ET.fromstring(f"<ROOT xmlns='{NS}'/>")
 
         assert ARXMLParser().getChildElementOptionalRevisionLabelString(element, "REVISION-LABEL") is None
+
+
+class TestStrongRevisionLabelStringLeaf:
+    def test_reads_concrete_type_and_t(self):
+        element = ET.fromstring(f"<ROOT xmlns='{NS}'><VERSION T='2026-10-14T00:00:00Z'>1.0.0-alpha+001</VERSION></ROOT>")
+
+        value = ARXMLParser().getChildElementOptionalStrongRevisionLabelString(element, "VERSION")
+
+        assert isinstance(value, StrongRevisionLabelString)
+        assert value.getValue() == "1.0.0-alpha+001"
+        assert value.timestamp == "2026-10-14T00:00:00Z"
+
+    def test_reads_build_metadata_value(self):
+        """The Table 4.64 Note lists `1.0.0+20130313144700` as a legal pattern: bare `+build-metadata` with no pre-release part."""
+        element = ET.fromstring(f"<ROOT xmlns='{NS}'><VERSION>1.0.0+20130313144700</VERSION></ROOT>")
+
+        value = ARXMLParser().getChildElementOptionalStrongRevisionLabelString(element, "VERSION")
+
+        assert isinstance(value, StrongRevisionLabelString)
+        assert value.getValue() == "1.0.0+20130313144700"
+
+    def test_reads_dotted_pre_release_and_metadata_value(self):
+        """The Table 4.64 Note lists `1.0.0-beta+exp.sha.5114f85`: dotted identifiers on both the `-` and `+` sides."""
+        element = ET.fromstring(f"<ROOT xmlns='{NS}'><VERSION>1.0.0-beta+exp.sha.5114f85</VERSION></ROOT>")
+
+        value = ARXMLParser().getChildElementOptionalStrongRevisionLabelString(element, "VERSION")
+
+        assert isinstance(value, StrongRevisionLabelString)
+        assert value.getValue() == "1.0.0-beta+exp.sha.5114f85"
+
+    def test_empty_element_becomes_empty_string(self):
+        element = ET.fromstring(f"<ROOT xmlns='{NS}'><VERSION/></ROOT>")
+
+        value = ARXMLParser().getChildElementOptionalStrongRevisionLabelString(element, "VERSION")
+
+        assert isinstance(value, StrongRevisionLabelString)
+        assert value.getValue() == ""
+
+    def test_missing_returns_none(self):
+        element = ET.fromstring(f"<ROOT xmlns='{NS}'/>")
+
+        assert ARXMLParser().getChildElementOptionalStrongRevisionLabelString(element, "VERSION") is None
