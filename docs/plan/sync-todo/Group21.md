@@ -3168,6 +3168,7 @@ pending that confirmation.
     - note: sync commit recorded on the row header.
 - [x] `SymbolString` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.65, p.114
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
+  - commit: cd5f8c7ac
   - [x] Step 1 — Sync members & description from spec
     - note (Step 1, corrected 2026-10-14 by Rule 0026 re-audit): Table 4.65 (trailing-caption
       render, p.114 via pdf_page.py); Package M2::...::GeneralTemplateClasses::PrimitiveTypes;
@@ -3253,6 +3254,7 @@ pending that confirmation.
       MSR Documentation/BlockElements/Figure.py 51) — out of scope for this row; planned in
       docs/plan/rule-0003-unquote-annotations.md (which also records a live pre-existing
       `get_type_hints` NameError in transformer/abstract.py found during the survey).
+    - note: sync commit recorded on the row header.
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-14 (26245 passed / 0 failed:
     full suite incl. integration round-trips; ruff clean; black clean on all 6 touched files;
     mypy at the 13 pre-existing baseline errors in connector_xlsx_parser/excel_parser/os_export,

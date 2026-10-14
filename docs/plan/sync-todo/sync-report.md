@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 840 | 43.9% |
+| [x] Done | 841 | 43.9% |
 | [x] Deferred | 83 | 4.3% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 981 | 51.2% |
+| [ ] Deferred | 980 | 51.2% |
 | [ ] Implemented | 10 | 0.5% |
 | [ ] Created | 1 | 0.1% |
 | [ ] Pending | 0 | 0.0% |
@@ -1470,7 +1470,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `ReferenceTailoring`                                    | [ ] Deferred| N/A                                      | Group36          |
 | `ReferenceValueSpecification`                           | [ ] Deferred| 8186029562                               | Group28          |
 | `Referrable`                                            | [x] Done    | 4e60d3a344                               | Group21          |
-| `ReferrableSubtypesEnum`                                | [x] Done    | a097cb3d4f                               | Group21          |
+| `ReferrableSubtypesEnum`                                | [x] Done    | N/A                                      | Group21          |
 | `RegularExpression`                                     | [x] Done    | 50da7d5e2a                               | Group21          |
 | `RelativeTolerance`                                     | [ ] Deferred| 358656e2a4                               | Group31          |
 | `RequestResponseDelay`                                  | [x] Done    | 1c556f35b4                               | Group16          |
@@ -1540,7 +1540,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `SdgAggregationWithVariation`                           | [x] Done    | 207e9e3241                               | Group21          |
 | `SdgAttribute`                                          | [x] Done    | 41952ae2fd                               | Group21          |
 | `SdgClass`                                              | [x] Done    | cfa7402dec                               | Group21          |
-| `SdgDef`                                                | [x] Done    | c7d3958065                               | Group21          |
+| `SdgDef`                                                | [x] Done    | N/A                                      | Group21          |
 | `SdgElementWithGid`                                     | [x] Done    | f7d552948b                               | Group21          |
 | `SdgForeignReference`                                   | [x] Done    | 13929a0060                               | Group21          |
 | `SdgForeignReferenceWithVariation`                      | [x] Done    | b9f42c0d6e                               | Group21          |
@@ -1731,7 +1731,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `SwitchStreamGateEntry`                                 | [ ] Deferred| ac22e340e2                               | Group30          |
 | `SwitchStreamIdentification`                            | [ ] Deferred| aa06ec8a24                               | Group30          |
 | `SymbolProps`                                           | [x] Done    | 2d21a9108b                               | Group2           |
-| `SymbolString`                                          | [ ] Deferred| N/A                                      | Group21          |
+| `SymbolString`                                          | [x] Done    | N/A                                      | Group21          |
 | `SymbolicNameProps`                                     | [x] Done    | 16ed72ebe2                               | Group29          |
 | `SyncTimeBaseMgrUserNeeds`                              | [x] Done    | 609f148a93                               | Group4           |
 | `SynchronizationPointConstraint`                        | [ ] Deferred| N/A                                      | Group35          |
