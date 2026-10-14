@@ -1324,20 +1324,43 @@ def check_members(rep: Report, cls: str, node: ast.ClassDef, enum: bool) -> None
 
 
 def check_pattern(rep: Report, node: ast.ClassDef) -> None:
+    """Rule 0028, mechanical: an `ARLiteral` subclass whose docstring carries
+    `xml.xsd.pattern=` must declare a `PATTERN` class attribute — a declared
+    `PATTERN = None` does not count (the runtime check stays off), and classes
+    outside the `ARLiteral` family (`Numerical`/`ARType` numerics, Rule 0028
+    point 4) are not reported."""
     doc = ast.get_docstring(node) or ""
     if "xml.xsd.pattern=" not in doc:
         return
-    for stmt in node.body:
-        targets = []
-        if isinstance(stmt, ast.Assign):
-            targets = [t.id for t in stmt.targets if isinstance(t, ast.Name)]
-        elif isinstance(stmt, ast.AnnAssign) and isinstance(stmt.target, ast.Name):
-            targets = [stmt.target.id]
-        if "PATTERN" in targets:
+    base_map = _model_base_map()
+    if node.name in base_map:
+        seen: Set[str] = {node.name}
+        frontier = list(base_map[node.name])
+        while frontier:
+            b = frontier.pop(0)
+            if b in seen:
+                continue
+            seen.add(b)
+            frontier.extend(base_map.get(b, []))
+        if "ARLiteral" not in seen:
             return
+    for stmt in node.body:
+        if isinstance(stmt, ast.Assign):
+            names = [t.id for t in stmt.targets if isinstance(t, ast.Name)]
+            value = stmt.value
+        elif isinstance(stmt, ast.AnnAssign) and isinstance(stmt.target, ast.Name):
+            names = [stmt.target.id]
+            value = stmt.value
+        else:
+            continue
+        if "PATTERN" not in names:
+            continue
+        if isinstance(value, ast.Constant) and value.value is None:
+            continue
+        return
     rep.warn(
         "PATTERN",
-        "Rule 0028: docstring carries xml.xsd.pattern but no PATTERN attribute is declared — add the XSD-facet regex (an inherited attribute from a pattern-declaring base satisfies the rule; verify by hand)",
+        "Rule 0028: docstring carries xml.xsd.pattern but no PATTERN attribute is declared — add the XSD-facet regex (an inherited attribute from a pattern-declaring base satisfies the rule; verify by hand) — Numerical/ARType numeric subclasses are exempt (Rule 0028 point 4): do not add PATTERN to them",
     )
 
 

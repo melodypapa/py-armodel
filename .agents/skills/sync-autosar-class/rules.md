@@ -2252,6 +2252,7 @@ XSD — must declare a `PATTERN` class attribute holding that regex:
    runtime check — do not add `PATTERN` to them.
 4. `Numerical`/`ARType` numeric subclasses are excluded (they parse values numerically, not
    by regex).
-5. `audit_class.py` reports a `PATTERN` warning when a docstring carries `xml.xsd.pattern=` but
-   no `PATTERN` attribute is declared on the class; an attribute inherited from a
-   pattern-declaring base satisfies the rule (verify by hand).
+5. `audit_class.py` reports a `PATTERN` warning when an `ARLiteral` subclass's docstring carries
+   `xml.xsd.pattern=` but no `PATTERN` attribute is declared on the class; an attribute inherited
+   from a pattern-declaring base satisfies the rule (verify by hand). Classes outside the
+   `ARLiteral` family (e.g. `Numerical`/`ARType` numerics) are not reported.
