@@ -9,10 +9,15 @@ import xml.etree.ElementTree as ET
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     CategoryString,
+    DateTime,
     DiagRequirementIdString,
     Ip4AddressString,
     Ip6AddressString,
     McdIdentifier,
+    RegularExpression,
+    RevisionLabelString,
+    String,
+    StrongRevisionLabelString,
     SymbolString,
 )
 from armodel.writer.arxml_writer import ARXMLWriter
@@ -42,7 +47,7 @@ class TestCategoryStringLeaf:
 class TestMcdIdentifierLeaf:
     def test_writes_concrete_type_and_t(self):
         value = McdIdentifier()
-        value.setValue("DISP-1")
+        value.setValue("DISP_1")
         value.timestamp = "2023-06-06T00:00:00Z"
 
         element = ET.Element("ROOT")
@@ -50,7 +55,7 @@ class TestMcdIdentifierLeaf:
 
         written = element.find("DISPLAY-IDENTIFIER")
         assert written is not None
-        assert written.text == "DISP-1"
+        assert written.text == "DISP_1"
         assert written.attrib["T"] == "2023-06-06T00:00:00Z"
 
     def test_none_emits_nothing(self):
@@ -64,7 +69,7 @@ class TestSymbolStringLeaf:
     def test_writes_concrete_type_name_pattern_and_t(self):
         value = SymbolString()
         value.setValue("Sym")
-        value.setNamePattern("[A-Z]+")
+        value.setNamePattern(String().setValue("[A-Z]+"))
         value.timestamp = "2023-07-07T00:00:00Z"
 
         element = ET.Element("ROOT")
@@ -75,6 +80,17 @@ class TestSymbolStringLeaf:
         assert written.text == "Sym"
         assert written.attrib["NAME-PATTERN"] == "[A-Z]+"
         assert written.attrib["T"] == "2023-07-07T00:00:00Z"
+
+    def test_name_pattern_absent_emits_no_attribute(self):
+        value = SymbolString()
+        value.setValue("Sym")
+
+        element = ET.Element("ROOT")
+        ARXMLWriter().setChildElementOptionalSymbolString(element, "SYMBOL", value)
+
+        written = element.find("SYMBOL")
+        assert written is not None
+        assert "NAME-PATTERN" not in written.attrib
 
     def test_none_emits_nothing(self):
         element = ET.Element("ROOT")
@@ -118,9 +134,15 @@ class TestIpAddressStringLeaf:
         assert written.text == "192.168.0.1"
         assert written.attrib["T"] == "2023-10-10T00:00:00Z"
 
+    def test_none_emits_nothing_ip4(self):
+        element = ET.Element("ROOT")
+        ARXMLWriter().setChildElementOptionalIp4AddressString(element, "IPV-4-ADDRESS", None)
+
+        assert element.find("IPV-4-ADDRESS") is None
+
     def test_writes_concrete_ip6_type_and_t(self):
         value = Ip6AddressString()
-        value.setValue("fe80::1")
+        value.setValue("2001:0db8:0000:0000:0000:0000:0000:0001")
         value.timestamp = "2023-10-10T00:00:00Z"
 
         element = ET.Element("ROOT")
@@ -128,5 +150,150 @@ class TestIpAddressStringLeaf:
 
         written = element.find("IPV-6-ADDRESS")
         assert written is not None
-        assert written.text == "fe80::1"
+        assert written.text == "2001:0db8:0000:0000:0000:0000:0000:0001"
         assert written.attrib["T"] == "2023-10-10T00:00:00Z"
+
+    def test_none_emits_nothing(self):
+        element = ET.Element("ROOT")
+        ARXMLWriter().setChildElementOptionalIp6AddressString(element, "IPV-6-ADDRESS", None)
+
+        assert element.find("IPV-6-ADDRESS") is None
+
+
+class TestDateTimeLeaf:
+    def test_writes_concrete_type_and_t(self):
+        value = DateTime()
+        value.setValue("2009-07-23T14:38:00+01:00")
+        value.timestamp = "2023-11-11T00:00:00Z"
+
+        element = ET.Element("ROOT")
+        ARXMLWriter().setChildElementOptionalDateTime(element, "DATE", value)
+
+        written = element.find("DATE")
+        assert written is not None
+        assert written.text == "2009-07-23T14:38:00+01:00"
+        assert written.attrib["T"] == "2023-11-11T00:00:00Z"
+
+    def test_writes_date_only_value(self):
+        """The Table 4.48 pattern makes the time part optional: `yyyy-mm-dd` alone is legal."""
+        value = DateTime().setValue("2009-07-23")
+
+        element = ET.Element("ROOT")
+        ARXMLWriter().setChildElementOptionalDateTime(element, "DATE", value)
+
+        written = element.find("DATE")
+        assert written is not None
+        assert written.text == "2009-07-23"
+
+    def test_none_emits_nothing(self):
+        element = ET.Element("ROOT")
+        ARXMLWriter().setChildElementOptionalDateTime(element, "DATE", None)
+
+        assert element.find("DATE") is None
+
+
+class TestRegularExpressionLeaf:
+    def test_writes_concrete_type_and_t(self):
+        value = RegularExpression()
+        value.setValue("[0-9]+")
+        value.timestamp = "2023-12-12T00:00:00Z"
+
+        element = ET.Element("ROOT")
+        ARXMLWriter().setChildElementOptionalRegularExpression(element, "PATTERN", value)
+
+        written = element.find("PATTERN")
+        assert written is not None
+        assert written.text == "[0-9]+"
+        assert written.attrib["T"] == "2023-12-12T00:00:00Z"
+
+    def test_writes_alternation_value(self):
+        """Table 4.60 has no pattern facet, so any XML Schema regex is a legal value."""
+        value = RegularExpression().setValue("critical|significant|minor|low")
+
+        element = ET.Element("ROOT")
+        ARXMLWriter().setChildElementOptionalRegularExpression(element, "REGULAR-EXPRESSION", value)
+
+        written = element.find("REGULAR-EXPRESSION")
+        assert written is not None
+        assert written.text == "critical|significant|minor|low"
+
+    def test_none_emits_nothing(self):
+        element = ET.Element("ROOT")
+        ARXMLWriter().setChildElementOptionalRegularExpression(element, "PATTERN", None)
+
+        assert element.find("PATTERN") is None
+
+
+class TestRevisionLabelStringLeaf:
+    def test_writes_concrete_type_and_t(self):
+        value = RevisionLabelString()
+        value.setValue("4.0.0")
+        value.timestamp = "2024-01-14T00:00:00Z"
+
+        element = ET.Element("ROOT")
+        ARXMLWriter().setChildElementOptionalRevisionLabelString(element, "REVISION-LABEL", value)
+
+        written = element.find("REVISION-LABEL")
+        assert written is not None
+        assert written.text == "4.0.0"
+        assert written.attrib["T"] == "2024-01-14T00:00:00Z"
+
+    def test_writes_semicolon_suffix_value(self):
+        """The Table 4.61 Note lists `4.0.0;12` as a legal pattern: `;` is one of the three allowed suffix separators."""
+        value = RevisionLabelString().setValue("4.0.0;12")
+
+        element = ET.Element("ROOT")
+        ARXMLWriter().setChildElementOptionalRevisionLabelString(element, "REVISION-LABEL", value)
+
+        written = element.find("REVISION-LABEL")
+        assert written is not None
+        assert written.text == "4.0.0;12"
+
+    def test_none_emits_nothing(self):
+        element = ET.Element("ROOT")
+        ARXMLWriter().setChildElementOptionalRevisionLabelString(element, "REVISION-LABEL", None)
+
+        assert element.find("REVISION-LABEL") is None
+
+
+class TestStrongRevisionLabelStringLeaf:
+    def test_writes_concrete_type_and_t(self):
+        value = StrongRevisionLabelString()
+        value.setValue("1.0.0-alpha+001")
+        value.timestamp = "2026-10-14T00:00:00Z"
+
+        element = ET.Element("ROOT")
+        ARXMLWriter().setChildElementOptionalStrongRevisionLabelString(element, "VERSION", value)
+
+        written = element.find("VERSION")
+        assert written is not None
+        assert written.text == "1.0.0-alpha+001"
+        assert written.attrib["T"] == "2026-10-14T00:00:00Z"
+
+    def test_writes_build_metadata_value(self):
+        """The Table 4.64 Note lists `1.0.0+20130313144700` as a legal pattern: bare `+build-metadata` with no pre-release part."""
+        value = StrongRevisionLabelString().setValue("1.0.0+20130313144700")
+
+        element = ET.Element("ROOT")
+        ARXMLWriter().setChildElementOptionalStrongRevisionLabelString(element, "VERSION", value)
+
+        written = element.find("VERSION")
+        assert written is not None
+        assert written.text == "1.0.0+20130313144700"
+
+    def test_writes_dotted_pre_release_and_metadata_value(self):
+        """The Table 4.64 Note lists `1.0.0-beta+exp.sha.5114f85`: dotted identifiers on both the `-` and `+` sides."""
+        value = StrongRevisionLabelString().setValue("1.0.0-beta+exp.sha.5114f85")
+
+        element = ET.Element("ROOT")
+        ARXMLWriter().setChildElementOptionalStrongRevisionLabelString(element, "VERSION", value)
+
+        written = element.find("VERSION")
+        assert written is not None
+        assert written.text == "1.0.0-beta+exp.sha.5114f85"
+
+    def test_none_emits_nothing(self):
+        element = ET.Element("ROOT")
+        ARXMLWriter().setChildElementOptionalStrongRevisionLabelString(element, "VERSION", None)
+
+        assert element.find("VERSION") is None

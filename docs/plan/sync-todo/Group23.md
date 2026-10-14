@@ -156,6 +156,48 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [x] `McDataInstance` — Identifiable — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 9.4, p.178 — already verified (short-circuit 2026-10-01)
   - note: already-verified short-circuit 2026-10-01 (Group23-25 batch header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
+  - note: **the 2026-10-01 short-circuit was STALE** — found 2026-10-13 while syncing the
+    consumer `McdIdentifier` (Group21 Table 4.54). All three 9-step boxes are still `[ ]`
+    and the class carried three real defects the "quick deviation check" never caught.
+    **The stamp is not evidence; a full 9-step sync of this row is still owed** — see
+    the notes below for what is fixed and what is not. Per Rule 0012.3 the existing
+    `# Spec verified: R23-11` marker was left in place (re-stamping needs its own 9b).
+  - note (fixed 2026-10-13, user-directed): **Rule 0025 reader-side base-helper gap.**
+    `readMcDataInstance` (`arxml_parser.py` l.6942) called **no** base helper while
+    `writeMcDataInstance` (l.8611) called `writeIdentifiable` — the asymmetry the rule
+    names explicitly. Confirmed by probe, not by reading: with `Uuid` + `Timestamp` set,
+    the writer emitted `<MC-DATA-INSTANCE T="…" UUID="…">` and the reader returned
+    `uuid=None`, `T=None` — the entire `Identifiable` level (`S`/`T`/`UUID`/`ADMIN-DATA`/
+    `CATEGORY`/`DESC`) dropped on every `MC-DATA-INSTANCE`. Fixed by adding
+    `self.readIdentifiable(element, instance)` as the first statement, mirroring
+    `writeIdentifiable`'s position. **No Rule 0013.1 double-registration**: `addARObject`
+    fires only inside `readIdentifiable`, and `createMcVariableInstance` /
+    `createMcParameterInstance` / `createSubElement` only build the model object.
+    Pinned by tests (Rule 0025: "pinned by a test, not by a comment") in
+    `tests/test_armodel/writer/test_mc_data_instance.py`
+    (`TestMcDataInstanceIdentifiableLevelRoundTrip`, 2 tests: the top-level instance and
+    a nested `SUB-ELEMENTS/MC-DATA-INSTANCE`), asserting `UUID`, `T`, `CATEGORY` and
+    shortName survive save→load with XSD validation ON.
+  - note (fixed 2026-10-13): **two malformed / mis-ordered checklist rows.** Rows for
+    `getResultingRptSwPrototypingAccess` / `setResultingRptSwPrototypingAccess` had **no
+    space** before the `[x] impl` column, so the 6-column parser read the method name as
+    `…Access[x]` — `audit_class.py ROWS` FAILed with "25 methods vs 23 checklist rows".
+    With the space restored the count matched and a **pre-existing order mismatch** became
+    visible: `getMcDataAssignments`/`addMcDataAssignment` and
+    `getSubElements`/`createSubElement` were listed getter-first. Both attributes are
+    spec-`*` aggregated lists, so Rule 0011 requires the **mutator first**
+    (`createOperation`/`getOperations`) — which is what the **source** order already is.
+    The checklist rows were reordered to match source, not the reverse. `ROWS` now clean
+    (25 rows in source order), `BLOCK` clean, `STAMP` clean, `BASE` now reports the
+    reader call **directly** => `audit_class.py McDataInstance` => **PASS** on every gate.
+  - note (open debt, NOT fixed here): `RESULTING-PROPERTIES` is **identity-only child
+    serialization** (Rule 0001.7). The writer emits an empty `<RESULTING-PROPERTIES/>`
+    (`arxml_writer.py` l.8632) ignoring `getResultingProperties()` content, and the
+    reader does `instance.setResultingProperties(SwDataDefProps())` (l.6959) without
+    reading it. There is no `readSwDataDefProps` helper in the parser at all (only
+    `readSwDataDefPropsBits`, a different class), so the child is unsynced — that is the
+    debt Rule 0001.7 names, and it belongs to `SwDataDefProps`'s own row, not this one.
+    Flagged, deliberately untouched: fixing it means syncing `SwDataDefProps` first.
   - module: M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/__init__.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

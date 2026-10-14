@@ -3,6 +3,8 @@ This module contains primitive type classes for AUTOSAR models
 in the GenericStructure module.
 """
 
+from __future__ import annotations
+
 from abc import ABC
 import re
 from typing import List, Optional, Sequence, Union
@@ -770,7 +772,7 @@ class Identifier(ARLiteral):
         """
         return self.blueprintValue
 
-    def setBlueprintValue(self, value: Optional[String]) -> "Identifier":
+    def setBlueprintValue(self, value: Optional[String]) -> Identifier:
         """
         This represents a description that documents how the value shall be defined when deriving objects from the blueprint. Tags: atp.Status=draft xml.attribute=true
 
@@ -792,7 +794,7 @@ class Identifier(ARLiteral):
         """
         return self.namePattern
 
-    def setNamePattern(self, value: Optional[String]) -> "Identifier":
+    def setNamePattern(self, value: Optional[String]) -> Identifier:
         """
         This attribute represents a pattern which shall be used to define the value of the identifier if the identifier in question is part of a blueprint. For more details refer to TPS_StandardizationTemplate. Tags: xml.attribute=true
 
@@ -819,6 +821,7 @@ class CIdentifier(ARLiteral):
 
     # CIdentifier method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.45, p.108
+    # Spec verified: R23-11 (2026-10-12, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getBlueprintValue        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
@@ -829,21 +832,21 @@ class CIdentifier(ARLiteral):
     def __init__(self):
         super().__init__()
 
-        # This represents a description that documents how the value shall be defined when deriving objects from the blueprint. Tags: atp.Status=draft xml.attribute=true Tags: atp.Status=draft xml.attribute=true
-        self.blueprintValue: Optional[str] = None
+        # This represents a description that documents how the value shall be defined when deriving objects from the blueprint. Tags: atp.Status=draft xml.attribute=true
+        self.blueprintValue: Optional[String] = None
 
         # This attribute represents a pattern which shall be used to define the value of the identifier if the CIdentifier in question is part of a blueprint. For more details refer to TPS_StandardizationTemplate. Tags: xml.attribute=true
-        self.namePattern: Optional[str] = None
+        self.namePattern: Optional[String] = None
 
-    def getBlueprintValue(self) -> Optional[str]:
+    def getBlueprintValue(self) -> Optional[String]:
         """
-        This represents a description that documents how the value shall be defined when deriving objects from the blueprint. Tags: atp.Status=draft xml.attribute=true Tags: atp.Status=draft xml.attribute=true
+        This represents a description that documents how the value shall be defined when deriving objects from the blueprint. Tags: atp.Status=draft xml.attribute=true
         """
         return self.blueprintValue
 
-    def setBlueprintValue(self, value: Optional[str]):
+    def setBlueprintValue(self, value: Optional[String]) -> CIdentifier:
         """
-        This represents a description that documents how the value shall be defined when deriving objects from the blueprint. Tags: atp.Status=draft xml.attribute=true Tags: atp.Status=draft xml.attribute=true
+        This represents a description that documents how the value shall be defined when deriving objects from the blueprint. Tags: atp.Status=draft xml.attribute=true
 
         A None value is a no-op and does not overwrite an existing blueprintValue.
         """
@@ -851,13 +854,13 @@ class CIdentifier(ARLiteral):
             self.blueprintValue = value
         return self
 
-    def getNamePattern(self) -> Optional[str]:
+    def getNamePattern(self) -> Optional[String]:
         """
         This attribute represents a pattern which shall be used to define the value of the identifier if the CIdentifier in question is part of a blueprint. For more details refer to TPS_StandardizationTemplate. Tags: xml.attribute=true
         """
         return self.namePattern
 
-    def setNamePattern(self, value: Optional[str]):
+    def setNamePattern(self, value: Optional[String]) -> CIdentifier:
         """
         This attribute represents a pattern which shall be used to define the value of the identifier if the CIdentifier in question is part of a blueprint. For more details refer to TPS_StandardizationTemplate. Tags: xml.attribute=true
 
@@ -871,7 +874,7 @@ class CIdentifier(ARLiteral):
 class RevisionLabelString(ARLiteral):
     r"""
     This primitive represents an internal AUTOSAR revision label which identifies an engineering object. It
-    represents a pattern which:
+    represents a pattern which
 
     * supports three integers representing from left to right MajorVersion, MinorVersion, PatchVersion.
     * may add an application specific suffix separated by one of ".", "_", ";".
@@ -892,6 +895,7 @@ class RevisionLabelString(ARLiteral):
 
     # RevisionLabelString method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.61, p.113
+    # Spec verified: R23-11 (2026-10-14, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
@@ -966,7 +970,7 @@ class Limit(ARLiteral):
         """
         return self.intervalType
 
-    def setIntervalType(self, value: Optional[IntervalTypeEnum]) -> "Limit":
+    def setIntervalType(self, value: Optional[IntervalTypeEnum]) -> Limit:
         """
         This specifies the type of the interval. If the attribute is missing the interval shall be considered as "CLOSED".
 
@@ -1022,7 +1026,7 @@ class Ref(ARLiteral):
         """This attribute reflects the base to be used for this reference."""
         return self.base
 
-    def setBase(self, value: Optional[Identifier]) -> "Ref":
+    def setBase(self, value: Optional[Identifier]) -> Ref:
         """This attribute reflects the base to be used for this reference. A None value is a no-op and does not overwrite an existing base."""
         if value is not None:
             self.base = value
@@ -1032,7 +1036,7 @@ class Ref(ARLiteral):
         """This represents a description that documents how the value shall be defined when deriving objects from the blueprint. Tags: atp.Status=draft xml.attribute=true"""
         return self.blueprintValue
 
-    def setBlueprintValue(self, value: Optional[String]) -> "Ref":
+    def setBlueprintValue(self, value: Optional[String]) -> Ref:
         """This represents a description that documents how the value shall be defined when deriving objects from the blueprint. Tags: atp.Status=draft xml.attribute=true A None value is a no-op and does not overwrite an existing blueprintValue."""
         if value is not None:
             self.blueprintValue = value
@@ -1042,7 +1046,7 @@ class Ref(ARLiteral):
         """This attribute supports the use case to point on specific elements in an array. This is in particular required if arrays are used to implement particular data objects. The counting of array indices starts with the value 0, i.e. the index of the first array element is 0."""
         return self.index
 
-    def setIndex(self, value: Optional[PositiveInteger]) -> "Ref":
+    def setIndex(self, value: Optional[PositiveInteger]) -> Ref:
         """This attribute supports the use case to point on specific elements in an array. This is in particular required if arrays are used to implement particular data objects. The counting of array indices starts with the value 0, i.e. the index of the first array element is 0. A None value is a no-op and does not overwrite an existing index."""
         if value is not None:
             self.index = value
@@ -1176,12 +1180,13 @@ class DiagRequirementIdString(ARLiteral):
     Tags:
 
     * xml.xsd.customType=DIAG-REQUIREMENT-ID-STRING
-    * xml.xsd.pattern= ``[0-9a-zA-Z_\-]+``                       # noqa W605
+    * xml.xsd.pattern= ``[0-9a-zA-Z_\-]+``
     * xml.xsd.type=string
     """
 
     # DiagRequirementIdString method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.49, p.109
+    # Spec verified: R23-11 (2026-10-13, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
@@ -1238,12 +1243,13 @@ class Ip4AddressString(ARLiteral):
 
     Tags:
         * xml.xsd.customType=IP4-ADDRESS-STRING
-        * xml.xsd.pattern=(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|ANY        # noqa E501
+        * xml.xsd.pattern=(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|ANY
         * xml.xsd.type=string
     """
 
     # Ip4AddressString method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.51, p.110
+    # Spec verified: R23-11 (2026-10-13, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
@@ -1265,6 +1271,7 @@ class Ip6AddressString(ARLiteral):
 
     # Ip6AddressString method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.52, p.110
+    # Spec verified: R23-11 (2026-10-13, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
@@ -1306,6 +1313,7 @@ class CategoryString(ARLiteral):
 
     # CategoryString method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.47, p.109
+    # Spec verified: R23-11 (2026-10-12, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
@@ -1449,6 +1457,7 @@ class DateTime(ARLiteral):
 
     # DateTime method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.48, p.109
+    # Spec verified: R23-11 (2026-10-13, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
@@ -1512,6 +1521,7 @@ class RegularExpression(ARLiteral):
 
     # RegularExpression method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.60, p.112
+    # Spec verified: R23-11 (2026-10-14, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
@@ -1530,24 +1540,25 @@ class SymbolString(ARLiteral):
 
     # SymbolString method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.65, p.114
+    # Spec verified: R23-11 (2026-10-14, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getNamePattern      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] setNamePattern      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getNamePattern      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNamePattern      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
         # This attribute represents a pattern which shall be used to define the value of the identifier if the CIdentifier in question is part of a blueprint. For more details refer to TPS_StandardizationTemplate. Tags: xml.attribute=true
-        self.namePattern: Optional[str] = None
+        self.namePattern: Optional[String] = None
 
-    def getNamePattern(self) -> Optional[str]:
+    def getNamePattern(self) -> Optional[String]:
         """
         This attribute represents a pattern which shall be used to define the value of the identifier if the CIdentifier in question is part of a blueprint. For more details refer to TPS_StandardizationTemplate. Tags: xml.attribute=true
         """
         return self.namePattern
 
-    def setNamePattern(self, value: Optional[str]):
+    def setNamePattern(self, value: Optional[String]) -> SymbolString:
         """
         This attribute represents a pattern which shall be used to define the value of the identifier if the CIdentifier in question is part of a blueprint. For more details refer to TPS_StandardizationTemplate. Tags: xml.attribute=true
 
@@ -1559,7 +1570,7 @@ class SymbolString(ARLiteral):
 
 
 class McdIdentifier(ARLiteral):
-    """
+    r"""
     This primitive denotes a name used for measurement and calibration systems and shall follow the restrictions for an ASAM ASAP2 ident. For detailed syntax see the xsd.pattern. The size limitations are not captured.
 
     McdIdentifiers are random names which may contain characters A through Z, a through z, underscore (_), numerals 0 through 9, points ('.') and brackets ( '[',']' ).
@@ -1567,12 +1578,13 @@ class McdIdentifier(ARLiteral):
 
     Tags:
         * xml.xsd.customType=MCD-IDENTIFIER
-        * xml.xsd.pattern= ``[a-zA-Z_][a-zA-Z0-9_]*(\\[([a-zA-Z_][a-zA-Z0-9_]*|[0-9]+)\\])*(\\.[a-zA-Z_][a-zA-Z0-9_]*(\\[([a-zA-Z_][a-zA-Z0-9_]*|[0-9]+)\\])*)*``
+        * xml.xsd.pattern= ``[a-zA-Z_][a-zA-Z0-9_]*(\[([a-zA-Z_][a-zA-Z0-9_]*|[0-9]+)\])*(\.[a-zA-Z_][a-zA-Z0-9_]*(\[([a-zA-Z_][a-zA-Z0-9_]*|[0-9]+)\])*)*``
         * xml.xsd.type=string
     """
 
     # McdIdentifier method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.54, p.111
+    # Spec verified: R23-11 (2026-10-13, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
@@ -3373,6 +3385,7 @@ class MetaClassName(ARLiteral):
 
     # MetaClassName method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.36, p.102
+    # Spec verified: R23-11 (2026-10-12, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
@@ -3393,6 +3406,7 @@ class CIdentifierWithIndex(ARLiteral):
 
     # CIdentifierWithIndex method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.46, p.108
+    # Spec verified: R23-11 (2026-10-12, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
@@ -3419,6 +3433,7 @@ class StrongRevisionLabelString(ARLiteral):
 
     # StrongRevisionLabelString method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.64, p.114
+    # Spec verified: R23-11 (2026-10-14, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 

@@ -394,6 +394,7 @@ class SdgForeignReference(SdgAbstractForeignReference):
 
     # SdgForeignReference method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.34, p.102
+    # Spec verified: R23-11 (2026-10-12, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__  [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
 
@@ -408,6 +409,7 @@ class SdgForeignReferenceWithVariation(SdgAbstractForeignReference, AbstractVari
 
     # SdgForeignReferenceWithVariation method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.35, p.102
+    # Spec verified: R23-11 (2026-10-12, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__  [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
 

@@ -2176,6 +2176,7 @@ No deviations — the Table 6.2 attribute column is `-` (zero own attributes; co
 - `RegularExpression` (`M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes`)
 - `SymbolString` (`M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes`)
 - `McdIdentifier` (`M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes`)
+- `StrongRevisionLabelString` (`M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes`)
 - `BswEntryKindEnum` (`M2::AUTOSARTemplates::BswModuleTemplate::BswInterfaces`)
 - `BswCallType` (`M2::AUTOSARTemplates::BswModuleTemplate::BswInterfaces`)
 - `BswExecutionContext` (`M2::AUTOSARTemplates::BswModuleTemplate::BswInterfaces`)

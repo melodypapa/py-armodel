@@ -652,9 +652,9 @@ class TestPrimitiveIdentifier:
         (UriString, "https://example.com/resource", "https://example.com/resource"),
         (BaseTypeEncodingString, "PACKED", "PACKED"),
         (PositiveUnlimitedInteger, "1", 1.0),
-        (RevisionLabelString, "R23-11", "R23-11"),
+        (RevisionLabelString, "4.0.0", "4.0.0"),
         (SymbolString, "MySymbol", "MySymbol"),
-        (McdIdentifier, "MCD-1", "MCD-1"),
+        (McdIdentifier, "meas_1", "meas_1"),
     ],
 )
 def test_remaining_primitive_types_support_initialization_and_value_roundtrip(primitive_type, value, expected):
@@ -1313,9 +1313,14 @@ class TestCIdentifier:
         # Test get/set blueprint value
         assert c_id.getBlueprintValue() is None
 
-        result = c_id.setBlueprintValue("TestValue")
+        bp_value = String()
+        bp_value.setValue("TestValue")
+        result = c_id.setBlueprintValue(bp_value)
         assert result is c_id  # Verify method chaining
-        assert c_id.getBlueprintValue() == "TestValue"
+        assert c_id.getBlueprintValue() == bp_value
+
+        c_id.setBlueprintValue(None)
+        assert c_id.getBlueprintValue() == bp_value
 
     def test_name_pattern_methods(self):
         """
@@ -1326,9 +1331,14 @@ class TestCIdentifier:
         # Test get/set name pattern
         assert c_id.getNamePattern() is None
 
-        result = c_id.setNamePattern("TestPattern")
+        name_pattern = String()
+        name_pattern.setValue("TestPattern")
+        result = c_id.setNamePattern(name_pattern)
         assert result is c_id  # Verify method chaining
-        assert c_id.getNamePattern() == "TestPattern"
+        assert c_id.getNamePattern() == name_pattern
+
+        c_id.setNamePattern(None)
+        assert c_id.getNamePattern() == name_pattern
 
     def test_arnumerical_unsupported_type(self):
         """
@@ -1842,9 +1852,30 @@ class TestSymbolStringMembers:
 
         assert symbol.getNamePattern() is None
 
-        result = symbol.setNamePattern("TestPattern")
+        name_pattern = String()
+        name_pattern.setValue("TestPattern")
+        result = symbol.setNamePattern(name_pattern)
         assert result is symbol
-        assert symbol.getNamePattern() == "TestPattern"
+        assert symbol.getNamePattern() == name_pattern
+
+        symbol.setNamePattern(None)
+        assert symbol.getNamePattern() == name_pattern
+
+    def test_name_pattern_carries_spec_type(self):
+        """
+        Table 4.65 types namePattern as String, so the accessors must carry the String meta-class, not the raw str.
+        """
+        hints = typing.get_type_hints(SymbolString.getNamePattern)
+        assert hints.get("return") == typing.Optional[String]
+
+        hints = typing.get_type_hints(SymbolString.setNamePattern)
+        assert hints.get("value") == typing.Optional[String]
+        assert hints.get("return") is SymbolString
+
+        symbol = SymbolString()
+        symbol.setNamePattern(String().setValue("[A-Z]+"))
+
+        assert isinstance(symbol.getNamePattern(), String)
 
 
 class TestCategoryString:
@@ -1876,6 +1907,19 @@ class TestDateTime:
         obj = DateTime().setValue("2009-07-23T14:38:00+01:00")
         assert obj.getValue() == "2009-07-23T14:38:00+01:00"
 
+    @pytest.mark.parametrize("spec_example", ["2009-07-23", "2009-07-23T14:38:00+01:00", "2009-07-23T13:38:00Z"])
+    def test_spec_example_values_round_trip(self, spec_example):
+        """The three Examples listed in the Table 4.48 Note are all legal values."""
+        obj = DateTime()
+        result = obj.setValue(spec_example)
+        assert result is obj  # Verify method chaining
+        assert obj.getValue() == spec_example
+
+    def test_set_value_none_is_noop(self):
+        obj = DateTime().setValue("2009-07-23")
+        obj.setValue(None)
+        assert obj.getValue() == "2009-07-23"
+
 
 class TestDiagRequirementIdString:
     """
@@ -1889,6 +1933,19 @@ class TestDiagRequirementIdString:
 
     def test_set_value(self):
         obj = DiagRequirementIdString().setValue("REQ-0042")
+        assert obj.getValue() == "REQ-0042"
+
+    @pytest.mark.parametrize("pattern_value", ["REQ-0042", "Req_42", "A", "0", "_"])
+    def test_pattern_value_round_trip(self, pattern_value):
+        """Every value below satisfies the Table 4.49 Note pattern [0-9a-zA-Z_\\-]+."""
+        obj = DiagRequirementIdString()
+        result = obj.setValue(pattern_value)
+        assert result is obj  # Verify method chaining
+        assert obj.getValue() == pattern_value
+
+    def test_set_value_none_is_noop(self):
+        obj = DiagRequirementIdString().setValue("REQ-0042")
+        obj.setValue(None)
         assert obj.getValue() == "REQ-0042"
 
 
@@ -1906,6 +1963,19 @@ class TestIp4AddressString:
         obj = Ip4AddressString().setValue("255.255.255.255")
         assert obj.getValue() == "255.255.255.255"
 
+    @pytest.mark.parametrize("pattern_value", ["255.255.255.255", "0.0.0.0", "192.168.0.1", "10.0.0.1", "ANY"])
+    def test_pattern_value_round_trip(self, pattern_value):
+        """Every value below satisfies the Table 4.51 Note pattern (dotted quad or ANY)."""
+        obj = Ip4AddressString()
+        result = obj.setValue(pattern_value)
+        assert result is obj  # Verify method chaining
+        assert obj.getValue() == pattern_value
+
+    def test_set_value_none_is_noop(self):
+        obj = Ip4AddressString().setValue("255.255.255.255")
+        obj.setValue(None)
+        assert obj.getValue() == "255.255.255.255"
+
 
 class TestIp6AddressString:
     """
@@ -1921,6 +1991,78 @@ class TestIp6AddressString:
         obj = Ip6AddressString().setValue("FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF")
         assert obj.getValue() == "FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF"
 
+    @pytest.mark.parametrize(
+        "pattern_value",
+        [
+            "FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF",
+            "0:0:0:0:0:0:0:0",
+            "2001:db8:0:0:0:0:2:1",
+            "aBcD:0000:ffff:0000:0000:0000:0000:0001",
+            "ANY",
+        ],
+    )
+    def test_pattern_value_round_trip(self, pattern_value):
+        """Every value below satisfies the Table 4.52 Note pattern (eight hex groups or ANY).
+
+        The Note explicitly forbids duplicate-colon short-cuts such as ``::1``, so no such
+        value is used here even though a permissive parser would accept the string.
+        """
+        obj = Ip6AddressString()
+        result = obj.setValue(pattern_value)
+        assert result is obj  # Verify method chaining
+        assert obj.getValue() == pattern_value
+
+    def test_set_value_none_is_noop(self):
+        obj = Ip6AddressString().setValue("FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF")
+        obj.setValue(None)
+        assert obj.getValue() == "FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF"
+
+
+class TestMcdIdentifier:
+    """
+    Test class for McdIdentifier functionality (Table 4.54).
+    """
+
+    def test_initialization(self):
+        obj = McdIdentifier()
+        assert obj is not None
+        assert obj._value is None
+
+    def test_set_value(self):
+        obj = McdIdentifier().setValue("meas_1")
+        assert obj.getValue() == "meas_1"
+
+    @pytest.mark.parametrize(
+        "pattern_value",
+        [
+            "meas_1",
+            "my_identifier",
+            "_private",
+            "arr[10]",
+            "arr[idx]",
+            "obj.field.sub[3]",
+        ],
+    )
+    def test_pattern_value_round_trip(self, pattern_value):
+        """Every value below satisfies the Table 4.54 Note pattern.
+
+        The values are taken from the Note's own wording: letters/numerals/underscore,
+        an underscore as first character ("the first character shall be a letter or an
+        underscore"), brackets holding a number or an alpha-numerical string
+        ("description of the index of an array element"), and dotted sub-strings.
+        The hyphen is **not** in the pattern's character class, so no hyphenated value
+        is used here even though a permissive parser would accept the string.
+        """
+        obj = McdIdentifier()
+        result = obj.setValue(pattern_value)
+        assert result is obj  # Verify method chaining
+        assert obj.getValue() == pattern_value
+
+    def test_set_value_none_is_noop(self):
+        obj = McdIdentifier().setValue("meas_1")
+        obj.setValue(None)
+        assert obj.getValue() == "meas_1"
+
 
 class TestRegularExpression:
     """
@@ -1935,6 +2077,88 @@ class TestRegularExpression:
     def test_set_value(self):
         obj = RegularExpression().setValue("[0-9]+")
         assert obj.getValue() == "[0-9]+"
+
+    @pytest.mark.parametrize(
+        "value",
+        [
+            "[0-9]+",
+            "[a-z]*",
+            "[a-zA-Z_][a-zA-Z0-9_]*",
+            "critical|significant|minor|low",
+            "\\p{L}\\p{N}",
+            "(?:[a-z]{2,4}|[0-9]{3})-",
+        ],
+    )
+    def test_value_round_trip(self, value):
+        """
+        Table 4.60 carries no `xml.xsd.pattern` tag and `REGULAR-EXPRESSION--SIMPLE`
+        (AUTOSAR_00052.xsd l.141597) is a bare `xsd:string` restriction, so the values are
+        XML Schema regexes rather than pattern-facet-validated literals — no `re.fullmatch`
+        gate is possible here (unlike McdIdentifier / Ip6AddressString). They are drawn
+        from the real spec usages already carried by consumers: the PATTERN of
+        AbstractValueRestriction (Table 4.37) and the REGULAR-EXPRESSION of
+        EcucAbstractStringParamDef (XSD l.51146).
+        """
+        obj = RegularExpression()
+        assert obj.setValue(value) is obj
+        assert obj.getValue() == value
+
+    def test_set_value_none_is_noop(self):
+        obj = RegularExpression().setValue("[0-9]+")
+        obj.setValue(None)
+        assert obj.getValue() == "[0-9]+"
+
+
+class TestRevisionLabelString:
+    """
+    Test class for RevisionLabelString functionality (Table 4.61).
+    """
+
+    def test_initialization(self):
+        obj = RevisionLabelString()
+        assert obj is not None
+        assert obj._value is None
+
+    def test_set_value(self):
+        obj = RevisionLabelString().setValue("4.0.0")
+        assert obj.getValue() == "4.0.0"
+
+    @pytest.mark.parametrize(
+        "pattern_value",
+        [
+            "4.0.0",
+            "4.0.0.1234565",
+            "4.0.0_vendor specific;13",
+            "4.0.0;12",
+            "1.0.0",
+        ],
+    )
+    def test_pattern_value_round_trip(self, pattern_value):
+        """Every value below satisfies the Table 4.61 Note pattern.
+
+        The first four are the Note's own "Legal patterns are for example:" list verbatim.
+        Each is machine-validated against the XSD `REVISION-LABEL-STRING--SIMPLE` pattern
+        facet (AUTOSAR_00052.xsd l.141826) with `re.fullmatch`, the same technique used for
+        McdIdentifier / Ip6AddressString.
+
+        No two-component value such as `4.0` and no over-long dotted value such as
+        `4.0.0.1.2` is used: the Note states the three integers "represent from left to
+        right MajorVersion, MinorVersion, PatchVersion" and that the suffix "may add an
+        application specific suffix separated by one of ".", "_", ";"". A permissive
+        ARLiteral would still accept those strings, so the spec — not the parser — is the
+        contract; the reader leaf helper
+        `getChildElementOptionalRevisionLabelString` rejects them with a ValueError
+        (abstract_arxml_parser.py l.361), which is what makes the fixture choice real.
+        """
+        obj = RevisionLabelString()
+        result = obj.setValue(pattern_value)
+        assert result is obj  # Verify method chaining
+        assert obj.getValue() == pattern_value
+
+    def test_set_value_none_is_noop(self):
+        obj = RevisionLabelString().setValue("4.0.0")
+        obj.setValue(None)
+        assert obj.getValue() == "4.0.0"
 
 
 class TestDiagnosticOccurrenceCounterProcessingEnum:

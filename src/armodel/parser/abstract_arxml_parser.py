@@ -37,6 +37,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     RegularExpression,
     RevisionLabelString,
     String,
+    StrongRevisionLabelString,
     SymbolString,
     TimeValue,
     UnlimitedInteger,
@@ -315,7 +316,7 @@ class AbstractARXMLParser(ABC):
             self.readARType(child_element, symbol)
             name_pattern = child_element.attrib.get("NAME-PATTERN")
             if name_pattern is not None:
-                symbol.setNamePattern(name_pattern)
+                symbol.setNamePattern(String().setValue(name_pattern))
             symbol.setValue("" if child_element.text is None else child_element.text)
         return symbol
 
@@ -364,6 +365,19 @@ class AbstractARXMLParser(ABC):
             literal = RevisionLabelString()
             self.readARType(child_element, literal)
             # Patch for empty element <USED-CODE-GENERATOR></USED-CODE-GENERATOR>
+            if child_element.text is None:
+                literal.setValue("")
+            else:
+                literal.setValue(child_element.text)
+        return literal
+
+    def getChildElementOptionalStrongRevisionLabelString(self, element: ET.Element, key: str) -> Optional[StrongRevisionLabelString]:
+        child_element = self.find(element, key)
+        literal = None
+        if child_element is not None:
+            literal = StrongRevisionLabelString()
+            self.readARType(child_element, literal)
+            # Patch for empty element <VERSION></VERSION>
             if child_element.text is None:
                 literal.setValue("")
             else:

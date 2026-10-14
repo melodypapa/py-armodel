@@ -33,6 +33,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     RegularExpression,
     RevisionLabelString,
     String,
+    StrongRevisionLabelString,
     SymbolString,
     TimeValue,
     UnlimitedInteger,
@@ -157,6 +158,9 @@ class AbstractARXMLWriter(ABC):
     def setChildElementOptionalRevisionLabelString(self, element: ET.Element, key: str, literal: Optional[RevisionLabelString]):
         self.setChildElementOptionalLiteral(element, key, literal)
 
+    def setChildElementOptionalStrongRevisionLabelString(self, element: ET.Element, key: str, literal: Optional[StrongRevisionLabelString]):
+        self.setChildElementOptionalLiteral(element, key, literal)
+
     def setChildElementOptionalMacAddressString(self, element: ET.Element, key: str, literal: Optional[MacAddressString]):
         self.setChildElementOptionalLiteral(element, key, literal)
 
@@ -202,7 +206,7 @@ class AbstractARXMLWriter(ABC):
             self.writeARType(child_element, value)
             name_pattern = value.getNamePattern()
             if name_pattern is not None:
-                child_element.attrib["NAME-PATTERN"] = name_pattern
+                child_element.attrib["NAME-PATTERN"] = name_pattern.getValue()
             child_element.text = value.getText()
         return element
 
