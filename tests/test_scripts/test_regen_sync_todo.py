@@ -85,15 +85,20 @@ def test_resolve_row_reads_audit_only_flip_from_checklist_provenance():
     assert row["commit"] != "N/A"
 
 
-def test_resolve_row_prefers_sync_commit_over_checklist_provenance():
-    sync_commit = subprocess.run(["git", "rev-parse", "HEAD"], check=True, capture_output=True, text=True).stdout.strip()
-    provenance = subprocess.run(["git", "rev-parse", "HEAD~1"], check=True, capture_output=True, text=True).stdout.strip()
-    expected = subprocess.run(
-        ["git", "rev-parse", "--verify", "--quiet", "--short=10", f"{sync_commit}^{{commit}}"],
-        check=True,
-        capture_output=True,
-        text=True,
-    ).stdout.strip()
+def test_resolve_row_prefers_sync_commit_over_checklist_provenance(monkeypatch):
+    """`sync commit` outranks `checklist provenance` when a row carries both.
+
+    Hermetic on purpose: proving precedence needs two *distinct* hashes that both pass
+    `revparse_ok`, but the test must not depend on the checkout having history. CI clones
+    shallow (`actions/checkout` defaults to `fetch-depth: 1`), where `HEAD~1` does not
+    exist and a real-hash version of this test fails with
+    `git rev-parse HEAD~1` -> exit 128. The ordering is the whole subject here, so `HEAD`
+    provenance is stubbed instead; the real-hash path stays covered by the two tests above.
+    """
+    sync_commit = "a" * 40
+    provenance = "b" * 40
+    monkeypatch.setattr(MODULE, "revparse_ok", lambda tok: tok in {sync_commit, provenance})
+    monkeypatch.setattr(MODULE, "short_commit", lambda tok: tok)
 
     row = MODULE.resolve_row(
         "Group29",
@@ -109,7 +114,55 @@ def test_resolve_row_prefers_sync_commit_over_checklist_provenance():
         {"SharedClass": {"Group29"}},
     )
 
-    assert row["commit"] == expected
+    assert row["commit"] == sync_commit
+
+
+def test_resolve_row_prefers_stamp_commit_over_sync_commit(monkeypatch):
+    """`stamp commit` outranks `sync commit` — the first entry in resolve_row's tier order."""
+    stamp_commit = "c" * 40
+    sync_commit = "d" * 40
+    monkeypatch.setattr(MODULE, "revparse_ok", lambda tok: tok in {stamp_commit, sync_commit})
+    monkeypatch.setattr(MODULE, "short_commit", lambda tok: tok)
+
+    row = MODULE.resolve_row(
+        "Group29",
+        "SharedClass",
+        "x",
+        "- [x] `SharedClass` — AREnum — R23-11 Table 7.32, p.562",
+        f"  - note: stamp commit {stamp_commit}\n  - note: sync commit {sync_commit}",
+        {"SharedClass"},
+        set(),
+        set(),
+        {},
+        {},
+        {"SharedClass": {"Group29"}},
+    )
+
+    assert row["commit"] == stamp_commit
+
+
+def test_resolve_row_falls_through_to_next_tier_when_previous_hash_does_not_resolve(monkeypatch):
+    """A higher-tier hash that no longer resolves must not shadow a lower-tier real one."""
+    stale = "e" * 40
+    provenance = "f" * 40
+    monkeypatch.setattr(MODULE, "revparse_ok", lambda tok: tok == provenance)
+    monkeypatch.setattr(MODULE, "short_commit", lambda tok: tok)
+
+    row = MODULE.resolve_row(
+        "Group29",
+        "SharedClass",
+        "x",
+        "- [x] `SharedClass` — AREnum — R23-11 Table 7.32, p.562",
+        f"  - note: sync commit {stale}\n  - note: checklist provenance `{provenance}`",
+        {"SharedClass"},
+        set(),
+        set(),
+        {},
+        {},
+        {"SharedClass": {"Group29"}},
+    )
+
+    assert row["commit"] == provenance
 
 
 def test_main_uses_utf8_for_all_sync_file_reads_and_writes(tmp_path, monkeypatch):
