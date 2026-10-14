@@ -39,10 +39,13 @@ class TestParserPatternIntegration:
     def test_bad_value_warns_with_warning_option(self, tmp_path, caplog):
         xml_text, filename = _build_arxml_with_type(tmp_path, "U8")
         bad_text = xml_text.replace("<TYPE>U8</TYPE>", "<TYPE>9BAD</TYPE>")
+        assert bad_text != xml_text
         with open(filename, "w") as handle:
             handle.write(bad_text)
         AUTOSAR.getInstance().new()
         parser = ARXMLParser(options={"validate": False, "warning": True})
         with caplog.at_level(logging.WARNING, logger="armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes"):
             parser.load(filename, AUTOSAR.getInstance())
-        assert any("9BAD" in record.message for record in caplog.records)
+        assert any("9BAD" in record.message and "pim.arxml" in record.message for record in caplog.records)
+        memory = AUTOSAR.getInstance().getARPackages()[0].getAtomicSwComponentTypes()[0].getInternalBehavior().getPerInstanceMemories()[0]
+        assert memory.getType().getValue() == "9BAD"
