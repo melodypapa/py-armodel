@@ -206,7 +206,7 @@ class AbstractARXMLWriter(ABC):
             self.writeARType(child_element, value)
             name_pattern = value.getNamePattern()
             if name_pattern is not None:
-                child_element.attrib["NAME-PATTERN"] = name_pattern
+                child_element.attrib["NAME-PATTERN"] = name_pattern.getValue()
             child_element.text = value.getText()
         return element
 

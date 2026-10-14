@@ -16,6 +16,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     McdIdentifier,
     RegularExpression,
     RevisionLabelString,
+    String,
     StrongRevisionLabelString,
     SymbolString,
 )
@@ -68,7 +69,7 @@ class TestSymbolStringLeaf:
     def test_writes_concrete_type_name_pattern_and_t(self):
         value = SymbolString()
         value.setValue("Sym")
-        value.setNamePattern("[A-Z]+")
+        value.setNamePattern(String().setValue("[A-Z]+"))
         value.timestamp = "2023-07-07T00:00:00Z"
 
         element = ET.Element("ROOT")
@@ -79,6 +80,17 @@ class TestSymbolStringLeaf:
         assert written.text == "Sym"
         assert written.attrib["NAME-PATTERN"] == "[A-Z]+"
         assert written.attrib["T"] == "2023-07-07T00:00:00Z"
+
+    def test_name_pattern_absent_emits_no_attribute(self):
+        value = SymbolString()
+        value.setValue("Sym")
+
+        element = ET.Element("ROOT")
+        ARXMLWriter().setChildElementOptionalSymbolString(element, "SYMBOL", value)
+
+        written = element.find("SYMBOL")
+        assert written is not None
+        assert "NAME-PATTERN" not in written.attrib
 
     def test_none_emits_nothing(self):
         element = ET.Element("ROOT")

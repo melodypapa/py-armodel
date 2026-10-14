@@ -3166,43 +3166,103 @@ pending that confirmation.
       `SdgClass.sdgConstraint`, `SdgAbstractForeignReference.destMetaClass` and
       `FullBindingTimeEnum` in this file.
     - note: sync commit recorded on the row header.
-- [ ] `SymbolString` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.65, p.114
+- [x] `SymbolString` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.65, p.114
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
   - [x] Step 1 — Sync members & description from spec
-    - note (Step 1): Table 4.65 (trailing-caption render, p.114 via pdf_page.py); Package
-      M2::...::GeneralTemplateClasses::PrimitiveTypes; class Note verbatim in docstring +
-      Tags; table kind Primitive (no Base row) → ARLiteral kept; attrs blueprintValue
-      (String, attr, xml.attribute) and namePattern (String, attr, xml.attribute).
+    - note (Step 1, corrected 2026-10-14 by Rule 0026 re-audit): Table 4.65 (trailing-caption
+      render, p.114 via pdf_page.py); Package M2::...::GeneralTemplateClasses::PrimitiveTypes;
+      class Note verbatim in docstring + Tags; table kind Primitive (no Base row) → ARLiteral
+      kept. The table carries exactly ONE attribute row: `namePattern` (String, Mult 1, attr).
+      The original note on this row also listed `blueprintValue` — **there is no
+      blueprintValue row in Table 4.65** (that attribute belongs to Identifier Table 4.5,
+      CIdentifier Table 4.45, VerbatimString Table 4.67; the XSD attributeGroup
+      SYMBOL-STRING, AUTOSAR_00052.xsd l.118698, holds NAME-PATTERN only). Retracted — the
+      class never modeled it; only the note was wrong.
   - [x] Step 2 — Write model class unit test (Red)
-    - note (Step 2): TestSymbolStringMembers added to test_PrimitiveTypes.py (init
-      defaults + get/setBlueprintValue + get/setNamePattern chaining) — seen Red 3 failed
-      before implementation (value round-trip test pre-existed).
+    - note (Step 2, corrected 2026-10-14): TestSymbolStringMembers in test_PrimitiveTypes.py
+      — init defaults + get/setNamePattern round-trip incl. None no-op, plus
+      `test_name_pattern_carries_spec_type` asserting via `typing.get_type_hints` that the
+      accessors carry `Optional[String]` (the repo's annotation-level pin pattern, as in
+      test_Identifiable.py / test_ArObject.py). The original note claimed a
+      get/setBlueprintValue pair — no such pair exists or is needed. 2026-10-14 re-run seen
+      genuine Red on the type assertion (`Optional[str]` vs `Optional[String]`) — note that a
+      value-only test does NOT go Red here, since Python does not enforce annotations at
+      runtime; the drift is only observable through `get_type_hints` or the writer.
   - [x] Step 3 — Implement model class (Green)
-    - note (Step 3): blueprintValue/namePattern added as Optional[str] PEP 526 members
-      under their Note comments (blank line between blocks); matched get/set pairs with
-      chaining, mirroring the stamped CIdentifier/Identifier shape; Green 127 passed.
+    - note (Step 3, corrected 2026-10-14): `namePattern` is a single PEP 526 member under its
+      Note comment with the matched get/set pair and chaining, mirroring the stamped
+      CIdentifier/Identifier shape. The original note recorded the member as `Optional[str]`
+      — that was a Rule 0001.3 type drift against the PDF Type column's `String`, corrected
+      to `Optional[String]` in field, getter return and setter parameter; the setter also
+      gained the `-> "SymbolString"` return annotation its Identifier/CIdentifier siblings
+      carry (it previously had none).
   - [x] Step 4 — Sync docstrings (wipe + rewrite)
-    - note (Step 4): class docstring = Table 4.65 Note verbatim + Tags block; member
-      inline comments + getter/setter docstrings = table attr Notes verbatim; __init__
-      has no docstring.
+    - note (Step 4, re-verified 2026-10-14): class docstring = Table 4.65 Note verbatim +
+      Tags block; member inline comments + getter/setter docstrings = the namePattern row
+      Note verbatim incl. the `Tags: xml.attribute=true` tail at every level; __init__ has no
+      docstring. Verified by mechanical diff (0 deltas) — no wipe/rewrite needed.
   - [x] Step 5 — Write reader/writer round-trip test (Red)
-    - note (Steps 5/6): N/A — no own XML element; the value serializes as the
-      SYMBOL-STRING literal on consuming elements (enum/literal adaptation, Rules
-      0010-0011); [—] reader/writer.
+    - note (Step 5, corrected 2026-10-14): NOT N/A — the original note claimed no reader/writer
+      coverage. NAME-PATTERN is an XSD **attribute** on the SYMBOL-STRING complexType
+      (`xml.attribute="true"`), so it rides the matched Rule 0013.2 leaf pair
+      getChildElementOptionalSymbolString / setChildElementOptionalSymbolString in
+      abstract_arxml_parser.py / abstract_arxml_writer.py. Tests: parser
+      TestSymbolStringLeaf (typed read + absent-NAME-PATTERN → member unset + missing → None)
+      and writer TestSymbolStringLeaf (typed write + absent → no attribute emitted + None →
+      nothing), both in the tests/test_armodel/{parser,writer}/test_primitive_leaf_helpers.py
+      leaf-helper suites. 2026-10-14 re-run seen genuine Red in BOTH directions.
   - [x] Step 6 — Update parser & writer (Green)
-    - note (Steps 5/6): N/A — see Step 5.
+    - note (Step 6, corrected 2026-10-14): both sides of the leaf pair fixed. Reader now
+      builds `String().setValue(name_pattern)`; writer now emits
+      `name_pattern.getValue()`. This also closed a latent XSD-invalid serialization bug —
+      the writer previously assigned the value straight into `attrib["NAME-PATTERN"]`, which
+      would have written a `String` **object** into an XML attribute once the field was
+      spec-typed. Matches the existing attribute-form `BLUEPRINT-VALUE` precedent
+      (arxml_writer.py writeLLongName / arxml_parser.py readLLongName).
   - [x] Step 7 — Update checklist comment
-    - note (Step 7): 6-column block with release column written; `# Spec:
+    - note (Step 7, corrected 2026-10-14): 6-column block with release column; `# Spec:
       AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.65, p.114`; marker withheld
-      (batch mode — stamp deferred to batch confirmation).
+      pending 9b. The reader/writer columns were corrected in this pass — the original block
+      marked all three rows `[—]` reader AND `[—]` writer, understating real coverage; now
+      `setNamePattern` carries `reader [x]` and `getNamePattern` `writer [x]` (Rule 0002:
+      reader [x] on the mutator row, writer [x] on the getter row). audit BLOCK/ROWS clean.
   - [x] Step 8 — Deviations
-    - note (Step 8): namePattern table Mult=1 vs XSD attribute optional → Optional[str]
-      kept (attribute-form serialization, matches stamped Identifier/CIdentifier
-      treatment); blueprintValue atp.Status=draft accepted as-is. No other deviations;
-      no missing referenced classes.
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (127 passed / 0 failed
-    test_PrimitiveTypes.py; lint/black clean on touched file); 9b deferred to batch
-    confirmation (user instruction)
+    - note (Step 8, corrected 2026-10-14): no deviations — tracker gains a "No deviations"
+      entry plus the Rule 0026 re-audit note in docs/examples/method_deviation_by_class.md.
+      The original note here rationalized keeping `Optional[str]` as "matching stamped
+      Identifier/CIdentifier treatment" — **that rationale was false**: both siblings type
+      the identical attribute `Optional[String]`, so SymbolString was the odd one out. And
+      its "blueprintValue atp.Status=draft accepted as-is" clause described a row that does
+      not exist in this table. All findings were to-fix items (type drift, writer bug,
+      checklist columns, stale notes) and are now resolved; no deviation row is opened. No
+      Rule 0001.10 missing member types (`String` stamped, Table 4.63, p.113); no integration
+      fixture carries SYMBOL-STRING.
+    - note (Rule 0003 module follow-up, 2026-10-14): `PrimitiveTypes.py` lacked
+      `from __future__ import annotations`, so its 9 self-returning setters needed quoted
+      forward references — the quotes were load-bearing, not a violation. Future import
+      added and all 9 unquoted (`Identifier`/`CIdentifier` setBlueprintValue+setNamePattern,
+      `Limit.setIntervalType`, `Ref` setBase/setBlueprintValue/setIndex, and this class's
+      `setNamePattern`), so `setNamePattern` is now `-> SymbolString` bare. All affected
+      `get_type_hints(...)['return']` still resolve to the concrete class; the module has no
+      `TYPE_CHECKING` block so every annotated name is a runtime global (Rule 0003, bpo-39291).
+      Full suite 26245 passed / 0 failed; ruff clean; mypy at the 13 pre-existing baseline
+      errors; audit PASS. AST survey repo-wide: 1045 quoted annotations in 94 files, **0 in
+      modules carrying the future import** — no Rule 0003 quote violation remains anywhere in
+      src/armodel. The other 1045 need the future import added first and are a separate staged
+      mechanical pass (largest: data_models/ecuc/os.py 90, AdaptivePlatform Firewall 72,
+      MSR Documentation/BlockElements/Figure.py 51) — out of scope for this row; planned in
+      docs/plan/rule-0003-unquote-annotations.md (which also records a live pre-existing
+      `get_type_hints` NameError in transformer/abstract.py found during the survey).
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-14 (26245 passed / 0 failed:
+    full suite incl. integration round-trips; ruff clean; black clean on all 6 touched files;
+    mypy at the 13 pre-existing baseline errors in connector_xlsx_parser/excel_parser/os_export,
+    verified identical with changes stashed; member-annotation gate 3 passed; audit_class.py
+    PASS incl. STAMP). 9b confirmed by user 2026-10-14 — full pre-stamp checklist reviewed and
+    passed; `# Spec verified: R23-11 (2026-10-14, user 9b confirmation)` written. Genuine
+    Red→Green pairs this pass: model Red on the `get_type_hints` type pin (`Optional[str]` vs
+    `Optional[String]`) — a value-only test does NOT go Red here since Python does not enforce
+    annotations at runtime; reader/writer Red in both directions (parser returned a raw str,
+    writer assigned a `String` object straight into `Element.attrib`).
 - [ ] `UriString` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.66, p.114
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
   - [x] Step 1 — Sync members & description from spec

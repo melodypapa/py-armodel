@@ -316,7 +316,7 @@ class AbstractARXMLParser(ABC):
             self.readARType(child_element, symbol)
             name_pattern = child_element.attrib.get("NAME-PATTERN")
             if name_pattern is not None:
-                symbol.setNamePattern(name_pattern)
+                symbol.setNamePattern(String().setValue(name_pattern))
             symbol.setValue("" if child_element.text is None else child_element.text)
         return symbol
 

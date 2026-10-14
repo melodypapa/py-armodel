@@ -19,6 +19,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     McdIdentifier,
     RegularExpression,
     RevisionLabelString,
+    String,
     StrongRevisionLabelString,
     SymbolString,
 )
@@ -67,8 +68,17 @@ class TestSymbolStringLeaf:
 
         assert isinstance(value, SymbolString)
         assert value.getValue() == "Sym"
-        assert value.getNamePattern() == "[A-Z]+"
+        assert isinstance(value.getNamePattern(), String)
+        assert value.getNamePattern().getValue() == "[A-Z]+"
         assert value.timestamp == "2023-07-07T00:00:00Z"
+
+    def test_absent_name_pattern_leaves_the_member_unset(self):
+        element = ET.fromstring(f"<ROOT xmlns='{NS}'><SYMBOL>Sym</SYMBOL></ROOT>")
+
+        value = ARXMLParser().getChildElementOptionalSymbolString(element, "SYMBOL")
+
+        assert value is not None
+        assert value.getNamePattern() is None
 
     def test_missing_returns_none(self):
         element = ET.fromstring(f"<ROOT xmlns='{NS}'/>")

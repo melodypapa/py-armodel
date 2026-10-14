@@ -1852,9 +1852,30 @@ class TestSymbolStringMembers:
 
         assert symbol.getNamePattern() is None
 
-        result = symbol.setNamePattern("TestPattern")
+        name_pattern = String()
+        name_pattern.setValue("TestPattern")
+        result = symbol.setNamePattern(name_pattern)
         assert result is symbol
-        assert symbol.getNamePattern() == "TestPattern"
+        assert symbol.getNamePattern() == name_pattern
+
+        symbol.setNamePattern(None)
+        assert symbol.getNamePattern() == name_pattern
+
+    def test_name_pattern_carries_spec_type(self):
+        """
+        Table 4.65 types namePattern as String, so the accessors must carry the String meta-class, not the raw str.
+        """
+        hints = typing.get_type_hints(SymbolString.getNamePattern)
+        assert hints.get("return") == typing.Optional[String]
+
+        hints = typing.get_type_hints(SymbolString.setNamePattern)
+        assert hints.get("value") == typing.Optional[String]
+        assert hints.get("return") is SymbolString
+
+        symbol = SymbolString()
+        symbol.setNamePattern(String().setValue("[A-Z]+"))
+
+        assert isinstance(symbol.getNamePattern(), String)
 
 
 class TestCategoryString:

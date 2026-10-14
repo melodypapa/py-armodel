@@ -3,6 +3,8 @@ This module contains primitive type classes for AUTOSAR models
 in the GenericStructure module.
 """
 
+from __future__ import annotations
+
 from abc import ABC
 import re
 from typing import List, Optional, Sequence, Union
@@ -770,7 +772,7 @@ class Identifier(ARLiteral):
         """
         return self.blueprintValue
 
-    def setBlueprintValue(self, value: Optional[String]) -> "Identifier":
+    def setBlueprintValue(self, value: Optional[String]) -> Identifier:
         """
         This represents a description that documents how the value shall be defined when deriving objects from the blueprint. Tags: atp.Status=draft xml.attribute=true
 
@@ -792,7 +794,7 @@ class Identifier(ARLiteral):
         """
         return self.namePattern
 
-    def setNamePattern(self, value: Optional[String]) -> "Identifier":
+    def setNamePattern(self, value: Optional[String]) -> Identifier:
         """
         This attribute represents a pattern which shall be used to define the value of the identifier if the identifier in question is part of a blueprint. For more details refer to TPS_StandardizationTemplate. Tags: xml.attribute=true
 
@@ -842,7 +844,7 @@ class CIdentifier(ARLiteral):
         """
         return self.blueprintValue
 
-    def setBlueprintValue(self, value: Optional[String]) -> "CIdentifier":
+    def setBlueprintValue(self, value: Optional[String]) -> CIdentifier:
         """
         This represents a description that documents how the value shall be defined when deriving objects from the blueprint. Tags: atp.Status=draft xml.attribute=true
 
@@ -858,7 +860,7 @@ class CIdentifier(ARLiteral):
         """
         return self.namePattern
 
-    def setNamePattern(self, value: Optional[String]) -> "CIdentifier":
+    def setNamePattern(self, value: Optional[String]) -> CIdentifier:
         """
         This attribute represents a pattern which shall be used to define the value of the identifier if the CIdentifier in question is part of a blueprint. For more details refer to TPS_StandardizationTemplate. Tags: xml.attribute=true
 
@@ -968,7 +970,7 @@ class Limit(ARLiteral):
         """
         return self.intervalType
 
-    def setIntervalType(self, value: Optional[IntervalTypeEnum]) -> "Limit":
+    def setIntervalType(self, value: Optional[IntervalTypeEnum]) -> Limit:
         """
         This specifies the type of the interval. If the attribute is missing the interval shall be considered as "CLOSED".
 
@@ -1024,7 +1026,7 @@ class Ref(ARLiteral):
         """This attribute reflects the base to be used for this reference."""
         return self.base
 
-    def setBase(self, value: Optional[Identifier]) -> "Ref":
+    def setBase(self, value: Optional[Identifier]) -> Ref:
         """This attribute reflects the base to be used for this reference. A None value is a no-op and does not overwrite an existing base."""
         if value is not None:
             self.base = value
@@ -1034,7 +1036,7 @@ class Ref(ARLiteral):
         """This represents a description that documents how the value shall be defined when deriving objects from the blueprint. Tags: atp.Status=draft xml.attribute=true"""
         return self.blueprintValue
 
-    def setBlueprintValue(self, value: Optional[String]) -> "Ref":
+    def setBlueprintValue(self, value: Optional[String]) -> Ref:
         """This represents a description that documents how the value shall be defined when deriving objects from the blueprint. Tags: atp.Status=draft xml.attribute=true A None value is a no-op and does not overwrite an existing blueprintValue."""
         if value is not None:
             self.blueprintValue = value
@@ -1044,7 +1046,7 @@ class Ref(ARLiteral):
         """This attribute supports the use case to point on specific elements in an array. This is in particular required if arrays are used to implement particular data objects. The counting of array indices starts with the value 0, i.e. the index of the first array element is 0."""
         return self.index
 
-    def setIndex(self, value: Optional[PositiveInteger]) -> "Ref":
+    def setIndex(self, value: Optional[PositiveInteger]) -> Ref:
         """This attribute supports the use case to point on specific elements in an array. This is in particular required if arrays are used to implement particular data objects. The counting of array indices starts with the value 0, i.e. the index of the first array element is 0. A None value is a no-op and does not overwrite an existing index."""
         if value is not None:
             self.index = value
@@ -1538,24 +1540,25 @@ class SymbolString(ARLiteral):
 
     # SymbolString method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.65, p.114
+    # Spec verified: R23-11 (2026-10-14, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getNamePattern      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] setNamePattern      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getNamePattern      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNamePattern      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
         # This attribute represents a pattern which shall be used to define the value of the identifier if the CIdentifier in question is part of a blueprint. For more details refer to TPS_StandardizationTemplate. Tags: xml.attribute=true
-        self.namePattern: Optional[str] = None
+        self.namePattern: Optional[String] = None
 
-    def getNamePattern(self) -> Optional[str]:
+    def getNamePattern(self) -> Optional[String]:
         """
         This attribute represents a pattern which shall be used to define the value of the identifier if the CIdentifier in question is part of a blueprint. For more details refer to TPS_StandardizationTemplate. Tags: xml.attribute=true
         """
         return self.namePattern
 
-    def setNamePattern(self, value: Optional[str]):
+    def setNamePattern(self, value: Optional[String]) -> SymbolString:
         """
         This attribute represents a pattern which shall be used to define the value of the identifier if the CIdentifier in question is part of a blueprint. For more details refer to TPS_StandardizationTemplate. Tags: xml.attribute=true
 
