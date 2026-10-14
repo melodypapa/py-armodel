@@ -30,12 +30,12 @@ NS = "http://autosar.org/schema/r4.0"
 
 class TestCategoryStringLeaf:
     def test_reads_concrete_type_and_t(self):
-        element = ET.fromstring(f"<ROOT xmlns='{NS}'><CATEGORY T='2023-05-05T00:00:00Z'>SW-COMPONENT-TYPE</CATEGORY></ROOT>")
+        element = ET.fromstring(f"<ROOT xmlns='{NS}'><CATEGORY T='2023-05-05T00:00:00Z'>SW_COMPONENT_TYPE</CATEGORY></ROOT>")
 
         value = ARXMLParser().getChildElementOptionalCategoryString(element, "CATEGORY")
 
         assert isinstance(value, CategoryString)
-        assert value.getValue() == "SW-COMPONENT-TYPE"
+        assert value.getValue() == "SW_COMPONENT_TYPE"
         assert value.timestamp == "2023-05-05T00:00:00Z"
 
     def test_missing_returns_none(self):

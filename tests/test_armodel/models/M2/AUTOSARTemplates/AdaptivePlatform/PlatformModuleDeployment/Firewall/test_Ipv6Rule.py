@@ -69,14 +69,14 @@ class TestIpv6Rule:
 
     def test_get_set_round_trip_and_none_noop(self):
         obj = Ipv6Rule()
-        destination_ip_address = _ip6_address("2001:db8::1")
-        destination_network_mask = _ip6_address("ffff:ffff:ffff::")
+        destination_ip_address = _ip6_address("2001:db8:0:0:0:0:0:1")
+        destination_network_mask = _ip6_address("ffff:ffff:ffff:0:0:0:0:0")
         flow_label = _pos_int(1048576)
         hop_limit = _pos_int(64)
         icmp_rule = IcmpRule()
         next_header = _pos_int(58)
-        source_ip_address = _ip6_address("fe80::1")
-        source_network_mask = _ip6_address("ffff::")
+        source_ip_address = _ip6_address("fe80:0:0:0:0:0:0:1")
+        source_network_mask = _ip6_address("ffff:0:0:0:0:0:0:0")
         traffic_class = _pos_int(46)
 
         assert obj.setDestinationIpAddress(destination_ip_address) is obj

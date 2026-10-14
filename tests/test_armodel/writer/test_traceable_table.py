@@ -21,7 +21,7 @@ class TestTraceableTable:
         traceable_table.setTimestamp(String().setValue("timestamp"))
         traceable_table.setUuid(String().setValue("uuid-tt-1"))
         traceable_table.setSi(NameTokens().setValue("semantic"))
-        traceable_table.setView(ViewTokens().setValue("view-a view-b"))
+        traceable_table.setView(ViewTokens().setValue("view_a view_b"))
         traceable_table.setBreak(ChapterEnumBreak().setValue(ChapterEnumBreak.BREAK))
         traceable_table.setKeepWithPrevious(KeepWithPreviousEnum().setValue(KeepWithPreviousEnum.KEEP))
         trace_ref = RefType()
@@ -41,7 +41,7 @@ class TestTraceableTable:
         assert element.attrib["T"] == "timestamp"
         assert element.attrib["UUID"] == "uuid-tt-1"
         assert element.attrib["SI"] == "semantic"
-        assert element.attrib["VIEW"] == "view-a view-b"
+        assert element.attrib["VIEW"] == "view_a view_b"
         assert element.attrib["BREAK"] == "BREAK"
         assert element.attrib["KEEP-WITH-PREVIOUS"] == "KEEP"
         assert element.find("SHORT-NAME").text == "tt"
@@ -67,7 +67,7 @@ class TestTraceableTable:
     def test_write_then_read_roundtrip(self):
         traceable_table = TraceableTable(None, "tt")
         traceable_table.setSi(NameTokens().setValue("semantic"))
-        traceable_table.setView(ViewTokens().setValue("view-a"))
+        traceable_table.setView(ViewTokens().setValue("view_a"))
         traceable_table.setBreak(ChapterEnumBreak().setValue(ChapterEnumBreak.NO_BREAK))
         traceable_table.setKeepWithPrevious(KeepWithPreviousEnum().setValue(KeepWithPreviousEnum.NO_KEEP))
         trace_ref = RefType()
@@ -86,7 +86,7 @@ class TestTraceableTable:
         ARXMLParser().readTraceableTable(reparsed_element, reparsed)
 
         assert reparsed.getSi().getValue() == "semantic"
-        assert reparsed.getView().getValue() == "view-a"
+        assert reparsed.getView().getValue() == "view_a"
         assert reparsed.getBreak().getValue() == "NO-BREAK"
         assert reparsed.getKeepWithPrevious().getValue() == "NO-KEEP"
         assert reparsed.getTraceRefs()[0].getValue() == "/pkg/req2"

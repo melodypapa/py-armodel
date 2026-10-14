@@ -10,7 +10,7 @@ class TestMsrQueryChapterParser:
         parser = ARXMLParser()
         element = ET.fromstring(
             '<PARENT xmlns="http://autosar.org/schema/r4.0">'
-            '<MSR-QUERY-CHAPTER S="checksum" T="timestamp" SI="si-tokens" VIEW="view-tokens"'
+            '<MSR-QUERY-CHAPTER S="checksum" T="2024-01-01" SI="si-tokens" VIEW="view_tokens"'
             ' BREAK="BREAK" KEEP-WITH-PREVIOUS="KEEP">'
             "<MSR-QUERY-PROPS><MSR-QUERY-NAME>query-1</MSR-QUERY-NAME></MSR-QUERY-PROPS>"
             "<MSR-QUERY-RESULT-CHAPTER>"
@@ -23,9 +23,9 @@ class TestMsrQueryChapterParser:
         msr_query_chapter = parser.readMsrQueryChapter(chapter_element, None)
 
         assert msr_query_chapter.getChecksum().getValue() == "checksum"
-        assert msr_query_chapter.getTimestamp().getValue() == "timestamp"
+        assert msr_query_chapter.getTimestamp().getValue() == "2024-01-01"
         assert msr_query_chapter.getSi().getValue() == "si-tokens"
-        assert msr_query_chapter.getView().getValue() == "view-tokens"
+        assert msr_query_chapter.getView().getValue() == "view_tokens"
         assert msr_query_chapter.getBreak().getValue() == "BREAK"
         assert msr_query_chapter.getKeepWithPrevious().getValue() == "KEEP"
         props = msr_query_chapter.getMsrQueryProps()

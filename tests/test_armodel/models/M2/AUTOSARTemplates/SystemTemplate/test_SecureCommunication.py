@@ -367,13 +367,13 @@ class Test_MacSecLocalKayProps:
 
     def test_get_set_destination_mac_address(self):
         props = MacSecLocalKayProps()
-        result = props.setDestinationMacAddress(_mac("00-11-22-33-44-55"))
+        result = props.setDestinationMacAddress(_mac("00:11:22:33:44:55"))
 
         assert result is props
-        assert props.getDestinationMacAddress().getValue() == "00-11-22-33-44-55"
+        assert props.getDestinationMacAddress().getValue() == "00:11:22:33:44:55"
 
-        props.setDestinationMacAddress(_mac("66-77-88-99-AA-BB"))
-        assert props.getDestinationMacAddress().getValue() == "66-77-88-99-AA-BB"
+        props.setDestinationMacAddress(_mac("66:77:88:99:AA:BB"))
+        assert props.getDestinationMacAddress().getValue() == "66:77:88:99:AA:BB"
 
     def test_get_set_global_kay_props_ref(self):
         props = MacSecLocalKayProps()
@@ -425,23 +425,23 @@ class Test_MacSecLocalKayProps:
 
     def test_get_set_source_mac_address(self):
         props = MacSecLocalKayProps()
-        result = props.setSourceMacAddress(_mac("AA-BB-CC-DD-EE-FF"))
+        result = props.setSourceMacAddress(_mac("AA:BB:CC:DD:EE:FF"))
 
         assert result is props
-        assert props.getSourceMacAddress().getValue() == "AA-BB-CC-DD-EE-FF"
+        assert props.getSourceMacAddress().getValue() == "AA:BB:CC:DD:EE:FF"
 
-        props.setSourceMacAddress(_mac("11-22-33-44-55-66"))
-        assert props.getSourceMacAddress().getValue() == "11-22-33-44-55-66"
+        props.setSourceMacAddress(_mac("11:22:33:44:55:66"))
+        assert props.getSourceMacAddress().getValue() == "11:22:33:44:55:66"
 
     def test_none_is_noop(self):
         props = MacSecLocalKayProps()
-        destination = _mac("00-11-22-33-44-55")
+        destination = _mac("00:11:22:33:44:55")
         global_ref = _ref("/Sec/MacSecGlobalKay")
         priority = _pos_int("16")
         mka_ref = _ref("/Sec/MkaParticipant1")
         role = MacSecRoleEnum()
         role.setValue(MacSecRoleEnum.KEY_SERVER)
-        source = _mac("AA-BB-CC-DD-EE-FF")
+        source = _mac("AA:BB:CC:DD:EE:FF")
         props.setDestinationMacAddress(destination)
         props.setGlobalKayPropsRef(global_ref)
         props.setKeyServerPriority(priority)

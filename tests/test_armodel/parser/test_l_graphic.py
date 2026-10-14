@@ -10,7 +10,7 @@ class TestLGraphicParser:
         parser = ARXMLParser()
         element = ET.fromstring(
             '<PARENT xmlns="http://autosar.org/schema/r4.0">'
-            '<L-GRAPHIC S="checksum" T="timestamp" L="en">'
+            '<L-GRAPHIC S="checksum" T="2024-01-01" L="en">'
             '<GRAPHIC FILENAME="image.png"/>'
             '<MAP NAME="map1"><AREA SHAPE="RECT" COORDS="0,0,10,10"/></MAP>'
             "</L-GRAPHIC></PARENT>"
@@ -19,7 +19,7 @@ class TestLGraphicParser:
         l_graphic = parser.getLGraphic(element, "L-GRAPHIC")
 
         assert l_graphic.getChecksum().getValue() == "checksum"
-        assert l_graphic.getTimestamp().getValue() == "timestamp"
+        assert l_graphic.getTimestamp().getValue() == "2024-01-01"
         assert l_graphic.getL() == "en"
         assert l_graphic.getGraphic().getFilename().getValue() == "image.png"
         assert l_graphic.getMap().getName().getValue() == "map1"

@@ -10,7 +10,7 @@ class TestMapParser:
         parser = ARXMLParser()
         element = ET.fromstring(
             '<PARENT xmlns="http://autosar.org/schema/r4.0">'
-            '<MAP S="checksum" T="timestamp" CLASS="c1 c2" NAME="map1" ONCLICK="click()" ONDBLCLICK="dblclick()"'
+            '<MAP S="checksum" T="2024-01-01" CLASS="c1 c2" NAME="map1" ONCLICK="click()" ONDBLCLICK="dblclick()"'
             ' ONKEYDOWN="keydown()" ONKEYPRESS="keypress()" ONKEYUP="keyup()" ONMOUSEDOWN="mousedown()"'
             ' ONMOUSEMOVE="mousemove()" ONMOUSEOUT="mouseout()" ONMOUSEOVER="mouseover()" ONMOUSEUP="mouseup()"'
             ' TITLE="map title">'
@@ -22,7 +22,7 @@ class TestMapParser:
         map_obj = parser.getMap(element, "MAP")
 
         assert map_obj.getChecksum().getValue() == "checksum"
-        assert map_obj.getTimestamp().getValue() == "timestamp"
+        assert map_obj.getTimestamp().getValue() == "2024-01-01"
         assert map_obj.getClass().getValue() == "c1 c2"
         assert map_obj.getName().getValue() == "map1"
         assert map_obj.getOnclick().getValue() == "click()"

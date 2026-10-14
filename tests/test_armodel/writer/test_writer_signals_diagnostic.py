@@ -332,12 +332,12 @@ class TestWriterGenericEthernetFrame:
 class TestWriterSetLifeCyclePeriod:
     def test_with_period(self, writer):
         period = LifeCyclePeriod()
-        period.setArReleaseVersion(_revision_label("R23-11"))
+        period.setArReleaseVersion(_revision_label("4.0.0"))
         parent = _parent()
         writer.setLifeCyclePeriod(parent, "PERIOD-BEGIN", period)
         assert parent[0].tag == "PERIOD-BEGIN"
         assert parent[0].find("AR-RELEASE-VERSION") is not None
-        assert parent[0].find("AR-RELEASE-VERSION").text == "R23-11"
+        assert parent[0].find("AR-RELEASE-VERSION").text == "4.0.0"
 
     def test_none(self, writer):
         parent = _parent()
@@ -369,7 +369,7 @@ class TestWriterLifeCycleInfo:
         info.setLcObjectRef(_ref("/obj", "REFERRABLE"))
         info.setLcStateRef(_ref("/state", "LIFE-CYCLE-STATE"))
         period = LifeCyclePeriod()
-        period.setArReleaseVersion(_revision_label("R23-11"))
+        period.setArReleaseVersion(_revision_label("4.0.0"))
         info.setPeriodBegin(period)
         info.setRemark(DocumentationBlock())
         info.addUseInsteadRef(_ref("/u", "LIFE-CYCLE-INFO"))

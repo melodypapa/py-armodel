@@ -10,7 +10,7 @@ class TestMsrQueryP1Parser:
         parser = ARXMLParser()
         element = ET.fromstring(
             '<PARENT xmlns="http://autosar.org/schema/r4.0">'
-            '<MSR-QUERY-P-1 S="checksum" T="timestamp" SI="si" VIEW="view" BREAK="BREAK" KEEP-WITH-PREVIOUS="KEEP">'
+            '<MSR-QUERY-P-1 S="checksum" T="2024-01-01" SI="si" VIEW="view" BREAK="BREAK" KEEP-WITH-PREVIOUS="KEEP">'
             "<MSR-QUERY-PROPS><MSR-QUERY-NAME>paragraph-query</MSR-QUERY-NAME></MSR-QUERY-PROPS>"
             "<TOPIC-CONTENT><DOCUMENTATION-BLOCK/></TOPIC-CONTENT>"
             "</MSR-QUERY-P-1></PARENT>"
@@ -20,7 +20,7 @@ class TestMsrQueryP1Parser:
 
         assert result is not None
         assert result.getChecksum().getValue() == "checksum"
-        assert result.getTimestamp().getValue() == "timestamp"
+        assert result.getTimestamp().getValue() == "2024-01-01"
         assert result.getSi().getValue() == "si"
         assert result.getView().getValue() == "view"
         assert result.getBreak().getValue() == "BREAK"

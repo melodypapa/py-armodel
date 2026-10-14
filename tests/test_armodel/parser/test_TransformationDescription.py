@@ -81,7 +81,7 @@ class TestTransformationDescriptionReader:
         element = _tech_element(
             "<TRANSFORMATION-DESCRIPTIONS>"
             "<END-TO-END-TRANSFORMATION-DESCRIPTION>"
-            "<VARIATION-POINT><SHORT-LABEL>tech1-vp</SHORT-LABEL></VARIATION-POINT>"
+            "<VARIATION-POINT><SHORT-LABEL>tech1_vp</SHORT-LABEL></VARIATION-POINT>"
             "<COUNTER-OFFSET>16</COUNTER-OFFSET>"
             "</END-TO-END-TRANSFORMATION-DESCRIPTION>"
             "</TRANSFORMATION-DESCRIPTIONS>"
@@ -98,7 +98,7 @@ class TestTransformationDescriptionReader:
         variation_point = desc.getVariationPoint()
         assert variation_point is not None
         assert variation_point.getShortLabel() is not None
-        assert variation_point.getShortLabel().getValue() == "tech1-vp"
+        assert variation_point.getShortLabel().getValue() == "tech1_vp"
 
     def test_read_transformation_technology_without_transformation_description(self, parser):
         element = _tech_element("")

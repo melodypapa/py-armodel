@@ -997,13 +997,13 @@ class TestRef:
         ref = Ref()
 
         assert ref.getBase() is None
-        result = ref.setBase(Identifier().setValue("/Demo/EnumerationTables"))
+        result = ref.setBase(Identifier().setValue("Demo_EnumerationTables"))
 
         assert result is ref
         assert isinstance(ref.getBase(), Identifier)
-        assert ref.getBase().getValue() == "/Demo/EnumerationTables"
+        assert ref.getBase().getValue() == "Demo_EnumerationTables"
         ref.setBase(None)
-        assert ref.getBase().getValue() == "/Demo/EnumerationTables"
+        assert ref.getBase().getValue() == "Demo_EnumerationTables"
 
     def test_blueprint_value_methods(self):
         ref = Ref()
@@ -1615,7 +1615,7 @@ class TestAnyServiceInstanceId:
         """Test that decimal, octal, hexadecimal denotations are supported as text."""
         assert AnyServiceInstanceId().setValue("42").value == "42"
         assert AnyServiceInstanceId().setValue("0x10").value == "0x10"
-        assert AnyServiceInstanceId().setValue("0o17").value == "0o17"
+        assert AnyServiceInstanceId().setValue("017").value == "017"
 
     def test_special_literals(self):
         """Test that the ALL literal (and deprecated ANY) are stored verbatim."""

@@ -1145,10 +1145,10 @@ class TestWriteDescribable:
         parent = _parent()
         desc = ConcreteDescribable()
         timestamp = DateTime()
-        timestamp.setValue("2024-01-01T00:00:00")
+        timestamp.setValue("2024-01-01T00:00:00Z")
         desc.setTimestamp(timestamp)
         writer.writeDescribable(parent, desc)
-        assert parent.attrib["T"] == "2024-01-01T00:00:00"
+        assert parent.attrib["T"] == "2024-01-01T00:00:00Z"
 
     def test_writes_full_describable(self, writer):
         parent = _parent()

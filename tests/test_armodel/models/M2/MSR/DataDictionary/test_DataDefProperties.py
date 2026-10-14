@@ -1038,7 +1038,7 @@ class TestSwPointerTargetProps:
 
     def test_sw_pointer_target_props_target_category_methods(self):
         sw_pointer_target_props = SwPointerTargetProps()
-        category = Identifier().setValue("function-pointer")
+        category = Identifier().setValue("function_pointer")
         result = sw_pointer_target_props.setTargetCategory(category)
         assert sw_pointer_target_props.getTargetCategory() == category
         assert result == sw_pointer_target_props

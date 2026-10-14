@@ -7,7 +7,7 @@ class TestMultiLanguageParagraph:
     def test_get_multi_language_paragraphs(self):
         element = ET.fromstring(
             '<ROOT xmlns="http://autosar.org/schema/r4.0">'
-            '<P SI="semantic" VIEW="view-a" BREAK="BREAK" KEEP-WITH-PREVIOUS="KEEP" HELP-ENTRY="help-topic">'
+            '<P SI="semantic" VIEW="view_a" BREAK="BREAK" KEEP-WITH-PREVIOUS="KEEP" HELP-ENTRY="help-topic">'
             "<L-1 L='EN'>paragraph text</L-1>"
             "</P>"
             "</ROOT>"
@@ -18,7 +18,7 @@ class TestMultiLanguageParagraph:
         assert len(paragraphs) == 1
         paragraph = paragraphs[0]
         assert paragraph.getSi().getValue() == "semantic"
-        assert paragraph.getView().getValue() == "view-a"
+        assert paragraph.getView().getValue() == "view_a"
         assert paragraph.getBreak().getValue() == "BREAK"
         assert paragraph.getKeepWithPrevious().getValue() == "KEEP"
         assert paragraph.getHelpEntry().getValue() == "help-topic"

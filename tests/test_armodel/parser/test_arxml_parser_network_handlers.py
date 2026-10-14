@@ -979,13 +979,13 @@ class TestEthernetClusterHandlers:
 
     def test_getIpv6Configuration_sets_ipv6Address(self, parser):
         element = _snip(
-            "<IPV-6-ADDRESS>fe80::1</IPV-6-ADDRESS>" "<IPV-6-ADDRESS-SOURCE>manual</IPV-6-ADDRESS-SOURCE>" "<IP-ADDRESS-PREFIX-LENGTH>64</IP-ADDRESS-PREFIX-LENGTH>",
+            "<IPV-6-ADDRESS>fe80:0:0:0:0:0:0:1</IPV-6-ADDRESS>" "<IPV-6-ADDRESS-SOURCE>manual</IPV-6-ADDRESS-SOURCE>" "<IP-ADDRESS-PREFIX-LENGTH>64</IP-ADDRESS-PREFIX-LENGTH>",
             root_tag="IPV-6-CONFIGURATION",
         )
         config = parser.getIpv6Configuration(element)
         assert config is not None
         assert config.getIpv6Address() is not None
-        assert config.getIpv6Address().getValue() == "fe80::1"
+        assert config.getIpv6Address().getValue() == "fe80:0:0:0:0:0:0:1"
 
     def test_readNetworkEndPointNetworkEndPointAddress_adds_ipv6(self, parser):
         from armodel.models import EthernetCluster, EthernetPhysicalChannel, NetworkEndpoint
@@ -994,7 +994,7 @@ class TestEthernetClusterHandlers:
         channel = EthernetPhysicalChannel(parent=cluster, short_name="ch")
         endpoint = NetworkEndpoint(parent=channel, short_name="ne")
         element = _snip(
-            "<NETWORK-ENDPOINT-ADDRESSES>" "<IPV-6-CONFIGURATION>" "<IPV-6-ADDRESS>fe80::1</IPV-6-ADDRESS>" "</IPV-6-CONFIGURATION>" "</NETWORK-ENDPOINT-ADDRESSES>",
+            "<NETWORK-ENDPOINT-ADDRESSES>" "<IPV-6-CONFIGURATION>" "<IPV-6-ADDRESS>fe80:0:0:0:0:0:0:1</IPV-6-ADDRESS>" "</IPV-6-CONFIGURATION>" "</NETWORK-ENDPOINT-ADDRESSES>",
             root_tag="NETWORK-ENDPOINT",
         )
         parser.readNetworkEndPointNetworkEndPointAddress(element, endpoint)
@@ -3606,10 +3606,10 @@ class TestReadTransformationISignalProps:
         AUTOSAR.getInstance().setARRelease("R23-11")
         props = EndToEndTransformationISignalProps()
         element = ET.fromstring(
-            f"<END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS-CONDITIONAL " f"xmlns='{NS}' T='2024-01-01T00:00:00' UUID='abc-123'>" f"</END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS-CONDITIONAL>"
+            f"<END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS-CONDITIONAL " f"xmlns='{NS}' T='2024-01-01T00:00:00Z' UUID='abc-123'>" f"</END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS-CONDITIONAL>"
         )
         parser.readTransformationISignalProps(element, props)
-        assert props.getTimestamp().getValue() == "2024-01-01T00:00:00"
+        assert props.getTimestamp().getValue() == "2024-01-01T00:00:00Z"
         # Since the uuid move (Group1.md work order), uuid is owned by Identifiable;
         # EndToEndTransformationISignalProps is a plain ARObject so the UUID
         # attribute is not stored.

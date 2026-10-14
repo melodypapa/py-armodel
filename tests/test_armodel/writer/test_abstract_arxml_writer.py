@@ -95,11 +95,11 @@ class TestAbstractARXMLWriter:
         parent = ET.Element("parent")
         ar_obj = ConcreteTestARObject(None, "TestObj")
         timestamp = DateTime()
-        timestamp.setValue("2024-01-01T00:00:00")
+        timestamp.setValue("2024-01-01T00:00:00Z")
         ar_obj.setTimestamp(timestamp)
 
         writer.writeARObject(parent, ar_obj)
-        assert parent.attrib["T"] == "2024-01-01T00:00:00"
+        assert parent.attrib["T"] == "2024-01-01T00:00:00Z"
 
     def test_write_ar_object_attributes_with_uuid(self):
         """Test writeARObjectAttributes does not emit UUID (owned by Identifiable).
@@ -121,12 +121,12 @@ class TestAbstractARXMLWriter:
         parent = ET.Element("parent")
         ar_obj = ConcreteTestARObject(None, "TestObj")
         timestamp = DateTime()
-        timestamp.setValue("2024-01-01T00:00:00")
+        timestamp.setValue("2024-01-01T00:00:00Z")
         ar_obj.setTimestamp(timestamp)
         ar_obj.setUuid("12345678-1234-1234-1234-123456789012")
 
         writer.writeARObject(parent, ar_obj)
-        assert parent.attrib["T"] == "2024-01-01T00:00:00"
+        assert parent.attrib["T"] == "2024-01-01T00:00:00Z"
         assert "UUID" not in parent.attrib
 
     def test_write_ar_object_attributes_without_attributes(self):
@@ -217,12 +217,12 @@ class TestAbstractARXMLWriter:
         writer = ConcreteARXMLWriter()
         parent = ET.Element("parent")
         datetime = DateTime()
-        datetime.setValue("2024-01-01T00:00:00")
+        datetime.setValue("2024-01-01T00:00:00Z")
 
         writer.setChildElementOptionalDateTime(parent, "test-datetime", datetime)
         assert len(parent) == 1
         child = parent.find("test-datetime")
-        assert child.text == "2024-01-01T00:00:00"
+        assert child.text == "2024-01-01T00:00:00Z"
 
     def test_set_child_element_optional_ref_type_with_base(self):
         """Test setChildElementOptionalRefType with BASE attribute"""

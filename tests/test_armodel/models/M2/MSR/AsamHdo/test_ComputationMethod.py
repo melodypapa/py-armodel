@@ -581,7 +581,7 @@ class TestCompuMethod:
         compu_method = CompuMethod(parent_obj, "test_name")
         internal = Compu()
         physical = Compu()
-        display_format = DisplayFormatString().setValue("%1.2")
+        display_format = DisplayFormatString().setValue("%1.2f")
         unit_ref = RefType().setValue("/Units/Unit")
 
         compu_method.setCompuInternalToPhys(internal)

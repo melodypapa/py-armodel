@@ -10,7 +10,7 @@ class TestAreaParser:
         parser = ARXMLParser()
         element = ET.fromstring(
             '<PARENT xmlns="http://autosar.org/schema/r4.0">'
-            '<AREA S="checksum" T="timestamp"'
+            '<AREA S="checksum" T="2024-01-01"'
             ' ACCESSKEY="a" ALT="alternative text" CLASS="c1 c2" COORDS="0,0,10,10" HREF="https://example.com"'
             ' NOHREF="NOHREF" ONBLUR="blur()" ONCLICK="click()" ONDBLCLICK="dblclick()" ONFOCUS="focus()"'
             ' ONKEYDOWN="keydown()" ONKEYPRESS="keypress()" ONKEYUP="keyup()" ONMOUSEDOWN="mousedown()"'
@@ -22,7 +22,7 @@ class TestAreaParser:
         area = parser.getArea(element, "AREA")
 
         assert area.getChecksum().getValue() == "checksum"
-        assert area.getTimestamp().getValue() == "timestamp"
+        assert area.getTimestamp().getValue() == "2024-01-01"
         assert area.getAccesskey().getValue() == "a"
         assert area.getAlt().getValue() == "alternative text"
         assert area.getClass().getValue() == "c1 c2"

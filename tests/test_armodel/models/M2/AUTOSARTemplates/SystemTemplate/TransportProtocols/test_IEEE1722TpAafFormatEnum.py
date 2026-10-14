@@ -22,7 +22,7 @@ class TestIEEE1722TpAafFormatEnum:
 
     def test_member_count_matches_spec(self):
         # 6 Literal rows in Table 6.282
-        members = [name for name in dir(IEEE1722TpAafFormatEnum) if name.isupper() and not name.startswith("_")]
+        members = [name for name in dir(IEEE1722TpAafFormatEnum) if name.isupper() and not name.startswith("_") and name in vars(IEEE1722TpAafFormatEnum)]
         assert len(members) == 6
 
     def test_instantiable_and_value_round_trip(self):

@@ -42,8 +42,8 @@ def _rule() -> FirewallRule:
 def _full_ipv6_rule_inner() -> str:
     return (
         "<IPV-6-RULE>"
-        "<DESTINATION-IP-ADDRESS>2001:db8::1</DESTINATION-IP-ADDRESS>"
-        "<DESTINATION-NETWORK-MASK>ffff:ffff:ffff::</DESTINATION-NETWORK-MASK>"
+        "<DESTINATION-IP-ADDRESS>2001:db8:0:0:0:0:0:1</DESTINATION-IP-ADDRESS>"
+        "<DESTINATION-NETWORK-MASK>ffff:ffff:ffff:0:0:0:0:0</DESTINATION-NETWORK-MASK>"
         "<FLOW-LABEL>1048576</FLOW-LABEL>"
         "<HOP-LIMIT>64</HOP-LIMIT>"
         "<ICMP-RULE>"
@@ -52,16 +52,16 @@ def _full_ipv6_rule_inner() -> str:
         "<TYPE>8</TYPE>"
         "</ICMP-RULE>"
         "<NEXT-HEADER>58</NEXT-HEADER>"
-        "<SOURCE-IP-ADDRESS>fe80::1</SOURCE-IP-ADDRESS>"
-        "<SOURCE-NETWORK-MASK>ffff::</SOURCE-NETWORK-MASK>"
+        "<SOURCE-IP-ADDRESS>fe80:0:0:0:0:0:0:1</SOURCE-IP-ADDRESS>"
+        "<SOURCE-NETWORK-MASK>ffff:0:0:0:0:0:0:0</SOURCE-NETWORK-MASK>"
         "<TRAFFIC-CLASS>46</TRAFFIC-CLASS>"
         "</IPV-6-RULE>"
     )
 
 
 def _assert_full_ipv6_rule(ipv6_rule: Ipv6Rule):
-    assert ipv6_rule.getDestinationIpAddress().getValue() == "2001:db8::1"
-    assert ipv6_rule.getDestinationNetworkMask().getValue() == "ffff:ffff:ffff::"
+    assert ipv6_rule.getDestinationIpAddress().getValue() == "2001:db8:0:0:0:0:0:1"
+    assert ipv6_rule.getDestinationNetworkMask().getValue() == "ffff:ffff:ffff:0:0:0:0:0"
     assert ipv6_rule.getFlowLabel().getValue() == 1048576
     assert ipv6_rule.getHopLimit().getValue() == 64
     icmp_rule = ipv6_rule.getIcmpRule()
@@ -70,8 +70,8 @@ def _assert_full_ipv6_rule(ipv6_rule: Ipv6Rule):
     assert icmp_rule.getCode().getValue() == 1
     assert icmp_rule.getType().getValue() == 8
     assert ipv6_rule.getNextHeader().getValue() == 58
-    assert ipv6_rule.getSourceIpAddress().getValue() == "fe80::1"
-    assert ipv6_rule.getSourceNetworkMask().getValue() == "ffff::"
+    assert ipv6_rule.getSourceIpAddress().getValue() == "fe80:0:0:0:0:0:0:1"
+    assert ipv6_rule.getSourceNetworkMask().getValue() == "ffff:0:0:0:0:0:0:0"
     assert ipv6_rule.getTrafficClass().getValue() == 46
 
 
@@ -93,7 +93,7 @@ class TestReadFirewallRuleIpv6Rule:
             "<SHORT-NAME>Rule1</SHORT-NAME>"
             "<NETWORK-LAYER-RULE>"
             "<IPV-6-RULE>"
-            "<DESTINATION-IP-ADDRESS>2001:db8::1</DESTINATION-IP-ADDRESS>"
+            "<DESTINATION-IP-ADDRESS>2001:db8:0:0:0:0:0:1</DESTINATION-IP-ADDRESS>"
             "<HOP-LIMIT>64</HOP-LIMIT>"
             "</IPV-6-RULE>"
             "</NETWORK-LAYER-RULE>"
@@ -103,7 +103,7 @@ class TestReadFirewallRuleIpv6Rule:
 
         network_rule = rule.getNetworkLayerRule()
         assert isinstance(network_rule, Ipv6Rule)
-        assert network_rule.getDestinationIpAddress().getValue() == "2001:db8::1"
+        assert network_rule.getDestinationIpAddress().getValue() == "2001:db8:0:0:0:0:0:1"
         assert network_rule.getDestinationNetworkMask() is None
         assert network_rule.getFlowLabel() is None
         assert network_rule.getHopLimit().getValue() == 64

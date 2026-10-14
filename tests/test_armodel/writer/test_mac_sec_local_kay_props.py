@@ -76,23 +76,23 @@ def _role(value):
 
 def _new_mac_sec_local_kay_props():
     props = MacSecLocalKayProps()
-    props.setDestinationMacAddress(_mac("00-11-22-33-44-55"))
+    props.setDestinationMacAddress(_mac("00:11:22:33:44:55"))
     props.setGlobalKayPropsRef(_ref("/Sec/MacSecGlobalKay"))
     props.setKeyServerPriority(_pos_int("16"))
     props.addMkaParticipantRef(_ref("/Sec/MkaParticipant1"))
     props.addMkaParticipantRef(_ref("/Sec/MkaParticipant2"))
     props.setRole(_role(MacSecRoleEnum.KEY_SERVER))
-    props.setSourceMacAddress(_mac("AA-BB-CC-DD-EE-FF"))
+    props.setSourceMacAddress(_mac("AA:BB:CC:DD:EE:FF"))
     return props
 
 
 def _assert_all_field_values(props: MacSecLocalKayProps):
-    assert props.getDestinationMacAddress().getValue() == "00-11-22-33-44-55"
+    assert props.getDestinationMacAddress().getValue() == "00:11:22:33:44:55"
     assert props.getGlobalKayPropsRef().getValue() == "/Sec/MacSecGlobalKay"
     assert props.getKeyServerPriority().getValue() == 16
     assert [r.getValue() for r in props.getMkaParticipantRefs()] == ["/Sec/MkaParticipant1", "/Sec/MkaParticipant2"]
     assert props.getRole().getValue() == MacSecRoleEnum.KEY_SERVER
-    assert props.getSourceMacAddress().getValue() == "AA-BB-CC-DD-EE-FF"
+    assert props.getSourceMacAddress().getValue() == "AA:BB:CC:DD:EE:FF"
 
 
 class TestWriteMacSecLocalKayProps:
@@ -118,24 +118,24 @@ class TestWriteMacSecLocalKayProps:
             "ROLE",
             "SOURCE-MAC-ADDRESS",
         ]
-        assert element.find("DESTINATION-MAC-ADDRESS").text == "00-11-22-33-44-55"
+        assert element.find("DESTINATION-MAC-ADDRESS").text == "00:11:22:33:44:55"
         assert element.find("GLOBAL-KAY-PROPS-REF").text == "/Sec/MacSecGlobalKay"
         assert element.find("KEY-SERVER-PRIORITY").text == "16"
         mka_refs = element.findall("MKA-PARTICIPANT-REFS/MKA-PARTICIPANT-REF")
         assert [r.text for r in mka_refs] == ["/Sec/MkaParticipant1", "/Sec/MkaParticipant2"]
         assert element.find("ROLE").text == "KEY-SERVER"
-        assert element.find("SOURCE-MAC-ADDRESS").text == "AA-BB-CC-DD-EE-FF"
+        assert element.find("SOURCE-MAC-ADDRESS").text == "AA:BB:CC:DD:EE:FF"
 
     def test_write_partial_emission(self, writer):
         props = MacSecLocalKayProps()
-        props.setDestinationMacAddress(_mac("00-11-22-33-44-55"))
+        props.setDestinationMacAddress(_mac("00:11:22:33:44:55"))
         props.setRole(_role(MacSecRoleEnum.PEER))
 
         element = ET.Element("MAC-SEC-KAY-CONFIG")
         writer.writeMacSecLocalKayProps(element, props)
 
         assert [child.tag for child in element] == ["DESTINATION-MAC-ADDRESS", "ROLE"]
-        assert element.find("DESTINATION-MAC-ADDRESS").text == "00-11-22-33-44-55"
+        assert element.find("DESTINATION-MAC-ADDRESS").text == "00:11:22:33:44:55"
         assert element.find("ROLE").text == "PEER"
 
     def test_write_empty_emits_no_children(self, writer):
@@ -162,11 +162,11 @@ class TestSetMacSecLocalKayPropsWrapper:
 
         node = parent.find("MAC-SEC-KAY-CONFIG")
         assert node is not None
-        assert node.find("DESTINATION-MAC-ADDRESS").text == "00-11-22-33-44-55"
+        assert node.find("DESTINATION-MAC-ADDRESS").text == "00:11:22:33:44:55"
         assert node.find("GLOBAL-KAY-PROPS-REF").text == "/Sec/MacSecGlobalKay"
         assert node.find("KEY-SERVER-PRIORITY").text == "16"
         assert node.find("ROLE").text == "KEY-SERVER"
-        assert node.find("SOURCE-MAC-ADDRESS").text == "AA-BB-CC-DD-EE-FF"
+        assert node.find("SOURCE-MAC-ADDRESS").text == "AA:BB:CC:DD:EE:FF"
 
     def test_write_wrapper_level_none_props(self, writer):
         parent = ET.Element("MAC-SEC-PROPS")

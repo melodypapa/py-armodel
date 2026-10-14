@@ -55,7 +55,7 @@ class TestReadSwDataDependency:
 
     def test_read_formula_checksum_and_timestamp(self):
         element = _conditional_element(
-            "<SW-DATA-DEPENDENCY>" "<SW-DATA-DEPENDENCY-FORMULA S='deadbeef' T='2024-01-01T00:00:00.000Z' LEVEL='INFORMAL'>X1+X2</SW-DATA-DEPENDENCY-FORMULA>" "</SW-DATA-DEPENDENCY>"
+            "<SW-DATA-DEPENDENCY>" "<SW-DATA-DEPENDENCY-FORMULA S='deadbeef' T='2024-01-01T00:00:00Z' LEVEL='INFORMAL'>X1+X2</SW-DATA-DEPENDENCY-FORMULA>" "</SW-DATA-DEPENDENCY>"
         )
         props = SwDataDefProps()
         ARXMLParser().readSwDataDependency(element, props)
@@ -64,7 +64,7 @@ class TestReadSwDataDependency:
         assert isinstance(formula.getChecksum(), String)
         assert formula.getChecksum().getValue() == "deadbeef"
         assert isinstance(formula.getTimestamp(), DateTime)
-        assert formula.getTimestamp().getValue() == "2024-01-01T00:00:00.000Z"
+        assert formula.getTimestamp().getValue() == "2024-01-01T00:00:00Z"
 
     def test_read_empty_sw_data_dependency(self):
         element = _conditional_element("<SW-DATA-DEPENDENCY></SW-DATA-DEPENDENCY>")

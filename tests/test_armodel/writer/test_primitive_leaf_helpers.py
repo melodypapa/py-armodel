@@ -26,7 +26,7 @@ from armodel.writer.arxml_writer import ARXMLWriter
 class TestCategoryStringLeaf:
     def test_writes_concrete_type_and_t(self):
         value = CategoryString()
-        value.setValue("SW-COMPONENT-TYPE")
+        value.setValue("SW_COMPONENT_TYPE")
         value.timestamp = "2023-05-05T00:00:00Z"
 
         element = ET.Element("ROOT")
@@ -34,7 +34,7 @@ class TestCategoryStringLeaf:
 
         written = element.find("CATEGORY")
         assert written is not None
-        assert written.text == "SW-COMPONENT-TYPE"
+        assert written.text == "SW_COMPONENT_TYPE"
         assert written.attrib["T"] == "2023-05-05T00:00:00Z"
 
     def test_none_emits_nothing(self):
