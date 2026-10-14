@@ -1,9 +1,10 @@
 import os
+from contextlib import nullcontext
 import xml.etree.ElementTree as ET
-from typing import Any, List, Optional, Type, TypeVar, Union, cast
+from typing import Any, ContextManager, List, Optional, Type, TypeVar, Union, cast
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR, FileInfoComment
-from armodel.validation import ARXMLValidator
+from armodel.validation import ARXMLValidator, warning_mode
 from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.CryptoDeployment import (
     CryptoKeySlot,
     CryptoKeySlotAllowedModification,
@@ -22629,18 +22630,24 @@ class ARXMLParser(AbstractARXMLParser):
     def load(self, filename, document: AUTOSAR):
         self.logger.info("Loading %s ..." % os.path.realpath(filename))
 
-        self._validateARXML(filename)
+        context_manager: ContextManager
+        if self.options["warning"] is True:
+            context_manager = warning_mode(True, context=os.path.basename(filename))
+        else:
+            context_manager = nullcontext()
+        with context_manager:
+            self._validateARXML(filename)
 
-        tree = ET.parse(filename)
-        root = tree.getroot()
-        if self.getPureTagName(root.tag) != "AUTOSAR":
-            self.raiseError("Invalid ARXML file <%s>" % filename)
+            tree = ET.parse(filename)
+            root = tree.getroot()
+            if self.getPureTagName(root.tag) != "AUTOSAR":
+                self.raiseError("Invalid ARXML file <%s>" % filename)
 
-        self.detectNamespace(root)
-        self.getAUTOSARInfo(root, document)
-        document.setAdminData(self.getAdminData(root, "ADMIN-DATA"))
-        document.setFileInfoComment(self.getFileInfoComment(root, "FILE-INFO-COMMENT"))
-        document.setIntroduction(self.getDocumentationBlock(root, "INTRODUCTION"))
-        self.readARPackages(root, cast(ARPackage, document))
+            self.detectNamespace(root)
+            self.getAUTOSARInfo(root, document)
+            document.setAdminData(self.getAdminData(root, "ADMIN-DATA"))
+            document.setFileInfoComment(self.getFileInfoComment(root, "FILE-INFO-COMMENT"))
+            document.setIntroduction(self.getDocumentationBlock(root, "INTRODUCTION"))
+            self.readARPackages(root, cast(ARPackage, document))
 
-        document.reload()
+            document.reload()
