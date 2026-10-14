@@ -4,7 +4,7 @@
 
 **Goal:** Enforce the spec regex (`PATTERN`) on `ARLiteral` values — always on — raising `PrimitivePatternError`, with the parser's `warning=True` option downgrading violations to `logger.warning`.
 
-**Architecture:** Per-class `PATTERN: Optional[str]` attribute on `ARLiteral` subclasses (XSD-grounded, populated by an extraction script); a `checkValue` hook wired into the existing `value` setter; thread-local warning mode in `armodel/validation/` activated by `ARXMLParser.load()` when `options["warning"] is True`. Spec: `docs/superpowers/specs/2026-10-13-primitive-pattern-validation-design.md`.
+**Architecture:** Per-class `PATTERN: Optional[str]` attribute on `ARLiteral` subclasses (XSD-grounded, populated by an extraction script); a `checkValue` hook wired into the existing `value` setter; thread-local warning mode in `armodel/validation/` activated by `ARXMLParser.load()` when `options["warning"] is True`. Task 7 wires Rule 0028 into the `sync-autosar-class` skill (rules + audit) so future synced classes stay covered. Spec: `docs/superpowers/specs/2026-10-13-primitive-pattern-validation-design.md`.
 
 **Tech Stack:** Python 3.8-compatible typing (`typing.Optional`, `typing.Dict` — NEVER `T | None`), stdlib `re` + `threading`, uv toolchain. Repo rules (AGENTS.md): Black 200-char, no comments in code, `uv run` for all commands, mypy must stay green.
 
@@ -678,7 +678,169 @@ git commit -m "style: black formatting for pattern validation"
 
 ---
 
-## Out of scope (Phase 2, separate change)
+## Out of scope
 
-- `sync-autosar-class` audit check: "PATTERN present and matches the XSD facet" for newly synced classes.
 - Writer-side validation, XSD codegen, registry generation.
+
+(The sync-workflow integration was originally deferred to Phase 2; it is now Task 7.)
+
+---
+
+### Task 7: sync-autosar-class skill integration (Rule 0028)
+
+**Files:**
+- Modify: `.agents/skills/sync-autosar-class/audit_class.py` (new `check_pattern` + call site)
+- Modify: `.agents/skills/sync-autosar-class/rules.md` (append Rule 0028 after Rule 0027, line ~2186)
+- Modify: `.agents/skills/sync-autosar-class/SKILL.md` (one sentence in the Step 3 bullet)
+- Test: `tests/test_scripts/test_audit_class_pattern.py`
+
+- [ ] **Step 1: Locate the integration points**
+
+Run: `ls .trae/skills/sync-autosar-class/ 2>/dev/null` — if the directory exists, apply the SKILL.md/rules.md edits to BOTH copies; otherwise edit `.agents/` only.
+Run: `grep -n "check_members(rep" .agents/skills/sync-autosar-class/audit_class.py` — the `check_pattern` call goes immediately after that invocation in the per-class audit flow.
+Run: `grep -n "class Report" .agents/skills/sync-autosar-class/audit_class.py` and check how `tests/test_scripts/test_audit_model_test_behavior.py` imports the audit module — mirror that import mechanism in Step 2.
+
+- [ ] **Step 2: Write the failing test**
+
+Create `tests/test_scripts/test_audit_class_pattern.py` (adapt the import block to the mechanism found in Step 1):
+
+```python
+import ast
+
+from audit_class import Report, check_pattern
+
+
+def _class_node(source):
+    return ast.parse(source).body[0]
+
+
+class TestCheckPattern:
+    def test_warns_when_docstring_has_pattern_but_no_attr(self):
+        node = _class_node(
+            'class Foo(ARLiteral):\n'
+            '    """docstring\n'
+            '\n'
+            '    Tags: xml.xsd.pattern=[A-Z][a-zA-Z0-9_]*\n'
+            '    """\n'
+            '\n'
+            '    def __init__(self):\n'
+            '        super().__init__()\n'
+        )
+        report = Report()
+        check_pattern(report, node)
+        assert report.failed() is False
+        assert any("Rule 0028" in warning.message for warning in report.warnings)
+
+    def test_silent_when_attr_declared(self):
+        node = _class_node(
+            'class Foo(ARLiteral):\n'
+            '    """docstring\n'
+            '\n'
+            '    Tags: xml.xsd.pattern=[A-Z][a-zA-Z0-9_]*\n'
+            '    """\n'
+            '\n'
+            '    PATTERN = r"[A-Z][a-zA-Z0-9_]*"\n'
+            '\n'
+            '    def __init__(self):\n'
+            '        super().__init__()\n'
+        )
+        report = Report()
+        check_pattern(report, node)
+        assert not any("Rule 0028" in warning.message for warning in report.warnings)
+
+    def test_silent_when_no_pattern_tag(self):
+        node = _class_node(
+            'class Foo(ARLiteral):\n'
+            '    """docstring\n'
+            '\n'
+            '    Tags: xml.xsd.customType=NMTOKEN-STRING\n'
+            '    """\n'
+            '\n'
+            '    def __init__(self):\n'
+            '        super().__init__()\n'
+        )
+        report = Report()
+        check_pattern(report, node)
+        assert not any("Rule 0028" in warning.message for warning in report.warnings)
+```
+
+If `Report`'s findings container attribute is not named `warnings` (check the class at the `grep -n "class Report"` line: `self.fail`/`self.warn`/`self.info` append target), adjust the assertions to that attribute.
+
+- [ ] **Step 3: Run the test to verify it fails**
+
+Run: `uv run pytest tests/test_scripts/test_audit_class_pattern.py -v`
+Expected: FAIL — `ImportError: cannot import name 'check_pattern'`
+
+- [ ] **Step 4: Implement `check_pattern` in `audit_class.py`**
+
+Add after `check_members` (keep helper ordering; `ast` and `Report` already imported):
+
+```python
+def check_pattern(rep: Report, node: ast.ClassDef) -> None:
+    doc = ast.get_docstring(node) or ""
+    if "xml.xsd.pattern=" not in doc:
+        return
+    for stmt in node.body:
+        targets = []
+        if isinstance(stmt, ast.Assign):
+            targets = [t.id for t in stmt.targets if isinstance(t, ast.Name)]
+        elif isinstance(stmt, ast.AnnAssign) and isinstance(stmt.target, ast.Name):
+            targets = [stmt.target.id]
+        if "PATTERN" in targets:
+            return
+    rep.warn("PATTERN", "Rule 0028: docstring carries xml.xsd.pattern but no PATTERN attribute is declared — add the XSD-facet regex (an inherited attribute from a pattern-declaring base satisfies the rule; verify by hand)")
+```
+
+Wire the call site found in Step 1: `check_pattern(rep, node)` immediately after the `check_members(rep, ...)` invocation.
+
+- [ ] **Step 5: Run the test to verify it passes**
+
+Run: `uv run pytest tests/test_scripts/test_audit_class_pattern.py -v`
+Expected: 3 PASS
+
+- [ ] **Step 6: Append Rule 0028 to rules.md**
+
+Append at the end of `.agents/skills/sync-autosar-class/rules.md` (and the `.trae` copy if present):
+
+```markdown
+## Rule 0028 — Constrained literal classes carry `PATTERN` *(added after the primitive pattern validation feature, 2026-10-14)*
+
+An `ARLiteral` subclass whose value space is regex-constrained — its docstring carries
+`xml.xsd.pattern=...` and/or its `xml.xsd.customType` has an `<xsd:pattern>` facet in the release
+XSD — must declare a `PATTERN` class attribute holding that regex:
+
+1. The release XSD is authoritative; the docstring's `xml.xsd.pattern` line is the fallback only
+   when the XSD has no matching facet. Never copy the markdown rendering verbatim (escapes are
+   mangled).
+2. Declare it as a raw string immediately after the method-parity checklist block, before
+   `__init__`: `PATTERN = r"..."`.
+3. Classes without a constraint inherit `ARLiteral.PATTERN = None` and are skipped by the
+   runtime check — do not add `PATTERN` to them.
+4. `Numerical`/`ARType` numeric subclasses are excluded (they parse values numerically, not
+   by regex).
+5. `audit_class.py` reports a `PATTERN` warning when a docstring carries `xml.xsd.pattern=` but
+   no `PATTERN` attribute is declared on the class; an attribute inherited from a
+   pattern-declaring base satisfies the rule (verify by hand).
+```
+
+- [ ] **Step 7: One sentence in SKILL.md**
+
+In `SKILL.md` (both copies if present), find the Phase 1 step list entry for **Step 3** ("Implement model class (Green)") and append to that bullet:
+
+```
+For constrained literal classes (docstring `xml.xsd.pattern`), declare `PATTERN` from the XSD facet (Rule 0028).
+```
+
+- [ ] **Step 8: Run the skill tests + regression battery subset**
+
+Run: `uv run pytest tests/test_scripts/ -q --no-header` → all PASS
+Run: `uv run python .agents/skills/sync-autosar-class/audit_class.py McdIdentifier` → PASS expected (no PATTERN warnings after Task 3)
+
+- [ ] **Step 9: Commit**
+
+```bash
+git add .agents/skills/sync-autosar-class/ .trae/skills/sync-autosar-class/ tests/test_scripts/test_audit_class_pattern.py
+git commit -m "feat: sync skill Rule 0028 — PATTERN attribute on constrained literals"
+```
+
+(If `.trae/skills/sync-autosar-class/` does not exist, drop it from the `git add` list.)
