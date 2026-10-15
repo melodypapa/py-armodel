@@ -875,7 +875,7 @@ Status: **29/29** completed
 
 ## Group21
 
-Status: **52/59** completed
+Status: **53/59** completed
 
 | Class Name                           | Status       | Commit ID  |
 | ------------------------------------ | ------------ | ---------- |
@@ -912,7 +912,7 @@ Status: **52/59** completed
 | `RevisionLabelString`                | [x] Done     | 2b739f4066 |
 | `StrongRevisionLabelString`          | [x] Done     | 953a92b70d |
 | `SymbolString`                       | [x] Done     | N/A        |
-| `UriString`                          | [ ] Pending* | N/A        |
+| `UriString`                          | [x] Done     | 932196e6c6 |
 | `VerbatimStringPlain`                | [ ] Pending* | N/A        |
 | `CseCodeType`                        | [ ] Pending* | N/A        |
 | `EvaluatedVariantSet`                | [ ] Pending* | N/A        |
