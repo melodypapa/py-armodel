@@ -19,6 +19,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     String,
     StrongRevisionLabelString,
     SymbolString,
+    UriString,
 )
 from armodel.writer.arxml_writer import ARXMLWriter
 
@@ -297,3 +298,35 @@ class TestStrongRevisionLabelStringLeaf:
         ARXMLWriter().setChildElementOptionalStrongRevisionLabelString(element, "VERSION", None)
 
         assert element.find("VERSION") is None
+
+
+class TestUriStringLeaf:
+    def test_writes_concrete_type_and_t(self):
+        value = UriString()
+        value.setValue("https://example.com/resource")
+        value.timestamp = "2026-10-15T00:00:00Z"
+
+        element = ET.Element("ROOT")
+        ARXMLWriter().setChildElementOptionalUriString(element, "URI", value)
+
+        written = element.find("URI")
+        assert written is not None
+        assert written.text == "https://example.com/resource"
+        assert written.attrib["T"] == "2026-10-15T00:00:00Z"
+
+    def test_writes_ldap_url_value(self):
+        """The LDAP-URL of ACL-ROLE (XSD l.1288) is one of the ten element-form consumers of AR:URI-STRING."""
+        value = UriString().setValue("ldap://example.com/Role")
+
+        element = ET.Element("ROOT")
+        ARXMLWriter().setChildElementOptionalUriString(element, "LDAP-URL", value)
+
+        written = element.find("LDAP-URL")
+        assert written is not None
+        assert written.text == "ldap://example.com/Role"
+
+    def test_none_emits_nothing(self):
+        element = ET.Element("ROOT")
+        ARXMLWriter().setChildElementOptionalUriString(element, "URI", None)
+
+        assert element.find("URI") is None

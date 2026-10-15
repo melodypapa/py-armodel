@@ -22,6 +22,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     String,
     StrongRevisionLabelString,
     SymbolString,
+    UriString,
 )
 from armodel.parser.arxml_parser import ARXMLParser
 
@@ -258,3 +259,36 @@ class TestStrongRevisionLabelStringLeaf:
         element = ET.fromstring(f"<ROOT xmlns='{NS}'/>")
 
         assert ARXMLParser().getChildElementOptionalStrongRevisionLabelString(element, "VERSION") is None
+
+
+class TestUriStringLeaf:
+    def test_reads_concrete_type_and_t(self):
+        element = ET.fromstring(f"<ROOT xmlns='{NS}'><URI T='2026-10-15T00:00:00Z'>https://example.com/resource</URI></ROOT>")
+
+        value = ARXMLParser().getChildElementOptionalUriString(element, "URI")
+
+        assert isinstance(value, UriString)
+        assert value.getValue() == "https://example.com/resource"
+        assert value.timestamp == "2026-10-15T00:00:00Z"
+
+    def test_reads_ldap_url_value(self):
+        """The LDAP-URL of ACL-ROLE (XSD l.1288) is one of the ten element-form consumers of AR:URI-STRING."""
+        element = ET.fromstring(f"<ROOT xmlns='{NS}'><LDAP-URL>ldap://example.com/Role</LDAP-URL></ROOT>")
+
+        value = ARXMLParser().getChildElementOptionalUriString(element, "LDAP-URL")
+
+        assert isinstance(value, UriString)
+        assert value.getValue() == "ldap://example.com/Role"
+
+    def test_empty_element_becomes_empty_string(self):
+        element = ET.fromstring(f"<ROOT xmlns='{NS}'><URI/></ROOT>")
+
+        value = ARXMLParser().getChildElementOptionalUriString(element, "URI")
+
+        assert isinstance(value, UriString)
+        assert value.getValue() == ""
+
+    def test_missing_returns_none(self):
+        element = ET.fromstring(f"<ROOT xmlns='{NS}'/>")
+
+        assert ARXMLParser().getChildElementOptionalUriString(element, "URI") is None
