@@ -3265,7 +3265,7 @@ pending that confirmation.
     `Optional[String]`) — a value-only test does NOT go Red here since Python does not enforce
     annotations at runtime; reader/writer Red in both directions (parser returned a raw str,
     writer assigned a `String` object straight into `Element.attrib`).
-- [ ] `UriString` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.66, p.114
+- [x] `UriString` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.66, p.114 — sync commit 932196e6c
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
   - note (drift re-sync, 2026-10-15): no `# Spec verified:` marker in src, so the 2026-09-30
     "steps 1-8 done" prose is not evidence (Rule 0026). Every claim re-derived from source and
@@ -3446,8 +3446,12 @@ pending that confirmation.
       `StrongRevisionLabelString`. Same finding as the `StrongRevisionLabelString` row.
       **Non-deviation findings were fixed rather than recorded here**: the Step 2 house-bar test
       gap and the Step 5 leaf-coverage gap.
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a RE-RUN 2026-10-15 (full battery, below);
-    9b PENDING — no marker written, row stays `[ ]` until the user confirms (Rule 0012.1)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a RE-RUN 2026-10-15 (full battery, below);
+    9b confirmed 2026-10-15 (all 14 pre-stamp items re-derived from source per Rule 0026 —
+    the row's 2026-09-30 "steps 1-8 done" prose was audited, **not** trusted; marker
+    `# Spec verified: R23-11 (2026-10-15, user 9b confirmation)` written immediately after
+    the `# Spec:` line, exactly one marker in the block, post-stamp audit `STAMP` clean
+    ⇒ PASS); sync commit 932196e6c
     - note (regex question, user 2026-10-15 — answered with evidence, **not** an open item):
       "will the data be validated with regex?" — **no, and that is correct, not a gap.**
       Three independent confirmations, none of which leaves room for a regex:

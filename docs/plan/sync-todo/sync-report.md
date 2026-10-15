@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 841 | 43.9% |
+| [x] Done | 842 | 44.0% |
 | [x] Deferred | 83 | 4.3% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 980 | 51.2% |
+| [ ] Deferred | 979 | 51.1% |
 | [ ] Implemented | 10 | 0.5% |
 | [ ] Created | 1 | 0.1% |
 | [ ] Pending | 0 | 0.0% |
@@ -1882,7 +1882,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `Unit`                                                  | [ ] Deferred| f801a63d13                               | Group28          |
 | `UnitGroup`                                             | [x] Done    | e7fdb07f2b                               | Group9           |
 | `UnlimitedIntegerValueVariationPoint`                   | [x] Done    | d5c96fd954                               | Group8           |
-| `UriString`                                             | [ ] Deferred| N/A                                      | Group21          |
+| `UriString`                                             | [x] Done    | 932196e6c6                               | Group21          |
 | `Url`                                                   | [x] Done    | 4b96ab8d89                               | Group3           |
 | `UserDefinedCluster`                                    | [ ] Deferred| 60a130c7b2                               | Group30          |
 | `UserDefinedCommunicationConnector`                     | [ ] Deferred| ff537256be                               | Group30          |
