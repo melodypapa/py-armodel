@@ -790,7 +790,7 @@ class TestARXMLWriterDocRevisionMethods:
         revision.setIssuedBy(issued_by)
 
         date = DateTime()
-        date.setValue("2024-01-01T00:00:00")
+        date.setValue("2024-01-01T00:00:00Z")
         revision.setDate(date)
 
         writer.writeDocRevision(parent, revision)

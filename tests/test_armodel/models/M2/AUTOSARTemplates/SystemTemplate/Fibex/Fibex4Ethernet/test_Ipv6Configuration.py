@@ -44,7 +44,7 @@ class TestIpv6Configuration:
 
     def test_get_set_default_router(self):
         obj = self._obj()
-        value = Ip6AddressString().setValue("fe80::1")
+        value = Ip6AddressString().setValue("fe80:0:0:0:0:0:0:1")
         assert obj.setDefaultRouter(value) is obj
         assert obj.getDefaultRouter() is value
         obj.setDefaultRouter(None)
@@ -52,7 +52,7 @@ class TestIpv6Configuration:
 
     def test_add_dns_server_address(self):
         obj = self._obj()
-        value = Ip6AddressString().setValue("2001:db8::53")
+        value = Ip6AddressString().setValue("2001:db8:0:0:0:0:0:53")
         assert obj.addDnsServerAddress(value) is obj
         assert obj.getDnsServerAddresses() == [value]
         obj.addDnsServerAddress(None)
@@ -92,7 +92,7 @@ class TestIpv6Configuration:
 
     def test_get_set_ipv6_address(self):
         obj = self._obj()
-        value = Ip6AddressString().setValue("2001:db8::1")
+        value = Ip6AddressString().setValue("2001:db8:0:0:0:0:0:1")
         assert obj.setIpv6Address(value) is obj
         assert obj.getIpv6Address() is value
         obj.setIpv6Address(None)

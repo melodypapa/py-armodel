@@ -38,7 +38,7 @@ def test_read_platform_module_ethernet_endpoint_configuration():
         "<SHORT-NAME>Cfg1</SHORT-NAME>"
         "<COMMUNICATION-CONNECTOR-REF DEST='ETHERNET-COMMUNICATION-CONNECTOR'>/Ecu/Conn</COMMUNICATION-CONNECTOR-REF>"
         "<IPV-4-MULTICAST-IP-ADDRESS>239.255.0.1</IPV-4-MULTICAST-IP-ADDRESS>"
-        "<IPV-6-MULTICAST-IP-ADDRESS>ff02::1</IPV-6-MULTICAST-IP-ADDRESS>"
+        "<IPV-6-MULTICAST-IP-ADDRESS>ff02:0:0:0:0:0:0:1</IPV-6-MULTICAST-IP-ADDRESS>"
         "</PLATFORM-MODULE-ETHERNET-ENDPOINT-CONFIGURATION>" % NS
     )
     config = _new_configuration()
@@ -48,7 +48,7 @@ def test_read_platform_module_ethernet_endpoint_configuration():
     assert config.getCommunicationConnectorRef().getValue() == "/Ecu/Conn"
     assert config.getCommunicationConnectorRef().getDest() == "ETHERNET-COMMUNICATION-CONNECTOR"
     assert config.getIpv4MulticastIpAddress().getValue() == "239.255.0.1"
-    assert config.getIpv6MulticastIpAddress().getValue() == "ff02::1"
+    assert config.getIpv6MulticastIpAddress().getValue() == "ff02:0:0:0:0:0:0:1"
 
 
 def test_read_platform_module_ethernet_endpoint_configuration_empty():

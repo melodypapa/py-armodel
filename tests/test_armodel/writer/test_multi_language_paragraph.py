@@ -15,7 +15,7 @@ from armodel.writer.arxml_writer import ARXMLWriter
 def _build_paragraph() -> MultiLanguageParagraph:
     paragraph = MultiLanguageParagraph()
     paragraph.setSi(NameTokens().setValue("semantic"))
-    paragraph.setView(ViewTokens().setValue("view-a"))
+    paragraph.setView(ViewTokens().setValue("view_a"))
     paragraph.setBreak(ChapterEnumBreak().setValue(ChapterEnumBreak.BREAK))
     paragraph.setKeepWithPrevious(KeepWithPreviousEnum().setValue(KeepWithPreviousEnum.KEEP))
     paragraph.setHelpEntry(String().setValue("help-topic"))
@@ -35,7 +35,7 @@ class TestMultiLanguageParagraph:
 
         assert element is not None
         assert element.attrib["SI"] == "semantic"
-        assert element.attrib["VIEW"] == "view-a"
+        assert element.attrib["VIEW"] == "view_a"
         assert element.attrib["BREAK"] == "BREAK"
         assert element.attrib["KEEP-WITH-PREVIOUS"] == "KEEP"
         assert element.attrib["HELP-ENTRY"] == "help-topic"
@@ -67,7 +67,7 @@ class TestMultiLanguageParagraph:
         assert len(paragraphs) == 1
         paragraph = paragraphs[0]
         assert paragraph.getSi().getValue() == "semantic"
-        assert paragraph.getView().getValue() == "view-a"
+        assert paragraph.getView().getValue() == "view_a"
         assert paragraph.getBreak().getValue() == "BREAK"
         assert paragraph.getKeepWithPrevious().getValue() == "KEEP"
         assert paragraph.getHelpEntry().getValue() == "help-topic"

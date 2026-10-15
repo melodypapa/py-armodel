@@ -7,8 +7,8 @@ from armodel.parser.arxml_parser import ARXMLParser
 
 class TestBrParser:
     def test_read_br_preserves_ar_object_attributes(self):
-        parent = ET.fromstring('<PARENT xmlns="http://autosar.org/schema/r4.0"><BR S="checksum" T="timestamp"/></PARENT>')
+        parent = ET.fromstring('<PARENT xmlns="http://autosar.org/schema/r4.0"><BR S="checksum" T="2024-01-01"/></PARENT>')
         br = ARXMLParser().getBr(parent, "BR")
 
         assert br.getChecksum().getValue() == "checksum"
-        assert br.getTimestamp().getValue() == "timestamp"
+        assert br.getTimestamp().getValue() == "2024-01-01"

@@ -6,13 +6,13 @@ from armodel.parser.arxml_parser import ARXMLParser
 
 class TestRow:
     def test_read_row(self):
-        element = ET.fromstring('<ROW xmlns="http://autosar.org/schema/r4.0" S="checksum" T="timestamp" SI="row-view" BREAK="BREAK" ROWSEP="1" VALIGN="MIDDLE">' "<ENTRY />" "<ENTRY />" "</ROW>")
+        element = ET.fromstring('<ROW xmlns="http://autosar.org/schema/r4.0" S="checksum" T="2024-01-01" SI="row-view" BREAK="BREAK" ROWSEP="1" VALIGN="MIDDLE">' "<ENTRY />" "<ENTRY />" "</ROW>")
         row = Row()
 
         ARXMLParser().readRow(element, row)
 
         assert row.getChecksum().getValue() == "checksum"
-        assert row.getTimestamp().getValue() == "timestamp"
+        assert row.getTimestamp().getValue() == "2024-01-01"
         assert row.getSi().getValue() == "row-view"
         assert row.getBreak().getValue() == "BREAK"
         assert row.getRowsep().getValue() == "1"

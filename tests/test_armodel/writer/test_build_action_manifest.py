@@ -503,10 +503,10 @@ class TestWriteBuildAction:
         action.addPredecessorActionRef(_ref("/first"))
         action.addPredecessorActionRef(_ref("/second"))
         action.addFollowUpActionRef(_ref("/next"))
-        action.addCreatedData(_io_element("created-one"))
-        action.addCreatedData(_io_element("created-two"))
-        action.addInputData(_io_element("input-one"))
-        action.addModifiedData(_io_element("modified-one"))
+        action.addCreatedData(_io_element("created_one"))
+        action.addCreatedData(_io_element("created_two"))
+        action.addInputData(_io_element("input_one"))
+        action.addModifiedData(_io_element("modified_one"))
         action.setRequiredEnvironmentRef(_ref("/Environment"))
 
         element = ET.Element("BUILD-ACTION")
@@ -517,11 +517,11 @@ class TestWriteBuildAction:
         follow_ups = element.findall("FOLLOW-UP-ACTION-REFS/FOLLOW-UP-ACTION-REF")
         assert [ref.text for ref in follow_ups] == ["/next"]
         created = element.findall("CREATED-DATAS/BUILD-ACTION-IO-ELEMENT")
-        assert [item.find("ROLE").text for item in created] == ["created-one", "created-two"]
+        assert [item.find("ROLE").text for item in created] == ["created_one", "created_two"]
         inputs = element.findall("INPUT-DATAS/BUILD-ACTION-IO-ELEMENT")
-        assert [item.find("ROLE").text for item in inputs] == ["input-one"]
+        assert [item.find("ROLE").text for item in inputs] == ["input_one"]
         modified = element.findall("MODIFIED-DATAS/BUILD-ACTION-IO-ELEMENT")
-        assert [item.find("ROLE").text for item in modified] == ["modified-one"]
+        assert [item.find("ROLE").text for item in modified] == ["modified_one"]
         assert element.find("REQUIRED-ENVIRONMENT-REF").text == "/Environment"
 
     def test_write_empty_action_omits_wrappers(self):
@@ -548,10 +548,10 @@ class TestBuildActionRoundTrip:
         action.addPredecessorActionRef(_ref("/first"))
         action.addPredecessorActionRef(_ref("/second"))
         action.addFollowUpActionRef(_ref("/next"))
-        action.addCreatedData(_io_element("created-one"))
-        action.addCreatedData(_io_element("created-two"))
-        action.addInputData(_io_element("input-one"))
-        action.addModifiedData(_io_element("modified-one"))
+        action.addCreatedData(_io_element("created_one"))
+        action.addCreatedData(_io_element("created_two"))
+        action.addInputData(_io_element("input_one"))
+        action.addModifiedData(_io_element("modified_one"))
         action.setRequiredEnvironmentRef(_ref("/Environment"))
 
         element = ET.Element("BUILD-ACTION")
@@ -564,9 +564,9 @@ class TestBuildActionRoundTrip:
 
         assert [ref.getValue() for ref in reloaded.getPredecessorActionRefs()] == ["/first", "/second"]
         assert [ref.getValue() for ref in reloaded.getFollowUpActionRefs()] == ["/next"]
-        assert [str(data.getRole()) for data in reloaded.getCreatedDatas()] == ["created-one", "created-two"]
-        assert [str(data.getRole()) for data in reloaded.getInputDatas()] == ["input-one"]
-        assert [str(data.getRole()) for data in reloaded.getModifiedDatas()] == ["modified-one"]
+        assert [str(data.getRole()) for data in reloaded.getCreatedDatas()] == ["created_one", "created_two"]
+        assert [str(data.getRole()) for data in reloaded.getInputDatas()] == ["input_one"]
+        assert [str(data.getRole()) for data in reloaded.getModifiedDatas()] == ["modified_one"]
         assert reloaded.getRequiredEnvironmentRef().getValue() == "/Environment"
 
     def test_round_trip_empty_action_omits_wrappers(self):

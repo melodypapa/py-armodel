@@ -39,7 +39,7 @@ def _snip_with_attrs(attrs: str, inner: str) -> ET.Element:
 
 def _full_inner() -> str:
     return (
-        "<DESTINATION-MAC-ADDRESS>00-11-22-33-44-55</DESTINATION-MAC-ADDRESS>"
+        "<DESTINATION-MAC-ADDRESS>00:11:22:33:44:55</DESTINATION-MAC-ADDRESS>"
         "<GLOBAL-KAY-PROPS-REF DEST='MAC-SEC-GLOBAL-KAY-PROPS'>/Sec/MacSecGlobalKay</GLOBAL-KAY-PROPS-REF>"
         "<KEY-SERVER-PRIORITY>16</KEY-SERVER-PRIORITY>"
         "<MKA-PARTICIPANT-REFS>"
@@ -47,7 +47,7 @@ def _full_inner() -> str:
         "<MKA-PARTICIPANT-REF DEST='MAC-SEC-KAY-PARTICIPANT'>/Sec/MkaParticipant2</MKA-PARTICIPANT-REF>"
         "</MKA-PARTICIPANT-REFS>"
         "<ROLE>KEY-SERVER</ROLE>"
-        "<SOURCE-MAC-ADDRESS>AA-BB-CC-DD-EE-FF</SOURCE-MAC-ADDRESS>"
+        "<SOURCE-MAC-ADDRESS>AA:BB:CC:DD:EE:FF</SOURCE-MAC-ADDRESS>"
     )
 
 
@@ -68,21 +68,21 @@ class TestReadMacSecLocalKayProps:
         props = MacSecLocalKayProps()
         parser.readMacSecLocalKayProps(element, props)
 
-        assert props.getDestinationMacAddress().getValue() == "00-11-22-33-44-55"
+        assert props.getDestinationMacAddress().getValue() == "00:11:22:33:44:55"
         assert props.getGlobalKayPropsRef().getValue() == "/Sec/MacSecGlobalKay"
         assert props.getKeyServerPriority().getValue() == 16
         assert [r.getValue() for r in props.getMkaParticipantRefs()] == ["/Sec/MkaParticipant1", "/Sec/MkaParticipant2"]
         assert props.getRole().getValue() == "KEY-SERVER"
-        assert props.getSourceMacAddress().getValue() == "AA-BB-CC-DD-EE-FF"
+        assert props.getSourceMacAddress().getValue() == "AA:BB:CC:DD:EE:FF"
 
     def test_read_partial_attributes(self):
         parser = ARXMLParser(options={"warning": True})
-        element = _snip("<DESTINATION-MAC-ADDRESS>00-11-22-33-44-55</DESTINATION-MAC-ADDRESS><SOURCE-MAC-ADDRESS>AA-BB-CC-DD-EE-FF</SOURCE-MAC-ADDRESS>")
+        element = _snip("<DESTINATION-MAC-ADDRESS>00:11:22:33:44:55</DESTINATION-MAC-ADDRESS><SOURCE-MAC-ADDRESS>AA:BB:CC:DD:EE:FF</SOURCE-MAC-ADDRESS>")
         props = MacSecLocalKayProps()
         parser.readMacSecLocalKayProps(element, props)
 
-        assert props.getDestinationMacAddress().getValue() == "00-11-22-33-44-55"
-        assert props.getSourceMacAddress().getValue() == "AA-BB-CC-DD-EE-FF"
+        assert props.getDestinationMacAddress().getValue() == "00:11:22:33:44:55"
+        assert props.getSourceMacAddress().getValue() == "AA:BB:CC:DD:EE:FF"
         assert props.getGlobalKayPropsRef() is None
         assert props.getKeyServerPriority() is None
         assert props.getMkaParticipantRefs() == []
@@ -115,7 +115,7 @@ class TestReadMacSecLocalKayProps:
         props = parser.getMacSecLocalKayProps(element)
 
         assert props is not None
-        assert props.getDestinationMacAddress().getValue() == "00-11-22-33-44-55"
+        assert props.getDestinationMacAddress().getValue() == "00:11:22:33:44:55"
         assert props.getKeyServerPriority().getValue() == 16
         assert props.getRole().getValue() == "KEY-SERVER"
 
@@ -136,12 +136,12 @@ class TestMacSecPropsMacSecKayConfigDispatch:
 
         kay = props.getMacSecKayConfig()
         assert kay is not None
-        assert kay.getDestinationMacAddress().getValue() == "00-11-22-33-44-55"
+        assert kay.getDestinationMacAddress().getValue() == "00:11:22:33:44:55"
         assert kay.getGlobalKayPropsRef().getValue() == "/Sec/MacSecGlobalKay"
         assert kay.getKeyServerPriority().getValue() == 16
         assert [r.getValue() for r in kay.getMkaParticipantRefs()] == ["/Sec/MkaParticipant1", "/Sec/MkaParticipant2"]
         assert kay.getRole().getValue() == "KEY-SERVER"
-        assert kay.getSourceMacAddress().getValue() == "AA-BB-CC-DD-EE-FF"
+        assert kay.getSourceMacAddress().getValue() == "AA:BB:CC:DD:EE:FF"
 
     def test_read_mac_sec_props_kay_config_base_level(self):
         parser = ARXMLParser(options={"warning": True})

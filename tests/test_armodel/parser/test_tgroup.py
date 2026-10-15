@@ -7,7 +7,7 @@ from armodel.parser.arxml_parser import ARXMLParser
 class TestTgroup:
     def test_read_tgroup(self):
         element = ET.fromstring(
-            '<TGROUP xmlns="http://autosar.org/schema/r4.0" S="checksum" T="timestamp" ALIGN="CENTER" COLS="2" COLSEP="1" ROWSEP="0">'
+            '<TGROUP xmlns="http://autosar.org/schema/r4.0" S="checksum" T="2024-01-01" ALIGN="CENTER" COLS="2" COLSEP="1" ROWSEP="0">'
             '<COLSPEC COLNUM="1" />'
             "<THEAD><ROW /></THEAD>"
             "<TFOOT><ROW /></TFOOT>"
@@ -19,7 +19,7 @@ class TestTgroup:
         ARXMLParser().readTgroup(element, tgroup)
 
         assert tgroup.getChecksum().getValue() == "checksum"
-        assert tgroup.getTimestamp().getValue() == "timestamp"
+        assert tgroup.getTimestamp().getValue() == "2024-01-01"
         assert tgroup.getAlign().getValue() == "CENTER"
         assert tgroup.getCols().getValue() == 2
         assert tgroup.getColsep().getValue() == "1"

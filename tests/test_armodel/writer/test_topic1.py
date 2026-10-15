@@ -80,11 +80,11 @@ class TestTopic1Writer:
         )
         written = element.find("TOPIC-1")
         vp_element = ET.SubElement(written, "VARIATION-POINT")
-        ET.SubElement(vp_element, "SHORT-LABEL").text = "incoming variation point"
+        ET.SubElement(vp_element, "SHORT-LABEL").text = "incoming_variation_point"
         ET.SubElement(vp_element, "DESC").text = "variation point description"
 
         result = _reparse(element)
 
         assert result.getVariationPoint() is not None
-        assert result.getVariationPoint().getShortLabel().getValue() == "incoming variation point"
+        assert result.getVariationPoint().getShortLabel().getValue() == "incoming_variation_point"
         assert result.getVariationPoint().getDesc() is not None

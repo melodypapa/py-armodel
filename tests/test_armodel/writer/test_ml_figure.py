@@ -16,7 +16,7 @@ from armodel.writer.arxml_writer import ARXMLWriter
 def _build_full_ml_figure() -> MlFigure:
     figure = MlFigure()
     figure.setSi(NameToken().setValue("si-tokens"))
-    figure.setView(NameToken().setValue("view-tokens"))
+    figure.setView(NameToken().setValue("view_tokens"))
     figure.setBreak(ChapterEnumBreak().setValue(ChapterEnumBreak.BREAK))
     figure.setKeepWithPrevious(KeepWithPreviousEnum().setValue(KeepWithPreviousEnum.KEEP))
     figure.setFrame(FrameEnum().setValue(FrameEnum.ALL))
@@ -49,7 +49,7 @@ class TestMlFigureWriter:
         written = element.find("FIGURE")
         assert written is not None
         assert written.attrib["SI"] == "si-tokens"
-        assert written.attrib["VIEW"] == "view-tokens"
+        assert written.attrib["VIEW"] == "view_tokens"
         assert written.attrib["BREAK"] == "BREAK"
         assert written.attrib["KEEP-WITH-PREVIOUS"] == "KEEP"
         assert written.attrib["FRAME"] == "ALL"
@@ -91,7 +91,7 @@ class TestMlFigureWriter:
         assert figure.getBreak().getValue() == "BREAK"
         assert figure.getKeepWithPrevious().getValue() == "KEEP"
         assert figure.getSi().getValue() == "si-tokens"
-        assert figure.getView().getValue() == "view-tokens"
+        assert figure.getView().getValue() == "view_tokens"
         assert figure.getFigureCaption().getShortName() == "cap"
         assert figure.getLGraphics()[0].getGraphic().getFilename().getValue() == "image.png"
         assert figure.getVerbatim().getAllowBreak().getValue() == "1"

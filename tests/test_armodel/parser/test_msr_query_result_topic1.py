@@ -10,7 +10,7 @@ class TestMsrQueryResultTopic1Parser:
         parser = ARXMLParser()
         element = ET.fromstring(
             '<PARENT xmlns="http://autosar.org/schema/r4.0">'
-            '<MSR-QUERY-RESULT-TOPIC-1 S="checksum" T="timestamp">'
+            '<MSR-QUERY-RESULT-TOPIC-1 S="checksum" T="2024-01-01">'
             '<TOPIC-1 HELP-ENTRY="help-1"><SHORT-NAME>topic-1</SHORT-NAME></TOPIC-1>'
             "<TOPIC-1><SHORT-NAME>topic-2</SHORT-NAME></TOPIC-1>"
             "</MSR-QUERY-RESULT-TOPIC-1></PARENT>"
@@ -20,7 +20,7 @@ class TestMsrQueryResultTopic1Parser:
 
         assert result is not None
         assert result.getChecksum().getValue() == "checksum"
-        assert result.getTimestamp().getValue() == "timestamp"
+        assert result.getTimestamp().getValue() == "2024-01-01"
         topics = result.getTopic1s()
         assert len(topics) == 2
         assert topics[0].getShortName() == "topic-1"

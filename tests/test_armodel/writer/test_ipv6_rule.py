@@ -64,8 +64,8 @@ class TestWriteFirewallRuleIpv6Rule:
         writer = _make_writer()
         rule = FirewallRule(AUTOSAR.getInstance().createARPackage("AUTOSAR"), "Rule1")
         ipv6_rule = Ipv6Rule()
-        ipv6_rule.setDestinationIpAddress(_ip6("2001:db8::1"))
-        ipv6_rule.setDestinationNetworkMask(_ip6("ffff:ffff:ffff::"))
+        ipv6_rule.setDestinationIpAddress(_ip6("2001:db8:0:0:0:0:0:1"))
+        ipv6_rule.setDestinationNetworkMask(_ip6("ffff:ffff:ffff:0:0:0:0:0"))
         ipv6_rule.setFlowLabel(_pos_int(1048576))
         ipv6_rule.setHopLimit(_pos_int(64))
         icmp_rule = IcmpRule()
@@ -74,8 +74,8 @@ class TestWriteFirewallRuleIpv6Rule:
         icmp_rule.setType(_pos_int(8))
         ipv6_rule.setIcmpRule(icmp_rule)
         ipv6_rule.setNextHeader(_pos_int(58))
-        ipv6_rule.setSourceIpAddress(_ip6("fe80::1"))
-        ipv6_rule.setSourceNetworkMask(_ip6("ffff::"))
+        ipv6_rule.setSourceIpAddress(_ip6("fe80:0:0:0:0:0:0:1"))
+        ipv6_rule.setSourceNetworkMask(_ip6("ffff:0:0:0:0:0:0:0"))
         ipv6_rule.setTrafficClass(_pos_int(46))
         rule.setNetworkLayerRule(ipv6_rule)
 
@@ -95,8 +95,8 @@ class TestWriteFirewallRuleIpv6Rule:
             "SOURCE-NETWORK-MASK",
             "TRAFFIC-CLASS",
         ]
-        assert ipv6_rule_element.find("DESTINATION-IP-ADDRESS").text == "2001:db8::1"
-        assert ipv6_rule_element.find("DESTINATION-NETWORK-MASK").text == "ffff:ffff:ffff::"
+        assert ipv6_rule_element.find("DESTINATION-IP-ADDRESS").text == "2001:db8:0:0:0:0:0:1"
+        assert ipv6_rule_element.find("DESTINATION-NETWORK-MASK").text == "ffff:ffff:ffff:0:0:0:0:0"
         assert ipv6_rule_element.find("FLOW-LABEL").text == "1048576"
         assert ipv6_rule_element.find("HOP-LIMIT").text == "64"
         icmp_rule_element = ipv6_rule_element.find("ICMP-RULE")
@@ -105,15 +105,15 @@ class TestWriteFirewallRuleIpv6Rule:
         assert icmp_rule_element.find("CODE").text == "1"
         assert icmp_rule_element.find("TYPE").text == "8"
         assert ipv6_rule_element.find("NEXT-HEADER").text == "58"
-        assert ipv6_rule_element.find("SOURCE-IP-ADDRESS").text == "fe80::1"
-        assert ipv6_rule_element.find("SOURCE-NETWORK-MASK").text == "ffff::"
+        assert ipv6_rule_element.find("SOURCE-IP-ADDRESS").text == "fe80:0:0:0:0:0:0:1"
+        assert ipv6_rule_element.find("SOURCE-NETWORK-MASK").text == "ffff:0:0:0:0:0:0:0"
         assert ipv6_rule_element.find("TRAFFIC-CLASS").text == "46"
 
     def test_write_partial_ipv6_rule_omits_absent_elements(self):
         writer = _make_writer()
         rule = FirewallRule(AUTOSAR.getInstance().createARPackage("AUTOSAR"), "Rule1")
         ipv6_rule = Ipv6Rule()
-        ipv6_rule.setDestinationIpAddress(_ip6("2001:db8::1"))
+        ipv6_rule.setDestinationIpAddress(_ip6("2001:db8:0:0:0:0:0:1"))
         ipv6_rule.setHopLimit(_pos_int(64))
         rule.setNetworkLayerRule(ipv6_rule)
 
@@ -123,7 +123,7 @@ class TestWriteFirewallRuleIpv6Rule:
         ipv6_rule_element = root.find("FIREWALL-RULE/NETWORK-LAYER-RULE/IPV-6-RULE")
         assert ipv6_rule_element is not None
         assert [child.tag for child in ipv6_rule_element] == ["DESTINATION-IP-ADDRESS", "HOP-LIMIT"]
-        assert ipv6_rule_element.find("DESTINATION-IP-ADDRESS").text == "2001:db8::1"
+        assert ipv6_rule_element.find("DESTINATION-IP-ADDRESS").text == "2001:db8:0:0:0:0:0:1"
         assert ipv6_rule_element.find("HOP-LIMIT").text == "64"
 
     def test_write_plain_network_layer_rule_keeps_identity_element(self):
@@ -152,8 +152,8 @@ class TestWriteFirewallRuleIpv6Rule:
         writer = _make_writer()
         rule = FirewallRule(AUTOSAR.getInstance().createARPackage("AUTOSAR"), "Rule1")
         ipv6_rule = Ipv6Rule()
-        ipv6_rule.setDestinationIpAddress(_ip6("2001:db8::1"))
-        ipv6_rule.setDestinationNetworkMask(_ip6("ffff:ffff:ffff::"))
+        ipv6_rule.setDestinationIpAddress(_ip6("2001:db8:0:0:0:0:0:1"))
+        ipv6_rule.setDestinationNetworkMask(_ip6("ffff:ffff:ffff:0:0:0:0:0"))
         ipv6_rule.setFlowLabel(_pos_int(1048576))
         ipv6_rule.setHopLimit(_pos_int(64))
         icmp_rule = IcmpRule()
@@ -161,8 +161,8 @@ class TestWriteFirewallRuleIpv6Rule:
         icmp_rule.setType(_pos_int(8))
         ipv6_rule.setIcmpRule(icmp_rule)
         ipv6_rule.setNextHeader(_pos_int(58))
-        ipv6_rule.setSourceIpAddress(_ip6("fe80::1"))
-        ipv6_rule.setSourceNetworkMask(_ip6("ffff::"))
+        ipv6_rule.setSourceIpAddress(_ip6("fe80:0:0:0:0:0:0:1"))
+        ipv6_rule.setSourceNetworkMask(_ip6("ffff:0:0:0:0:0:0:0"))
         ipv6_rule.setTrafficClass(_pos_int(46))
         rule.setNetworkLayerRule(ipv6_rule)
 
@@ -177,8 +177,8 @@ class TestWriteFirewallRuleIpv6Rule:
 
         network_rule = recovered.getNetworkLayerRule()
         assert isinstance(network_rule, Ipv6Rule)
-        assert network_rule.getDestinationIpAddress().getValue() == "2001:db8::1"
-        assert network_rule.getDestinationNetworkMask().getValue() == "ffff:ffff:ffff::"
+        assert network_rule.getDestinationIpAddress().getValue() == "2001:db8:0:0:0:0:0:1"
+        assert network_rule.getDestinationNetworkMask().getValue() == "ffff:ffff:ffff:0:0:0:0:0"
         assert network_rule.getFlowLabel().getValue() == 1048576
         assert network_rule.getHopLimit().getValue() == 64
         recovered_icmp_rule = network_rule.getIcmpRule()
@@ -187,6 +187,6 @@ class TestWriteFirewallRuleIpv6Rule:
         assert recovered_icmp_rule.getCode().getValue() == 1
         assert recovered_icmp_rule.getType().getValue() == 8
         assert network_rule.getNextHeader().getValue() == 58
-        assert network_rule.getSourceIpAddress().getValue() == "fe80::1"
-        assert network_rule.getSourceNetworkMask().getValue() == "ffff::"
+        assert network_rule.getSourceIpAddress().getValue() == "fe80:0:0:0:0:0:0:1"
+        assert network_rule.getSourceNetworkMask().getValue() == "ffff:0:0:0:0:0:0:0"
         assert network_rule.getTrafficClass().getValue() == 46

@@ -10,7 +10,7 @@ class TestMlFigureParser:
         parser = ARXMLParser()
         element = ET.fromstring(
             '<PARENT xmlns="http://autosar.org/schema/r4.0">'
-            '<FIGURE S="checksum" T="timestamp" SI="si-tokens" VIEW="view-tokens" BREAK="BREAK"'
+            '<FIGURE S="checksum" T="2024-01-01" SI="si-tokens" VIEW="view_tokens" BREAK="BREAK"'
             ' KEEP-WITH-PREVIOUS="KEEP" FRAME="ALL" HELP-ENTRY="help-topic" PGWIDE="PGWIDE">'
             "<FIGURE-CAPTION><SHORT-NAME>cap</SHORT-NAME></FIGURE-CAPTION>"
             '<L-GRAPHIC L="en"><GRAPHIC FILENAME="image.png"/></L-GRAPHIC>'
@@ -23,9 +23,9 @@ class TestMlFigureParser:
         assert len(figures) == 1
         figure = figures[0]
         assert figure.getChecksum().getValue() == "checksum"
-        assert figure.getTimestamp().getValue() == "timestamp"
+        assert figure.getTimestamp().getValue() == "2024-01-01"
         assert figure.getSi().getValue() == "si-tokens"
-        assert figure.getView().getValue() == "view-tokens"
+        assert figure.getView().getValue() == "view_tokens"
         assert figure.getBreak().getValue() == "BREAK"
         assert figure.getKeepWithPrevious().getValue() == "KEEP"
         assert figure.getFrame().getValue() == "ALL"

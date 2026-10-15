@@ -51,13 +51,13 @@ def _new_configuration():
     configuration.setChecksum(String().setValue("4321"))
     configuration.setTimestamp(DateTime().setValue("2024-01-01T00:00:00Z"))
     configuration.setAssignmentPriority(PositiveInteger().setValue(1))
-    configuration.setDefaultRouter(Ip6AddressString().setValue("fe80::1"))
-    configuration.addDnsServerAddress(Ip6AddressString().setValue("2001:db8::53"))
+    configuration.setDefaultRouter(Ip6AddressString().setValue("fe80:0:0:0:0:0:0:1"))
+    configuration.addDnsServerAddress(Ip6AddressString().setValue("2001:db8:0:0:0:0:0:53"))
     configuration.setEnableAnycast(Boolean().setValue("true"))
     configuration.setHopCount(PositiveInteger().setValue(64))
     configuration.setIpAddressKeepBehavior(IpAddressKeepEnum().setValue(IpAddressKeepEnum.STORE_PERSISTENTLY))
     configuration.setIpAddressPrefixLength(PositiveInteger().setValue(48))
-    configuration.setIpv6Address(Ip6AddressString().setValue("2001:db8::1"))
+    configuration.setIpv6Address(Ip6AddressString().setValue("2001:db8:0:0:0:0:0:1"))
     configuration.setIpv6AddressSource(Ipv6AddressSourceEnum().setValue(Ipv6AddressSourceEnum.DHCPV6))
     return configuration
 
@@ -69,15 +69,15 @@ class TestWriteIpv6Configuration:
         node = parent.find("IPV-6-CONFIGURATION")
         assert node is not None
         assert node.find("ASSIGNMENT-PRIORITY").text == "1"
-        assert node.find("DEFAULT-ROUTER").text == "fe80::1"
+        assert node.find("DEFAULT-ROUTER").text == "fe80:0:0:0:0:0:0:1"
         dns_addresses = node.findall("DNS-SERVER-ADDRESSES/DNS-SERVER-ADDRESS")
         assert len(dns_addresses) == 1
-        assert dns_addresses[0].text == "2001:db8::53"
+        assert dns_addresses[0].text == "2001:db8:0:0:0:0:0:53"
         assert node.find("ENABLE-ANYCAST").text == "true"
         assert node.find("HOP-COUNT").text == "64"
         assert node.find("IP-ADDRESS-KEEP-BEHAVIOR").text == "STORE-PERSISTENTLY"
         assert node.find("IP-ADDRESS-PREFIX-LENGTH").text == "48"
-        assert node.find("IPV-6-ADDRESS").text == "2001:db8::1"
+        assert node.find("IPV-6-ADDRESS").text == "2001:db8:0:0:0:0:0:1"
         assert node.find("IPV-6-ADDRESS-SOURCE").text == "DHCPV-6"
 
     def test_write_empty_fields_omits_optional_tags(self, writer):
@@ -99,16 +99,16 @@ class TestIpv6ConfigurationRoundTrip:
         assert parsed.getChecksum().getValue() == "4321"
         assert parsed.getTimestamp().getValue() == "2024-01-01T00:00:00Z"
         assert parsed.getAssignmentPriority().getValue() == 1
-        assert parsed.getDefaultRouter().getValue() == "fe80::1"
+        assert parsed.getDefaultRouter().getValue() == "fe80:0:0:0:0:0:0:1"
         dns_addresses = parsed.getDnsServerAddresses()
         assert len(dns_addresses) == 1
-        assert dns_addresses[0].getValue() == "2001:db8::53"
+        assert dns_addresses[0].getValue() == "2001:db8:0:0:0:0:0:53"
         assert parsed.getEnableAnycast().getValue() is True
         assert parsed.getHopCount().getValue() == 64
         assert parsed.getIpAddressKeepBehavior().getValue() == IpAddressKeepEnum.STORE_PERSISTENTLY
         assert isinstance(parsed.getIpAddressKeepBehavior(), IpAddressKeepEnum)
         assert parsed.getIpAddressPrefixLength().getValue() == 48
-        assert parsed.getIpv6Address().getValue() == "2001:db8::1"
+        assert parsed.getIpv6Address().getValue() == "2001:db8:0:0:0:0:0:1"
         assert parsed.getIpv6AddressSource().getValue() == Ipv6AddressSourceEnum.DHCPV6
         assert isinstance(parsed.getIpv6AddressSource(), Ipv6AddressSourceEnum)
 

@@ -120,7 +120,7 @@ class TestSdgParsing:
 class TestRevisionParsing:
     def test_readDocRevision_minimal(self, parser):
         element = _snip(
-            "<DATE>2024-01-01T00:00:00</DATE>" "<ISSUED-BY>alice</ISSUED-BY>" "<REVISION-LABEL>1.0.0</REVISION-LABEL>" "<STATE>released</STATE>",
+            "<DATE>2024-01-01T00:00:00Z</DATE>" "<ISSUED-BY>alice</ISSUED-BY>" "<REVISION-LABEL>1.0.0</REVISION-LABEL>" "<STATE>released</STATE>",
             root_tag="DOC-REVISION",
         )
         revision = DocRevision()

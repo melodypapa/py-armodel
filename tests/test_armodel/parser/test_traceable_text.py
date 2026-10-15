@@ -34,7 +34,7 @@ class TestTraceableTextReader:
         AUTOSAR.getInstance().clear()
         element = ET.fromstring(
             "<ROOT xmlns='http://autosar.org/schema/r4.0'>"
-            "<TRACE S='checksum-tt' T='timestamp-tt' UUID='uuid-tt-reg'>"
+            "<TRACE S='checksum-tt' T='2024-01-01' UUID='uuid-tt-reg'>"
             "<SHORT-NAME>REQ-2</SHORT-NAME>"
             "<P><L-1 L='EN'>requirement text</L-1></P>"
             "</TRACE>"
@@ -44,6 +44,6 @@ class TestTraceableTextReader:
         traceable_text = ARXMLParser().getTraceableText(element, "TRACE")
 
         assert traceable_text.getChecksum().getValue() == "checksum-tt"
-        assert traceable_text.getTimestamp().getValue() == "timestamp-tt"
+        assert traceable_text.getTimestamp().getValue() == "2024-01-01"
         assert traceable_text.getUuid().getValue() == "uuid-tt-reg"
         assert len(AUTOSAR.getInstance().getARObjectByUUID("uuid-tt-reg")) == 1

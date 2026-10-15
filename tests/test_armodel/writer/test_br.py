@@ -11,14 +11,14 @@ class TestBrWriter:
     def test_write_br_emits_element_and_ar_object_attributes(self):
         br = Br()
         br.setChecksum(String().setValue("checksum"))
-        br.setTimestamp(DateTime().setValue("timestamp"))
+        br.setTimestamp(DateTime().setValue("2024-01-01"))
         element = ET.Element("PARENT")
 
         ARXMLWriter().setBr(element, "BR", br)
 
         written = element.find("BR")
         assert written is not None
-        assert written.attrib == {"S": "checksum", "T": "timestamp"}
+        assert written.attrib == {"S": "checksum", "T": "2024-01-01"}
 
     def test_write_br_omits_none(self):
         element = ET.Element("PARENT")

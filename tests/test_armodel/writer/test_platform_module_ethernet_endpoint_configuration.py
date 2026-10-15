@@ -39,7 +39,7 @@ def _new_configuration() -> PlatformModuleEthernetEndpointConfiguration:
     ref.setValue("/Ecu/Conn")
     config.setCommunicationConnectorRef(ref)
     config.setIpv4MulticastIpAddress(Ip4AddressString().setValue("239.255.0.1"))
-    config.setIpv6MulticastIpAddress(Ip6AddressString().setValue("ff02::1"))
+    config.setIpv6MulticastIpAddress(Ip6AddressString().setValue("ff02:0:0:0:0:0:0:1"))
     return config
 
 
@@ -59,7 +59,7 @@ def test_write_platform_module_ethernet_endpoint_configuration_order():
     assert ref.text == "/Ecu/Conn"
     assert ref.attrib["DEST"] == "ETHERNET-COMMUNICATION-CONNECTOR"
     assert node.find("IPV-4-MULTICAST-IP-ADDRESS").text == "239.255.0.1"
-    assert node.find("IPV-6-MULTICAST-IP-ADDRESS").text == "ff02::1"
+    assert node.find("IPV-6-MULTICAST-IP-ADDRESS").text == "ff02:0:0:0:0:0:0:1"
 
 
 def test_write_platform_module_ethernet_endpoint_configuration_empty_omits_optional_tags():
@@ -87,4 +87,4 @@ def test_round_trip_preserves_all_values():
     assert parsed.getCommunicationConnectorRef().getValue() == "/Ecu/Conn"
     assert parsed.getCommunicationConnectorRef().getDest() == "ETHERNET-COMMUNICATION-CONNECTOR"
     assert parsed.getIpv4MulticastIpAddress().getValue() == "239.255.0.1"
-    assert parsed.getIpv6MulticastIpAddress().getValue() == "ff02::1"
+    assert parsed.getIpv6MulticastIpAddress().getValue() == "ff02:0:0:0:0:0:0:1"

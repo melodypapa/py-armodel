@@ -74,13 +74,13 @@ class TestReadReferrable:
 
     def test_read_s_and_t(self):
         """readARObject must run so the inherited S/T state is read (Rule 0025)."""
-        element = ET.fromstring(f"""<ELEMENT xmlns='{NS}' S="cs-1" T="2026-10-11T10:00:00"/>""")
+        element = ET.fromstring(f"""<ELEMENT xmlns='{NS}' S="cs-1" T="2026-10-11T10:00:00Z"/>""")
 
         referrable = _Derived(None, "App")
         ARXMLParser().readReferrable(element, referrable)
 
         assert referrable.getChecksum().getValue() == "cs-1"
-        assert referrable.getTimestamp().getValue() == "2026-10-11T10:00:00"
+        assert referrable.getTimestamp().getValue() == "2026-10-11T10:00:00Z"
 
     def test_read_multiple_fragments_preserves_order(self):
         """

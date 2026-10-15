@@ -103,7 +103,7 @@ class TestDhcpServerConfigurationRoundTrip:
     def test_round_trip_preserves_s_t_attributes(self, writer, parser):
         config = _new_config()
         checksum = String().setValue("42")
-        timestamp = DateTime().setValue("2024-01-01T00:00:00")
+        timestamp = DateTime().setValue("2024-01-01T00:00:00Z")
         config.setChecksum(checksum)
         config.setTimestamp(timestamp)
         membership = VlanMembership()
@@ -114,13 +114,13 @@ class TestDhcpServerConfigurationRoundTrip:
         dhcp_element = vm_element.find("{%s}DHCP-ADDRESS-ASSIGNMENT" % NS)
         assert dhcp_element is not None
         assert dhcp_element.attrib["S"] == "42"
-        assert dhcp_element.attrib["T"] == "2024-01-01T00:00:00"
+        assert dhcp_element.attrib["T"] == "2024-01-01T00:00:00Z"
         parsed = VlanMembership()
         parser.readVlanMembership(vm_element, parsed)
         round_tripped = parsed.getDhcpAddressAssignment()
         assert isinstance(round_tripped, DhcpServerConfiguration)
         assert round_tripped.getChecksum().getValue() == "42"
-        assert round_tripped.getTimestamp().getValue() == "2024-01-01T00:00:00"
+        assert round_tripped.getTimestamp().getValue() == "2024-01-01T00:00:00Z"
 
 
 def _new_ipv4_config():
@@ -185,18 +185,18 @@ class TestIpv4DhcpServerConfigurationRoundTrip:
     def test_round_trip_preserves_s_t_attributes(self, writer, parser):
         config = _new_ipv4_config()
         config.setChecksum(String().setValue("42"))
-        config.setTimestamp(DateTime().setValue("2024-01-01T00:00:00"))
+        config.setTimestamp(DateTime().setValue("2024-01-01T00:00:00Z"))
         parent = ET.Element("PARENT")
         writer.setIpv4DhcpServerConfiguration(parent, "IPV-4-DHCP-SERVER-CONFIGURATION", config)
         inner = ET.tostring(parent).decode("utf-8")
         root = ET.fromstring("<AUTOSAR xmlns='%s'>%s</AUTOSAR>" % (NS, inner))
         node = root[0][0]
         assert node.attrib["S"] == "42"
-        assert node.attrib["T"] == "2024-01-01T00:00:00"
+        assert node.attrib["T"] == "2024-01-01T00:00:00Z"
         parsed = parser.getIpv4DhcpServerConfiguration(root[0], "IPV-4-DHCP-SERVER-CONFIGURATION")
         assert isinstance(parsed, Ipv4DhcpServerConfiguration)
         assert parsed.getChecksum().getValue() == "42"
-        assert parsed.getTimestamp().getValue() == "2024-01-01T00:00:00"
+        assert parsed.getTimestamp().getValue() == "2024-01-01T00:00:00Z"
 
     def test_reader_missing_element_returns_none(self, parser):
         parent = ET.fromstring("<PARENT xmlns='%s'></PARENT>" % NS)
@@ -216,13 +216,13 @@ class TestIpv4DhcpServerConfigurationRoundTrip:
 
 def _new_ipv6_config():
     config = Ipv6DhcpServerConfiguration()
-    config.setAddressRangeLowerBound(Ip6AddressString().setValue("fe80::100"))
-    config.setAddressRangeUpperBound(Ip6AddressString().setValue("fe80::200"))
-    config.setDefaultGateway(Ip6AddressString().setValue("fe80::1"))
+    config.setAddressRangeLowerBound(Ip6AddressString().setValue("fe80:0:0:0:0:0:0:100"))
+    config.setAddressRangeUpperBound(Ip6AddressString().setValue("fe80:0:0:0:0:0:0:200"))
+    config.setDefaultGateway(Ip6AddressString().setValue("fe80:0:0:0:0:0:0:1"))
     config.setDefaultLeaseTime(TimeValue().setValue(3600))
-    config.addDnsServerAddress(Ip6AddressString().setValue("2001:db8::53"))
-    config.addDnsServerAddress(Ip6AddressString().setValue("2001:db8::54"))
-    config.setNetworkMask(Ip6AddressString().setValue("ffff:ffff:ffff:ffff::"))
+    config.addDnsServerAddress(Ip6AddressString().setValue("2001:db8:0:0:0:0:0:53"))
+    config.addDnsServerAddress(Ip6AddressString().setValue("2001:db8:0:0:0:0:0:54"))
+    config.setNetworkMask(Ip6AddressString().setValue("ffff:ffff:ffff:ffff:0:0:0:0"))
     return config
 
 
@@ -232,15 +232,15 @@ class TestIpv6DhcpServerConfigurationWrite:
         writer.setIpv6DhcpServerConfiguration(parent, "IPV-6-DHCP-SERVER-CONFIGURATION", _new_ipv6_config())
         node = parent.find("IPV-6-DHCP-SERVER-CONFIGURATION")
         assert node is not None
-        assert node.find("ADDRESS-RANGE-LOWER-BOUND").text == "fe80::100"
-        assert node.find("ADDRESS-RANGE-UPPER-BOUND").text == "fe80::200"
-        assert node.find("DEFAULT-GATEWAY").text == "fe80::1"
+        assert node.find("ADDRESS-RANGE-LOWER-BOUND").text == "fe80:0:0:0:0:0:0:100"
+        assert node.find("ADDRESS-RANGE-UPPER-BOUND").text == "fe80:0:0:0:0:0:0:200"
+        assert node.find("DEFAULT-GATEWAY").text == "fe80:0:0:0:0:0:0:1"
         assert node.find("DEFAULT-LEASE-TIME").text == "3600.0"
         dns_addresses = node.findall("DNS-SERVER-ADDRESSES/DNS-SERVER-ADDRESS")
         assert len(dns_addresses) == 2
-        assert dns_addresses[0].text == "2001:db8::53"
-        assert dns_addresses[1].text == "2001:db8::54"
-        assert node.find("NETWORK-MASK").text == "ffff:ffff:ffff:ffff::"
+        assert dns_addresses[0].text == "2001:db8:0:0:0:0:0:53"
+        assert dns_addresses[1].text == "2001:db8:0:0:0:0:0:54"
+        assert node.find("NETWORK-MASK").text == "ffff:ffff:ffff:ffff:0:0:0:0"
 
     def test_write_empty_fields_omits_optional_tags(self, writer):
         parent = ET.Element("PARENT")
@@ -263,31 +263,31 @@ class TestIpv6DhcpServerConfigurationRoundTrip:
         root = ET.fromstring("<AUTOSAR xmlns='%s'>%s</AUTOSAR>" % (NS, inner))
         parsed = parser.getIpv6DhcpServerConfiguration(root[0], "IPV-6-DHCP-SERVER-CONFIGURATION")
         assert isinstance(parsed, Ipv6DhcpServerConfiguration)
-        assert parsed.getAddressRangeLowerBound().getValue() == "fe80::100"
-        assert parsed.getAddressRangeUpperBound().getValue() == "fe80::200"
-        assert parsed.getDefaultGateway().getValue() == "fe80::1"
+        assert parsed.getAddressRangeLowerBound().getValue() == "fe80:0:0:0:0:0:0:100"
+        assert parsed.getAddressRangeUpperBound().getValue() == "fe80:0:0:0:0:0:0:200"
+        assert parsed.getDefaultGateway().getValue() == "fe80:0:0:0:0:0:0:1"
         assert parsed.getDefaultLeaseTime().getValue() == 3600
         dns_addresses = parsed.getDnsServerAddresses()
         assert len(dns_addresses) == 2
-        assert dns_addresses[0].getValue() == "2001:db8::53"
-        assert dns_addresses[1].getValue() == "2001:db8::54"
-        assert parsed.getNetworkMask().getValue() == "ffff:ffff:ffff:ffff::"
+        assert dns_addresses[0].getValue() == "2001:db8:0:0:0:0:0:53"
+        assert dns_addresses[1].getValue() == "2001:db8:0:0:0:0:0:54"
+        assert parsed.getNetworkMask().getValue() == "ffff:ffff:ffff:ffff:0:0:0:0"
 
     def test_round_trip_preserves_s_t_attributes(self, writer, parser):
         config = _new_ipv6_config()
         config.setChecksum(String().setValue("42"))
-        config.setTimestamp(DateTime().setValue("2024-01-01T00:00:00"))
+        config.setTimestamp(DateTime().setValue("2024-01-01T00:00:00Z"))
         parent = ET.Element("PARENT")
         writer.setIpv6DhcpServerConfiguration(parent, "IPV-6-DHCP-SERVER-CONFIGURATION", config)
         inner = ET.tostring(parent).decode("utf-8")
         root = ET.fromstring("<AUTOSAR xmlns='%s'>%s</AUTOSAR>" % (NS, inner))
         node = root[0][0]
         assert node.attrib["S"] == "42"
-        assert node.attrib["T"] == "2024-01-01T00:00:00"
+        assert node.attrib["T"] == "2024-01-01T00:00:00Z"
         parsed = parser.getIpv6DhcpServerConfiguration(root[0], "IPV-6-DHCP-SERVER-CONFIGURATION")
         assert isinstance(parsed, Ipv6DhcpServerConfiguration)
         assert parsed.getChecksum().getValue() == "42"
-        assert parsed.getTimestamp().getValue() == "2024-01-01T00:00:00"
+        assert parsed.getTimestamp().getValue() == "2024-01-01T00:00:00Z"
 
     def test_reader_missing_element_returns_none(self, parser):
         parent = ET.fromstring("<PARENT xmlns='%s'></PARENT>" % NS)

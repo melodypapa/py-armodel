@@ -7,8 +7,8 @@ from armodel.parser.arxml_parser import ARXMLParser
 class TestTraceableTable:
     def test_read_traceable_table(self):
         element = ET.fromstring(
-            '<TRACEABLE-TABLE xmlns="http://autosar.org/schema/r4.0" S="checksum" T="timestamp" '
-            'UUID="uuid-tt-1" SI="semantic" VIEW="view-a view-b" BREAK="BREAK" KEEP-WITH-PREVIOUS="KEEP">'
+            '<TRACEABLE-TABLE xmlns="http://autosar.org/schema/r4.0" S="checksum" T="2024-01-01" '
+            'UUID="uuid-tt-1" SI="semantic" VIEW="view_a view_b" BREAK="BREAK" KEEP-WITH-PREVIOUS="KEEP">'
             "<SHORT-NAME>tt</SHORT-NAME>"
             '<TRACE-REFS><TRACE-REF DEST="TRACEABLE-TEXT">/pkg/req1</TRACE-REF></TRACE-REFS>'
             '<TABLE><TGROUP COLS="1"><TBODY><ROW /></TBODY></TGROUP></TABLE>'
@@ -19,11 +19,11 @@ class TestTraceableTable:
         ARXMLParser().readTraceableTable(element, traceable_table)
 
         assert traceable_table.getChecksum().getValue() == "checksum"
-        assert traceable_table.getTimestamp().getValue() == "timestamp"
+        assert traceable_table.getTimestamp().getValue() == "2024-01-01"
         assert traceable_table.getUuid().getValue() == "uuid-tt-1"
         assert traceable_table.getShortName() == "tt"
         assert traceable_table.getSi().getValue() == "semantic"
-        assert traceable_table.getView().getValue() == "view-a view-b"
+        assert traceable_table.getView().getValue() == "view_a view_b"
         assert traceable_table.getBreak().getValue() == "BREAK"
         assert traceable_table.getKeepWithPrevious().getValue() == "KEEP"
         assert len(traceable_table.getTraceRefs()) == 1
@@ -67,7 +67,7 @@ class TestTraceableTableUuidRegistration:
         from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 
         AUTOSAR.getInstance().clear()
-        element = ET.fromstring('<TRACEABLE-TABLE xmlns="http://autosar.org/schema/r4.0" S="checksum" T="timestamp" UUID="uuid-tt-dup">' "<SHORT-NAME>tt</SHORT-NAME></TRACEABLE-TABLE>")
+        element = ET.fromstring('<TRACEABLE-TABLE xmlns="http://autosar.org/schema/r4.0" S="checksum" T="2024-01-01" UUID="uuid-tt-dup">' "<SHORT-NAME>tt</SHORT-NAME></TRACEABLE-TABLE>")
 
         ARXMLParser().readTraceableTable(element, TraceableTable(None, "tt"))
 

@@ -6,9 +6,14 @@ in the GenericStructure module.
 from __future__ import annotations
 
 from abc import ABC
+import logging
 import re
-from typing import List, Optional, Sequence, Union
+from typing import Dict, List, Optional, Sequence, Union
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.validation import PrimitivePatternError, get_context, is_warning_mode
+
+_logger = logging.getLogger(__name__)
+_PATTERN_CACHE: Dict[str, re.Pattern] = {}
 
 
 class ARType(ABC):
@@ -74,10 +79,30 @@ class ARLiteral(ARType):
     # [ ] getValue                     [x] impl  [x] docstring  [ ] test
     # [ ] setValue                     [x] impl  [x] docstring  [ ] test
 
+    PATTERN: Optional[str] = None
+
     def __init__(self) -> None:
         super().__init__()
 
         self._value: Optional[str] = None
+
+    def checkValue(self, val: Optional[str]) -> None:
+        """Raises PrimitivePatternError if val violates the class PATTERN; logs a warning instead when warning mode is active."""
+        if self.PATTERN is None or not isinstance(val, str) or val == "":
+            return
+        compiled = _PATTERN_CACHE.get(self.PATTERN)
+        if compiled is None:
+            compiled = re.compile(self.PATTERN)
+            _PATTERN_CACHE[self.PATTERN] = compiled
+        if compiled.fullmatch(val) is None:
+            if is_warning_mode():
+                context = get_context()
+                if context is not None:
+                    _logger.warning('<%s> value "%s" does not match pattern "%s" (%s)', context, val, self.PATTERN, type(self).__name__)
+                else:
+                    _logger.warning('value "%s" does not match pattern "%s" (%s)', val, self.PATTERN, type(self).__name__)
+                return
+            raise PrimitivePatternError(type(self).__name__, val, self.PATTERN)
 
     @property
     def value(self) -> str:
@@ -90,6 +115,7 @@ class ARLiteral(ARType):
     def value(self, val: str):
         if not isinstance(val, str):
             raise ValueError("Unsupported Type <%s>" % type(val))
+        self.checkValue(val)
         self._value = val
 
     def __str__(self) -> str:
@@ -363,6 +389,8 @@ class AlignmentType(ARLiteral):
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
+    PATTERN = r"[1-9][0-9]*|0[xX][0-9a-fA-F]*|0[bB][0-1]+|0[0-7]*|UNSPECIFIED|UNKNOWN|BOOLEAN|PTR"
+
     def __init__(self):
         super().__init__()
 
@@ -433,6 +461,8 @@ class DisplayFormatString(ARLiteral):
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
+    PATTERN = r"%[ \-+#]?[0-9]*(\.[0-9]+)?[bBdiouxXfeEgGcs]"
+
     def __init__(self):
         super().__init__()
 
@@ -492,6 +522,8 @@ class PrimitiveIdentifier(ARLiteral):
     # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+
+    PATTERN = r"[a-zA-Z]([a-zA-Z0-9]|_[a-zA-Z0-9])*_?"
 
     def __init__(self):
         super().__init__()
@@ -754,6 +786,8 @@ class Identifier(ARLiteral):
     # [x] getNamePattern      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] setNamePattern      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
+    PATTERN = r"[a-zA-Z][a-zA-Z0-9_]*"
+
     def __init__(self):
         super().__init__()
 
@@ -829,6 +863,8 @@ class CIdentifier(ARLiteral):
     # [x] getNamePattern           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] setNamePattern           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
+    PATTERN = r"[a-zA-Z_][a-zA-Z0-9_]*"
+
     def __init__(self):
         super().__init__()
 
@@ -898,6 +934,8 @@ class RevisionLabelString(ARLiteral):
     # Spec verified: R23-11 (2026-10-14, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    PATTERN = r"[0-9]+\.[0-9]+\.[0-9]+([\._;].*)?"
 
     def __init__(self):
         super().__init__()
@@ -1009,6 +1047,8 @@ class Ref(ARLiteral):
     # base/blueprintValue/index serialize on AR:REF element content only (XSD attributeGroup REF, AUTOSAR_00052.xsd L96322);
     # the sole src consumer of this class is AbstractEnumerationValueVariationPoint.enumTableRef, typed AR:REF--SIMPLE
     # (value-only, AUTOSAR_00052.xsd L96364) → no reader/writer carrier exists yet.
+
+    PATTERN = r"/?[a-zA-Z][a-zA-Z0-9_]{0,127}(/[a-zA-Z][a-zA-Z0-9_]{0,127})*"
 
     def __init__(self):
         super().__init__()
@@ -1190,6 +1230,8 @@ class DiagRequirementIdString(ARLiteral):
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
+    PATTERN = r"[0-9a-zA-Z_\-]+"
+
     def __init__(self):
         super().__init__()
 
@@ -1233,6 +1275,8 @@ class Address(ARLiteral):
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
+    PATTERN = r"0[xX][0-9a-fA-F]+"
+
     def __init__(self):
         super().__init__()
 
@@ -1252,6 +1296,8 @@ class Ip4AddressString(ARLiteral):
     # Spec verified: R23-11 (2026-10-13, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    PATTERN = r"(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|ANY"
 
     def __init__(self):
         super().__init__()
@@ -1275,6 +1321,8 @@ class Ip6AddressString(ARLiteral):
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
+    PATTERN = r"[0-9A-Fa-f]{1,4}(:[0-9A-Fa-f]{1,4}){7,7}|ANY"
+
     def __init__(self):
         super().__init__()
 
@@ -1294,6 +1342,8 @@ class MacAddressString(ARLiteral):
     # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    PATTERN = r"([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2}"
 
     def __init__(self):
         super().__init__()
@@ -1317,6 +1367,8 @@ class CategoryString(ARLiteral):
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
+    PATTERN = r"[a-zA-Z][a-zA-Z0-9_]*"
+
     def __init__(self):
         super().__init__()
 
@@ -1337,6 +1389,8 @@ class AnyServiceInstanceId(ARLiteral):
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
+    PATTERN = r"[1-9][0-9]*|0[xX][0-9a-fA-F]+|0[0-7]*|0[bB][0-1]+|ANY|ALL"
+
     def __init__(self):
         super().__init__()
 
@@ -1354,6 +1408,8 @@ class AnyVersionString(ARLiteral):
     # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+
+    PATTERN = r"[0-9]+|ANY"
 
     def __init__(self):
         super().__init__()
@@ -1460,6 +1516,8 @@ class DateTime(ARLiteral):
     # Spec verified: R23-11 (2026-10-13, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    PATTERN = r"([0-9]{4}-[0-9]{2}-[0-9]{2})(T[0-9]{2}:[0-9]{2}:[0-9]{2}(Z|([+\-][0-9]{2}:[0-9]{2})))?"
 
     def __init__(self):
         super().__init__()
@@ -1588,6 +1646,8 @@ class McdIdentifier(ARLiteral):
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
+    PATTERN = r"[a-zA-Z_][a-zA-Z0-9_]*(\[([a-zA-Z_][a-zA-Z0-9_]*|[0-9]+)\])*(\.[a-zA-Z_][a-zA-Z0-9_]*(\[([a-zA-Z_][a-zA-Z0-9_]*|[0-9]+)\])*)*"
+
     def __init__(self):
         super().__init__()
 
@@ -1645,6 +1705,8 @@ class ViewTokens(ARLiteral):
     # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    PATTERN = r"(-?[a-zA-Z_]+)(( )+-?[a-zA-Z_]+)*"
 
     def __init__(self):
         super().__init__()
@@ -3389,6 +3451,8 @@ class MetaClassName(ARLiteral):
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
+    PATTERN = r"[A-Z][a-zA-Z0-9_]*"
+
     def __init__(self):
         super().__init__()
 
@@ -3409,6 +3473,8 @@ class CIdentifierWithIndex(ARLiteral):
     # Spec verified: R23-11 (2026-10-12, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    PATTERN = r"[a-zA-Z_][a-zA-Z0-9_]*\[[0-9]+\]"
 
     def __init__(self):
         super().__init__()
@@ -3436,6 +3502,8 @@ class StrongRevisionLabelString(ARLiteral):
     # Spec verified: R23-11 (2026-10-14, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    PATTERN = r"(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(-((0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(\.(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(\+([0-9a-zA-Z-]+(\.[0-9a-zA-Z-]+)*))?"
 
     def __init__(self):
         super().__init__()

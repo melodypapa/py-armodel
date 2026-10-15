@@ -7,7 +7,7 @@ from armodel.parser.arxml_parser import ARXMLParser
 class TestTable:
     def test_read_table(self):
         element = ET.fromstring(
-            '<TABLE xmlns="http://autosar.org/schema/r4.0" S="checksum" T="timestamp" '
+            '<TABLE xmlns="http://autosar.org/schema/r4.0" S="checksum" T="2024-01-01" '
             'COLSEP="1" FLOAT="FLOAT" FRAME="ALL" HELP-ENTRY="help" ORIENT="LAND" '
             'PGWIDE="PGWIDE" ROWSEP="0" TABSTYLE="style">'
             "<TABLE-CAPTION><SHORT-NAME>cap</SHORT-NAME></TABLE-CAPTION>"
@@ -19,7 +19,7 @@ class TestTable:
         ARXMLParser().readTable(element, table)
 
         assert table.getChecksum().getValue() == "checksum"
-        assert table.getTimestamp().getValue() == "timestamp"
+        assert table.getTimestamp().getValue() == "2024-01-01"
         assert table.getColsep().getValue() == "1"
         assert table.getFloat().getValue() == "FLOAT"
         assert table.getFrame().getValue() == "ALL"

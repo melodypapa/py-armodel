@@ -402,7 +402,7 @@ class TestEngineeringObjectWriter:
         pkg = autosar.createARPackage("Pkg")
         impl = pkg.createBswImplementation("BswImpl")
         version = RevisionLabelString()
-        version.setValue("R23-11")
+        version.setValue("4.0.0")
         impl.setArReleaseVersion(version)
         impl.setBehaviorRef(_make_ref("/Beh", "BSW"))
         impl.setVendorApiInfix(_make_literal("Api"))
@@ -417,7 +417,7 @@ class TestEngineeringObjectWriter:
         child = parent[0]
         assert child.tag == "BSW-IMPLEMENTATION"
         assert child.find("SHORT-NAME").text == "BswImpl"
-        assert child.find("AR-RELEASE-VERSION").text == "R23-11"
+        assert child.find("AR-RELEASE-VERSION").text == "4.0.0"
         assert child.find("BEHAVIOR-REF").text == "/Beh"
         assert child.find("VENDOR-API-INFIX").text == "Api"
         assert child.find("VENDOR-SPECIFIC-MODULE-DEF-REFS") is not None

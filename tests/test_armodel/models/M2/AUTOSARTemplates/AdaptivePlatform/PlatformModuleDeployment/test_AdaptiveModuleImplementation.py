@@ -97,11 +97,11 @@ class TestPlatformModuleEthernetEndpointConfiguration:
 
     def test_ipv6_multicast_ip_address_round_trip(self):
         config = _new_configuration("test_platformmoduleethernetendpointconfiguration")
-        value = Ip6AddressString().setValue("ff02::1")
+        value = Ip6AddressString().setValue("ff02:0:0:0:0:0:0:1")
 
         assert config.setIpv6MulticastIpAddress(value) is config
         assert config.getIpv6MulticastIpAddress() is value
-        assert config.getIpv6MulticastIpAddress().getValue() == "ff02::1"
+        assert config.getIpv6MulticastIpAddress().getValue() == "ff02:0:0:0:0:0:0:1"
         assert config.setIpv6MulticastIpAddress(None) is config
         assert config.getIpv6MulticastIpAddress() is value
 

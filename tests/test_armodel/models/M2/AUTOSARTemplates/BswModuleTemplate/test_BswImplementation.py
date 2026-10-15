@@ -120,7 +120,7 @@ class TestBswImplementation:
         impl = BswImplementation(ar_root, "test_bsw_implementation")
 
         infix = Identifier()
-        infix.setValue("_VENDOR_")
+        infix.setValue("VENDOR")
         result = impl.setVendorApiInfix(infix)
 
         assert result == impl

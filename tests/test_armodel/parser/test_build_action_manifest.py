@@ -263,11 +263,11 @@ class TestReadBuildAction:
             "<FOLLOW-UP-ACTION-REF DEST='BUILD-ACTION'>/next</FOLLOW-UP-ACTION-REF>"
             "</FOLLOW-UP-ACTION-REFS>"
             "<CREATED-DATAS>"
-            "<BUILD-ACTION-IO-ELEMENT><ROLE>created-one</ROLE></BUILD-ACTION-IO-ELEMENT>"
-            "<BUILD-ACTION-IO-ELEMENT><ROLE>created-two</ROLE></BUILD-ACTION-IO-ELEMENT>"
+            "<BUILD-ACTION-IO-ELEMENT><ROLE>created_one</ROLE></BUILD-ACTION-IO-ELEMENT>"
+            "<BUILD-ACTION-IO-ELEMENT><ROLE>created_two</ROLE></BUILD-ACTION-IO-ELEMENT>"
             "</CREATED-DATAS>"
-            "<INPUT-DATAS><BUILD-ACTION-IO-ELEMENT><ROLE>input-one</ROLE></BUILD-ACTION-IO-ELEMENT></INPUT-DATAS>"
-            "<MODIFIED-DATAS><BUILD-ACTION-IO-ELEMENT><ROLE>modified-one</ROLE></BUILD-ACTION-IO-ELEMENT></MODIFIED-DATAS>"
+            "<INPUT-DATAS><BUILD-ACTION-IO-ELEMENT><ROLE>input_one</ROLE></BUILD-ACTION-IO-ELEMENT></INPUT-DATAS>"
+            "<MODIFIED-DATAS><BUILD-ACTION-IO-ELEMENT><ROLE>modified_one</ROLE></BUILD-ACTION-IO-ELEMENT></MODIFIED-DATAS>"
             "<REQUIRED-ENVIRONMENT-REF DEST='BUILD-ACTION-ENVIRONMENT'>/Environment</REQUIRED-ENVIRONMENT-REF>",
         )
         element.attrib["UUID"] = "3f2504e0-4f89-11d3-9a0c-0305e82c3303"
@@ -282,9 +282,9 @@ class TestReadBuildAction:
         # BuildAction own attributes
         assert [ref.getValue() for ref in action.getPredecessorActionRefs()] == ["/first", "/second"]
         assert [ref.getValue() for ref in action.getFollowUpActionRefs()] == ["/next"]
-        assert [str(data.getRole()) for data in action.getCreatedDatas()] == ["created-one", "created-two"]
-        assert [str(data.getRole()) for data in action.getInputDatas()] == ["input-one"]
-        assert [str(data.getRole()) for data in action.getModifiedDatas()] == ["modified-one"]
+        assert [str(data.getRole()) for data in action.getCreatedDatas()] == ["created_one", "created_two"]
+        assert [str(data.getRole()) for data in action.getInputDatas()] == ["input_one"]
+        assert [str(data.getRole()) for data in action.getModifiedDatas()] == ["modified_one"]
         assert isinstance(action.getCreatedDatas()[0], BuildActionIoElement)
         assert action.getRequiredEnvironmentRef().getValue() == "/Environment"
 
