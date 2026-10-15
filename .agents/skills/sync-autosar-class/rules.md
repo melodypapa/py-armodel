@@ -2251,8 +2251,12 @@ XSD — must declare a `PATTERN` class attribute holding that regex:
 3. Classes without a constraint inherit `ARLiteral.PATTERN = None` and are skipped by the
    runtime check — do not add `PATTERN` to them.
 4. `Numerical`/`ARType` numeric subclasses are excluded (they parse values numerically, not
-   by regex).
+   by regex). `Limit` is exempt by name as well: its XSD facet rejects `+INF`, which real-world
+   data-constraint files (including the integration corpus) legitimately contain, so runtime
+   enforcement is intentionally left off.
 5. `audit_class.py` reports a `PATTERN` warning when an `ARLiteral` subclass's docstring carries
    `xml.xsd.pattern=` but no `PATTERN` attribute is declared on the class; an attribute inherited
    from a pattern-declaring base satisfies the rule (verify by hand). Classes outside the
-   `ARLiteral` family (e.g. `Numerical`/`ARType` numerics) are not reported.
+   `ARLiteral` family (e.g. `Numerical`/`ARType` numerics) are not reported, and neither is
+   `Limit` (see point 4). A bare `PATTERN: <type>` annotation without an assigned value does
+   not satisfy the rule.

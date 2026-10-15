@@ -67,7 +67,9 @@ class TestCheckValue:
         from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import _PATTERN_CACHE
 
         _DummyLiteral().value = "A"
-        assert r"[A-Z][a-zA-Z0-9_]*" in _PATTERN_CACHE
+        compiled = _PATTERN_CACHE[r"[A-Z][a-zA-Z0-9_]*"]
+        _DummyLiteral().value = "B"
+        assert _PATTERN_CACHE[r"[A-Z][a-zA-Z0-9_]*"] is compiled
 
 
 class TestPopulatedPatterns:

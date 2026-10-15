@@ -1323,14 +1323,20 @@ def check_members(rep: Report, cls: str, node: ast.ClassDef, enum: bool) -> None
             rep.ok("MEMBER", "%s dispatch reaches all %d aggregated member class helper(s) (%s): %s" % (verb, len(have) - len(dormant), shape, note))
 
 
+_PATTERN_EXEMPT_CLASSES = frozenset({"Limit"})
+
+
 def check_pattern(rep: Report, node: ast.ClassDef) -> None:
     """Rule 0028, mechanical: an `ARLiteral` subclass whose docstring carries
     `xml.xsd.pattern=` must declare a `PATTERN` class attribute — a declared
     `PATTERN = None` does not count (the runtime check stays off), and classes
     outside the `ARLiteral` family (`Numerical`/`ARType` numerics, Rule 0028
-    point 4) are not reported."""
+    point 4) are not reported. `Limit` is exempt by name (Rule 0028 point 4,
+    `+INF` real-world tolerance)."""
     doc = ast.get_docstring(node) or ""
     if "xml.xsd.pattern=" not in doc:
+        return
+    if node.name in _PATTERN_EXEMPT_CLASSES:
         return
     base_map = _model_base_map()
     if node.name in base_map:
@@ -1355,7 +1361,7 @@ def check_pattern(rep: Report, node: ast.ClassDef) -> None:
             continue
         if "PATTERN" not in names:
             continue
-        if isinstance(value, ast.Constant) and value.value is None:
+        if value is None or (isinstance(value, ast.Constant) and value.value is None):
             continue
         return
     rep.warn(

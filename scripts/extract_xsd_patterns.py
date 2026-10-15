@@ -1,3 +1,9 @@
+"""Extracts XSD pattern facets for the ARLiteral classes of PrimitiveTypes.py.
+
+Run from the repository root. Prints ClassName<TAB>XSD-TYPE<TAB>facet lines to
+stdout; classes whose customType has no matching facet go to stderr.
+"""
+
 import re
 import sys
 from pathlib import Path

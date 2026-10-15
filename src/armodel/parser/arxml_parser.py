@@ -1,7 +1,6 @@
 import os
-from contextlib import nullcontext
 import xml.etree.ElementTree as ET
-from typing import Any, ContextManager, List, Optional, Type, TypeVar, Union, cast
+from typing import Any, List, Optional, Type, TypeVar, Union, cast
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR, FileInfoComment
 from armodel.validation import ARXMLValidator, warning_mode
@@ -22630,12 +22629,7 @@ class ARXMLParser(AbstractARXMLParser):
     def load(self, filename, document: AUTOSAR):
         self.logger.info("Loading %s ..." % os.path.realpath(filename))
 
-        context_manager: ContextManager
-        if self.options["warning"] is True:
-            context_manager = warning_mode(True, context=os.path.basename(filename))
-        else:
-            context_manager = nullcontext()
-        with context_manager:
+        with warning_mode(self.options["warning"] is True, context=os.path.basename(filename)):
             self._validateARXML(filename)
 
             tree = ET.parse(filename)
