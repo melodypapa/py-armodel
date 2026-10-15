@@ -2161,6 +2161,49 @@ class TestRevisionLabelString:
         assert obj.getValue() == "4.0.0"
 
 
+class TestUriString:
+    """
+    Test class for UriString functionality (Table 4.66).
+    """
+
+    def test_initialization(self):
+        obj = UriString()
+        assert obj is not None
+        assert obj._value is None
+
+    def test_set_value(self):
+        obj = UriString().setValue("https://example.com/resource")
+        assert obj.getValue() == "https://example.com/resource"
+
+    @pytest.mark.parametrize(
+        "value",
+        [
+            "ldap://example.com/Role",
+            "http://example.com/Service",
+            "https://example.com/resource",
+            "file:///home/build/output.bin",
+        ],
+    )
+    def test_value_round_trip(self, value):
+        """
+        Table 4.66 carries no `xml.xsd.pattern` tag and `URI-STRING--SIMPLE`
+        (AUTOSAR_00052.xsd l.145153) is a bare `xsd:string` restriction, so no `re.fullmatch`
+        gate is possible here (unlike McdIdentifier / Ip6AddressString /
+        RevisionLabelString). The values are drawn from the real spec usages the ten XSD
+        consumer sites already carry: the LDAP-URL of ACL-ROLE (XSD l.1288), the URI of
+        HTTP-TP (XSD l.65548), the URL of the documentation classes (Url.value), and the
+        file:// form the PATH element (XSD l.48056) implies.
+        """
+        obj = UriString()
+        assert obj.setValue(value) is obj
+        assert obj.getValue() == value
+
+    def test_set_value_none_is_noop(self):
+        obj = UriString().setValue("https://example.com/resource")
+        obj.setValue(None)
+        assert obj.getValue() == "https://example.com/resource"
+
+
 class TestDiagnosticOccurrenceCounterProcessingEnum:
     """
     Test class for DiagnosticOccurrenceCounterProcessingEnum functionality.
