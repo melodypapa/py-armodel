@@ -10,8 +10,8 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 846 | 44.2% |
-| [x] Deferred | 82 | 4.3% |
+| [x] Done | 847 | 44.2% |
+| [x] Deferred | 81 | 4.2% |
 | [x] Retired | 0 | 0.0% |
 | [ ] Deferred | 976 | 51.0% |
 | [ ] Implemented | 10 | 0.5% |
@@ -776,7 +776,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `DoIpTpConnection`                                      | [x] Done    | b71da200f5                               | Group20          |
 | `DocumentElementScope`                                  | [ ] Deferred| N/A                                      | Group36          |
 | `DocumentViewSelectable`                                | [x] Done    | ba2c324b39                               | Group3           |
-| `DocumentationBlock`                                    | [x] Deferred| N/A                                      | Group21          |
+| `DocumentationBlock`                                    | [x] Done    | 7edaa72c74                               | Group21          |
 | `DocumentationContext`                                  | [x] Deferred| N/A                                      | Group21          |
 | `DtcFormatTypeEnum`                                     | [x] Done    | f376d8339f                               | Group14          |
 | `DtcKindEnum`                                           | [x] Done    | 8b62eec625                               | Group14          |
