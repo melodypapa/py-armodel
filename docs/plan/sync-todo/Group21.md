@@ -3932,7 +3932,7 @@ pending that confirmation.
       full suite is green, so nothing is broken today, but it is real cross-release debt.
       The class's own spec contract is unaffected: `VerbatimStringPlain` is structurally
       **identical** in both corpora. Recorded in the Step 1 and Step 8 notes; no code changed.
-- [ ] `CseCodeType` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.75, p.165; also CP_TPS_SoftwareComponentTemplate Table 4.15, p.110
+- [x] `CseCodeType` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.75, p.165; also CP_TPS_SoftwareComponentTemplate Table 4.15, p.110 — sync commit 33e3524e3
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
   - note (drift re-sync, 2026-10-17): **no `# Spec verified:` marker in src**, so the
     2026-09-30 "steps 1-8 done" prose is not evidence (Rule 0026). Every claim re-derived
