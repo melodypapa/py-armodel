@@ -916,7 +916,7 @@ Status: **56/59** completed
 | `VerbatimStringPlain`                | [x] Done     | afa307b282 |
 | `CseCodeType`                        | [x] Done     | 33e3524e31 |
 | `EvaluatedVariantSet`                | [x] Done     | 2497bb0d7f |
-| `PredefinedVariant`                  | [x] Done*    | N/A        |
+| `PredefinedVariant`                  | [x] Done     | f3c6350ab5 |
 | `DocumentationBlock`                 | [x] Done*    | N/A        |
 | `MultiLanguageVerbatim`              | [x] Done*    | N/A        |
 | `List`                               | [x] Done*    | N/A        |

@@ -4369,7 +4369,7 @@ pending that confirmation.
       NameToken pre-exist (PredefinedVariant stamped).
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-17 (full suite 26349 passed;
     audit PASS; ruff / flake8 / black-check clean); 9b confirmed by user 2026-10-17; marker written
-- [x] `PredefinedVariant` — ARElement — R23-11 FO_TPS_GenericStructureTemplate Table 7.24, p.258 — already verified (short-circuit 2026-09-30)
+- [x] `PredefinedVariant` — ARElement — R23-11 FO_TPS_GenericStructureTemplate Table 7.24, p.258 — commit f3c6350ab
   - module: M2/AUTOSARTemplates/GenericStructure/VariantHandling/__init__.py
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -4379,8 +4379,8 @@ pending that confirmation.
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — Verify (9a) + confirm (9b)
-  - note: already-verified short-circuit 2026-09-30 (Group21 header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-17 (full suite 26349 passed; audit PASS; ruff / flake8 / black-check / mypy clean; round-trip lossless with validation ON); 9b confirmed by user 2026-10-17; marker written
+  - note (9b re-sync delta, 2026-10-17): the prior "already verified (short-circuit 2026-09-30)" note was STALE/FALSE — it claimed `# Spec verified: R23-11` was present in src, but the checklist block (L115-124) carried NO marker, so per Rules 0012.1/0026 the class was re-derived from source rather than trusted. Table 7.24 (p.258; header part page-split to L6824-6830): Package M2::...::GenericStructure::VariantHandling; Base ARElement (most-derived of ARElement, ARObject, CollectableElement, Identifiable, MultilanguageReferrable, PackageableElement, Referrable); attrs in displayed order includedVariant (PredefinedVariant, *, ref), postBuildVariantCriterionValueSet (PostBuildVariantCriterionValueSet, *, ref), swSystemconstantValueSet (SwSystemconstantValueSet, *, ref). Implementation found sound — 3× `List[RefType]` PEP 526 members, None-no-op adds with `Optional[RefType]` + `-> "PredefinedVariant"`, class/attr Notes verbatim incl. the `Tags: atp.recommendedPackage=PredefinedVariants` tail, XSD-order I/O (INCLUDED-VARIANT-REFS → POST-BUILD-…-REFS → SW-SYSTEMCONSTANT-…-REFS), readIdentifiable/writeIdentifiable base coverage — so NO code change was needed. Only the missing marker was added: `# Spec verified: R23-11 (2026-10-17, user 9b confirmation)` (sync commit f3c6350ab).
 - [x] `DocumentationBlock` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 9.1, p.287; also CP_TPS_DiagnosticExtractTemplate Table 4.12, p.53 — already verified (short-circuit 2026-09-30)
   - module: M2/MSR/Documentation/TextModel/BlockElements/__init__.py
   - [x] Step 1 — Sync members & description from spec

@@ -10,8 +10,8 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 845 | 44.1% |
-| [x] Deferred | 83 | 4.3% |
+| [x] Done | 846 | 44.2% |
+| [x] Deferred | 82 | 4.3% |
 | [x] Retired | 0 | 0.0% |
 | [ ] Deferred | 976 | 51.0% |
 | [ ] Implemented | 10 | 0.5% |
@@ -1430,7 +1430,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `PostBuildVariantCriterionValue`                        | [x] Done    | 8af1088fd2                               | Group8           |
 | `PostBuildVariantCriterionValueSet`                     | [ ] Deferred| N/A                                      | Group36          |
 | `PredefinedChapter`                                     | [x] Done    | 0af25ab2e5                               | Group22          |
-| `PredefinedVariant`                                     | [x] Deferred| N/A                                      | Group21          |
+| `PredefinedVariant`                                     | [x] Done    | f3c6350ab5                               | Group21          |
 | `PrimitiveAttributeCondition`                           | [ ] Deferred| N/A                                      | Group36          |
 | `PrimitiveAttributeTailoring`                           | [ ] Deferred| N/A                                      | Group36          |
 | `PrivacyLevel`                                          | [x] Done    | fb222ae5b2                               | Group5           |
