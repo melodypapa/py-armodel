@@ -5016,21 +5016,22 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setMultiLanguageVerbatim(self, element: ET.Element, key: str, verbatim: Optional[MultiLanguageVerbatim]):
         if verbatim is not None:
             child_element = ET.SubElement(element, key)
-            self.writeARObject(child_element, verbatim)
+            self.writePaginateable(child_element, verbatim)
             allowBreak_value = verbatim.getAllowBreak()
             if allowBreak_value is not None:
-                child_element.attrib["ALLOWBREAK"] = allowBreak_value.getValue()
+                child_element.attrib["ALLOW-BREAK"] = allowBreak_value.getValue()
             float_value = verbatim.getFloat()
             if float_value is not None:
                 child_element.attrib["FLOAT"] = float_value.getValue()
             helpEntry_value = verbatim.getHelpEntry()
             if helpEntry_value is not None:
-                child_element.attrib["HELPENTRY"] = helpEntry_value.getValue()
+                child_element.attrib["HELP-ENTRY"] = helpEntry_value.getValue()
             pgwide_value = verbatim.getPgwide()
             if pgwide_value is not None:
                 child_element.attrib["PGWIDE"] = pgwide_value.getValue()
             for l5 in verbatim.getL5s():
                 self.setLVerbatim(child_element, l5)
+            self.writeVariationPointCapable(child_element, verbatim)
 
     def setLVerbatim(self, element: ET.Element, text: LVerbatim):
         child_element = self.setLanguageSpecific(element, "L-5", text)

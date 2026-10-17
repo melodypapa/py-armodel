@@ -8493,13 +8493,13 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         if child_element is not None:
             verbatim = MultiLanguageVerbatim()
-            self.readARObject(child_element, verbatim)
-            if "ALLOWBREAK" in child_element.attrib:
-                verbatim.setAllowBreak(NameToken().setValue(child_element.attrib["ALLOWBREAK"]))
+            self.readPaginateable(child_element, verbatim)
+            if "ALLOW-BREAK" in child_element.attrib:
+                verbatim.setAllowBreak(NameToken().setValue(child_element.attrib["ALLOW-BREAK"]))
             if "FLOAT" in child_element.attrib:
                 verbatim.setFloat(FloatEnum().setValue(child_element.attrib["FLOAT"]))
-            if "HELPENTRY" in child_element.attrib:
-                verbatim.setHelpEntry(String().setValue(child_element.attrib["HELPENTRY"]))
+            if "HELP-ENTRY" in child_element.attrib:
+                verbatim.setHelpEntry(String().setValue(child_element.attrib["HELP-ENTRY"]))
             if "PGWIDE" in child_element.attrib:
                 verbatim.setPgwide(PgwideEnum().setValue(child_element.attrib["PGWIDE"]))
             for l5 in self.findall(child_element, "L-5"):
@@ -8508,6 +8508,7 @@ class ARXMLParser(AbstractARXMLParser):
                 self.readWhitespaceControlled(l5, verbatim_l5)
                 self.readMixedContentForVerbatim(l5, verbatim_l5)
                 verbatim.addL5(verbatim_l5)
+            self.readVariationPointCapable(child_element, verbatim)
         return verbatim
 
     def getMsrQueryArg(self, element: ET.Element) -> MsrQueryArg:

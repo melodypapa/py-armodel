@@ -14,7 +14,7 @@ class TestMlFigureParser:
             ' KEEP-WITH-PREVIOUS="KEEP" FRAME="ALL" HELP-ENTRY="help-topic" PGWIDE="PGWIDE">'
             "<FIGURE-CAPTION><SHORT-NAME>cap</SHORT-NAME></FIGURE-CAPTION>"
             '<L-GRAPHIC L="en"><GRAPHIC FILENAME="image.png"/></L-GRAPHIC>'
-            '<VERBATIM ALLOWBREAK="1"><L-5 L="en">keep  spacing</L-5></VERBATIM>'
+            '<VERBATIM ALLOW-BREAK="1"><L-5 L="en">keep  spacing</L-5></VERBATIM>'
             "</FIGURE></PARENT>"
         )
 
