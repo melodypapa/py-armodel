@@ -4320,8 +4320,16 @@ pending that confirmation.
       **Two mutants applied and reverted during the pass**, each proven to turn new tests Red
       (details in the Step 5 note); after the reverts `git diff --stat -- src/` is empty, which
       is the same evidence stated above.
-- [ ] `EvaluatedVariantSet` — ARElement — R23-11 FO_TPS_GenericStructureTemplate Table 7.23, p.257
+- [x] `EvaluatedVariantSet` — ARElement — R23-11 FO_TPS_GenericStructureTemplate Table 7.23, p.257 — commit 2497bb0d7
   - module: M2/AUTOSARTemplates/GenericStructure/VariantHandling/__init__.py
+  - note (9b re-sync delta, 2026-10-17): no `# Spec verified:` marker existed, so per Rules 0012.1/0026 the
+    class was re-derived from source rather than trusted. Found and fixed: (a) setApprovalStatus /
+    addEvaluatedElementRef / addEvaluatedVariantRef had no return annotation and the adds had bare
+    `value: RefType` → `-> "EvaluatedVariantSet"` + `Optional[RefType]` (Rule 0003); (b) all accessor
+    docstrings carried invented `Args:`/`Returns:` paraphrase blocks and setters/adds lacked the None-no-op
+    sentence → wipe-and-rewrite to the markdown Note verbatim (Rule 0012); (c) the model test lacked
+    None-no-op coverage and spec-contract pins → added (Rule 0006). Marker now `# Spec verified: R23-11
+    (2026-10-17, user 9b confirmation)`.
   - [x] Step 1 — Sync members & description from spec
     - note (Step 1): Table 7.23 (header-cell lookup; p.257 via pdf_page.py); Package
       M2::...::GenericStructure::VariantHandling — REHOUSED from the ARPackage.py stub
@@ -4359,9 +4367,8 @@ pending that confirmation.
   - [x] Step 8 — Deviations
     - note (Step 8): none; referenced classes CollectableElement/PredefinedVariant/
       NameToken pre-exist (PredefinedVariant stamped).
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (5 passed / 0 failed
-    new-file suite incl. the full round-trip); 9b deferred to batch confirmation (user
-    instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-17 (full suite 26349 passed;
+    audit PASS; ruff / flake8 / black-check clean); 9b confirmed by user 2026-10-17; marker written
 - [x] `PredefinedVariant` — ARElement — R23-11 FO_TPS_GenericStructureTemplate Table 7.24, p.258 — already verified (short-circuit 2026-09-30)
   - module: M2/AUTOSARTemplates/GenericStructure/VariantHandling/__init__.py
   - [x] Step 1 — Sync members & description from spec

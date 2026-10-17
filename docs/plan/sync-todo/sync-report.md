@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 844 | 44.1% |
+| [x] Done | 845 | 44.1% |
 | [x] Deferred | 83 | 4.3% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 977 | 51.0% |
+| [ ] Deferred | 976 | 51.0% |
 | [ ] Implemented | 10 | 0.5% |
 | [ ] Created | 1 | 0.1% |
 | [ ] Pending | 0 | 0.0% |
@@ -890,7 +890,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `EthernetSwitchVlanIngressTagEnum`                      | [ ] Deferred| 0d682b9798                               | Group30          |
 | `EthernetWakeupSleepOnDatalineConfig`                   | [ ] Deferred| e795dd3dc6                               | Group30          |
 | `EthernetWakeupSleepOnDatalineConfigSet`                | [ ] Deferred| 2065193be7                               | Group30          |
-| `EvaluatedVariantSet`                                   | [ ] Deferred| N/A                                      | Group21          |
+| `EvaluatedVariantSet`                                   | [x] Done    | 2497bb0d7f                               | Group21          |
 | `EventAcceptanceStatusEnum`                             | [x] Done    | b41f6ecacf                               | Group29          |
 | `EventControlledTiming`                                 | [x] Done    | 1649678501                               | Group15          |
 | `EventGroupControlTypeEnum`                             | [ ] Deferred| N/A                                      | Group32          |

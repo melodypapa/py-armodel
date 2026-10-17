@@ -875,7 +875,7 @@ Status: **29/29** completed
 
 ## Group21
 
-Status: **55/59** completed
+Status: **56/59** completed
 
 | Class Name                           | Status       | Commit ID  |
 | ------------------------------------ | ------------ | ---------- |
@@ -915,7 +915,7 @@ Status: **55/59** completed
 | `UriString`                          | [x] Done     | 932196e6c6 |
 | `VerbatimStringPlain`                | [x] Done     | afa307b282 |
 | `CseCodeType`                        | [x] Done     | 33e3524e31 |
-| `EvaluatedVariantSet`                | [ ] Pending* | N/A        |
+| `EvaluatedVariantSet`                | [x] Done     | 2497bb0d7f |
 | `PredefinedVariant`                  | [x] Done*    | N/A        |
 | `DocumentationBlock`                 | [x] Done*    | N/A        |
 | `MultiLanguageVerbatim`              | [x] Done*    | N/A        |
