@@ -875,7 +875,7 @@ Status: **29/29** completed
 
 ## Group21
 
-Status: **53/59** completed
+Status: **54/59** completed
 
 | Class Name                           | Status       | Commit ID  |
 | ------------------------------------ | ------------ | ---------- |
@@ -883,8 +883,8 @@ Status: **53/59** completed
 | `LLongName`                          | [x] Done     | c09bc8067d |
 | `MixedContentForLongName`            | [x] Done     | fdc7811f86 |
 | `Referrable`                         | [x] Done     | 4e60d3a344 |
-| `ReferrableSubtypesEnum`             | [x] Done     | N/A        |
-| `SdgDef`                             | [x] Done     | N/A        |
+| `ReferrableSubtypesEnum`             | [x] Done     | a097cb3d4f |
+| `SdgDef`                             | [x] Done     | c7d3958065 |
 | `SdgElementWithGid`                  | [x] Done     | f7d552948b |
 | `SdgClass`                           | [x] Done     | cfa7402dec |
 | `SdgAttribute`                       | [x] Done     | 41952ae2fd |
@@ -913,7 +913,7 @@ Status: **53/59** completed
 | `StrongRevisionLabelString`          | [x] Done     | 953a92b70d |
 | `SymbolString`                       | [x] Done     | N/A        |
 | `UriString`                          | [x] Done     | 932196e6c6 |
-| `VerbatimStringPlain`                | [ ] Pending* | N/A        |
+| `VerbatimStringPlain`                | [x] Done     | afa307b282 |
 | `CseCodeType`                        | [ ] Pending* | N/A        |
 | `EvaluatedVariantSet`                | [ ] Pending* | N/A        |
 | `PredefinedVariant`                  | [x] Done*    | N/A        |

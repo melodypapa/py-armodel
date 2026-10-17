@@ -3507,7 +3507,7 @@ pending that confirmation.
       prior figure is not a claim about `UriString` and was not re-derived here (Rule 0017.1, one
       class per session); recorded so a future reader does not read either number as this row's
       evidence.
-- [ ] `VerbatimStringPlain` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.68, p.115
+- [x] `VerbatimStringPlain` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.68, p.115 — sync commit afa307b28
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
   - note (drift re-sync, 2026-10-17): **no `# Spec verified:` marker in src**, so the
     2026-09-30 "steps 1-8 done" prose is not evidence (Rule 0026). Every claim re-derived
