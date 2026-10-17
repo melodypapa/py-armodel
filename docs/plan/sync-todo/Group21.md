@@ -3509,30 +3509,429 @@ pending that confirmation.
       evidence.
 - [ ] `VerbatimStringPlain` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.68, p.115
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
+  - note (drift re-sync, 2026-10-17): **no `# Spec verified:` marker in src**, so the
+    2026-09-30 "steps 1-8 done" prose is not evidence (Rule 0026). Every claim re-derived
+    from source and the spec, like the `DateTime` / `RegularExpression` /
+    `RevisionLabelString` / `StrongRevisionLabelString` / `UriString` siblings in this file.
+    **Entry gate `audit_class.py VerbatimStringPlain` => PASS, 1 warning** (BLOCK/ROWS/
+    SPECLINE/CITATION/SPACING/DOCTAIL/MEMBER/DOC clean; SPEC-BASE + STAMP INFO both expected
+    pre-9b) — the single warning is the `! BASE` "no dedicated leaf pair" one, which Step 8
+    resolves as an **accepted** deviation with evidence. The audit is blind to test coverage
+    and to word-level verbatim parity, and **two real gaps were found that the row's prose
+    concealed**: (1) the model test asserted neither a parametrized value round-trip nor the
+    Rule 0006 **None no-op**; (2) **the Rule 0013.2 typed-preservation property was unpinned
+    anywhere in the repo** — `grep -rn "isinstance.*VerbatimStringPlain" tests/` returned
+    **nothing**, so a reader that degraded the value to a bare `ARLiteral` would have passed
+    every existing test. Both closed in this pass. **No product defect** — `git status --
+    porcelain src/` is empty at the end of this pass, i.e. the class already matched Table
+    4.68 on every structural axis; only tests changed.
   - [x] Step 1 — Sync members & description from spec
-    - note (Step 1): Table 4.68 (leading-caption page-split, p.115 via pdf_page.py);
-      Note verbatim in docstring; zero attribute rows (sibling VerbatimString carries
-      blueprintValue/xmlSpace — NOT part of this class's table).
+    - note (Step 1, 2026-09-30, retained): Table 4.68 (leading-caption page-split, p.115 via
+      pdf_page.py); Note verbatim in docstring; zero attribute rows (sibling VerbatimString
+      carries blueprintValue/xmlSpace — NOT part of this class's table).
+    - note (Step 1, drift pass 2026-10-17): **the row's claims all hold — no defect at this
+      step**, re-derived rather than trusted. (a) Table located by anchoring on the caption
+      `Table 4.68: VerbatimStringPlain` (markdown **L3103**) and scanning **both** ways for
+      the body, because this is a **leading-caption** block (body L3105-3108) and the sibling
+      `Table 4.67` above it is **trailing**-caption — a naive one-directional forward scan
+      runs into the Formula Language content of §4.9 instead. Body rows are `Primitive` /
+      `Package` / `Note` only: **zero `Attribute` rows, no `Base` row**, three rows total, and
+      the block is terminated by `## 4.9 Formula Language`. (b) Page **p.115** re-confirmed by
+      `pdf_page.py VerbatimStringPlain` (`R23-11/AUTOSAR_FO_TPS_GenericStructureTemplate.pdf
+      | Table 4.68: VerbatimStringPlain | p.115`); the script also reports the R4.3.1
+      `Table 4.90, p.102`, and Rule 0016.3 does **not** apply — the R23-11 table exists, so
+      the R4.3.1 fallback is correctly **not** cited. (c) XSD: `complexType
+      VERBATIM-STRING-PLAIN` at **l.145304**, `xsd:simpleContent` over
+      `VERBATIM-STRING-PLAIN--SIMPLE` (**l.145320**), stereotype `primitive`, attributeGroup
+      `AR:AR-OBJECT` only, and **zero** `<xsd:element>` children (block parsed, not eyeballed).
+      `--SIMPLE` is `<xsd:restriction base="xsd:string"><xsd:whiteSpace
+      value="preserve"/></xsd:restriction>` — a `whiteSpace` facet and **no `xsd:pattern`**.
+      (d) Package row `…::GeneralTemplateClasses::PrimitiveTypes` ⇒ `PrimitiveTypes.py`;
+      `GeneralTemplateClasses` is a **leaf** package (only `__pycache__` inside) per Rule
+      0007, `armodel.VerbatimStringPlain is VerbatimStringPlain` → `True` by probe, no
+      class-named submodule, no `PrimitiveTypes.py` + `PrimitiveTypes/` shadowing pair, and
+      the name is absent from both `KNOWN_NAME_COLLISION_CLASSES` and
+      `INTENTIONALLY_UNEXPORTED_MODULES` in `tests/test_armodel/test_model_imports.py`.
+      **Docstring verified by script diff against THREE corpora, not by eye** — this is the
+      check that catches what the audit cannot, and the same technique the `RevisionLabelString`
+      row used to catch an invented colon. Prose is **token-identical** to the markdown
+      `Note` cell *and* to the XSD `<xsd:documentation>` (l.145306-145310, whose blank-line-
+      wrapped sentences flatten to exactly the markdown prose); the 3 `Tags:` are set-equal
+      **and order-equal** across markdown, XSD `<xsd:appinfo source="tags">` (l.145311) and
+      source — `xml.xsd.customType=VERBATIM-STRING-PLAIN`, `xml.xsd.type=string`,
+      `xml.xsd.whiteSpace=preserve` — so the `Tags:` tail is kept (Rule 0012.2.5.3). **No
+      leaked `# noqa`/`E501`/`W605` fragment** (the defect the `DiagRequirementIdString` /
+      `Ip4AddressString` rows found); the file's single `noqa` is the legitimate
+      `except:  # noqa E722` at l.199. `__init__` carries **no** docstring; zero own members
+      ⇒ no per-attribute loop to run.
+    - note (Step 1, **R4.3.1 cross-check added 2026-10-17**, after the user asked whether the
+      old XSD had been checked — it had not). The **class itself is unchanged across the two
+      corpora**, which is a fourth independent corroboration of the R23-11 citation and of the
+      docstring's verbatim-ness: R4.3.1's `complexType VERBATIM-STRING-PLAIN`
+      (`AUTOSAR_00044.xsd` l.103342-103360) is **byte-identical to R23-11's** in structure —
+      same `Primitive` stereotype, same `xsd:simpleContent` + `AR:AR-OBJECT` attributeGroup
+      only, same `--SIMPLE` (`xsd:string` + `whiteSpace=preserve`, **no** `xsd:pattern`), same
+      three `Tags:` (`customType=VERBATIM-STRING-PLAIN`, `type=string`,
+      `whiteSpace=preserve`) in the same order — and R4.3.1's markdown Table 4.90 carries the
+      same `Primitive`/`Package`/`Note`-only shape with **zero Attribute rows** and **no Base
+      row**. The **sole** prose delta between the corpora is one token: R4.3.1 says
+      `applications of TR_APRXML_00024`, R23-11 says `applications of [TPS_XMLSPR_00024]` —
+      the constraint-identifier renaming. The source carries the **R23-11** form, which is
+      correct per Rule 0016.3 (the R23-11 table exists, so the R4.3.1 fallback is not cited).
+      R4.3.1's `Package` row also reads `…::Primitive Types` with a space — a conversion
+      artifact of the pre-split corpus, not a different package.
+      **The container shape, by contrast, DID change between releases** — see the Step 8
+      R4.3.1 cross-check note, which carries that finding and **corrects** the accepted
+      leaf-pair deviation's supporting rationale to be release-scoped.
   - [x] Step 2 — Write model class unit test (Red)
-    - note (Step 2): TestVerbatimStringPlain pre-existed (init + setValue round-trip) and
-      passes — no Red observable, nothing to fix.
+    - note (Step 2, 2026-09-30, retained): TestVerbatimStringPlain pre-existed (init +
+      setValue round-trip) and passes — no Red observable, nothing to fix.
+    - note (Step 2, drift pass 2026-10-17): the row's "nothing to fix" was accurate about
+      *behaviour* — chaining **was** asserted (`setValue(...) is verbatim`) — but the class sat
+      **below the stamped house bar** established by `TestUriString` (Table 4.66), `TestMcdIdentifier`
+      (4.54), `TestDateTime` (4.48), `TestRegularExpression` (4.60) and `TestRevisionLabelString`
+      (4.61): a parametrized value round-trip **and** the Rule 0006 None no-op were both
+      absent. Added to `test_PrimitiveTypes.py` in the sibling shape — `test_subclass_of_arliteral`,
+      a 6-case `@pytest.mark.parametrize` `test_value_round_trip` (each asserting
+      `obj.setValue(v) is obj`) and `test_set_value_none_is_noop`. **The 6 values are drawn
+      from what the facet actually constrains**, and the test docstring records why:
+      Table 4.68 carries **no `xml.xsd.pattern` tag** and `--SIMPLE` is a bare `xsd:string` +
+      `whiteSpace=preserve`, so **no `re.fullmatch` gate is possible here** (unlike
+      McdIdentifier / Ip6AddressString / RevisionLabelString) — Rule 0028 therefore does not
+      fire and `PATTERN` stays `None`. The values are the internal-space-run
+      (`"special   data"`), leading/trailing padding, an embedded newline, a tab, the empty
+      string (legal for `xsd:string`) and a no-whitespace control — i.e. exactly the white
+      space the Note says must be preserved. **No behavioural Red**: the pre-existing
+      `ARLiteral` base already satisfies both contracts (`setValue` guards `None` and returns
+      `self`), so the new asserts passed on first run — **10 passed** for `-k VerbatimStringPlain`
+      (was 2). The observable Red state for this row is the coverage gap itself, the same
+      shape the `DateTime` / `RevisionLabelString` / `UriString` drift passes each found.
   - [x] Step 3 — Implement model class (Green)
-    - note (Step 3): field-to-spec cross-check PASSES (zero attrs; no fabricated members).
+    - note (Step 3, 2026-09-30, retained): field-to-spec cross-check PASSES (zero attrs; no
+      fabricated members).
+    - note (Step 3, drift pass 2026-10-17): **no implementation change needed** — re-derived
+      from source by AST + runtime, not trusted. `PrimitiveTypes.py` L1550-1569: own methods
+      == `['__init__']` (checklist == methods, 1 row, source order); **zero own annotated
+      members** (Table 4.68 has no `Attribute` rows, so the sole member is the inherited
+      literal value); `__init__(self)` signature correct for a `Primitive` with no `Base` row;
+      `__init__` carries **no** docstring; runtime `__bases__ == (ARLiteral,)` and MRO
+      `VerbatimStringPlain → ARLiteral → ARType → ABC → object`. `# type:` count in the file =
+      **0** (Rule 0003). Field↔spec cross-check passes in **both** directions (zero spec rows
+      ↔ zero own members; no fabricated field, no flattening, no `naming`/`type`/`missing` row).
+      Rules 0001.5 (Kind suffix), 0001.6 (create vs set/add), 0011 (member order), 0008
+      (attribute spacing) and the Rule 0022 quota shape are **vacuous** — zero own members, so
+      there is nothing to name, shape, order or space (the Rule 0022 gate is still run at 9a:
+      **3 passed**).
   - [x] Step 4 — Sync docstrings (wipe + rewrite)
-    - note (Step 4): class docstring = Table 4.68 Note verbatim (byte-identical);
-      __init__ has no docstring.
+    - note (Step 4, 2026-09-30, retained): class docstring = Table 4.68 Note verbatim
+      (byte-identical); __init__ has no docstring.
+    - note (Step 4, drift pass 2026-10-17): **no change needed** — the replacement really is
+      verbatim, confirmed by the AST/token diff in Step 1 against all three corpora (prose
+      token-identical to markdown **and** XSD; all 3 `Tags:` set- **and order-equal**; no
+      leaked `# noqa` fragment). The Rule 0012.2.3 wipe-and-rewrite therefore produced **no
+      diff**, which is the honest outcome and not a skipped step — same as the stamped
+      `DateTime` / `Ip4AddressString` / `Ip6AddressString` / `McdIdentifier` / `RevisionLabelString`
+      / `RegularExpression` / `StrongRevisionLabelString` / `UriString` siblings. This is
+      **not** a fabricated docstring (the defect the same file still records on the
+      `RegularExpression` and `UriString` rows). Zero own members ⇒ the per-attribute loop is
+      vacuous; `__init__` still carries no docstring (Rule 0012.2.4 / 0012.2.5.2).
   - [x] Step 5 — Write reader/writer round-trip test (Red)
-    - note (Steps 5/6): N/A — no own XML element; VERBATIM-STRING-PLAIN literal on
-      consumers.
+    - note (Steps 5/6, 2026-09-30, retained): N/A — no own XML element; VERBATIM-STRING-PLAIN
+      literal on consumers.
+    - note (Step 5, drift pass 2026-10-17): the "no own XML element" half is **correct** and
+      was verified by parsing the complexType block (XSD l.145304-145318 is `simpleContent`
+      with only the `AR:AR-OBJECT` attributeGroup and **zero** `<xsd:element>` children). The
+      implied "nothing needed pinning" was **wrong**, and more wrong here than on any sibling,
+      because this class is **the only one in the file with no leaf pair at all**: the
+      `DateTime` row's Step 8(a) audit listed 12 primitives with a live
+      `getChildElementOptional<Cls>`/`setChildElementOptional<Cls>` pair but no leaf test, and
+      named `VerbatimString` — **not** `VerbatimStringPlain`, whose Step 8 note recorded it as
+      one of only **three** types with **no** leaf pair (`StrongRevisionLabelString`,
+      `VerbatimStringPlain`, `CIdentifierWithIndex`). Two of those three were since resolved
+      in opposite directions (`CIdentifierWithIndex` accepted as dead code; `StrongRevisionLabelString`
+      pair added at user direction). With **no** leaf pair and **no** element to dispatch on,
+      **the `Sd` consumer round-trip is the only place the Rule 0013.2 typed-preservation
+      property can be pinned at all** — so the gap is load-bearing, not cosmetic.
+      (a) **The gap is real and was confirmed by grep, not assumed**:
+      `grep -rn "isinstance.*VerbatimStringPlain" tests/` returned **nothing**. The existing
+      coverage all assert the *value*, never the *type*: `test_special_data.py`'s sibling
+      `TestSd.test_sd_value_methods` compares the model object identity;
+      `test_whitespace_controlled.py::test_read_sd_reads_xml_space` asserts
+      `sd.getValue().getValue() == "special   data"` on the **parse** path;
+      `test_writer_common_structure.py::TestWriteSds` asserts `parent[0].text` **in memory
+      only** (`writeSds(parent, contents)`, never a save/load). So a reader falling back to
+      the generic literal helper would degrade the value to a bare `ARLiteral` and pass
+      **every test in the repo**.
+      (b) **Real gap closed** — added `tests/test_armodel/writer/test_special_data.py`
+      (`TestVerbatimStringPlainSdRoundTrip` + `TestVerbatimStringPlainSdEmptyCases`, **7
+      tests**), mirroring the `McdIdentifier` row's `test_mc_data_instance.py` save/reload
+      harness: build `AUTOSAR` → `ARPackage` → `ADMIN-DATA`/`SDGS`/`SDG` → `SD` via
+      `document.setAdminData(AdminData().addSdg(sdg))` (the document-level path, parser
+      l.22648 / writer l.22965), then `ARXMLWriter.save` → `ARXMLParser.load`. Cases:
+      value **and** type survive; an internal space run survives **without** xml:space; a
+      leading/trailing padded value survives **with** `xml:space="preserve"` (the
+      container-class responsibility the Note describes); an embedded newline survives; the
+      explicit negative guard `type(reparsed) is VerbatimStringPlain`; plus the two empty
+      cases (unset → `<SD GID="key1"/>`, re-parses `None`; empty string → same, **documented**
+      rather than asserted as a defect — see Step 8).
+      **XSD validation was left ON** (Rule 0027 — no `validate=False` opt-out was introduced;
+      `save` and `load` both validate against the bundled R23-11 schema).
+      **Test strength proven by mutation, not asserted** — same technique the
+      `RegularExpression` / `RevisionLabelString` / `StrongRevisionLabelString` / `UriString`
+      rows used: mutating `readSd` to construct `ARLiteral()` instead of `VerbatimStringPlain()`
+      turned **4 of the 7** new cases **Red** with
+      `isinstance(<ARLiteral object>, VerbatimStringPlain)`. The 3 survivors are precisely the
+      cases that assert only `.getValue()`, which is the point — the value-only asserts would
+      **not** have caught the degradation. Mutant reverted; `git diff --stat --
+      src/armodel/parser/arxml_parser.py` is empty afterwards.
   - [x] Step 6 — Update parser & writer (Green)
-    - note (Steps 5/6): N/A — see Step 5.
+    - note (Steps 5/6, 2026-09-30, retained): N/A — see Step 5.
+    - note (Step 6, drift pass 2026-10-17): **no parser/writer change needed** — verified,
+      not assumed. Reader and writer checked **separately** (Rule 0025 — the writer's presence
+      was *not* used to infer the reader's), by AST call-count rather than by reading:
+      `readSd` → `{findall:1, Sd:1, readARObject:1, readWhitespaceControlled:1, addSd:1,
+      setGID:1, setValue:3, strip:1, NameToken:1, VerbatimStringPlain:1}`; `writeSds` →
+      `{getSds:1, SubElement:1, writeARObject:1, getGID:1, writeWhitespaceControlled:1,
+      getValue:3}`. So **no Rule 0013.1 double-write** (`readARObject` / `writeARObject` /
+      `readWhitespaceControlled` / `writeWhitespaceControlled` each appear **exactly once**),
+      and **no chained mutator on a receiver** (AST scan for the `x.setY().setZ()` shape: zero
+      hits on both sides; the `sd.setValue(VerbatimStringPlain().setValue(...))` site is
+      constructor-nesting inside a single call, which Rule 0013 does not treat as a chain).
+      Rule 0013.2 name pairs verified by suffix over the whole abstract helper tree:
+      **35 reader / 35 writer pairs, zero reader-only, zero writer-only** — the same count the
+      `StrongRevisionLabelString` and `UriString` rows recorded, so this class is not part of
+      any asymmetry; it is simply **not** in the pair set (`VerbatimString` is, by contrast).
+      Round-trip proven **lossless end-to-end** by the new Step 5 tests.
   - [x] Step 7 — Update checklist comment
-    - note (Step 7): 5-column rows gained the release column (Rule 0012.3 gain-on-pass);
-      marker withheld (batch mode).
+    - note (Step 7, 2026-09-30, retained): 5-column rows gained the release column (Rule
+      0012.3 gain-on-pass); marker withheld (batch mode).
+    - note (Step 7, drift pass 2026-10-17): **no change needed** — the block is already at the
+      current bar, re-checked rather than assumed. Rows **L1563-1566**, one contiguous run
+      above `__init__` at **L1568** (Rule 0024; audit `BLOCK`/`ROWS` clean); 6 columns
+      `impl / docstring / test / reader / writer / release` with the per-row release token
+      `R23-11` (Rule 0023 satisfied — not a legacy 4- or 5-column block); `# Spec:` in canonical
+      single-corpus form (Rule 0023 not triggered — the R23-11 FO_TPS Table 4.68 exists, so the
+      R4.3.1 `Table 4.90, p.102` fallback correctly is **not** cited). Set-based AST
+      checklist-vs-methods script green: `checklist == methods == ['__init__']` **in source
+      order**, all `[x]`, release token present on the row, `# type:` count 0, and **0**
+      provenance markers in the block (correctly withheld pre-9b). `reader [—] writer [—]` on
+      the `__init__` row is **correct** (Rule 0002: `[—]` for no-XML members, and this class
+      has no accessors at all), re-justified independently in Step 5 — the XSD complexType is
+      `simpleContent` with zero child elements.
   - [x] Step 8 — Deviations
-    - note (Step 8): none; no missing referenced classes.
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (139 passed / 0 failed
-    test_PrimitiveTypes.py); 9b deferred to batch confirmation (user instruction)
+    - note (Step 8, 2026-09-30, retained): none; no missing referenced classes.
+    - note (Step 8, drift pass 2026-10-17): **no `naming` / `type` / `missing` deviation row
+      and no Rule 0010 placeholder** ⇒ nothing withholds the stamp (Rule 0014). The field↔spec
+      cross-check passes in **both** directions — Table 4.68 carries **zero** `Attribute` rows
+      and the class carries **zero** own members/accessors, so nothing is fabricated and
+      nothing is missing. **No missing referenced classes** — the class references none, and its
+      own type is consumed by `Sd.value` (`Optional[VerbatimStringPlain]`, spec Table 4.21,
+      Mult `1` ⇒ `Optional[T]` correct per Rule 0001.4), which already exists.
+      **One ACCEPTED deviation, resolving the audit's `! BASE` warn — the missing typed
+      leaf-helper pair is correct here, and adding it would be dead code.** Evidence, four
+      independent pieces (Rule 0025 discipline — the writer's presence was not used to infer
+      the reader's):
+      1. XSD `complexType VERBATIM-STRING-PLAIN` (l.145304) is `xsd:simpleContent` over
+         `VERBATIM-STRING-PLAIN--SIMPLE` with **only** the `AR:AR-OBJECT` attributeGroup and
+         **zero** `<xsd:element>` children (block parsed, not eyeballed) — **no child element
+         exists to dispatch on**, so a pair named
+         `getChildElementOptionalVerbatimStringPlain` would have no XML element name to emit.
+      2. `grep -c 'type="AR:VERBATIM-STRING-PLAIN"' AUTOSAR_00052.xsd` = **0** — **no**
+         element or attribute anywhere in the schema declares the complexType. Contrast
+         `StrongRevisionLabelString` (10 sites) and `DateTime` (5 sites), where the
+         `CIdentifierWithIndex` exemption's condition genuinely fails and the user directed
+         the pair be added. It does not fail here.
+      3. The `--SIMPLE` type is referenced **exactly once**, at **l.101712**, as the
+         `simpleContent` extension base of `complexType SD` (l.101705) — i.e. the value *is*
+         the `SD` element's own text. This is precisely what the Table 4.68 Note says the type
+         is for: *"This primitive is applied in cases where xml:space attribute cannot be
+         provided by the primitive type but needs to be provided by the container class."*
+         The container class here is `Sd`, which owns the element; the primitive owns the value.
+      4. **The Rule 0013.2 typed-preservation property is nevertheless satisfied**, verified by
+         probe rather than assumed: parsing `<SD GID="purpose">special   data</SD>` yields
+         `type(sd.getValue()) == VerbatimStringPlain` and
+         `isinstance(sd.getValue(), VerbatimStringPlain) is True`. `readSd` constructs the
+         concrete type directly. The Step 5 tests now **pin** this so it cannot regress.
+      The only schema-consumer class that is **not** modeled is `SdgCaption`'s sibling `Sd`
+      itself — but `Sd` **is** modeled, with exactly one field typed
+      `VerbatimStringPlain` (`grep -rn VerbatimStringPlain src/armodel/models/` returns only
+      `SpecialData.py`'s `Sd.value` getter/setter/field). So the pair would be dead weight with
+      **zero** possible call site. **Accepted, not a defect** — same conclusion the
+      `CIdentifierWithIndex` row documented on three independent grounds.
+    - note (Step 8, **R4.3.1 cross-check 2026-10-17 — the accepted-deviation rationale
+      CORRECTED, scope narrowed**; user asked whether the old XSD had been checked. It had
+      not — only `R23-11/xsd/AUTOSAR_00052.xsd` had. Checking
+      `R4.3.1/xsd/AUTOSAR_00044.xsd` **confirms the conclusion but invalidates one of its
+      supporting claims as stated**, so the rationale is re-scoped here rather than left
+      over-broad):
+      (a) **The conclusion stands for the release being synced.** `grep -c
+      'type="AR:VERBATIM-STRING-PLAIN"' AUTOSAR_00044.xsd` = **0** in R4.3.1 too — so
+      "no element or attribute declares the complexType" is **true of both corpora**, and
+      point (1) of the accepted-deviation evidence (the complexType is `simpleContent` with
+      zero child elements) likewise holds in both. Evidence points 1, 2 and 4 are
+      release-independent.
+      (b) **Evidence point 3 was over-broad and is CORRECTED.** It read "the `--SIMPLE` type is
+      referenced **exactly once**, as the `simpleContent` extension base of `complexType SD`".
+      That is true of **R23-11** (single ref, l.101712) but **false of R4.3.1**, where
+      `--SIMPLE` is referenced **twice**: once as the `simpleContent` extension base of
+      `complexType SD` (l.72919) **and once more at l.72883 as a dedicated child element** —
+      `<xsd:element maxOccurs="1" minOccurs="0" name="VALUE" type="AR:VERBATIM-STRING-PLAIN--SIMPLE">`
+      inside group `SD` ("element group for class SpecialData::Sd"), with appinfo
+      `mmt.qualifiedName="Sd.value"`. So in the **older** release the value really did ride a
+      **dedicated `VALUE` child element** — precisely the shape a
+      `get/setChildElementOptionalVerbatimStringPlain` pair would serve. **The
+      "no element to dispatch on" argument is therefore a property of R23-11, not of the
+      type**, and the accepted deviation must be read as release-scoped to R23-11.
+      (c) **The container shape changed between the two releases** — verified, not inferred:
+      R4.3.1's `Sd` is an element **group** with a `VALUE` child; R23-11's
+      `complexType SD` (l.101705) is `xsd:simpleContent` extending
+      `AR:VERBATIM-STRING-PLAIN--SIMPLE` directly and contains **zero** `<xsd:element>`
+      children (grep over the complexType span = 0). In R23-11 the value **is** the `SD`
+      element's own text. That is why the R23-11 note's container-class clause ("xml:space …
+      needs to be provided by the container class") is satisfied by `Sd.xmlSpace` on the same
+      element, and why the pair has no element name to key on.
+      (d) **The stamp is unaffected.** Rule 0016.3: the R23-11 Table 4.68 exists, so R4.3.1
+      is **not** the corpus for this class — per-row `release` and the marker both read
+      `R23-11`, and citing R4.3.1 would be the error Rule 0016.3 exists to prevent. The
+      `BASE` warn is resolved against R23-11, which is the release the class is synced from.
+      (e) **No fixture depends on the R4.3.1 shape** — checked rather than assumed:
+      `grep -rl "<VALUE>" tests/integration_tests/` returns four files, but every hit is the
+      unrelated ECUC element `VALUE-REF` (`<VALUE-REF DEST="ECUC-CONTAINER-VALUE">…`,
+      `<VALUE-REF>/Os/Os/OSDEFAULTAPPMODE</VALUE-REF>` in `Os_ECUC.arxml`,
+      `Os_ECUC_4.4.0.arxml`, `SoftwareComponents.arxml`, `CanSystem.arxml`); **no
+      `<SD>` carries a `<VALUE>` child** anywhere in the fixture set, so no round-trip test
+      depends on the older shape.
+      **Out of scope, recorded for another row — NOT touched here** (Rule 0017.1, one class per
+      session): (i) `readSd` maps a **blank** `<SD>` text to `None` via
+      `child_element.text.strip() != ""`, so an *empty string* value — legal for `xsd:string`
+      and arguably distinct from "absent" — is indistinguishable from unset after a
+      save/load. That is `Sd`'s reader behaviour, not `VerbatimStringPlain`'s (this class is
+      value-carried and never inspects its own text). It is **documented** in the Step 5 test
+      `test_empty_string_value_emits_empty_sd_and_reparses_as_none` rather than asserted as a
+      defect. Belongs to the `Sd` row (`docs/plan/sync-todo/Group21.md` has no `Sd` row; it is
+      a GenericStructureTemplate Table 4.21 class) — raised at 9b for routing.
+      (ii) **Cross-release consumer gap, surfaced by the R4.3.1 XSD cross-check — the more
+      substantive of the two.** R4.3.1's `Sd` carries a dedicated `<VALUE>` **child element**
+      (l.72883, `type="AR:VERBATIM-STRING-PLAIN--SIMPLE"`, appinfo `mmt.qualifiedName="Sd.value"`),
+      whereas R23-11's `complexType SD` has no such child and carries the value as its own
+      text. `readSd` (`arxml_parser.py` l.2395-2402) reads **only** `child_element.text` and
+      never looks for a `<VALUE>` child, so an **R4.3.1-shaped** document
+      (`<SD GID="…"><VALUE>…</VALUE></SD>`) would parse with `getValue() is None` — the value
+      is silently dropped. `writeSds` likewise only ever writes `sd_tag.text`, so it emits the
+      R23-11 shape and would not reproduce an R4.3.1 file's `<VALUE>` child.
+      **This is an `Sd` cross-release defect, not a `VerbatimStringPlain` one** — the primitive
+      is unchanged between the releases and its own table carries zero Attribute rows, so there
+      is nothing on *this* row to fix; the missing `<VALUE>` child handling lives entirely in
+      `Sd`'s reader/writer. **No fixture is affected** (checked in the Step 8 note (e): every
+      `<VALUE>` hit in `tests/integration_tests/` is the unrelated ECUC `VALUE-REF`), and the
+      full suite passes, so nothing is currently broken — it is **forward-looking debt** for
+      whoever syncs `Sd` (GenericStructureTemplate Table 4.21). Recorded, **not** touched here
+      (Rule 0017.1, one class per session).
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+    - note (9a, RE-RUN 2026-10-17, full battery): full suite **26,322 passed / 0 failed**
+      (integration round-trip included, XSD validation gates ON per Rule 0027). The prior
+      baseline in this file is **26,307** (the `UriString` row's post-sync total), so the delta
+      is exactly the **+15** this pass added — **8 model** (`-k VerbatimStringPlain` 2 → 10,
+      `test_PrimitiveTypes.py` 369 total) **+ 7 writer** (new `test_special_data.py`) — and no
+      pre-existing test broke. Also: `ruff check src/armodel tests scripts` **All checks
+      passed!** (one `W292 no newline at end of file` in the new file was caught and fixed);
+      `flake8 --exclude=.venv,build --select=E9,F63,F7,F82` exit 0; `black --check`
+      (200 cols) clean on both touched files; **Rule 0022 member-annotation gate 3 passed**;
+      set-based checklist-vs-methods script green (`['__init__'] == ['__init__']` in source
+      order, all `[x]`, 6-column + release `R23-11`, 0 markers in the block, 0 `# type:`);
+      `audit_class.py VerbatimStringPlain` => **PASS, 1 warning** (the accepted `! BASE` one);
+      `regen_sync_todo.py --check` => drift on **two pre-existing** rows
+      (`ReferrableSubtypesEnum`, `SdgDef` — index-held commit hashes the Group21 rows no
+      longer carry), the same batch-deferral artifact the `SdgForeignReference` row reconciled;
+      to be fixed by the mandatory `--write` at stamp time, never by hand-editing.
+      **`mypy src/armodel` is green repo-wide**: **Success, no issues found in 281 source
+      files** — the 13 pre-existing openpyxl `CellRichText` errors recorded on the
+      `SdgForeignReference` / `DateTime` / `Ip4AddressString` / `RevisionLabelString` rows are
+      **not** present in this environment. Verified independent of this pass: `git status
+      --porcelain src/` is **empty** (this sync changed **no** `src/` file at all — only two
+      test files and this todo file), so the result cannot be affected by these changes.
+    - note (9b, **CONFIRMED by the user 2026-10-17**; marker
+      `# Spec verified: R23-11 (2026-10-17, user 9b confirmation)` written immediately after
+      the `# Spec:` line, replacing — never appending to — any existing marker; there was
+      exactly **0** before. Post-stamp audit `STAMP` reports
+      *"marker `Spec verified: R23-11 (2026-10-17, user 9b confirmation)` with all 1 rows
+      `[x]`"* ⇒ **PASS**):
+      All 14 pre-stamp items re-derived from source per Rule 0026 — the row's 2026-09-30
+      "steps 1-8 done" prose was audited, **not** trusted. (a) Table 4.68 header cell is
+      `Primitive` (not `Enumeration`), body rows `Primitive`/`Package`/`Note` only ⇒ **zero
+      `Attribute` rows** ↔ zero own members/accessors, so the field↔spec cross-check passes in
+      **both** directions; (b) **no `Base` row** ⇒ `ARLiteral` per Rule 0001.10, runtime
+      `__bases__ == (ARLiteral,)` confirmed, MRO `VerbatimStringPlain → ARLiteral → ARType →
+      ABC → object`, `__init__(self)` correct for a Primitive with no Base row (the audit's
+      `SPEC-BASE` INFO is only "no readable Base row", the expected reading under the
+      shifted-caption convention — verified by eye); (c) **0001.3** — the sole member is the
+      **inherited** `ARLiteral` literal value, so nothing is inherited-and-flattened; no
+      accessors, hence no untyped accessors; (d) **0001.5 / 0001.6** — **vacuous**, a Primitive
+      table has no `ref`/`tref`/`aggr` rows, so there is nothing to name or shape;
+      (e) **0001.7** — `reader [—] writer [—]` correct, justified **independently of the
+      writer** (Rule 0025): XSD `complexType VERBATIM-STRING-PLAIN` (l.145304-145318) is
+      `xsd:simpleContent` over `VERBATIM-STRING-PLAIN--SIMPLE` with **only** the `AR:AR-OBJECT`
+      attributeGroup and **zero** `<xsd:element>` children (block parsed, not eyeballed);
+      (f) **0011** member order — **vacuous** (zero own members), and no XML element order to
+      govern; (g) **0012 / 0001.4** docstrings — verified **by script diff against four
+      corpora, not by eye**: prose **token-identical** to the markdown `Note`, to the R23-11 XSD
+      `<xsd:documentation>`, **and** (after the R4.3.1 cross-check) structurally identical to
+      the R4.3.1 complexType, whose only prose delta is the constraint-identifier rename
+      `TR_APRXML_00024` → `[TPS_XMLSPR_00024]`; all 3 `Tags:` **set-equal and order-equal**
+      across markdown, R23-11 XSD appinfo, R4.3.1 XSD appinfo and source; the `Tags:` tail is
+      kept (Rule 0012.2.5.3); `__init__` carries **no** docstring (0012.2.4 / 0012.2.5.2);
+      (h) **0008 spacing** — **vacuous**: zero own attribute blocks, so there is nothing to glue
+      (the check invisible to automation that lets glued fields pass every gate on a
+      *non-empty* class — genuinely empty here, confirmed by AST, not assumed);
+      (i) **0022 quota shape** — **vacuous** (zero members); the gate was nonetheless run ⇒
+      **3 passed**, and no `# type:` appears anywhere in `PrimitiveTypes.py` (Rule 0003). The
+      one *consumer* field, `Sd.value: Optional[VerbatimStringPlain]`, matches the spec's Mult
+      `1` (Table 4.21) per Rule 0001.4; (j) **0007** — leaf package ⇒ `PrimitiveTypes.py`,
+      no class-named submodule, no `X.py`+`X/` shadowing pair, absent from both exclusion lists
+      in `tests/test_armodel/test_model_imports.py`, `armodel.VerbatimStringPlain is
+      VerbatimStringPlain` → `True` by probe; (k) **0013.2 / 0025** — 35 reader / 35 writer
+      leaf pairs repo-wide, **zero** reader-only / writer-only; `readSd`/`writeSds` each call
+      their own base helper **exactly once** (`readARObject`/`writeARObject`, plus
+      `read/writeWhitespaceControlled`) — counted by AST, and the writer's presence was **not**
+      used to infer the reader's; no Rule 0013.1 double-write, no chained mutator on a
+      receiver (the `sd.setValue(VerbatimStringPlain().setValue(...))` site is
+      constructor-nesting inside a single call, which Rule 0013 does not treat as a chain);
+      (l) **0014** — no `naming`/`type`/`missing` row and no Rule 0010 placeholder, so nothing
+      withholds the stamp; no missing referenced classes; the only tracker mention is the
+      `## Appendix: classes without a spec attribute table` listing at l.2175, which is the
+      correct description of a `Primitive` table with no `Attribute` rows and **not** a
+      deviation row (the class was already listed, so — unlike the `StrongRevisionLabelString`
+      and `UriString` rows — nothing needed adding there); (m) **0002 / 0016.3** release
+      provenance — the R23-11 Table 4.68 exists, so the R4.3.1 `Table 4.90, p.102` fallback
+      correctly is **not** cited; per-row `release` and marker both `R23-11`; (n) **0028** —
+      does **not** fire: no `xml.xsd.pattern` tag, and `--SIMPLE` is a bare `xsd:string` +
+      `whiteSpace=preserve` in **both** corpora, so `PATTERN` is correctly `None` and no regex
+      was invented (the `UriString` row's precedent).
+      **The user directed the leaf-pair question (item e / audit `BASE`) to be recorded as an
+      ACCEPTED deviation** rather than fixed — the Step 8 note carries the four-part evidence,
+      and the later R4.3.1 cross-check note **narrows** that evidence to be release-scoped
+      without changing the decision.
+      **Two gaps were closed, none deferred** — the model test's missing parametrized
+      round-trip + Rule 0006 None no-op (Step 2), and the **repo-wide absence of any
+      `isinstance(..., VerbatimStringPlain)` assertion**, i.e. the Rule 0013.2
+      typed-preservation property was unpinned (Step 5, 7 new tests, strength proven by
+      mutation). **No product defect existed in the model shape or in the parser/writer** —
+      `git diff --stat src/` is a **single line**, the Step 9 stamp comment.
+    - note (R4.3.1 cross-check, 2026-10-17 — user-requested, after 9b): the user asked whether
+      the old XSD had been checked. It had **not** — only `R23-11/xsd/AUTOSAR_00052.xsd` had.
+      Checking `R4.3.1/xsd/AUTOSAR_00044.xsd` found **one** substantive issue, which is
+      recorded (not suppressed) as a correction: the accepted leaf-pair deviation's
+      supporting claim that `--SIMPLE` is "referenced exactly once" is **true of R23-11 but
+      false of R4.3.1**, where it is referenced twice — the second being a dedicated
+      `<VALUE>` child element inside group `SD` (l.72883). The **decision is unchanged**
+      (evidence points 1, 2 and 4 are release-independent, and Rule 0016.3 makes R23-11 the
+      governing corpus), but the rationale is now explicitly release-scoped. It also yielded
+      a **new forward-looking finding** for the `Sd` consumer row: `readSd` reads only
+      `child_element.text`, so an R4.3.1-shaped `<SD><VALUE>…</VALUE></SD>` would parse with
+      `getValue() is None`, silently dropping the value — no fixture exercises it and the
+      full suite is green, so nothing is broken today, but it is real cross-release debt.
+      The class's own spec contract is unaffected: `VerbatimStringPlain` is structurally
+      **identical** in both corpora. Recorded in the Step 1 and Step 8 notes; no code changed.
 - [ ] `CseCodeType` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.75, p.165; also CP_TPS_SoftwareComponentTemplate Table 4.15, p.110
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
   - [x] Step 1 — Sync members & description from spec

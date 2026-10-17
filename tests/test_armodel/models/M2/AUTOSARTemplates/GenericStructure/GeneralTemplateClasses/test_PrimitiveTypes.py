@@ -1561,7 +1561,7 @@ class TestVerbatimString:
 
 class TestVerbatimStringPlain:
     """
-    Test class for VerbatimStringPlain functionality.
+    Test class for VerbatimStringPlain functionality (Table 4.68).
     """
 
     def test_initialization(self):
@@ -1569,10 +1569,46 @@ class TestVerbatimStringPlain:
         assert verbatim is not None
         assert verbatim._value is None
 
+    def test_subclass_of_arliteral(self):
+        verbatim = VerbatimStringPlain()
+        assert isinstance(verbatim, ARLiteral)
+
     def test_set_get_value(self):
         verbatim = VerbatimStringPlain()
         assert verbatim.setValue("plain text") is verbatim
         assert verbatim.getValue() == "plain text"
+
+    @pytest.mark.parametrize(
+        "value",
+        [
+            "special   data",
+            "  padded value  ",
+            "line one\nline two",
+            "tab\tseparated",
+            "",
+            "no-whitespace",
+        ],
+    )
+    def test_value_round_trip(self, value):
+        """
+        Table 4.68 carries no `xml.xsd.pattern` tag and `VERBATIM-STRING-PLAIN--SIMPLE`
+        (AUTOSAR_00052.xsd l.145320) restricts `xsd:string` with a `whiteSpace=preserve`
+        facet and **no** `xsd:pattern`, so no `re.fullmatch` gate is possible here (unlike
+        McdIdentifier / Ip6AddressString / RevisionLabelString). The values are therefore
+        drawn from what the facet actually constrains: the type exists so that *white space
+        is preserved*, so internal runs, leading/trailing padding, embedded newlines and
+        tabs are the meaningful cases, plus the empty string (legal for `xsd:string`) and a
+        no-whitespace control.
+        """
+        verbatim = VerbatimStringPlain()
+        assert verbatim.setValue(value) is verbatim
+        assert verbatim.getValue() == value
+
+    def test_set_value_none_is_noop(self):
+        """`setValue(None)` must not clear an existing value (Rule 0006 None no-op)."""
+        verbatim = VerbatimStringPlain().setValue("special   data")
+        verbatim.setValue(None)
+        assert verbatim.getValue() == "special   data"
 
 
 class TestNumericalConversion:
