@@ -9,7 +9,7 @@ from armodel.models.M2.MSR.Documentation.Annotation import Annotation
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import (
     MultiLanguageOverviewParagraph,
 )
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import (
+from armodel.models.M2.MSR.Documentation.BlockElements import (
     DocumentationBlock,
 )
 from armodel.models.M2.MSR.AsamHdo.SpecialData import Sdg

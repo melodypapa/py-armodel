@@ -2,13 +2,13 @@
 This module contains tests for the DocumentationBlock module in MSR.Documentation.BlockElements.
 """
 
+from armodel.models.M2.MSR.Documentation.BlockElements import DocumentationBlock
 from armodel.models.M2.MSR.Documentation.BlockElements.Figure import MlFigure
 from armodel.models.M2.MSR.Documentation.BlockElements.Formula import MlFormula
 from armodel.models.M2.MSR.Documentation.BlockElements.ListElements import ARList, DefList, LabeledList
 from armodel.models.M2.MSR.Documentation.BlockElements.Note import Note
 from armodel.models.M2.MSR.Documentation.BlockElements.RequirementsTracing import StructuredReq, TraceableText
 from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryP2
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageParagraph, MultiLanguageVerbatim
 
 
@@ -130,28 +130,28 @@ class TestDocumentationBlock:
         assert documentation_block.getPs() == [paragraph]
 
     def test_documentation_block_structured_req_methods(self):
-        """Test the structuredReq getter and setter."""
+        """Test the structuredReq create factory and getter."""
         documentation_block = DocumentationBlock()
-        structured_req = StructuredReq(None, "StructuredReq")
 
-        result = documentation_block.setStructuredReq(structured_req)
+        structured_req = documentation_block.createStructuredReq("StructuredReq")
+        assert isinstance(structured_req, StructuredReq)
+        assert structured_req.getShortName() == "StructuredReq"
         assert documentation_block.getStructuredReq() == structured_req
-        assert result == documentation_block
 
-        documentation_block.setStructuredReq(None)
-        assert documentation_block.getStructuredReq() == structured_req
+        existing = documentation_block.createStructuredReq("StructuredReq")
+        assert existing == structured_req
 
     def test_documentation_block_trace_methods(self):
-        """Test the trace getter and setter."""
+        """Test the trace create factory and getter."""
         documentation_block = DocumentationBlock()
-        trace = TraceableText(None, "TraceableText")
 
-        result = documentation_block.setTrace(trace)
+        trace = documentation_block.createTrace("TraceableText")
+        assert isinstance(trace, TraceableText)
+        assert trace.getShortName() == "TraceableText"
         assert documentation_block.getTrace() == trace
-        assert result == documentation_block
 
-        documentation_block.setTrace(None)
-        assert documentation_block.getTrace() == trace
+        existing = documentation_block.createTrace("TraceableText")
+        assert existing == trace
 
     def test_documentation_block_verbatim_methods(self):
         """Test the verbatim getter and setter."""

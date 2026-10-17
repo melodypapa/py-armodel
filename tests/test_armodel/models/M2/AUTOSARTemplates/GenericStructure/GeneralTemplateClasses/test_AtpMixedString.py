@@ -60,7 +60,7 @@ class TestAtpMixedStringCapabilityMatrix:
         assert issubclass(TDEventOccurrenceExpressionFormula, AtpMixedString)
 
     def test_documentation_family_not_capable(self):
-        from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
+        from armodel.models.M2.MSR.Documentation.BlockElements import DocumentationBlock
         from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LParagraph
         from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageParagraph
 

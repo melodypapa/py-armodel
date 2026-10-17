@@ -1,6 +1,7 @@
 """This module contains tests for the MsrQuery module in MSR.Documentation.TextModel."""
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import NameToken, String
+from armodel.models.M2.MSR.Documentation.BlockElements import DocumentationBlock
 from armodel.models.M2.MSR.Documentation.Chapters import Chapter, Topic1, TopicContent
 from armodel.models.M2.MSR.Documentation.MsrQuery import (
     MsrQueryArg,
@@ -12,7 +13,6 @@ from armodel.models.M2.MSR.Documentation.MsrQuery import (
     MsrQueryResultTopic1,
     MsrQueryTopic1,
 )
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 
 
 class TestMsrQueryArg:

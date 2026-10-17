@@ -18,7 +18,9 @@ class TestTraceableTextReader:
             "</ROOT>"
         )
 
-        traceable_text = ARXMLParser().getTraceableText(element, "TRACE")
+        traceable_text = TraceableText(None, "REQ-1")
+        parser = ARXMLParser()
+        parser.readTraceableText(parser.find(element, "TRACE"), traceable_text)
 
         assert isinstance(traceable_text, TraceableText)
         assert traceable_text.getShortName() == "REQ-1"
@@ -28,7 +30,7 @@ class TestTraceableTextReader:
         assert traceable_text.getTraceRefs()[0].getDest() == "TRACEABLE-TEXT"
 
     def test_read_traceable_text_reads_identifiable_state_once(self):
-        """getTraceableText must reach readIdentifiable exactly once (rules 0013.1/0025)."""
+        """readTraceableText must reach readIdentifiable exactly once (rules 0013.1/0025)."""
         from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 
         AUTOSAR.getInstance().clear()
@@ -41,7 +43,9 @@ class TestTraceableTextReader:
             "</ROOT>"
         )
 
-        traceable_text = ARXMLParser().getTraceableText(element, "TRACE")
+        traceable_text = TraceableText(None, "REQ-2")
+        parser = ARXMLParser()
+        parser.readTraceableText(parser.find(element, "TRACE"), traceable_text)
 
         assert traceable_text.getChecksum().getValue() == "checksum-tt"
         assert traceable_text.getTimestamp().getValue() == "2024-01-01"

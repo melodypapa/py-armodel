@@ -462,7 +462,7 @@ class DefList(Paginateable, VariationPointCapable):
         return self.defItems
 
 
-# TextModel.BlockElements imports this module at its top, so importing DocumentationBlock
+# BlockElements imports this module at its bottom, so importing DocumentationBlock
 # any earlier would be circular. The name must exist in this module's runtime globals for
 # typing.get_type_hints on Python 3.8 (bpo-39291 ignores caller-supplied globalns).
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock  # noqa: E402
+from armodel.models.M2.MSR.Documentation.BlockElements import DocumentationBlock  # noqa: E402

@@ -83,14 +83,14 @@ class TestItem:
         """getItemContents return and setItemContents value shall be Optional[DocumentationBlock] (Rule 0003).
 
         DocumentationBlock is imported at the BOTTOM of ListElements.py (runtime import,
-        cycle-breaker against TextModel.BlockElements), so the name lives in the module's
+        cycle-breaker against BlockElements), so the name lives in the module's
         runtime globals and plain get_type_hints resolves it on every supported Python
         (3.8's get_type_hints ignores caller-supplied globalns for functions — bpo-39291 —
         which is why the import must be a real module global, not TYPE_CHECKING-only).
         """
         import typing
 
-        from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
+        from armodel.models.M2.MSR.Documentation.BlockElements import DocumentationBlock
 
         for cls in (Item, LabeledItem):
             getter_hints = typing.get_type_hints(cls.getItemContents)
@@ -100,7 +100,7 @@ class TestItem:
 
     def test_item_contents_round_trip(self):
         """setItemContents stores the DocumentationBlock and the setter chains."""
-        from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
+        from armodel.models.M2.MSR.Documentation.BlockElements import DocumentationBlock
 
         item = Item()
         contents = DocumentationBlock()
@@ -111,7 +111,7 @@ class TestItem:
 
     def test_set_item_contents_none_noop(self):
         """setItemContents(None) is a no-op and does not overwrite an existing itemContents."""
-        from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
+        from armodel.models.M2.MSR.Documentation.BlockElements import DocumentationBlock
 
         item = Item()
         contents = DocumentationBlock()
@@ -306,7 +306,7 @@ class TestLabeledItem:
 
     def test_labeled_item_item_contents_methods(self):
         """Test the itemContents getter and setter."""
-        from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
+        from armodel.models.M2.MSR.Documentation.BlockElements import DocumentationBlock
 
         labeled_item = LabeledItem()
         contents = DocumentationBlock()
@@ -366,7 +366,7 @@ class TestDefItem:
 
     def test_def_item_def_methods(self):
         """Test the def getter and setter."""
-        from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
+        from armodel.models.M2.MSR.Documentation.BlockElements import DocumentationBlock
 
         def_list = DefList()
         def_item = DefItem(def_list, "DefItem1")

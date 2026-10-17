@@ -20,7 +20,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     EndToEndTransformationISignalProps,
     TransformationISignalProps,
 )
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import (
+from armodel.models.M2.MSR.Documentation.BlockElements import (
     DocumentationBlock,
 )
 from armodel.writer.arxml_writer import ARXMLWriter

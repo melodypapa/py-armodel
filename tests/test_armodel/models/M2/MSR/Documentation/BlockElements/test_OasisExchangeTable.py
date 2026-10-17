@@ -1,7 +1,7 @@
 """Tests for the OasisExchangeTable enums (FloatEnum, PgwideEnum, FrameEnum)."""
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, Integer, NameToken, String
-from armodel.models.M2.MSR.Documentation.BlockElements import Caption
+from armodel.models.M2.MSR.Documentation.BlockElements import Caption, DocumentationBlock
 from armodel.models.M2.MSR.Documentation.BlockElements.OasisExchangeTable import (
     AlignEnum,
     Colspec,
@@ -23,7 +23,6 @@ from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import 
     KeepWithPreviousEnum,
     Paginateable,
 )
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 
 
 class TestFloatEnum:

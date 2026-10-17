@@ -1,9 +1,8 @@
 import xml.etree.ElementTree as ET
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, NameTokens
-from armodel.models.M2.MSR.Documentation.BlockElements import FrameEnum, Row, Table, Tbody, Tgroup
+from armodel.models.M2.MSR.Documentation.BlockElements import DocumentationBlock, FrameEnum, Row, Table, Tbody, Tgroup
 from armodel.models.M2.MSR.Documentation.Chapters import TopicContent
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LParagraph
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageParagraph
 from armodel.parser.arxml_parser import ARXMLParser

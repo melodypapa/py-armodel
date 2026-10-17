@@ -75,7 +75,7 @@ if TYPE_CHECKING:
     from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName, MultiLanguageOverviewParagraph
     from armodel.models.M2.MSR.Documentation.TextModel.SingleLanguageData import SingleLanguageLongName
     from armodel.models.M2.MSR.Documentation.Annotation import Annotation
-    from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
+    from armodel.models.M2.MSR.Documentation.BlockElements import DocumentationBlock
     from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ArraySizeSemanticsEnum
     from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagEventDebounceAlgorithm, DiagEventDebounceCounterBased, DiagEventDebounceMonitorInternal, DiagEventDebounceTimeBased
     from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import (
