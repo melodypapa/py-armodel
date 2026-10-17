@@ -12,6 +12,7 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     CategoryString,
+    CseCodeType,
     DateTime,
     DiagRequirementIdString,
     Ip4AddressString,
@@ -259,6 +260,48 @@ class TestStrongRevisionLabelStringLeaf:
         element = ET.fromstring(f"<ROOT xmlns='{NS}'/>")
 
         assert ARXMLParser().getChildElementOptionalStrongRevisionLabelString(element, "VERSION") is None
+
+
+class TestCseCodeTypeLeaf:
+    def test_reads_concrete_type_and_t(self):
+        element = ET.fromstring(f"<ROOT xmlns='{NS}'><CSE-CODE T='2026-10-17T00:00:00Z'>100</CSE-CODE></ROOT>")
+
+        value = ARXMLParser().getChildElementOptionalCseCodeType(element, "CSE-CODE")
+
+        assert isinstance(value, CseCodeType)
+        assert value.getValue() == "100"
+        assert value.timestamp == "2026-10-17T00:00:00Z"
+
+    def test_reads_zero_value(self):
+        """`0` is the unsignedInt lower bound and the value the existing MultidimensionalTime fixtures use."""
+        element = ET.fromstring(f"<ROOT xmlns='{NS}'><CSE-CODE>0</CSE-CODE></ROOT>")
+
+        value = ARXMLParser().getChildElementOptionalCseCodeType(element, "CSE-CODE")
+
+        assert isinstance(value, CseCodeType)
+        assert value.getValue() == "0"
+
+    def test_reads_unsigned_int_max_value(self):
+        """`4294967295` is xsd:unsignedInt's inclusive upper bound — the constraint CSE-CODE-TYPE-STRING--SIMPLE actually applies."""
+        element = ET.fromstring(f"<ROOT xmlns='{NS}'><CSE-CODE>4294967295</CSE-CODE></ROOT>")
+
+        value = ARXMLParser().getChildElementOptionalCseCodeType(element, "CSE-CODE")
+
+        assert isinstance(value, CseCodeType)
+        assert value.getValue() == "4294967295"
+
+    def test_empty_element_becomes_empty_string(self):
+        element = ET.fromstring(f"<ROOT xmlns='{NS}'><CSE-CODE/></ROOT>")
+
+        value = ARXMLParser().getChildElementOptionalCseCodeType(element, "CSE-CODE")
+
+        assert isinstance(value, CseCodeType)
+        assert value.getValue() == ""
+
+    def test_missing_returns_none(self):
+        element = ET.fromstring(f"<ROOT xmlns='{NS}'/>")
+
+        assert ARXMLParser().getChildElementOptionalCseCodeType(element, "CSE-CODE") is None
 
 
 class TestUriStringLeaf:

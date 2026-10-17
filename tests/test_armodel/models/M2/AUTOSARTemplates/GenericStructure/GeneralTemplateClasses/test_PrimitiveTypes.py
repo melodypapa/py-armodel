@@ -4,6 +4,7 @@ in the AUTOSAR GenericStructure module.
 """
 
 import inspect
+import re
 import typing
 
 import pytest
@@ -538,6 +539,52 @@ class TestCseCodeType:
 
         cse_zero = CseCodeType().setValue("0")
         assert cse_zero.getValue() == "0"
+
+    @pytest.mark.parametrize("value", ["0", "1", "100", "4294967294", "4294967295"])
+    def test_unsigned_int_value_round_trip(self, value):
+        """
+        Test values across the ASAM CSE code space round-trip and chain.
+
+        Table 4.75 carries no ``xml.xsd.pattern`` tag and ``CSE-CODE-TYPE-STRING--SIMPLE``
+        is ``<xsd:restriction base="xsd:unsignedInt"/>`` — an unsignedInt restriction with
+        **no** ``xsd:pattern`` facet, unlike ``MCD-IDENTIFIER--SIMPLE`` /
+        ``IP6-ADDRESS-STRING--SIMPLE`` / ``REVISION-LABEL-STRING--SIMPLE``. Rule 0028
+        therefore does not fire (``PATTERN`` stays absent) and no ``re.fullmatch`` against a
+        spec pattern is possible. What *is* constraining is the unsignedInt lexical space,
+        ``[0-9]+`` — digits only, non-negative — so each value is machine-validated against
+        ``^[0-9]+$``. The spec Note states no value constraints, so the values are drawn from
+        the real XSD consumer (``MultidimensionalTime.cseCode``) plus the unsignedInt
+        boundary, not invented.
+        """
+        assert re.fullmatch(r"[0-9]+", value)
+        obj = CseCodeType()
+        assert obj.setValue(value) is obj
+        assert obj.getValue() == value
+
+    def test_set_value_none_is_noop(self):
+        """
+        Test that setValue(None) does not overwrite an existing value.
+
+        ``ARLiteral.setValue`` guards ``None`` (PrimitiveTypes.py) — the Rule 0006 None no-op
+        contract, asserted by every stamped sibling in this family
+        (``TestDateTime``, ``TestMcdIdentifier``, ``TestRegularExpression``,
+        ``TestRevisionLabelString``, ``TestUriString``).
+        """
+        obj = CseCodeType().setValue("100")
+        assert obj.setValue(None) is obj
+        assert obj.getValue() == "100"
+
+    def test_non_unsigned_int_values_rejected_by_lexical_space(self):
+        """
+        Test that values outside the unsignedInt lexical space fail the schema check.
+
+        ``ARLiteral`` is deliberately permissive (the model never enforces the spec's
+        constraint), so these assertions document the XSD's ``xsd:unsignedInt`` restriction
+        rather than a model behaviour: the model accepts them, the schema would not. Same
+        shape as the sibling rows' "the spec, not the parser, is the contract" notes.
+        """
+        for bad in ["-1", "1.5", "100 ", "", "0x64"]:
+            assert re.fullmatch(r"[0-9]+", bad) is None
 
 
 class TestCryptoServiceKeyGenerationEnum:

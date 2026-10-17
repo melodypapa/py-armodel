@@ -3934,30 +3934,392 @@ pending that confirmation.
       **identical** in both corpora. Recorded in the Step 1 and Step 8 notes; no code changed.
 - [ ] `CseCodeType` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.75, p.165; also CP_TPS_SoftwareComponentTemplate Table 4.15, p.110
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
+  - note (drift re-sync, 2026-10-17): **no `# Spec verified:` marker in src**, so the
+    2026-09-30 "steps 1-8 done" prose is not evidence (Rule 0026). Every claim re-derived
+    from source and the spec, like the `DateTime` / `RegularExpression` / `RevisionLabelString`
+    / `StrongRevisionLabelString` / `UriString` / `VerbatimStringPlain` siblings in this file.
+    **Entry gate `audit_class.py CseCodeType` => PASS, 0 warnings** (BLOCK/ROWS/SPECLINE/
+    CITATION/SPACING/DOCTAIL/BASE/MEMBER/DOC all clean; SPEC-BASE + STAMP INFO both expected
+    pre-9b; `BASE` already `.` because the typed leaf pair exists). The audit is blind to test
+    coverage and to word-level verbatim parity — and **two real gaps** were found that the row's
+    prose concealed, both closed in this pass: (1) the model test asserted neither a
+    parametrized value round-trip nor the Rule 0006 **None no-op**; (2) the typed leaf-helper
+    pair is **live on both sides with a real typed consumer**, yet **no `TestCseCodeTypeLeaf`
+    existed** on either side. **No product defect** — `git status --porcelain src/` is empty at
+    the end of this pass, i.e. the class already matched Table 4.75 on every structural axis.
   - [x] Step 1 — Sync members & description from spec
     - note (Step 1): Table 4.75 FO_TPS primary (p.165 via pdf_page.py); Note verbatim in
       docstring + Tags (CSE-CODE-TYPE-STRING, xsd type unsignedInt); zero attribute rows.
+    - note (Step 1, drift pass 2026-10-17): **the row's claims hold — no defect at this
+      step**, re-derived rather than trusted. (a) Table located by anchoring on the
+      **class-name header cell** `| Primitive   | CseCodeType |` (markdown **L4355**) and
+      stopping at the next `Table `/`## ` line — the caption `Table 4.75:` is at **L4353**,
+      i.e. **trailing**, as the row said; a naive forward scan from the class name runs past
+      the block into §4.14 `TagWithOptionalValue` (L4360). Body rows are `Primitive` /
+      `Package` / `Note` only — **zero `Attribute` rows, no `Base` row**, three rows total.
+      (b) Page **p.165** re-confirmed by `pdf_page.py CseCodeType`
+      (`R23-11/AUTOSAR_FO_TPS_GenericStructureTemplate.pdf | Table 4.75: CseCodeType | p.165`);
+      the script also reports the `also`-cited CP_TPS **Table 4.15, p.110** (row L3257-3262,
+      a byte-identical reproduction — same header cell, same `Package`, same `Note`) and the
+      R4.3.1 `Table 4.53, p.90`; Rule 0016.3 does **not** apply — the R23-11 table exists, so
+      the R4.3.1 fallback is correctly **not** cited.
+      (c) XSD: `complexType CSE-CODE-TYPE-STRING` at **l.132824**, `xsd:simpleContent` over
+      `CSE-CODE-TYPE-STRING--SIMPLE` (**l.132838**), stereotype `primitive`, attributeGroup
+      `AR:AR-OBJECT` only, and **zero** `<xsd:element>` children (block parsed, not eyeballed).
+      `--SIMPLE` is `<xsd:restriction base="xsd:unsignedInt"/>` — **no `xsd:pattern` facet**
+      (so Rule 0028 does not fire and `PATTERN` must stay absent — correct as-is; see Step 8).
+      (d) Package row `…::GeneralTemplateClasses::PrimitiveTypes` ⇒ `PrimitiveTypes.py`;
+      `GeneralTemplateClasses` is a **leaf** package (zero subdirs, only `__pycache__`)
+      per Rule 0007, `armodel.CseCodeType is CseCodeType` → `True` by probe, **no**
+      class-named submodule, no `PrimitiveTypes.py` + `PrimitiveTypes/` shadowing pair, and
+      the name is absent from both `KNOWN_NAME_COLLISION_CLASSES` and
+      `INTENTIONALLY_UNEXPORTED_MODULES` in `tests/test_armodel/test_model_imports.py`.
+      **Docstring verified by script diff against THREE corpora, not by eye** — the check
+      that catches what the audit cannot (the same technique the `RevisionLabelString` row
+      used to catch an invented colon): prose is **token-identical** to the markdown `Note`
+      cell *and* to the XSD `<xsd:documentation>` (l.132826-132828, whose blank-line-wrapped
+      sentences flatten to exactly the markdown prose); the 2 `Tags:` are set-equal **and
+      order-equal** across markdown, XSD `<xsd:appinfo source="tags">` (l.132829) and source —
+      `xml.xsd.customType=CSE-CODE-TYPE-STRING`, `xml.xsd.type=unsignedInt` — so the `Tags:`
+      tail is kept (Rule 0012.2.5.3). **No leaked `# noqa`/`E501`/`W605` fragment** (the
+      defect the `DiagRequirementIdString` / `Ip4AddressString` rows found); the file's single
+      `noqa` is the legitimate `except:  # noqa E722` at l.199. `__init__` carries **no**
+      docstring; zero own members ⇒ no per-attribute loop to run.
+      *Method note:* the first comparison pass reported a false `TAGS md==xsd: False` — the
+      XSD appinfo tags are **quoted** (`xml.xsd.customType="CSE-CODE-TYPE-STRING"`) and the
+      extractor was parsing tags out of the *documentation* element, which has none. Same
+      lesson as the `StrongRevisionLabelString` row: a diff tool that lies in the "defect
+      found" direction is as dangerous as one that lies in the "clean" direction.
+      **R4.3.1 cross-check (both corpora):** `complexType CSE-CODE-TYPE-STRING` in
+      `AUTOSAR_00044.xsd` (l.94264-94277) is **byte-identical** to R23-11's — same
+      stereotype, same `simpleContent` + `AR-OBJECT` only, same `--SIMPLE`
+      (`xsd:unsignedInt`, no pattern facet), same two `Tags:` in the same order, and a
+      `<xsd:documentation>` byte-equal to R23-11's; R4.3.1's markdown `Table 4.53` has the
+      same `Primitive`/`Package`/`Note`-only shape. **Zero prose delta between the corpora**
+      for this class — the only cross-release difference nearby is the *consumer's*
+      multiplicity (`MultidimensionalTime.cseCode` is `0..1` in R23-11 Table 4.74 but `1` in
+      R4.3.1 Table 4.98), which is that class's row, not this one.
   - [x] Step 2 — Write model class unit test (Red)
     - note (Step 2): TestCseCodeType pre-existed (init + setValue round-trip) and passes —
       no Red observable, nothing to fix.
+    - note (Step 2, drift pass 2026-10-17): the row's "nothing to fix" was accurate about
+      *behaviour* but the class sat **below the stamped house bar** established by
+      `TestUriString` (Table 4.66), `TestMcdIdentifier` (4.54), `TestDateTime` (4.48),
+      `TestRegularExpression` (4.60) and `TestRevisionLabelString` (4.61): the pre-existing
+      `TestCseCodeType` (test_PrimitiveTypes.py:517-540) asserted init + a two-case value
+      round-trip but **no parametrized pattern/value sweep and not the Rule 0006 None no-op**.
+      Extended to the sibling shape: kept `test_initialization` and `test_set_value`, added a
+      5-case `@pytest.mark.parametrize` `test_unsigned_int_value_round_trip` (each asserting
+      `obj.setValue(v) is obj`) and `test_set_value_none_is_noop` (`setValue(None)` must not
+      clear an existing value — the guard `ARLiteral.setValue` really has).
+      **The 5 values are machine-validated against what the facet actually constrains**, and
+      the test docstring records why that is a *weaker* gate than the sibling rows used:
+      Table 4.75 carries **no `xml.xsd.pattern` tag** and `--SIMPLE` is
+      `<xsd:restriction base="xsd:unsignedInt"/>` — an unsignedInt restriction with **no
+      `xsd:pattern` facet**, unlike `MCD-IDENTIFIER--SIMPLE` / `IP6-ADDRESS-STRING--SIMPLE` /
+      `REVISION-LABEL-STRING--SIMPLE`. So Rule 0028 does **not** fire (`PATTERN` stays absent,
+      correctly) and no `re.fullmatch` against a spec pattern is possible. What *is*
+      constraining is the unsignedInt **lexical space** — `[0-9]+`, i.e. digits only and
+      non-negative — so every value was checked with `^[0-9]+$`: `0` (the Note-independent
+      lower bound), `100` (the ASAM CSE unit code used by the existing fixtures), `1`, the
+      32-bit max `4294967295`, and a multi-digit `4294967294`. The spec Note itself states no
+      value constraints, so the values are drawn from the **real XSD consumer**
+      (`MultidimensionalTime.cseCode`, `CSE-CODE` in `MAXIMUM`/`MINIMUM`) plus the
+      unsignedInt boundary, not invented.
+      **Positive finding worth recording** — **no spec-violating fixture exists here**, unlike
+      the `RevisionLabelString` row (`"R23-11"`), the `McdIdentifier` row (`"MCD-1"`) and the
+      `Ip6AddressString` row (`fe80::1`). The pre-existing `"100"`/`"0"` and all 5 new values
+      were machine-validated; controls `-1`, `1.5`, `"100 "`, `""` and `"0x64"` all fail the
+      lexical check.
+      **No behavioural Red**: the pre-existing `ARLiteral` base already satisfies both
+      contracts (`setValue` guards `None` and returns `self`), so the new asserts passed on
+      first run. The observable Red state for this row is the coverage gap itself.
   - [x] Step 3 — Implement model class (Green)
     - note (Step 3): field-to-spec cross-check PASSES (zero attrs; no fabricated members).
+    - note (Step 3, drift pass 2026-10-17): **no implementation change needed** — re-derived
+      from source by AST + runtime, not trusted. `PrimitiveTypes.py` L430-447: own methods
+      == `['__init__']` (checklist == methods, 1 row, source order); **zero own annotated
+      members** (Table 4.75 has no `Attribute` rows, so the sole member is the inherited
+      literal value); the `__init__` body is a single `super().__init__()` call and **no**
+      docstring; runtime `__bases__ == (ARLiteral,)` and MRO
+      `CseCodeType → ARLiteral → ARType → ABC → object`; `# type:` count in the file = **0**
+      (Rule 0003) and no leaked `# noqa` fragment in this docstring (the defect the
+      `DiagRequirementIdString` / `Ip4AddressString` rows found). Field↔spec cross-check
+      passes in **both** directions (zero spec rows ↔ zero own members; no fabricated field, no
+      flattening, no `naming`/`type`/`missing` row). **Rule 0028 does NOT fire** — it fires
+      only when the docstring carries `xml.xsd.pattern=` and/or the customType has an
+      `<xsd:pattern>` facet; this docstring has **no** `pattern` tag and
+      `CSE-CODE-TYPE-STRING--SIMPLE` is a bare `<xsd:restriction base="xsd:unsignedInt"/>`
+      with **no** facet, so `PATTERN` correctly stays absent (inherits `ARLiteral.PATTERN =
+      None`) — declaring one would fabricate a regex the spec never states (Rule 0012.2 /
+      0001.3 shape), the same reasoning the `UriString` row documented. Rules 0001.5
+      (Kind suffix), 0001.6 (create vs set/add), 0011 (member order), 0008 (attribute spacing)
+      and the Rule 0022 quota shape are **vacuous** — zero own members, so there is nothing to
+      name, shape, order or space (the Rule 0022 gate is still run at 9a: 3 passed). Green:
+      `-k CseCodeType` **9 passed / 0 failed** after the Step 2 additions (was 2).
   - [x] Step 4 — Sync docstrings (wipe + rewrite)
     - note (Step 4): class docstring = Table 4.75 Note verbatim (byte-identical);
       __init__ has no docstring.
+    - note (Step 4, drift pass 2026-10-17): **no change needed** — the replacement really is
+      verbatim, confirmed by the AST/token diff in Step 1 against all three corpora (prose
+      token-identical to markdown **and** to the XSD `<xsd:documentation>`; both `Tags:`
+      set- **and order-equal**, `customType=CSE-CODE-TYPE-STRING` and `type=unsignedInt` in
+      that order). The Rule 0012.2.3 wipe-and-rewrite therefore produced **no diff**, which is
+      the honest outcome and not a skipped step — same as the stamped `DateTime` /
+      `Ip4AddressString` / `Ip6AddressString` / `McdIdentifier` / `RevisionLabelString` /
+      `RegularExpression` / `StrongRevisionLabelString` / `UriString` / `VerbatimStringPlain`
+      siblings. This is **not** a fabricated docstring (the defect the same file records on
+      the `RegularExpression` and `UriString` rows). Zero own members ⇒ the per-attribute
+      docstring loop is vacuous; `__init__` carries no docstring (Rule 0012.2.4 / 0012.2.5.2);
+      the `Tags:` tail is kept at the class level (Rule 0012.2.5.3), the only place one exists.
   - [x] Step 5 — Write reader/writer round-trip test (Red)
     - note (Steps 5/6): N/A — no own XML element; CSE-CODE-TYPE-STRING literal on
       consumers.
+    - note (Step 5, drift pass 2026-10-17): the "no own XML element" half is right (XSD
+      `complexType CSE-CODE-TYPE-STRING`, l.132824, is `xsd:simpleContent` over
+      `CSE-CODE-TYPE-STRING--SIMPLE` with **only** the `AR:AR-OBJECT` attributeGroup and
+      **zero** `<xsd:element>` children — block parsed, not eyeballed), but the implied
+      "nothing needed pinning" was **wrong** in the same direction the `DateTime` /
+      `RegularExpression` / `RevisionLabelString` / `UriString` rows found. This is the debt
+      the `DateTime` row's Step 8(a) audit already listed by name — `CseCodeType` was one of
+      the 12 primitives with a live `getChildElementOptional<Cls>` /
+      `setChildElementOptional<Cls>` pair and **no** `Test<Cls>Leaf` — the row was written
+      before that audit.
+      (a) **The type IS consumed** — `grep -c 'type="AR:CSE-CODE-TYPE-STRING"'` = **1** in
+      each corpus (counted, not estimated): XSD l.83766, `<xsd:element name="CSE-CODE"
+      type="AR:CSE-CODE-TYPE-STRING">` inside group `MULTIDIMENSIONAL-TIME`, appinfo
+      `mmt.qualifiedName="MultidimensionalTime.cseCode"`. So this is the **`DateTime` shape**,
+      **not** the `CIdentifierWithIndex` / `VerbatimStringPlain` one where nothing consumes
+      the type — and it already has the matched leaf pair on **both** sides, which is why the
+      audit's `BASE` gate reported `.` (pass) rather than a warn.
+      (b) **The model-side consumer is real and correctly typed**:
+      `MultidimensionalTime.cseCode: Optional[CseCodeType]` (spec Table 4.74, Mult `0..1` ⇒
+      `Optional[T]` per Rule 0001.4), with **1 reader call site**
+      (`arxml_parser.py` l.6618 `readMultidimensionalTime` → `setCseCode(self.getChildElement
+      OptionalCseCodeType(element, "CSE-CODE"))`) and **1 matching writer call site**
+      (`arxml_writer.py` l.8333 `setMultidimensionalTime` → `setChildElementOptionalCseCodeType
+      (child_element, "CSE-CODE", value.getCseCode())`), each XML key matched 1:1.
+      (c) **Positive finding worth recording — the Rule 0013.2 typed-preservation property was
+      already pinned at the consumer level on BOTH sides**, unlike `VerbatimStringPlain`
+      (whose row found zero `isinstance` assertions anywhere): `isinstance(time.getCseCode(),
+      CseCodeType)` at `tests/test_armodel/parser/test_multidimensional_time.py:35` and again
+      at `tests/test_armodel/writer/test_multidimensional_time.py:86`. So a reader degrading
+      the value to a bare `ARLiteral` would **not** have passed unnoticed.
+      **Real gap closed anyway — neither leaf-helper file had a `TestCseCodeTypeLeaf`** (they
+      cover `CategoryString`, `McdIdentifier`, `SymbolString`, `DiagRequirementIdString`,
+      `IpAddressString`/`Ip6AddressString`, `DateTime`, `RegularExpression`,
+      `RevisionLabelString`, `StrongRevisionLabelString`, `UriString` — ten families, this one
+      missing). Added, in the sibling shape: parser `TestCseCodeTypeLeaf` (concrete type + `T` +
+      value; `0`; the unsignedInt max `4294967295`; empty element ⇒ `""`; missing ⇒ `None`) and
+      writer `TestCseCodeTypeLeaf` (concrete type + `T` on the emitted element + value; `0`;
+      `4294967295`; `None` ⇒ emits nothing). Together with the model tests the two files went
+      **61 → 71**.
+      **Test strength proven by mutation, not asserted** (same technique the `RegularExpression`
+      / `RevisionLabelString` / `StrongRevisionLabelString` / `UriString` rows used, twice over):
+      (i) mutating the reader leaf to construct `ARLiteral()` instead of `CseCodeType()` turned
+      **4 of the 5** new parser cases **Red** with
+      `assert False + where False = isinstance(<ARLiteral object>, CseCodeType)` — the exact
+      Rule 0013.2 failure mode — and, independently, turned the **pre-existing** consumer test
+      `TestReadMultidimensionalTime::test_read_cse_code` Red as well, confirming (c);
+      (ii) swapping the two lines of `setMultidimensionalTime` so `CSE-CODE-FACTOR` precedes
+      `CSE-CODE` turned the new XSD test Red with
+      `Element '{…}CSE-CODE': This element is not expected`. **Both mutants reverted**;
+      `git diff --stat -- src/` is empty afterwards.
+      (d) **Rule 0027 satisfied where it is reachable — and the unreachability is recorded,
+      not hidden.** A **document-level** `save` → `load` round-trip carrying `CSE-CODE` is
+      **not reachable through the model today**, verified by probe, not by reading:
+      `grep "def setTiming(" src/armodel/models/` returns **nothing** and
+      `[m for m in dir(EcuInstance) if "iming" in m]` is **empty**, i.e. no
+      ARPackage-reachable class carries a `TimingExtension` (the writer emits
+      `writeEcuTiming` at ARPackage level, but nothing in the model holds one); there is also
+      no `ARPackage.createSwComponentPrototype`. The `TimingExtension` / `EcuInstance` /
+      `SwComponentPrototype` / `ARPackage` rows own that gap (**not** this one — Rule 0017.1).
+      What *is* achievable was done: `TestCseCodeTypeXsdValidation` builds a real
+      `EcuTiming` → `AgeConstraint` → `MultidimensionalTime` tree, emits it through
+      `ARXMLWriter.writeEcuTiming`, and validates the writer's **own subtree** against the
+      bundled R23-11 schema via `ARXMLValidator` — **0 errors**. The `AR-PACKAGE` / `ELEMENTS`
+      / `AR-PACKAGES` / `AUTOSAR` scaffolding around it is hand-built, and the `ELEMENTS`
+      wrapper is *required* (the AR-PACKAGE choice lives inside it, AUTOSAR_00052.xsd
+      l.4938-4945; omitting it makes the validator reject `ECU-TIMING` itself, which is
+      scaffolding behaviour, not a writer defect) — the docstring records this so a future
+      reader does not mistake the scaffolding for a round-trip. This is the Rule 0027 gate
+      honoured at the level the model currently allows, with **no** `validate=False` opt-out.
   - [x] Step 6 — Update parser & writer (Green)
     - note (Steps 5/6): N/A — see Step 5.
+    - note (Step 6, drift pass 2026-10-17): **no parser/writer change needed** — verified,
+      not assumed. Reader and writer checked **separately** (Rule 0025 — the writer's presence
+      was *not* used to infer the reader's), by AST call-count rather than by reading:
+      reader leaf `getChildElementOptionalCseCodeType` (abstract_arxml_parser.py l.220)
+      constructs `CseCodeType()`, calls `readARType` (so the inherited `T` survives) and
+      `setValue`, including the house empty-element patch (`text is None ⇒ setValue("")`);
+      writer leaf `setChildElementOptionalCseCodeType` (abstract_arxml_writer.py l.170) is the
+      **one-line delegation** to `setChildElementOptionalLiteral` that Rule 0013.2 prescribes
+      for the `ARLiteral` family (the rule names `RevisionLabelString` as its precedent).
+      Both helpers are **live, not dead code** — 1 reader and 1 writer call site each, listed in
+      the Step 5 note (b). Rule 0013.2 name pairs verified by suffix over the whole abstract
+      helper tree: **35 reader / 35 writer pairs, zero reader-only, zero writer-only** — the
+      same count the `StrongRevisionLabelString` / `UriString` / `VerbatimStringPlain` rows
+      recorded, so this class is not part of any asymmetry. **No Rule 0013.1 double-write**
+      (each key appears exactly once per writer function); no chained `set`/`create`/`add` on a
+      receiver in the CseCodeType path (0 hits; the `CseCodeType().setValue(...)` sites in the
+      tests are constructor-nesting inside a single call, which Rule 0013 does not treat as a
+      chain); 0 `AUTOSAR.getInstance()` hits in either leaf helper. The **base**-helper
+      requirement is **vacuous** — an `ARLiteral` primitive owns no element, and the consumer
+      path's own base-helper balance (`writeIdentifiable` in `writeEcuTiming` /
+      `writeAgeConstraint` vs their readers) is those classes' rows; `audit_class.py BASE` and
+      `MEMBER` agree independently ("value-carried type").
   - [x] Step 7 — Update checklist comment
     - note (Step 7): 6-column block + release column; `# Spec:
       AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.75, p.165`; marker withheld
       (batch mode).
   - [x] Step 8 — Deviations
     - note (Step 8): none; no missing referenced classes.
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (139 passed / 0 failed
-    test_PrimitiveTypes.py); 9b deferred to batch confirmation (user instruction)
+    - note (Step 8, drift pass 2026-10-17): **no `naming` / `type` / `missing` deviation row
+      and no Rule 0010 placeholder** ⇒ nothing withholds the stamp (Rule 0014). The field↔spec
+      cross-check passes in **both** directions — Table 4.75 carries **zero** `Attribute` rows
+      and the class carries **zero** own members/accessors, so nothing is fabricated and nothing
+      is missing; there is no `naming`/`type`/`missing` row and no Rule 0010 placeholder.
+      **No missing referenced classes** — the class references none, and its own type is
+      consumed by `MultidimensionalTime.cseCode` (`Optional[CseCodeType]`, spec Table 4.74,
+      Mult `0..1` ⇒ correct per Rule 0001.4) and by the timing-constraint consumers its
+      `Aggregated by` row lists, all of which already exist.
+      **Deviation tracker already correct — nothing to add, and this is worth stating because
+      the `StrongRevisionLabelString` and `UriString` rows each had to add an entry here.** The
+      class is **already listed** at `docs/examples/method_deviation_by_class_v2.md` l.2155,
+      inside **`## Appendix: classes without a spec attribute table`** (heading l.2097) —
+      which is the correct description of a `Primitive` table with no `Attribute` rows, **not**
+      a deviation row. The only other tracker mentions are historical prose in
+      `method_deviation_by_class.md` about the *consumer* `MultidimensionalTime` (its reader
+      type gap for `cseCode`, fixed 2026-09-24 — the same fix that produced this leaf pair) and
+      in `class_check_rules.md`; neither is a `CseCodeType` deviation row.
+      **Two decisions recorded rather than acted on, both re-verified in 9a as gates rather
+      than assumptions:**
+      (1) **Rule 0028 does NOT fire** — the docstring carries **no** `xml.xsd.pattern=` tag
+      and `CSE-CODE-TYPE-STRING--SIMPLE` is `<xsd:restriction base="xsd:unsignedInt"/>` with
+      **no** `xsd:pattern` facet, so `PATTERN` correctly stays absent (inherits
+      `ARLiteral.PATTERN = None`). Declaring one would fabricate a regex the spec never states
+      (Rule 0012.2 / 0001.3), the same reasoning the `UriString` and `RegularExpression` rows
+      documented. Unlike those two, this type *is* constrained — by the unsignedInt lexical
+      space rather than by a pattern — so the Step 2 test values **are** machine-validated
+      against `^[0-9]+$`.
+      (2) **No document-level round-trip was fabricated** to satisfy Rule 0027. The model
+      exposes no ARPackage-reachable holder for a `TimingExtension` (probe-confirmed in the
+      Step 5 note), so the XSD gate was met at fragment level against the bundled schema
+      instead of inventing a tree the spec does not describe.
+      **Non-deviation findings were fixed rather than recorded here**: the Step 2 house-bar test
+      gap and the Step 5 leaf-coverage gap.
+    - note (9b, **user question 2026-10-17 — "xsd type unsignedInt shall we consider another
+      type for it?" — answered with evidence, and the answer is NO: the `ARLiteral` base
+      stands**). The question is whether `xml.xsd.type=unsignedInt` should make the class a
+      `Numerical` (value stored as a number) rather than an `ARLiteral` (value stored as
+      text). Six independent pieces of evidence, **none** of which is "it was already like
+      that":
+      (1) **The `Numerical` base is a closed, user-directed list, not a general rule.**
+      `Numerical`'s own checklist comment records the decision verbatim: *"ARNumerical merged
+      into Numerical (2026-09-27); base of **Float, PositiveInteger, Integer**. Derives from
+      ARType, not ARLiteral: numeric value domain, while ARLiteral is str-only."* Three named
+      classes from one specific unification decision; `CseCodeType` was never proposed for it.
+      (2) **The rules give no basis for a different base.** Table 4.75 carries **no `Base`
+      row**; Rule 0001.2 says the spec `Base` column determines the base, and the only rule
+      text covering this shape says a `Primitive`-table class is implemented as an
+      **`ARLiteral`** subclass (rules.md l.327-328) — `Enumeration` → `AREnum` being the sole
+      alternative. Choosing `Numerical` would mean inferring a base the spec does not state.
+      (3) **The XSD shows what actually separates the two families — and it is not
+      `xsd:type` numeric.** `INTEGER--SIMPLE` (l.138512+) and `POSITIVE-INTEGER--SIMPLE`
+      (l.141324+) are both `xsd:**string**` + an `xsd:pattern` facet whose lexical space is
+      **multi-radix** (`0`, `0x1F`, `0b1010`, `017`, decimal) — wire text that must be
+      **parsed**, which is exactly what `Numerical._convertStringToNumberValue` does and why
+      those two are `Numerical`. `CSE-CODE-TYPE-STRING--SIMPLE` is a bare
+      `xsd:unsignedInt` with **no pattern and no alternative-radix forms**: one canonical
+      decimal form, so the wire text **is** the value rather than a numeric literal needing
+      decoding.
+      (4) **Name and semantics say "code", not "quantity".** The XSD customType is
+      `CSE-CODE-TYPE-**STRING**`, the AUTOSAR class name ends in `String`, and the Note says
+      it is *"an ASAM CSE (Codes for Scaling Units) based on the definition in the
+      ASAM-MCD-2MC-ASAP2 specification"* whose semantics live in a **separate** document
+      ([TPS_GST_00354]). Nothing in the repo performs arithmetic on a CSE code; contrast
+      `Integer`, which is used exactly where the model does compute.
+      (5) **`xml.xsd.type=` is a `Tags:` annotation about the wire form, not a storage
+      directive.** Reading it as "hold an `int` in Python" derives model structure from the
+      XSD in a place the PDF table is silent — the reverse of what Rule 0015 exists to prevent.
+      (6) **Blast radius.** `Numerical.setValue` **raises `ValueError`** on non-numeric text
+      and normalises `"100"` → `100.0`; `ARLiteral` is permissive by design
+      (`CseCodeType().setValue("not-a-number")` succeeds today). Switching would change the
+      Python type of every `MultidimensionalTime.cseCode` read in the repo, change
+      `getValue()` from `"100"` to `100.0`, and add a raise path to fixtures that parse fine
+      today — a cross-cutting change, not a `CseCodeType`-local edit (Rule 0017.1).
+      **Conclusion recorded:** the base stays `ARLiteral`; no code change, and the Step 1/3
+      three-way verification (markdown Note == XSD documentation == source) is unaffected
+      because the class docstring carries the `Tags:` **verbatim** either way — which is
+      precisely how the `xml.xsd.type=unsignedInt` annotation stays honest about the wire
+      form without dictating the model's storage.
+    - note (9b, **two cross-row findings recorded, NOT fixed here** — Rule 0017.1, one class
+      per session; both surfaced by the user's question):
+      (i) **`Float` is the genuine asymmetry in this family, and it runs the other way from
+      the question.** `FLOAT--SIMPLE` (l.136785) is a bare `xsd:double` — structurally the
+      exact analogue of `CseCodeType`'s bare `xsd:unsignedInt` — yet `Float` is a `Numerical`
+      while `CseCodeType` is an `ARLiteral`. So the repo **is** inconsistent on this axis. The
+      defensible reading is that `Numerical` membership came from the 2026-09-27 closed-list
+      decision above and `CseCodeType` was simply never proposed for it, so making the two
+      consistent is a **repo-wide policy question for the user**, not a fix to smuggle into
+      this row. Recorded on the `Float` / `Numerical` rows' territory.
+      (ii) **`Integer().setValue("100").getValue()` returns `100.0`, not `100`** —
+      `Numerical._convertStringToNumberValue`'s decimal branch ends in `return
+      float(value)`, so even the integer-valued classes normalise to a Python `float`. The
+      existing writer test `test_multidimensional_time.py:85` passes only because `360.0 ==
+      360` is `True` in Python — i.e. the assertion cannot distinguish `int` from `float`.
+      That is an `Integer`-row defect (a genuinely numeric class whose value is a float), worth
+      its own row; recorded here so the next session that touches `Integer` finds it rather
+      than re-deriving it.
+    - note (9b, **base-type question CLOSED 2026-10-17 — user decision: *"let us keep
+      current implementation"***). `CseCodeType` **stays `ARLiteral`**; `PositiveInteger` is
+      **not** adopted, the class is **not** relocated, and the leaf pair keeps
+      `setChildElementOptionalLiteral` (`Optional[ARLiteral]`). No `src/` change was made and
+      none is planned for this row — `git status --porcelain src/` stayed empty throughout.
+      `xml.xsd.type=unsignedInt` therefore remains exactly what the six-point answer above
+      concluded it is: a **wire-form `Tags:` annotation**, not a storage directive. Findings
+      (i) `Float` (xsd:double) vs `CseCodeType` (xsd:unsignedInt) base asymmetry and (ii)
+      `Numerical`'s decimal branch returning Python `float` (so `Integer`-family `getValue()`
+      is float-valued) remain recorded here, **not fixed and no new row opened** — whichever
+      later session owns the `Float` / `Integer` / `Numerical` rows should pick them up
+      (Rule 0017.1: one class per session).
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a re-run 2026-10-17 (**26,339 passed / 0 failed**
+    full battery); 9b **confirmed by user 2026-10-17** — decision *"let us keep current
+    implementation"* ⇒ base stays `ARLiteral` (no `PositiveInteger` switch, no relocation);
+    marker written in src: `# Spec verified: R23-11 (2026-10-17, user 9b confirmation)`
+    - note (9a, RE-RUN 2026-10-17, full battery): full suite **26,339 passed / 0 failed**
+      (85 s, integration round-trip included). The prior baseline in this file is **26,322**
+      (the `VerbatimStringPlain` row's post-sync total), so the delta is exactly the **+17**
+      this pass added — **7 model** (`-k CseCodeType` 2 → 9) **+ 5 parser leaf** **+ 5 writer
+      leaf** (4 `TestCseCodeTypeLeaf` + 1 `TestCseCodeTypeXsdValidation`) — and no pre-existing
+      test broke. Also: `ruff check src/armodel tests scripts` **All checks passed!** (one
+      `I001` un-sorted import block in the writer leaf file was introduced by this pass's new
+      imports and **fixed** by `ruff check --fix`; the models/parser/writer source files are
+      untouched, so AGENTS.md's parser/writer import-order rule is not implicated);
+      `flake8 --exclude=.venv,build --select=E9,F63,F7,F82` exit 0; `black --check` (200 cols)
+      **4 files unchanged** (re-checked after the ruff fix); **`mypy src/armodel` green
+      repo-wide: `Success: no issues found in 281 source files`** — the 13 pre-existing
+      openpyxl `CellRichText` errors recorded on the `SdgForeignReference` / `DateTime` /
+      `Ip4AddressString` / `RevisionLabelString` rows are **not** present in this environment.
+      **Verified independent of this pass**: `git status --porcelain src/` is **empty** — this
+      sync changed **no** `src/` file at all (only 3 test files + this todo file), so the
+      mypy/ruff/black results cannot be affected by these changes, and it is direct evidence
+      that **no product defect existed**. Rule 0022 member-annotation gate **3 passed**; the 13
+      integration round-trip tests passed with the **XSD validation gates ON** per Rule 0027
+      (`_validateDocument` returns early only on `options["validate"] is False`, and no
+      opt-out was introduced — verified by reading `arxml_writer.py` l.22923-22931) and no
+      fixture carries `CSE-CODE`, so nothing about this path is exercised there;
+      `test_PrimitiveTypes.py -k CseCodeType` **9 passed**; the two leaf-helper files plus the
+      two `MultidimensionalTime` consumer suites **77 passed**; set-based
+      checklist-vs-methods script green (`['__init__'] == ['__init__']` in source order, all
+      `[x]`, 6-column + release token `R23-11`, 0 markers in the block, `# type:` = 0);
+      `audit_class.py CseCodeType` => **PASS, 0 warnings** (BLOCK/ROWS/SPECLINE/CITATION/
+      SPACING/DOCTAIL/BASE/MEMBER/DOC all clean; SPEC-BASE + STAMP report INFO only, both
+      expected pre-9b); `regen_sync_todo.py --check` => **reports up to date** (no `--write`
+      needed — this row is still `[ ]`, so the flip has not happened yet).
+      **Two mutants applied and reverted during the pass**, each proven to turn new tests Red
+      (details in the Step 5 note); after the reverts `git diff --stat -- src/` is empty, which
+      is the same evidence stated above.
 - [ ] `EvaluatedVariantSet` — ARElement — R23-11 FO_TPS_GenericStructureTemplate Table 7.23, p.257
   - module: M2/AUTOSARTemplates/GenericStructure/VariantHandling/__init__.py
   - [x] Step 1 — Sync members & description from spec
