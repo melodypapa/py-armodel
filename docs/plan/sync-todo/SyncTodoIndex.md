@@ -918,7 +918,7 @@ Status: **56/59** completed
 | `EvaluatedVariantSet`                | [x] Done     | 2497bb0d7f |
 | `PredefinedVariant`                  | [x] Done     | f3c6350ab5 |
 | `DocumentationBlock`                 | [x] Done     | 7edaa72c74 |
-| `MultiLanguageVerbatim`              | [x] Done*    | N/A        |
+| `MultiLanguageVerbatim`              | [x] Done     | e3087c471e |
 | `List`                               | [x] Done*    | N/A        |
 | `LabeledList`                        | [x] Done*    | N/A        |
 | `LabeledItem`                        | [x] Done*    | N/A        |

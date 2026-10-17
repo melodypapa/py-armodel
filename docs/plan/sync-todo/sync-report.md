@@ -10,8 +10,8 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 847 | 44.2% |
-| [x] Deferred | 81 | 4.2% |
+| [x] Done | 848 | 44.3% |
+| [x] Deferred | 80 | 4.2% |
 | [x] Retired | 0 | 0.0% |
 | [ ] Deferred | 976 | 51.0% |
 | [ ] Implemented | 10 | 0.5% |
@@ -1310,7 +1310,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `MultiLanguageOverviewParagraph`                        | [x] Deferred| 8294e5eeab                               | Group22          |
 | `MultiLanguageParagraph`                                | [x] Done    | 77074563dc                               | Group3           |
 | `MultiLanguagePlainText`                                | [x] Deferred| 53af1b9a63                               | Group22          |
-| `MultiLanguageVerbatim`                                 | [x] Deferred| N/A                                      | Group21          |
+| `MultiLanguageVerbatim`                                 | [x] Done    | e3087c471e                               | Group21          |
 | `MultidimensionalTime`                                  | [x] Done    | b572582c11                               | Group8           |
 | `MultilanguageLongName`                                 | [x] Done    | 87855dea47                               | Group3           |
 | `MultilanguageReferrable`                               | [x] Done    | 7c7157a02b                               | Group1           |
