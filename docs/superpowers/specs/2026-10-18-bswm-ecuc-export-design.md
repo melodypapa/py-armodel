@@ -111,12 +111,15 @@ comments, camelCase getters/setters returning `self`. Re-exported from
 - `BswmConfigurationClass` — one configuration-class row:
   `configClass` (`Pre-compile time`/`Link time`/`Post-build time`),
   `configVariant` (e.g. `VARIANT-PRE-COMPILE`), `value` (`X`/`-`).
-- `BswmEnumLiteral` — an enumeration literal: `name`, `description`.
+- `BswmRange` — one `Range` row: `value` plus optional `description`. For
+  `EcucEnumerationParamDef` the value is an enumeration literal (`BSWM_AND`); for
+  `EcucIntegerParamDef` / `EcucFloatParamDef` it is a value interval (`]0 .. INF[`).
 - `BswmParameter` — a scalar/enum parameter definition: `name`, `parameterType`
   (ECUC class name), `parent`, `description`, `swsItem`, `lowerMultiplicity`,
   `upperMultiplicity`, `upperMultiplicityInfinite`, `scope`, `postBuildVariantMultiplicity`,
   `postBuildVariantValue`, `multiplicityConfigClasses`, `valueConfigClasses`,
-  `ranges: List[BswmEnumLiteral]`, `defaults: List[str]`, `regularExpression`.
+  `ranges: List[BswmRange]`, `defaults: List[str]` (`-` rows are treated as "no default"),
+  `regularExpression`.
 - `BswmReference` — a reference definition: `name`, `referenceType`, `targets: List[str]`,
   `parent`, `description`, `swsItem`, `lowerMultiplicity`, `upperMultiplicity`,
   `upperMultiplicityInfinite`, `scope`, `postBuildVariantMultiplicity`, `postBuildVariantValue`,
@@ -155,12 +158,14 @@ Algorithm:
    - `Module Name`/`Container Name`/`Choice Container Name` → container name + kind;
      `Parent Container`, `Description`, `Post-Build Variant Support`,
      `Supported Config Variants` → container fields; `SWS Item` → stashed.
-   - `Parameter Name` → finalise the previous parameter/reference; start a new one seeded
-     with the stashed SWS item.
+   - `Parameter Name` → finalise the previous parameter/reference and start a **provisional**
+     `BswmParameter` seeded with the stashed SWS item. The SWS rows put `Parent Container`,
+     `Description` and `Multiplicity` *before* `Type`, so those fields land on the provisional
+     element and are transferred when `Type` classifies it as a parameter or a reference.
    - `Multiplicity` → parsed bounds; `Type` → kind classification (parameter vs reference and
      ECUC class); `Scope / Dependency` → scope text.
-   - `Range` → `BswmEnumLiteral` (appended); `Default value` → appended;
-     `Regular Expression` → set.
+   - `Range` → a `BswmRange` (appended; literal or interval); `Default value` → appended
+     (`-` skipped); `Regular Expression` → set.
    - `Post-Build Variant Multiplicity` / `Post-Build Variant Value` → booleans.
    - `Multiplicity Configuration Class` / `Value Configuration Class` → a
      `BswmConfigurationClass` keyed by cell 1.
@@ -168,8 +173,10 @@ Algorithm:
    - Included-container header (cells include `Container Name` and a cell equal to
      `Multiplicity`), or a first cell of `Included Containers` / `Container Choices` → enter
      child mode; `No Included Containers` → none; child rows are `name | multiplicity | scope`.
-5. Append containers in document order; the first block (BswM) names the `BswmModule` and
-   supplies its post-build support / supported variants.
+5. Append containers in document order; the first block (`BswM`) names the `BswmModule`,
+   supplies its post-build support / supported variants, and is **kept as the root container
+   entry** of `containers`, so the model holds one entry per 10.2.N section (91 entries:
+   the module plus its 90 containers) and the workbook gets an overview sheet for `BswM`.
 
 ### 3. Exporter — `src/armodel/report/bswm_export.py`
 
