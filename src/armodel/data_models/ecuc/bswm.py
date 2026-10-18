@@ -179,3 +179,15 @@ class BswmModule:
     def addActionList(self, value: BswmActionList) -> "BswmModule":
         self.actionLists.append(value)
         return self
+
+    @classmethod
+    def from_ecuc(cls, document, warning: bool = False) -> "BswmModule":
+        from armodel.parser import BswmEcucParser
+
+        return BswmEcucParser().parseEcuc(document, warning=warning)
+
+    @classmethod
+    def from_file(cls, path, warning: bool = False) -> "BswmModule":
+        from armodel.parser import BswmEcucParser
+
+        return BswmEcucParser().load(path, warning=warning)
