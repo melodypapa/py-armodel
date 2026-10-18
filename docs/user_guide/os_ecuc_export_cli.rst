@@ -11,12 +11,11 @@ Run the command from the repository root or provide absolute paths:
 
 .. code-block:: text
 
-   os-ecuc-export [-h] [-v] [-w] INPUT [INPUT ...] OUTPUT
+   os-ecuc-export [-h] [-v] [-w] INPUT OUTPUT
 
 Arguments:
 
-* ``INPUT``: one or more ECUC ARXML input paths. The command parses the first
-  input path.
+* ``INPUT``: the ECUC ARXML input path.
 * ``OUTPUT``: output path. Its extension selects the output format.
 
 Options:

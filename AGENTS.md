@@ -78,7 +78,7 @@ parser = ARXMLParser(options={"warning": True})  # warnings instead of exception
 
 ## CLI Tools (console_scripts)
 
-`arxml-dump`, `arxml-format`, `format-xml`, `armodel-component`, `connector2xlsx`, `connector-update`, `armodel-system-signal`, `armodel-memory-section`, `armodel-file-list`, `armodel-uuid-checker`, `os-ecuc-export` — one module per tool in `src/armodel/cli/`
+`arxml-dump`, `arxml-format`, `format-xml`, `armodel-component`, `connector2xlsx`, `connector-update`, `armodel-system-signal`, `armodel-memory-section`, `armodel-file-list`, `armodel-uuid-checker`, `os-ecuc-export`, `bswm-ecuc-export` — one module per tool in `src/armodel/cli/`
 
 ## Pytest Markers (pytest.ini)
 

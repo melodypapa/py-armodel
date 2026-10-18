@@ -1,19 +1,10 @@
-import os
-from typing import Any, Dict, List, Optional, Union
-
-from openpyxl.styles import Alignment
+from typing import Any, Dict, List, Optional
 
 from armodel.data_models.ecuc import OsAlarm, OsApplication, OsIsr, OsOs, OsScheduleTable, OsScheduleTableExpiryPoint, OsTask
-from armodel.report.excel_report import ExcelReporter
+from armodel.report.ecuc_export import EcucConfigExporter, EcucConfigModelMapper, EcucConfigXlsxExporter, EcucConfigYamlExporter
 
 
-def _format_list_item(item: Any) -> str:
-    if isinstance(item, dict):
-        return ",".join("%s=%s" % (key, item[key]) for key in item)
-    return str(item)
-
-
-class OsConfigModelMapper:
+class OsConfigModelMapper(EcucConfigModelMapper[OsOs]):
     def application_to_dict(self, application: OsApplication) -> Dict[str, Any]:
         restart_task = application.getOsRestartTask()
         return {
@@ -130,71 +121,27 @@ class OsConfigModelMapper:
             "OsScheduleTable": [self.schedule_table_to_dict(schedule_table) for schedule_table in os_os.getOsScheduleTables()],
         }
 
+    def headers(self, section: str) -> List[str]:
+        empty_rows = {
+            "OsApplication": self.application_to_dict(OsApplication()),
+            "OsTask": self.task_to_dict(OsTask()),
+            "OsAlarm": self.alarm_to_dict(OsAlarm()),
+            "OsIsr": self.isr_to_dict(OsIsr()),
+            "OsScheduleTable": self.schedule_table_to_dict(OsScheduleTable()),
+        }
+        return list(empty_rows[section].keys()) if section in empty_rows else []
 
-class OsConfigYamlExporter:
+
+class OsConfigYamlExporter(EcucConfigYamlExporter[OsOs]):
     def __init__(self, mapper: Optional[OsConfigModelMapper] = None):
-        self.mapper = mapper or OsConfigModelMapper()
-
-    def export(self, os_os: OsOs, output_path: Union[str, os.PathLike]) -> None:
-        try:
-            import yaml
-        except ImportError as e:
-            raise ImportError("pyyaml is required for YAML export: pip install pyyaml") from e
-
-        data = self.mapper.to_dict(os_os)
-        filtered_data = {section: [{key: value for key, value in row.items() if value is not None and value != []} for row in rows] for section, rows in data.items()}
-        with open(output_path, "w", encoding="utf-8") as file:
-            yaml.safe_dump(filtered_data, file, sort_keys=False)
+        super().__init__(mapper or OsConfigModelMapper())
 
 
-class OsConfigXlsxExporter(ExcelReporter):
+class OsConfigXlsxExporter(EcucConfigXlsxExporter[OsOs]):
     def __init__(self, mapper: Optional[OsConfigModelMapper] = None):
-        super().__init__()
-        self.mapper = mapper or OsConfigModelMapper()
-
-    def _headers_for(self, sheet_name: str, rows: List[Dict[str, Any]]) -> List[str]:
-        if rows:
-            return list(rows[0].keys())
-        empty_row = {
-            "OsApplication": self.mapper.application_to_dict(OsApplication()),
-            "OsTask": self.mapper.task_to_dict(OsTask()),
-            "OsAlarm": self.mapper.alarm_to_dict(OsAlarm()),
-            "OsIsr": self.mapper.isr_to_dict(OsIsr()),
-            "OsScheduleTable": self.mapper.schedule_table_to_dict(OsScheduleTable()),
-        }[sheet_name]
-        return list(empty_row.keys())
-
-    def export(self, os_os: OsOs, output_path: Union[str, os.PathLike]) -> None:
-        data = self.mapper.to_dict(os_os)
-        for index, (sheet_name, rows) in enumerate(data.items()):
-            sheet = self.wb.active if index == 0 else self.wb.create_sheet(sheet_name)
-            if index == 0:
-                sheet.title = sheet_name
-            headers = self._headers_for(sheet_name, rows)
-            self.write_title_row(sheet, headers)
-            for row_index, row in enumerate(rows):
-                for column_index, header in enumerate(headers):
-                    value = row[header]
-                    format = None
-                    if isinstance(value, list):
-                        value = "\n".join(_format_list_item(item) for item in value)
-                        format = {"alignment": Alignment(wrap_text=True)}
-                    self.write_cell(sheet, row_index + 2, column_index + 1, value, format)
-            self.auto_width(sheet)
-        self.save(output_path)
+        super().__init__(mapper or OsConfigModelMapper())
 
 
-class OsConfigExporter:
+class OsConfigExporter(EcucConfigExporter[OsOs]):
     def __init__(self, mapper: Optional[OsConfigModelMapper] = None):
-        mapper = mapper or OsConfigModelMapper()
-        self._exporters: Dict[str, Union[OsConfigYamlExporter, OsConfigXlsxExporter]] = {"yaml": OsConfigYamlExporter(mapper), "xlsx": OsConfigXlsxExporter(mapper)}
-
-    def export(self, os_os: OsOs, output_path: Union[str, os.PathLike]) -> None:
-        extension = os.path.splitext(os.fspath(output_path))[1].lower().lstrip(".")
-        if extension == "yml":
-            extension = "yaml"
-        try:
-            exporter = self._exporters[extension]
-        except KeyError as e:
-            raise ValueError("Unsupported OS configuration export format: %s" % extension) from e
-        exporter.export(os_os, output_path)
+        super().__init__(mapper or OsConfigModelMapper(), "OS")

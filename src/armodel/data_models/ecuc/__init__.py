@@ -1,3 +1,41 @@
+from armodel.data_models.ecuc.bswm import (
+    BswmAction,
+    BswmActionList,
+    BswmActionListItem,
+    BswmDataTypeMappingSets,
+    BswmElement,
+    BswmEventRequestPort,
+    BswmGeneral,
+    BswmLogicalExpression,
+    BswmModeCondition,
+    BswmModeRequestPort,
+    BswmModule,
+    BswmRteModeRequestPort,
+    BswmRule,
+    BswmSwitchPort,
+)
 from armodel.data_models.ecuc.os import OsAlarm, OsApplication, OsIsr, OsOs, OsScheduleTable, OsScheduleTableExpiryPoint, OsTask
 
-__all__ = ["OsAlarm", "OsApplication", "OsIsr", "OsOs", "OsScheduleTable", "OsScheduleTableExpiryPoint", "OsTask"]
+__all__ = [
+    "BswmAction",
+    "BswmActionList",
+    "BswmActionListItem",
+    "BswmDataTypeMappingSets",
+    "BswmElement",
+    "BswmEventRequestPort",
+    "BswmGeneral",
+    "BswmLogicalExpression",
+    "BswmModeCondition",
+    "BswmModeRequestPort",
+    "BswmModule",
+    "BswmRteModeRequestPort",
+    "BswmRule",
+    "BswmSwitchPort",
+    "OsAlarm",
+    "OsApplication",
+    "OsIsr",
+    "OsOs",
+    "OsScheduleTable",
+    "OsScheduleTableExpiryPoint",
+    "OsTask",
+]

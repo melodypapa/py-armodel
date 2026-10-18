@@ -86,6 +86,14 @@ os-ecuc-export CLI
    :members:
    :undoc-members:
 
+bswm-ecuc-export CLI
+~~~~~~~~~~~~~~~~~~~~
+
+.. automodule:: armodel.cli.bswm_ecuc_export_cli
+   :no-index:
+   :members:
+   :undoc-members:
+
 format-xml CLI
 ~~~~~~~~~~~~~~
 

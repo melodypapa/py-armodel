@@ -1,5 +1,5 @@
 import logging
-from typing import Any, Dict, List, Optional, Type, TypeVar, Union, cast
+from typing import Any, Dict, List, Optional, Tuple, Type, TypeVar, Union, cast
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
@@ -87,7 +87,11 @@ class EcucParser:
 
     def get_reference_value_ref(self, reference: EcucReference) -> Optional[RefType]:
         getter = getattr(reference, "getValueRef", None)
-        return getter() if callable(getter) else None
+        if callable(getter):
+            return getter()
+        instance_getter = getattr(reference, "getValueIRef", None)
+        instance = instance_getter() if callable(instance_getter) else None
+        return instance.getTargetRef() if instance is not None else None
 
     def get_sub_containers_by_name(self, container: Container) -> Dict[str, List[Container]]:
         result: Dict[str, List[Container]] = {}
@@ -108,3 +112,126 @@ class EcucParser:
         message = "Unresolved standard reference %s -> %s" % (name, path)
         self.logger.warning(message)
         return path
+
+    def get_all_containers(self, document: AUTOSAR, module_name: Optional[str] = None) -> Dict[str, Container]:
+        """Index every container of the module, sub-containers included, by absolute path."""
+        index: Dict[str, Container] = {}
+        for container in self.get_module_containers(document, module_name=module_name).values():
+            self.get_collect_containers(container, index)
+        return index
+
+    def get_collect_containers(self, container: Container, index: Dict[str, Container]) -> None:
+        index[self.get_path(container)] = container
+        for sub_container in container.getSubContainers():
+            self.get_collect_containers(sub_container, index)
+
+    def get_containers_by_definition(self, index: Dict[str, Container], definition_name: str) -> List[Container]:
+        return [container for container in index.values() if self.get_definition_name(container.getDefinitionRef()) == definition_name]
+
+    def get_module_short_name(self, document: AUTOSAR, module_name: str) -> Optional[str]:
+        for module in self.get_modules(document):
+            if self.get_definition_name(module.getDefinitionRef()) == module_name:
+                return module.getShortName()
+        return None
+
+    def iter_parameters(self, container: Container) -> List[Tuple[str, EcucScalar]]:
+        """Return (definition short name, raw scalar) for every parameter value of the container."""
+        return [(self.get_definition_name(parameter.getDefinitionRef()), self.get_raw_value(parameter)) for parameter in self.get_parameter_values(container)]
+
+    def iter_references(self, container: Container) -> List[Tuple[str, str]]:
+        """Return (definition short name, stripped target path) for every reference value that has a target."""
+        result: List[Tuple[str, str]] = []
+        for reference in self.get_reference_values(container):
+            value_ref = self.get_reference_value_ref(reference)
+            if value_ref is None:
+                continue
+            path = value_ref.getValue()
+            if path is None:
+                continue
+            result.append((self.get_definition_name(reference.getDefinitionRef()), path.strip()))
+        return result
+
+    def get_typed_value(self, parameter: EcucParameter) -> EcucScalar:
+        """Convert a parameter value using the DEST of its DEFINITION-REF (boolean/integer/float), else keep the raw value."""
+        name = self.get_definition_name(parameter.getDefinitionRef())
+        raw = self.get_raw_value(parameter)
+        definition_ref = parameter.getDefinitionRef()
+        dest = definition_ref.getDest() if definition_ref is not None else None
+        if dest == "ECUC-BOOLEAN-PARAM-DEF":
+            return self.get_bool(name, raw)
+        if dest == "ECUC-INTEGER-PARAM-DEF":
+            return self.get_int(name, raw)
+        if dest == "ECUC-FLOAT-PARAM-DEF":
+            return self.get_float(name, raw)
+        return raw
+
+    def get_bool(self, name: str, raw: EcucScalar) -> Optional[bool]:
+        """Convert an ECUC scalar to a boolean.
+
+        Accepts native booleans, ``true``/``false``, and the numbers 0/1 as
+        numbers or numeric strings (``"1"``, ``"0.0"``). ``None`` is preserved;
+        anything else raises :attr:`conversion_error`.
+        """
+        if raw is None:
+            return None
+        if isinstance(raw, bool):
+            return raw
+        value: Union[float, int, str] = raw
+        if isinstance(value, str):
+            text = value.strip().lower()
+            if text in ("true", "false"):
+                return text == "true"
+            try:
+                value = float(text)
+            except ValueError:
+                raise self.conversion_error("Parameter %s expects a boolean value, got %r" % (name, raw))
+        if value in (0, 1):
+            return bool(value)
+        raise self.conversion_error("Parameter %s expects a boolean value, got %r" % (name, raw))
+
+    def get_int(self, name: str, raw: EcucScalar) -> Optional[int]:
+        """Convert an ECUC scalar to an integer.
+
+        Accepts integers, integral floats, strings accepted by ``int(value, 0)``
+        and integral numeric strings such as ``"10.0"``. ``None`` is preserved;
+        booleans and anything else raise :attr:`conversion_error`.
+        """
+        if raw is None:
+            return None
+        if isinstance(raw, bool):
+            raise self.conversion_error("Parameter %s expects an integer value, got %r" % (name, raw))
+        if isinstance(raw, int):
+            return raw
+        value: Union[float, str] = raw
+        if isinstance(value, str):
+            try:
+                return int(value.strip(), 0)
+            except ValueError:
+                try:
+                    value = float(value)
+                except ValueError:
+                    raise self.conversion_error("Parameter %s expects an integer value, got %r" % (name, raw))
+        if value.is_integer():
+            return int(value)
+        raise self.conversion_error("Parameter %s expects an integer value, got %r" % (name, raw))
+
+    def get_float(self, name: str, raw: EcucScalar) -> Optional[float]:
+        """Convert an ECUC scalar to a float; ``None`` is preserved, booleans and non-numeric values raise :attr:`conversion_error`."""
+        if raw is None:
+            return None
+        if isinstance(raw, str):
+            try:
+                return float(raw)
+            except ValueError:
+                raise self.conversion_error("Parameter %s expects a float value, got %r" % (name, raw))
+        if isinstance(raw, bool) or not isinstance(raw, (int, float)):
+            raise self.conversion_error("Parameter %s expects a float value, got %r" % (name, raw))
+        return float(raw)
+
+    def get_str(self, name: str, raw: EcucScalar) -> Optional[str]:
+        """Return a string-valued parameter; ``None`` is preserved, non-strings raise :attr:`conversion_error`."""
+        if raw is None:
+            return None
+        if not isinstance(raw, str):
+            raise self.conversion_error("Parameter %s expects a string value, got %r" % (name, raw))
+        return raw

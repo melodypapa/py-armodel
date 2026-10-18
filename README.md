@@ -354,7 +354,7 @@ The output format is selected from the output filename extension. The
 `--format` option is not used.
 
 ```text
-os-ecuc-export [-h] [-v] [-w] INPUT [INPUT ...] OUTPUT
+os-ecuc-export [-h] [-v] [-w] INPUT OUTPUT
 ```
 
 - `.yaml` or `.yml`: export YAML
@@ -387,6 +387,34 @@ Unsupported output extensions, such as `.json`, are rejected. See
 for the complete exported field list and example output. YAML omits fields
 whose values are `null` or empty lists; Excel keeps the complete column set.
 
+
+### 1.10.6. bswm-ecuc-export
+
+**Export the BswM ECUC configuration from an ECUC ARXML file to Excel or YAML.**
+
+The output format is selected from the output filename extension.
+
+```text
+bswm-ecuc-export [-h] [-v] [-w] INPUT OUTPUT
+```
+
+- `.xlsx`: export an Excel workbook, one worksheet per section
+- `.yaml` or `.yml`: export YAML, one top-level key per section
+- `-v`, `--verbose`: print debug information
+- `-w`, `--warning`: report unresolved references as warnings instead of raising errors
+
+```bash
+bswm-ecuc-export tests/test_armodel/parser/data/bswm_ecuc_arbitration.arxml build/bswm.xlsx
+bswm-ecuc-export -w tests/test_armodel/parser/data/bswm_ecuc_minimal.arxml build/bswm.yaml
+```
+
+The sheets follow the SWS decision chain: `BswMAction` and `BswMActionList`
+first, then rules, logical expressions, mode conditions, ports, mapping sets,
+general settings and a `BswMChecks` sheet with SWS constraint violations.
+Every row names its `BswMConfig` partition, and `UsedBy...` columns show which
+entries reference each row. See
+[the BswM ECUC export guide](docs/user_guide/bswm_ecuc_export_cli.rst) for
+the complete sheet and column reference.
 
 ## 1.11. API
 

@@ -110,6 +110,7 @@ Documentation Structure
    user_guide/arxml_writing
    user_guide/cli_tools
    user_guide/os_ecuc_export_cli
+   user_guide/bswm_ecuc_export_cli
 
 .. toctree::
    :maxdepth: 2
