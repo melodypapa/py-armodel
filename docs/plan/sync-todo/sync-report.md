@@ -21,7 +21,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | Class Name                                              | Status      | Commit ID                                | Groups           |
 | ------------------------------------------------------- | ------------| ---------------------------------------- | ---------------- |
 | `ARElement`                                             | [x] Done    | 61c85fa794                               | Group1           |
-| `ARList`                                                | [x] Done    | 2151ca0302                               | Group9           |
+| `ARList`                                                | [x] Done    | dbf3446b07                               | Group9           |
 | `ARObject`                                              | [x] Done    | 78ae363c75                               | Group1           |
 | `ARPackage`                                             | [x] Done    | 360648178f                               | Group1           |
 | `AUTOSAR`                                               | [x] Done    | 74f4d3c80a                               | Group1           |
@@ -1216,7 +1216,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `LinTpNode`                                             | [ ] Deferred| N/A                                      | Group33          |
 | `LinUnconditionalFrame`                                 | [ ] Deferred| b9e186e5a4                               | Group31          |
 | `Linker`                                                | [x] Done    | 20003dc3cc                               | Group1           |
-| `List`                                                  | [x] Done    | N/A                                      | Group21          |
+| `List`                                                  | [x] Done    | dbf3446b07                               | Group21          |
 | `ListEnum`                                              | [x] Done    | 0623068af8                               | Group9           |
 | `LogAndTraceMessageCollectionSet`                       | [ ] Deferred| N/A                                      | Group36          |
 | `LogTraceDefaultLogLevelEnum`                           | [x] Done    | f1eb819e47                               | Group5           |

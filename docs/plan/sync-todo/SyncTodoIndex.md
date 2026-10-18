@@ -522,7 +522,7 @@ Status: **29/29** completed
 | `LOverviewParagraph`          | [x] Done | 764ef1c589 |
 | `LPlainText`                  | [x] Done | 1de91de480 |
 | `LVerbatim`                   | [x] Done | d616f3d1ef |
-| `ARList`                      | [x] Done | 2151ca0302 |
+| `ARList`                      | [x] Done | dbf3446b07 |
 | `ChapterContent`              | [x] Done | dee07d0a3a |
 | `ChapterModel`                | [x] Done | 6a3f858082 |
 | `PrmCharContents`             | [x] Done | 9494a593a2 |
@@ -919,7 +919,7 @@ Status: **56/59** completed
 | `PredefinedVariant`                  | [x] Done     | f3c6350ab5 |
 | `DocumentationBlock`                 | [x] Done     | 7edaa72c74 |
 | `MultiLanguageVerbatim`              | [x] Done     | e3087c471e |
-| `List`                               | [x] Done     | N/A        |
+| `List`                               | [x] Done     | dbf3446b07 |
 | `LabeledList`                        | [x] Done*    | N/A        |
 | `LabeledItem`                        | [x] Done*    | N/A        |
 | `IndentSample`                       | [x] Done*    | N/A        |

@@ -4405,7 +4405,7 @@ pending that confirmation.
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-17 (full suite 26350 passed; audit PASS; ruff / flake8 / black-check / mypy clean; round-trip lossless with XSD validation ON); 9b confirmed by user 2026-10-17; marker written
   - note (9b re-sync delta, 2026-10-17): the prior "already verified (short-circuit 2026-09-30)" note was STALE/FALSE — it claimed a `# Spec verified: R23-11` marker was present in src, but the checklist block carried NO marker (this row is Done\* — deferred batch 9b), so per Rules 0012.1/0026 the class was re-derived from source rather than trusted. Table 9.5 (p.291): Package M2::MSR::Documentation::TextModel::MultilanguageData (already matches the file — NO Rule 0007 relocation); Base row ARObject/DocumentViewSelectable/Paginateable → most-derived Paginateable; VP-capable per Rule 0020 (XSD group `MULTI-LANGUAGE-VERBATIM` carries VARIATION-POINT at `xml.sequenceOffset=10000`); attrs in displayed order allowBreak/float/helpEntry/l5/pgwide. Model verified correct (fields/accessors/quota/order/None-no-op) — no model change. Three genuine drifts fixed test-first: (1) Rule 0012.2.5.3 — the `Tags:` tails had been stripped from all five notes at every level (inline comment + getter + setter); restored verbatim. (2) Rule 0001.7 — VARIATION-POINT never dispatched (audit MEMBER FAIL both sides) → added `readVariationPointCapable`/`writeVariationPointCapable`. (3) Rule 0013.1/0025 — both sides called `readARObject`/`writeARObject` (bare ARObject state) instead of `readPaginateable`/`writePaginateable`, silently dropping inherited SI/VIEW/BREAK/KEEP-WITH-PREVIOUS → switched to the Paginateable helpers. A fourth drift surfaced via the XSD gate: reader/writer emitted `ALLOWBREAK`/`HELPENTRY` but R23-11 XSD declares `ALLOW-BREAK` (L83715) / `HELP-ENTRY` (L83727) → renamed both sides (the save was validator-rejected before). New round-trip test `tests/test_armodel/writer/test_multi_language_verbatim.py` pins SI/VIEW/BREAK/KEEP-WITH-PREVIOUS + VARIATION-POINT + the five own attrs through save→reload with XSD validation ON. No open deviations. Marker written: `# Spec verified: R23-11 (2026-10-17, user 9b confirmation)` (sync commit e3087c471). Out of scope (flagged for their own rows): `DefItem`/`LabeledItem` reader/writer carry the same `HELPENTRY` vs `HELP-ENTRY` defect.
-- [x] `List` — Paginateable — R23-11 FO_TPS_GenericStructureTemplate Table 9.8, p.295 — already verified (short-circuit 2026-09-30)
+- [x] `List` — Paginateable — R23-11 FO_TPS_GenericStructureTemplate Table 9.8, p.295 — re-synced 2026-10-17 (· src: ARList) — sync commit dbf3446b0
   - module: M2/MSR/Documentation/BlockElements/ListElements.py (· src: ARList)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -4416,16 +4416,34 @@ pending that confirmation.
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b)
-  - note: already-verified short-circuit 2026-09-30 (Group21 header rule) — the spec
-    class `List` is realized in src as `ARList` in ListElements.py (recorded rename:
-    `List` shadows the Python builtin; the ARList checklist carries the alias note,
-    `# Spec: ... Table 9.8, p.295` and `# Spec verified: R23-11 (2026-09-27, user 9b
-    confirmation)` with reader/writer coverage for items/type). Quick deviation check
-    clean: table attrs item (Item 1..* aggr) / type (ListEnum 0..1 attr) both present
-    with matched accessors; Base ARObject, DocumentViewSelectable, Paginateable →
-    Paginateable most-derived ✓. 9 steps not re-run (Rule 0012.3); stamp already
-    confirmed. Cleanup this pass: the stray `class List(ARObject): pass` stub in
-    ArObject.py (a duplicate of the real ARList, no importers) removed.
+  - note (9b re-sync delta, 2026-10-17): the prior "already verified (short-circuit
+    2026-09-30)" note was STALE — it trusted `ARList`'s 2026-09-27 stamp instead of
+    re-deriving it (Rule 0026), and the row could never resolve to Done at all: the
+    `# Spec verified:` stamp binds to `class ARList`, so the spec-named row `List` never
+    matched it. `regen_sync_todo.py` now honours this row's `· src: ARList` annotation (a
+    `src_name` lookup), which is what resolves the row to Done. The class was fully
+    re-derived, Steps 1–9, not short-circuited: Table 9.8 p.295; Package
+    M2::MSR::Documentation::BlockElements::ListElements already matches the file (NO Rule
+    0007 relocation); Base row ARObject/DocumentViewSelectable/Paginateable → most-derived
+    Paginateable; attrs in displayed order item (Item 1..* aggr) / type (ListEnum 0..1
+    attr). TWO genuine drifts fixed test-first: (1) Rule 0020/0001.7 — the LIST
+    VARIATION-POINT (XSD group LIST L78451, xml.sequenceOffset=10000,
+    mmt.qualifiedName="List.variationPoint") was never dispatched on either side →
+    readVariationPointCapable / writeVariationPointCapable added, emitted last to match the
+    offset; (2) Rule 0001.11 — the aggregated `item` accessor pair was getter-first
+    (getItems before addItem); the rule requires mutator-first for list/aggregated pairs →
+    swapped, order pinned by test_ar_list_accessor_order. Rule 0011 re-checked: the
+    ListEnum literals are already the uppercase XSD LIST-ENUM--SIMPLE wire tokens
+    ("NUMBER" / "UNNUMBER"), so no case mapping exists (the old .lower()/.upper() notes were
+    stale) and TYPE round-trips unchanged. Also landed in the same commit, because the Item
+    row explicitly delegates its consume path to this row's helpers (`getListElements` /
+    `setListElement`): Item.variationPoint is now dispatched inside each ITEM; the
+    documentation list-item helpers were corrected to their XSD spellings (HELP-ENTRY for
+    DefItem/LabeledItem, ITEM-LABEL-POS for IndentSample); and getDefItem is no longer
+    handed the enclosing DEF-LIST in place of the DEF-ITEM element — that bug had silently
+    dropped SHORT-NAME, the DEF payload and the ITEM's VARIATION-POINT on every parse.
+    Marker refreshed: `# Spec verified: R23-11 (2026-10-17, user 9b confirmation)` (sync
+    commit dbf3446b0). Canonical row: Group9 `ARList` (superseded commit 2151ca030).
 - [x] `LabeledList` — Paginateable — R23-11 FO_TPS_GenericStructureTemplate Table 9.11, p.296 — already verified (short-circuit 2026-09-30)
   - module: M2/MSR/Documentation/BlockElements/ListElements.py
   - [x] Step 1 — Sync members & description from spec
@@ -4450,6 +4468,7 @@ pending that confirmation.
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b)
   - note: already-verified short-circuit 2026-09-30 (Group21 header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
+  - note (cross-class fix, 2026-10-17): the reader AND writer used the attribute name `HELPENTRY`, but the R23-11 XSD attributeGroup LABELED-ITEM declares `HELP-ENTRY` → renamed on both sides. The library round-tripped with itself, so the integration corpus never caught it (only XSD validation / interop exposes the wrong name); the save was validator-rejected before the fix. Landed by the List/ARList re-sync pass (2026-10-17) with tests in tests/test_armodel/parser/test_documentation_list_item_helpers.py and the writer counterpart. This row's own Done* 9b re-derivation is still pending.
 - [x] `IndentSample` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 9.13, p.297 — already verified (short-circuit 2026-09-30)
   - module: M2/MSR/Documentation/BlockElements/ListElements.py
   - [x] Step 1 — Sync members & description from spec
@@ -4462,6 +4481,7 @@ pending that confirmation.
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b)
   - note: already-verified short-circuit 2026-09-30 (Group21 header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
+  - note (cross-class fix, 2026-10-17): the reader AND writer used the attribute name `ITEMLABELPOS`, but the R23-11 XSD attributeGroup INDENT-SAMPLE declares `ITEM-LABEL-POS` (`ITEMLABELPOS` occurs 0 times in the schema) → renamed on both sides. Self-consistent round-trip hid it from the corpus; only XSD validation / interop exposes it. Landed by the List/ARList re-sync pass (2026-10-17) with tests in tests/test_armodel/parser/test_documentation_list_item_helpers.py and the writer counterpart. This row's own Done* 9b re-derivation is still pending.
 - [x] `ItemLabelPosEnum` — AREnum — R23-11 FO_TPS_GenericStructureTemplate Table 9.14, p.297 — already verified (short-circuit 2026-09-30)
   - module: M2/MSR/Documentation/BlockElements/ListElements.py
   - [x] Step 1 — Sync members & description from spec
@@ -4498,6 +4518,7 @@ pending that confirmation.
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b)
   - note: already-verified short-circuit 2026-09-30 (Group21 header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
+  - note (cross-class fix, 2026-10-17): TWO defects fixed by the List/ARList re-sync pass (2026-10-17). (1) The reader AND writer used the attribute name `HELPENTRY` while the R23-11 XSD attributeGroup DEF-ITEM declares `HELP-ENTRY` → renamed on both sides. (2) `getDefList` called `self.getDefItem(child_element, def_item)` — the DEF-ITEM element passed as the *reader source* and the enclosing DEF-LIST as the *parent* — so it read SHORT-NAME/DEF/HELP-ENTRY/VARIATION-POINT off the wrong element and dropped them all; now `self.getDefItem(def_item, def_list)`. Bug (2) was invisible to the integration corpus because a value lost on parse is lost identically on re-parse. Tests: tests/test_armodel/parser/test_documentation_list_item_helpers.py + the writer counterpart. This row's own Done* 9b re-derivation is still pending.
 - [x] `MlFormula` — Paginateable — R23-11 FO_TPS_GenericStructureTemplate Table 9.26, p.310 — already verified (short-circuit 2026-09-30)
   - module: M2/MSR/Documentation/BlockElements/Formula.py
   - [x] Step 1 — Sync members & description from spec
