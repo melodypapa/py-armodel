@@ -87,7 +87,11 @@ class EcucParser:
 
     def get_reference_value_ref(self, reference: EcucReference) -> Optional[RefType]:
         getter = getattr(reference, "getValueRef", None)
-        return getter() if callable(getter) else None
+        if callable(getter):
+            return getter()
+        instance_getter = getattr(reference, "getValueIRef", None)
+        instance = instance_getter() if callable(instance_getter) else None
+        return instance.getTargetRef() if instance is not None else None
 
     def get_sub_containers_by_name(self, container: Container) -> Dict[str, List[Container]]:
         result: Dict[str, List[Container]] = {}

@@ -4,12 +4,15 @@ from armodel.data_models.ecuc import (
     BswmAction,
     BswmActionList,
     BswmActionListItem,
+    BswmDataTypeMappingSets,
+    BswmElement,
     BswmEventRequestPort,
     BswmGeneral,
     BswmLogicalExpression,
     BswmModeCondition,
     BswmModeRequestPort,
     BswmModule,
+    BswmRteModeRequestPort,
     BswmRule,
     BswmSwitchPort,
 )
@@ -124,6 +127,9 @@ BSWM_GENERAL_PARAMETERS: List[str] = [
 ]
 
 
+BSWM_RTE_MODE_REQUEST_PORT_REFERENCES: List[str] = ["BswMRteModeRequestPortInterfaceRef", "BswMRteModeRequestVariableDataPrototypeSRRef"]
+
+
 class BswmEcucConversionError(Exception):
     pass
 
@@ -133,6 +139,7 @@ class BswmEcucParser(EcucParser):
 
     def __init__(self):
         super().__init__()
+        self.config_paths: Dict[str, str] = {}
 
     def load(self, path: str, document: Optional[AUTOSAR] = None, warning: bool = False) -> BswmModule:
         return super().load(path, document=document, warning=warning)
@@ -141,6 +148,7 @@ class BswmEcucParser(EcucParser):
         index = self.get_all_containers(document, module_name="BswM")
         module = BswmModule()
         module.setName(self.get_module_short_name(document, "BswM") or "BswM")
+        self.config_paths = {self.get_path(config): config.getShortName() for config in self.get_containers_by_definition(index, "BswMConfig")}
 
         for container in self.get_containers_by_definition(index, "BswMAction"):
             module.addAction(self.get_collect_action(container))
@@ -160,6 +168,10 @@ class BswmEcucParser(EcucParser):
             module.addSwitchPort(self.get_collect_switch_port(container))
         for container in self.get_containers_by_definition(index, "BswMGeneral"):
             module.setGeneral(self.get_collect_general(container))
+        for container in self.get_containers_by_definition(index, "BswMRteModeRequestPort"):
+            module.addRteModeRequestPort(self.get_collect_rte_mode_request_port(container))
+        for container in self.get_containers_by_definition(index, "BswMDataTypeMappingSets"):
+            module.addDataTypeMappingSets(self.get_collect_data_type_mapping_sets(container))
         return module
 
     def get_collect_choice(self, container: Container, choice_name: str, table: Dict[str, List[str]]) -> Tuple[Optional[str], Dict[str, List[Any]]]:
@@ -190,6 +202,7 @@ class BswmEcucParser(EcucParser):
     def get_collect_action(self, container: Container) -> BswmAction:
         action = BswmAction()
         action.setName(container.getShortName())
+        self.locate(action, container)
         self.logger.debug("Parsing BswMAction: %s", action.getName())
         action_type, values = self.get_collect_choice(container, "BswMAvailableActions", BSWM_AVAILABLE_ACTIONS)
         action.setActionType(action_type)
@@ -201,6 +214,7 @@ class BswmEcucParser(EcucParser):
     def get_collect_action_list(self, container: Container, index: Dict[str, Container], warning: bool) -> BswmActionList:
         action_list = BswmActionList()
         action_list.setName(container.getShortName())
+        self.locate(action_list, container)
         self.logger.debug("Parsing BswMActionList: %s", action_list.getName())
         for name, raw in self.iter_parameters(container):
             if name == "BswMActionListExecution":
@@ -234,6 +248,7 @@ class BswmEcucParser(EcucParser):
     def get_collect_rule(self, container: Container, index: Dict[str, Container], warning: bool) -> BswmRule:
         rule = BswmRule()
         rule.setName(container.getShortName())
+        self.locate(rule, container)
         for name, raw in self.iter_parameters(container):
             if name == "BswMNestedExecutionOnly":
                 rule.setNestedExecutionOnly(self.get_bool(name, raw))
@@ -257,6 +272,7 @@ class BswmEcucParser(EcucParser):
     def get_collect_logical_expression(self, container: Container, index: Dict[str, Container], warning: bool) -> BswmLogicalExpression:
         expression = BswmLogicalExpression()
         expression.setName(container.getShortName())
+        self.locate(expression, container)
         for name, raw in self.iter_parameters(container):
             if name == "BswMLogicalOperator":
                 expression.setOperator(self.get_str(name, raw))
@@ -272,6 +288,7 @@ class BswmEcucParser(EcucParser):
     def get_collect_mode_condition(self, container: Container, index: Dict[str, Container], warning: bool) -> BswmModeCondition:
         condition = BswmModeCondition()
         condition.setName(container.getShortName())
+        self.locate(condition, container)
         for name, raw in self.iter_parameters(container):
             if name == "BswMConditionType":
                 condition.setConditionType(self.get_str(name, raw))
@@ -293,6 +310,7 @@ class BswmEcucParser(EcucParser):
     def get_collect_mode_request_port(self, container: Container) -> BswmModeRequestPort:
         port = BswmModeRequestPort()
         port.setName(container.getShortName())
+        self.locate(port, container)
         for name, raw in self.iter_parameters(container):
             if name == "BswMRequestProcessing":
                 port.setRequestProcessing(self.get_str(name, raw))
@@ -319,6 +337,7 @@ class BswmEcucParser(EcucParser):
     def get_collect_event_request_port(self, container: Container) -> BswmEventRequestPort:
         port = BswmEventRequestPort()
         port.setName(container.getShortName())
+        self.locate(port, container)
         for name, raw in self.iter_parameters(container):
             if name == "BswMEventRequestProcessing":
                 port.setRequestProcessing(self.get_str(name, raw))
@@ -334,6 +353,7 @@ class BswmEcucParser(EcucParser):
     def get_collect_switch_port(self, container: Container) -> BswmSwitchPort:
         port = BswmSwitchPort()
         port.setName(container.getShortName())
+        self.locate(port, container)
         for name, path in self.iter_references(container):
             if name == "BswMModeSwitchInterfaceRef":
                 port.setModeSwitchInterfaceRef(path)
@@ -357,6 +377,40 @@ class BswmEcucParser(EcucParser):
                 if value:
                     general.addUserIncludeFile(value)
         return general
+
+    def locate(self, element: BswmElement, container: Container) -> None:
+        """Record the absolute path of a container and the BswMConfig partition it belongs to."""
+        path = self.get_path(container)
+        element.setPath(path).setPartition(self.get_partition(path))
+
+    def get_partition(self, path: str) -> Optional[str]:
+        for config_path, config_name in self.config_paths.items():
+            if path.startswith(config_path + "/"):
+                return config_name
+        return None
+
+    def get_collect_rte_mode_request_port(self, container: Container) -> BswmRteModeRequestPort:
+        port = BswmRteModeRequestPort()
+        port.setName(container.getShortName())
+        self.locate(port, container)
+        for name, path in self.iter_references(container):
+            if name == "BswMRteModeRequestPortInterfaceRef":
+                port.setInterfaceRef(path)
+            elif name == "BswMRteModeRequestVariableDataPrototypeSRRef":
+                port.setVariableDataPrototypeRef(path)
+            else:
+                self.logger.debug("Ignore non-standard BswMRteModeRequestPort reference %s" % name)
+        return port
+
+    def get_collect_data_type_mapping_sets(self, container: Container) -> BswmDataTypeMappingSets:
+        mapping_sets = BswmDataTypeMappingSets()
+        self.locate(mapping_sets, container)
+        for name, path in self.iter_references(container):
+            if name == "BswMDataTypeMappingSetRef":
+                mapping_sets.addRef(path)
+            else:
+                self.logger.debug("Ignore non-standard BswMDataTypeMappingSets reference %s" % name)
+        return mapping_sets
 
     def get_lookup_type(self, name: str, path: str, index: Dict[str, Container], warning: bool) -> Optional[str]:
         """Return the definition short name of the referenced container, applying strict or warning handling."""
