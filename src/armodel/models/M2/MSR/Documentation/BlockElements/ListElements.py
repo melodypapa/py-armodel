@@ -314,6 +314,7 @@ class LabeledList(Paginateable, VariationPointCapable):
 
     # LabeledList method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.11, p.296
+    # Spec verified: R23-11 (2026-10-18, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getIndentSample     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -324,27 +325,21 @@ class LabeledList(Paginateable, VariationPointCapable):
     def __init__(self):
         super().__init__()
 
-        # This is a sample item. This sample is used by a rendering system to measure out the width of indentation. Since this depends on the particular fontsize etc. the indentation cannot be specified e.g. in mm.
+        # This is a sample item. This sample is used by a rendering system to measure out the width of indentation. Since this depends on the particular fontsize etc. the indentation cannot be specified e.g. in mm. Tags: xml.sequenceOffset=20
         self.indentSample: Optional[IndentSample] = None
 
-        # This represents one particular item in the labeled list.
+        # This represents one particular item in the labeled list. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=labeledItem, labeledItem.variationPoint.shortLabel vh.latestBindingTime=postBuild xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=30 xml.typeElement=false xml.typeWrapperElement=false
         self.labeledItems: List[LabeledItem] = []
 
     def getIndentSample(self) -> Optional[IndentSample]:
         """
-        This is a sample item. This sample is used by a rendering system to measure out the width of indentation. Since this depends on the particular fontsize etc. the indentation cannot be specified e.g. in mm.
-
-        Returns:
-            The sample item
+        This is a sample item. This sample is used by a rendering system to measure out the width of indentation. Since this depends on the particular fontsize etc. the indentation cannot be specified e.g. in mm. Tags: xml.sequenceOffset=20
         """
         return self.indentSample
 
     def setIndentSample(self, value: Optional[IndentSample]) -> LabeledList:
         """
-        This is a sample item. This sample is used by a rendering system to measure out the width of indentation. Since this depends on the particular fontsize etc. the indentation cannot be specified e.g. in mm. A None value is a no-op and does not overwrite an existing indentSample.
-
-        Returns:
-            self for method chaining
+        This is a sample item. This sample is used by a rendering system to measure out the width of indentation. Since this depends on the particular fontsize etc. the indentation cannot be specified e.g. in mm. Tags: xml.sequenceOffset=20. A None value is a no-op and does not overwrite an existing indentSample.
         """
         if value is not None:
             self.indentSample = value
@@ -352,10 +347,7 @@ class LabeledList(Paginateable, VariationPointCapable):
 
     def addLabeledItem(self, value: Optional[LabeledItem]) -> LabeledList:
         """
-        This represents one particular item in the labeled list. A None value is a no-op and is not appended.
-
-        Returns:
-            self for method chaining
+        This represents one particular item in the labeled list. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=labeledItem, labeledItem.variationPoint.shortLabel vh.latestBindingTime=postBuild xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=30 xml.typeElement=false xml.typeWrapperElement=false. A None value is a no-op and is not appended.
         """
         if value is not None:
             self.labeledItems.append(value)
@@ -363,10 +355,7 @@ class LabeledList(Paginateable, VariationPointCapable):
 
     def getLabeledItems(self) -> List[LabeledItem]:
         """
-        This represents one particular item in the labeled list.
-
-        Returns:
-            The items in the labeled list
+        This represents one particular item in the labeled list. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=labeledItem, labeledItem.variationPoint.shortLabel vh.latestBindingTime=postBuild xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=30 xml.typeElement=false xml.typeWrapperElement=false
         """
         return self.labeledItems
 

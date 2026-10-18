@@ -10,8 +10,8 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 848 | 44.3% |
-| [x] Deferred | 79 | 4.1% |
+| [x] Done | 849 | 44.4% |
+| [x] Deferred | 78 | 4.1% |
 | [x] Retired | 0 | 0.0% |
 | [ ] Deferred | 976 | 51.0% |
 | [ ] Implemented | 10 | 0.5% |
@@ -1180,7 +1180,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `LPlainText`                                            | [x] Done    | 1de91de480                               | Group9           |
 | `LVerbatim`                                             | [x] Done    | d616f3d1ef                               | Group9           |
 | `LabeledItem`                                           | [x] Deferred| N/A                                      | Group21          |
-| `LabeledList`                                           | [x] Deferred| N/A                                      | Group21          |
+| `LabeledList`                                           | [x] Done    | N/A                                      | Group21          |
 | `LanguageSpecific`                                      | [x] Deferred| 4566d4d4f7                               | Group22          |
 | `LatencyConstraintTypeEnum`                             | [ ] Deferred| N/A                                      | Group35          |
 | `LatencyTimingConstraint`                               | [ ] Deferred| N/A                                      | Group35          |

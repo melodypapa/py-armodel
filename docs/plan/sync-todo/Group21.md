@@ -4454,18 +4454,159 @@ pending that confirmation.
     Marker refreshed: `# Spec verified: R23-11 (2026-10-17, user 9b confirmation)` (sync
     commit dbf3446b0). Sole queue row for the class: the duplicate Group9 `ARList` row (superseded commit 2151ca030) was merged into this row 2026-10-18 — a class may appear in only one Group file (`regen_sync_todo.py`).
 - note (merge, 2026-10-18): this is the class's ONLY queue row. The Group9 `ARList` row (the same src class, queued under the spec caption here) was deleted from Group9.md and its Steps 1–9 notes are carried over verbatim above; two Group9-only queue-machinery lines (a `- after `Item`` ordering hint and the `deviation-tracked ... review entries at Step 1` pointer) were dropped, and Group9 keeps a pointer at the row's old position.
-- [x] `LabeledList` — Paginateable — R23-11 FO_TPS_GenericStructureTemplate Table 9.11, p.296 — already verified (short-circuit 2026-09-30)
+- [x] `LabeledList` — Paginateable — R23-11 FO_TPS_GenericStructureTemplate Table 9.11, p.296
   - module: M2/MSR/Documentation/BlockElements/ListElements.py
   - [x] Step 1 — Sync members & description from spec
+    - note (Step 1, reopen 2026-10-18): the prior "already verified (short-circuit
+      2026-09-30)" note was **STALE** — `# Spec verified: R23-11` is **not** present in
+      src (`audit_class.py LabeledList` => PASS on every mechanical gate, but `STAMP`
+      reports "checklist fully `[x]` with no marker"). Same defect shape as the
+      `Identifier` / `LLongName` / `MixedContentForLongName` / `Referrable` /
+      `MultiLanguageVerbatim` / `DocumentationBlock` / `List` rows of this file.
+      Unstamped ⇒ sync from the beginning (Rule 0012.1 / Rule 0026); 9 steps re-run.
+      Table 9.11 (caption md L7692 trailing for §9.2.3.2, body L7694-7702; p.296 via
+      pdf_page.py — which also reports the R4.3.1 `Table 8.12, p.259`; Rule 0016.3 does
+      not apply, the R23-11 table exists). Class kind = Class; Package
+      `M2::MSR::Documentation::BlockElements::ListElements` ✓ (`ListElements.py` —
+      leaf-package file shape, Rule 0007); Base row `ARObject, DocumentViewSelectable,
+      Paginateable` → most-derived `Paginateable` ✓ + `VariationPointCapable` mixin per
+      the XSD `LABELED-LIST` group VARIATION-POINT (00052 l.76411, sequenceOffset=10000)
+      — same shape as the stamped siblings `Item` / `ARList`. Class Note verbatim in the
+      class docstring ✓ (no Tags on the class-level Note). 2 Attribute rows in displayed
+      order, both aggr: `indentSample` (IndentSample, 0..1 → `Optional[IndentSample]`) and
+      `labeledItem` (LabeledItem, 1..* → `List[LabeledItem]` + `addLabeledItem`).
+      **Genuine drift found (Rule 0012.2.5.3 — the defect the audit's DOCTAIL cannot see
+      because the tail was dropped at *every* level): both attribute Notes have lost their
+      `Stereotypes:`/`Tags:` tails.** The markdown/XSD carry
+      `Tags: xml.sequenceOffset=20` on indentSample and
+      `Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=labeledItem,
+      labeledItem.variationPoint.shortLabel vh.latestBindingTime=postBuild
+      xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=30
+      xml.typeElement=false xml.typeWrapperElement=false` on labeledItem — the source
+      carries the bare prose only, at all three placements (inline comment + both
+      accessors), for both attributes. XSD l.76398-76410 confirms both elements and the
+      appinfo tag values; the markdown cell's `labeledItem.variationPoint.short Label`
+      (with a space) is a conversion artifact — XSD appinfo l.76407 and the stamped
+      sibling `ARList` (`item.variationPoint.shortLabel`, restored 2026-10-17) both carry
+      it without the space. Accessor order matches the stamped house rule: single-valued
+      pair getter-first, list pair mutator-first (`addLabeledItem` before
+      `getLabeledItems`). Reader/writer wiring audited clean (BASE/MEMBER pass; XSD
+      element order INDENT-SAMPLE → LABELED-ITEM → VARIATION-POINT = offsets
+      20/30/10000); the gaps are docstring tails + coverage only. Rule 0006.1 note:
+      member types `IndentSample` / `LabeledItem` exist in the same module but are
+      themselves **unstamped** (same stale short-circuit) — flagged at 9b, not fixed
+      here (Rule 0017.1).
   - [x] Step 2 — Write model class unit test (Red)
+    - note (Step 2): `TestLabeledList` pre-existed in
+      `tests/test_armodel/models/M2/MSR/Documentation/BlockElements/test_ListElements.py`
+      but sat **below the stamped house bar** of its sibling `TestARList` (Table 9.8,
+      stamped 2026-10-17, same file): it asserted init defaults + add/set round-trips +
+      None no-ops but **no inheritance pin, no Note-verbatim pins, no quota-shape pins,
+      no member-order cross-check, no accessor-order pin**. Extended in the
+      `TestARList` shape — `test_labeled_list_inheritance`,
+      `test_labeled_list_has_spec_note`, `test_init_has_no_docstring`,
+      `test_labeled_items_annotation_is_typed_list`,
+      `test_indent_sample_annotation_is_optional`, `test_labeled_list_member_order`,
+      `test_labeled_list_accessor_order`, plus the two Red drivers
+      `test_indent_sample_member_notes_verbatim` /
+      `test_labeled_item_member_notes_verbatim` (class constants carrying the full
+      markdown Notes incl. the tails). **Red**: 2 failed / 10 passed — the genuine Reds
+      are exactly the two notes-verbatim tests (tails stripped); the 10 passing are the
+      regression guards proving fields/accessors/quota/order are already correct.
   - [x] Step 3 — Implement model class (Green)
+    - note (Step 3): **no implementation change needed** — field set, quota shapes
+      (`Optional[IndentSample]`, `List[LabeledItem]`), accessor names and order
+      (single-valued pair getter-first, list pair mutator-first per Rule 0001.11), base
+      `(Paginateable, VariationPointCapable)` all pass their pins (the 10 non-docstring
+      tests). Green except the docstring subset that Step 4 owns (the
+      MixedContentForLongName row's precedent).
   - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    - note (Step 4): wiped the class docstring, all 4 accessor docstrings and both
+      inline `__init__` member comments, then rewrote from the Table 9.11 `Note` cells
+      (Rule 0012.2.3). Class Note re-copied verbatim (was already verbatim — no diff).
+      **Fix**: restored the `Tags: xml.sequenceOffset=20` tail on indentSample and the
+      `Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=labeledItem,
+      labeledItem.variationPoint.shortLabel vh.latestBindingTime=postBuild
+      xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=30
+      xml.typeElement=false xml.typeWrapperElement=false` tail on labeledItem at all
+      three placements (inline comment + both accessors each); the paraphrase
+      `Returns:` blocks ("The sample item" / "The items in the labeled list" /
+      "self for method chaining") were wiped and the accessors rewritten in the stamped
+      `ARList` single-line house form with the None-no-op sentence appended after the
+      tail (`<Note>. A None value is a no-op ...`). `shortLabel` spelled per the XSD
+      appinfo (l.76407), not the markdown cell's page-split artifact `short Label`.
+      **48 passed** across the module test file.
   - [x] Step 5 — Write reader/writer round-trip test (Red)
+    - note (Step 5): reader/writer tests live in their own folders (Step 5 convention):
+      `tests/test_armodel/parser/test_labeled_list.py` (class `TestLabeledListParser`,
+      3 tests — full-populate asserting every field value, empty `<LABELED-LIST/>`
+      wrapper, absent-wrapper ⇒ None) and
+      `tests/test_armodel/writer/test_labeled_list.py` (class `TestLabeledListWriter`,
+      4 tests — XSD child order INDENT-SAMPLE/LABELED-ITEM*/VARIATION-POINT, None no-op,
+      empty-wrapper, and a full `save`→`clear`→`load` round-trip with the XSD validation
+      gates ON, Rule 0027). **Red**: the two child-order/round-trip writers failed —
+      genuinely, not a test artifact. The reader `getLabeledItem` looked for an
+      `<ITEM-CONTENTS>` wrapper (silently dropping content on every valid document) and
+      the writer `setLabeledItem` emitted `<ITEM-CONTENTS>`, which R23-11 rejects
+      (`Element '{…}ITEM-CONTENTS': This element is not expected. Expected is one of
+      ( …P, …LIST, …DEF-LIST, …LABELED-LIST, …)`). The XSD group `LABELED-ITEM`
+      (AUTOSAR_00052.xsd l.76337-76391) inlines `DOCUMENTATION-BLOCK` as a `choice`
+      (l.76350-76352) with no wrapper element — `itemContents` carries
+      `xml.roleElement=false` (spec Table 9.12). Identical shape to the `ITEM` group
+      (l.75021-75040), fixed 2026-10-17 by the List/ARList pass. The 3 parser tests
+      passed only because their fixtures carried the same fabricated wrapper.
   - [x] Step 6 — Update parser & writer (Green)
+    - note (Step 6): fixed both sides to the inline (wrapper-less) shape per Rule 0027.
+      Reader `getLabeledItem` (`arxml_parser.py`): replaced
+      `getDocumentationBlock(element, "ITEM-CONTENTS")` with a bare `DocumentationBlock()`
+      + `readDocumentationBlockContent(element, block)` (no `readARObject` re-read — the
+      inline block has no attribute home of its own, matching the stamped NOTE /
+      TRACEABLE-TEXT branches). Writer `setLabeledItem` (`arxml_writer.py`): replaced
+      `writeDocumentationBlock(child_element, "ITEM-CONTENTS", …)` with
+      `writeDocumentationBlockContent(child_element, contents, write_ar_object=False)`.
+      Re-pointed the three spec-violating fixtures that carried `<ITEM-CONTENTS>`
+      (`test_documentation_list_item_helpers.py` and the two `test_labeled_list.py`
+      items) to the inline shape. The class entry points `getLabeledList`/`setLabeledList`
+      already dispatched INDENT-SAMPLE → LABELED-ITEM → VARIATION-POINT in XSD order and
+      reached a base helper — no change there. **Green**: 11 passed (parser 3, writer 4,
+      helpers 4).
   - [x] Step 7 — Update checklist comment
+    - note (Step 7): the checklist block was already one contiguous run above `__init__`
+      with one row per method in source order, all `[x]`, 6-column format and the
+      `# Spec:` line in canonical form — verified against the AST (5 rows = `__init__`,
+      `getIndentSample`, `setIndentSample`, `addLabeledItem`, `getLabeledItems`); no
+      change needed. `# Spec verified:` marker withheld until the 9b gate (Rule 0012.1).
+      Post-step `audit_class.py LabeledList` => PASS
+      (BLOCK/ROWS/SPECLINE/CITATION/SPEC-BASE/SPACING/DOCTAIL/BASE/MEMBER all clean).
   - [x] Step 8 — Deviations
+    - note (Step 8): NO spec deviations on this class — no placeholder, no fabrication,
+      no missing/flattened member (Table 9.11 = 2 aggr attrs `indentSample`/`labeledItem`,
+      both modeled with the exact types; member/accessor order = displayed row order;
+      reader/writer XML order = XSD sequenceOffset 20/30/10000). Step-3 referenced
+      classes: none missing (`IndentSample`, `LabeledItem` are in the same module;
+      `Paginateable`/`VariationPointCapable` already exist and are unaffected). The
+      cross-row `ITEM-CONTENTS` defect was fixed in this pass under the user's explicit
+      "fix here" direction — a deliberate, recorded one-class-per-session exception
+      (Rule 0017.1); a cross-class note is recorded on the `LabeledItem` row.
   - [x] Step 9 — Verify (9a) + confirm (9b)
-  - note: already-verified short-circuit 2026-09-30 (Group21 header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
+    - note (Step 9, 9a): full suite **26,467 passed / 0 failed** (integration round-trip
+      included, XSD gates ON); `ruff check src tests scripts` clean;
+      `flake8 --select=E9,F63,F7,F82` clean; `mypy` **Success, 287 source files**;
+      member-annotation gate (Rule 0022) 3 passed; set-based checklist-vs-methods script
+      green (5 rows = 5 methods, source order, no `# type:`); `audit_class.py LabeledList`
+      => **PASS** on every gate. `black --check` clean on every file this pass touched
+      (the only remaining reformat candidate is the pre-existing, untouched
+      `tests/test_scripts/test_audit_class_pattern.py` — a black-version artifact, not
+      this pass).
+    - note (Step 9, 9b): the full pre-stamp rule-compliance checklist (element kind +
+      both attrs, most-derived base + VP mixin, no fabrication/flattening, naming +
+      accessor shape, member/accessor/checklist order vs XSD sequenceOffset,
+      Note-verbatim-by-diff including every `Tags:`/`Stereotypes:` tail at all three
+      placements, `__init__` blank-line spacing, quota shape vs multiplicity, zero
+      open deviations, stamp decision) was presented and **confirmed by the user
+      2026-10-18**. Marker written immediately after the `# Spec:` line (Rule 0012.1):
+      `# Spec verified: R23-11 (2026-10-18, user 9b confirmation)`. Post-stamp audit
+      re-run: `STAMP` clean, `=> PASS`.
 - [x] `LabeledItem` — Paginateable — R23-11 FO_TPS_GenericStructureTemplate Table 9.12, p.296 — already verified (short-circuit 2026-09-30)
   - module: M2/MSR/Documentation/BlockElements/ListElements.py
   - [x] Step 1 — Sync members & description from spec
@@ -4479,6 +4620,7 @@ pending that confirmation.
   - [x] Step 9 — Verify (9a) + confirm (9b)
   - note: already-verified short-circuit 2026-09-30 (Group21 header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
   - note (cross-class fix, 2026-10-17): the reader AND writer used the attribute name `HELPENTRY`, but the R23-11 XSD attributeGroup LABELED-ITEM declares `HELP-ENTRY` → renamed on both sides. The library round-tripped with itself, so the integration corpus never caught it (only XSD validation / interop exposes the wrong name); the save was validator-rejected before the fix. Landed by the List/ARList re-sync pass (2026-10-17) with tests in tests/test_armodel/parser/test_documentation_list_item_helpers.py and the writer counterpart. This row's own Done* 9b re-derivation is still pending.
+  - note (cross-class fix, 2026-10-18): the reader `getLabeledItem` (`arxml_parser.py`) looked for an `<ITEM-CONTENTS>` wrapper and the writer `setLabeledItem` (`arxml_writer.py`) emitted one, but the R23-11 XSD group `LABELED-ITEM` (AUTOSAR_00052.xsd l.76337-76391) inlines `DOCUMENTATION-BLOCK` directly via a `choice` (l.76350-76352) with no wrapper element → both sides rewritten to the inline shape (`readDocumentationBlockContent` / `writeDocumentationBlockContent(..., write_ar_object=False)`, Rule 0027). Landed by the `LabeledList` re-sync pass (2026-10-18) with tests in tests/test_armodel/parser/test_labeled_list.py and the writer counterpart. This row's own Done* 9b re-derivation is still pending.
 - [x] `IndentSample` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 9.13, p.297 — already verified (short-circuit 2026-09-30)
   - module: M2/MSR/Documentation/BlockElements/ListElements.py
   - [x] Step 1 — Sync members & description from spec

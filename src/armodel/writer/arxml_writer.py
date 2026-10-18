@@ -4914,7 +4914,10 @@ class ARXMLWriter(AbstractARXMLWriter):
         if helpEntry_value is not None:
             child_element.attrib["HELP-ENTRY"] = helpEntry_value.getValue()
         self.setMultiLanguageOverviewParagraph(child_element, "ITEM-LABEL", labeled_item.getItemLabel())
-        self.writeDocumentationBlock(child_element, "ITEM-CONTENTS", labeled_item.getItemContents())
+        # The XSD LABELED-ITEM group embeds the DOCUMENTATION-BLOCK content INLINE
+        # via a choice (no ITEM-CONTENTS wrapper); the block's S/T have no attribute
+        # home here — the LABELED-ITEM element carries the identity (Rule 0027).
+        self.writeDocumentationBlockContent(child_element, labeled_item.getItemContents(), write_ar_object=False)
         self.writeVariationPointCapable(child_element, labeled_item)
 
     def setNote(self, element: ET.Element, note: Optional[Note]):

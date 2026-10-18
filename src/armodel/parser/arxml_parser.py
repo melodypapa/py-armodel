@@ -8451,7 +8451,11 @@ class ARXMLParser(AbstractARXMLParser):
         self.readPaginateable(element, labeled_item)
         if "HELP-ENTRY" in element.attrib:
             labeled_item.setHelpEntry(String().setValue(element.attrib["HELP-ENTRY"]))
-        labeled_item.setItemContents(self.getDocumentationBlock(element, "ITEM-CONTENTS"))
+        # The XSD LABELED-ITEM group embeds the DOCUMENTATION-BLOCK content INLINE
+        # via a choice (no ITEM-CONTENTS wrapper) — Rule 0027.
+        item_contents = DocumentationBlock()
+        self.readDocumentationBlockContent(element, item_contents)
+        labeled_item.setItemContents(item_contents)
         labeled_item.setItemLabel(self.getMultiLanguageOverviewParagraph(element, "ITEM-LABEL"))
         self.readVariationPointCapable(element, labeled_item)
         return labeled_item

@@ -38,12 +38,7 @@ class TestDocumentationListItemHelpersReader:
     def test_reads_help_entry_on_labeled_item(self):
         """attributeGroup LABELED-ITEM declares HELP-ENTRY (AUTOSAR_00052.xsd)."""
         parser = ARXMLParser()
-        element = _block(
-            '<LABELED-LIST><LABELED-ITEM HELP-ENTRY="li-topic">'
-            '<ITEM-LABEL><L-2 L="EN">lbl</L-2></ITEM-LABEL>'
-            '<ITEM-CONTENTS><P><L-1 L="EN">c</L-1></P></ITEM-CONTENTS>'
-            "</LABELED-ITEM></LABELED-LIST>"
-        )
+        element = _block('<LABELED-LIST><LABELED-ITEM HELP-ENTRY="li-topic">' '<ITEM-LABEL><L-2 L="EN">lbl</L-2></ITEM-LABEL>' '<P><L-1 L="EN">c</L-1></P>' "</LABELED-ITEM></LABELED-LIST>")
 
         labeled_item = parser.getLabeledList(element, "LABELED-LIST").getLabeledItems()[0]
 

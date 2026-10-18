@@ -2,6 +2,7 @@
 This module contains tests for the ListElements module in MSR.Documentation.BlockElements.
 """
 
+import inspect
 from inspect import cleandoc
 
 from armodel.models.M2.MSR.Documentation.BlockElements.ListElements import (
@@ -325,7 +326,41 @@ class TestLabeledItem:
 
 
 class TestLabeledList:
-    """Test class for LabeledList class."""
+    """Test class for LabeledList class (Table 9.11, AUTOSAR_FO_TPS_GenericStructureTemplate)."""
+
+    INDENT_SAMPLE_NOTE = (
+        "This is a sample item. This sample is used by a rendering system to measure out the width of indentation. "
+        "Since this depends on the particular fontsize etc. the indentation cannot be specified e.g. in mm. "
+        "Tags: xml.sequenceOffset=20"
+    )
+    LABELED_ITEM_NOTE = (
+        "This represents one particular item in the labeled list. "
+        "Stereotypes: atpSplitable; atpVariation "
+        "Tags: atp.Splitkey=labeledItem, labeledItem.variationPoint.shortLabel vh.latestBindingTime=postBuild "
+        "xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=30 "
+        "xml.typeElement=false xml.typeWrapperElement=false"
+    )
+
+    def test_labeled_list_inheritance(self):
+        """LabeledList shall derive from Paginateable (Table 9.11 Base row, most-derived) and carry the VariationPointCapable mixin (XSD 00052 group LABELED-LIST carries the VARIATION-POINT element, mmt.qualifiedName="LabeledList.variationPoint" — same convention as the Item/ARList siblings)."""
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
+        from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import DocumentViewSelectable, Paginateable
+
+        labeled_list = LabeledList()
+        assert isinstance(labeled_list, Paginateable)
+        assert isinstance(labeled_list, DocumentViewSelectable)
+        assert isinstance(labeled_list, VariationPointCapable)
+
+    def test_labeled_list_has_spec_note(self):
+        """The class docstring carries the Table 9.11 Note verbatim."""
+        assert (
+            cleandoc(LabeledList.__doc__)
+            == "This meta-class represents a labeled list, in which items have a label and a content. The policy how to render such items is specified in the labeled list."
+        )
+
+    def test_init_has_no_docstring(self):
+        """__init__ has no docstring (spec Notes live in inline member comments)."""
+        assert LabeledList.__init__.__doc__ is None
 
     def test_labeled_list_initialization(self):
         """Test that a LabeledList object can be initialized with default values."""
@@ -356,6 +391,56 @@ class TestLabeledList:
 
         labeled_list.setIndentSample(None)
         assert labeled_list.getIndentSample() == indent_sample
+
+    def test_labeled_items_annotation_is_typed_list(self):
+        """getLabeledItems return and addLabeledItem value shall be List[LabeledItem] / Optional[LabeledItem] (Rule 0003)."""
+        import typing
+
+        getter_hints = typing.get_type_hints(LabeledList.getLabeledItems)
+        adder_hints = typing.get_type_hints(LabeledList.addLabeledItem)
+        assert getter_hints["return"] == typing.List[LabeledItem]
+        assert adder_hints["value"] == typing.Optional[LabeledItem]
+
+    def test_indent_sample_annotation_is_optional(self):
+        """getIndentSample return and setIndentSample value shall be Optional[IndentSample] (Rule 0003, Table 9.11 Mult 0..1)."""
+        import typing
+
+        getter_hints = typing.get_type_hints(LabeledList.getIndentSample)
+        setter_hints = typing.get_type_hints(LabeledList.setIndentSample)
+        assert getter_hints["return"] == typing.Optional[IndentSample]
+        assert setter_hints["value"] == typing.Optional[IndentSample]
+
+    def test_labeled_list_member_order(self):
+        """Field-to-spec cross-check: LabeledList adds exactly the 2 Table 9.11 attribute rows over its base, in displayed order (indentSample, labeledItem)."""
+        from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import Paginateable
+
+        class _ConcretePaginateable(Paginateable):
+            pass
+
+        base_fields = set(vars(_ConcretePaginateable()).keys())
+        own_fields = [key for key in vars(LabeledList()).keys() if key not in base_fields]
+        assert own_fields == ["indentSample", "labeledItems"]
+
+    def test_labeled_list_accessor_order(self):
+        """Accessor pairs in spec row order with the Rule 0001.11 pair shapes: the scalar `indentSample` pair is getter-first (getIndentSample/setIndentSample), the aggregated `labeledItem` pair is mutator-first (addLabeledItem/getLabeledItems)."""
+        methods = [name for name in vars(LabeledList) if not name.startswith("_")]
+        assert methods == ["getIndentSample", "setIndentSample", "addLabeledItem", "getLabeledItems"]
+
+    def test_indent_sample_member_notes_verbatim(self):
+        """The indentSample Note is verbatim (incl. the Tags: tail, Rule 0012.2.5.3) on the __init__ comment and both accessors."""
+        source = inspect.getsource(LabeledList.__init__)
+        assert self.INDENT_SAMPLE_NOTE in source
+
+        assert LabeledList.getIndentSample.__doc__.strip() == self.INDENT_SAMPLE_NOTE
+        assert LabeledList.setIndentSample.__doc__.strip() == self.INDENT_SAMPLE_NOTE + ". A None value is a no-op and does not overwrite an existing indentSample."
+
+    def test_labeled_item_member_notes_verbatim(self):
+        """The labeledItem Note is verbatim (incl. the Stereotypes:/Tags: tail, Rule 0012.2.5.3; shortLabel per the XSD appinfo) on the __init__ comment and both accessors."""
+        source = inspect.getsource(LabeledList.__init__)
+        assert self.LABELED_ITEM_NOTE in source
+
+        assert LabeledList.getLabeledItems.__doc__.strip() == self.LABELED_ITEM_NOTE
+        assert LabeledList.addLabeledItem.__doc__.strip() == self.LABELED_ITEM_NOTE + ". A None value is a no-op and is not appended."
 
 
 class TestDefItem:
