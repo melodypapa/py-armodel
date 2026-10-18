@@ -157,8 +157,8 @@ Status: **95/95** completed
 | `MimeTypeString`                       | [x] Done | 01cc23df4e |
 | `Url`                                  | [x] Done | 4b96ab8d89 |
 | `Br`                                   | [x] Done | c2a85e6f8f |
-| `Std`                                  | [x] Done | c53a240809 |
-| `Xdoc`                                 | [x] Done | 294c8aae2c |
+| `Std`                                  | [x] Done | 701ec32dc1 |
+| `Xdoc`                                 | [x] Done | 701ec32dc1 |
 | `Xfile`                                | [x] Done | 7038ce5574 |
 | `XrefTarget`                           | [x] Done | 8c9df6638a |
 | `ResolutionPolicyEnum`                 | [x] Done | f0a7460898 |

@@ -1648,7 +1648,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `StateDependentFirewall`                                | [ ] Deferred| N/A                                      | Group33          |
 | `StaticPart`                                            | [x] Done    | 206cf29517                               | Group5           |
 | `StaticSocketConnection`                                | [ ] Deferred| N/A                                      | Group32          |
-| `Std`                                                   | [x] Done    | c53a240809                               | Group3           |
+| `Std`                                                   | [x] Done    | 701ec32dc1                               | Group3           |
 | `StorageConditionStatusEnum`                            | [x] Done    | 89407b6f0f                               | Group29          |
 | `StreamFilterIEEE1722Tp`                                | [ ] Deferred| cc74587e4b                               | Group30          |
 | `StreamFilterIpv4Address`                               | [ ] Deferred| da459aa3b7                               | Group30          |
@@ -1930,7 +1930,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `WhitespaceControlled`                                  | [x] Done    | a78d444afb                               | Group8           |
 | `WorstCaseHeapUsage`                                    | [x] Done    | a55d2092d0                               | Group22          |
 | `WorstCaseStackUsage`                                   | [x] Done    | 5692e873a3                               | Group20          |
-| `Xdoc`                                                  | [x] Done    | 294c8aae2c                               | Group3           |
+| `Xdoc`                                                  | [x] Done    | 701ec32dc1                               | Group3           |
 | `Xfile`                                                 | [x] Done    | 7038ce5574                               | Group3           |
 | `XmlSpaceEnum`                                          | [x] Done    | ec544e7988                               | Group8           |
 | `Xref`                                                  | [x] Done    | db2b4fe059                               | Group3           |
