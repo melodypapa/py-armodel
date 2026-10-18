@@ -8000,7 +8000,9 @@ class ARXMLParser(AbstractARXMLParser):
                 block = DocumentationBlock()
                 self.readDocumentationBlock(item_element, block)
                 item.setItemContents(block)
+                self.readVariationPointCapable(item_element, item)
                 list.addItem(item)
+            self.readVariationPointCapable(child_element, list)
             result.append(list)
         return result
 
@@ -8428,8 +8430,8 @@ class ARXMLParser(AbstractARXMLParser):
         def_item = DefItem(parent, cast(str, short_name))
         self.readReferrable(element, def_item)
         def_item.setDef(self.getDocumentationBlock(element, "DEF"))
-        if "HELPENTRY" in element.attrib:
-            def_item.setHelpEntry(String().setValue(element.attrib["HELPENTRY"]))
+        if "HELP-ENTRY" in element.attrib:
+            def_item.setHelpEntry(String().setValue(element.attrib["HELP-ENTRY"]))
         self.readVariationPointCapable(element, def_item)
         return def_item
 
@@ -8440,15 +8442,15 @@ class ARXMLParser(AbstractARXMLParser):
             def_list = DefList()
             self.readPaginateable(child_element, def_list)
             for def_item in self.findall(child_element, "DEF-ITEM"):
-                def_list.addDefItem(self.getDefItem(child_element, def_item))
+                def_list.addDefItem(self.getDefItem(def_item, def_list))
             self.readVariationPointCapable(child_element, def_list)
         return def_list
 
     def getIndentSample(self, element: ET.Element) -> IndentSample:
         indent_sample = IndentSample()
         self.readARObject(element, indent_sample)
-        if "ITEMLABELPOS" in element.attrib:
-            indent_sample.setItemLabelPos(ItemLabelPosEnum().setValue(element.attrib["ITEMLABELPOS"]))
+        if "ITEM-LABEL-POS" in element.attrib:
+            indent_sample.setItemLabelPos(ItemLabelPosEnum().setValue(element.attrib["ITEM-LABEL-POS"]))
         for l2 in self.getLOverviewParagraphs(element, "L-2"):
             indent_sample.addL2(l2)
         return indent_sample
@@ -8456,8 +8458,8 @@ class ARXMLParser(AbstractARXMLParser):
     def getLabeledItem(self, element: ET.Element) -> LabeledItem:
         labeled_item = LabeledItem()
         self.readPaginateable(element, labeled_item)
-        if "HELPENTRY" in element.attrib:
-            labeled_item.setHelpEntry(String().setValue(element.attrib["HELPENTRY"]))
+        if "HELP-ENTRY" in element.attrib:
+            labeled_item.setHelpEntry(String().setValue(element.attrib["HELP-ENTRY"]))
         labeled_item.setItemContents(self.getDocumentationBlock(element, "ITEM-CONTENTS"))
         labeled_item.setItemLabel(self.getMultiLanguageOverviewParagraph(element, "ITEM-LABEL"))
         self.readVariationPointCapable(element, labeled_item)

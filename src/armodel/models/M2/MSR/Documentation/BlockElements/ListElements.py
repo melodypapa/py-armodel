@@ -79,12 +79,12 @@ class ARList(Paginateable, VariationPointCapable):
 
     # ARList method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.8, p.295
-    # Spec verified: R23-11 (2026-09-27, user 9b confirmation)
+    # Spec verified: R23-11 (2026-10-17, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (original AUTOSAR class name: `List` — AUTOSAR_FO_TPS_GenericStructureTemplate.pdf Table 9.8, p.295; Python class renamed ARList because `List` is a Python builtin (shadows the stdlib name); consumer: DocumentationBlock.list)
     # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getItems  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] addItem   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getItems  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] getType   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setType   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
@@ -97,12 +97,6 @@ class ARList(Paginateable, VariationPointCapable):
         # The type of the list. Default is "UNNUMBER" Tags: xml.attribute=true
         self.type: Optional[ListEnum] = None
 
-    def getItems(self) -> List[Item]:
-        """
-        this represents a particular list item. Note that this is again a documentation block.Therefore lists can be arbitrarily nested. It is discouraged to have a very deep nesting. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=item, item.variationPoint.shortLabel vh.latestBindingTime=postBuild xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
-        """
-        return self.items
-
     def addItem(self, value: Optional[Item]) -> ARList:
         """
         this represents a particular list item. Note that this is again a documentation block.Therefore lists can be arbitrarily nested. It is discouraged to have a very deep nesting. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=item, item.variationPoint.shortLabel vh.latestBindingTime=postBuild xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false. A None value is a no-op and is not appended.
@@ -110,6 +104,12 @@ class ARList(Paginateable, VariationPointCapable):
         if value is not None:
             self.items.append(value)
         return self
+
+    def getItems(self) -> List[Item]:
+        """
+        this represents a particular list item. Note that this is again a documentation block.Therefore lists can be arbitrarily nested. It is discouraged to have a very deep nesting. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=item, item.variationPoint.shortLabel vh.latestBindingTime=postBuild xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
+        """
+        return self.items
 
     def getType(self) -> Optional[ListEnum]:
         """

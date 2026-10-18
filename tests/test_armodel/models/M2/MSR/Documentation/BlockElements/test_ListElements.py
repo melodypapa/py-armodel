@@ -218,6 +218,11 @@ class TestARList:
         own_fields = [key for key in vars(ARList()).keys() if key not in base_fields]
         assert own_fields == ["items", "type"]
 
+    def test_ar_list_accessor_order(self):
+        """Accessor pairs in spec row order with the Rule 0001.11 pair shapes: the aggregated `item` pair is mutator-first (addItem/getItems), then the scalar `type` pair is getter-first (getType/setType)."""
+        methods = [name for name in vars(ARList) if not name.startswith("_")]
+        assert methods == ["addItem", "getItems", "getType", "setType"]
+
 
 class TestItemLabelPosEnum:
     """Test class for ItemLabelPosEnum class."""

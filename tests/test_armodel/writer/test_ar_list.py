@@ -10,6 +10,8 @@ the TYPE attribute in the LIST-ENUM--SIMPLE wire form (NUMBER/UNNUMBER).
 import xml.etree.ElementTree as ET
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
 from armodel.models.M2.MSR.Documentation.BlockElements import DocumentationBlock
 from armodel.models.M2.MSR.Documentation.BlockElements.ListElements import ARList, Item, ListEnum
 from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LParagraph
@@ -44,9 +46,17 @@ def _make_item(value):
     return item
 
 
+def _make_variation_point(label):
+    variation_point = VariationPoint()
+    short_label = Identifier()
+    short_label.setValue(label)
+    variation_point.setShortLabel(short_label)
+    return variation_point
+
+
 class TestARListWriter:
     def test_write_list_writes_type_wire_form(self):
-        """The model value (Table 9.10 literal, lowercase) is written in the XSD LIST-ENUM--SIMPLE wire form (uppercase)."""
+        """The ListEnum literal is already the XSD LIST-ENUM--SIMPLE wire token (uppercase), so it is written into TYPE unchanged."""
         writer = _writer()
         parent = _parent()
         ar_list = ARList()
@@ -133,3 +143,80 @@ class TestARListWriter:
         assert len(items) == 1
         assert isinstance(items[0], Item)
         assert items[0].getItemContents().getPs()[0].getL1s()[0].getValue() == "list item text"
+
+    def test_write_list_variation_point_last(self):
+        """Rule 0020: the XSD LIST group carries VARIATION-POINT at xml.sequenceOffset=10000, so setListElement must emit it after the ITEM elements."""
+        writer = _writer()
+        parent = _parent()
+        ar_list = ARList()
+        ar_list.addItem(_make_item("first item"))
+        ar_list.setVariationPoint(_make_variation_point("VP1"))
+
+        writer.setListElement(parent, "LIST", ar_list)
+
+        element = parent[0]
+        assert [child.tag for child in element] == ["ITEM", "VARIATION-POINT"]
+        assert element.find("VARIATION-POINT/SHORT-LABEL").text == "VP1"
+
+    def test_write_list_without_variation_point(self):
+        """variationPoint is unset: no VARIATION-POINT element is emitted."""
+        writer = _writer()
+        parent = _parent()
+        ar_list = ARList()
+        ar_list.addItem(_make_item("first item"))
+
+        writer.setListElement(parent, "LIST", ar_list)
+
+        assert parent[0].find("VARIATION-POINT") is None
+
+    def test_write_read_variation_point_round_trip(self):
+        """Full write → parse round-trip asserting field values for the item, type and inherited VARIATION-POINT levels."""
+        ar_list = ARList()
+        ar_list.setType(ListEnum().setValue(ListEnum.UNNUMBER))
+        ar_list.addItem(_make_item("list item text"))
+        ar_list.setVariationPoint(_make_variation_point("VP1"))
+
+        writer_element = _parent()
+        _writer().setListElement(writer_element, "LIST", ar_list)
+        writer_element.attrib["xmlns"] = "http://autosar.org/schema/r4.0"
+        parsed = ET.fromstring(ET.tostring(writer_element, encoding="unicode"))
+
+        reloaded = ARXMLParser().getListElements(parsed, "LIST")[0]
+        assert reloaded.getType().getValue() == ListEnum.UNNUMBER
+        assert reloaded.getItems()[0].getItemContents().getPs()[0].getL1s()[0].getValue() == "list item text"
+        assert reloaded.getVariationPoint().getShortLabel().getValue() == "VP1"
+
+    def test_write_item_variation_point_last(self):
+        """Rule 0020: the XSD ITEM group carries VARIATION-POINT at xml.sequenceOffset=10000, so setListElement must emit it inside the ITEM after the inline content."""
+        writer = _writer()
+        parent = _parent()
+        ar_list = ARList()
+        item = _make_item("first item")
+        item.setVariationPoint(_make_variation_point("IVP"))
+        ar_list.addItem(item)
+
+        writer.setListElement(parent, "LIST", ar_list)
+
+        item_element = parent[0].find("ITEM")
+        assert [child.tag for child in item_element] == ["P", "VARIATION-POINT"]
+        assert item_element.find("VARIATION-POINT/SHORT-LABEL").text == "IVP"
+
+    def test_write_read_item_variation_point_round_trip(self):
+        """Full write → parse round-trip: the Item's own VARIATION-POINT survives alongside the inline content and the inherited LIST levels."""
+        ar_list = ARList()
+        ar_list.setType(ListEnum().setValue(ListEnum.UNNUMBER))
+        item = _make_item("list item text")
+        item.setVariationPoint(_make_variation_point("IVP"))
+        ar_list.addItem(item)
+        ar_list.setVariationPoint(_make_variation_point("VP1"))
+
+        writer_element = _parent()
+        _writer().setListElement(writer_element, "LIST", ar_list)
+        writer_element.attrib["xmlns"] = "http://autosar.org/schema/r4.0"
+        parsed = ET.fromstring(ET.tostring(writer_element, encoding="unicode"))
+
+        reloaded = ARXMLParser().getListElements(parsed, "LIST")[0]
+        assert reloaded.getVariationPoint().getShortLabel().getValue() == "VP1"
+        reloaded_item = reloaded.getItems()[0]
+        assert reloaded_item.getItemContents().getPs()[0].getL1s()[0].getValue() == "list item text"
+        assert reloaded_item.getVariationPoint().getShortLabel().getValue() == "IVP"

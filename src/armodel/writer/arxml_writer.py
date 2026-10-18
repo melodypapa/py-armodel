@@ -4458,8 +4458,10 @@ class ARXMLWriter(AbstractARXMLWriter):
                     itemContents_value = item.getItemContents()
                     if itemContents_value is not None:
                         self.writeDocumentationBlockContent(item_element, itemContents_value)
+                    self.writeVariationPointCapable(item_element, item)
                 else:
                     self.writeDocumentationBlock(child_element, "ITEM", item)
+            self.writeVariationPointCapable(child_element, list)
 
     def setGraphic(self, element: ET.Element, key: str, graphic: Graphic):
         if graphic is not None:
@@ -4887,7 +4889,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeReferrable(child_element, def_item)
         helpEntry_value = def_item.getHelpEntry()
         if helpEntry_value is not None:
-            child_element.attrib["HELPENTRY"] = helpEntry_value.getValue()
+            child_element.attrib["HELP-ENTRY"] = helpEntry_value.getValue()
         self.writeDocumentationBlock(child_element, "DEF", def_item.getDef())
         self.writeVariationPointCapable(child_element, def_item)
 
@@ -4919,7 +4921,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeARObject(child_element, indent_sample)
             itemLabelPos_value = indent_sample.getItemLabelPos()
             if itemLabelPos_value is not None:
-                child_element.attrib["ITEMLABELPOS"] = itemLabelPos_value.getValue()
+                child_element.attrib["ITEM-LABEL-POS"] = itemLabelPos_value.getValue()
             for l2 in indent_sample.getL2s():
                 self.setLOverviewParagraph(child_element, l2)
 
@@ -4928,7 +4930,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writePaginateable(child_element, labeled_item)
         helpEntry_value = labeled_item.getHelpEntry()
         if helpEntry_value is not None:
-            child_element.attrib["HELPENTRY"] = helpEntry_value.getValue()
+            child_element.attrib["HELP-ENTRY"] = helpEntry_value.getValue()
         self.setMultiLanguageOverviewParagraph(child_element, "ITEM-LABEL", labeled_item.getItemLabel())
         self.writeDocumentationBlock(child_element, "ITEM-CONTENTS", labeled_item.getItemContents())
         self.writeVariationPointCapable(child_element, labeled_item)
