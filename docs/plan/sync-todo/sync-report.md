@@ -6,11 +6,11 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 ## Summary
 
-**1915 classes total**
+**1914 classes total**
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 849 | 44.3% |
+| [x] Done | 848 | 44.3% |
 | [x] Deferred | 79 | 4.1% |
 | [x] Retired | 0 | 0.0% |
 | [ ] Deferred | 976 | 51.0% |
@@ -21,7 +21,6 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | Class Name                                              | Status      | Commit ID                                | Groups           |
 | ------------------------------------------------------- | ------------| ---------------------------------------- | ---------------- |
 | `ARElement`                                             | [x] Done    | 61c85fa794                               | Group1           |
-| `ARList`                                                | [x] Done    | dbf3446b07                               | Group9           |
 | `ARObject`                                              | [x] Done    | 78ae363c75                               | Group1           |
 | `ARPackage`                                             | [x] Done    | 360648178f                               | Group1           |
 | `AUTOSAR`                                               | [x] Done    | 74f4d3c80a                               | Group1           |

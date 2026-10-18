@@ -3,7 +3,9 @@
 Generated 2026-09-29 — V4 REGENERATION (v3 2026-09-28 plus: the Primitive/Enumeration leaves now modeled
 in src by the Group21-36 stub pass, the 4 enums wrongly dropped as leaves, the R3.2.3-only Group19 trio,
 and the ARList node renamed to its spec caption List — the · src: ARList alias annotation maps the
-src-class name back onto the node, as both names are queued). Replaces the 2026-09-26 tree that covered only the
+src-class name back onto the node, as both names were queued at regeneration time — as of 2026-10-18 only the
+spec caption is queued: the duplicate Group9 `ARList` row was merged into Group21's spec-named `List` row, so
+the alias now maps the node to the `ARList` src class). Replaces the 2026-09-26 tree that covered only the
 Base rows of Group1-20 queue rows. Source: every Class / Enumeration / Primitive spec table in
 autosar/R23-11/markdown/ (15 CP_TPS / FO_TPS files), caption→table attribution by the table's own
 Class header cell (handles the trailing-caption render used by appendix and reproduction tables),

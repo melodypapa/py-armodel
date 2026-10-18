@@ -501,7 +501,7 @@ Status: **47/47** completed
 
 ## Group9
 
-Status: **29/29** completed
+Status: **28/28** completed
 
 | Class Name                    | Status   | Commit ID  |
 | ----------------------------- | -------- | ---------- |
@@ -522,7 +522,6 @@ Status: **29/29** completed
 | `LOverviewParagraph`          | [x] Done | 764ef1c589 |
 | `LPlainText`                  | [x] Done | 1de91de480 |
 | `LVerbatim`                   | [x] Done | d616f3d1ef |
-| `ARList`                      | [x] Done | dbf3446b07 |
 | `ChapterContent`              | [x] Done | dee07d0a3a |
 | `ChapterModel`                | [x] Done | 6a3f858082 |
 | `PrmCharContents`             | [x] Done | 9494a593a2 |
