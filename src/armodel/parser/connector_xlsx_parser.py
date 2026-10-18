@@ -1,5 +1,5 @@
 import re
-from typing import Dict, List
+from typing import Dict, List, cast
 
 import openpyxl
 from openpyxl.worksheet.worksheet import Worksheet
@@ -72,12 +72,12 @@ class ConnectorXlsReader(AbstractExcelParser):
         connectors = self.getSwConnectorList(swc)
         for row in sheet.iter_rows(min_row=start_row, values_only=True):
             connector = DelegationSwConnectorData()
-            connector.short_name = row[column_list[ConnectorXls.COL_SHORT_NAME]]
-            connector.inner_swc = row[column_list[ConnectorXls.COL_INNER_SW_C]]
-            connector.inner_pport = row[column_list[ConnectorXls.COL_INNER_PPORT]]
-            connector.inner_rport = row[column_list[ConnectorXls.COL_INNER_RPORT]]
-            connector.outer_pport = row[column_list[ConnectorXls.COL_OUTER_PPORT]]
-            connector.outer_rport = row[column_list[ConnectorXls.COL_OUTER_RPORT]]
+            connector.short_name = cast(str, row[column_list[ConnectorXls.COL_SHORT_NAME]])
+            connector.inner_swc = cast(str, row[column_list[ConnectorXls.COL_INNER_SW_C]])
+            connector.inner_pport = cast(str, row[column_list[ConnectorXls.COL_INNER_PPORT]])
+            connector.inner_rport = cast(str, row[column_list[ConnectorXls.COL_INNER_RPORT]])
+            connector.outer_pport = cast(str, row[column_list[ConnectorXls.COL_OUTER_PPORT]])
+            connector.outer_rport = cast(str, row[column_list[ConnectorXls.COL_OUTER_RPORT]])
             connectors.append(connector)
             self._logger.debug("ShortName: %s" % connector.short_name)
 
@@ -85,11 +85,11 @@ class ConnectorXlsReader(AbstractExcelParser):
         connectors = self.getSwConnectorList(swc)
         for row in sheet.iter_rows(min_row=start_row, values_only=True):
             connector = AssemblySwConnectorData()
-            connector.short_name = row[column_list[ConnectorXls.COL_SHORT_NAME]]
-            connector.provider_swc = row[column_list[ConnectorXls.COL_PROVIDER_SW_C]]
-            connector.p_port = row[column_list[ConnectorXls.COL_PPORT]]
-            connector.r_swc = row[column_list[ConnectorXls.COL_REQUESTER_SW_C]]
-            connector.r_port = row[column_list[ConnectorXls.COL_RPORT]]
+            connector.short_name = cast(str, row[column_list[ConnectorXls.COL_SHORT_NAME]])
+            connector.provider_swc = cast(str, row[column_list[ConnectorXls.COL_PROVIDER_SW_C]])
+            connector.p_port = cast(str, row[column_list[ConnectorXls.COL_PPORT]])
+            connector.r_swc = cast(str, row[column_list[ConnectorXls.COL_REQUESTER_SW_C]])
+            connector.r_port = cast(str, row[column_list[ConnectorXls.COL_RPORT]])
             connectors.append(connector)
             self._logger.debug("ShortName: %s" % connector.short_name)
 

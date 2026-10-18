@@ -16,7 +16,7 @@ class AbstractExcelParser:
     def getColumnTitles(self, sheet: Worksheet, title_row: int, column_list: Dict[str, int]):
         for column in range(1, sheet.max_column + 1):
             value = sheet.cell(title_row, column).value
-            if value in column_list:
+            if isinstance(value, str) and value in column_list:
                 column_list[value] = column - 1
 
     def checkColumnTitles(self, column_list: Dict[str, int], message: str):
