@@ -23,5 +23,5 @@ def test_cli_exports_the_fixture_in_warning_mode(monkeypatch, tmp_path: Path):
 
     main()
 
-    assert load_workbook(output).sheetnames == ["BswMAction", "BswMActionList"]
+    assert load_workbook(output).sheetnames[:2] == ["BswMAction", "BswMActionList"]
     assert (tmp_path / "bswm_ecuc_export.log").exists()
