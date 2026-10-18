@@ -2998,40 +2998,22 @@ class ARXMLWriter(AbstractARXMLWriter):
         if std is not None:
             child_element = ET.SubElement(element, key)
             self.writeSingleLanguageReferrable(child_element, std)
-            date_value = std.getDate()
-            if date_value is not None:
-                child_element.attrib["DATE"] = date_value.getValue()
-            position_value = std.getPosition()
-            if position_value is not None:
-                child_element.attrib["POSITION"] = position_value.getValue()
-            state_value = std.getState()
-            if state_value is not None:
-                child_element.attrib["STATE"] = state_value.getValue()
-            subtitle_value = std.getSubtitle()
-            if subtitle_value is not None:
-                child_element.attrib["SUBTITLE"] = subtitle_value.getValue()
+            self.setChildElementOptionalString(child_element, "SUBTITLE", std.getSubtitle())
+            self.setChildElementOptionalString(child_element, "STATE", std.getState())
+            self.setChildElementOptionalDateTime(child_element, "DATE", std.getDate())
             self.setUrl(child_element, "URL", std.getUrl())
+            self.setChildElementOptionalString(child_element, "POSITION", std.getPosition())
 
     def setXdoc(self, element: ET.Element, key: str, xdoc: Xdoc):
         if xdoc is not None:
             child_element = ET.SubElement(element, key)
             self.writeSingleLanguageReferrable(child_element, xdoc)
-            date_value = xdoc.getDate()
-            if date_value is not None:
-                child_element.attrib["DATE"] = date_value.getValue()
-            number_value = xdoc.getNumber()
-            if number_value is not None:
-                child_element.attrib["NUMBER"] = number_value.getValue()
-            position_value = xdoc.getPosition()
-            if position_value is not None:
-                child_element.attrib["POSITION"] = position_value.getValue()
-            publisher_value = xdoc.getPublisher()
-            if publisher_value is not None:
-                child_element.attrib["PUBLISHER"] = publisher_value.getValue()
-            state_value = xdoc.getState()
-            if state_value is not None:
-                child_element.attrib["STATE"] = state_value.getValue()
+            self.setChildElementOptionalString(child_element, "NUMBER", xdoc.getNumber())
+            self.setChildElementOptionalString(child_element, "STATE", xdoc.getState())
+            self.setChildElementOptionalDateTime(child_element, "DATE", xdoc.getDate())
+            self.setChildElementOptionalString(child_element, "PUBLISHER", xdoc.getPublisher())
             self.setUrl(child_element, "URL", xdoc.getUrl())
+            self.setChildElementOptionalString(child_element, "POSITION", xdoc.getPosition())
 
     def setXfile(self, element: ET.Element, key: str, xfile: Xfile):
         if xfile is not None:

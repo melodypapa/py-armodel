@@ -3308,15 +3308,11 @@ class ARXMLParser(AbstractARXMLParser):
 
         std = Std(cast(ARObject, None), "STD")
         self.readSingleLanguageReferrable(child_element, std)
-        if "DATE" in child_element.attrib:
-            std.setDate(DateTime().setValue(child_element.attrib["DATE"]))
-        if "POSITION" in child_element.attrib:
-            std.setPosition(String().setValue(child_element.attrib["POSITION"]))
-        if "STATE" in child_element.attrib:
-            std.setState(String().setValue(child_element.attrib["STATE"]))
-        if "SUBTITLE" in child_element.attrib:
-            std.setSubtitle(String().setValue(child_element.attrib["SUBTITLE"]))
+        std.setSubtitle(self.getChildElementOptionalString(child_element, "SUBTITLE"))
+        std.setState(self.getChildElementOptionalString(child_element, "STATE"))
+        std.setDate(self.getChildElementOptionalDateTime(child_element, "DATE"))
         std.setUrl(self.getUrl(child_element, "URL"))
+        std.setPosition(self.getChildElementOptionalString(child_element, "POSITION"))
         return std
 
     def getXdoc(self, element: ET.Element, key: str) -> Optional[Xdoc]:
@@ -3326,17 +3322,12 @@ class ARXMLParser(AbstractARXMLParser):
 
         xdoc = Xdoc(cast(ARObject, None), "XDOC")
         self.readSingleLanguageReferrable(child_element, xdoc)
-        if "DATE" in child_element.attrib:
-            xdoc.setDate(DateTime().setValue(child_element.attrib["DATE"]))
-        if "NUMBER" in child_element.attrib:
-            xdoc.setNumber(String().setValue(child_element.attrib["NUMBER"]))
-        if "POSITION" in child_element.attrib:
-            xdoc.setPosition(String().setValue(child_element.attrib["POSITION"]))
-        if "PUBLISHER" in child_element.attrib:
-            xdoc.setPublisher(String().setValue(child_element.attrib["PUBLISHER"]))
-        if "STATE" in child_element.attrib:
-            xdoc.setState(String().setValue(child_element.attrib["STATE"]))
+        xdoc.setNumber(self.getChildElementOptionalString(child_element, "NUMBER"))
+        xdoc.setState(self.getChildElementOptionalString(child_element, "STATE"))
+        xdoc.setDate(self.getChildElementOptionalDateTime(child_element, "DATE"))
+        xdoc.setPublisher(self.getChildElementOptionalString(child_element, "PUBLISHER"))
         xdoc.setUrl(self.getUrl(child_element, "URL"))
+        xdoc.setPosition(self.getChildElementOptionalString(child_element, "POSITION"))
         return xdoc
 
     def getXfile(self, element: ET.Element, key: str) -> Optional[Xfile]:
