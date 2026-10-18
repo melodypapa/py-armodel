@@ -919,7 +919,7 @@ Status: **56/59** completed
 | `PredefinedVariant`                  | [x] Done     | f3c6350ab5 |
 | `DocumentationBlock`                 | [x] Done     | 7edaa72c74 |
 | `MultiLanguageVerbatim`              | [x] Done     | e3087c471e |
-| `List`                               | [x] Done*    | N/A        |
+| `List`                               | [x] Done     | N/A        |
 | `LabeledList`                        | [x] Done*    | N/A        |
 | `LabeledItem`                        | [x] Done*    | N/A        |
 | `IndentSample`                       | [x] Done*    | N/A        |

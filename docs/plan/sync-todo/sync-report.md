@@ -10,8 +10,8 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 848 | 44.3% |
-| [x] Deferred | 80 | 4.2% |
+| [x] Done | 849 | 44.3% |
+| [x] Deferred | 79 | 4.1% |
 | [x] Retired | 0 | 0.0% |
 | [ ] Deferred | 976 | 51.0% |
 | [ ] Implemented | 10 | 0.5% |
@@ -1216,7 +1216,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `LinTpNode`                                             | [ ] Deferred| N/A                                      | Group33          |
 | `LinUnconditionalFrame`                                 | [ ] Deferred| b9e186e5a4                               | Group31          |
 | `Linker`                                                | [x] Done    | 20003dc3cc                               | Group1           |
-| `List`                                                  | [x] Deferred| N/A                                      | Group21          |
+| `List`                                                  | [x] Done    | N/A                                      | Group21          |
 | `ListEnum`                                              | [x] Done    | 0623068af8                               | Group9           |
 | `LogAndTraceMessageCollectionSet`                       | [ ] Deferred| N/A                                      | Group36          |
 | `LogTraceDefaultLogLevelEnum`                           | [x] Done    | f1eb819e47                               | Group5           |
