@@ -12,6 +12,7 @@ from armodel.data_models.ecuc import (
     BswmRule,
     BswmSwitchPort,
 )
+from armodel.report.bswm_checks import BswmConfigChecker
 from armodel.report.ecuc_export import EcucConfigExporter, EcucConfigModelMapper, EcucConfigXlsxExporter, EcucConfigYamlExporter, Sections
 
 ACTION_HEADERS = ["name", "BswMActionType", "UsedByActionLists"]
@@ -196,7 +197,7 @@ class BswmConfigModelMapper(EcucConfigModelMapper[BswmModule]):
         return [row]
 
     def checks_to_rows(self, model: BswmModule) -> List[Dict[str, Any]]:
-        return []
+        return BswmConfigChecker().check(model)
 
     def to_dict(self, model: BswmModule) -> Sections:
         usage = self.build_usage(model)
