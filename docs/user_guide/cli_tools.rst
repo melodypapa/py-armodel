@@ -232,7 +232,7 @@ Export an AUTOSAR OS ECUC configuration to YAML or Excel.
 
 .. code-block:: bash
 
-   os-ecuc-export [OPTIONS] <input.arxml> [<input.arxml> ...] <output.(yaml|yml|xlsx)>
+   os-ecuc-export [OPTIONS] <input.arxml> <output.(yaml|yml|xlsx)>
 
 **Options:**
 
@@ -248,6 +248,33 @@ or ``.xlsx``). See :doc:`os_ecuc_export_cli` for details.
 .. code-block:: bash
 
    os-ecuc-export Os_ECUC.arxml os_config.yaml
+
+bswm-ecuc-export
+~~~~~~~~~~~~~~~~
+
+Export the BswM ECUC configuration (actions, action lists, rules, conditions,
+ports and general settings) to an Excel workbook or YAML.
+
+**Usage:**
+
+.. code-block:: bash
+
+   bswm-ecuc-export [OPTIONS] <input.arxml> <output.(yaml|yml|xlsx)>
+
+**Options:**
+
+* ``-v, --verbose`` - Print debug information
+* ``-w, --warning`` - Report unresolved references as warnings instead of failing
+* ``-h, --help`` - Show help message
+
+The output format is selected by the output file extension (``.yaml``, ``.yml``
+or ``.xlsx``). See :doc:`bswm_ecuc_export_cli` for the sheets and columns.
+
+**Example:**
+
+.. code-block:: bash
+
+   bswm-ecuc-export tests/test_armodel/parser/data/bswm_ecuc_arbitration.arxml bswm.xlsx
 
 format-xml
 ~~~~~~~~~~
