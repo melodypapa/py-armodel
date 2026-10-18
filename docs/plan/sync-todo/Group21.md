@@ -4606,7 +4606,8 @@ pending that confirmation.
       open deviations, stamp decision) was presented and **confirmed by the user
       2026-10-18**. Marker written immediately after the `# Spec:` line (Rule 0012.1):
       `# Spec verified: R23-11 (2026-10-18, user 9b confirmation)`. Post-stamp audit
-      re-run: `STAMP` clean, `=> PASS`.
+      re-run: `STAMP` clean, `=> PASS`. Sync commit **0a6cf6b09** (branch
+      `feature/g21-list-sync`).
 - [x] `LabeledItem` — Paginateable — R23-11 FO_TPS_GenericStructureTemplate Table 9.12, p.296 — already verified (short-circuit 2026-09-30)
   - module: M2/MSR/Documentation/BlockElements/ListElements.py
   - [x] Step 1 — Sync members & description from spec
