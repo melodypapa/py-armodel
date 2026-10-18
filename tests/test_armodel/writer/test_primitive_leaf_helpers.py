@@ -7,10 +7,24 @@ Reader counterpart: tests/test_armodel/parser/test_primitive_leaf_helpers.py
 
 import xml.etree.ElementTree as ET
 
+import pytest
+
+from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.AgeConstraint import (
+    AgeConstraint,
+)
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import (
+    EcuTiming,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultidimensionalTime import (
+    MultidimensionalTime,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     CategoryString,
+    CseCodeType,
     DateTime,
     DiagRequirementIdString,
+    Integer,
     Ip4AddressString,
     Ip6AddressString,
     McdIdentifier,
@@ -19,8 +33,12 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     String,
     StrongRevisionLabelString,
     SymbolString,
+    UriString,
 )
+from armodel.validation.validator import ARXMLValidator
 from armodel.writer.arxml_writer import ARXMLWriter
+
+NS = "http://autosar.org/schema/r4.0"
 
 
 class TestCategoryStringLeaf:
@@ -297,3 +315,142 @@ class TestStrongRevisionLabelStringLeaf:
         ARXMLWriter().setChildElementOptionalStrongRevisionLabelString(element, "VERSION", None)
 
         assert element.find("VERSION") is None
+
+
+class TestCseCodeTypeLeaf:
+    def test_writes_concrete_type_and_t(self):
+        value = CseCodeType()
+        value.setValue("100")
+        value.timestamp = "2026-10-17T00:00:00Z"
+
+        element = ET.Element("ROOT")
+        ARXMLWriter().setChildElementOptionalCseCodeType(element, "CSE-CODE", value)
+
+        written = element.find("CSE-CODE")
+        assert written is not None
+        assert written.text == "100"
+        assert written.attrib["T"] == "2026-10-17T00:00:00Z"
+
+    def test_writes_zero_value(self):
+        """`0` is the unsignedInt lower bound and the value the existing MultidimensionalTime fixtures use."""
+        element = ET.Element("ROOT")
+        ARXMLWriter().setChildElementOptionalCseCodeType(element, "CSE-CODE", CseCodeType().setValue("0"))
+
+        written = element.find("CSE-CODE")
+        assert written is not None
+        assert written.text == "0"
+
+    def test_writes_unsigned_int_max_value(self):
+        """`4294967295` is xsd:unsignedInt's inclusive upper bound — the constraint CSE-CODE-TYPE-STRING--SIMPLE actually applies."""
+        element = ET.Element("ROOT")
+        ARXMLWriter().setChildElementOptionalCseCodeType(element, "CSE-CODE", CseCodeType().setValue("4294967295"))
+
+        written = element.find("CSE-CODE")
+        assert written is not None
+        assert written.text == "4294967295"
+
+    def test_none_emits_nothing(self):
+        element = ET.Element("ROOT")
+        ARXMLWriter().setChildElementOptionalCseCodeType(element, "CSE-CODE", None)
+
+        assert element.find("CSE-CODE") is None
+
+
+class TestCseCodeTypeXsdValidation:
+    """XSD-validated proof of the ``CSE-CODE`` emission shape (Rule 0027).
+
+    ``CseCodeType`` has no own XML element (XSD ``complexType
+    CSE-CODE-TYPE-STRING`` is ``xsd:simpleContent`` with only the ``AR-OBJECT``
+    attributeGroup), so its writer shape is judged by the element its consumer emits:
+    ``CSE-CODE`` inside ``MULTIDIMENSIONAL-TIME`` (XSD group l.83759, sequence
+    ``CSE-CODE`` → ``CSE-CODE-FACTOR``, both 0..1).
+
+    A **document-level** ``save`` → ``load`` round-trip is not reachable for this path
+    today: no ARPackage-reachable model class carries a ``TimingExtension``
+    (``grep "def setTiming("`` over ``src/armodel/models/`` returns nothing, and
+    ``EcuInstance`` exposes zero timing accessors), so ``writeEcuTiming`` is only
+    exercised at the element level. This test therefore validates the writer's real
+    subtree against the bundled R23-11 schema inside the minimum ``AR-PACKAGE`` /
+    ``ELEMENTS`` scaffolding the schema requires — ``ELEMENTS`` is the wrapper the
+    ``AR-PACKAGE`` choice lives in (AUTOSAR_00052.xsd l.4938-4945), and omitting it
+    makes the validator reject ``ECU-TIMING`` itself, which is scaffolding behaviour,
+    not a writer defect.
+    """
+
+    @pytest.fixture(autouse=True)
+    def reset_autosar(self):
+        AUTOSAR.getInstance().new()
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        yield
+        AUTOSAR.getInstance().new()
+
+    def _emit(self):
+        document = AUTOSAR.getInstance()
+        timing = EcuTiming(document, "EcuTiming1")
+        constraint = AgeConstraint(timing, "Age1")
+        constraint.setMaximum(MultidimensionalTime().setCseCode(CseCodeType().setValue("100")).setCseCodeFactor(Integer().setValue(360)))
+        constraint.setMinimum(MultidimensionalTime().setCseCode(CseCodeType().setValue("0")))
+        timing.addTimingGuarantee(constraint)
+
+        package = ET.Element("AR-PACKAGE")
+        short_name = ET.SubElement(package, "SHORT-NAME")
+        short_name.text = "P"
+        ARXMLWriter().writeEcuTiming(ET.SubElement(package, "ELEMENTS"), timing)
+        return package
+
+    def test_emitted_cse_code_shape_validates_against_bundled_schema(self):
+        package = self._emit()
+
+        assert package.find("ELEMENTS/ECU-TIMING/TIMING-GUARANTEES/AGE-CONSTRAINT/MAXIMUM/CSE-CODE").text == "100"
+
+        root = ET.Element(
+            "AUTOSAR",
+            {
+                "xmlns": NS,
+                "xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+                "xsi:schemaLocation": NS + " AUTOSAR_00052.xsd",
+            },
+        )
+        packages = ET.SubElement(root, "AR-PACKAGES")
+        wrapper = ET.SubElement(packages, "AR-PACKAGE")
+        name = ET.SubElement(wrapper, "SHORT-NAME")
+        name.text = "P"
+        for child in list(package)[1:]:
+            wrapper.append(child)
+
+        data = ET.tostring(root, encoding="UTF-8")
+        validator = ARXMLValidator.for_document(data)
+        assert validator is not None, "bundled R23-11 schema not detected"
+        assert [f"line {e.line} col {e.column}: {e.message}" for e in validator.validate_bytes(data)] == []
+
+
+class TestUriStringLeaf:
+    def test_writes_concrete_type_and_t(self):
+        value = UriString()
+        value.setValue("https://example.com/resource")
+        value.timestamp = "2026-10-15T00:00:00Z"
+
+        element = ET.Element("ROOT")
+        ARXMLWriter().setChildElementOptionalUriString(element, "URI", value)
+
+        written = element.find("URI")
+        assert written is not None
+        assert written.text == "https://example.com/resource"
+        assert written.attrib["T"] == "2026-10-15T00:00:00Z"
+
+    def test_writes_ldap_url_value(self):
+        """The LDAP-URL of ACL-ROLE (XSD l.1288) is one of the ten element-form consumers of AR:URI-STRING."""
+        value = UriString().setValue("ldap://example.com/Role")
+
+        element = ET.Element("ROOT")
+        ARXMLWriter().setChildElementOptionalUriString(element, "LDAP-URL", value)
+
+        written = element.find("LDAP-URL")
+        assert written is not None
+        assert written.text == "ldap://example.com/Role"
+
+    def test_none_emits_nothing(self):
+        element = ET.Element("ROOT")
+        ARXMLWriter().setChildElementOptionalUriString(element, "URI", None)
+
+        assert element.find("URI") is None

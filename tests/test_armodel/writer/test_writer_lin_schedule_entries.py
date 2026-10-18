@@ -26,7 +26,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommun
     SaveConfigurationEntry,
     UnassignFrameId,
 )
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
+from armodel.models.M2.MSR.Documentation.BlockElements import DocumentationBlock
 from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LOverviewParagraph
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageParagraph
 from armodel.parser.arxml_parser import ARXMLParser

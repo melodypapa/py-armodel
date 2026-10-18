@@ -7,6 +7,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Numerical, String
 from armodel.models.M2.MSR.AsamHdo.Units import SingleLanguageUnitNames
+from armodel.models.M2.MSR.Documentation.BlockElements import DocumentationBlock
 from armodel.models.M2.MSR.Documentation.BlockElements.GerneralParameters import (
     GeneralParameter,
     PrmChar,
@@ -20,7 +21,6 @@ from armodel.models.M2.MSR.Documentation.BlockElements.GerneralParameters import
 )
 from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import Paginateable
 from armodel.models.M2.MSR.Documentation.Chapters import ChapterContent
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName
 
 

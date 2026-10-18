@@ -35,7 +35,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommun
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinCommunicationConnector, LinCommunicationController, LinMaster, LinSlaveConfig
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import Frame, FrameTriggering
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationConnector, CommunicationController
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
+from armodel.models.M2.MSR.Documentation.BlockElements import DocumentationBlock
 
 CLASS_NOTE_RESUME_POSITION = "Defines, where a schedule table shall be proceeded in case if it has been interrupted by a run-once table or MRF/SRF."
 

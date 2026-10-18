@@ -22,7 +22,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import 
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate import SystemMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import ComponentInSystemInstanceRef
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import ComponentClustering, ComponentSeparation, MappingScopeEnum
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
+from armodel.models.M2.MSR.Documentation.BlockElements import DocumentationBlock
 from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LParagraph
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageParagraph
 from armodel.parser.arxml_parser import ARXMLParser

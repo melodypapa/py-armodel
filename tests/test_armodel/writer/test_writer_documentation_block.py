@@ -9,13 +9,12 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.DocumentationOnM1 impor
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Enumerations import XmlSpaceEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DateTime, NameToken, RefType, String
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
+from armodel.models.M2.MSR.Documentation.BlockElements import DocumentationBlock
 from armodel.models.M2.MSR.Documentation.BlockElements.Formula import MlFormula
 from armodel.models.M2.MSR.Documentation.BlockElements.ListElements import DefItem, DefList, LabeledItem, LabeledList
 from armodel.models.M2.MSR.Documentation.BlockElements.Note import Note, NoteTypeEnum
 from armodel.models.M2.MSR.Documentation.BlockElements.OasisExchangeTable import FloatEnum, PgwideEnum
-from armodel.models.M2.MSR.Documentation.BlockElements.RequirementsTracing import StructuredReq, TraceableText
 from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryArg, MsrQueryP2, MsrQueryProps
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LOverviewParagraph, LParagraph, LVerbatim
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph, MultiLanguageParagraph, MultiLanguageVerbatim
 from armodel.parser.arxml_parser import ARXMLParser
@@ -55,11 +54,10 @@ class TestDocumentationBlockRoundTrip:
         l1_trace.setValue("trace paragraph")
         trace_paragraph.addL1(l1_trace)
         trace_text.addP(trace_paragraph)
-        trace = TraceableText(None, "TraceableText")
+        trace = intro.createTrace("TraceableText")
         trace.setText(trace_text)
-        intro.setTrace(trace)
 
-        structured_req = StructuredReq(None, "StructuredReq")
+        structured_req = intro.createStructuredReq("StructuredReq")
         structured_req.setDate(DateTime().setValue("2023-11-01"))
         structured_req.addAppliesTo(StandardNameEnum().setValue("AP"))
         structured_req.setImportance(String().setValue("HIGH"))
@@ -68,7 +66,6 @@ class TestDocumentationBlockRoundTrip:
         structured_req.setConflicts(DocumentationBlock())
         structured_req.addTestedItemRef(RefType().setDest("TRACEABLE").setValue("/AUTOSAR/Requirement"))
         structured_req.setVariationPoint(VariationPoint())
-        intro.setStructuredReq(structured_req)
 
         def_list = DefList()
         def_item = DefItem(def_list, "DefItem1")

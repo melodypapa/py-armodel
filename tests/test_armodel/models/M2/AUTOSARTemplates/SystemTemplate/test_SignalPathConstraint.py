@@ -5,7 +5,7 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SignalPaths import SignalPathConstraint
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
+from armodel.models.M2.MSR.Documentation.BlockElements import DocumentationBlock
 
 
 class ConcreteSignalPathConstraint(SignalPathConstraint):

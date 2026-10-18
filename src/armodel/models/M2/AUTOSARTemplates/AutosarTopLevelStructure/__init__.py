@@ -7,7 +7,7 @@ from armodel.models.utils.uuid_mgr import UUIDMgr
 from armodel.models.M2.MSR.AsamHdo.BaseTypes import SwBaseType
 from armodel.models.M2.MSR.AsamHdo.AdminData import AdminData
 from armodel.models.M2.MSR.AsamHdo.SpecialData import Sdg
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock as DocumentationBlock
+from armodel.models.M2.MSR.Documentation.BlockElements import DocumentationBlock as DocumentationBlock
 
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import InternalBehavior
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject

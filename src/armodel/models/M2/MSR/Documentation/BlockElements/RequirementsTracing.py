@@ -13,7 +13,7 @@ from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import 
 
 if TYPE_CHECKING:
     from armodel.models.M2.AUTOSARTemplates.GenericStructure.DocumentationOnM1 import StandardNameEnum
-    from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
+    from armodel.models.M2.MSR.Documentation.BlockElements import DocumentationBlock
 
 
 class Traceable(Identifiable, ABC):

@@ -63,7 +63,7 @@ class TestMlFigureWriter:
         assert l_graphic_el.attrib["L"] == "en"
         assert l_graphic_el.find("GRAPHIC").attrib["FILENAME"] == "image.png"
         verbatim_el = written.find("VERBATIM")
-        assert verbatim_el.attrib["ALLOWBREAK"] == "1"
+        assert verbatim_el.attrib["ALLOW-BREAK"] == "1"
 
     def test_set_ml_figures_empty_omits_members(self):
         element = ET.Element("PARENT")

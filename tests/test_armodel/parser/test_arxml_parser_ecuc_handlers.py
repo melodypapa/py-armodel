@@ -1083,7 +1083,7 @@ class TestGetEcucAddInfoParamValue:
         from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
             EcucAddInfoParamValue,
         )
-        from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
+        from armodel.models.M2.MSR.Documentation.BlockElements import DocumentationBlock
 
         AUTOSAR.getInstance().setARRelease("R23-11")
         element = _snip(
@@ -1124,7 +1124,7 @@ class TestReadEcucContainerValueParameterValues:
         from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
             EcucAddInfoParamValue,
         )
-        from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
+        from armodel.models.M2.MSR.Documentation.BlockElements import DocumentationBlock
 
         AUTOSAR.getInstance().setARRelease("R23-11")
         container = _make_container_value("MyContainer")

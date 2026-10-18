@@ -11,7 +11,7 @@ import pytest
 from armodel.models import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, RefType
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import IPduMapping, TargetIPduRef
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
+from armodel.models.M2.MSR.Documentation.BlockElements import DocumentationBlock
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 

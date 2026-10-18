@@ -9,7 +9,7 @@ from armodel.models.M2.MSR.Documentation.Annotation import Annotation
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import (
     MultiLanguageOverviewParagraph,
 )
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import (
+from armodel.models.M2.MSR.Documentation.BlockElements import (
     DocumentationBlock,
 )
 from armodel.models.M2.MSR.AsamHdo.SpecialData import Sdg
@@ -114,6 +114,7 @@ class PredefinedVariant(ARElement):
 
     # PredefinedVariant method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 7.24, p.258
+    # Spec verified: R23-11 (2026-10-17, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getIncludedVariantRefs                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -521,6 +522,7 @@ class EvaluatedVariantSet(ARElement):
 
     # EvaluatedVariantSet method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 7.23, p.257
+    # Spec verified: R23-11 (2026-10-17, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getApprovalStatus           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -543,70 +545,31 @@ class EvaluatedVariantSet(ARElement):
         self.evaluatedVariantRefs: List[RefType] = []
 
     def getApprovalStatus(self) -> Optional[NameToken]:
-        """
-        Defines the approval status of a predefined variant. Two values are predefined: "APPROVED" and "REJECTED": • Approved variants are known to work. • Rejected variants are known NOT to work. Further values can be approved on a per-company basis; within AUTOSAR only "APPROVED" and "REJECTED" should be recognized.
-
-        Returns:
-            The approval status, or None if not set
-        """
+        """Defines the approval status of a predefined variant. Two values are predefined: "APPROVED" and "REJECTED": • Approved variants are known to work. • Rejected variants are known NOT to work. Further values can be approved on a per-company basis; within AUTOSAR only "APPROVED" and "REJECTED" should be recognized."""
         return self.approvalStatus
 
-    def setApprovalStatus(self, value: Optional[NameToken]):
-        """
-        Defines the approval status of a predefined variant. Two values are predefined: "APPROVED" and "REJECTED": • Approved variants are known to work. • Rejected variants are known NOT to work. Further values can be approved on a per-company basis; within AUTOSAR only "APPROVED" and "REJECTED" should be recognized.
-
-        Args:
-            value: The approval status to set
-
-        Returns:
-            self for method chaining
-        """
+    def setApprovalStatus(self, value: Optional[NameToken]) -> "EvaluatedVariantSet":
+        """Defines the approval status of a predefined variant. Two values are predefined: "APPROVED" and "REJECTED": • Approved variants are known to work. • Rejected variants are known NOT to work. Further values can be approved on a per-company basis; within AUTOSAR only "APPROVED" and "REJECTED" should be recognized. A None value is a no-op and does not overwrite an existing approvalStatus."""
         if value is not None:
             self.approvalStatus = value
         return self
 
-    def addEvaluatedElementRef(self, value: RefType):
-        """
-        This represents a particular element which is evaluated in context of the EvaluatedVariants. The approvalStatus applies to this element (and all of its descendants). In other words, the referenced elements are those that were considered when the predefined variant was evaluated.
-
-        Args:
-            value: The evaluated element reference to append
-
-        Returns:
-            self for method chaining
-        """
+    def addEvaluatedElementRef(self, value: Optional[RefType]) -> "EvaluatedVariantSet":
+        """This represents a particular element which is evaluated in context of the EvaluatedVariants. The approvalStatus applies to this element (and all of its descendants). In other words, the referenced elements are those that were considered when the predefined variant was evaluated. A None value is a no-op and is not appended."""
         if value is not None:
             self.evaluatedElementRefs.append(value)
         return self
 
     def getEvaluatedElementRefs(self) -> List[RefType]:
-        """
-        This represents a particular element which is evaluated in context of the EvaluatedVariants. The approvalStatus applies to this element (and all of its descendants). In other words, the referenced elements are those that were considered when the predefined variant was evaluated.
-
-        Returns:
-            The list of evaluated element references
-        """
+        """This represents a particular element which is evaluated in context of the EvaluatedVariants. The approvalStatus applies to this element (and all of its descendants). In other words, the referenced elements are those that were considered when the predefined variant was evaluated."""
         return self.evaluatedElementRefs
 
-    def addEvaluatedVariantRef(self, value: RefType):
-        """
-        This metaclass represents one particular variant which was evaluated. LowerMultiplicity is set to 0 to support a stepwise approach.
-
-        Args:
-            value: The evaluated variant reference to append
-
-        Returns:
-            self for method chaining
-        """
+    def addEvaluatedVariantRef(self, value: Optional[RefType]) -> "EvaluatedVariantSet":
+        """This metaclass represents one particular variant which was evaluated. LowerMultiplicity is set to 0 to support a stepwise approach. A None value is a no-op and is not appended."""
         if value is not None:
             self.evaluatedVariantRefs.append(value)
         return self
 
     def getEvaluatedVariantRefs(self) -> List[RefType]:
-        """
-        This metaclass represents one particular variant which was evaluated. LowerMultiplicity is set to 0 to support a stepwise approach.
-
-        Returns:
-            The list of evaluated variant references
-        """
+        """This metaclass represents one particular variant which was evaluated. LowerMultiplicity is set to 0 to support a stepwise approach."""
         return self.evaluatedVariantRefs

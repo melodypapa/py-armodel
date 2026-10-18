@@ -10,7 +10,6 @@ from armodel.models.M2.MSR.DataDictionary.DatadictionaryProxies import *  # noqa
 from armodel.models.M2.MSR.Documentation import *  # noqa: F403
 from armodel.models.M2.MSR.Documentation.Annotation import *  # noqa: F403
 from armodel.models.M2.MSR.Documentation.TextModel import *  # noqa: F403
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import *  # noqa: F403
 from armodel.models.M2.MSR.Documentation.BlockElements.ListElements import *  # noqa: F403
 from armodel.models.M2.MSR.Documentation.BlockElements.Note import *  # noqa: F403
 from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import *  # noqa: F403

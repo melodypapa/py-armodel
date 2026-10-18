@@ -47,7 +47,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface.Instan
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import EndToEndTransformationComSpecProps
 from armodel.models.M2.MSR.AsamHdo.AdminData import AdminData
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
+from armodel.models.M2.MSR.Documentation.BlockElements import DocumentationBlock
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph
 
 

@@ -5568,7 +5568,7 @@ from armodel.models.M2.MSR.DataDictionary.AuxillaryObjects import SwAddrMethod  
 from armodel.models.M2.MSR.DataDictionary.RecordLayout import SwRecordLayout  # noqa: E402
 from armodel.models.M2.MSR.DataDictionary.SystemConstant import SwSystemconst  # noqa: E402
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation  # noqa: E402
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock  # noqa: E402
+from armodel.models.M2.MSR.Documentation.BlockElements import DocumentationBlock  # noqa: E402
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import (  # noqa: E402
     MultiLanguageOverviewParagraph,
     MultilanguageLongName,

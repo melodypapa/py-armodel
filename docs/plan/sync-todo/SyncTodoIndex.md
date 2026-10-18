@@ -157,8 +157,8 @@ Status: **95/95** completed
 | `MimeTypeString`                       | [x] Done | 01cc23df4e |
 | `Url`                                  | [x] Done | 4b96ab8d89 |
 | `Br`                                   | [x] Done | c2a85e6f8f |
-| `Std`                                  | [x] Done | c53a240809 |
-| `Xdoc`                                 | [x] Done | 294c8aae2c |
+| `Std`                                  | [x] Done | 701ec32dc1 |
+| `Xdoc`                                 | [x] Done | 701ec32dc1 |
 | `Xfile`                                | [x] Done | 7038ce5574 |
 | `XrefTarget`                           | [x] Done | 8c9df6638a |
 | `ResolutionPolicyEnum`                 | [x] Done | f0a7460898 |
@@ -501,7 +501,7 @@ Status: **47/47** completed
 
 ## Group9
 
-Status: **29/29** completed
+Status: **28/28** completed
 
 | Class Name                    | Status   | Commit ID  |
 | ----------------------------- | -------- | ---------- |
@@ -522,7 +522,6 @@ Status: **29/29** completed
 | `LOverviewParagraph`          | [x] Done | 764ef1c589 |
 | `LPlainText`                  | [x] Done | 1de91de480 |
 | `LVerbatim`                   | [x] Done | d616f3d1ef |
-| `ARList`                      | [x] Done | 2151ca0302 |
 | `ChapterContent`              | [x] Done | dee07d0a3a |
 | `ChapterModel`                | [x] Done | 6a3f858082 |
 | `PrmCharContents`             | [x] Done | 9494a593a2 |
@@ -875,7 +874,7 @@ Status: **29/29** completed
 
 ## Group21
 
-Status: **52/59** completed
+Status: **56/59** completed
 
 | Class Name                           | Status       | Commit ID  |
 | ------------------------------------ | ------------ | ---------- |
@@ -883,8 +882,8 @@ Status: **52/59** completed
 | `LLongName`                          | [x] Done     | c09bc8067d |
 | `MixedContentForLongName`            | [x] Done     | fdc7811f86 |
 | `Referrable`                         | [x] Done     | 4e60d3a344 |
-| `ReferrableSubtypesEnum`             | [x] Done     | N/A        |
-| `SdgDef`                             | [x] Done     | N/A        |
+| `ReferrableSubtypesEnum`             | [x] Done     | a097cb3d4f |
+| `SdgDef`                             | [x] Done     | c7d3958065 |
 | `SdgElementWithGid`                  | [x] Done     | f7d552948b |
 | `SdgClass`                           | [x] Done     | cfa7402dec |
 | `SdgAttribute`                       | [x] Done     | 41952ae2fd |
@@ -912,14 +911,14 @@ Status: **52/59** completed
 | `RevisionLabelString`                | [x] Done     | 2b739f4066 |
 | `StrongRevisionLabelString`          | [x] Done     | 953a92b70d |
 | `SymbolString`                       | [x] Done     | N/A        |
-| `UriString`                          | [ ] Pending* | N/A        |
-| `VerbatimStringPlain`                | [ ] Pending* | N/A        |
-| `CseCodeType`                        | [ ] Pending* | N/A        |
-| `EvaluatedVariantSet`                | [ ] Pending* | N/A        |
-| `PredefinedVariant`                  | [x] Done*    | N/A        |
-| `DocumentationBlock`                 | [x] Done*    | N/A        |
-| `MultiLanguageVerbatim`              | [x] Done*    | N/A        |
-| `List`                               | [x] Done*    | N/A        |
+| `UriString`                          | [x] Done     | 932196e6c6 |
+| `VerbatimStringPlain`                | [x] Done     | afa307b282 |
+| `CseCodeType`                        | [x] Done     | 33e3524e31 |
+| `EvaluatedVariantSet`                | [x] Done     | 2497bb0d7f |
+| `PredefinedVariant`                  | [x] Done     | f3c6350ab5 |
+| `DocumentationBlock`                 | [x] Done     | 7edaa72c74 |
+| `MultiLanguageVerbatim`              | [x] Done     | e3087c471e |
+| `List`                               | [x] Done     | dbf3446b07 |
 | `LabeledList`                        | [x] Done*    | N/A        |
 | `LabeledItem`                        | [x] Done*    | N/A        |
 | `IndentSample`                       | [x] Done*    | N/A        |

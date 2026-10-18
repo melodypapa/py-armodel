@@ -4,6 +4,7 @@ import xml.etree.ElementTree as ET
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Numerical, String
 from armodel.models.M2.MSR.AsamHdo.Units import SingleLanguageUnitNames
+from armodel.models.M2.MSR.Documentation.BlockElements import DocumentationBlock
 from armodel.models.M2.MSR.Documentation.BlockElements.GerneralParameters import (
     GeneralParameter,
     PrmChar,
@@ -15,7 +16,6 @@ from armodel.models.M2.MSR.Documentation.BlockElements.GerneralParameters import
 )
 from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import ChapterEnumBreak
 from armodel.models.M2.MSR.Documentation.Chapters import ChapterContent
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LLongName
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName
 from armodel.parser.arxml_parser import ARXMLParser

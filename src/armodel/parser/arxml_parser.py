@@ -1858,7 +1858,7 @@ from armodel.models.M2.MSR.Documentation.Chapters import (
     TopicOrMsrQuery,
 )
 from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryChapter, MsrQueryResultChapter, MsrQueryResultTopic1, MsrQueryTopic1
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
+from armodel.models.M2.MSR.Documentation.BlockElements import DocumentationBlock
 from armodel.models.M2.MSR.Documentation.BlockElements.ListElements import ARList, DefItem, DefList, IndentSample, Item, ItemLabelPosEnum, LabeledItem, LabeledList, ListEnum
 from armodel.models.M2.MSR.Documentation.BlockElements.Note import Note, NoteTypeEnum
 from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import ChapterEnumBreak, DocumentViewSelectable, KeepWithPreviousEnum, Paginateable
@@ -3308,15 +3308,11 @@ class ARXMLParser(AbstractARXMLParser):
 
         std = Std(cast(ARObject, None), "STD")
         self.readSingleLanguageReferrable(child_element, std)
-        if "DATE" in child_element.attrib:
-            std.setDate(DateTime().setValue(child_element.attrib["DATE"]))
-        if "POSITION" in child_element.attrib:
-            std.setPosition(String().setValue(child_element.attrib["POSITION"]))
-        if "STATE" in child_element.attrib:
-            std.setState(String().setValue(child_element.attrib["STATE"]))
-        if "SUBTITLE" in child_element.attrib:
-            std.setSubtitle(String().setValue(child_element.attrib["SUBTITLE"]))
+        std.setSubtitle(self.getChildElementOptionalString(child_element, "SUBTITLE"))
+        std.setState(self.getChildElementOptionalString(child_element, "STATE"))
+        std.setDate(self.getChildElementOptionalDateTime(child_element, "DATE"))
         std.setUrl(self.getUrl(child_element, "URL"))
+        std.setPosition(self.getChildElementOptionalString(child_element, "POSITION"))
         return std
 
     def getXdoc(self, element: ET.Element, key: str) -> Optional[Xdoc]:
@@ -3326,17 +3322,12 @@ class ARXMLParser(AbstractARXMLParser):
 
         xdoc = Xdoc(cast(ARObject, None), "XDOC")
         self.readSingleLanguageReferrable(child_element, xdoc)
-        if "DATE" in child_element.attrib:
-            xdoc.setDate(DateTime().setValue(child_element.attrib["DATE"]))
-        if "NUMBER" in child_element.attrib:
-            xdoc.setNumber(String().setValue(child_element.attrib["NUMBER"]))
-        if "POSITION" in child_element.attrib:
-            xdoc.setPosition(String().setValue(child_element.attrib["POSITION"]))
-        if "PUBLISHER" in child_element.attrib:
-            xdoc.setPublisher(String().setValue(child_element.attrib["PUBLISHER"]))
-        if "STATE" in child_element.attrib:
-            xdoc.setState(String().setValue(child_element.attrib["STATE"]))
+        xdoc.setNumber(self.getChildElementOptionalString(child_element, "NUMBER"))
+        xdoc.setState(self.getChildElementOptionalString(child_element, "STATE"))
+        xdoc.setDate(self.getChildElementOptionalDateTime(child_element, "DATE"))
+        xdoc.setPublisher(self.getChildElementOptionalString(child_element, "PUBLISHER"))
         xdoc.setUrl(self.getUrl(child_element, "URL"))
+        xdoc.setPosition(self.getChildElementOptionalString(child_element, "POSITION"))
         return xdoc
 
     def getXfile(self, element: ET.Element, key: str) -> Optional[Xfile]:
@@ -8000,7 +7991,9 @@ class ARXMLParser(AbstractARXMLParser):
                 block = DocumentationBlock()
                 self.readDocumentationBlock(item_element, block)
                 item.setItemContents(block)
+                self.readVariationPointCapable(item_element, item)
                 list.addItem(item)
+            self.readVariationPointCapable(child_element, list)
             result.append(list)
         return result
 
@@ -8360,20 +8353,13 @@ class ARXMLParser(AbstractARXMLParser):
                 ref.setDest(trace_ref.attrib["DEST"])
             traceable.addTraceRef(ref)
 
-    def getTraceableText(self, element: ET.Element, key: str, block: Optional["DocumentationBlock"] = None) -> Optional[TraceableText]:
-        traceable_text = None
-        child_element = self.find(element, key)
-        if child_element is not None:
-            short_name_element = self.find(child_element, "SHORT-NAME")
-            short_name = short_name_element.text if short_name_element is not None else key
-            traceable_text = TraceableText(block, cast(str, short_name))
-            # The TRACEABLE-TEXT group embeds the DOCUMENTATION-BLOCK content
-            # INLINE (no TEXT wrapper) — Rule 0027.
-            text_block = DocumentationBlock()
-            self.readDocumentationBlockContent(child_element, text_block)
-            traceable_text.setText(text_block)
-            self.readTraceable(child_element, traceable_text)
-        return traceable_text
+    def readTraceableText(self, element: ET.Element, traceable_text: TraceableText):
+        # The TRACEABLE-TEXT group embeds the DOCUMENTATION-BLOCK content
+        # INLINE (no TEXT wrapper) — Rule 0027.
+        text_block = DocumentationBlock()
+        self.readDocumentationBlockContent(element, text_block)
+        traceable_text.setText(text_block)
+        self.readTraceable(element, traceable_text)
 
     def readTraceableTable(self, element: ET.Element, traceable_table: TraceableTable):
         # SI/VIEW (DOCUMENT-VIEW-SELECTABLE) and BREAK/KEEP-WITH-PREVIOUS (PAGINATEABLE) are read
@@ -8404,37 +8390,30 @@ class ARXMLParser(AbstractARXMLParser):
             self.readTraceableTable(child_element, traceable_table)
         return traceable_table
 
-    def getStructuredReq(self, element: ET.Element, key: str, block: Optional["DocumentationBlock"] = None) -> Optional[StructuredReq]:
-        structured_req = None
-        child_element = self.find(element, key)
-        if child_element is not None:
-            short_name_element = self.find(child_element, "SHORT-NAME")
-            short_name = short_name_element.text if short_name_element is not None else key
-            structured_req = StructuredReq(block, cast(str, short_name))
-            self.readTraceable(child_element, structured_req)
-            date = self.getChildElementOptionalLiteral(child_element, "DATE")
-            if date is not None:
-                structured_req.setDate(DateTime().setValue(date.getValue()))
-            structured_req.setImportance(cast(Optional[String], self.getChildElementOptionalLiteral(child_element, "IMPORTANCE")))
-            structured_req.setIssuedBy(cast(Optional[String], self.getChildElementOptionalLiteral(child_element, "ISSUED-BY")))
-            structured_req.setType(cast(Optional[String], self.getChildElementOptionalLiteral(child_element, "TYPE")))
-            structured_req.setDescription(self.getDocumentationBlock(child_element, "DESCRIPTION"))
-            structured_req.setRationale(self.getDocumentationBlock(child_element, "RATIONALE"))
-            for applies_to in self.findall(child_element, "APPLIES-TO-DEPENDENCIES/APPLIES-TO"):
-                from armodel.models.M2.AUTOSARTemplates.GenericStructure.DocumentationOnM1 import StandardNameEnum
+    def readStructuredReq(self, element: ET.Element, structured_req: StructuredReq):
+        self.readTraceable(element, structured_req)
+        date = self.getChildElementOptionalLiteral(element, "DATE")
+        if date is not None:
+            structured_req.setDate(DateTime().setValue(date.getValue()))
+        structured_req.setImportance(cast(Optional[String], self.getChildElementOptionalLiteral(element, "IMPORTANCE")))
+        structured_req.setIssuedBy(cast(Optional[String], self.getChildElementOptionalLiteral(element, "ISSUED-BY")))
+        structured_req.setType(cast(Optional[String], self.getChildElementOptionalLiteral(element, "TYPE")))
+        structured_req.setDescription(self.getDocumentationBlock(element, "DESCRIPTION"))
+        structured_req.setRationale(self.getDocumentationBlock(element, "RATIONALE"))
+        for applies_to in self.findall(element, "APPLIES-TO-DEPENDENCIES/APPLIES-TO"):
+            from armodel.models.M2.AUTOSARTemplates.GenericStructure.DocumentationOnM1 import StandardNameEnum
 
-                structured_req.addAppliesTo(StandardNameEnum().setValue(applies_to.text))
-            structured_req.setDependencies(self.getDocumentationBlock(child_element, "DEPENDENCIES"))
-            structured_req.setUseCase(self.getDocumentationBlock(child_element, "USE-CASE"))
-            structured_req.setConflicts(self.getDocumentationBlock(child_element, "CONFLICTS"))
-            structured_req.setSupportingMaterial(self.getDocumentationBlock(child_element, "SUPPORTING-MATERIAL"))
-            structured_req.setRemark(self.getDocumentationBlock(child_element, "REMARK"))
-            for tested_item_ref in self.findall(child_element, "TESTED-ITEM-REFS/TESTED-ITEM-REF"):
-                ref = RefType().setValue(cast(str, tested_item_ref.text))
-                if "DEST" in tested_item_ref.attrib:
-                    ref.setDest(tested_item_ref.attrib["DEST"])
-                structured_req.addTestedItemRef(ref)
-        return structured_req
+            structured_req.addAppliesTo(StandardNameEnum().setValue(applies_to.text))
+        structured_req.setDependencies(self.getDocumentationBlock(element, "DEPENDENCIES"))
+        structured_req.setUseCase(self.getDocumentationBlock(element, "USE-CASE"))
+        structured_req.setConflicts(self.getDocumentationBlock(element, "CONFLICTS"))
+        structured_req.setSupportingMaterial(self.getDocumentationBlock(element, "SUPPORTING-MATERIAL"))
+        structured_req.setRemark(self.getDocumentationBlock(element, "REMARK"))
+        for tested_item_ref in self.findall(element, "TESTED-ITEM-REFS/TESTED-ITEM-REF"):
+            ref = RefType().setValue(cast(str, tested_item_ref.text))
+            if "DEST" in tested_item_ref.attrib:
+                ref.setDest(tested_item_ref.attrib["DEST"])
+            structured_req.addTestedItemRef(ref)
 
     def getDefItem(self, element: ET.Element, parent) -> DefItem:
         short_name_element = self.find(element, "SHORT-NAME")
@@ -8442,8 +8421,8 @@ class ARXMLParser(AbstractARXMLParser):
         def_item = DefItem(parent, cast(str, short_name))
         self.readReferrable(element, def_item)
         def_item.setDef(self.getDocumentationBlock(element, "DEF"))
-        if "HELPENTRY" in element.attrib:
-            def_item.setHelpEntry(String().setValue(element.attrib["HELPENTRY"]))
+        if "HELP-ENTRY" in element.attrib:
+            def_item.setHelpEntry(String().setValue(element.attrib["HELP-ENTRY"]))
         self.readVariationPointCapable(element, def_item)
         return def_item
 
@@ -8454,15 +8433,15 @@ class ARXMLParser(AbstractARXMLParser):
             def_list = DefList()
             self.readPaginateable(child_element, def_list)
             for def_item in self.findall(child_element, "DEF-ITEM"):
-                def_list.addDefItem(self.getDefItem(child_element, def_item))
+                def_list.addDefItem(self.getDefItem(def_item, def_list))
             self.readVariationPointCapable(child_element, def_list)
         return def_list
 
     def getIndentSample(self, element: ET.Element) -> IndentSample:
         indent_sample = IndentSample()
         self.readARObject(element, indent_sample)
-        if "ITEMLABELPOS" in element.attrib:
-            indent_sample.setItemLabelPos(ItemLabelPosEnum().setValue(element.attrib["ITEMLABELPOS"]))
+        if "ITEM-LABEL-POS" in element.attrib:
+            indent_sample.setItemLabelPos(ItemLabelPosEnum().setValue(element.attrib["ITEM-LABEL-POS"]))
         for l2 in self.getLOverviewParagraphs(element, "L-2"):
             indent_sample.addL2(l2)
         return indent_sample
@@ -8470,8 +8449,8 @@ class ARXMLParser(AbstractARXMLParser):
     def getLabeledItem(self, element: ET.Element) -> LabeledItem:
         labeled_item = LabeledItem()
         self.readPaginateable(element, labeled_item)
-        if "HELPENTRY" in element.attrib:
-            labeled_item.setHelpEntry(String().setValue(element.attrib["HELPENTRY"]))
+        if "HELP-ENTRY" in element.attrib:
+            labeled_item.setHelpEntry(String().setValue(element.attrib["HELP-ENTRY"]))
         labeled_item.setItemContents(self.getDocumentationBlock(element, "ITEM-CONTENTS"))
         labeled_item.setItemLabel(self.getMultiLanguageOverviewParagraph(element, "ITEM-LABEL"))
         self.readVariationPointCapable(element, labeled_item)
@@ -8507,13 +8486,13 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         if child_element is not None:
             verbatim = MultiLanguageVerbatim()
-            self.readARObject(child_element, verbatim)
-            if "ALLOWBREAK" in child_element.attrib:
-                verbatim.setAllowBreak(NameToken().setValue(child_element.attrib["ALLOWBREAK"]))
+            self.readPaginateable(child_element, verbatim)
+            if "ALLOW-BREAK" in child_element.attrib:
+                verbatim.setAllowBreak(NameToken().setValue(child_element.attrib["ALLOW-BREAK"]))
             if "FLOAT" in child_element.attrib:
                 verbatim.setFloat(FloatEnum().setValue(child_element.attrib["FLOAT"]))
-            if "HELPENTRY" in child_element.attrib:
-                verbatim.setHelpEntry(String().setValue(child_element.attrib["HELPENTRY"]))
+            if "HELP-ENTRY" in child_element.attrib:
+                verbatim.setHelpEntry(String().setValue(child_element.attrib["HELP-ENTRY"]))
             if "PGWIDE" in child_element.attrib:
                 verbatim.setPgwide(PgwideEnum().setValue(child_element.attrib["PGWIDE"]))
             for l5 in self.findall(child_element, "L-5"):
@@ -8522,6 +8501,7 @@ class ARXMLParser(AbstractARXMLParser):
                 self.readWhitespaceControlled(l5, verbatim_l5)
                 self.readMixedContentForVerbatim(l5, verbatim_l5)
                 verbatim.addL5(verbatim_l5)
+            self.readVariationPointCapable(child_element, verbatim)
         return verbatim
 
     def getMsrQueryArg(self, element: ET.Element) -> MsrQueryArg:
@@ -8591,8 +8571,18 @@ class ARXMLParser(AbstractARXMLParser):
         block.setLabeledList(self.getLabeledList(element, "LABELED-LIST"))
         block.setMsrQueryP2(self.getMsrQueryP2(element, "MSR-QUERY-P-2"))
         block.setNote(self.getNote(element, "NOTE"))
-        block.setStructuredReq(self.getStructuredReq(element, "STRUCTURED-REQ", block))
-        block.setTrace(self.getTraceableText(element, "TRACE", block))
+        structured_req_element = self.find(element, "STRUCTURED-REQ")
+        if structured_req_element is not None:
+            short_name_element = self.find(structured_req_element, "SHORT-NAME")
+            short_name = short_name_element.text if short_name_element is not None else "STRUCTURED-REQ"
+            structured_req = block.createStructuredReq(cast(str, short_name))
+            self.readStructuredReq(structured_req_element, structured_req)
+        trace_element = self.find(element, "TRACE")
+        if trace_element is not None:
+            short_name_element = self.find(trace_element, "SHORT-NAME")
+            short_name = short_name_element.text if short_name_element is not None else "TRACE"
+            traceable_text = block.createTrace(cast(str, short_name))
+            self.readTraceableText(trace_element, traceable_text)
         block.setVerbatim(self.getMultiLanguageVerbatim(element, "VERBATIM"))
 
     def getDocumentationBlock(self, element: ET.Element, key: str) -> Optional[DocumentationBlock]:

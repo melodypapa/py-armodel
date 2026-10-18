@@ -187,6 +187,7 @@ class MultiLanguageVerbatim(Paginateable, VariationPointCapable):
 
     # MultiLanguageVerbatim method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.5, p.291
+    # Spec verified: R23-11 (2026-10-17, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getAllowBreak    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -199,28 +200,29 @@ class MultiLanguageVerbatim(Paginateable, VariationPointCapable):
     # [x] getL5s           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] getPgwide        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setPgwide        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # getVariationPoint / setVariationPoint provided by the VariationPointCapable base (mixin) — no spec row (stereotype-inherent)
 
     def __init__(self):
         super().__init__()
 
-        # This indicates if the verbatim text might be split on multiple pages. Default is "1".
+        # This indicates if the verbatim text might be split on multiple pages. Default is "1". Tags: xml.attribute=true
         self.allowBreak: Optional[NameToken] = None
 
-        # Indicate whether it is allowed to break the element. The following values are allowed:
+        # Indicate whether it is allowed to break the element. The following values are allowed: Tags: xml.attribute=true
         self.float: Optional[FloatEnum] = None
 
-        # This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator.
+        # This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator. Tags: xml.attribute=true
         self.helpEntry: Optional[String] = None
 
-        # This the text in one particular language.
+        # This the text in one particular language. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
         self.l5s: List[LVerbatim] = []
 
-        # Used to indicate wether the figure should take the complete page width (value = "pgwide") or not (value = "noPgwide").
+        # Used to indicate wether the figure should take the complete page width (value = "pgwide") or not (value = "noPgwide"). Tags: xml.attribute=true
         self.pgwide: Optional[PgwideEnum] = None
 
     def getAllowBreak(self) -> Optional[NameToken]:
         """
-        This indicates if the verbatim text might be split on multiple pages. Default is "1".
+        This indicates if the verbatim text might be split on multiple pages. Default is "1". Tags: xml.attribute=true
 
         Returns:
             Whether the verbatim text might be split on multiple pages
@@ -229,7 +231,7 @@ class MultiLanguageVerbatim(Paginateable, VariationPointCapable):
 
     def setAllowBreak(self, value: Optional[NameToken]) -> MultiLanguageVerbatim:
         """
-        This indicates if the verbatim text might be split on multiple pages. Default is "1". A None value is a no-op and does not overwrite an existing allowBreak.
+        This indicates if the verbatim text might be split on multiple pages. Default is "1". Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing allowBreak.
 
         Returns:
             self for method chaining
@@ -240,7 +242,7 @@ class MultiLanguageVerbatim(Paginateable, VariationPointCapable):
 
     def getFloat(self) -> Optional[FloatEnum]:
         """
-        Indicate whether it is allowed to break the element. The following values are allowed:
+        Indicate whether it is allowed to break the element. The following values are allowed: Tags: xml.attribute=true
 
         Returns:
             Whether it is allowed to break the element
@@ -249,7 +251,7 @@ class MultiLanguageVerbatim(Paginateable, VariationPointCapable):
 
     def setFloat(self, value: Optional[FloatEnum]) -> MultiLanguageVerbatim:
         """
-        Indicate whether it is allowed to break the element. The following values are allowed:. A None value is a no-op and does not overwrite an existing float.
+        Indicate whether it is allowed to break the element. The following values are allowed: Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing float.
 
         Returns:
             self for method chaining
@@ -260,7 +262,7 @@ class MultiLanguageVerbatim(Paginateable, VariationPointCapable):
 
     def getHelpEntry(self) -> Optional[String]:
         """
-        This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator.
+        This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator. Tags: xml.attribute=true
 
         Returns:
             The entry point in an online help system
@@ -269,7 +271,7 @@ class MultiLanguageVerbatim(Paginateable, VariationPointCapable):
 
     def setHelpEntry(self, value: Optional[String]) -> MultiLanguageVerbatim:
         """
-        This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator. A None value is a no-op and does not overwrite an existing helpEntry.
+        This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing helpEntry.
 
         Returns:
             self for method chaining
@@ -280,7 +282,7 @@ class MultiLanguageVerbatim(Paginateable, VariationPointCapable):
 
     def addL5(self, value: Optional[LVerbatim]) -> MultiLanguageVerbatim:
         """
-        This the text in one particular language. A None value is a no-op and is not appended.
+        This the text in one particular language. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false. A None value is a no-op and is not appended.
 
         Returns:
             self for method chaining
@@ -291,7 +293,7 @@ class MultiLanguageVerbatim(Paginateable, VariationPointCapable):
 
     def getL5s(self) -> List[LVerbatim]:
         """
-        This the text in one particular language.
+        This the text in one particular language. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
 
         Returns:
             The texts in particular languages
@@ -300,7 +302,7 @@ class MultiLanguageVerbatim(Paginateable, VariationPointCapable):
 
     def getPgwide(self) -> Optional[PgwideEnum]:
         """
-        Used to indicate wether the figure should take the complete page width (value = "pgwide") or not (value = "noPgwide").
+        Used to indicate wether the figure should take the complete page width (value = "pgwide") or not (value = "noPgwide"). Tags: xml.attribute=true
 
         Returns:
             Whether the figure should take the complete page width
@@ -309,7 +311,7 @@ class MultiLanguageVerbatim(Paginateable, VariationPointCapable):
 
     def setPgwide(self, value: Optional[PgwideEnum]) -> MultiLanguageVerbatim:
         """
-        Used to indicate wether the figure should take the complete page width (value = "pgwide") or not (value = "noPgwide"). A None value is a no-op and does not overwrite an existing pgwide.
+        Used to indicate wether the figure should take the complete page width (value = "pgwide") or not (value = "noPgwide"). Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing pgwide.
 
         Returns:
             self for method chaining

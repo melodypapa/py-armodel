@@ -1553,7 +1553,7 @@ from armodel.models.M2.MSR.Documentation.Chapters import (
     TopicOrMsrQuery,
 )
 from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryChapter, MsrQueryResultChapter, MsrQueryResultTopic1, MsrQueryTopic1
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
+from armodel.models.M2.MSR.Documentation.BlockElements import DocumentationBlock
 from armodel.models.M2.MSR.Documentation.BlockElements.ListElements import ARList, DefItem, DefList, IndentSample, Item, LabeledItem, LabeledList, ListEnum
 from armodel.models.M2.MSR.Documentation.BlockElements.Note import Note
 from armodel.models.M2.MSR.Documentation.BlockElements import Colspec, Entry, Row, Table, Tbody, Tgroup
@@ -2998,40 +2998,22 @@ class ARXMLWriter(AbstractARXMLWriter):
         if std is not None:
             child_element = ET.SubElement(element, key)
             self.writeSingleLanguageReferrable(child_element, std)
-            date_value = std.getDate()
-            if date_value is not None:
-                child_element.attrib["DATE"] = date_value.getValue()
-            position_value = std.getPosition()
-            if position_value is not None:
-                child_element.attrib["POSITION"] = position_value.getValue()
-            state_value = std.getState()
-            if state_value is not None:
-                child_element.attrib["STATE"] = state_value.getValue()
-            subtitle_value = std.getSubtitle()
-            if subtitle_value is not None:
-                child_element.attrib["SUBTITLE"] = subtitle_value.getValue()
+            self.setChildElementOptionalString(child_element, "SUBTITLE", std.getSubtitle())
+            self.setChildElementOptionalString(child_element, "STATE", std.getState())
+            self.setChildElementOptionalDateTime(child_element, "DATE", std.getDate())
             self.setUrl(child_element, "URL", std.getUrl())
+            self.setChildElementOptionalString(child_element, "POSITION", std.getPosition())
 
     def setXdoc(self, element: ET.Element, key: str, xdoc: Xdoc):
         if xdoc is not None:
             child_element = ET.SubElement(element, key)
             self.writeSingleLanguageReferrable(child_element, xdoc)
-            date_value = xdoc.getDate()
-            if date_value is not None:
-                child_element.attrib["DATE"] = date_value.getValue()
-            number_value = xdoc.getNumber()
-            if number_value is not None:
-                child_element.attrib["NUMBER"] = number_value.getValue()
-            position_value = xdoc.getPosition()
-            if position_value is not None:
-                child_element.attrib["POSITION"] = position_value.getValue()
-            publisher_value = xdoc.getPublisher()
-            if publisher_value is not None:
-                child_element.attrib["PUBLISHER"] = publisher_value.getValue()
-            state_value = xdoc.getState()
-            if state_value is not None:
-                child_element.attrib["STATE"] = state_value.getValue()
+            self.setChildElementOptionalString(child_element, "NUMBER", xdoc.getNumber())
+            self.setChildElementOptionalString(child_element, "STATE", xdoc.getState())
+            self.setChildElementOptionalDateTime(child_element, "DATE", xdoc.getDate())
+            self.setChildElementOptionalString(child_element, "PUBLISHER", xdoc.getPublisher())
             self.setUrl(child_element, "URL", xdoc.getUrl())
+            self.setChildElementOptionalString(child_element, "POSITION", xdoc.getPosition())
 
     def setXfile(self, element: ET.Element, key: str, xfile: Xfile):
         if xfile is not None:
@@ -4458,8 +4440,10 @@ class ARXMLWriter(AbstractARXMLWriter):
                     itemContents_value = item.getItemContents()
                     if itemContents_value is not None:
                         self.writeDocumentationBlockContent(item_element, itemContents_value)
+                    self.writeVariationPointCapable(item_element, item)
                 else:
                     self.writeDocumentationBlock(child_element, "ITEM", item)
+            self.writeVariationPointCapable(child_element, list)
 
     def setGraphic(self, element: ET.Element, key: str, graphic: Graphic):
         if graphic is not None:
@@ -4887,7 +4871,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeReferrable(child_element, def_item)
         helpEntry_value = def_item.getHelpEntry()
         if helpEntry_value is not None:
-            child_element.attrib["HELPENTRY"] = helpEntry_value.getValue()
+            child_element.attrib["HELP-ENTRY"] = helpEntry_value.getValue()
         self.writeDocumentationBlock(child_element, "DEF", def_item.getDef())
         self.writeVariationPointCapable(child_element, def_item)
 
@@ -4919,7 +4903,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeARObject(child_element, indent_sample)
             itemLabelPos_value = indent_sample.getItemLabelPos()
             if itemLabelPos_value is not None:
-                child_element.attrib["ITEMLABELPOS"] = itemLabelPos_value.getValue()
+                child_element.attrib["ITEM-LABEL-POS"] = itemLabelPos_value.getValue()
             for l2 in indent_sample.getL2s():
                 self.setLOverviewParagraph(child_element, l2)
 
@@ -4928,7 +4912,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writePaginateable(child_element, labeled_item)
         helpEntry_value = labeled_item.getHelpEntry()
         if helpEntry_value is not None:
-            child_element.attrib["HELPENTRY"] = helpEntry_value.getValue()
+            child_element.attrib["HELP-ENTRY"] = helpEntry_value.getValue()
         self.setMultiLanguageOverviewParagraph(child_element, "ITEM-LABEL", labeled_item.getItemLabel())
         self.writeDocumentationBlock(child_element, "ITEM-CONTENTS", labeled_item.getItemContents())
         self.writeVariationPointCapable(child_element, labeled_item)
@@ -5016,21 +5000,22 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setMultiLanguageVerbatim(self, element: ET.Element, key: str, verbatim: Optional[MultiLanguageVerbatim]):
         if verbatim is not None:
             child_element = ET.SubElement(element, key)
-            self.writeARObject(child_element, verbatim)
+            self.writePaginateable(child_element, verbatim)
             allowBreak_value = verbatim.getAllowBreak()
             if allowBreak_value is not None:
-                child_element.attrib["ALLOWBREAK"] = allowBreak_value.getValue()
+                child_element.attrib["ALLOW-BREAK"] = allowBreak_value.getValue()
             float_value = verbatim.getFloat()
             if float_value is not None:
                 child_element.attrib["FLOAT"] = float_value.getValue()
             helpEntry_value = verbatim.getHelpEntry()
             if helpEntry_value is not None:
-                child_element.attrib["HELPENTRY"] = helpEntry_value.getValue()
+                child_element.attrib["HELP-ENTRY"] = helpEntry_value.getValue()
             pgwide_value = verbatim.getPgwide()
             if pgwide_value is not None:
                 child_element.attrib["PGWIDE"] = pgwide_value.getValue()
             for l5 in verbatim.getL5s():
                 self.setLVerbatim(child_element, l5)
+            self.writeVariationPointCapable(child_element, verbatim)
 
     def setLVerbatim(self, element: ET.Element, text: LVerbatim):
         child_element = self.setLanguageSpecific(element, "L-5", text)

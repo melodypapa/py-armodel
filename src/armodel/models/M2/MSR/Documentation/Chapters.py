@@ -21,7 +21,7 @@ from armodel.models.M2.MSR.Documentation.BlockElements.RequirementsTracing impor
 if TYPE_CHECKING:
     from armodel.models.M2.MSR.Documentation.BlockElements.GerneralParameters import Prms
     from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryChapter, MsrQueryP1, MsrQueryTopic1
-    from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
+    from armodel.models.M2.MSR.Documentation.BlockElements import DocumentationBlock
 
 
 class Chapter(Identifiable, VariationPointCapable):

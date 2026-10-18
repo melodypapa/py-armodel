@@ -1,7 +1,6 @@
 import xml.etree.ElementTree as ET
 
-from armodel.models.M2.MSR.Documentation.BlockElements import Entry
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
+from armodel.models.M2.MSR.Documentation.BlockElements import DocumentationBlock, Entry
 from armodel.parser.arxml_parser import ARXMLParser
 
 NS = "http://autosar.org/schema/r4.0"

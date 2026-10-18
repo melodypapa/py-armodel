@@ -4,6 +4,7 @@ in the AUTOSAR GenericStructure module.
 """
 
 import inspect
+import re
 import typing
 
 import pytest
@@ -538,6 +539,52 @@ class TestCseCodeType:
 
         cse_zero = CseCodeType().setValue("0")
         assert cse_zero.getValue() == "0"
+
+    @pytest.mark.parametrize("value", ["0", "1", "100", "4294967294", "4294967295"])
+    def test_unsigned_int_value_round_trip(self, value):
+        """
+        Test values across the ASAM CSE code space round-trip and chain.
+
+        Table 4.75 carries no ``xml.xsd.pattern`` tag and ``CSE-CODE-TYPE-STRING--SIMPLE``
+        is ``<xsd:restriction base="xsd:unsignedInt"/>`` — an unsignedInt restriction with
+        **no** ``xsd:pattern`` facet, unlike ``MCD-IDENTIFIER--SIMPLE`` /
+        ``IP6-ADDRESS-STRING--SIMPLE`` / ``REVISION-LABEL-STRING--SIMPLE``. Rule 0028
+        therefore does not fire (``PATTERN`` stays absent) and no ``re.fullmatch`` against a
+        spec pattern is possible. What *is* constraining is the unsignedInt lexical space,
+        ``[0-9]+`` — digits only, non-negative — so each value is machine-validated against
+        ``^[0-9]+$``. The spec Note states no value constraints, so the values are drawn from
+        the real XSD consumer (``MultidimensionalTime.cseCode``) plus the unsignedInt
+        boundary, not invented.
+        """
+        assert re.fullmatch(r"[0-9]+", value)
+        obj = CseCodeType()
+        assert obj.setValue(value) is obj
+        assert obj.getValue() == value
+
+    def test_set_value_none_is_noop(self):
+        """
+        Test that setValue(None) does not overwrite an existing value.
+
+        ``ARLiteral.setValue`` guards ``None`` (PrimitiveTypes.py) — the Rule 0006 None no-op
+        contract, asserted by every stamped sibling in this family
+        (``TestDateTime``, ``TestMcdIdentifier``, ``TestRegularExpression``,
+        ``TestRevisionLabelString``, ``TestUriString``).
+        """
+        obj = CseCodeType().setValue("100")
+        assert obj.setValue(None) is obj
+        assert obj.getValue() == "100"
+
+    def test_non_unsigned_int_values_rejected_by_lexical_space(self):
+        """
+        Test that values outside the unsignedInt lexical space fail the schema check.
+
+        ``ARLiteral`` is deliberately permissive (the model never enforces the spec's
+        constraint), so these assertions document the XSD's ``xsd:unsignedInt`` restriction
+        rather than a model behaviour: the model accepts them, the schema would not. Same
+        shape as the sibling rows' "the spec, not the parser, is the contract" notes.
+        """
+        for bad in ["-1", "1.5", "100 ", "", "0x64"]:
+            assert re.fullmatch(r"[0-9]+", bad) is None
 
 
 class TestCryptoServiceKeyGenerationEnum:
@@ -1561,7 +1608,7 @@ class TestVerbatimString:
 
 class TestVerbatimStringPlain:
     """
-    Test class for VerbatimStringPlain functionality.
+    Test class for VerbatimStringPlain functionality (Table 4.68).
     """
 
     def test_initialization(self):
@@ -1569,10 +1616,46 @@ class TestVerbatimStringPlain:
         assert verbatim is not None
         assert verbatim._value is None
 
+    def test_subclass_of_arliteral(self):
+        verbatim = VerbatimStringPlain()
+        assert isinstance(verbatim, ARLiteral)
+
     def test_set_get_value(self):
         verbatim = VerbatimStringPlain()
         assert verbatim.setValue("plain text") is verbatim
         assert verbatim.getValue() == "plain text"
+
+    @pytest.mark.parametrize(
+        "value",
+        [
+            "special   data",
+            "  padded value  ",
+            "line one\nline two",
+            "tab\tseparated",
+            "",
+            "no-whitespace",
+        ],
+    )
+    def test_value_round_trip(self, value):
+        """
+        Table 4.68 carries no `xml.xsd.pattern` tag and `VERBATIM-STRING-PLAIN--SIMPLE`
+        (AUTOSAR_00052.xsd l.145320) restricts `xsd:string` with a `whiteSpace=preserve`
+        facet and **no** `xsd:pattern`, so no `re.fullmatch` gate is possible here (unlike
+        McdIdentifier / Ip6AddressString / RevisionLabelString). The values are therefore
+        drawn from what the facet actually constrains: the type exists so that *white space
+        is preserved*, so internal runs, leading/trailing padding, embedded newlines and
+        tabs are the meaningful cases, plus the empty string (legal for `xsd:string`) and a
+        no-whitespace control.
+        """
+        verbatim = VerbatimStringPlain()
+        assert verbatim.setValue(value) is verbatim
+        assert verbatim.getValue() == value
+
+    def test_set_value_none_is_noop(self):
+        """`setValue(None)` must not clear an existing value (Rule 0006 None no-op)."""
+        verbatim = VerbatimStringPlain().setValue("special   data")
+        verbatim.setValue(None)
+        assert verbatim.getValue() == "special   data"
 
 
 class TestNumericalConversion:
@@ -2159,6 +2242,49 @@ class TestRevisionLabelString:
         obj = RevisionLabelString().setValue("4.0.0")
         obj.setValue(None)
         assert obj.getValue() == "4.0.0"
+
+
+class TestUriString:
+    """
+    Test class for UriString functionality (Table 4.66).
+    """
+
+    def test_initialization(self):
+        obj = UriString()
+        assert obj is not None
+        assert obj._value is None
+
+    def test_set_value(self):
+        obj = UriString().setValue("https://example.com/resource")
+        assert obj.getValue() == "https://example.com/resource"
+
+    @pytest.mark.parametrize(
+        "value",
+        [
+            "ldap://example.com/Role",
+            "http://example.com/Service",
+            "https://example.com/resource",
+            "file:///home/build/output.bin",
+        ],
+    )
+    def test_value_round_trip(self, value):
+        """
+        Table 4.66 carries no `xml.xsd.pattern` tag and `URI-STRING--SIMPLE`
+        (AUTOSAR_00052.xsd l.145153) is a bare `xsd:string` restriction, so no `re.fullmatch`
+        gate is possible here (unlike McdIdentifier / Ip6AddressString /
+        RevisionLabelString). The values are drawn from the real spec usages the ten XSD
+        consumer sites already carry: the LDAP-URL of ACL-ROLE (XSD l.1288), the URI of
+        HTTP-TP (XSD l.65548), the URL of the documentation classes (Url.value), and the
+        file:// form the PATH element (XSD l.48056) implies.
+        """
+        obj = UriString()
+        assert obj.setValue(value) is obj
+        assert obj.getValue() == value
+
+    def test_set_value_none_is_noop(self):
+        obj = UriString().setValue("https://example.com/resource")
+        obj.setValue(None)
+        assert obj.getValue() == "https://example.com/resource"
 
 
 class TestDiagnosticOccurrenceCounterProcessingEnum:

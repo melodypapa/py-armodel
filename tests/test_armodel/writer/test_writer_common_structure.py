@@ -40,7 +40,10 @@ from armodel.models.M2.MSR.AsamHdo.AdminData import (
 )
 from armodel.models.M2.MSR.AsamHdo.SpecialData import Sd, Sdg, SdgCaption, SdgContents
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
-from armodel.models.M2.MSR.Documentation.BlockElements import Caption
+from armodel.models.M2.MSR.Documentation.BlockElements import (
+    Caption,
+    DocumentationBlock,
+)
 from armodel.models.M2.MSR.Documentation.BlockElements.Figure import (
     Graphic,
     GraphicFitEnum,
@@ -53,9 +56,6 @@ from armodel.models.M2.MSR.Documentation.BlockElements.ListElements import (  # 
     ARList,
 )
 from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import ChapterEnumBreak, KeepWithPreviousEnum
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import (
-    DocumentationBlock,
-)
 from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import (
     LLongName,
     LOverviewParagraph,

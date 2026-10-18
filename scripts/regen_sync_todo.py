@@ -46,6 +46,7 @@ ROW_RE = re.compile(r"^\s*- \[([ x])\] `([A-Za-z0-9_]+)`")
 STEP_RE = re.compile(r"^\s*- \[([ x])\] \*{0,2}Step (\d+)")
 CLASS_RE = re.compile(r"^class ([A-Za-z0-9_]+)")
 STAMP_LINE_RE = re.compile(r"^\s*# (?:Spec|XSD) verified: \S+")
+SRC_ALIAS_RE = re.compile(r"·\s*src:\s*([A-Za-z0-9_]+)")
 
 INDEX_INTRO = (
     "# All Sync Todo Classes by Group",
@@ -206,6 +207,8 @@ def resolve_row(g, name, checked, header_line, block, stamped, stubs, defined, c
     steps_complete = all(steps.get(n, False) for n in range(1, 9))
     row_text = header_line + "\n" + block
     retired = "RETIRED" in header_line
+    alias = SRC_ALIAS_RE.search(block)
+    src_name = alias.group(1) if alias else name
 
     cv_lst = cur_index.get((g, name))
     cv = cv_lst.pop(0) if cv_lst else None
@@ -239,12 +242,12 @@ def resolve_row(g, name, checked, header_line, block, stamped, stubs, defined, c
             commit = rv
 
     if checked == "x":
-        status = "Retired" if retired else ("Done" if name in stamped else "Done*")
+        status = "Retired" if retired else ("Done" if src_name in stamped else "Done*")
     elif steps_complete:
-        status = "Done" if name in stamped else "Pending*"
-    elif name in stubs:
+        status = "Done" if src_name in stamped else "Pending*"
+    elif src_name in stubs:
         status = "Created"
-    elif name in defined:
+    elif src_name in defined:
         status = "Implemented"
     else:
         status = "Pending"

@@ -12,7 +12,7 @@ import pytest
 
 from armodel.models import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SignalPaths import SignalPathConstraint
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
+from armodel.models.M2.MSR.Documentation.BlockElements import DocumentationBlock
 from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LParagraph
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageParagraph
 from armodel.parser.arxml_parser import ARXMLParser

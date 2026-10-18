@@ -6,18 +6,28 @@ from armodel.parser.arxml_parser import ARXMLParser
 
 
 class TestStdParser:
-    def test_read_std_parses_all_attributes(self):
+    def test_read_std_parses_all_child_elements(self):
         parent = ET.fromstring(
-            '<PARENT xmlns="http://autosar.org/schema/r4.0"><STD DATE="2026-09-12" POSITION="section 1" STATE="final" SUBTITLE="standard"><URL>https://example.com/std</URL></STD></PARENT>'
+            '<PARENT xmlns="http://autosar.org/schema/r4.0"><STD><SUBTITLE>standard</SUBTITLE><STATE>final</STATE><DATE>2026-09-12</DATE><URL>https://example.com/std</URL><POSITION>section 1</POSITION></STD></PARENT>'
         )
 
         std = ARXMLParser().getStd(parent, "STD")
 
-        assert std.getDate().getValue() == "2026-09-12"
-        assert std.getPosition().getValue() == "section 1"
-        assert std.getState().getValue() == "final"
         assert std.getSubtitle().getValue() == "standard"
+        assert std.getState().getValue() == "final"
+        assert std.getDate().getValue() == "2026-09-12"
         assert std.getUrl().getValue().getText() == "https://example.com/std"
+        assert std.getPosition().getValue() == "section 1"
+
+    def test_read_std_ignores_attribute_form(self):
+        parent = ET.fromstring('<PARENT xmlns="http://autosar.org/schema/r4.0"><STD DATE="2026-09-12" POSITION="section 1" STATE="final" SUBTITLE="standard"/></PARENT>')
+
+        std = ARXMLParser().getStd(parent, "STD")
+
+        assert std.getDate() is None
+        assert std.getPosition() is None
+        assert std.getState() is None
+        assert std.getSubtitle() is None
 
     def test_read_std_without_element_returns_none(self):
         parent = ET.fromstring('<PARENT xmlns="http://autosar.org/schema/r4.0"/>')

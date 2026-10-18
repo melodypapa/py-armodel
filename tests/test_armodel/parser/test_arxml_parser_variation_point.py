@@ -17,7 +17,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import 
 )
 from armodel.models.M2.MSR.AsamHdo.SpecialData import Sdg
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
+from armodel.models.M2.MSR.Documentation.BlockElements import DocumentationBlock
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter

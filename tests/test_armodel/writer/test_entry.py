@@ -1,9 +1,8 @@
 import xml.etree.ElementTree as ET
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import String
-from armodel.models.M2.MSR.Documentation.BlockElements import Entry
+from armodel.models.M2.MSR.Documentation.BlockElements import DocumentationBlock, Entry
 from armodel.models.M2.MSR.Documentation.BlockElements.OasisExchangeTable import AlignEnum, TableSeparatorString, ValignEnum
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 

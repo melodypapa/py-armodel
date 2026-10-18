@@ -208,3 +208,46 @@ def test_main_reports_cross_group_duplicate_before_writing_reports(tmp_path, mon
     assert "SharedClass" in capsys.readouterr().err
     assert index.read_text() == "existing index\n"
     assert report.read_text() == "existing report\n"
+
+
+def test_resolve_row_maps_renamed_spec_class_through_src_alias_annotation():
+    """A row whose spec class name differs from its src class name must still resolve as Done.
+
+    `List` (Table 9.8) is realized in src as `ARList` (the spec name shadows the Python builtin), so the
+    `# Spec verified:` stamp binds to `class ARList`. The row's `· src: ARList` alias annotation is what
+    maps the stamp back onto the spec-named row.
+    """
+    row = MODULE.resolve_row(
+        "Group21",
+        "List",
+        "x",
+        "- [x] `List` — Paginateable — R23-11 FO_TPS_GenericStructureTemplate Table 9.8, p.295",
+        "  - module: M2/MSR/Documentation/BlockElements/ListElements.py (· src: ARList)",
+        {"ARList"},
+        set(),
+        set(),
+        {},
+        {},
+        {"List": {"Group21"}},
+    )
+
+    assert row["status"] == "Done"
+
+
+def test_resolve_row_without_src_alias_annotation_stays_deferred():
+    """The alias must be the only thing that resolves a renamed row — no annotation, no Done."""
+    row = MODULE.resolve_row(
+        "Group21",
+        "List",
+        "x",
+        "- [x] `List` — Paginateable — R23-11 FO_TPS_GenericStructureTemplate Table 9.8, p.295",
+        "  - module: M2/MSR/Documentation/BlockElements/ListElements.py",
+        {"ARList"},
+        set(),
+        set(),
+        {},
+        {},
+        {"List": {"Group21"}},
+    )
+
+    assert row["status"] == "Done*"

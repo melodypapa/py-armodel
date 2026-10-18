@@ -339,7 +339,7 @@ class TestWriterSetEcucNumericalParamValue:
 
 class TestWriterSetEcucAddInfoParamValue:
     def test_writes_documentation_block_value(self, writer):
-        from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
+        from armodel.models.M2.MSR.Documentation.BlockElements import DocumentationBlock
         from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LLongName
         from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageParagraph
 
@@ -393,7 +393,7 @@ class TestWriterEcucContainerValueParameterValues:
         assert "ECUC-NUMERICAL-PARAM-VALUE" in tags
 
     def test_dispatches_add_info_param_value(self, writer):
-        from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
+        from armodel.models.M2.MSR.Documentation.BlockElements import DocumentationBlock
 
         container = _make_container()
         add_info = EcucAddInfoParamValue()

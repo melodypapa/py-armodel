@@ -98,7 +98,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.ViewMapSet import ViewM
 from armodel.models.M2.MSR.AsamHdo.AdminData import AdminData
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
+from armodel.models.M2.MSR.Documentation.BlockElements import DocumentationBlock
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName, MultiLanguageOverviewParagraph
 from armodel.models.M2.MSR.Documentation.TextModel.SingleLanguageData import SingleLanguageLongName
 
