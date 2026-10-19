@@ -161,6 +161,7 @@ class IndentSample(ARObject):
 
     # IndentSample method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.13, p.297
+    # Spec verified: R23-11 (2026-10-19, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getItemLabelPos  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -171,27 +172,21 @@ class IndentSample(ARObject):
     def __init__(self):
         super().__init__()
 
-        # The position of the label in case the label is too long. The default is "NO-NEWLINE"
+        # The position of the label in case the label is too long. The default is "NO-NEWLINE" Tags: xml.attribute=true
         self.itemLabelPos: Optional[ItemLabelPosEnum] = None
 
-        # This represents the indent sample in one particular language.
+        # This represents the indent sample in one particular language. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
         self.l2s: List[LOverviewParagraph] = []
 
     def getItemLabelPos(self) -> Optional[ItemLabelPosEnum]:
         """
-        The position of the label in case the label is too long. The default is "NO-NEWLINE"
-
-        Returns:
-            The position of the label
+        The position of the label in case the label is too long. The default is "NO-NEWLINE" Tags: xml.attribute=true
         """
         return self.itemLabelPos
 
     def setItemLabelPos(self, value: Optional[ItemLabelPosEnum]) -> IndentSample:
         """
-        The position of the label in case the label is too long. The default is "NO-NEWLINE". A None value is a no-op and does not overwrite an existing itemLabelPos.
-
-        Returns:
-            self for method chaining
+        The position of the label in case the label is too long. The default is "NO-NEWLINE" Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing itemLabelPos.
         """
         if value is not None:
             self.itemLabelPos = value
@@ -199,10 +194,7 @@ class IndentSample(ARObject):
 
     def addL2(self, value: Optional[LOverviewParagraph]) -> IndentSample:
         """
-        This represents the indent sample in one particular language. A None value is a no-op and is not appended.
-
-        Returns:
-            self for method chaining
+        This represents the indent sample in one particular language. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false. A None value is a no-op and is not appended.
         """
         if value is not None:
             self.l2s.append(value)
@@ -210,10 +202,7 @@ class IndentSample(ARObject):
 
     def getL2s(self) -> List[LOverviewParagraph]:
         """
-        This represents the indent sample in one particular language.
-
-        Returns:
-            The indent samples in particular languages
+        This represents the indent sample in one particular language. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
         """
         return self.l2s
 

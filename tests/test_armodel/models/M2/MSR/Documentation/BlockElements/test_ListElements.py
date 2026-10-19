@@ -242,7 +242,32 @@ class TestItemLabelPosEnum:
 
 
 class TestIndentSample:
-    """Test class for IndentSample class."""
+    """Test class for IndentSample class (Table 9.13, AUTOSAR_FO_TPS_GenericStructureTemplate)."""
+
+    ITEM_LABEL_POS_NOTE = 'The position of the label in case the label is too long. The default is "NO-NEWLINE" Tags: xml.attribute=true'
+    L2_NOTE = (
+        "This represents the indent sample in one particular language. "
+        "Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 "
+        "xml.typeElement=false xml.typeWrapperElement=false"
+    )
+
+    def test_indent_sample_inheritance(self):
+        """IndentSample shall derive from ARObject (Table 9.13 Base row)."""
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+
+        indent_sample = IndentSample()
+        assert isinstance(indent_sample, ARObject)
+
+    def test_indent_sample_has_spec_note(self):
+        """The class docstring carries the Table 9.13 Note verbatim."""
+        assert (
+            cleandoc(IndentSample.__doc__)
+            == "This represents the ability to specify indentation of a labeled list by providing a sample content. This content can be measured by the rendering system in order to determine the width of indentation."
+        )
+
+    def test_indent_sample_init_has_no_docstring(self):
+        """__init__ has no docstring (spec Notes live in inline member comments)."""
+        assert IndentSample.__init__.__doc__ is None
 
     def test_indent_sample_initialization(self):
         """Test that an IndentSample object can be initialized with default values."""
@@ -251,19 +276,19 @@ class TestIndentSample:
         assert indent_sample.l2s == []
 
     def test_indent_sample_item_label_pos_methods(self):
-        """Test the itemLabelPos getter and setter."""
+        """Test the itemLabelPos getter and setter (None is a no-op)."""
         indent_sample = IndentSample()
         pos = ItemLabelPosEnum()
 
         result = indent_sample.setItemLabelPos(pos)
-        assert indent_sample.getItemLabelPos() == pos
-        assert result == indent_sample
+        assert indent_sample.getItemLabelPos() is pos
+        assert result is indent_sample
 
         indent_sample.setItemLabelPos(None)
-        assert indent_sample.getItemLabelPos() == pos
+        assert indent_sample.getItemLabelPos() is pos
 
     def test_indent_sample_l2s_methods(self):
-        """Test adding L2 entries."""
+        """Test adding L2 entries (None is a no-op)."""
         from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LOverviewParagraph
 
         indent_sample = IndentSample()
@@ -271,10 +296,62 @@ class TestIndentSample:
 
         result = indent_sample.addL2(l2)
         assert l2 in indent_sample.getL2s()
-        assert result == indent_sample
+        assert result is indent_sample
 
         indent_sample.addL2(None)
         assert indent_sample.getL2s() == [l2]
+
+    def test_item_label_pos_annotation_is_optional_item_label_pos_enum(self):
+        """getItemLabelPos return and setItemLabelPos value shall be Optional[ItemLabelPosEnum] (Rule 0003, Table 9.13 Mult 0..1)."""
+        import typing
+
+        getter_hints = typing.get_type_hints(IndentSample.getItemLabelPos)
+        setter_hints = typing.get_type_hints(IndentSample.setItemLabelPos)
+        assert getter_hints["return"] == typing.Optional[ItemLabelPosEnum]
+        assert setter_hints["value"] == typing.Optional[ItemLabelPosEnum]
+
+    def test_l2s_annotation_is_typed_list(self):
+        """getL2s return and addL2 value shall be List[LOverviewParagraph] / Optional[LOverviewParagraph] (Rule 0003, Table 9.13 Mult 1..*)."""
+        import typing
+
+        from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LOverviewParagraph
+
+        getter_hints = typing.get_type_hints(IndentSample.getL2s)
+        adder_hints = typing.get_type_hints(IndentSample.addL2)
+        assert getter_hints["return"] == typing.List[LOverviewParagraph]
+        assert adder_hints["value"] == typing.Optional[LOverviewParagraph]
+
+    def test_indent_sample_member_order(self):
+        """Field-to-spec cross-check: IndentSample adds exactly the 2 Table 9.13 attribute rows over its base, in displayed order (itemLabelPos, l2s)."""
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+
+        class _ConcreteARObject(ARObject):
+            pass
+
+        base_fields = set(vars(_ConcreteARObject()).keys())
+        own_fields = [key for key in vars(IndentSample()).keys() if key not in base_fields]
+        assert own_fields == ["itemLabelPos", "l2s"]
+
+    def test_indent_sample_accessor_order(self):
+        """Accessor pairs in spec row order with the Rule 0001.11 pair shapes: the scalar `itemLabelPos` pair is getter-first, the aggregated `l2` pair is mutator-first (addL2/getL2s)."""
+        methods = [name for name in vars(IndentSample) if not name.startswith("_")]
+        assert methods == ["getItemLabelPos", "setItemLabelPos", "addL2", "getL2s"]
+
+    def test_item_label_pos_member_notes_verbatim(self):
+        """The itemLabelPos Note is verbatim (incl. the Tags: tail, Rule 0012.2.5.3) on the __init__ comment and both accessors."""
+        source = inspect.getsource(IndentSample.__init__)
+        assert self.ITEM_LABEL_POS_NOTE in source
+
+        assert IndentSample.getItemLabelPos.__doc__.strip() == self.ITEM_LABEL_POS_NOTE
+        assert IndentSample.setItemLabelPos.__doc__.strip() == self.ITEM_LABEL_POS_NOTE + ". A None value is a no-op and does not overwrite an existing itemLabelPos."
+
+    def test_l2_member_notes_verbatim(self):
+        """The l2 Note is verbatim (incl. the Tags: tail, Rule 0012.2.5.3) on the __init__ comment and both accessors."""
+        source = inspect.getsource(IndentSample.__init__)
+        assert self.L2_NOTE in source
+
+        assert IndentSample.getL2s.__doc__.strip() == self.L2_NOTE
+        assert IndentSample.addL2.__doc__.strip() == self.L2_NOTE + ". A None value is a no-op and is not appended."
 
 
 class TestLabeledItem:
