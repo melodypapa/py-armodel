@@ -921,7 +921,7 @@ Status: **56/59** completed
 | `List`                               | [x] Done     | dbf3446b07 |
 | `LabeledList`                        | [x] Done     | 0a6cf6b09d |
 | `LabeledItem`                        | [x] Done     | N/A        |
-| `IndentSample`                       | [x] Done*    | 9d21690d7f |
+| `IndentSample`                       | [x] Done     | 9d21690d7f |
 | `ItemLabelPosEnum`                   | [x] Done*    | e6664dcdeb |
 | `DefList`                            | [x] Done*    | 7e9c531c77 |
 | `DefItem`                            | [x] Done*    | f5fb319a69 |

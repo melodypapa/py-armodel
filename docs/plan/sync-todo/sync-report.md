@@ -10,8 +10,8 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 850 | 44.4% |
-| [x] Deferred | 77 | 4.0% |
+| [x] Done | 851 | 44.5% |
+| [x] Deferred | 76 | 4.0% |
 | [x] Retired | 0 | 0.0% |
 | [ ] Deferred | 976 | 51.0% |
 | [ ] Implemented | 10 | 0.5% |
@@ -1109,7 +1109,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `ImplementationProps`                                   | [x] Done    | 3166f6e5d0                               | Group10          |
 | `IncludedDataTypeSet`                                   | [ ] Deferred| 7ddafb5f11                               | Group29          |
 | `IncludedModeDeclarationGroupSet`                       | [x] Done    | b9ac782d1e                               | Group2           |
-| `IndentSample`                                          | [x] Deferred| 9d21690d7f                               | Group21          |
+| `IndentSample`                                          | [x] Done    | 9d21690d7f                               | Group21          |
 | `IndexEntry`                                            | [x] Deferred| 0687fa4e1f                               | Group21          |
 | `IndexedArrayElement`                                   | [x] Done    | 9eb93f743f                               | Group17          |
 | `IndicatorStatusNeeds`                                  | [x] Done    | 28746ce3cc                               | Group29          |
