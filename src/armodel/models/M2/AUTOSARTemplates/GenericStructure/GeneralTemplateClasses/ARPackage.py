@@ -662,12 +662,14 @@ class ARPackage(CollectableElement, VariationPointCapable):
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.1, p.54
     # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getARPackages     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] createARPackage   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getReferrableElement        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getReferenceBases [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] addReferenceBase  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getARPackages         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createARPackage       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getReferrableElement  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getElements           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addElement            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getReferenceBases     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addReferenceBase      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     #
     # Base chain (Rule 0001.2): parallel chains {AtpBlueprint, AtpBlueprintable,
     # CollectableElement} -> single role-matching branch CollectableElement;
@@ -677,10 +679,18 @@ class ARPackage(CollectableElement, VariationPointCapable):
     # adminData, category, introduction, desc, uuid, variationPoint) are inherited
     # from the CollectableElement -> Identifiable -> ... -> ARObject chain; they
     # belong to the Identifiable/Referrable checklists, not to ARPackage.
-    # ARPackage.__init__ adds only arPackages + referenceBases and calls super().__init__.
-    # Convenience factory accessors (createXxx/getXxxs) are pre-existing API for the
-    # element aggregation; each concrete element class carries its own spec table
-    # and checklist.
+    # ARPackage.__init__ adds only arPackages + elements + referenceBases and calls
+    # super().__init__.
+    # `element` (PackageableElement, *, aggr) is a dedicated typed list (Rule 0004):
+    # addElement() appends through the shared `referrableElements` infrastructure, and the
+    # addReferrableElement() override mirrors every aggregated element into self.elements,
+    # so both the public spec mutator and the legacy factory path keep getElements() complete;
+    # the writer emits ELEMENTS from getElements().
+    # Factory-hub exemption (Rule 0016.4 / accepted deviation): the 347 convenience
+    # createXxx/getXxxs accessors are pre-existing API for the element aggregation; each
+    # concrete element class carries its own spec table and checklist. They register their
+    # elements through addReferrableElement(), so they are covered by the element rows above,
+    # and are not enumerated in this checklist (audit_class.py ROWS is knowingly waived for ARPackage).
 
     def __init__(self, parent: ARObject, short_name: str):
         # Referrable/Identifiable members (parent, short_name, longName, annotations,
@@ -688,30 +698,25 @@ class ARPackage(CollectableElement, VariationPointCapable):
         # element-collection registry are inherited from CollectableElement -> Identifiable.
         super().__init__(parent, short_name)
 
-        # This represents a sub package within an ARPackage, thus allowing for an unlimited package hierarchy.
+        # This represents a sub package within an ARPackage, thus allowing for an unlimited package hierarchy. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=arPackage.shortName, arPackage.variation Point.shortLabel vh.latestBindingTime=blueprintDerivationTime xml.sequenceOffset=30
         self.arPackages: List[ARPackage] = []
-        # This denotes the reference bases for the package. This is the basis for all relative references within the package. The base needs to be selected according to the base attribute within the references.
+
+        # Elements that are part of this package Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=element.shortName, element.variation Point.shortLabel vh.latestBindingTime=systemDesignTime xml.sequenceOffset=20
+        self.elements: List[PackageableElement] = []
+
+        # This denotes the reference bases for the package. This is the basis for all relative references within the package. The base needs to be selected according to the base attribute within the references. Stereotypes: atpSplitable Tags: atp.Splitkey=referenceBase.shortLabel xml.sequenceOffset=10
         self.referenceBases: List[ReferenceBase] = []
 
     def getARPackages(self) -> List[ARPackage]:
         """
-        This represents a sub package within an ARPackage, thus allowing for an unlimited package hierarchy.
-
-        Returns:
-            List of ARPackage instances sorted by short name
+        This represents a sub package within an ARPackage, thus allowing for an unlimited package hierarchy. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=arPackage.shortName, arPackage.variation Point.shortLabel vh.latestBindingTime=blueprintDerivationTime xml.sequenceOffset=30
         """
         return list(sorted(self.arPackages, key=lambda a: a.shortName))
         # return list(filter(lambda e: isinstance(e, ARPackage), self.referrableElements))
 
     def createARPackage(self, short_name: str) -> ARPackage:
         """
-        This represents a sub package within an ARPackage, thus allowing for an unlimited package hierarchy. Creates a new sub-package with the given short name, or returns an existing package if one with the same name already exists.
-
-        Args:
-            short_name: The short name for the new sub-package
-
-        Returns:
-            The newly created or existing ARPackage instance
+        This represents a sub package within an ARPackage, thus allowing for an unlimited package hierarchy. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=arPackage.shortName, arPackage.variation Point.shortLabel vh.latestBindingTime=blueprintDerivationTime xml.sequenceOffset=30
         """
         for ar_package in self.arPackages:
             if ar_package.shortName == short_name:
@@ -736,6 +741,26 @@ class ARPackage(CollectableElement, VariationPointCapable):
                 if ar_package.shortName == short_name:
                     return ar_package
         return cast(Referrable, Identifiable.getReferrableElement(self, short_name, type))
+
+    def getElements(self) -> List[PackageableElement]:
+        """
+        Elements that are part of this package Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=element.shortName, element.variation Point.shortLabel vh.latestBindingTime=systemDesignTime xml.sequenceOffset=20
+        """
+        return self.elements
+
+    def addElement(self, value: Optional[PackageableElement]) -> ARPackage:
+        """
+        Elements that are part of this package Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=element.shortName, element.variation Point.shortLabel vh.latestBindingTime=systemDesignTime xml.sequenceOffset=20
+        A None value is a no-op and does not append an element.
+        """
+        if value is not None:
+            self.addReferrableElement(value)
+        return self
+
+    def addReferrableElement(self, element: Referrable) -> None:
+        if not isinstance(element, ARPackage) and element not in self.elements:
+            self.elements.append(cast(PackageableElement, element))
+        super().addReferrableElement(element)
 
     def createDiagnosticClearDiagnosticInformation(self, short_name: str) -> DiagnosticClearDiagnosticInformation:
         """
@@ -5354,13 +5379,14 @@ class ARPackage(CollectableElement, VariationPointCapable):
 
     def getReferenceBases(self) -> List[ReferenceBase]:
         """
-        This denotes the reference bases for the package. This is the basis for all relative references within the package. The base needs to be selected according to the base attribute within the references.
+        This denotes the reference bases for the package. This is the basis for all relative references within the package. The base needs to be selected according to the base attribute within the references. Stereotypes: atpSplitable Tags: atp.Splitkey=referenceBase.shortLabel xml.sequenceOffset=10
         """
         return self.referenceBases
 
     def addReferenceBase(self, value: Optional[ReferenceBase]) -> ARPackage:
         """
-        This denotes the reference bases for the package. This is the basis for all relative references within the package. The base needs to be selected according to the base attribute within the references. A None value is a no-op and does not append to referenceBases.
+        This denotes the reference bases for the package. This is the basis for all relative references within the package. The base needs to be selected according to the base attribute within the references. Stereotypes: atpSplitable Tags: atp.Splitkey=referenceBase.shortLabel xml.sequenceOffset=10
+        A None value is a no-op and does not append to referenceBases.
         """
         if value is not None:
             self.referenceBases.append(value)

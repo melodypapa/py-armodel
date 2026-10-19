@@ -8,7 +8,9 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    DiagnosticFimAliasEvent,
     ReferenceBase,
+    SwBaseType,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     ARLiteral,
@@ -397,6 +399,87 @@ class TestWriteARPackages:
         assert len(pkgs) == 2
         names = [p.find("SHORT-NAME").text for p in pkgs]
         assert names == ["Pkg1", "Pkg2"]
+
+
+class TestWriteARPackageElementAggregation:
+    """Test the ARPackage `element` aggregation (Table 4.1)."""
+
+    def test_elements_list_is_the_writer_source(self, writer):
+        """Test that the dedicated typed list backs the ELEMENTS block."""
+        pkg = _pkg()
+        elem = pkg.createSwBaseType("Base")
+
+        assert pkg.getElements() == [elem]
+
+        parent = ET.Element("AR-PACKAGE")
+        writer.writeARPackageElements(parent, pkg)
+        assert parent.find("ELEMENTS/SW-BASE-TYPE") is not None
+
+    def test_add_element_alone_is_written(self, writer):
+        """Test that an element added through addElement is serialized."""
+        pkg = _pkg()
+        elem = SwBaseType(pkg, "Base")
+
+        pkg.addElement(elem)
+        parent = ET.Element("AR-PACKAGE")
+        writer.writeARPackageElements(parent, pkg)
+
+        assert parent.find("ELEMENTS/SW-BASE-TYPE") is not None
+
+    def test_element_order_reference_bases_elements_packages(self, writer):
+        """Test the XSD sequence: REFERENCE-BASES (10), ELEMENTS (20), AR-PACKAGES (30)."""
+        pkg = _pkg()
+        pkg.createSwBaseType("Base")
+        pkg.createARPackage("Sub")
+        base = ReferenceBase()
+        base.setShortLabel(_literal("base1"))
+        pkg.addReferenceBase(base)
+
+        parent = ET.Element("AUTOSAR")
+        writer.writeARPackage(parent, pkg)
+
+        tags = [child.tag for child in parent.find("AR-PACKAGE")]
+        assert tags.index("REFERENCE-BASES") < tags.index("ELEMENTS") < tags.index("AR-PACKAGES")
+
+    def test_diagnostic_fim_alias_event_dispatch(self, writer):
+        """Test that a DiagnosticFimAliasEvent element has a writer helper."""
+        pkg = _pkg()
+        alias = pkg.createDiagnosticFimAliasEvent("Alias")
+
+        parent = _parent()
+        writer.writeARPackageElement(parent, alias)
+
+        assert len(parent) == 1
+        assert parent[0].tag == "DIAGNOSTIC-FIM-ALIAS-EVENT"
+        assert parent[0].find("SHORT-NAME").text == "Alias"
+
+    def test_round_trip_elements_and_alias_event(self, writer, tmp_path):
+        """Test that the element aggregation and the alias event survive save/load."""
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        pkg = _pkg()
+        pkg.createSwBaseType("Base")
+        pkg.createDiagnosticFimAliasEvent("Alias")
+
+        out_file = str(tmp_path / "arpackage.arxml")
+        writer.save(out_file, AUTOSAR.getInstance())
+
+        AUTOSAR.getInstance().new()
+        parser = ARXMLParser(options={"warning": True})
+        document = AUTOSAR.getInstance()
+        document.setARRelease("R23-11")
+        parser.load(out_file, document)
+
+        re_pkg = document.find("Pkg")
+        assert re_pkg is not None
+        elements = re_pkg.getElements()
+        assert len(elements) == 2
+        names = [e.getShortName() for e in elements]
+        assert "Base" in names
+        assert "Alias" in names
+        alias = next(e for e in elements if e.getShortName() == "Alias")
+        assert isinstance(alias, DiagnosticFimAliasEvent)
 
 
 class TestSave:

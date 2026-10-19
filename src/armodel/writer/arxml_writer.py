@@ -536,6 +536,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticMasterToSlaveEventMapping,
     DiagnosticEventToSecurityEventMapping,
     DiagnosticInhibitSourceEventMapping,
+    DiagnosticFimAliasEvent,
     DiagnosticFimAliasEventMapping,
     DiagnosticFimAliasEventGroup,
     DiagnosticFimAliasEventGroupMapping,
@@ -19012,6 +19013,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalRefType(child_element, "MAPPED-FUNCTION-REF", mapping.getMappedFunctionRef())
         self.setChildElementOptionalRefType(child_element, "MAPPED-SWC-SERVICE-DEPENDENCY-IREF", mapping.getMappedSwcServiceDependencyRef())
 
+    def writeDiagnosticFimAliasEvent(self, element: ET.Element, alias_event: DiagnosticFimAliasEvent):
+        self.logger.debug("Write DiagnosticFimAliasEvent %s" % alias_event.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-FIM-ALIAS-EVENT")
+        self.writeIdentifiable(child_element, alias_event)
+
     def writeDiagnosticFimAliasEventGroup(self, element: ET.Element, mapping: DiagnosticFimAliasEventGroup):
         self.logger.debug("Write DiagnosticFimAliasEventGroup %s" % mapping.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-FIM-ALIAS-EVENT-GROUP")
@@ -22105,6 +22111,9 @@ class ARXMLWriter(AbstractARXMLWriter):
         if isinstance(ar_element, DiagnosticInhibitSourceEventMapping):
             self.writeDiagnosticInhibitSourceEventMapping(element, ar_element)
             return True
+        if isinstance(ar_element, DiagnosticFimAliasEvent):
+            self.writeDiagnosticFimAliasEvent(element, ar_element)
+            return True
         if isinstance(ar_element, DiagnosticFimAliasEventMapping):
             self.writeDiagnosticFimAliasEventMapping(element, ar_element)
             return True
@@ -22876,12 +22885,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeARPackages(child_element, pkg.getARPackages())
 
     def writeARPackageElements(self, element: ET.Element, pkg: ARPackage):
-        if pkg.getTotalReferrableElement() > 0:
+        if len(pkg.getElements()) > 0:
             elements_tag = ET.SubElement(element, "ELEMENTS")
 
-            for ar_element in pkg.getReferrableElements():
-                if not isinstance(ar_element, ARPackage):
-                    self.writeARPackageElement(elements_tag, ar_element)
+            for ar_element in pkg.getElements():
+                self.writeARPackageElement(elements_tag, ar_element)
 
     def writeARPackages(self, element: ET.Element, pkgs: List[ARPackage]):
         if len(pkgs) > 0:

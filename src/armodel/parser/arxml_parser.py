@@ -767,6 +767,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticMasterToSlaveEventMapping,
     DiagnosticEventToSecurityEventMapping,
     DiagnosticInhibitSourceEventMapping,
+    DiagnosticFimAliasEvent,
     DiagnosticFimAliasEventMapping,
     DiagnosticFimAliasEventGroup,
     DiagnosticFimAliasEventGroupMapping,
@@ -13316,6 +13317,9 @@ class ARXMLParser(AbstractARXMLParser):
         mapping.setMappedFunctionRef(self.getChildElementOptionalRefType(element, "MAPPED-FUNCTION-REF"))
         mapping.setMappedSwcServiceDependencyRef(self.getChildElementOptionalRefType(element, "MAPPED-SWC-SERVICE-DEPENDENCY-IREF"))
 
+    def readDiagnosticFimAliasEvent(self, element: ET.Element, alias_event: DiagnosticFimAliasEvent):
+        self.readIdentifiable(element, alias_event)
+
     def readDiagnosticFimAliasEventGroup(self, element: ET.Element, mapping: DiagnosticFimAliasEventGroup):
         self.readIdentifiable(element, mapping)
         for ref in self.getChildElementRefTypeList(element, "GROUPED-ALIAS-EVENT-REFS/GROUPED-ALIAS-EVENT-REF"):
@@ -21846,6 +21850,9 @@ class ARXMLParser(AbstractARXMLParser):
             return True
         if tag_name == "DIAGNOSTIC-INHIBIT-SOURCE-EVENT-MAPPING":
             self.readDiagnosticInhibitSourceEventMapping(child_element, parent.createDiagnosticInhibitSourceEventMapping(self.getShortName(child_element)))
+            return True
+        if tag_name == "DIAGNOSTIC-FIM-ALIAS-EVENT":
+            self.readDiagnosticFimAliasEvent(child_element, parent.createDiagnosticFimAliasEvent(self.getShortName(child_element)))
             return True
         if tag_name == "DIAGNOSTIC-FIM-ALIAS-EVENT-MAPPING":
             self.readDiagnosticFimAliasEventMapping(child_element, parent.createDiagnosticFimAliasEventMapping(self.getShortName(child_element)))
