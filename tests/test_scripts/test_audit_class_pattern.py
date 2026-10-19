@@ -111,16 +111,7 @@ class TestCheckPattern:
         assert any("Rule 0028" in msg for lvl, _code, msg in report.rows if lvl == "WARN")
 
     def test_limit_is_exempt(self):
-        node = _class_node(
-            "class Limit(ARLiteral):\n"
-            '    """docstring\n'
-            "\n"
-            "    Tags: xml.xsd.pattern=INF|-INF|NaN\n"
-            '    """\n'
-            "\n"
-            "    def __init__(self):\n"
-            "        super().__init__()\n"
-        )
+        node = _class_node("class Limit(ARLiteral):\n" '    """docstring\n' "\n" "    Tags: xml.xsd.pattern=INF|-INF|NaN\n" '    """\n' "\n" "    def __init__(self):\n" "        super().__init__()\n")
         report = Report()
         check_pattern(report, node)
         assert not any("Rule 0028" in msg for lvl, _code, msg in report.rows if lvl == "WARN")
