@@ -1203,13 +1203,15 @@ removed upstream between 4.4.0 and R23-11, so it is treated like an
 | `reactionCode` | `Optional[PositiveInteger]` | `reactionCode` | `PositiveInteger` (XSD `REACTION-CODE`) | attr | no own spec table; attributes from XSD group `POSSIBLE-ERROR-REACTION` |
 
 ## `ARPackage`
-- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 300
+- **PDF:** `AUTOSAR_FO_TPS_GenericStructureTemplate.pdf`  | **page:** 54  | **table:** Table 4.1
 - **Package:** `M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ARPackage`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py`
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| `arPackages` | `—` | `arPackage` | `ArPackage` | — | type (spec many vs py single) |
+| — | — | — | — | — | No deviations — `arPackage` (`arPackages: List[ARPackage]`), `element` (`elements: List[PackageableElement]`), `referenceBase` (`referenceBases: List[ReferenceBase]`) all modeled as many-valued aggregations in the Table 4.1 displayed order. |
+
+**Note:** Drift re-sync 2026-10-19 (audit FAIL: ROWS / SPACING / MEMBER). `element` promoted from the shared `referrableElements` registry to a dedicated typed list (Rule 0004) with `getElements`/`addElement`; the `addReferrableElement` override mirrors the 347 legacy factory paths into that list; writer emits `ELEMENTS` from `getElements()`. Added the missing `readDiagnosticFimAliasEvent`/`writeDiagnosticFimAliasEvent` helpers and both dispatch tables (member element previously dropped). **Accepted deviation:** the 347 convenience `createXxx`/`getXxxs` accessors are not enumerated in the class checklist (factory-hub exemption; `audit_class.py ROWS` knowingly waived for ARPackage) — they are covered by the `element` aggregation rows.
 
 ## `AUTOSAR`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 301

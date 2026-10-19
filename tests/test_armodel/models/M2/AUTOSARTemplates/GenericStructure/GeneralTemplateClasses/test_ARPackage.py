@@ -443,6 +443,73 @@ class TestARPackage:
         result = package.getReferrableElement("SubPackage", type=str)  # Wrong type
         assert result is None
 
+    def test_get_elements_default(self):
+        """
+        Test that the element aggregation starts empty.
+        """
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+
+        package = ARPackage(ar_root, "TestPackage")
+
+        assert package.getElements() == []
+
+    def test_add_element(self):
+        """
+        Test addElement appends to the dedicated typed list and chains.
+        """
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+
+        package = ARPackage(ar_root, "TestPackage")
+        element = CalibrationParameterValueSet(package, "CalibrationSet")
+
+        result = package.addElement(element)
+
+        assert result is package
+        assert package.getElements() == [element]
+        assert package.getElements()[0].getShortName() == "CalibrationSet"
+
+    def test_add_element_none_is_noop(self):
+        """
+        Test that addElement ignores None.
+        """
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+
+        package = ARPackage(ar_root, "TestPackage")
+
+        assert package.addElement(None) is package
+        assert package.getElements() == []
+
+    def test_add_element_duplicate_is_not_appended_twice(self):
+        """
+        Test that addElement does not duplicate an already registered element.
+        """
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+
+        package = ARPackage(ar_root, "TestPackage")
+        element = CalibrationParameterValueSet(package, "CalibrationSet")
+
+        package.addElement(element)
+        package.addElement(element)
+
+        assert package.getElements() == [element]
+
+    def test_factory_creation_populates_elements(self):
+        """
+        Test that a createXxx factory populates the element aggregation.
+        """
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+
+        package = ARPackage(ar_root, "TestPackage")
+
+        swc = package.createApplicationSwComponentType("AppSwc")
+
+        assert swc in package.getElements()
+
     def test_create_application_sw_component_type(self):
         """
         Test createApplicationSwComponentType method.
