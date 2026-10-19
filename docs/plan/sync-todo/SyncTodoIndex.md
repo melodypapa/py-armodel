@@ -910,7 +910,7 @@ Status: **56/59** completed
 | `RegularExpression`                  | [x] Done     | 50da7d5e2a |
 | `RevisionLabelString`                | [x] Done     | 2b739f4066 |
 | `StrongRevisionLabelString`          | [x] Done     | 953a92b70d |
-| `SymbolString`                       | [x] Done     | N/A        |
+| `SymbolString`                       | [x] Done     | cd5f8c7ace |
 | `UriString`                          | [x] Done     | 932196e6c6 |
 | `VerbatimStringPlain`                | [x] Done     | afa307b282 |
 | `CseCodeType`                        | [x] Done     | 33e3524e31 |
@@ -919,24 +919,24 @@ Status: **56/59** completed
 | `DocumentationBlock`                 | [x] Done     | 7edaa72c74 |
 | `MultiLanguageVerbatim`              | [x] Done     | e3087c471e |
 | `List`                               | [x] Done     | dbf3446b07 |
-| `LabeledList`                        | [x] Done     | N/A        |
-| `LabeledItem`                        | [x] Done*    | N/A        |
-| `IndentSample`                       | [x] Done*    | N/A        |
-| `ItemLabelPosEnum`                   | [x] Done*    | N/A        |
-| `DefList`                            | [x] Done*    | N/A        |
-| `DefItem`                            | [x] Done*    | N/A        |
-| `MlFormula`                          | [x] Done*    | N/A        |
-| `Note`                               | [x] Done*    | N/A        |
-| `NoteTypeEnum`                       | [x] Done*    | N/A        |
-| `Traceable`                          | [x] Done*    | N/A        |
-| `EmphasisText`                       | [x] Done*    | N/A        |
+| `LabeledList`                        | [x] Done     | 0a6cf6b09d |
+| `LabeledItem`                        | [x] Done     | N/A        |
+| `IndentSample`                       | [x] Done*    | 9d21690d7f |
+| `ItemLabelPosEnum`                   | [x] Done*    | e6664dcdeb |
+| `DefList`                            | [x] Done*    | 7e9c531c77 |
+| `DefItem`                            | [x] Done*    | f5fb319a69 |
+| `MlFormula`                          | [x] Done*    | 03189efac9 |
+| `Note`                               | [x] Done*    | 389e49b848 |
+| `NoteTypeEnum`                       | [x] Done*    | 873fa6665f |
+| `Traceable`                          | [x] Done*    | 536f78ead2 |
+| `EmphasisText`                       | [x] Done*    | d9ae234f0a |
 | `ExtIdClassEnum`                     | [ ] Pending* | N/A        |
-| `IndexEntry`                         | [x] Done*    | N/A        |
-| `Superscript`                        | [x] Done*    | N/A        |
-| `Tt`                                 | [x] Done*    | N/A        |
+| `IndexEntry`                         | [x] Done*    | 0687fa4e1f |
+| `Superscript`                        | [x] Done*    | 4e608d93bf |
+| `Tt`                                 | [x] Done*    | d330197b1f |
 | `EEnumFont`                          | [ ] Pending* | N/A        |
 | `EEnum`                              | [ ] Pending* | N/A        |
-| `DocumentationContext`               | [x] Done*    | N/A        |
+| `DocumentationContext`               | [x] Done*    | 0fc1906e6a |
 
 ## Group22
 

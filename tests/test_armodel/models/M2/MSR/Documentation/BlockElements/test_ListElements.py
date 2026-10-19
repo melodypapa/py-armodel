@@ -5,6 +5,7 @@ This module contains tests for the ListElements module in MSR.Documentation.Bloc
 import inspect
 from inspect import cleandoc
 
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import String
 from armodel.models.M2.MSR.Documentation.BlockElements.ListElements import (
     ARList,
     DefItem,
@@ -277,7 +278,38 @@ class TestIndentSample:
 
 
 class TestLabeledItem:
-    """Test class for LabeledItem class."""
+    """Test class for LabeledItem class (Table 9.12, AUTOSAR_FO_TPS_GenericStructureTemplate)."""
+
+    HELP_ENTRY_NOTE = (
+        "This specifies an entry point in an online help system to be linked with the parent class. "
+        "The syntax shall be defined by the applied help system respectively help system generator. "
+        "Tags: xml.attribute=true"
+    )
+    ITEM_CONTENTS_NOTE = (
+        "This represents the actual content of the item. It is composed of a DocumentationBlock. "
+        "This way it is possible to use simple paragraphs to nested lists, formula, figures or notes. "
+        "Tags: xml.roleElement=false xml.roleWrapperElement=false xml.sequenceOffset=30 "
+        "xml.typeElement=false xml.typeWrapperElement=false"
+    )
+    ITEM_LABEL_NOTE = "This is the label of the item. Tags: xml.sequenceOffset=20"
+
+    def test_labeled_item_inheritance(self):
+        """LabeledItem shall derive from Paginateable (Table 9.12 Base row, most-derived) and carry the VariationPointCapable mixin (XSD 00052 group LABELED-ITEM carries the VARIATION-POINT element, mmt.qualifiedName="LabeledItem.variationPoint")."""
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
+        from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import DocumentViewSelectable, Paginateable
+
+        labeled_item = LabeledItem()
+        assert isinstance(labeled_item, Paginateable)
+        assert isinstance(labeled_item, DocumentViewSelectable)
+        assert isinstance(labeled_item, VariationPointCapable)
+
+    def test_labeled_item_has_spec_note(self):
+        """The class docstring carries the Table 9.12 Note verbatim."""
+        assert cleandoc(LabeledItem.__doc__) == "this represents an item of a labeled list."
+
+    def test_labeled_item_init_has_no_docstring(self):
+        """__init__ has no docstring (spec Notes live in inline member comments)."""
+        assert LabeledItem.__init__.__doc__ is None
 
     def test_labeled_item_initialization(self):
         """Test that a LabeledItem object can be initialized with default values."""
@@ -286,43 +318,112 @@ class TestLabeledItem:
         assert labeled_item.itemContents is None
         assert labeled_item.itemLabel is None
 
-    def test_labeled_item_item_label_methods(self):
-        """Test the itemLabel getter and setter."""
-        labeled_item = LabeledItem()
-        item_label = MultiLanguageOverviewParagraph()
-
-        result = labeled_item.setItemLabel(item_label)
-        assert labeled_item.getItemLabel() == item_label
-        assert result == labeled_item
-
-        labeled_item.setItemLabel(None)
-        assert labeled_item.getItemLabel() == item_label
-
     def test_labeled_item_help_entry_methods(self):
-        """Test the helpEntry getter and setter."""
+        """Test the helpEntry getter and setter (None is a no-op)."""
         labeled_item = LabeledItem()
-        help_entry = "help"
+        help_entry = String().setValue("help")
 
         result = labeled_item.setHelpEntry(help_entry)
-        assert labeled_item.getHelpEntry() == help_entry
-        assert result == labeled_item
+        assert labeled_item.getHelpEntry() is help_entry
+        assert result is labeled_item
 
         labeled_item.setHelpEntry(None)
-        assert labeled_item.getHelpEntry() == help_entry
+        assert labeled_item.getHelpEntry() is help_entry
 
     def test_labeled_item_item_contents_methods(self):
-        """Test the itemContents getter and setter."""
+        """Test the itemContents getter and setter (None is a no-op)."""
         from armodel.models.M2.MSR.Documentation.BlockElements import DocumentationBlock
 
         labeled_item = LabeledItem()
         contents = DocumentationBlock()
 
         result = labeled_item.setItemContents(contents)
-        assert labeled_item.getItemContents() == contents
-        assert result == labeled_item
+        assert labeled_item.getItemContents() is contents
+        assert result is labeled_item
 
         labeled_item.setItemContents(None)
-        assert labeled_item.getItemContents() == contents
+        assert labeled_item.getItemContents() is contents
+
+    def test_labeled_item_item_label_methods(self):
+        """Test the itemLabel getter and setter (None is a no-op)."""
+        labeled_item = LabeledItem()
+        item_label = MultiLanguageOverviewParagraph()
+
+        result = labeled_item.setItemLabel(item_label)
+        assert labeled_item.getItemLabel() is item_label
+        assert result is labeled_item
+
+        labeled_item.setItemLabel(None)
+        assert labeled_item.getItemLabel() is item_label
+
+    def test_help_entry_annotation_is_optional_string(self):
+        """getHelpEntry return and setHelpEntry value shall be Optional[String] (Rule 0003, Table 9.12 Type String, Mult 0..1)."""
+        import typing
+
+        getter_hints = typing.get_type_hints(LabeledItem.getHelpEntry)
+        setter_hints = typing.get_type_hints(LabeledItem.setHelpEntry)
+        assert getter_hints["return"] == typing.Optional[String]
+        assert setter_hints["value"] == typing.Optional[String]
+
+    def test_item_contents_annotation_is_optional_documentation_block(self):
+        """getItemContents return and setItemContents value shall be Optional[DocumentationBlock] (Rule 0003, Table 9.12 Mult 0..1)."""
+        import typing
+
+        from armodel.models.M2.MSR.Documentation.BlockElements import DocumentationBlock
+
+        getter_hints = typing.get_type_hints(LabeledItem.getItemContents)
+        setter_hints = typing.get_type_hints(LabeledItem.setItemContents)
+        assert getter_hints["return"] == typing.Optional[DocumentationBlock]
+        assert setter_hints["value"] == typing.Optional[DocumentationBlock]
+
+    def test_item_label_annotation_is_optional_multi_language_overview_paragraph(self):
+        """getItemLabel return and setItemLabel value shall be Optional[MultiLanguageOverviewParagraph] (Rule 0003, Table 9.12)."""
+        import typing
+
+        getter_hints = typing.get_type_hints(LabeledItem.getItemLabel)
+        setter_hints = typing.get_type_hints(LabeledItem.setItemLabel)
+        assert getter_hints["return"] == typing.Optional[MultiLanguageOverviewParagraph]
+        assert setter_hints["value"] == typing.Optional[MultiLanguageOverviewParagraph]
+
+    def test_labeled_item_member_order(self):
+        """Field-to-spec cross-check: LabeledItem adds exactly the 3 Table 9.12 attribute rows over its base, in displayed order (helpEntry, itemContents, itemLabel)."""
+        from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import Paginateable
+
+        class _ConcretePaginateable(Paginateable):
+            pass
+
+        base_fields = set(vars(_ConcretePaginateable()).keys())
+        own_fields = [key for key in vars(LabeledItem()).keys() if key not in base_fields]
+        assert own_fields == ["helpEntry", "itemContents", "itemLabel"]
+
+    def test_labeled_item_accessor_order(self):
+        """Accessor pairs in spec row order, each single-valued pair getter-first (Rule 0001.11)."""
+        methods = [name for name in vars(LabeledItem) if not name.startswith("_")]
+        assert methods == ["getHelpEntry", "setHelpEntry", "getItemContents", "setItemContents", "getItemLabel", "setItemLabel"]
+
+    def test_help_entry_member_notes_verbatim(self):
+        """The helpEntry Note is verbatim (incl. the Tags: tail, Rule 0012.2.5.3) on the __init__ comment and both accessors."""
+        source = inspect.getsource(LabeledItem.__init__)
+        assert self.HELP_ENTRY_NOTE in source
+
+        assert LabeledItem.getHelpEntry.__doc__.strip() == self.HELP_ENTRY_NOTE
+        assert LabeledItem.setHelpEntry.__doc__.strip() == self.HELP_ENTRY_NOTE + ". A None value is a no-op and does not overwrite an existing helpEntry."
+
+    def test_item_contents_member_notes_verbatim(self):
+        """The itemContents Note is verbatim (incl. the Tags: tail, Rule 0012.2.5.3) on the __init__ comment and both accessors."""
+        source = inspect.getsource(LabeledItem.__init__)
+        assert self.ITEM_CONTENTS_NOTE in source
+
+        assert LabeledItem.getItemContents.__doc__.strip() == self.ITEM_CONTENTS_NOTE
+        assert LabeledItem.setItemContents.__doc__.strip() == self.ITEM_CONTENTS_NOTE + ". A None value is a no-op and does not overwrite an existing itemContents."
+
+    def test_item_label_member_notes_verbatim(self):
+        """The itemLabel Note is verbatim (incl. the Tags: tail, Rule 0012.2.5.3) on the __init__ comment and both accessors."""
+        source = inspect.getsource(LabeledItem.__init__)
+        assert self.ITEM_LABEL_NOTE in source
+
+        assert LabeledItem.getItemLabel.__doc__.strip() == self.ITEM_LABEL_NOTE
+        assert LabeledItem.setItemLabel.__doc__.strip() == self.ITEM_LABEL_NOTE + ". A None value is a no-op and does not overwrite an existing itemLabel."
 
 
 class TestLabeledList:

@@ -3166,7 +3166,7 @@ pending that confirmation.
       `SdgClass.sdgConstraint`, `SdgAbstractForeignReference.destMetaClass` and
       `FullBindingTimeEnum` in this file.
     - note: sync commit recorded on the row header.
-- [x] `SymbolString` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.65, p.114
+- [x] `SymbolString` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.65, p.114 — sync commit cd5f8c7ac
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
   - commit: cd5f8c7ac
   - [x] Step 1 — Sync members & description from spec
@@ -4454,7 +4454,7 @@ pending that confirmation.
     Marker refreshed: `# Spec verified: R23-11 (2026-10-17, user 9b confirmation)` (sync
     commit dbf3446b0). Sole queue row for the class: the duplicate Group9 `ARList` row (superseded commit 2151ca030) was merged into this row 2026-10-18 — a class may appear in only one Group file (`regen_sync_todo.py`).
 - note (merge, 2026-10-18): this is the class's ONLY queue row. The Group9 `ARList` row (the same src class, queued under the spec caption here) was deleted from Group9.md and its Steps 1–9 notes are carried over verbatim above; two Group9-only queue-machinery lines (a `- after `Item`` ordering hint and the `deviation-tracked ... review entries at Step 1` pointer) were dropped, and Group9 keeps a pointer at the row's old position.
-- [x] `LabeledList` — Paginateable — R23-11 FO_TPS_GenericStructureTemplate Table 9.11, p.296
+- [x] `LabeledList` — Paginateable — R23-11 FO_TPS_GenericStructureTemplate Table 9.11, p.296 — sync commit 0a6cf6b09
   - module: M2/MSR/Documentation/BlockElements/ListElements.py
   - [x] Step 1 — Sync members & description from spec
     - note (Step 1, reopen 2026-10-18): the prior "already verified (short-circuit
@@ -4608,21 +4608,30 @@ pending that confirmation.
       `# Spec verified: R23-11 (2026-10-18, user 9b confirmation)`. Post-stamp audit
       re-run: `STAMP` clean, `=> PASS`. Sync commit **0a6cf6b09** (branch
       `feature/g21-list-sync`).
-- [x] `LabeledItem` — Paginateable — R23-11 FO_TPS_GenericStructureTemplate Table 9.12, p.296 — already verified (short-circuit 2026-09-30)
+- [x] `LabeledItem` — Paginateable — R23-11 FO_TPS_GenericStructureTemplate Table 9.12, p.296 — re-sync (stale 2026-09-30 short-circuit claim re-derived 2026-10-19)
   - module: M2/MSR/Documentation/BlockElements/ListElements.py
   - [x] Step 1 — Sync members & description from spec
+    - note: re-derived from source per Rules 0012.1/0026. The row's "already verified (short-circuit 2026-09-30)" prose was STALE/FALSE — it claimed a `# Spec verified: R23-11` marker was present in src, but the checklist block carried NO marker (`audit_class.py` STAMP: "checklist fully `[x]` with no marker"), so the class was re-derived rather than trusted. Source: R23-11 `AUTOSAR_FO_TPS_GenericStructureTemplate.md` Table 9.12 (caption L7704, body L7706-7715), p.296; the R4.3.1 reproduction Table 8.13 (L6296) carries the same Class/Package/Note/Base/attr rows (cosmetic diffs only: "must" vs "shall" in helpEntry, page-split artifacts `itemConte nts`/`OverviewParagr aph`, semicolon tag separators); R23-11 authoritative (Rule 0015). Package `M2::MSR::Documentation::BlockElements::ListElements` matches the file (no Rule 0007 relocation); class Note verbatim `this represents an item of a labeled list.`; Base `ARObject, DocumentViewSelectable, Paginateable` → most-derived modeled base `Paginateable`; `Aggregated by LabeledList.labeledItem` is the consumer side already modeled as `LabeledList.labeledItems`; 3 attribute rows in displayed order: `helpEntry` (String, 0..1, attr), `itemContents` (DocumentationBlock, 0..1, aggr), `itemLabel` (MultiLanguageOverviewParagraph, 1, aggr). XSD 00052 ground truth: group `LABELED-ITEM` L76337-76362 (`ITEM-LABEL` sequenceOffset=20, the inline `DOCUMENTATION-BLOCK` choice at L76350 with no wrapper, `VARIATION-POINT` sequenceOffset=10000), attributeGroup L76364-76371 (`HELP-ENTRY` as an attribute), complexType L76373-76389 (AR-OBJECT / DOCUMENT-VIEW-SELECTABLE / PAGINATEABLE / LABELED-ITEM).
   - [x] Step 2 — Write model class unit test (Red)
+    - note: `tests/test_armodel/models/M2/MSR/Documentation/BlockElements/test_ListElements.py::TestLabeledItem` expanded to 15 tests — inheritance (Paginateable/DocumentViewSelectable/VariationPointCapable), class Note verbatim, `__init__` no docstring, defaults, getter/setter + None no-op + chaining for all three members, `Optional[...]` annotation checks for all three pairs (Rule 0003/0022), member order and accessor order (Rule 0001.11), and verbatim-Note-by-diff for each member at all three placements incl. the `Tags:` tail (Rule 0012.2.5.3). The docstring/annotation tests were Red against the pre-pass source (Tags tails stripped, `Returns:` paraphrases present).
   - [x] Step 3 — Implement model class (Green)
+    - note: the member set already matched Table 9.12 exactly (3 own rows: helpEntry/itemContents/itemLabel; no fabrication, no missing member); header `LabeledItem(Paginateable, VariationPointCapable)` — Paginateable is the most-derived modeled base and the mixin is justified by the XSD `VARIATION-POINT` element (Rule 0020 / the stamped sibling convention); all three members are PEP 526-annotated `Optional[...]`, accessors typed with chaining returns + None no-op guards. No Green source change was needed beyond the Step-4 docstring rewrite (no field added, removed or retyped this pass). Step-3 referenced classes: none missing (`DocumentationBlock`, `MultiLanguageOverviewParagraph`, `Paginateable`, `VariationPointCapable` all exist/stamped).
   - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    - note: wiped every paraphrase and rewrote all three member notes verbatim from Table 9.12 — restored the stripped `Tags:` tails (`helpEntry` → `Tags: xml.attribute=true`; `itemContents` → `Tags: xml.roleElement=false xml.roleWrapperElement=false xml.sequenceOffset=30 xml.typeElement=false xml.typeWrapperElement=false`; `itemLabel` → `Tags: xml.sequenceOffset=20`) on the inline `__init__` comment + getter + setter, and removed the `Returns:` blocks; each setter carries the house None-no-op sentence after the verbatim Note. Class docstring = the Table 9.12 Note exactly (lowercase "this"); `__init__` has no docstring.
   - [x] Step 5 — Write reader/writer round-trip test (Red)
+    - note: new `tests/test_armodel/parser/test_labeled_item.py` (class `TestLabeledItemParser`, 3 tests: full populate asserting HELP-ENTRY / SI / ITEM-LABEL / inline content / VARIATION-POINT field values; empty `<LABELED-ITEM/>`; the `getLabeledList` consumer path) and `tests/test_armodel/writer/test_labeled_item.py` (class `TestLabeledItemWriter`, 3 tests: XSD child order `ITEM-LABEL` → inline `P` → `VARIATION-POINT` with HELP-ENTRY as an attribute, bare `<LABELED-ITEM/>` for the empty model, and a full `save`→`clear`→`load` document round-trip with XSD validation ON, Rule 0027).
   - [x] Step 6 — Update parser & writer (Green)
+    - note: no reader/writer change needed this pass — `getLabeledItem` (`arxml_parser.py` L8449) and `setLabeledItem` (`arxml_writer.py` L4910) already carry the R23-11 shape: `readPaginateable`/`writePaginateable`, the `HELP-ENTRY` attribute, `ITEM-LABEL`, the inline `DOCUMENTATION-BLOCK` (`readDocumentationBlockContent` / `writeDocumentationBlockContent(..., write_ar_object=False)`, no `ITEM-CONTENTS` wrapper), then `VARIATION-POINT`. The two defects that had blocked this row (`HELPENTRY` vs `HELP-ENTRY`, the fabricated `ITEM-CONTENTS` wrapper) were fixed test-first by the List/ARList and LabeledList passes on 2026-10-17/18 — see the cross-class notes below. Targeted run: parser 3 + writer 3 + the 59 tests in the ListElements model file = **65 passed**.
   - [x] Step 7 — Update checklist comment
+    - note: the checklist block was already one contiguous run above `__init__`, one row per method in source order, all `[x]`, 6-column format plus the `# Spec:` line in canonical form; AST check: **7 rows = 7 methods** (`__init__` + three getter/setter pairs = 7), no scattered rows. `# Spec verified:` withheld until the 9b gate (Rule 0012.1). `audit_class.py LabeledItem` => **PASS** (BLOCK/ROWS/SPECLINE/CITATION/SPEC-BASE/SPACING/DOCTAIL/BASE/MEMBER all clean; only the informational STAMP note).
   - [x] Step 8 — Deviations
+    - note: NO spec deviations on this class — no placeholder, no fabrication, no flattening, no missing member (Table 9.12 = 3 own rows, all modeled verbatim with the exact types; field↔spec cross-check both directions clean). Dispositions recorded (observations, not open deviations): (1) `itemLabel` multiplicity `1` is modeled as `Optional[MultiLanguageOverviewParagraph]` per the house single-valued rule; (2) an empty `<LABELED-ITEM/>` materializes an empty `DocumentationBlock` for `itemContents` instead of `None` — the existing NOTE/TRACEABLE-TEXT house reader pattern, pinned by `test_read_empty_labeled_item_leaves_optional_members_unset`; the writer still emits a bare element for a `None` member. No tracker entry for `LabeledItem` in either deviation tracker (grep-verified; the only hits are the `HELPENTRY` out-of-scope flag on the MultiLanguageVerbatim row and DocumentationBlock's referenced-class prose).
   - [x] Step 9 — Verify (9a) + confirm (9b)
-  - note: already-verified short-circuit 2026-09-30 (Group21 header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
-  - note (cross-class fix, 2026-10-17): the reader AND writer used the attribute name `HELPENTRY`, but the R23-11 XSD attributeGroup LABELED-ITEM declares `HELP-ENTRY` → renamed on both sides. The library round-tripped with itself, so the integration corpus never caught it (only XSD validation / interop exposes the wrong name); the save was validator-rejected before the fix. Landed by the List/ARList re-sync pass (2026-10-17) with tests in tests/test_armodel/parser/test_documentation_list_item_helpers.py and the writer counterpart. This row's own Done* 9b re-derivation is still pending.
-  - note (cross-class fix, 2026-10-18): the reader `getLabeledItem` (`arxml_parser.py`) looked for an `<ITEM-CONTENTS>` wrapper and the writer `setLabeledItem` (`arxml_writer.py`) emitted one, but the R23-11 XSD group `LABELED-ITEM` (AUTOSAR_00052.xsd l.76337-76391) inlines `DOCUMENTATION-BLOCK` directly via a `choice` (l.76350-76352) with no wrapper element → both sides rewritten to the inline shape (`readDocumentationBlockContent` / `writeDocumentationBlockContent(..., write_ar_object=False)`, Rule 0027). Landed by the `LabeledList` re-sync pass (2026-10-18) with tests in tests/test_armodel/parser/test_labeled_list.py and the writer counterpart. This row's own Done* 9b re-derivation is still pending.
-- [x] `IndentSample` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 9.13, p.297 — already verified (short-circuit 2026-09-30)
+    - note (9a, 2026-10-19): full suite **26,460 passed / 0 failed** (unit + 13 integration round-trips, XSD gates ON); `ruff check src tests scripts` clean; `flake8 --exclude=.venv,build --select=E9,F63,F7,F82 .` clean; `black --check src tests scripts` clean (one pre-existing untouched file, `tests/test_scripts/test_audit_class_pattern.py`, was reformatted as a formatting-only fix); `mypy` **Success, 287 source files**; member-annotation gate (Rule 0022) **3 passed**; set-based checklist-vs-methods script green (7 rows = 7 methods, no `# type:`); `audit_class.py LabeledItem` => **PASS**; targeted LabeledItem tests **65 passed**; writer end-to-end `save`→reload round-trip with XSD validation ON.
+    - note (9b, 2026-10-19): the full pre-stamp rule-compliance checklist (element kind + all 3 rows, most-derived base + VP mixin, no fabrication/flattening, naming + accessor shape, member/accessor/checklist order vs XSD sequenceOffset, Note-verbatim-by-diff including every `Tags:` tail at all three placements, `__init__` blank-line spacing, quota shape vs multiplicity, package/file shape, zero open deviations, stamp decision) was presented and **confirmed by the user 2026-10-19**. Marker written immediately after the `# Spec:` line (Rule 0012.1): `# Spec verified: R23-11 (2026-10-19, user 9b confirmation)`. Post-stamp audit re-run: `STAMP` clean, `=> PASS`.
+  - note (cross-class fix, 2026-10-17): the reader AND writer used the attribute name `HELPENTRY`, but the R23-11 XSD attributeGroup LABELED-ITEM declares `HELP-ENTRY` → renamed on both sides. The library round-tripped with itself, so the integration corpus never caught it (only XSD validation / interop exposes the wrong name); the save was validator-rejected before the fix. Landed by the List/ARList re-sync pass (2026-10-17) with tests in tests/test_armodel/parser/test_documentation_list_item_helpers.py and the writer counterpart. This re-sync pass re-derived the row from source and confirmed the fix.
+  - note (cross-class fix, 2026-10-18): the reader `getLabeledItem` (`arxml_parser.py`) looked for an `<ITEM-CONTENTS>` wrapper and the writer `setLabeledItem` (`arxml_writer.py`) emitted one, but the R23-11 XSD group `LABELED-ITEM` (AUTOSAR_00052.xsd l.76337-76391) inlines `DOCUMENTATION-BLOCK` directly via a `choice` (l.76350-76352) with no wrapper element → both sides rewritten to the inline shape (`readDocumentationBlockContent` / `writeDocumentationBlockContent(..., write_ar_object=False)`, Rule 0027). Landed by the `LabeledList` re-sync pass (2026-10-18) with tests in tests/test_armodel/parser/test_labeled_list.py and the writer counterpart. This re-sync pass re-derived the row from source and confirmed the fix.
+- [x] `IndentSample` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 9.13, p.297 — commit 9d21690d7
   - module: M2/MSR/Documentation/BlockElements/ListElements.py
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -4635,7 +4644,7 @@ pending that confirmation.
   - [x] Step 9 — Verify (9a) + confirm (9b)
   - note: already-verified short-circuit 2026-09-30 (Group21 header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
   - note (cross-class fix, 2026-10-17): the reader AND writer used the attribute name `ITEMLABELPOS`, but the R23-11 XSD attributeGroup INDENT-SAMPLE declares `ITEM-LABEL-POS` (`ITEMLABELPOS` occurs 0 times in the schema) → renamed on both sides. Self-consistent round-trip hid it from the corpus; only XSD validation / interop exposes it. Landed by the List/ARList re-sync pass (2026-10-17) with tests in tests/test_armodel/parser/test_documentation_list_item_helpers.py and the writer counterpart. This row's own Done* 9b re-derivation is still pending.
-- [x] `ItemLabelPosEnum` — AREnum — R23-11 FO_TPS_GenericStructureTemplate Table 9.14, p.297 — already verified (short-circuit 2026-09-30)
+- [x] `ItemLabelPosEnum` — AREnum — R23-11 FO_TPS_GenericStructureTemplate Table 9.14, p.297 — commit e6664dcde
   - module: M2/MSR/Documentation/BlockElements/ListElements.py
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -4647,7 +4656,7 @@ pending that confirmation.
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b)
   - note: already-verified short-circuit 2026-09-30 (Group21 header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
-- [x] `DefList` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 9.15, p.298 — already verified (short-circuit 2026-09-30)
+- [x] `DefList` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 9.15, p.298 — commit 7e9c531c7
   - module: M2/MSR/Documentation/BlockElements/ListElements.py
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -4659,7 +4668,7 @@ pending that confirmation.
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b)
   - note: already-verified short-circuit 2026-09-30 (Group21 header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
-- [x] `DefItem` — MultilanguageReferrable — R23-11 FO_TPS_GenericStructureTemplate Table 9.16, p.298 — already verified (short-circuit 2026-09-30)
+- [x] `DefItem` — MultilanguageReferrable — R23-11 FO_TPS_GenericStructureTemplate Table 9.16, p.298 — commit f5fb319a6
   - module: M2/MSR/Documentation/BlockElements/ListElements.py
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -4672,7 +4681,7 @@ pending that confirmation.
   - [x] Step 9 — Verify (9a) + confirm (9b)
   - note: already-verified short-circuit 2026-09-30 (Group21 header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
   - note (cross-class fix, 2026-10-17): TWO defects fixed by the List/ARList re-sync pass (2026-10-17). (1) The reader AND writer used the attribute name `HELPENTRY` while the R23-11 XSD attributeGroup DEF-ITEM declares `HELP-ENTRY` → renamed on both sides. (2) `getDefList` called `self.getDefItem(child_element, def_item)` — the DEF-ITEM element passed as the *reader source* and the enclosing DEF-LIST as the *parent* — so it read SHORT-NAME/DEF/HELP-ENTRY/VARIATION-POINT off the wrong element and dropped them all; now `self.getDefItem(def_item, def_list)`. Bug (2) was invisible to the integration corpus because a value lost on parse is lost identically on re-parse. Tests: tests/test_armodel/parser/test_documentation_list_item_helpers.py + the writer counterpart. This row's own Done* 9b re-derivation is still pending.
-- [x] `MlFormula` — Paginateable — R23-11 FO_TPS_GenericStructureTemplate Table 9.26, p.310 — already verified (short-circuit 2026-09-30)
+- [x] `MlFormula` — Paginateable — R23-11 FO_TPS_GenericStructureTemplate Table 9.26, p.310 — commit 03189efac
   - module: M2/MSR/Documentation/BlockElements/Formula.py
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -4684,7 +4693,7 @@ pending that confirmation.
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b)
   - note: already-verified short-circuit 2026-09-30 (Group21 header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
-- [x] `Note` — Paginateable — R23-11 FO_TPS_GenericStructureTemplate Table 9.27, p.310 — already verified (short-circuit 2026-09-30)
+- [x] `Note` — Paginateable — R23-11 FO_TPS_GenericStructureTemplate Table 9.27, p.310 — commit 389e49b84
   - module: M2/MSR/Documentation/BlockElements/Note.py
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -4696,7 +4705,7 @@ pending that confirmation.
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b)
   - note: already-verified short-circuit 2026-09-30 (Group21 header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
-- [x] `NoteTypeEnum` — AREnum — R23-11 FO_TPS_GenericStructureTemplate Table 9.28, p.311 — already verified (short-circuit 2026-09-30)
+- [x] `NoteTypeEnum` — AREnum — R23-11 FO_TPS_GenericStructureTemplate Table 9.28, p.311 — commit 873fa6665
   - module: M2/MSR/Documentation/BlockElements/Note.py
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -4708,7 +4717,7 @@ pending that confirmation.
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b)
   - note: already-verified short-circuit 2026-09-30 (Group21 header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
-- [x] `Traceable` — MultilanguageReferrable — R23-11 FO_TPS_GenericStructureTemplate Table 9.29, p.313 — already verified (short-circuit 2026-09-30)
+- [x] `Traceable` — MultilanguageReferrable — R23-11 FO_TPS_GenericStructureTemplate Table 9.29, p.313 — commit 536f78ead
   - module: M2/MSR/Documentation/BlockElements/RequirementsTracing.py
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -4720,7 +4729,7 @@ pending that confirmation.
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b)
   - note: already-verified short-circuit 2026-09-30 (Group21 header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
-- [x] `EmphasisText` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 9.34, p.317 — already verified (short-circuit 2026-09-30)
+- [x] `EmphasisText` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 9.34, p.317 — commit d9ae234f0
   - module: M2/MSR/Documentation/TextModel/InlineTextElements.py
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -4744,7 +4753,7 @@ pending that confirmation.
   - [x] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
   - note: steps 1-8 done 2026-10-12; 9a battery green (audit PASS w/ missing-marker INFO, pytest 483 + 3 gate tests, ruff, black 200, mypy clean; regen --check drift deferred to batch stamp). Rule 0007 placement: spec Package row `M2::MSR::Documentation::TextModel::InlineAttributeEnums` → InlineAttributeEnums.py (not the PrimitiveTypes.py hint; no extId consumer exists in src). Table 9.35 is a Primitive table with zero Literal rows — XSD `EXT-ID-CLASS-ENUM--SIMPLE` restricts xsd:string with no enumeration facets; synced as instantiable zero-literal AREnum with string value semantics. Steps 5/6 N/A (standalone enum, no own XML element). Deviations: none.
-- [x] `IndexEntry` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 9.36, p.317 — already verified (short-circuit 2026-09-30)
+- [x] `IndexEntry` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 9.36, p.317 — commit 0687fa4e1
   - module: M2/MSR/Documentation/TextModel/InlineTextElements.py
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -4756,7 +4765,7 @@ pending that confirmation.
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b)
   - note: already-verified short-circuit 2026-09-30 (Group21 header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
-- [x] `Superscript` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 9.38, p.318 — already verified (short-circuit 2026-09-30)
+- [x] `Superscript` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 9.38, p.318 — commit 4e608d93b
   - module: M2/MSR/Documentation/TextModel/InlineTextElements.py
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -4768,7 +4777,7 @@ pending that confirmation.
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b)
   - note: already-verified short-circuit 2026-09-30 (Group21 header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
-- [x] `Tt` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 9.39, p.319 — already verified (short-circuit 2026-09-30)
+- [x] `Tt` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 9.39, p.319 — commit d330197b1
   - module: M2/MSR/Documentation/TextModel/InlineTextElements.py
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -4839,7 +4848,7 @@ pending that confirmation.
     - note (Step 8): none; XSD literals match the table.
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (28 passed / 0 failed
     test_InlineAttributeEnums.py); 9b deferred to batch confirmation (user instruction)
-- [x] `DocumentationContext` — MultilanguageReferrable — R23-11 FO_TPS_GenericStructureTemplate Table 9.56, p.327 — already verified (short-circuit 2026-09-30)
+- [x] `DocumentationContext` — MultilanguageReferrable — R23-11 FO_TPS_GenericStructureTemplate Table 9.56, p.327 — commit 0fc1906e6
   - module: M2/AUTOSARTemplates/GenericStructure/DocumentationOnM1/__init__.py
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)

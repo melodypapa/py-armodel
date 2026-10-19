@@ -225,6 +225,7 @@ class LabeledItem(Paginateable, VariationPointCapable):
 
     # LabeledItem method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.12, p.296
+    # Spec verified: R23-11 (2026-10-19, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getHelpEntry        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -237,30 +238,24 @@ class LabeledItem(Paginateable, VariationPointCapable):
     def __init__(self):
         super().__init__()
 
-        # This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator.
+        # This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator. Tags: xml.attribute=true
         self.helpEntry: Optional[String] = None
 
-        # This represents the actual content of the item. It is composed of a DocumentationBlock. This way it is possible to use simple paragraphs to nested lists, formula, figures or notes.
+        # This represents the actual content of the item. It is composed of a DocumentationBlock. This way it is possible to use simple paragraphs to nested lists, formula, figures or notes. Tags: xml.roleElement=false xml.roleWrapperElement=false xml.sequenceOffset=30 xml.typeElement=false xml.typeWrapperElement=false
         self.itemContents: Optional[DocumentationBlock] = None
 
-        # This is the label of the item.
+        # This is the label of the item. Tags: xml.sequenceOffset=20
         self.itemLabel: Optional[MultiLanguageOverviewParagraph] = None
 
     def getHelpEntry(self) -> Optional[String]:
         """
-        This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator.
-
-        Returns:
-            The entry point in an online help system
+        This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator. Tags: xml.attribute=true
         """
         return self.helpEntry
 
     def setHelpEntry(self, value: Optional[String]) -> LabeledItem:
         """
-        This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator. A None value is a no-op and does not overwrite an existing helpEntry.
-
-        Returns:
-            self for method chaining
+        This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing helpEntry.
         """
         if value is not None:
             self.helpEntry = value
@@ -268,19 +263,13 @@ class LabeledItem(Paginateable, VariationPointCapable):
 
     def getItemContents(self) -> Optional[DocumentationBlock]:
         """
-        This represents the actual content of the item. It is composed of a DocumentationBlock. This way it is possible to use simple paragraphs to nested lists, formula, figures or notes.
-
-        Returns:
-            The actual content of the item
+        This represents the actual content of the item. It is composed of a DocumentationBlock. This way it is possible to use simple paragraphs to nested lists, formula, figures or notes. Tags: xml.roleElement=false xml.roleWrapperElement=false xml.sequenceOffset=30 xml.typeElement=false xml.typeWrapperElement=false
         """
         return self.itemContents
 
     def setItemContents(self, value: Optional[DocumentationBlock]) -> LabeledItem:
         """
-        This represents the actual content of the item. It is composed of a DocumentationBlock. This way it is possible to use simple paragraphs to nested lists, formula, figures or notes. A None value is a no-op and does not overwrite an existing itemContents.
-
-        Returns:
-            self for method chaining
+        This represents the actual content of the item. It is composed of a DocumentationBlock. This way it is possible to use simple paragraphs to nested lists, formula, figures or notes. Tags: xml.roleElement=false xml.roleWrapperElement=false xml.sequenceOffset=30 xml.typeElement=false xml.typeWrapperElement=false. A None value is a no-op and does not overwrite an existing itemContents.
         """
         if value is not None:
             self.itemContents = value
@@ -288,19 +277,13 @@ class LabeledItem(Paginateable, VariationPointCapable):
 
     def getItemLabel(self) -> Optional[MultiLanguageOverviewParagraph]:
         """
-        This is the label of the item.
-
-        Returns:
-            The label of the item
+        This is the label of the item. Tags: xml.sequenceOffset=20
         """
         return self.itemLabel
 
     def setItemLabel(self, value: Optional[MultiLanguageOverviewParagraph]) -> LabeledItem:
         """
-        This is the label of the item. A None value is a no-op and does not overwrite an existing itemLabel.
-
-        Returns:
-            self for method chaining
+        This is the label of the item. Tags: xml.sequenceOffset=20. A None value is a no-op and does not overwrite an existing itemLabel.
         """
         if value is not None:
             self.itemLabel = value
