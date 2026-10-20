@@ -10,8 +10,8 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 852 | 44.5% |
-| [x] Deferred | 75 | 3.9% |
+| [x] Done | 853 | 44.6% |
+| [x] Deferred | 74 | 3.9% |
 | [x] Retired | 0 | 0.0% |
 | [ ] Deferred | 976 | 51.0% |
 | [ ] Implemented | 10 | 0.5% |
@@ -476,7 +476,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `DdsResourceLimits`                                     | [ ] Deferred| N/A                                      | Group32          |
 | `DdsTopicData`                                          | [ ] Deferred| N/A                                      | Group32          |
 | `DdsTransportPriority`                                  | [ ] Deferred| N/A                                      | Group32          |
-| `DefItem`                                               | [x] Deferred| f5fb319a69                               | Group21          |
+| `DefItem`                                               | [x] Done    | 67a4f30dc4                               | Group21          |
 | `DefList`                                               | [x] Deferred| 7e9c531c77                               | Group21          |
 | `DefaultValueApplicationStrategyEnum`                   | [ ] Deferred| N/A                                      | Group36          |
 | `DefaultValueElement`                                   | [x] Done    | 721cca6400                               | Group17          |

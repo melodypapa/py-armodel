@@ -924,7 +924,7 @@ Status: **56/59** completed
 | `IndentSample`                       | [x] Done     | 9d21690d7f |
 | `ItemLabelPosEnum`                   | [x] Done     | b207c8f910 |
 | `DefList`                            | [x] Done*    | 7e9c531c77 |
-| `DefItem`                            | [x] Done*    | f5fb319a69 |
+| `DefItem`                            | [x] Done     | 67a4f30dc4 |
 | `MlFormula`                          | [x] Done*    | 03189efac9 |
 | `Note`                               | [x] Done*    | 389e49b848 |
 | `NoteTypeEnum`                       | [x] Done*    | 873fa6665f |
