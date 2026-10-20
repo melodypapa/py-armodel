@@ -198,12 +198,25 @@ all agree; Rule 0001.3). Do not stop at the field default:
   **renaming** (field + accessors + checklist + consumers), never recorded as a
   `naming` deviation — remove the row once renamed.
 
-### 1.6 `createXxx` vs `setXxx`
+### 1.6 `createXxx` vs `setXxx` (does the child have a short name?)
 
-- If the aggregated child's spec `Base` lists `Referrable`/`Identifiable` → expose
-  `createXxx(short_name)`. If the child is a plain non-Identifiable object → `setXxx`
-  (`0..1`) or `addXxx(value)` (`*`). The test is "does the child's `Base` include
-  `Referrable`", not narrowly "is it `Identifiable`".
+- **The test is the child's short name, not the accessor's convenience.** If the
+  aggregated child's model class reaches `Referrable` — directly or through
+  `Identifiable`, `MultilanguageReferrable`, `ARElement`, `PackageableElement`, i.e.
+  `Referrable in Child.__mro__` — the parent exposes `createXxx(short_name)` +
+  `getXxxs()`. If the child has no short name (plain `ARObject`/value object) →
+  `setXxx` (`0..1`) or `addXxx(value)` (`*`).
+- **Run the MRO check; do not eyeball the spec Base row.** The Base row is the
+  authority for *why* (it must list `Referrable`), but the runtime class catches
+  inheritance through an intermediate the row names instead (e.g.
+  `MultilanguageReferrable`):
+  ```python
+  from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable
+  from armodel.models... import Child
+  assert issubclass(Child, Referrable)   # True → createXxx(short_name) + getXxxs()
+  ```
+  `audit_class.py` now reports a `CREATE` warning for a `Referrable` child reached
+  through `addXxx`/`setXxx` with no `createXxx` factory.
 - A working `setXxx`/`getXxx` pair for a `0..1` `Referrable` child is a **violation
   even when implemented/tested** — migrate to `createXxx(short_name)` + `getXxx()`.
 - For a `*` non-Identifiable child: `addXxx(value)` + `getXxxs()` — do **not** invent a
@@ -219,6 +232,16 @@ all agree; Rule 0001.3). Do not stop at the field default:
   `ClientServerInterface.possibleError` (type `ApplicationError`), `createApplicationError`
   is the factory, `getPossibleErrors` is the getter — a `missing` row for `possibleError`
   is stale; remove it.
+- **Regression (DefItem/DefList, 2026-10-21):** `DefList.defItem` (1..*, aggr) has
+  `DefItem` with Base `ARObject, DocumentViewSelectable, MultilanguageReferrable,
+  Paginateable, Referrable` — `issubclass(DefItem, Referrable)` is `True`, so
+  `DefList` must expose `createDefItem(short_name)` + `getDefItems()`, not
+  `addDefItem(value)`. The old shape passed every model/round-trip test, which is
+  exactly why the check must be the child class's MRO, not the test suite. Reader
+  side: `def_list.createDefItem(getShortName(element))` then
+  `readDefItem(element, def_item)` — never `DefItem(...)` + `addDefItem(...)`;
+  writer side: `writeDefItem` reads `getDefItems()`. Pair names follow Rule 0013.2
+  (`readDefItem`/`writeDefItem`, `readDefList`/`writeDefList`).
 
 ### 1.7 Reader (parser) and writer coverage
 
@@ -565,7 +588,9 @@ Python 3.8-compatible: `Optional[T]` / `List[T]` / `Dict[K,V]` from `typing` —
   `elements` registry (`IsElementExists`/`getElement`); in a plain `ARObject` aggregator
   it scans the owning field list. Exposing `createXxx` forces the child to be
   constructible as `Child(self, short_name)`.
-- `createXxx` only for `Referrable`/`Identifiable` children; others use `setXxx`/`addXxx`.
+- `createXxx(short_name)` for every child whose model MRO reaches `Referrable`
+  (`issubclass(Child, Referrable)` — including `Identifiable`/`MultilanguageReferrable`);
+  children with no short name use `setXxx`/`addXxx` (Rule 0001.6).
 - **A spec-`*` aggregated attribute on an `Identifiable` aggregator is backed by a
   dedicated typed list field, not by filtering the `elements` registry.** Each spec `*`
   `aggr` row maps to its own field (`self.operations: List[ClientServerOperation] = []`),
@@ -722,10 +747,11 @@ end user's explicit confirmation. When every item passes, the `# Spec verified:
   `tref`→`TRef`, `iref`→`IRef`/`IRefs`); a singular spec-`*` name still maps to a
   plural Python list + plural accessors. No casing/pluralization bugs (e.g.
   `TxNmPduRefs` → `txNmPduRefs`).
-- **Rule 0001.6 (create vs set/add shape)** — `createXxx(short_name)` only for
-  `Referrable`/`Identifiable` children; `setXxx` (`0..1`) / `addXxx` (`*`) for
-  non-Referrable children; one `createXxx<Subtype>` per concrete subtype for an
-  abstract child.
+- **Rule 0001.6 (create vs set/add shape)** — `createXxx(short_name)` for every child
+  whose model MRO reaches `Referrable` (`issubclass(Child, Referrable)`, including
+  `Identifiable`/`MultilanguageReferrable`); `setXxx` (`0..1`) / `addXxx` (`*`) only
+  for children with no short name; one `createXxx<Subtype>` per concrete subtype for
+  an abstract child. The `CREATE` audit warning flags the wrong shape.
 - **Rule 0001.7 (reader & writer coverage)** — every kept attribute has **both** a
   reader element and a writer element (grep each aggregator; a shared helper's
   existence is not evidence a given aggregator calls it). The names also form the

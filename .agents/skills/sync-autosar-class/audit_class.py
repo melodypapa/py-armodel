@@ -34,6 +34,14 @@ eyeball these — see Rule 0024 / 0025 in rules.md):
            is silently dropped on round-trip. Members with no helper of their
            own (inline emission per Rule 0025) only warn.
 
+  CREATE   an aggregated child class that carries a short name (`Referrable` in
+           its model MRO, directly or through `Identifiable` /
+           `MultilanguageReferrable` / `ARElement`) must be created through
+           `createXxx(short_name)` + `getXxxs()`, never `addXxx(value)` /
+           `setXxx(value)` (Rule 0001.6). Warns: many older stamped classes
+           still use the wrong shape, so this is a fix-this-class prompt, not a
+           repo-wide gate.
+
   DOC      `__init__` carries no docstring (Rule 0012.2.4). A `Tags:`/`Stereotypes:`
            tail in a class / `__init__` member / accessor docstring is **expected**
            and reported as INFO — the spec `Note` is copied verbatim including the
@@ -1212,6 +1220,32 @@ def _all_bases(cls: str, base_map: Dict[str, List[str]]) -> List[str]:
     return list(seen)
 
 
+def _has_short_name(cls: str, base_map: Dict[str, List[str]]) -> bool:
+    """Rule 0001.6: the child owns a SHORT-NAME iff its model MRO reaches
+    `Referrable` — directly or through `Identifiable`, `MultilanguageReferrable`,
+    `ARElement`, etc. The spec Base row is the authority; this is the runtime
+    cross-check the AST can make."""
+    return cls == "Referrable" or "Referrable" in _all_bases(cls, base_map)
+
+
+def _check_create_shape(rep: Report, members: Dict[str, Set[str]], base_map: Dict[str, List[str]]) -> None:
+    bad: List[str] = []
+    for m, accs in sorted(members.items()):
+        if not _has_short_name(m, base_map):
+            continue
+        if any(a.startswith("create") for a in accs):
+            continue
+        non_create = sorted(a for a in accs if a.startswith(("add", "set")))
+        if non_create:
+            bad.append("%s via %s" % (m, "/".join(non_create[:3])))
+    if bad:
+        rep.warn(
+            "CREATE",
+            "Referrable child class(es) reached without a `createXxx(short_name)` factory — use create + get, not add/set (Rule 0001.6): %s"
+            % ", ".join(bad[:6]),
+        )
+
+
 def check_members(rep: Report, cls: str, node: ast.ClassDef, enum: bool) -> None:
     """Rule 0001.7, mechanical: a shared helper's existence is not evidence an
     aggregator calls it. Every aggregated member class's reader/writer helper must
@@ -1232,6 +1266,7 @@ def check_members(rep: Report, cls: str, node: ast.ClassDef, enum: bool) -> None
     if not members:
         rep.ok("MEMBER", "no aggregated member classes")
         return
+    _check_create_shape(rep, members, base_map)
     pcalls = collect_calls(PARSER)
     wcalls = collect_calls(WRITER)
     if not pcalls or not wcalls:
