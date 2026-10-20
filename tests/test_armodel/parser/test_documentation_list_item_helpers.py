@@ -10,6 +10,7 @@ not the enclosing DEF-LIST.
 import xml.etree.ElementTree as ET
 
 from armodel.models.M2.MSR.Documentation.BlockElements.ListElements import ItemLabelPosEnum
+from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import ChapterEnumBreak, KeepWithPreviousEnum
 from armodel.parser.arxml_parser import ARXMLParser
 
 
@@ -28,7 +29,7 @@ class TestDocumentationListItemHelpersReader:
             "</DEF-ITEM></DEF-LIST>"
         )
 
-        def_item = parser.getDefList(element, "DEF-LIST").getDefItems()[0]
+        def_item = parser.readDefList(element, "DEF-LIST").getDefItems()[0]
 
         assert def_item.getShortName() == "d1"
         assert def_item.getHelpEntry().getValue() == "def-topic"
@@ -56,12 +57,31 @@ class TestDocumentationListItemHelpersReader:
         assert indent_sample.getItemLabelPos().getValue() == ItemLabelPosEnum.NEWLINE
         assert indent_sample.getL2s()[0].getValue() == "sample"
 
+    def test_reads_def_item_inherited_multilanguage_and_paginateable_state(self):
+        """The Base row includes MultilanguageReferrable, DocumentViewSelectable and Paginateable: LONG-NAME and SI/VIEW/BREAK/KEEP-WITH-PREVIOUS are read from DEF-ITEM."""
+        parser = ARXMLParser()
+        element = _block(
+            '<DEF-LIST><DEF-ITEM SI="SIVAL" VIEW="VIEWVAL" BREAK="BREAK" KEEP-WITH-PREVIOUS="KEEP">'
+            "<SHORT-NAME>d3</SHORT-NAME>"
+            '<LONG-NAME><L-4 L="EN">Definition</L-4></LONG-NAME>'
+            '<DEF><P><L-1 L="EN">x</L-1></P></DEF>'
+            "</DEF-ITEM></DEF-LIST>"
+        )
+
+        def_item = parser.readDefList(element, "DEF-LIST").getDefItems()[0]
+
+        assert def_item.getLongName().getL4s()[0].getValue() == "Definition"
+        assert def_item.getSi().getValue() == "SIVAL"
+        assert def_item.getView().getValue() == "VIEWVAL"
+        assert def_item.getBreak().getValue() == ChapterEnumBreak.BREAK
+        assert def_item.getKeepWithPrevious().getValue() == KeepWithPreviousEnum.KEEP
+
     def test_reads_def_item_without_help_entry(self):
         """HELP-ENTRY is 0..1: a DEF-ITEM without it reads with helpEntry None while still reading its own DEF payload."""
         parser = ARXMLParser()
         element = _block('<DEF-LIST><DEF-ITEM><SHORT-NAME>d2</SHORT-NAME><DEF><P><L-1 L="EN">x</L-1></P></DEF></DEF-ITEM></DEF-LIST>')
 
-        def_item = parser.getDefList(element, "DEF-LIST").getDefItems()[0]
+        def_item = parser.readDefList(element, "DEF-LIST").getDefItems()[0]
 
         assert def_item.getHelpEntry() is None
         assert def_item.getShortName() == "d2"

@@ -4847,7 +4847,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setMultiLanguageVerbatim(element, "VERBATIM", block.getVerbatim())
             for list in block.getLists():
                 self.setListElement(element, "LIST", list)
-            self.setDefList(element, block.getDefList())
+            self.writeDefList(element, block.getDefList())
             self.setLabeledList(element, block.getLabeledList())
             self.setMlFormula(element, "FORMULA", block.getFormula())
             self.setMlFigures(element, "FIGURE", block.getFigures())
@@ -4855,20 +4855,35 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setTraceableText(element, "TRACE", block.getTrace())
             self.setStructuredReq(element, block.getStructuredReq())
 
-    def setDefList(self, element: ET.Element, def_list: Optional[DefList]):
+    def writeDefList(self, element: ET.Element, def_list: Optional[DefList]):
         if def_list is not None:
             child_element = ET.SubElement(element, "DEF-LIST")
             self.writePaginateable(child_element, def_list)
             for def_item in def_list.getDefItems():
-                self.setDefItem(child_element, def_item)
+                self.writeDefItem(child_element, def_item)
             self.writeVariationPointCapable(child_element, def_list)
 
-    def setDefItem(self, element: ET.Element, def_item: DefItem):
+    def writeDefItem(self, element: ET.Element, def_item: DefItem):
         child_element = ET.SubElement(element, "DEF-ITEM")
         # The XSD DEF-ITEM complexType carries the REFERRABLE + MULTILANGUAGE-REFERRABLE
-        # groups (SHORT-NAME required) but NO IDENTIFIABLE group — writeReferrable, not
-        # writeIdentifiable (Rule 0027 / SPEC-BASE).
-        self.writeReferrable(child_element, def_item)
+        # groups (SHORT-NAME required) but NO IDENTIFIABLE group — writeMultilanguageReferrable,
+        # not writeIdentifiable (Rule 0027 / SPEC-BASE).
+        self.writeMultilanguageReferrable(child_element, def_item)
+        # SI/VIEW (DOCUMENT-VIEW-SELECTABLE) and BREAK/KEEP-WITH-PREVIOUS (PAGINATEABLE) are
+        # written as plain attributes: writePaginateable would re-invoke writeARObject on top
+        # of writeMultilanguageReferrable (rules 0013.1/0025).
+        si_value = def_item.getSi()
+        if si_value is not None:
+            child_element.attrib["SI"] = si_value.getValue()
+        view_value = def_item.getView()
+        if view_value is not None:
+            child_element.attrib["VIEW"] = view_value.getValue()
+        break_value = def_item.getBreak()
+        if break_value is not None:
+            child_element.attrib["BREAK"] = break_value.getValue()
+        keepWithPrevious_value = def_item.getKeepWithPrevious()
+        if keepWithPrevious_value is not None:
+            child_element.attrib["KEEP-WITH-PREVIOUS"] = keepWithPrevious_value.getValue()
         helpEntry_value = def_item.getHelpEntry()
         if helpEntry_value is not None:
             child_element.attrib["HELP-ENTRY"] = helpEntry_value.getValue()

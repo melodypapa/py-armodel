@@ -690,17 +690,18 @@ class TestDefItem:
         assert def_item.getDef() == def_block
 
     def test_def_item_help_entry_methods(self):
-        """Test the helpEntry getter and setter."""
+        """Test the helpEntry getter and setter with the spec type String."""
         def_list = DefList()
         def_item = DefItem(def_list, "DefItem1")
-        help_entry = "help"
+        help_entry = String().setValue("help")
 
         result = def_item.setHelpEntry(help_entry)
-        assert def_item.getHelpEntry() == help_entry
+        assert def_item.getHelpEntry() is help_entry
+        assert def_item.getHelpEntry().getValue() == "help"
         assert result == def_item
 
         def_item.setHelpEntry(None)
-        assert def_item.getHelpEntry() == help_entry
+        assert def_item.getHelpEntry() is help_entry
 
 
 class TestDefList:
@@ -711,14 +712,14 @@ class TestDefList:
         def_list = DefList()
         assert def_list.defItems == []
 
-    def test_def_list_def_items_methods(self):
-        """Test adding def items."""
+    def test_def_list_create_def_item(self):
+        """createDefItem builds a DefItem owned by the list and reuses an existing short name."""
         def_list = DefList()
-        def_item = DefItem(def_list, "DefItem1")
 
-        result = def_list.addDefItem(def_item)
-        assert def_item in def_list.getDefItems()
-        assert result == def_list
-
-        def_list.addDefItem(None)
+        def_item = def_list.createDefItem("DefItem1")
+        assert isinstance(def_item, DefItem)
+        assert def_item.getParent() == def_list
         assert def_list.getDefItems() == [def_item]
+
+        assert def_list.createDefItem("DefItem1") is def_item
+        assert len(def_list.getDefItems()) == 1

@@ -340,6 +340,7 @@ class DefItem(MultilanguageReferrable, Paginateable, VariationPointCapable):
 
     # DefItem method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.16, p.298
+    # Spec verified: R23-11 (2026-10-21, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getDef          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -350,21 +351,21 @@ class DefItem(MultilanguageReferrable, Paginateable, VariationPointCapable):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        # This represents the definition part of the DefItem.
+        # This represents the definition part of the DefItem. Tags: xml.sequenceOffset=20
         self.def_doc: Optional[DocumentationBlock] = None
 
-        # This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator.
+        # This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator. Tags: xml.attribute=true
         self.helpEntry: Optional[String] = None
 
     def getDef(self) -> Optional[DocumentationBlock]:
         """
-        This represents the definition part of the DefItem.
+        This represents the definition part of the DefItem. Tags: xml.sequenceOffset=20
         """
         return self.def_doc
 
     def setDef(self, value: Optional[DocumentationBlock]) -> DefItem:
         """
-        This represents the definition part of the DefItem. A None value is a no-op and does not overwrite an existing def.
+        This represents the definition part of the DefItem. Tags: xml.sequenceOffset=20. A None value is a no-op and does not overwrite an existing def.
         """
         if value is not None:
             self.def_doc = value
@@ -372,13 +373,13 @@ class DefItem(MultilanguageReferrable, Paginateable, VariationPointCapable):
 
     def getHelpEntry(self) -> Optional[String]:
         """
-        This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator.
+        This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator. Tags: xml.attribute=true
         """
         return self.helpEntry
 
     def setHelpEntry(self, value: Optional[String]) -> DefItem:
         """
-        This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator. A None value is a no-op and does not overwrite an existing helpEntry.
+        This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing helpEntry.
         """
         if value is not None:
             self.helpEntry = value
@@ -394,29 +395,35 @@ class DefList(Paginateable, VariationPointCapable):
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.15, p.298
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] addDefItem     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createDefItem  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getDefItems    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        # This is one entry in the definition list.
+        # This is one entry in the definition list. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=defItem.shortName, defItem.variation Point.shortLabel vh.latestBindingTime=postBuild xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
         self.defItems: List[DefItem] = []
 
-    def addDefItem(self, value: Optional[DefItem]) -> DefList:
+    def createDefItem(self, short_name: str) -> DefItem:
         """
-        This is one entry in the definition list. A None value is a no-op and is not appended.
+        This is one entry in the definition list. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=defItem.shortName, defItem.variation Point.shortLabel vh.latestBindingTime=postBuild xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
+
+        Args:
+            short_name: The short name of the definition list entry
 
         Returns:
-            self for method chaining
+            The created (or existing) definition list entry
         """
-        if value is not None:
-            self.defItems.append(value)
-        return self
+        for def_item in self.defItems:
+            if def_item.getShortName() == short_name:
+                return def_item
+        def_item = DefItem(self, short_name)
+        self.defItems.append(def_item)
+        return def_item
 
     def getDefItems(self) -> List[DefItem]:
         """
-        This is one entry in the definition list.
+        This is one entry in the definition list. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=defItem.shortName, defItem.variation Point.shortLabel vh.latestBindingTime=postBuild xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
 
         Returns:
             The entries in the definition list

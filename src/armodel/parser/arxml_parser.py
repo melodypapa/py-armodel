@@ -8415,25 +8415,33 @@ class ARXMLParser(AbstractARXMLParser):
                 ref.setDest(tested_item_ref.attrib["DEST"])
             structured_req.addTestedItemRef(ref)
 
-    def getDefItem(self, element: ET.Element, parent) -> DefItem:
-        short_name_element = self.find(element, "SHORT-NAME")
-        short_name = short_name_element.text if short_name_element is not None else ""
-        def_item = DefItem(parent, cast(str, short_name))
-        self.readReferrable(element, def_item)
+    def readDefItem(self, element: ET.Element, def_item: DefItem):
+        self.readMultilanguageReferrable(element, def_item)
+        # SI/VIEW (DOCUMENT-VIEW-SELECTABLE) and BREAK/KEEP-WITH-PREVIOUS (PAGINATEABLE) are read
+        # as plain attributes: readPaginateable would re-invoke readARObject on top of
+        # readMultilanguageReferrable (rules 0013.1/0025).
+        if "SI" in element.attrib:
+            def_item.setSi(NameTokens().setValue(element.attrib["SI"]))
+        if "VIEW" in element.attrib:
+            def_item.setView(ViewTokens().setValue(element.attrib["VIEW"]))
+        if "BREAK" in element.attrib:
+            def_item.setBreak(ChapterEnumBreak().setValue(element.attrib["BREAK"]))
+        if "KEEP-WITH-PREVIOUS" in element.attrib:
+            def_item.setKeepWithPrevious(KeepWithPreviousEnum().setValue(element.attrib["KEEP-WITH-PREVIOUS"]))
         def_item.setDef(self.getDocumentationBlock(element, "DEF"))
         if "HELP-ENTRY" in element.attrib:
             def_item.setHelpEntry(String().setValue(element.attrib["HELP-ENTRY"]))
         self.readVariationPointCapable(element, def_item)
-        return def_item
 
-    def getDefList(self, element: ET.Element, key: str) -> Optional[DefList]:
+    def readDefList(self, element: ET.Element, key: str) -> Optional[DefList]:
         def_list = None
         child_element = self.find(element, key)
         if child_element is not None:
             def_list = DefList()
             self.readPaginateable(child_element, def_list)
-            for def_item in self.findall(child_element, "DEF-ITEM"):
-                def_list.addDefItem(self.getDefItem(def_item, def_list))
+            for def_item_element in self.findall(child_element, "DEF-ITEM"):
+                def_item = def_list.createDefItem(self.getShortName(def_item_element))
+                self.readDefItem(def_item_element, def_item)
             self.readVariationPointCapable(child_element, def_list)
         return def_list
 
@@ -8570,7 +8578,7 @@ class ARXMLParser(AbstractARXMLParser):
             block.addList(list)
         for figure in self.getMlFigures(element, "FIGURE"):
             block.addFigure(figure)
-        block.setDefList(self.getDefList(element, "DEF-LIST"))
+        block.setDefList(self.readDefList(element, "DEF-LIST"))
         block.setFormula(self.getMlFormula(element, "FORMULA"))
         block.setLabeledList(self.getLabeledList(element, "LABELED-LIST"))
         block.setMsrQueryP2(self.getMsrQueryP2(element, "MSR-QUERY-P-2"))

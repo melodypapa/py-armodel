@@ -11,7 +11,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
 from armodel.models.M2.MSR.Documentation.BlockElements import DocumentationBlock
 from armodel.models.M2.MSR.Documentation.BlockElements.Formula import MlFormula
-from armodel.models.M2.MSR.Documentation.BlockElements.ListElements import DefItem, DefList, LabeledItem, LabeledList
+from armodel.models.M2.MSR.Documentation.BlockElements.ListElements import DefList, LabeledItem, LabeledList
 from armodel.models.M2.MSR.Documentation.BlockElements.Note import Note, NoteTypeEnum
 from armodel.models.M2.MSR.Documentation.BlockElements.OasisExchangeTable import FloatEnum, PgwideEnum
 from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryArg, MsrQueryP2, MsrQueryProps
@@ -68,8 +68,7 @@ class TestDocumentationBlockRoundTrip:
         structured_req.setVariationPoint(VariationPoint())
 
         def_list = DefList()
-        def_item = DefItem(def_list, "DefItem1")
-        def_list.addDefItem(def_item)
+        def_list.createDefItem("DefItem1")
         intro.setDefList(def_list)
 
         labeled_item = LabeledItem()
