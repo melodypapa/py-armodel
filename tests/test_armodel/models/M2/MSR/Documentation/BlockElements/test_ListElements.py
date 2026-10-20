@@ -227,18 +227,60 @@ class TestARList:
 
 
 class TestItemLabelPosEnum:
-    """Test class for ItemLabelPosEnum class."""
+    """Test class for ItemLabelPosEnum class (Table 9.14, AUTOSAR_FO_TPS_GenericStructureTemplate)."""
 
-    def test_item_label_pos_enum_members(self):
-        """Test that ItemLabelPosEnum has the expected members."""
-        assert ItemLabelPosEnum.NEWLINE == "NEWLINE"
-        assert ItemLabelPosEnum.NO_NEWLINE == "NO-NEWLINE"
+    SPEC_NOTE = "This enumerator specifies, how the label of a labeled list shall be rendered."
 
-    def test_item_label_pos_enum_initialization(self):
-        """Test that an ItemLabelPosEnum object can be initialized."""
+    def test_item_label_pos_enum_is_ar_enum(self):
+        """The enumeration derives from AREnum and is instantiable (Rule 0010)."""
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum
+
+        assert issubclass(ItemLabelPosEnum, AREnum)
+        assert isinstance(ItemLabelPosEnum(), ItemLabelPosEnum)
+
+    def test_item_label_pos_enum_has_spec_note(self):
+        """The class docstring carries the Table 9.14 Note verbatim."""
+        assert cleandoc(ItemLabelPosEnum.__doc__) == self.SPEC_NOTE
+
+    def test_item_label_pos_enum_init_has_no_docstring(self):
+        """__init__ has no docstring (Rule 0012.2.4)."""
+        assert ItemLabelPosEnum.__init__.__doc__ is None
+
+    def test_item_label_pos_enum_spec_literals(self):
+        """ItemLabelPosEnum shall expose the 3 Table 9.14 literals in displayed order with the XSD facet values."""
+        expected = {
+            ItemLabelPosEnum.NEWLINE: "NEWLINE",
+            ItemLabelPosEnum.NEWLINE_IF_NECESSARY: "NEWLINE-IF-NECESSARY",
+            ItemLabelPosEnum.NO_NEWLINE: "NO-NEWLINE",
+        }
+        for const, value in expected.items():
+            assert const == value
+        assert tuple(ItemLabelPosEnum().getEnumValues()) == ("NEWLINE", "NEWLINE-IF-NECESSARY", "NO-NEWLINE")
+
+    def test_item_label_pos_enum_literal_notes_are_verbatim(self):
+        """Each literal's inline comment is the Table 9.14 Description (incl. the Tags tail) verbatim."""
+        source = inspect.getsource(ItemLabelPosEnum)
+        for note in (
+            "The label is renders in a new line. Tags: atp.EnumerationLiteralIndex=0",
+            "The label is rendered in a new line if it is longer than the indentation. Tags: atp.EnumerationLiteralIndex=1",
+            "The label is rendered in one line with the item even if it is longer than the indentation. Tags: atp.EnumerationLiteralIndex=2",
+        ):
+            assert note in source
+
+    def test_item_label_pos_enum_validate_enum_value(self):
+        """validateEnumValue accepts the XSD wire forms only (AUTOSAR_00052.xsd ITEM-LABEL-POS-ENUM--SIMPLE)."""
         item_label_pos_enum = ItemLabelPosEnum()
-        assert item_label_pos_enum.validateEnumValue("NEWLINE")
-        assert not item_label_pos_enum.validateEnumValue("unknown")
+        assert item_label_pos_enum.validateEnumValue("NEWLINE") is True
+        assert item_label_pos_enum.validateEnumValue("NEWLINE-IF-NECESSARY") is True
+        assert item_label_pos_enum.validateEnumValue("NO-NEWLINE") is True
+        assert item_label_pos_enum.validateEnumValue("NEWLINE_IF_NECESSARY") is False
+        assert item_label_pos_enum.validateEnumValue("newlineIfNecessary") is False
+        assert item_label_pos_enum.validateEnumValue("unknown") is False
+
+    def test_item_label_pos_enum_set_value_with_member(self):
+        """The enum value is set and read through members, never plain strings (Rule 0011)."""
+        item_label_pos_enum = ItemLabelPosEnum().setValue(ItemLabelPosEnum.NEWLINE_IF_NECESSARY)
+        assert item_label_pos_enum.getValue() == ItemLabelPosEnum.NEWLINE_IF_NECESSARY
 
 
 class TestIndentSample:
