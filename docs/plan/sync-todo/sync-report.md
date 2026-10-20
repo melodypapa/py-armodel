@@ -10,8 +10,8 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 851 | 44.5% |
-| [x] Deferred | 76 | 4.0% |
+| [x] Done | 852 | 44.5% |
+| [x] Deferred | 75 | 3.9% |
 | [x] Retired | 0 | 0.0% |
 | [ ] Deferred | 976 | 51.0% |
 | [ ] Implemented | 10 | 0.5% |
@@ -1151,7 +1151,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `Ipv6Props`                                             | [ ] Deferred| 05891c9038                               | Group30          |
 | `Ipv6Rule`                                              | [x] Done    | 38bc83357c                               | Group20          |
 | `Item`                                                  | [x] Done    | cf8b43c369                               | Group9           |
-| `ItemLabelPosEnum`                                      | [x] Deferred| e6664dcdeb                               | Group21          |
+| `ItemLabelPosEnum`                                      | [x] Done    | b207c8f910                               | Group21          |
 | `J1939Cluster`                                          | [x] Done    | 44a70c3256                               | Group5           |
 | `J1939ControllerApplication`                            | [ ] Deferred| bf314fe2fe                               | Group30          |
 | `J1939ControllerApplicationToJ1939NmNodeMapping`        | [ ] Deferred| 7ffd517014                               | Group30          |
