@@ -426,6 +426,10 @@ the complete sheet and column reference.
 
 ## 1.12. Change notes:
 
+**Version 1.9.9**
+
+* Bumped project version metadata to 1.9.9
+
 **Version 1.9.8**
 
 * Synced the remaining Group19–Group22 queue classes to the AUTOSAR R23-11 spec: 35 classes, including the 12-class SdgDef family (new `SpecialDataDef` module) and the new `ModelRestrictionTypes` module (`FullBindingTimeEnum`, `AbstractValueRestriction`, `AbstractVariationRestriction`), `EvaluatedVariantSet`, `EEnumFont`/`EEnum` (rehoused to `InlineAttributeEnums`), and 14 `PrimitiveTypes` literal classes; `SymbolString` gained its table's `blueprintValue`/`namePattern` attributes (PR #871)
