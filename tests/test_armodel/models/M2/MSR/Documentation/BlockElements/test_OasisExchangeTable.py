@@ -354,11 +354,12 @@ class TestTable:
     def test_tgroup_aggregation_and_table_caption(self):
         table = Table()
         tgroup = Tgroup()
-        caption = Caption(None, "table_1")
 
         assert table.addTgroup(tgroup) is table
         assert table.getTgroups() == [tgroup]
-        assert table.setTableCaption(caption) is table
+        caption = table.createTableCaption("table_1")
+        assert isinstance(caption, Caption)
+        assert caption.getShortName() == "table_1"
         assert table.getTableCaption() is caption
 
     def test_inherited_pagination_accessors(self):

@@ -8,9 +8,6 @@ import xml.etree.cElementTree as ET
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.DocumentationOnM1 import (
-    DocumentationContext,
-)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import (
     AnyInstanceRef,
 )
@@ -75,13 +72,12 @@ class TestWriterPredefinedChapter:
 class TestWriterDocumentation:
     def test_full(self, writer):
         documentation = _make_documentation()
-        context = DocumentationContext(documentation, "Ctx1")
+        context = documentation.createContext("Ctx1")
         iref = AnyInstanceRef()
         iref.setBaseRef(_ref("/base", "SW-COMPONENT-TYPE"))
         iref.setTargetRef(_ref("/target", "SW-COMPONENT-TYPE"))
         context.setFeatureIRef(iref)
         context.setIdentifiableRef(_ref("/id", "IDENTIFIABLE"))
-        documentation.addContext(context)
         predefined = PredefinedChapter()
         predefined.setChapterModel(ChapterModel())
         documentation.setDocumentationContent(predefined)
@@ -116,13 +112,12 @@ class TestDocumentationRoundTrip:
         document.setARRelease("R23-11")
         pkg = document.createARPackage("Pkg")
         documentation = pkg.createDocumentation("Doc1")
-        context = DocumentationContext(documentation, "Ctx1")
+        context = documentation.createContext("Ctx1")
         iref = AnyInstanceRef()
         iref.setBaseRef(_ref("/base", "SW-COMPONENT-TYPE"))
         iref.setTargetRef(_ref("/target", "SW-COMPONENT-TYPE"))
         context.setFeatureIRef(iref)
         context.setIdentifiableRef(_ref("/id", "IDENTIFIABLE"))
-        documentation.addContext(context)
         predefined = PredefinedChapter()
         chapter_model = ChapterModel()
         predefined.setChapterModel(chapter_model)

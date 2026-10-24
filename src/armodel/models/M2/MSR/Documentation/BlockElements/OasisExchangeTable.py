@@ -905,7 +905,7 @@ class Table(Paginateable):
     # [x] getRowsep      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setRowsep      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getTableCaption [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setTableCaption [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createTableCaption  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getTabstyle    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setTabstyle    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] addTgroup      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
@@ -1061,13 +1061,22 @@ class Table(Paginateable):
         """
         return self.tableCaption
 
-    def setTableCaption(self, value: Optional[Caption]) -> Table:
+    def createTableCaption(self, short_name: str) -> Caption:
         """
-        This element specifies the table heading. Tags: xml.sequenceOffset=20. A None value is a no-op and does not overwrite an existing tableCaption.
+        This element specifies the table heading. Tags: xml.sequenceOffset=20
+
+        Args:
+            short_name: The short name of the Caption
+
+        Returns:
+            The created (or existing) Caption
         """
-        if value is not None:
-            self.tableCaption = value
-        return self
+        if self.tableCaption is not None and self.tableCaption.getShortName() == short_name:
+            return self.tableCaption
+        from armodel.models.M2.MSR.Documentation.BlockElements import Caption
+
+        self.tableCaption = Caption(self, short_name)
+        return self.tableCaption
 
     def getTabstyle(self) -> Optional[NameToken]:
         """

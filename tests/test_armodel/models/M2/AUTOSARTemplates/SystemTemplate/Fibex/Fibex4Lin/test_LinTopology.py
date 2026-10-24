@@ -1013,15 +1013,13 @@ class TestLinSlaveConfig:
         assert obj == obj.setFunctionId(None)
         assert obj.getFunctionId() == 24
 
-    def test_get_set_ident(self):
+    def test_create_ident(self):
         obj = LinSlaveConfig()
-        ident = LinSlaveConfigIdent(obj, "Ident")
+        ident = obj.createIdent("Ident")
 
-        assert obj == obj.setIdent(ident)
+        assert isinstance(ident, LinSlaveConfigIdent)
         assert obj.getIdent() == ident
-
-        assert obj == obj.setIdent(None)
-        assert obj.getIdent() == ident
+        assert obj.createIdent("Ident") is ident
 
     def test_get_set_initial_nad(self):
         obj = LinSlaveConfig()
@@ -1104,6 +1102,11 @@ class TestLinSlaveConfig:
         assert doc is not None
         assert inspect.cleandoc(doc).strip() == note + "\nA None value is a no-op and does not extend %s." % list_name
 
+    def _assert_create_docstring(self, method, note):
+        doc = method.__doc__
+        assert doc is not None
+        assert inspect.cleandoc(doc).strip().startswith(note)
+
     def test_member_docstrings_are_spec_note(self):
         """Test getter/setter/adder docstrings carry the spec Note verbatim (Table 3.39)"""
         self._assert_docstring(LinSlaveConfig.getConfiguredNad, LIN_SLAVE_CONFIG_CONFIGURED_NAD_NOTE)
@@ -1113,7 +1116,7 @@ class TestLinSlaveConfig:
         self._assert_docstring(LinSlaveConfig.setFunctionId, LIN_SLAVE_CONFIG_FUNCTION_ID_NOTE, "functionId")
 
         self._assert_docstring(LinSlaveConfig.getIdent, LIN_SLAVE_CONFIG_IDENT_NOTE)
-        self._assert_docstring(LinSlaveConfig.setIdent, LIN_SLAVE_CONFIG_IDENT_NOTE, "ident")
+        self._assert_create_docstring(LinSlaveConfig.createIdent, LIN_SLAVE_CONFIG_IDENT_NOTE)
 
         self._assert_docstring(LinSlaveConfig.getInitialNad, LIN_SLAVE_CONFIG_INITIAL_NAD_NOTE)
         self._assert_docstring(LinSlaveConfig.setInitialNad, LIN_SLAVE_CONFIG_INITIAL_NAD_NOTE, "initialNad")
@@ -1159,7 +1162,6 @@ class TestLinSlaveConfig:
         expected_setters = {
             "setConfiguredNad": (Optional[Integer], LinSlaveConfig),
             "setFunctionId": (Optional[PositiveInteger], LinSlaveConfig),
-            "setIdent": (Optional[LinSlaveConfigIdent], LinSlaveConfig),
             "setInitialNad": (Optional[Integer], LinSlaveConfig),
             "setLinErrorResponse": (Optional[LinErrorResponse], LinSlaveConfig),
             "addLinConfigurableFrame": (LinConfigurableFrame, LinSlaveConfig),
@@ -1172,6 +1174,10 @@ class TestLinSlaveConfig:
             setter_hints = get_type_hints(getattr(LinSlaveConfig, name))
             assert setter_hints["value"] == value_hint
             assert setter_hints["return"] == return_hint
+
+        create_hints = get_type_hints(LinSlaveConfig.createIdent)
+        assert create_hints["short_name"] is str
+        assert create_hints["return"] == LinSlaveConfigIdent
 
         src = inspect.getsource(sys.modules[LinSlaveConfig.__module__])
         tree = ast.parse(src)

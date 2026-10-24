@@ -700,7 +700,7 @@ class ServiceDependency(ARObject, ABC):
     # [x] getDiagnosticRelevance       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] setDiagnosticRelevance       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] getSymbolicNameProps         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSymbolicNameProps         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] createSymbolicNameProps     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
         if type(self) is ServiceDependency:
@@ -767,20 +767,26 @@ class ServiceDependency(ARObject, ABC):
         """
         return self.symbolicNameProps
 
-    def setSymbolicNameProps(self, value: Optional[SymbolicNameProps]) -> ServiceDependency:
+    def createSymbolicNameProps(self, short_name: str) -> SymbolicNameProps:
         """
         This attribute can be taken to contribute to the creation of symbolic name values.
-        Only sets the value if it is not None.
 
         Args:
-            value: The symbolic name properties to set
+        value: The symbolic name properties to set
 
         Returns:
-            self for method chaining
+        self for method chaining
+
+        Args:
+            short_name: The short name of the SymbolicNameProps
+
+        Returns:
+            The created (or existing) SymbolicNameProps
         """
-        if value is not None:
-            self.symbolicNameProps = value
-        return self
+        if self.symbolicNameProps is not None and self.symbolicNameProps.getShortName() == short_name:
+            return self.symbolicNameProps
+        self.symbolicNameProps = SymbolicNameProps(self, short_name)
+        return self.symbolicNameProps
 
 
 class DiagnosticAudienceEnum(AREnum):

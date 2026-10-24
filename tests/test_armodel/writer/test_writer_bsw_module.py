@@ -26,7 +26,6 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswQueuedDataReceptionPolicy,
     BswReleasedTriggerPolicy,
     BswServiceDependency,
-    BswServiceDependencyIdent,
     BswTimingEvent,
     BswTriggerDirectImplementation,
     BswVariableAccess,
@@ -39,7 +38,6 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview.InstanceRe
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     BswMgrNeeds,
     RoleBasedDataAssignment,
-    SymbolicNameProps,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa E501
     ARLiteral,
@@ -53,15 +51,10 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     TimeValue,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import (
-    ParameterDataPrototype,
-    VariableDataPrototype,
-)
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.IncludedDataTypes import IncludedDataTypeSet
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDeclarationGroup import (  # noqa E501
     IncludedModeDeclarationGroupSet,
 )
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.VariantHandling import VariationPointProxy
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwImplPolicyEnum
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
@@ -2601,8 +2594,7 @@ class TestWriterBswInternalBehaviorFullSync:
 
     def test_ar_typed_per_instance_memories(self, writer):
         behavior = _make_behavior()
-        prototype = VariableDataPrototype(parent=behavior, short_name="mem")
-        behavior.addArTypedPerInstanceMemory(prototype)
+        behavior.createArTypedPerInstanceMemory("mem")
         parent = _parent()
         writer.writeBswInternalBehaviorArTypedPerInstanceMemories(parent, behavior)
         assert parent[0].tag == "AR-TYPED-PER-INSTANCE-MEMORYS"
@@ -2651,8 +2643,7 @@ class TestWriterBswInternalBehaviorFullSync:
 
     def test_per_instance_parameters(self, writer):
         behavior = _make_behavior()
-        prototype = ParameterDataPrototype(parent=behavior, short_name="pip")
-        behavior.addPerInstanceParameter(prototype)
+        behavior.createPerInstanceParameter("pip")
         parent = _parent()
         writer.writeBswInternalBehaviorPerInstanceParameters(parent, behavior)
         assert parent[0].tag == "PER-INSTANCE-PARAMETERS"
@@ -2676,8 +2667,7 @@ class TestWriterBswInternalBehaviorFullSync:
 
     def test_variation_point_proxies(self, writer):
         behavior = _make_behavior()
-        proxy = VariationPointProxy(behavior, "vpx")
-        behavior.addVariationPointProxy(proxy)
+        behavior.createVariationPointProxy("vpx")
         parent = _parent()
         writer.writeBswInternalBehaviorVariationPointProxies(parent, behavior)
         assert parent[0].tag == "VARIATION-POINT-PROXYS"
@@ -2691,7 +2681,7 @@ class TestWriterBswInternalBehaviorFullSync:
         desc = pkg.createBswModuleDescription("BswMd")
         behavior = desc.createBswInternalBehavior("Beh")
 
-        behavior.addArTypedPerInstanceMemory(VariableDataPrototype(parent=behavior, short_name="mem"))
+        behavior.createArTypedPerInstanceMemory("mem")
         exclusive_policy = BswExclusiveAreaPolicy()
         exclusive_policy.setExclusiveAreaRef(_ref("/mod/Ea", "EXCLUSIVE-AREA"))
         behavior.addExclusiveAreaPolicy(exclusive_policy)
@@ -2700,14 +2690,14 @@ class TestWriterBswInternalBehaviorFullSync:
         receiver_policy.setEnhancedModeApi(_bool(True))
         receiver_policy.setRequiredModeGroupRef(_ref("/mod/Mg", "MODE-DECLARATION-GROUP-PROTOTYPE"))
         behavior.addModeReceiverPolicy(receiver_policy)
-        behavior.addPerInstanceParameter(ParameterDataPrototype(parent=behavior, short_name="pip"))
+        behavior.createPerInstanceParameter("pip")
         implementation = BswTriggerDirectImplementation()
         cat2_isr = Identifier()
         cat2_isr.setValue("isr1")
         implementation.setCat2Isr(cat2_isr)
         implementation.setMasteredTriggerRef(_ref("/mod/Trig", "TRIGGER"))
         behavior.addTriggerDirectImplementation(implementation)
-        behavior.addVariationPointProxy(VariationPointProxy(behavior, "vpx"))
+        behavior.createVariationPointProxy("vpx")
 
         out_file = tmp_path / "bib_out.arxml"
         ARXMLWriter(options={"validate": False}).save(
@@ -2847,7 +2837,7 @@ class TestWriterBswInternalTriggeringPoints:
 class TestWriterBswServiceDependency:
     def test_writeBswServiceDependency_full(self, writer):
         dependency = BswServiceDependency()
-        dependency.setIdent(BswServiceDependencyIdent(dependency, "ident"))
+        dependency.createIdent("ident")
         data = RoleBasedDataAssignment()
         data.setRole(Identifier().setValue("theRole"))
         dependency.addAssignedData(data)
@@ -3234,9 +3224,8 @@ class TestWriterBswServiceDependency:
         from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import CIdentifier
 
         dependency = BswServiceDependency()
-        props = SymbolicNameProps(dependency, "symProps")
+        props = dependency.createSymbolicNameProps("symProps")
         props.setSymbol(CIdentifier().setValue("mySymbol"))
-        dependency.setSymbolicNameProps(props)
 
         parent = _parent()
         writer.writeBswServiceDependency(parent, dependency)

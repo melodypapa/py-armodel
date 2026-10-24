@@ -36,9 +36,10 @@ class TestFMFeature:
 
     def test_add_get_attribute_defs(self):
         obj = self._obj()
-        attribute_def = FMAttributeDef(obj, "AttrDef")
-        assert obj.addAttributeDef(attribute_def) is obj
+        attribute_def = obj.createAttributeDef("AttrDef")
+        assert isinstance(attribute_def, FMAttributeDef)
         assert obj.getAttributeDefs() == [attribute_def]
+        assert obj.createAttributeDef("AttrDef") is attribute_def
 
     def test_add_get_decompositions(self):
         obj = self._obj()
@@ -78,12 +79,14 @@ class TestFMFeature:
 
     def test_add_get_relations(self):
         obj = self._obj()
-        relation = FMFeatureRelation(obj, "Relation")
-        assert obj.addRelation(relation) is obj
+        relation = obj.createRelation("Relation")
+        assert isinstance(relation, FMFeatureRelation)
         assert obj.getRelations() == [relation]
+        assert obj.createRelation("Relation") is relation
 
     def test_add_get_restrictions(self):
         obj = self._obj()
-        restriction = FMFeatureRestriction(obj, "Restriction")
-        assert obj.addRestriction(restriction) is obj
+        restriction = obj.createRestriction("Restriction")
+        assert isinstance(restriction, FMFeatureRestriction)
         assert obj.getRestrictions() == [restriction]
+        assert obj.createRestriction("Restriction") is restriction

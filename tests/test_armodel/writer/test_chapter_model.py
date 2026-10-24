@@ -6,11 +6,9 @@ from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import String
 from armodel.models.M2.MSR.Documentation.BlockElements import DocumentationBlock
 from armodel.models.M2.MSR.Documentation.Chapters import (
-    Chapter,
     ChapterContent,
     ChapterModel,
     ChapterOrMsrQuery,
-    Topic1,
     TopicContent,
     TopicContentOrMsrQuery,
     TopicOrMsrQuery,
@@ -28,7 +26,6 @@ def _parent():
 
 
 def _build_full_chapter_model() -> ChapterModel:
-    parent = _parent()
 
     paragraph = MultiLanguageParagraph()
     l1 = LParagraph()
@@ -41,11 +38,18 @@ def _build_full_chapter_model() -> ChapterModel:
     topic_props = MsrQueryProps().setMsrQueryName(String().setValue("topic-query"))
     chapter_props = MsrQueryProps().setMsrQueryName(String().setValue("chapter-query"))
 
+    topic_or_msr_query = TopicOrMsrQuery().setMsrQueryTopic1(MsrQueryTopic1().setMsrQueryProps(topic_props))
+    topic_or_msr_query.createTopic1("TopicA")
+    topic_or_msr_query.createTopic1("TopicB")
+    chapter_or_msr_query = ChapterOrMsrQuery().setMsrQueryChapter(MsrQueryChapter().setMsrQueryProps(chapter_props))
+    chapter_or_msr_query.createChapter("ChapterA")
+    chapter_or_msr_query.createChapter("ChapterB")
+
     return (
         ChapterModel()
         .setChapterContent(ChapterContent().setTopicContent(TopicContentOrMsrQuery().setTopicContent(TopicContent().setBlockLevelContent(block))))
-        .setTopic1(TopicOrMsrQuery().addTopic1(Topic1(parent, "TopicA")).addTopic1(Topic1(parent, "TopicB")).setMsrQueryTopic1(MsrQueryTopic1().setMsrQueryProps(topic_props)))
-        .setChapter(ChapterOrMsrQuery().addChapter(Chapter(parent, "ChapterA")).addChapter(Chapter(parent, "ChapterB")).setMsrQueryChapter(MsrQueryChapter().setMsrQueryProps(chapter_props)))
+        .setTopic1(topic_or_msr_query)
+        .setChapter(chapter_or_msr_query)
     )
 
 

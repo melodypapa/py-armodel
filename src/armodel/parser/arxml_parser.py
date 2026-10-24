@@ -277,7 +277,6 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     StorageConditionStatusEnum,
     SupervisedEntityCheckpointNeeds,
     SupervisedEntityNeeds,
-    SymbolicNameProps,
     SyncTimeBaseMgrUserNeeds,
     TracedFailure,
     TransientFault,
@@ -806,8 +805,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     FMAttributeDef,
     AggregationTailoring,
     ClassContentConditional,
-    ConstraintTailoring,
-    ConcreteClassTailoring,
     DocumentElementScope,
     PrimitiveAttributeTailoring,
     ReferenceTailoring,
@@ -817,7 +814,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     SecurityEventOneEveryNFilter,
     SecurityEventStateFilter,
     SecurityEventThresholdFilter,
-    BlockState,
     IdsmRateLimitation,
     IdsmTrafficLimitation,
     FMFeatureMapAssertion,
@@ -865,8 +861,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     SingleLanguageReferrable,
     PortElementToCommunicationResourceMapping,
     CpSoftwareClusterToResourceMapping,
-    AbstractClassTailoring,
-    SdgTailoring,
     UserDefinedGlobalTimeMaster,
     UserDefinedGlobalTimeSlave,
 )
@@ -1546,7 +1540,6 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopolo
     LinOrderedConfigurableFrame,
     LinSlave,
     LinSlaveConfig,
-    LinSlaveConfigIdent,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import DefaultValueElement, FrameMapping, Gateway, IPduMapping, ISignalMapping, PduMappingDefaultValue, TargetIPduRef
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
@@ -2575,13 +2568,11 @@ class ARXMLParser(AbstractARXMLParser):
     def readFMFeatureMapElement(self, element: ET.Element, map_element: FMFeatureMapElement) -> FMFeatureMapElement:
         self.readIdentifiable(element, map_element)
         for child_element in self.findall(element, "ASSERTIONS/FM-FEATURE-MAP-ASSERTION"):
-            assertion = FMFeatureMapAssertion(map_element, self.getShortName(child_element))
+            assertion = map_element.createAssertion(self.getShortName(child_element))
             self.readFMFeatureMapAssertion(child_element, assertion)
-            map_element.addAssertion(assertion)
         for child_element in self.findall(element, "CONDITIONS/FM-FEATURE-MAP-CONDITION"):
-            condition = FMFeatureMapCondition(map_element, self.getShortName(child_element))
+            condition = map_element.createCondition(self.getShortName(child_element))
             self.readFMFeatureMapCondition(child_element, condition)
-            map_element.addCondition(condition)
         for ref in self.getChildElementRefTypeList(element, "POST-BUILD-VARIANT-CRITERION-VALUE-SET-REFS/POST-BUILD-VARIANT-CRITERION-VALUE-SET-REF"):
             map_element.addPostBuildVariantCriterionValueSetRef(ref)
         for ref in self.getChildElementRefTypeList(element, "SW-SYSTEMCONSTANT-VALUE-SET-REFS/SW-SYSTEMCONSTANT-VALUE-SET-REF"):
@@ -2591,9 +2582,8 @@ class ARXMLParser(AbstractARXMLParser):
     def readFMFeature(self, element: ET.Element, feature: FMFeature) -> FMFeature:
         self.readIdentifiable(element, feature)
         for child_element in self.findall(element, "ATTRIBUTE-DEFS/FM-ATTRIBUTE-DEF"):
-            attribute_def = FMAttributeDef(feature, self.getShortName(child_element))
+            attribute_def = feature.createAttributeDef(self.getShortName(child_element))
             self.readFMAttributeDef(child_element, attribute_def)
-            feature.addAttributeDef(attribute_def)
         for child_element in self.findall(element, "DECOMPOSITIONS/FM-FEATURE-DECOMPOSITION"):
             decomposition = FMFeatureDecomposition()
             self.readFMFeatureDecomposition(child_element, decomposition)
@@ -2601,13 +2591,11 @@ class ARXMLParser(AbstractARXMLParser):
         feature.setMaximumIntendedBindingTime(self.getBindingTimeEnumElement(element, "MAXIMUM-INTENDED-BINDING-TIME"))
         feature.setMinimumIntendedBindingTime(self.getBindingTimeEnumElement(element, "MINIMUM-INTENDED-BINDING-TIME"))
         for child_element in self.findall(element, "RELATIONS/FM-FEATURE-RELATION"):
-            relation = FMFeatureRelation(feature, self.getShortName(child_element))
+            relation = feature.createRelation(self.getShortName(child_element))
             self.readFMFeatureRelation(child_element, relation)
-            feature.addRelation(relation)
         for child_element in self.findall(element, "RESTRICTIONS/FM-FEATURE-RESTRICTION"):
-            restriction = FMFeatureRestriction(feature, self.getShortName(child_element))
+            restriction = feature.createRestriction(self.getShortName(child_element))
             self.readFMFeatureRestriction(child_element, restriction)
-            feature.addRestriction(restriction)
         return feature
 
     def readFMFeatureModel(self, element: ET.Element, feature_model: FMFeatureModel) -> FMFeatureModel:
@@ -2624,17 +2612,15 @@ class ARXMLParser(AbstractARXMLParser):
         for ref in self.getChildElementRefTypeList(element, "INCLUDE-REFS/INCLUDE-REF"):
             selection_set.addIncludeRef(ref)
         for child_element in self.findall(element, "SELECTIONS/FM-FEATURE-SELECTION"):
-            selection = FMFeatureSelection(selection_set, self.getShortName(child_element))
+            selection = selection_set.createSelection(self.getShortName(child_element))
             self.readFMFeatureSelection(child_element, selection)
-            selection_set.addSelection(selection)
         return selection_set
 
     def readFMFeatureMap(self, element: ET.Element, feature_map: FMFeatureMap) -> FMFeatureMap:
         self.readIdentifiable(element, feature_map)
         for child_element in self.findall(element, "MAPPINGS/FM-FEATURE-MAP-ELEMENT"):
-            map_element = FMFeatureMapElement(feature_map, self.getShortName(child_element))
+            map_element = feature_map.createMapping(self.getShortName(child_element))
             self.readFMFeatureMapElement(child_element, map_element)
-            feature_map.addMapping(map_element)
         return feature_map
 
     def readIdsmRateLimitation(self, element: ET.Element, limitation: IdsmRateLimitation) -> IdsmRateLimitation:
@@ -2660,9 +2646,8 @@ class ARXMLParser(AbstractARXMLParser):
     def readLogAndTraceMessageCollectionSet(self, element: ET.Element, collection_set: LogAndTraceMessageCollectionSet) -> LogAndTraceMessageCollectionSet:
         self.readIdentifiable(element, collection_set)
         for child_element in self.findall(element, "DLT-MESSAGES/DLT-MESSAGE"):
-            message = DltMessage(collection_set, self.getShortName(child_element))
+            message = collection_set.createDltMessage(self.getShortName(child_element))
             self.readDltMessage(child_element, message)
-            collection_set.addDltMessage(message)
         return collection_set
 
     def readSecurityEventStateFilter(self, element: ET.Element, state_filter: SecurityEventStateFilter) -> SecurityEventStateFilter:
@@ -2724,9 +2709,8 @@ class ARXMLParser(AbstractARXMLParser):
         if len(idsm_instance_elements) > 0:
             mapping.setIdsmInstanceRef(self.getChildElementOptionalRefType(idsm_instance_elements[0], "IDSM-INSTANCE-REF"))
         for child_element in self.findall(element, "MAPPED-SECURITY-EVENTS/SECURITY-EVENT-CONTEXT-PROPS"):
-            props = SecurityEventContextProps(mapping, self.getShortName(child_element))
+            props = mapping.createMappedSecurityEvent(self.getShortName(child_element))
             self.readSecurityEventContextProps(child_element, props)
-            mapping.addMappedSecurityEvent(props)
         return mapping
 
     def readSecurityEventContextMappingBswModule(self, element: ET.Element, mapping: SecurityEventContextMappingBswModule) -> SecurityEventContextMappingBswModule:
@@ -2759,7 +2743,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, definition)
         event_symbol_name = self.find(element, "EVENT-SYMBOL-NAME")
         if event_symbol_name is not None:
-            definition.setEventSymbolName(self.readSymbolProps(event_symbol_name, SymbolProps(definition, self.getShortName(event_symbol_name))))
+            self.readSymbolProps(event_symbol_name, definition.createEventSymbolName(self.getShortName(event_symbol_name)))
         definition.setId(self.getChildElementOptionalPositiveInteger(element, "ID"))
         return definition
 
@@ -2767,16 +2751,16 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, filter_chain)
         aggregation = self.find(element, "AGGREGATION")
         if aggregation is not None:
-            filter_chain.setAggregation(self.readSecurityEventAggregationFilter(aggregation, SecurityEventAggregationFilter(filter_chain, self.getShortName(aggregation))))
+            self.readSecurityEventAggregationFilter(aggregation, filter_chain.createAggregation(self.getShortName(aggregation)))
         one_every_n = self.find(element, "ONE-EVERY-N")
         if one_every_n is not None:
-            filter_chain.setOneEveryN(self.readSecurityEventOneEveryNFilter(one_every_n, SecurityEventOneEveryNFilter(filter_chain, self.getShortName(one_every_n))))
+            self.readSecurityEventOneEveryNFilter(one_every_n, filter_chain.createOneEveryN(self.getShortName(one_every_n)))
         state = self.find(element, "STATE")
         if state is not None:
-            filter_chain.setState(self.readSecurityEventStateFilter(state, SecurityEventStateFilter(filter_chain, self.getShortName(state))))
+            self.readSecurityEventStateFilter(state, filter_chain.createState(self.getShortName(state)))
         threshold = self.find(element, "THRESHOLD")
         if threshold is not None:
-            filter_chain.setThreshold(self.readSecurityEventThresholdFilter(threshold, SecurityEventThresholdFilter(filter_chain, self.getShortName(threshold))))
+            self.readSecurityEventThresholdFilter(threshold, filter_chain.createThreshold(self.getShortName(threshold)))
         return filter_chain
 
     def readIdsDesign(self, element: ET.Element, ids_design: IdsDesign) -> IdsDesign:
@@ -2790,9 +2774,8 @@ class ARXMLParser(AbstractARXMLParser):
     def readIdsmInstance(self, element: ET.Element, idsm_instance: IdsmInstance) -> IdsmInstance:
         self.readIdentifiable(element, idsm_instance)
         for child_element in self.findall(element, "BLOCK-STATES/BLOCK-STATE"):
-            block_state = BlockState(idsm_instance, self.getShortName(child_element))
+            block_state = idsm_instance.createBlockState(self.getShortName(child_element))
             self.readIdentifiable(child_element, block_state)
-            idsm_instance.addBlockState(block_state)
         ecu_instance_elements = self.findall(element, "ECU-INSTANCES/ECU-INSTANCE-REF-CONDITIONAL")
         if len(ecu_instance_elements) > 0:
             idsm_instance.setEcuInstanceRef(self.getChildElementOptionalRefType(ecu_instance_elements[0], "ECU-INSTANCE-REF"))
@@ -2880,18 +2863,16 @@ class ARXMLParser(AbstractARXMLParser):
     def readSpecificationScope(self, element: ET.Element, specification_scope: SpecificationScope) -> SpecificationScope:
         self.readARObject(element, specification_scope)
         for child_element in self.findall(element, "SPECIFICATION-DOCUMENT-SCOPES/SPECIFICATION-DOCUMENT-SCOPE"):
-            scope = SpecificationDocumentScope(specification_scope, self.getShortName(child_element))
+            scope = specification_scope.createSpecificationDocumentScope(self.getShortName(child_element))
             self.readSpecificationDocumentScope(child_element, scope)
-            specification_scope.addSpecificationDocumentScope(scope)
         return specification_scope
 
     def readSpecificationDocumentScope(self, element: ET.Element, scope: SpecificationDocumentScope) -> SpecificationDocumentScope:
         self.readIdentifiable(element, scope)
         scope.setCustomDocumentationRef(self.getChildElementOptionalRefType(element, "CUSTOM-DOCUMENTATION-REF"))
         for child_element in self.findall(element, "DOCUMENT-ELEMENT-SCOPES/DOCUMENT-ELEMENT-SCOPE"):
-            element_scope = DocumentElementScope(scope, self.getShortName(child_element))
+            element_scope = scope.createDocumentElementScope(self.getShortName(child_element))
             self.readDocumentElementScope(child_element, element_scope)
-            scope.addDocumentElementScope(element_scope)
         return scope
 
     def readDocumentElementScope(self, element: ET.Element, scope: DocumentElementScope) -> DocumentElementScope:
@@ -2909,9 +2890,8 @@ class ARXMLParser(AbstractARXMLParser):
         if variation_restriction is not None:
             class_tailoring.setVariationRestriction(self.readVariationRestrictionWithSeverity(variation_restriction, VariationRestrictionWithSeverity()))
         for child_element in self.findall(element, "CLASS-CONTENTS/CLASS-CONTENT-CONDITIONAL"):
-            content = ClassContentConditional(class_tailoring, self.getShortName(child_element))
+            content = class_tailoring.createClassContent(self.getShortName(child_element))
             self.readClassContentConditional(child_element, content)
-            class_tailoring.addClassContent(content)
         return class_tailoring
 
     def readMultiplicityRestrictionWithSeverity(self, element: ET.Element, restriction: MultiplicityRestrictionWithSeverity) -> MultiplicityRestrictionWithSeverity:
@@ -2934,25 +2914,22 @@ class ARXMLParser(AbstractARXMLParser):
             tag_name = self.getTagName(child_element)
             tailoring: Any = None
             if tag_name == "PRIMITIVE-ATTRIBUTE-TAILORING":
-                tailoring = PrimitiveAttributeTailoring(content, self.getShortName(child_element))
+                tailoring = content.createPrimitiveAttributeTailoring(self.getShortName(child_element))
                 self.readPrimitiveAttributeTailoring(child_element, tailoring)
             elif tag_name == "AGGREGATION-TAILORING":
-                tailoring = AggregationTailoring(content, self.getShortName(child_element))
+                tailoring = content.createAggregationTailoring(self.getShortName(child_element))
                 self.readAggregationTailoring(child_element, tailoring)
             elif tag_name == "REFERENCE-TAILORING":
-                tailoring = ReferenceTailoring(content, self.getShortName(child_element))
+                tailoring = content.createReferenceTailoring(self.getShortName(child_element))
                 self.readReferenceTailoring(child_element, tailoring)
             if tailoring is not None:
                 self.readIdentifiable(child_element, tailoring)
-                content.addAttributeTailoring(tailoring)
         for child_element in self.findall(element, "CONSTRAINT-TAILORINGS/CONSTRAINT-TAILORING"):
-            tailoring = ConstraintTailoring(content, self.getShortName(child_element))
+            tailoring = content.createConstraintTailoring(self.getShortName(child_element))
             self.readIdentifiable(child_element, tailoring)
-            content.addConstraintTailoring(tailoring)
         for child_element in self.findall(element, "SDG-TAILORINGS/SDG-TAILORING"):
-            tailoring = SdgTailoring(content, self.getShortName(child_element))
+            tailoring = content.createSdgTailoring(self.getShortName(child_element))
             self.readIdentifiable(child_element, tailoring)
-            content.addSdgTailoring(tailoring)
         return content
 
     def readPrimitiveAttributeTailoring(self, element: ET.Element, tailoring: PrimitiveAttributeTailoring) -> PrimitiveAttributeTailoring:
@@ -2961,9 +2938,8 @@ class ARXMLParser(AbstractARXMLParser):
         if default_value_handling is not None:
             tailoring.setDefaultValueHandling(DefaultValueApplicationStrategyEnum().setValue(default_value_handling.getValue()))
         for child_element in self.findall(element, "SUB-ATTRIBUTE-TAILORINGS/PRIMITIVE-ATTRIBUTE-TAILORING"):
-            sub_tailoring = PrimitiveAttributeTailoring(tailoring, self.getShortName(child_element))
+            sub_tailoring = tailoring.createSubAttributeTailoring(self.getShortName(child_element))
             self.readPrimitiveAttributeTailoring(child_element, sub_tailoring)
-            tailoring.addSubAttributeTailoring(sub_tailoring)
         value_restriction_element = self.find(element, "VALUE-RESTRICTION")
         if value_restriction_element is not None:
             tailoring.setValueRestriction(self.readValueRestrictionWithSeverity(value_restriction_element, ValueRestrictionWithSeverity()))
@@ -2979,13 +2955,12 @@ class ARXMLParser(AbstractARXMLParser):
             tag_name = self.getTagName(child_element)
             class_tailoring: Any
             if tag_name == "ABSTRACT-CLASS-TAILORING":
-                class_tailoring = AbstractClassTailoring(tailoring, self.getShortName(child_element))
+                class_tailoring = tailoring.createAbstractClassTailoring(self.getShortName(child_element))
             elif tag_name == "CONCRETE-CLASS-TAILORING":
-                class_tailoring = ConcreteClassTailoring(tailoring, self.getShortName(child_element))
+                class_tailoring = tailoring.createConcreteClassTailoring(self.getShortName(child_element))
             else:
                 continue
             self.readClassTailoringContents(child_element, class_tailoring)
-            tailoring.addTypeTailoring(class_tailoring)
         return tailoring
 
     def readReferenceTailoring(self, element: ET.Element, tailoring: ReferenceTailoring) -> ReferenceTailoring:
@@ -2994,13 +2969,12 @@ class ARXMLParser(AbstractARXMLParser):
             tag_name = self.getTagName(child_element)
             class_tailoring: Any
             if tag_name == "ABSTRACT-CLASS-TAILORING":
-                class_tailoring = AbstractClassTailoring(tailoring, self.getShortName(child_element))
+                class_tailoring = tailoring.createAbstractClassTailoring(self.getShortName(child_element))
             elif tag_name == "CONCRETE-CLASS-TAILORING":
-                class_tailoring = ConcreteClassTailoring(tailoring, self.getShortName(child_element))
+                class_tailoring = tailoring.createConcreteClassTailoring(self.getShortName(child_element))
             else:
                 continue
             self.readClassTailoringContents(child_element, class_tailoring)
-            tailoring.addTypeTailoring(class_tailoring)
         return tailoring
 
     def readDataExchangePoint(self, element: ET.Element, data_exchange_point: DataExchangePoint) -> DataExchangePoint:
@@ -3025,17 +2999,15 @@ class ARXMLParser(AbstractARXMLParser):
             tag_name = self.getTagName(child_element)
             class_tailoring: Any
             if tag_name == "ABSTRACT-CLASS-TAILORING":
-                class_tailoring = AbstractClassTailoring(tailoring, self.getShortName(child_element))
+                class_tailoring = tailoring.createAbstractClassTailoring(self.getShortName(child_element))
             elif tag_name == "CONCRETE-CLASS-TAILORING":
-                class_tailoring = ConcreteClassTailoring(tailoring, self.getShortName(child_element))
+                class_tailoring = tailoring.createConcreteClassTailoring(self.getShortName(child_element))
             else:
                 continue
             self.readClassTailoringContents(child_element, class_tailoring)
-            tailoring.addClassTailoring(class_tailoring)
         for child_element in self.findall(element, "CONSTRAINT-TAILORINGS/CONSTRAINT-TAILORING"):
-            constraint_tailoring = ConstraintTailoring(tailoring, self.getShortName(child_element))
+            constraint_tailoring = tailoring.createConstraintTailoring(self.getShortName(child_element))
             self.readIdentifiable(child_element, constraint_tailoring)
-            tailoring.addConstraintTailoring(constraint_tailoring)
         return tailoring
 
     def readIdsmSignatureSupportAp(self, element: ET.Element, signature_support: IdsmSignatureSupportAp) -> IdsmSignatureSupportAp:
@@ -3058,13 +3030,11 @@ class ARXMLParser(AbstractARXMLParser):
     def readIdsmProperties(self, element: ET.Element, idsm_properties: IdsmProperties) -> IdsmProperties:
         self.readIdentifiable(element, idsm_properties)
         for child_element in self.findall(element, "RATE-LIMITATION-FILTERS/IDSM-RATE-LIMITATION"):
-            rate_limitation = IdsmRateLimitation(idsm_properties, self.getShortName(child_element))
+            rate_limitation = idsm_properties.createRateLimitationFilter(self.getShortName(child_element))
             self.readIdsmRateLimitation(child_element, rate_limitation)
-            idsm_properties.addRateLimitationFilter(rate_limitation)
         for child_element in self.findall(element, "TRAFFIC-LIMITATION-FILTERS/IDSM-TRAFFIC-LIMITATION"):
-            traffic_limitation = IdsmTrafficLimitation(idsm_properties, self.getShortName(child_element))
+            traffic_limitation = idsm_properties.createTrafficLimitationFilter(self.getShortName(child_element))
             self.readIdsmTrafficLimitation(child_element, traffic_limitation)
-            idsm_properties.addTrafficLimitationFilter(traffic_limitation)
         return idsm_properties
 
     def getBindingTimeEnumElement(self, element: ET.Element, key: str) -> Optional[BindingTimeEnum]:
@@ -3226,8 +3196,12 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         if child_element is not None:
             caption = Caption(None, self.getShortName(child_element))
-            self.readMultilanguageReferrable(child_element, caption)
-            caption.setDesc(self.getMultiLanguageOverviewParagraph(child_element, "DESC"))
+            self.readCaption(child_element, caption)
+        return caption
+
+    def readCaption(self, element: ET.Element, caption: Caption) -> Caption:
+        self.readMultilanguageReferrable(element, caption)
+        caption.setDesc(self.getMultiLanguageOverviewParagraph(element, "DESC"))
         return caption
 
     def readIdentifiable(self, element: ET.Element, identifiable: Identifiable):
@@ -4085,16 +4059,15 @@ class ARXMLParser(AbstractARXMLParser):
     def getBswServiceDependencyIdent(self, element: ET.Element, dependency: BswServiceDependency) -> Optional[BswServiceDependencyIdent]:
         ident_element = self.find(element, "IDENT")
         if ident_element is not None:
-            return BswServiceDependencyIdent(dependency, self.getShortName(ident_element))
+            return dependency.createIdent(self.getShortName(ident_element))
         return None
 
     def readSymbolicNameProps(self, element: ET.Element, dependency: ServiceDependency):
         props_element = self.find(element, "SYMBOLIC-NAME-PROPS")
         if props_element is None:
             return
-        props = SymbolicNameProps(dependency, self.getShortName(props_element))
+        props = dependency.createSymbolicNameProps(self.getShortName(props_element))
         self.readImplementationProps(props_element, props)
-        dependency.setSymbolicNameProps(props)
 
     def getRoleBasedBswModuleEntryAssignment(self, element: ET.Element) -> RoleBasedBswModuleEntryAssignment:
         assignment = RoleBasedBswModuleEntryAssignment()
@@ -4360,7 +4333,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readBswServiceDependency(self, element: ET.Element, dependency: BswServiceDependency):
         self.readARObject(element, dependency)
-        dependency.setIdent(self.getBswServiceDependencyIdent(element, dependency))
+        self.getBswServiceDependencyIdent(element, dependency)
         for child_element in self.findall(element, "ASSIGNED-DATA-TYPES/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "ROLE-BASED-DATA-TYPE-ASSIGNMENT":
@@ -5748,9 +5721,8 @@ class ARXMLParser(AbstractARXMLParser):
     def readSwcInternalBehaviorVariationPointProxies(self, element: ET.Element, behavior: SwcInternalBehavior):
         for child_element in self.findall(element, "VARIATION-POINT-PROXYS/VARIATION-POINT-PROXY"):
             short_name = self.getShortName(child_element)
-            proxy = VariationPointProxy(behavior, short_name)
+            proxy = behavior.createVariationPointProxy(short_name)
             self.readVariationPointProxy(child_element, proxy)
-            behavior.addVariationPointProxy(proxy)
 
     def readIncludedModeDeclarationGroupSet(self, element: ET.Element, group_set: IncludedModeDeclarationGroupSet):
         for ref in self.getChildElementRefTypeList(element, "MODE-DECLARATION-GROUP-REFS/MODE-DECLARATION-GROUP-REF"):
@@ -6158,9 +6130,8 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "AR-TYPED-PER-INSTANCE-MEMORYS/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "VARIABLE-DATA-PROTOTYPE":
-                memory = VariableDataPrototype(cast(ARObject, self), self.getShortName(child_element))
+                memory = behavior.createArTypedPerInstanceMemory(self.getShortName(child_element))
                 self.readVariableDataPrototype(child_element, memory)
-                behavior.addArTypedPerInstanceMemory(memory)
             else:
                 self.notImplemented("Unsupported ArTypedPerInstanceMemory <%s>" % tag_name)
 
@@ -6204,9 +6175,8 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "PER-INSTANCE-PARAMETERS/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "PARAMETER-DATA-PROTOTYPE":
-                parameter = ParameterDataPrototype(cast(ARObject, self), self.getShortName(child_element))
+                parameter = behavior.createPerInstanceParameter(self.getShortName(child_element))
                 self.readParameterDataPrototype(child_element, parameter)
-                behavior.addPerInstanceParameter(parameter)
             else:
                 self.notImplemented("Unsupported PerInstanceParameter <%s>" % tag_name)
 
@@ -6230,9 +6200,8 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "VARIATION-POINT-PROXYS/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "VARIATION-POINT-PROXY":
-                proxy = VariationPointProxy(behavior, self.getShortName(child_element))
+                proxy = behavior.createVariationPointProxy(self.getShortName(child_element))
                 self.readVariationPointProxy(child_element, proxy)
-                behavior.addVariationPointProxy(proxy)
             else:
                 self.notImplemented("Unsupported VariationPointProxy <%s>" % tag_name)
 
@@ -8266,7 +8235,9 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readTable(self, element: ET.Element, table: Table):
         self.readPaginateable(element, table)
-        table.setTableCaption(self.getCaption(element, "TABLE-CAPTION"))
+        caption_element = self.find(element, "TABLE-CAPTION")
+        if caption_element is not None:
+            self.readCaption(caption_element, table.createTableCaption(self.getShortName(caption_element)))
         for child_element in self.findall(element, "TGROUP"):
             tgroup = Tgroup()
             self.readTgroup(child_element, tgroup)
@@ -8553,7 +8524,9 @@ class ARXMLParser(AbstractARXMLParser):
         if child_element is not None:
             formula = MlFormula()
             self.readPaginateable(child_element, formula)
-            formula.setFormulaCaption(self.getCaption(child_element, "FORMULA-CAPTION"))
+            caption_element = self.find(child_element, "FORMULA-CAPTION")
+            if caption_element is not None:
+                self.readCaption(caption_element, formula.createFormulaCaption(self.getShortName(caption_element)))
             for l_graphic in self.findall(child_element, "L-GRAPHIC"):
                 graphic = LGraphic()
                 self.readLGraphic(l_graphic, graphic)
@@ -8969,9 +8942,8 @@ class ARXMLParser(AbstractARXMLParser):
             com_spec.setReceptionProps(reception_props)
         replace_with = self.find(element, "REPLACE-WITH")
         if replace_with is not None:
-            variable_access = VariableAccess(cast(ARObject, None), self.getShortName(replace_with))
+            variable_access = com_spec.createReplaceWith(self.getShortName(replace_with))
             self.readVariableAccess(replace_with, variable_access)
-            com_spec.setReplaceWith(variable_access)
         com_spec.setSyncCounterInit(self.getChildElementOptionalPositiveInteger(element, "SYNC-COUNTER-INIT"))
         self.readTransformationComSpecPropss(element, com_spec)
         com_spec.setUsesEndToEndProtection(self.getChildElementOptionalBooleanValue(element, "USES-END-TO-END-PROTECTION"))
@@ -9597,7 +9569,8 @@ class ARXMLParser(AbstractARXMLParser):
         element of its own to read S/T from. See the synthetic-wrapper note in Chapters.py.
         """
         for chapter_element in self.findall(element, "CHAPTER"):
-            chapter_or_msr_query.addChapter(self.readChapter(chapter_element, parent))
+            chapter = chapter_or_msr_query.createChapter(self.getShortName(chapter_element))
+            self.readChapterBody(chapter_element, chapter)
         msr_query_chapter_element = self.find(element, "MSR-QUERY-CHAPTER")
         if msr_query_chapter_element is not None:
             chapter_or_msr_query.setMsrQueryChapter(self.readMsrQueryChapter(msr_query_chapter_element, parent))
@@ -9612,7 +9585,8 @@ class ARXMLParser(AbstractARXMLParser):
         element of its own to read S/T from. See the synthetic-wrapper note in Chapters.py.
         """
         for topic_element in self.findall(element, "TOPIC-1"):
-            topic_or_msr_query.addTopic1(self.readTopic1(topic_element, parent))
+            topic1 = topic_or_msr_query.createTopic1(self.getShortName(topic_element))
+            self.readTopic1(topic_element, topic1)
         msr_query_topic1_element = self.find(element, "MSR-QUERY-TOPIC-1")
         if msr_query_topic1_element is not None:
             topic_or_msr_query.setMsrQueryTopic1(self.readMsrQueryTopic1(msr_query_topic1_element, parent))
@@ -9626,8 +9600,7 @@ class ARXMLParser(AbstractARXMLParser):
             predefined.setChapterModel(self.readChapterModel(chapter_model_element, cast(Chapter, None)))
         return predefined
 
-    def readDocumentationContext(self, element: ET.Element, parent: ARObject) -> DocumentationContext:
-        context = DocumentationContext(parent, self.getShortName(element))
+    def readDocumentationContext(self, element: ET.Element, context: DocumentationContext) -> DocumentationContext:
         self.readMultilanguageReferrable(element, context)
         context.setFeatureIRef(self.getAnyInstanceRef(element, "FEATURE-IREF"))
         context.setIdentifiableRef(self.getChildElementOptionalRefType(element, "IDENTIFIABLE-REF"))
@@ -9636,7 +9609,7 @@ class ARXMLParser(AbstractARXMLParser):
     def readDocumentation(self, element: ET.Element, documentation: Documentation):
         self.readARElement(element, documentation)
         for context_element in self.findall(element, "CONTEXTS/DOCUMENTATION-CONTEXT"):
-            documentation.addContext(self.readDocumentationContext(context_element, documentation))
+            self.readDocumentationContext(context_element, documentation.createContext(self.getShortName(context_element)))
         documentation_content_element = self.find(element, "DOCUMENTATION-CONTENT")
         if documentation_content_element is not None:
             documentation.setDocumentationContent(self.readPredefinedChapter(documentation_content_element))
@@ -9659,9 +9632,8 @@ class ARXMLParser(AbstractARXMLParser):
         if label is not None:
             prms.setLabel(label)
         for prm_element in self.findall(element, "PRM"):
-            prm = GeneralParameter(prms, self.getShortName(prm_element))
+            prm = prms.createPrm(self.getShortName(prm_element))
             self.readGeneralParameter(prm_element, prm)
-            prms.addPrm(prm)
         return prms
 
     def readGeneralParameter(self, element: ET.Element, prm: GeneralParameter) -> GeneralParameter:
@@ -9762,8 +9734,7 @@ class ARXMLParser(AbstractARXMLParser):
             self.readTraceableTable(traceable_table_element, traceable_table)
         return topic_content
 
-    def readTopic1(self, element: ET.Element, parent: Chapter) -> Topic1:
-        topic1 = Topic1(parent, self.getShortName(element))
+    def readTopic1(self, element: ET.Element, topic1: Topic1) -> Topic1:
         self.readIdentifiable(element, topic1)
         help_entry = element.get("HELP-ENTRY")
         if help_entry is not None:
@@ -9796,12 +9767,13 @@ class ARXMLParser(AbstractARXMLParser):
     def readMsrQueryResultChapter(self, element: ET.Element, parent: ARObject, result: MsrQueryResultChapter):
         self.readARObject(element, result)
         for child_element in self.findall(element, "CHAPTER"):
-            result.addChapter(self.readChapter(child_element, parent))
+            chapter = result.createChapter(self.getShortName(child_element))
+            self.readChapterBody(child_element, chapter)
 
     def readMsrQueryResultTopic1(self, element: ET.Element, parent: ARObject, result: MsrQueryResultTopic1):
         self.readARObject(element, result)
         for child_element in self.findall(element, "TOPIC-1"):
-            result.addTopic1(self.readTopic1(child_element, cast(Chapter, parent)))
+            self.readTopic1(child_element, result.createTopic1(self.getShortName(child_element)))
 
     def getMsrQueryResultChapter(self, element: ET.Element, key: str) -> Optional[MsrQueryResultChapter]:
         result = None
@@ -11045,10 +11017,8 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "TIMING-CLOCKS/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "TDLET-ZONE-CLOCK":
-                clock = TDLETZoneClock(extension, self.getShortName(child_element))
+                clock = extension.createTDLETZoneClock(self.getShortName(child_element))
                 self.readTDLETZoneClock(child_element, clock)
-                extension.addReferrableElement(clock)
-                extension.addTimingClock(clock)
             else:
                 self.notImplemented("Unsupported TIMING-CLOCKS item <%s>" % tag_name)
         for child_element in self.findall(element, "TIMING-CLOCK-SYNC-ACCURACYS/TIMING-CLOCK-SYNC-ACCURACY"):
@@ -11977,7 +11947,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readAbstractServiceInstanceMethodActivationRoutingGroups(self, element: ET.Element, instance: AbstractServiceInstance):
         for child_element in self.findall(element, "METHOD-ACTIVATION-ROUTING-GROUPS/PDU-ACTIVATION-ROUTING-GROUP"):
-            instance.setMethodActivationRoutingGroup(self.getPduActivationRoutingGroup(child_element))
+            self.readPduActivationRoutingGroup(child_element, instance.createMethodActivationRoutingGroup(self.getShortName(child_element)))
 
     def readAbstractServiceInstance(self, element: ET.Element, instance: AbstractServiceInstance):
         self.readIdentifiable(element, instance)
@@ -11996,7 +11966,7 @@ class ARXMLParser(AbstractARXMLParser):
         for ref in self.getChildElementRefTypeList(element, "EVENT-MULTICAST-ADDRESSS/APPLICATION-ENDPOINT-REF-CONDITIONAL/APPLICATION-ENDPOINT-REF"):
             group.addEventMulticastAddressRef(ref)
         for child_element in self.findall(element, "PDU-ACTIVATION-ROUTING-GROUPS/PDU-ACTIVATION-ROUTING-GROUP"):
-            group.addPduActivationRoutingGroup(self.getPduActivationRoutingGroup(child_element))
+            self.readPduActivationRoutingGroup(child_element, group.createPduActivationRoutingGroup(self.getShortName(child_element)))
         group.setPriority(self.getChildElementOptionalPositiveInteger(element, "PRIORITY"))
         self.readConsumedEventGroupRoutingGroupRefs(element, group)
         group.setSdClientConfig(self.getSdClientConfig(element, "SD-CLIENT-CONFIG"))
@@ -12166,7 +12136,7 @@ class ARXMLParser(AbstractARXMLParser):
         handler.setEventMulticastAddressRef(self.getChildElementOptionalRefType(element, "EVENT-MULTICAST-ADDRESSS/APPLICATION-ENDPOINT-REF-CONDITIONAL/APPLICATION-ENDPOINT-REF"))
         handler.setMulticastThreshold(self.getChildElementOptionalPositiveInteger(element, "MULTICAST-THRESHOLD"))
         for child_element in self.findall(element, "PDU-ACTIVATION-ROUTING-GROUPS/PDU-ACTIVATION-ROUTING-GROUP"):
-            handler.addPduActivationRoutingGroup(self.getPduActivationRoutingGroup(child_element))
+            self.readPduActivationRoutingGroup(child_element, handler.createPduActivationRoutingGroup(self.getShortName(child_element)))
         for ref in self.getChildElementRefTypeList(element, "ROUTING-GROUP-REFS/ROUTING-GROUP-REF"):
             handler.addRoutingGroupRef(ref)
         handler.setSdServerConfig(self.getSdServerConfig(element, "SD-SERVER-CONFIG"))
@@ -16594,8 +16564,8 @@ class ARXMLParser(AbstractARXMLParser):
         cond.setInformalFormula(cast(MlFormula, self.getMlFormula(child_element, "INFORMAL-FORMULA")))
         return cond
 
-    def readEcucValidationCondition(self, element: ET.Element) -> EcucValidationCondition:
-        vc = EcucValidationCondition(cast(ARObject, None), self.getShortName(element))
+    def readEcucValidationCondition(self, element: ET.Element, owner: EcucDefinitionElement) -> EcucValidationCondition:
+        vc = owner.createEcucValidationCond(self.getShortName(element))
         self.readIdentifiable(element, vc)
         for query_element in self.findall(element, "ECUC-QUERYS/ECUC-QUERY"):
             query = vc.createEcucQuery(self.getShortName(query_element))
@@ -16607,8 +16577,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readEcucValidationConditions(self, element: ET.Element, def_element: EcucDefinitionElement):
         for vc_element in self.findall(element, "ECUC-VALIDATION-CONDS/ECUC-VALIDATION-CONDITION"):
-            vc = self.readEcucValidationCondition(vc_element)
-            def_element.addEcucValidationCond(vc)
+            self.readEcucValidationCondition(vc_element, def_element)
 
     def readEcucQuery(self, element: ET.Element, query: EcucQuery):
         self.readIdentifiable(element, query)
@@ -16922,9 +16891,8 @@ class ARXMLParser(AbstractARXMLParser):
             for child_element in classes_element:
                 tag_name = self.getTagName(child_element)
                 if tag_name == "SDG-CLASS":
-                    sdg_class = SdgClass(sdg_def, self.getShortName(child_element))
+                    sdg_class = sdg_def.createSdgClass(self.getShortName(child_element))
                     self.readSdgClass(child_element, sdg_class)
-                    sdg_def.addSdgClass(sdg_class)
 
     def readSdgClass(self, element: ET.Element, sdg_class: SdgClass):
         self.logger.debug("Read SdgClass <%s>" % sdg_class.getShortName())
@@ -17326,9 +17294,8 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "ETHERNET-TRAFFIC-CLASS-ASSIGNMENTS/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "COUPLING-PORT-TRAFFIC-CLASS-ASSIGNMENT":
-                assignment = CouplingPortTrafficClassAssignment(details, self.getShortName(child_element))
+                assignment = details.createEthernetTrafficClassAssignment(self.getShortName(child_element))
                 self.readCouplingPortTrafficClassAssignment(child_element, assignment)
-                details.addEthernetTrafficClassAssignment(assignment)
             else:
                 self.notImplemented("Unsupported CouplingPortTrafficClassAssignment <%s>" % tag_name)
 
@@ -18074,20 +18041,24 @@ class ARXMLParser(AbstractARXMLParser):
             config.setNetworkMask(self.getChildElementOptionalIp4AddressString(child_element, "NETWORK-MASK"))
         return config
 
+    def readPduActivationRoutingGroup(self, element: ET.Element, group: PduActivationRoutingGroup) -> PduActivationRoutingGroup:
+        self.readIdentifiable(element, group)
+        control_type_literal = self.getChildElementOptionalLiteral(element, "EVENT-GROUP-CONTROL-TYPE")
+        if control_type_literal is not None:
+            control_type = EventGroupControlTypeEnum()
+            control_type.setValue(control_type_literal.getValue())
+            group.setEventGroupControlType(control_type)
+        for ref in self.getChildElementRefTypeList(element, "I-PDU-IDENTIFIER-TCP-REFS/I-PDU-IDENTIFIER-TCP-REF"):
+            group.addIPduIdentifierTcpRef(ref)
+        for ref in self.getChildElementRefTypeList(element, "I-PDU-IDENTIFIER-UDP-REFS/I-PDU-IDENTIFIER-UDP-REF"):
+            group.addIPduIdentifierUdpRef(ref)
+        return group
+
     def getPduActivationRoutingGroup(self, element: ET.Element) -> Optional[PduActivationRoutingGroup]:
         group = None
         if element is not None:
             group = PduActivationRoutingGroup(cast(ARObject, None), self.getShortName(element))
-            self.readIdentifiable(element, group)
-            control_type_literal = self.getChildElementOptionalLiteral(element, "EVENT-GROUP-CONTROL-TYPE")
-            if control_type_literal is not None:
-                control_type = EventGroupControlTypeEnum()
-                control_type.setValue(control_type_literal.getValue())
-                group.setEventGroupControlType(control_type)
-            for ref in self.getChildElementRefTypeList(element, "I-PDU-IDENTIFIER-TCP-REFS/I-PDU-IDENTIFIER-TCP-REF"):
-                group.addIPduIdentifierTcpRef(ref)
-            for ref in self.getChildElementRefTypeList(element, "I-PDU-IDENTIFIER-UDP-REFS/I-PDU-IDENTIFIER-UDP-REF"):
-                group.addIPduIdentifierUdpRef(ref)
+            self.readPduActivationRoutingGroup(element, group)
         return group
 
     def readServiceInstanceCollectionSet(self, element: ET.Element, collection_set: ServiceInstanceCollectionSet):
@@ -18336,9 +18307,8 @@ class ARXMLParser(AbstractARXMLParser):
         config.setFunctionId(self.getChildElementOptionalPositiveInteger(child_element, "FUNCTION-ID"))
         ident_element = self.find(child_element, "IDENT")
         if ident_element is not None:
-            ident = LinSlaveConfigIdent(config, self.getShortName(ident_element))
+            ident = config.createIdent(self.getShortName(ident_element))
             self.readReferrable(ident_element, ident)
-            config.setIdent(ident)
         config.setInitialNad(self.getChildElementOptionalIntegerValue(child_element, "INITIAL-NAD"))
         frames_wrapper = self.find(child_element, "LIN-CONFIGURABLE-FRAMES")
         if frames_wrapper is not None:
@@ -19834,15 +19804,13 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readSystemMappingRteEventSeparations(self, element: ET.Element, mapping: SystemMapping):
         for child_element in self.findall(element, "RTE-EVENT-SEPARATIONS/RTE-EVENT-IN-SYSTEM-SEPARATION"):
-            separation = RteEventInSystemSeparation(mapping, self.getShortName(child_element))
+            separation = mapping.createRteEventSeparation(self.getShortName(child_element))
             self.readRteEventInSystemSeparation(child_element, separation)
-            mapping.addRteEventSeparation(separation)
 
     def readSystemMappingRteEventToOsTaskProxyMappings(self, element: ET.Element, mapping: SystemMapping):
         for child_element in self.findall(element, "RTE-EVENT-TO-OS-TASK-PROXY-MAPPINGS/RTE-EVENT-IN-SYSTEM-TO-OS-TASK-PROXY-MAPPING"):
-            rte_event_mapping = RteEventInSystemToOsTaskProxyMapping(mapping, self.getShortName(child_element))
+            rte_event_mapping = mapping.createRteEventToOsTaskProxyMapping(self.getShortName(child_element))
             self.readRteEventInSystemToOsTaskProxyMapping(child_element, rte_event_mapping)
-            mapping.addRteEventToOsTaskProxyMapping(rte_event_mapping)
 
     def readSystemMappingAppOsTaskProxyToEcuTaskProxyMappings(self, element: ET.Element, mapping: SystemMapping):
         for child_element in self.findall(element, "APP-OS-TASK-PROXY-TO-ECU-TASK-PROXY-MAPPINGS/APP-OS-TASK-PROXY-TO-ECU-TASK-PROXY-MAPPING"):
@@ -20248,8 +20216,7 @@ class ARXMLParser(AbstractARXMLParser):
         for ref in self.getChildElementRefTypeList(element, "KEY-EXCHANGE-REFS/KEY-EXCHANGE-REF"):
             mapping.addKeyExchangeRef(ref)
         for suite_element in self.findall(element, "TLS-CIPHER-SUITES/TLS-CRYPTO-CIPHER-SUITE"):
-            cipher_suite = TlsCryptoCipherSuite(mapping, self.getShortName(suite_element))
-            mapping.addTlsCipherSuite(cipher_suite)
+            cipher_suite = mapping.createTlsCipherSuite(self.getShortName(suite_element))
             self.readTlsCryptoCipherSuite(suite_element, cipher_suite)
         mapping.setUseClientAuthenticationRequest(self.getChildElementOptionalBooleanValue(element, "USE-CLIENT-AUTHENTICATION-REQUEST"))
         mapping.setUseSecurityExtensionRecordSizeLimit(self.getChildElementOptionalBooleanValue(element, "USE-SECURITY-EXTENSION-RECORD-SIZE-LIMIT"))
@@ -20271,9 +20238,8 @@ class ARXMLParser(AbstractARXMLParser):
         cipher_suite.setPriority(self.getChildElementOptionalPositiveInteger(element, "PRIORITY"))
         props_element = self.find(element, "PROPS")
         if props_element is not None:
-            props = TlsCryptoCipherSuiteProps(cipher_suite, self.getShortName(props_element))
+            props = cipher_suite.createProps(self.getShortName(props_element))
             self.readTlsCryptoCipherSuiteProps(props_element, props)
-            cipher_suite.setProps(props)
         psk_element = self.find(element, "PSK-IDENTITY")
         if psk_element is not None:
             psk_identity = TlsPskIdentity()
@@ -20471,9 +20437,8 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readSystemMappingSwClusterMappings(self, element: ET.Element, mapping: SystemMapping):
         for child_element in self.findall(element, "SW-CLUSTER-MAPPINGS/CP-SOFTWARE-CLUSTER-TO-ECU-INSTANCE-MAPPING"):
-            sw_cluster_mapping = CpSoftwareClusterToEcuInstanceMapping(mapping, self.getShortName(child_element))
+            sw_cluster_mapping = mapping.createSwClusterMapping(self.getShortName(child_element))
             self.readCpSoftwareClusterToEcuInstanceMapping(child_element, sw_cluster_mapping)
-            mapping.addSwClusterMapping(sw_cluster_mapping)
 
     def readCpSoftwareClusterResourceToApplicationPartitionMapping(self, element: ET.Element, mapping: CpSoftwareClusterResourceToApplicationPartitionMapping):
         self.readIdentifiable(element, mapping)
@@ -20482,9 +20447,8 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readSystemMappingResourceToApplicationPartitionMappings(self, element: ET.Element, mapping: SystemMapping):
         for child_element in self.findall(element, "RESOURCE-TO-APPLICATION-PARTITION-MAPPINGS/CP-SOFTWARE-CLUSTER-RESOURCE-TO-APPLICATION-PARTITION-MAPPING"):
-            resource_mapping = CpSoftwareClusterResourceToApplicationPartitionMapping(mapping, self.getShortName(child_element))
+            resource_mapping = mapping.createResourceToApplicationPartitionMapping(self.getShortName(child_element))
             self.readCpSoftwareClusterResourceToApplicationPartitionMapping(child_element, resource_mapping)
-            mapping.addResourceToApplicationPartitionMapping(resource_mapping)
 
     def readCpSoftwareClusterToApplicationPartitionMapping(self, element: ET.Element, mapping: CpSoftwareClusterToApplicationPartitionMapping):
         self.readIdentifiable(element, mapping)
@@ -20494,15 +20458,13 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readSystemMappingSoftwareClusterToApplicationPartitionMappings(self, element: ET.Element, mapping: SystemMapping):
         for child_element in self.findall(element, "SOFTWARE-CLUSTER-TO-APPLICATION-PARTITION-MAPPINGS/CP-SOFTWARE-CLUSTER-TO-APPLICATION-PARTITION-MAPPING"):
-            sc_mapping = CpSoftwareClusterToApplicationPartitionMapping(mapping, self.getShortName(child_element))
+            sc_mapping = mapping.createSoftwareClusterToApplicationPartitionMapping(self.getShortName(child_element))
             self.readCpSoftwareClusterToApplicationPartitionMapping(child_element, sc_mapping)
-            mapping.addSoftwareClusterToApplicationPartitionMapping(sc_mapping)
 
     def readSystemMappingSoftwareClusterToResourceMappings(self, element: ET.Element, mapping: SystemMapping):
         for child_element in self.findall(element, "SOFTWARE-CLUSTER-TO-RESOURCE-MAPPINGS/CP-SOFTWARE-CLUSTER-TO-RESOURCE-MAPPING"):
-            scr_mapping = CpSoftwareClusterToResourceMapping(mapping, self.getShortName(child_element))
+            scr_mapping = mapping.createSoftwareClusterToResourceMapping(self.getShortName(child_element))
             self.readCpSoftwareClusterToResourceMapping(child_element, scr_mapping)
-            mapping.addSoftwareClusterToResourceMapping(scr_mapping)
 
     def readSystemSignalToCommunicationResourceMapping(self, element: ET.Element, mapping: SystemSignalToCommunicationResourceMapping):
         self.readIdentifiable(element, mapping)
@@ -20511,9 +20473,8 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readSystemMappingSystemSignalToComResourceMappings(self, element: ET.Element, mapping: SystemMapping):
         for child_element in self.findall(element, "SYSTEM-SIGNAL-TO-COM-RESOURCE-MAPPINGS/SYSTEM-SIGNAL-TO-COMMUNICATION-RESOURCE-MAPPING"):
-            signal_mapping = SystemSignalToCommunicationResourceMapping(mapping, self.getShortName(child_element))
+            signal_mapping = mapping.createSystemSignalToComResourceMapping(self.getShortName(child_element))
             self.readSystemSignalToCommunicationResourceMapping(child_element, signal_mapping)
-            mapping.addSystemSignalToComResourceMapping(signal_mapping)
 
     def readSystemSignalGroupToCommunicationResourceMapping(self, element: ET.Element, mapping: SystemSignalGroupToCommunicationResourceMapping):
         self.readIdentifiable(element, mapping)
@@ -20522,9 +20483,8 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readSystemMappingSystemSignalGroupToComResourceMappings(self, element: ET.Element, mapping: SystemMapping):
         for child_element in self.findall(element, "SYSTEM-SIGNAL-GROUP-TO-COM-RESOURCE-MAPPINGS/SYSTEM-SIGNAL-GROUP-TO-COMMUNICATION-RESOURCE-MAPPING"):
-            group_mapping = SystemSignalGroupToCommunicationResourceMapping(mapping, self.getShortName(child_element))
+            group_mapping = mapping.createSystemSignalGroupToComResourceMapping(self.getShortName(child_element))
             self.readSystemSignalGroupToCommunicationResourceMapping(child_element, group_mapping)
-            mapping.addSystemSignalGroupToComResourceMapping(group_mapping)
 
     def readCpSoftwareClusterToResourceMapping(self, element: ET.Element, mapping: CpSoftwareClusterToResourceMapping) -> CpSoftwareClusterToResourceMapping:
         self.readIdentifiable(element, mapping)
@@ -20838,27 +20798,15 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readApplicationInterface(self, element: ET.Element, interface: ApplicationInterface):
         self.readIdentifiable(element, interface)
-        fields = []
         for child_element in self.findall(element, "ATTRIBUTES/FIELD"):
-            field = Field(interface, self.getShortName(child_element))
+            field = interface.createAttribute(self.getShortName(child_element))
             self.readField(child_element, field)
-            fields.append(field)
-        if len(fields) > 0:
-            interface.setAttributes(fields)
-        operations = []
         for child_element in self.findall(element, "COMMANDS/CLIENT-SERVER-OPERATION"):
-            operation = ClientServerOperation(interface, self.getShortName(child_element))
+            operation = interface.createCommand(self.getShortName(child_element))
             self.readClientServerOperation(child_element, operation)
-            operations.append(operation)
-        if len(operations) > 0:
-            interface.setCommands(operations)
-        indications = []
         for child_element in self.findall(element, "INDICATIONS/VARIABLE-DATA-PROTOTYPE"):
-            indication = VariableDataPrototype(interface, self.getShortName(child_element))
+            indication = interface.createIndication(self.getShortName(child_element))
             self.readVariableDataPrototype(child_element, indication)
-            indications.append(indication)
-        if len(indications) > 0:
-            interface.setIndications(indications)
 
     def readAliasNameAssignment(self, element: ET.Element, assignment: AliasNameAssignment):
         assignment.setShortLabel(self.getChildElementOptionalString(element, "SHORT-LABEL"))

@@ -365,7 +365,7 @@ class MsrQueryResultChapter(ARObject):
     # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] addChapter      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createChapter    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getChapters     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self):
@@ -374,16 +374,22 @@ class MsrQueryResultChapter(ARObject):
         # This is one particular chapter in the query result. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
         self.chapters: List[Chapter] = []
 
-    def addChapter(self, value: Optional[Chapter]) -> MsrQueryResultChapter:
+    def createChapter(self, short_name: str) -> Chapter:
         """
-        This is one particular chapter in the query result. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false. A None value is a no-op and does not append to the existing chapters.
+        This is one particular chapter in the query result. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
+
+        Args:
+            short_name: The short name of the Chapter
 
         Returns:
-            self for method chaining
+            The created (or existing) Chapter
         """
-        if value is not None:
-            self.chapters.append(value)
-        return self
+        for item in self.chapters:
+            if item.getShortName() == short_name:
+                return item
+        item = Chapter(self, short_name)
+        self.chapters.append(item)
+        return item
 
     def getChapters(self) -> List[Chapter]:
         """
@@ -402,7 +408,7 @@ class MsrQueryResultTopic1(ARObject):
     # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] addTopic1      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createTopic1    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getTopic1s     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self):
@@ -411,16 +417,22 @@ class MsrQueryResultTopic1(ARObject):
         # This represents one particular topic in the query result. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
         self.topic1: List[Topic1] = []
 
-    def addTopic1(self, value: Optional[Topic1]) -> MsrQueryResultTopic1:
+    def createTopic1(self, short_name: str) -> Topic1:
         """
-        This represents one particular topic in the query result. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false. A None value is a no-op and does not append to the existing topic1.
+        This represents one particular topic in the query result. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
+
+        Args:
+            short_name: The short name of the Topic1
 
         Returns:
-            self for method chaining
+            The created (or existing) Topic1
         """
-        if value is not None:
-            self.topic1.append(value)
-        return self
+        for item in self.topic1:
+            if item.getShortName() == short_name:
+                return item
+        item = Topic1(self, short_name)
+        self.topic1.append(item)
+        return item
 
     def getTopic1s(self) -> List[Topic1]:
         """

@@ -572,7 +572,6 @@ class TestWriteAttributeValueVariationPointRoundTrip:
     AttributeValueVariationPoint attribute value through the VALUE-ACCESS dispatch."""
 
     def _build_document(self):
-        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.VariantHandling import VariationPointProxy
 
         document = AUTOSAR.getInstance()
         document.clear()
@@ -582,7 +581,7 @@ class TestWriteAttributeValueVariationPointRoundTrip:
         component = pkg.createApplicationSwComponentType("MyComponent")
         behavior = component.createSwcInternalBehavior("Behavior")
 
-        proxy = VariationPointProxy(behavior, "vpp1")
+        proxy = behavior.createVariationPointProxy("vpp1")
         avp = NumericalValueVariationPoint()
         avp.setBindingTime(BindingTimeEnum().setValue("PRE-COMPILE-TIME"))
         avp.setSd(String().setValue("sd-rt"))
@@ -590,7 +589,6 @@ class TestWriteAttributeValueVariationPointRoundTrip:
         avp.setBlueprintValue(String().setValue("bp-rt"))
         avp.setMixedString("1234")
         proxy.setValueAccess(avp)
-        behavior.addVariationPointProxy(proxy)
         return document
 
     def test_round_trip_value_access_fields_preserved(self, tmp_path):
@@ -618,8 +616,6 @@ class TestWriteAttributeValueVariationPointRoundTrip:
         import os
         import tempfile
 
-        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.VariantHandling import VariationPointProxy
-
         document = AUTOSAR.getInstance()
         document.clear()
         document.setARRelease("R23-11")
@@ -627,7 +623,7 @@ class TestWriteAttributeValueVariationPointRoundTrip:
         pkg = document.createARPackage("Demo")
         component = pkg.createApplicationSwComponentType("MyComponent")
         behavior = component.createSwcInternalBehavior("Behavior")
-        behavior.addVariationPointProxy(VariationPointProxy(behavior, "vpp_empty"))
+        behavior.createVariationPointProxy("vpp_empty")
 
         output = tempfile.mktemp(suffix=".arxml")
         ARXMLWriter().save(output, document)
@@ -644,13 +640,12 @@ class TestWriteAttributeValueVariationPointRoundTrip:
 
 class TestVariationPointProxyRoundTrip:
     def _build(self, document):
-        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.VariantHandling import VariationPointProxy
 
         pkg = document.createARPackage("AUTOSAR")
         component = pkg.createApplicationSwComponentType("MyComponent")
         behavior = component.createSwcInternalBehavior("Behavior")
 
-        proxy = VariationPointProxy(behavior, "vpp1")
+        proxy = behavior.createVariationPointProxy("vpp1")
         syscond = ConditionByFormula()
         syscond.setBindingTime(BindingTimeEnum().setValue("PRE-COMPILE-TIME"))
         proxy.setConditionAccess(syscond)
@@ -661,7 +656,6 @@ class TestVariationPointProxyRoundTrip:
         condition.setValue(Integer().setValue("1"))
         proxy.addPostBuildVariantCondition(condition)
         proxy.setValueAccess(NumericalValueVariationPoint())
-        behavior.addVariationPointProxy(proxy)
         return behavior
 
     def test_round_trip_variation_point_proxy(self):
@@ -738,9 +732,6 @@ class TestVariationPointProxyRoundTrip:
         import tempfile
 
         from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR as _AUTOSAR
-        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.VariantHandling import (
-            VariationPointProxy,
-        )
         from armodel.parser.arxml_parser import ARXMLParser
         from armodel.writer.arxml_writer import ARXMLWriter
 
@@ -751,7 +742,7 @@ class TestVariationPointProxyRoundTrip:
         component = pkg.createApplicationSwComponentType("MyComponent")
         behavior = component.createSwcInternalBehavior("Behavior")
 
-        proxy = VariationPointProxy(behavior, "vpp1")
+        proxy = behavior.createVariationPointProxy("vpp1")
         limit = LimitValueVariationPoint()
         limit.setBindingTime(BindingTimeEnum().setValue("PRE-COMPILE-TIME"))
         limit.setSd(String().setValue("sd-x"))
@@ -760,7 +751,6 @@ class TestVariationPointProxyRoundTrip:
         limit.setIntervalType(IntervalTypeEnum().setValue(IntervalTypeEnum.OPEN))
         limit.setMixedString("42")
         proxy.setValueAccess(limit)
-        behavior.addVariationPointProxy(proxy)
 
         file_path = tempfile.mktemp(suffix=".arxml")
         try:

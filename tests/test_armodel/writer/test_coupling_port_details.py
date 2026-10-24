@@ -13,7 +13,6 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     CouplingPortRatePolicy,
     CouplingPortRatePolicyActionEnum,
     CouplingPortScheduler,
-    CouplingPortTrafficClassAssignment,
     GlobalTimeCouplingPortProps,
 )
 from armodel.parser.arxml_parser import ARXMLParser
@@ -54,9 +53,8 @@ def _new_details():
     regen = details.createEthernetPriorityRegeneration("Regen1")
     regen.setIngressPriority(_pos_int("3"))
     regen.setRegeneratedPriority(_pos_int("7"))
-    assignment = CouplingPortTrafficClassAssignment(details, "Assign1")
+    assignment = details.createEthernetTrafficClassAssignment("Assign1")
     assignment.setTrafficClass(_pos_int("2"))
-    details.addEthernetTrafficClassAssignment(assignment)
     ref = _ref("/Ecu/CouplingPort/Sched9")
     details.setLastEgressSchedulerRef(ref)
     return details

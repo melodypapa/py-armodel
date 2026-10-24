@@ -790,7 +790,7 @@ class AbstractClassTailoring(Identifiable):
     # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 6.20, p.101
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] addClassContent             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createClassContent          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getClassContents            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] getMultiplicityRestriction  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setMultiplicityRestriction  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
@@ -809,12 +809,22 @@ class AbstractClassTailoring(Identifiable):
         # Specifies restrictions on the usage of variant handling. Tags: xml.sequenceOffset=20
         self.variationRestriction: Optional[VariationRestrictionWithSeverity] = None
 
-    def addClassContent(self, value: ClassContentConditional) -> AbstractClassTailoring:
+    def createClassContent(self, short_name: str) -> ClassContentConditional:
         """
         Specifies the accepted / not accepted content of the class. All rules apply that fullfill the condition of the Class ContentConditional. Tags: xml.sequenceOffset=30
+
+        Args:
+            short_name: The short name of the ClassContentConditional
+
+        Returns:
+            The created (or existing) ClassContentConditional
         """
-        self.classContents.append(value)
-        return self
+        for item in self.classContents:
+            if item.getShortName() == short_name:
+                return item
+        item = ClassContentConditional(self, short_name)
+        self.classContents.append(item)
+        return item
 
     def getClassContents(self) -> List[ClassContentConditional]:
         """
@@ -898,7 +908,8 @@ class AggregationTailoring(AttributeTailoring):
     # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 6.34, p.113
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] addTypeTailoring          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createAbstractClassTailoring [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createConcreteClassTailoring [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getTypeTailorings         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
@@ -907,12 +918,39 @@ class AggregationTailoring(AttributeTailoring):
         # Local class tailoring which is applied if the content is contained by this aggregation.
         self.typeTailorings: List[ClassTailoring] = []
 
-    def addTypeTailoring(self, value: ClassTailoring) -> AggregationTailoring:
+    def createAbstractClassTailoring(self, short_name: str) -> AbstractClassTailoring:
         """
         Local class tailoring which is applied if the content is contained by this aggregation.
+
+        Args:
+            short_name: The short name of the AbstractClassTailoring
+
+        Returns:
+            The created (or existing) AbstractClassTailoring
         """
-        self.typeTailorings.append(value)
-        return self
+        for existing in self.typeTailorings:
+            if isinstance(existing, AbstractClassTailoring) and existing.getShortName() == short_name:
+                return existing
+        tailoring = AbstractClassTailoring(self, short_name)
+        self.typeTailorings.append(cast(ClassTailoring, tailoring))
+        return tailoring
+
+    def createConcreteClassTailoring(self, short_name: str) -> ConcreteClassTailoring:
+        """
+        Local class tailoring which is applied if the content is contained by this aggregation.
+
+        Args:
+            short_name: The short name of the ConcreteClassTailoring
+
+        Returns:
+            The created (or existing) ConcreteClassTailoring
+        """
+        for existing in self.typeTailorings:
+            if isinstance(existing, ConcreteClassTailoring) and existing.getShortName() == short_name:
+                return existing
+        tailoring = ConcreteClassTailoring(self, short_name)
+        self.typeTailorings.append(cast(ClassTailoring, tailoring))
+        return tailoring
 
     def getTypeTailorings(self) -> List[ClassTailoring]:
         """
@@ -932,11 +970,13 @@ class ClassContentConditional(Identifiable):
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getCondition                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setCondition                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] addAttributeTailoring        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createAggregationTailoring     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createPrimitiveAttributeTailoring [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createReferenceTailoring      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getAttributeTailorings       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] addConstraintTailoring       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createConstraintTailoring    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getConstraintTailorings      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] addSdgTailoring              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createSdgTailoring           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getSdgTailorings             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
@@ -970,12 +1010,56 @@ class ClassContentConditional(Identifiable):
             self.condition = value
         return self
 
-    def addAttributeTailoring(self, value: AttributeTailoring) -> ClassContentConditional:
+    def createAggregationTailoring(self, short_name: str) -> AggregationTailoring:
         """
         Tailorings of the owned and inherited attributes of this Meta Classes Tags: xml.sequenceOffset=20
+
+        Args:
+            short_name: The short name of the AggregationTailoring
+
+        Returns:
+            The created (or existing) AggregationTailoring
         """
-        self.attributeTailorings.append(value)
-        return self
+        for item in self.attributeTailorings:
+            if isinstance(item, AggregationTailoring) and item.getShortName() == short_name:
+                return item
+        item = AggregationTailoring(self, short_name)
+        self.attributeTailorings.append(item)
+        return item
+
+    def createPrimitiveAttributeTailoring(self, short_name: str) -> PrimitiveAttributeTailoring:
+        """
+        Tailorings of the owned and inherited attributes of this Meta Classes Tags: xml.sequenceOffset=20
+
+        Args:
+            short_name: The short name of the PrimitiveAttributeTailoring
+
+        Returns:
+            The created (or existing) PrimitiveAttributeTailoring
+        """
+        for item in self.attributeTailorings:
+            if isinstance(item, PrimitiveAttributeTailoring) and item.getShortName() == short_name:
+                return item
+        item = PrimitiveAttributeTailoring(self, short_name)
+        self.attributeTailorings.append(item)
+        return item
+
+    def createReferenceTailoring(self, short_name: str) -> ReferenceTailoring:
+        """
+        Tailorings of the owned and inherited attributes of this Meta Classes Tags: xml.sequenceOffset=20
+
+        Args:
+            short_name: The short name of the ReferenceTailoring
+
+        Returns:
+            The created (or existing) ReferenceTailoring
+        """
+        for item in self.attributeTailorings:
+            if isinstance(item, ReferenceTailoring) and item.getShortName() == short_name:
+                return item
+        item = ReferenceTailoring(self, short_name)
+        self.attributeTailorings.append(item)
+        return item
 
     def getAttributeTailorings(self) -> List[AttributeTailoring]:
         """
@@ -983,12 +1067,22 @@ class ClassContentConditional(Identifiable):
         """
         return self.attributeTailorings
 
-    def addConstraintTailoring(self, value: ConstraintTailoring) -> ClassContentConditional:
+    def createConstraintTailoring(self, short_name: str) -> ConstraintTailoring:
         """
         Specification of tailorings of Constraints of that are owned by this Meta Classes Tags: xml.sequenceOffset=30
+
+        Args:
+            short_name: The short name of the ConstraintTailoring
+
+        Returns:
+            The created (or existing) ConstraintTailoring
         """
-        self.constraintTailorings.append(value)
-        return self
+        for item in self.constraintTailorings:
+            if item.getShortName() == short_name:
+                return item
+        item = ConstraintTailoring(self, short_name)
+        self.constraintTailorings.append(item)
+        return item
 
     def getConstraintTailorings(self) -> List[ConstraintTailoring]:
         """
@@ -996,12 +1090,22 @@ class ClassContentConditional(Identifiable):
         """
         return self.constraintTailorings
 
-    def addSdgTailoring(self, value: SdgTailoring) -> ClassContentConditional:
+    def createSdgTailoring(self, short_name: str) -> SdgTailoring:
         """
         Specification of the applicable Special Data Group Tags: xml.sequenceOffset=40
+
+        Args:
+            short_name: The short name of the SdgTailoring
+
+        Returns:
+            The created (or existing) SdgTailoring
         """
-        self.sdgTailorings.append(value)
-        return self
+        for item in self.sdgTailorings:
+            if item.getShortName() == short_name:
+                return item
+        item = SdgTailoring(self, short_name)
+        self.sdgTailorings.append(item)
+        return item
 
     def getSdgTailorings(self) -> List[SdgTailoring]:
         """
@@ -1019,7 +1123,7 @@ class ConcreteClassTailoring(Identifiable):
     # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 6.26, p.104
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] addClassContent             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createClassContent          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getClassContents            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] getMultiplicityRestriction  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setMultiplicityRestriction  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
@@ -1038,12 +1142,22 @@ class ConcreteClassTailoring(Identifiable):
         # Specifies restrictions on the usage of variant handling. Tags: xml.sequenceOffset=20
         self.variationRestriction: Optional[VariationRestrictionWithSeverity] = None
 
-    def addClassContent(self, value: ClassContentConditional) -> ConcreteClassTailoring:
+    def createClassContent(self, short_name: str) -> ClassContentConditional:
         """
         Specifies the accepted / not accepted content of the class. All rules apply that fullfill the condition of the Class ContentConditional. Tags: xml.sequenceOffset=30
+
+        Args:
+            short_name: The short name of the ClassContentConditional
+
+        Returns:
+            The created (or existing) ClassContentConditional
         """
-        self.classContents.append(value)
-        return self
+        for item in self.classContents:
+            if item.getShortName() == short_name:
+                return item
+        item = ClassContentConditional(self, short_name)
+        self.classContents.append(item)
+        return item
 
     def getClassContents(self) -> List[ClassContentConditional]:
         """
@@ -2067,9 +2181,9 @@ class FMFeatureMapElement(Identifiable):
     # Spec: AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf, Table 6.2, p.53
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] addAssertion                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createAssertion                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getAssertions                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] addCondition                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createCondition                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getConditions                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] addPostBuildVariantCriterionValueSetRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getPostBuildVariantCriterionValueSetRefs [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -2091,12 +2205,22 @@ class FMFeatureMapElement(Identifiable):
         # Selects a set of values for system constants.
         self.swSystemconstantValueSetRefs: List[RefType] = []
 
-    def addAssertion(self, value: FMFeatureMapAssertion) -> FMFeatureMapElement:
+    def createAssertion(self, short_name: str) -> FMFeatureMapAssertion:
         """
         Defines a boolean expression based on features and system constants which needs to evaluate to true for this mapping to become active.
+
+        Args:
+            short_name: The short name of the FMFeatureMapAssertion
+
+        Returns:
+            The created (or existing) FMFeatureMapAssertion
         """
-        self.assertions.append(value)
-        return self
+        for item in self.assertions:
+            if item.getShortName() == short_name:
+                return item
+        item = FMFeatureMapAssertion(self, short_name)
+        self.assertions.append(item)
+        return item
 
     def getAssertions(self) -> List[FMFeatureMapAssertion]:
         """
@@ -2104,12 +2228,22 @@ class FMFeatureMapElement(Identifiable):
         """
         return self.assertions
 
-    def addCondition(self, value: FMFeatureMapCondition) -> FMFeatureMapElement:
+    def createCondition(self, short_name: str) -> FMFeatureMapCondition:
         """
         Defines a condition which needs to be fulfilled for this mapping to become active.
+
+        Args:
+            short_name: The short name of the FMFeatureMapCondition
+
+        Returns:
+            The created (or existing) FMFeatureMapCondition
         """
-        self.conditions.append(value)
-        return self
+        for item in self.conditions:
+            if item.getShortName() == short_name:
+                return item
+        item = FMFeatureMapCondition(self, short_name)
+        self.conditions.append(item)
+        return item
 
     def getConditions(self) -> List[FMFeatureMapCondition]:
         """
@@ -2840,7 +2974,7 @@ class PrimitiveAttributeTailoring(AttributeTailoring):
     # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getDefaultValueHandling        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setDefaultValueHandling        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] addSubAttributeTailoring       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createSubAttributeTailoring    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getSubAttributeTailorings      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] getValueRestriction            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setValueRestriction            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
@@ -2873,12 +3007,22 @@ class PrimitiveAttributeTailoring(AttributeTailoring):
             self.defaultValueHandling = value
         return self
 
-    def addSubAttributeTailoring(self, value: PrimitiveAttributeTailoring) -> PrimitiveAttributeTailoring:
+    def createSubAttributeTailoring(self, short_name: str) -> PrimitiveAttributeTailoring:
         """
         Tailors the attribute of a <<primitive>> data type.
+
+        Args:
+            short_name: The short name of the PrimitiveAttributeTailoring
+
+        Returns:
+            The created (or existing) PrimitiveAttributeTailoring
         """
-        self.subAttributeTailorings.append(value)
-        return self
+        for item in self.subAttributeTailorings:
+            if item.getShortName() == short_name:
+                return item
+        item = PrimitiveAttributeTailoring(self, short_name)
+        self.subAttributeTailorings.append(item)
+        return item
 
     def getSubAttributeTailorings(self) -> List[PrimitiveAttributeTailoring]:
         """
@@ -2912,7 +3056,8 @@ class ReferenceTailoring(AttributeTailoring):
     # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 6.35, p.115
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] addTypeTailoring          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createAbstractClassTailoring [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createConcreteClassTailoring [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getTypeTailorings         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
@@ -2921,12 +3066,39 @@ class ReferenceTailoring(AttributeTailoring):
         # Local class tailoring which is applied if the content is contained by this aggregation.
         self.typeTailorings: List[ClassTailoring] = []
 
-    def addTypeTailoring(self, value: ClassTailoring) -> ReferenceTailoring:
+    def createAbstractClassTailoring(self, short_name: str) -> AbstractClassTailoring:
         """
         Local class tailoring which is applied if the content is contained by this aggregation.
+
+        Args:
+            short_name: The short name of the AbstractClassTailoring
+
+        Returns:
+            The created (or existing) AbstractClassTailoring
         """
-        self.typeTailorings.append(value)
-        return self
+        for existing in self.typeTailorings:
+            if isinstance(existing, AbstractClassTailoring) and existing.getShortName() == short_name:
+                return existing
+        tailoring = AbstractClassTailoring(self, short_name)
+        self.typeTailorings.append(cast(ClassTailoring, tailoring))
+        return tailoring
+
+    def createConcreteClassTailoring(self, short_name: str) -> ConcreteClassTailoring:
+        """
+        Local class tailoring which is applied if the content is contained by this aggregation.
+
+        Args:
+            short_name: The short name of the ConcreteClassTailoring
+
+        Returns:
+            The created (or existing) ConcreteClassTailoring
+        """
+        for existing in self.typeTailorings:
+            if isinstance(existing, ConcreteClassTailoring) and existing.getShortName() == short_name:
+                return existing
+        tailoring = ConcreteClassTailoring(self, short_name)
+        self.typeTailorings.append(cast(ClassTailoring, tailoring))
+        return tailoring
 
     def getTypeTailorings(self) -> List[ClassTailoring]:
         """
@@ -2960,7 +3132,7 @@ class SpecificationDocumentScope(SpecElementScope):
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getCustomDocumentationRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setCustomDocumentationRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] addDocumentElementScope      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createDocumentElementScope   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getDocumentElementScopes     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
@@ -2988,12 +3160,22 @@ class SpecificationDocumentScope(SpecElementScope):
             self.customDocumentationRef = value
         return self
 
-    def addDocumentElementScope(self, value: DocumentElementScope) -> SpecificationDocumentScope:
+    def createDocumentElementScope(self, short_name: str) -> DocumentElementScope:
         """
         An element with a name or ID that is specified in the Specification Document.
+
+        Args:
+            short_name: The short name of the DocumentElementScope
+
+        Returns:
+            The created (or existing) DocumentElementScope
         """
-        self.documentElementScopes.append(value)
-        return self
+        for item in self.documentElementScopes:
+            if item.getShortName() == short_name:
+                return item
+        item = DocumentElementScope(self, short_name)
+        self.documentElementScopes.append(item)
+        return item
 
     def getDocumentElementScopes(self) -> List[DocumentElementScope]:
         """

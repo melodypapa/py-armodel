@@ -208,14 +208,12 @@ class TestTopicOrMsrQuery:
 
     def test_topic1s_is_a_list_backed_by_its_own_field(self):
         """Rule 0004: the spec-* `topic1` maps to a dedicated typed list field, not a registry filter."""
-        parent = self._parent()
         query = TopicOrMsrQuery()
-        topic_a = Topic1(parent, "TopicA")
-        topic_b = Topic1(parent, "TopicB")
-        assert query.addTopic1(topic_a) is query
-        query.addTopic1(None)
-        query.addTopic1(topic_b)
+        topic_a = query.createTopic1("TopicA")
+        topic_b = query.createTopic1("TopicB")
+        assert isinstance(topic_a, Topic1)
         assert query.getTopic1s() == [topic_a, topic_b]
+        assert query.createTopic1("TopicA") is topic_a
         assert query.getTopic1s() is query.topic1s
 
     def test_set_get_msr_query_topic1(self):
@@ -233,7 +231,7 @@ class TestTopicOrMsrQuery:
         assert typing.get_type_hints(TopicOrMsrQuery.getMsrQueryTopic1)["return"] == typing.Optional[MsrQueryTopic1]
         assert typing.get_type_hints(TopicOrMsrQuery.setMsrQueryTopic1)["value"] == typing.Optional[MsrQueryTopic1]
         assert typing.get_type_hints(TopicOrMsrQuery.getTopic1s)["return"] == typing.List[Topic1]
-        assert typing.get_type_hints(TopicOrMsrQuery.addTopic1)["value"] == typing.Optional[Topic1]
+        assert typing.get_type_hints(TopicOrMsrQuery.createTopic1)["return"] == Topic1
 
 
 class TestChapterOrMsrQuery:
@@ -255,14 +253,12 @@ class TestChapterOrMsrQuery:
 
     def test_chapters_is_a_list_backed_by_its_own_field(self):
         """Rule 0004: the spec-* `chapter` maps to a dedicated typed list field, not a registry filter."""
-        parent = self._parent()
         query = ChapterOrMsrQuery()
-        chapter_a = Chapter(parent, "NestedA")
-        chapter_b = Chapter(parent, "NestedB")
-        assert query.addChapter(chapter_a) is query
-        query.addChapter(None)
-        query.addChapter(chapter_b)
+        chapter_a = query.createChapter("NestedA")
+        chapter_b = query.createChapter("NestedB")
+        assert isinstance(chapter_a, Chapter)
         assert query.getChapters() == [chapter_a, chapter_b]
+        assert query.createChapter("NestedA") is chapter_a
         assert query.getChapters() is query.chapters
 
     def test_set_get_msr_query_chapter(self):
@@ -278,7 +274,7 @@ class TestChapterOrMsrQuery:
         import typing
 
         assert typing.get_type_hints(ChapterOrMsrQuery.getChapters)["return"] == typing.List[Chapter]
-        assert typing.get_type_hints(ChapterOrMsrQuery.addChapter)["value"] == typing.Optional[Chapter]
+        assert typing.get_type_hints(ChapterOrMsrQuery.createChapter)["return"] == Chapter
         assert typing.get_type_hints(ChapterOrMsrQuery.getMsrQueryChapter)["return"] == typing.Optional[MsrQueryChapter]
         assert typing.get_type_hints(ChapterOrMsrQuery.setMsrQueryChapter)["value"] == typing.Optional[MsrQueryChapter]
 
@@ -387,14 +383,12 @@ class TestDocumentationLeafClasses:
         assert isinstance(query, object)
 
     def test_chapter_or_msr_query_add_get_chapters(self):
-        parent = self._parent()
         query = ChapterOrMsrQuery()
-        chapter_a = Chapter(parent, "NestedA")
-        chapter_b = Chapter(parent, "NestedB")
-        assert query.addChapter(chapter_a) is query
-        query.addChapter(None)
-        query.addChapter(chapter_b)
+        chapter_a = query.createChapter("NestedA")
+        chapter_b = query.createChapter("NestedB")
+        assert isinstance(chapter_a, Chapter)
         assert query.getChapters() == [chapter_a, chapter_b]
+        assert query.createChapter("NestedA") is chapter_a
 
     def test_chapter_or_msr_query_msr_query_chapter(self):
         query = ChapterOrMsrQuery()
@@ -405,14 +399,12 @@ class TestDocumentationLeafClasses:
         assert query.getMsrQueryChapter() is msr_chapter
 
     def test_topic_or_msr_query_add_get_topic1_and_msr_query_topic1(self):
-        parent = self._parent()
         query = TopicOrMsrQuery()
-        topic_a = Topic1(parent, "TopicA")
-        topic_b = Topic1(parent, "TopicB")
-        assert query.addTopic1(topic_a) is query
-        query.addTopic1(None)
-        query.addTopic1(topic_b)
+        topic_a = query.createTopic1("TopicA")
+        topic_b = query.createTopic1("TopicB")
+        assert isinstance(topic_a, Topic1)
         assert query.getTopic1s() == [topic_a, topic_b]
+        assert query.createTopic1("TopicA") is topic_a
         msr_topic = MsrQueryTopic1()
         assert query.setMsrQueryTopic1(msr_topic) is query
         assert query.getMsrQueryTopic1() is msr_topic

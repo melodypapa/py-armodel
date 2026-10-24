@@ -64,19 +64,8 @@ class TestApplicationInterface:
         obj = ApplicationInterface(ar_root, "test_applicationinterface")
 
         initial_count = len(obj.getAttributes())
-        # Test uses create method for owned attributes, add method for references
-        attr_kind = "attribute"
-        is_ref = False
-        should_use_create = attr_kind == "attribute" and not is_ref and False
-
-        if should_use_create:
-            # For create method, use singular form of attribute name
-            result = obj.createAttribute("test_value")
-            assert result is not None
-        else:
-            # For add method, also use singular form of attribute name
-            result = obj.addAttribute(None)
-            assert result == obj
+        result = obj.createAttribute("test_value")
+        assert result is not None
         assert len(obj.getAttributes()) >= initial_count
 
     def test_get_command(self):
@@ -107,19 +96,8 @@ class TestApplicationInterface:
         obj = ApplicationInterface(ar_root, "test_applicationinterface")
 
         initial_count = len(obj.getCommands())
-        # Test uses create method for owned attributes, add method for references
-        attr_kind = "attribute"
-        is_ref = False
-        should_use_create = attr_kind == "attribute" and not is_ref and False
-
-        if should_use_create:
-            # For create method, use singular form of attribute name
-            result = obj.createCommand("test_value")
-            assert result is not None
-        else:
-            # For add method, also use singular form of attribute name
-            result = obj.addCommand(None)
-            assert result == obj
+        result = obj.createCommand("test_value")
+        assert result is not None
         assert len(obj.getCommands()) >= initial_count
 
     def test_get_indication(self):
@@ -150,17 +128,6 @@ class TestApplicationInterface:
         obj = ApplicationInterface(ar_root, "test_applicationinterface")
 
         initial_count = len(obj.getIndications())
-        # Test uses create method for owned attributes, add method for references
-        attr_kind = "attribute"
-        is_ref = True
-        should_use_create = attr_kind == "attribute" and not is_ref and False
-
-        if should_use_create:
-            # For create method, use singular form of attribute name
-            result = obj.createIndication("test_value")
-            assert result is not None
-        else:
-            # For add method, also use singular form of attribute name
-            result = obj.addIndication(None)
-            assert result == obj
+        result = obj.createIndication("test_value")
+        assert result is not None
         assert len(obj.getIndications()) >= initial_count

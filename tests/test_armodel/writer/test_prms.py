@@ -6,7 +6,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.MSR.AsamHdo.Units import SingleLanguageUnitNames
 from armodel.models.M2.MSR.Documentation.BlockElements import DocumentationBlock
 from armodel.models.M2.MSR.Documentation.BlockElements.GerneralParameters import (
-    GeneralParameter,
     PrmChar,
     PrmCharAbsTol,
     PrmCharMinTypMax,
@@ -42,10 +41,9 @@ def _build_full_prms() -> Prms:
     numerical.setAbsTol(abs_tol)
     char.setNumericalContents(numerical)
 
-    prm = GeneralParameter(prms, "p1")
+    prm = prms.createPrm("p1")
     prm.addPrmChar(char)
-    prms.addPrm(prm)
-    prms.addPrm(GeneralParameter(prms, "p2"))
+    prms.createPrm("p2")
     return prms
 
 
@@ -83,16 +81,18 @@ class TestPrmsWriter:
         numerical.setMinTypMax(mtm)
         numerical.setPrmUnit(SingleLanguageUnitNames().setMixedString("nm"))
         char = PrmChar().setNumericalContents(numerical)
-        prm = GeneralParameter(None, "p1").addPrmChar(char)
-        writer.writePrms(element, Prms().addPrm(prm))
+        prms = Prms()
+        prms.createPrm("p1").addPrmChar(char)
+        writer.writePrms(element, prms)
 
         char_element = element.find("PRMS/PRM/PRM-CHAR")
         assert [child.tag for child in char_element] == ["MIN", "TYP", "MAX", "PRM-UNIT"]
         assert char_element.find("PRM-UNIT").text == "nm"
 
         textual_char = PrmChar().setTextualContents(PrmCharTextualContents().setText(String().setValue("revision A")))
-        textual_prm = GeneralParameter(None, "p2").addPrmChar(textual_char)
-        writer.writePrms(element, Prms().addPrm(textual_prm))
+        textual_prms = Prms()
+        textual_prms.createPrm("p2").addPrmChar(textual_char)
+        writer.writePrms(element, textual_prms)
         textual_element = element.findall("PRMS")[1].find("PRM/PRM-CHAR")
         assert [child.tag for child in textual_element] == ["TEXT"]
         assert textual_element.find("TEXT").text == "revision A"

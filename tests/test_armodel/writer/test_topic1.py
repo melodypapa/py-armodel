@@ -27,7 +27,7 @@ def _reparse(element: ET.Element) -> Topic1:
     parsed = ET.fromstring(ET.tostring(element, encoding="unicode"))
     topic_element = parsed[0]
     assert topic_element.tag.endswith("TOPIC-1")
-    return ARXMLParser().readTopic1(topic_element, _parent())
+    return ARXMLParser().readTopic1(topic_element, Topic1(_parent(), "TopicA"))
 
 
 class TestTopic1Writer:

@@ -9,12 +9,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     SecurityEventDefinition,
     SecurityEventFilterChain,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
-    SecurityEventAggregationFilter,
-    SecurityEventOneEveryNFilter,
-    SecurityEventStateFilter,
-    SecurityEventThresholdFilter,
-)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, RefType
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
@@ -29,18 +23,14 @@ class TestWriteSecurityExtractElements:
 
     def test_write_and_round_trip_filter_chain(self):
         filter_chain = SecurityEventFilterChain(self._parent(), "Chain")
-        aggregation = SecurityEventAggregationFilter(filter_chain, "Aggregation")
-        filter_chain.setAggregation(aggregation)
-        one_every_n = SecurityEventOneEveryNFilter(filter_chain, "OneEveryN")
+        filter_chain.createAggregation("Aggregation")
+        one_every_n = filter_chain.createOneEveryN("OneEveryN")
         n = PositiveInteger()
         n.setValue(3)
         one_every_n.setN(n)
-        filter_chain.setOneEveryN(one_every_n)
-        state = SecurityEventStateFilter(filter_chain, "State")
+        state = filter_chain.createState("State")
         state.addBlockIfStateActiveCpRef(RefType().setValue("/Pkg/BlockState").setDest("BLOCK-STATE"))
-        filter_chain.setState(state)
-        threshold = SecurityEventThresholdFilter(filter_chain, "Threshold")
-        filter_chain.setThreshold(threshold)
+        filter_chain.createThreshold("Threshold")
 
         container = ET.Element("ELEMENTS")
         ARXMLWriter().writeSecurityEventFilterChain(container, filter_chain)

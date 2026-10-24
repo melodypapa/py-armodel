@@ -22,9 +22,7 @@ if TYPE_CHECKING:
         SymbolProps,
     )
     from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
-        BlockState,
         SecurityEventAggregationFilter,
-        SecurityEventContextProps,
         SecurityEventOneEveryNFilter,
         SecurityEventStateFilter,
         SecurityEventThresholdFilter,
@@ -62,6 +60,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     PhysicalDimensionMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    BlockState,
     DiagnosticAuthTransmitCertificateEvaluation,
     FMAttributeDef,
     IdsmRateLimitation,
@@ -91,6 +90,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     GlobalTimeSlave,
     Identifiable,
     Referrable,
+    SecurityEventContextProps,
     UserDefinedGlobalTimeMaster,
     UserDefinedGlobalTimeSlave,
 )
@@ -11908,7 +11908,7 @@ class FMFeature(ARElement):
     # Spec: AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf, Table 4.2, p.24
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] addAttributeDef                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createAttributeDef                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getAttributeDefs                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] addDecomposition                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getDecompositions                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -11916,9 +11916,9 @@ class FMFeature(ARElement):
     # [x] setMaximumIntendedBindingTime     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getMinimumIntendedBindingTime     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setMinimumIntendedBindingTime     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] addRelation                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createRelation                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getRelations                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] addRestriction                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createRestriction                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getRestrictions                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
@@ -11942,12 +11942,22 @@ class FMFeature(ARElement):
         # Defines restrictions for FMFeatures. A FMFeature can only be part of a FMFeatureSelectionSet if at least one of its restrictions evaluates to true.
         self.restrictions: List[FMFeatureRestriction] = []
 
-    def addAttributeDef(self, value: FMAttributeDef) -> FMFeature:
+    def createAttributeDef(self, short_name: str) -> FMAttributeDef:
         """
         This defines the attributes of the given feature.
+
+        Args:
+            short_name: The short name of the FMAttributeDef
+
+        Returns:
+            The created (or existing) FMAttributeDef
         """
-        self.attributeDefs.append(value)
-        return self
+        for item in self.attributeDefs:
+            if item.getShortName() == short_name:
+                return item
+        item = FMAttributeDef(self, short_name)
+        self.attributeDefs.append(item)
+        return item
 
     def getAttributeDefs(self) -> List[FMAttributeDef]:
         """
@@ -12000,12 +12010,22 @@ class FMFeature(ARElement):
             self.minimumIntendedBindingTime = value
         return self
 
-    def addRelation(self, value: FMFeatureRelation) -> FMFeature:
+    def createRelation(self, short_name: str) -> FMFeatureRelation:
         """
         Defines relations for FMFeatures, for example dependencies on other FMFeatures, or conflicts with other FMFeatures. A FMFeature can only be part of a FMFeatureSelectionSet if all its relations are fulfilled.
+
+        Args:
+            short_name: The short name of the FMFeatureRelation
+
+        Returns:
+            The created (or existing) FMFeatureRelation
         """
-        self.relations.append(value)
-        return self
+        for item in self.relations:
+            if item.getShortName() == short_name:
+                return item
+        item = FMFeatureRelation(self, short_name)
+        self.relations.append(item)
+        return item
 
     def getRelations(self) -> List[FMFeatureRelation]:
         """
@@ -12013,12 +12033,22 @@ class FMFeature(ARElement):
         """
         return self.relations
 
-    def addRestriction(self, value: FMFeatureRestriction) -> FMFeature:
+    def createRestriction(self, short_name: str) -> FMFeatureRestriction:
         """
         Defines restrictions for FMFeatures. A FMFeature can only be part of a FMFeatureSelectionSet if at least one of its restrictions evaluates to true.
+
+        Args:
+            short_name: The short name of the FMFeatureRestriction
+
+        Returns:
+            The created (or existing) FMFeatureRestriction
         """
-        self.restrictions.append(value)
-        return self
+        for item in self.restrictions:
+            if item.getShortName() == short_name:
+                return item
+        item = FMFeatureRestriction(self, short_name)
+        self.restrictions.append(item)
+        return item
 
     def getRestrictions(self) -> List[FMFeatureRestriction]:
         """
@@ -12036,7 +12066,7 @@ class FMFeatureMap(ARElement):
     # Spec: AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf, Table 6.1, p.53
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] addMapping     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createMapping  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getMappings    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
@@ -12045,12 +12075,22 @@ class FMFeatureMap(ARElement):
         # Set of mappings defined by this FMFeatureMap.
         self.mappings: List[FMFeatureMapElement] = []
 
-    def addMapping(self, value: FMFeatureMapElement) -> FMFeatureMap:
+    def createMapping(self, short_name: str) -> FMFeatureMapElement:
         """
         Set of mappings defined by this FMFeatureMap.
+
+        Args:
+            short_name: The short name of the FMFeatureMapElement
+
+        Returns:
+            The created (or existing) FMFeatureMapElement
         """
-        self.mappings.append(value)
-        return self
+        for item in self.mappings:
+            if item.getShortName() == short_name:
+                return item
+        item = FMFeatureMapElement(self, short_name)
+        self.mappings.append(item)
+        return item
 
     def getMappings(self) -> List[FMFeatureMapElement]:
         """
@@ -12125,7 +12165,7 @@ class FMFeatureSelectionSet(ARElement):
     # [x] getFeatureModelRefs   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] addIncludeRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getIncludeRefs        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] addSelection          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createSelection       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getSelections         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
@@ -12166,12 +12206,22 @@ class FMFeatureSelectionSet(ARElement):
         """
         return self.includeRefs
 
-    def addSelection(self, value: FMFeatureSelection) -> FMFeatureSelectionSet:
+    def createSelection(self, short_name: str) -> FMFeatureSelection:
         """
         The set of FMFeatureSelections of this FMFeature SelectionSet.
+
+        Args:
+            short_name: The short name of the FMFeatureSelection
+
+        Returns:
+            The created (or existing) FMFeatureSelection
         """
-        self.selections.append(value)
-        return self
+        for item in self.selections:
+            if item.getShortName() == short_name:
+                return item
+        item = FMFeatureSelection(self, short_name)
+        self.selections.append(item)
+        return item
 
     def getSelections(self) -> List[FMFeatureSelection]:
         """
@@ -13093,9 +13143,9 @@ class IdsmProperties(IdsCommonElement):
     # all_classes.md row)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] addRateLimitationFilter       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createRateLimitationFilter    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getRateLimitationFilters      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] addTrafficLimitationFilter    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createTrafficLimitationFilter [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getTrafficLimitationFilters   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
@@ -13107,12 +13157,22 @@ class IdsmProperties(IdsCommonElement):
         # This aggregation represents the collection of traffic limitation filters for security events in the enclosing SecurityFilterSet. Tags: atp.Status=candidate
         self.trafficLimitationFilters: List[IdsmTrafficLimitation] = []
 
-    def addRateLimitationFilter(self, value: IdsmRateLimitation) -> IdsmProperties:
+    def createRateLimitationFilter(self, short_name: str) -> IdsmRateLimitation:
         """
         This aggregation represents the collection of rate limitation filters for security events in the enclosing SecurityFilterSet. Tags: atp.Status=candidate
+
+        Args:
+            short_name: The short name of the IdsmRateLimitation
+
+        Returns:
+            The created (or existing) IdsmRateLimitation
         """
-        self.rateLimitationFilters.append(value)
-        return self
+        for item in self.rateLimitationFilters:
+            if item.getShortName() == short_name:
+                return item
+        item = IdsmRateLimitation(self, short_name)
+        self.rateLimitationFilters.append(item)
+        return item
 
     def getRateLimitationFilters(self) -> List[IdsmRateLimitation]:
         """
@@ -13120,12 +13180,22 @@ class IdsmProperties(IdsCommonElement):
         """
         return self.rateLimitationFilters
 
-    def addTrafficLimitationFilter(self, value: IdsmTrafficLimitation) -> IdsmProperties:
+    def createTrafficLimitationFilter(self, short_name: str) -> IdsmTrafficLimitation:
         """
         This aggregation represents the collection of traffic limitation filters for security events in the enclosing SecurityFilterSet. Tags: atp.Status=candidate
+
+        Args:
+            short_name: The short name of the IdsmTrafficLimitation
+
+        Returns:
+            The created (or existing) IdsmTrafficLimitation
         """
-        self.trafficLimitationFilters.append(value)
-        return self
+        for item in self.trafficLimitationFilters:
+            if item.getShortName() == short_name:
+                return item
+        item = IdsmTrafficLimitation(self, short_name)
+        self.trafficLimitationFilters.append(item)
+        return item
 
     def getTrafficLimitationFilters(self) -> List[IdsmTrafficLimitation]:
         """
@@ -13144,7 +13214,7 @@ class SecurityEventDefinition(IdsCommonElement):
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getEventSymbolName     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setEventSymbolName     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createEventSymbolName  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getId                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setId                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
@@ -13163,15 +13233,20 @@ class SecurityEventDefinition(IdsCommonElement):
         """
         return self.eventSymbolName
 
-    def setEventSymbolName(self, value: Optional[SymbolProps]) -> SecurityEventDefinition:
+    def createEventSymbolName(self, short_name: str) -> SymbolProps:
         """
         This aggregation defines optionally an alternative Event Name for the SecurityEventDefinition in case there is a collision of shortNames. Stereotypes: atpSplitable Tags: atp.Splitkey=eventSymbolName.shortName atp.Status=candidate
 
-        A None value is a no-op and does not overwrite an existing eventSymbolName.
+        Args:
+            short_name: The short name of the SymbolProps
+
+        Returns:
+            The created (or existing) SymbolProps
         """
-        if value is not None:
-            self.eventSymbolName = value
-        return self
+        if self.eventSymbolName is not None and self.eventSymbolName.getShortName() == short_name:
+            return self.eventSymbolName
+        self.eventSymbolName = SymbolProps(self, short_name)
+        return self.eventSymbolName
 
     def getId(self) -> Optional[PositiveInteger]:
         """
@@ -13200,13 +13275,13 @@ class SecurityEventFilterChain(IdsCommonElement):
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getAggregation        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setAggregation        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createAggregation      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getOneEveryN          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setOneEveryN          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createOneEveryN       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getState              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setState              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createState           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getThreshold          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setThreshold          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createThreshold       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -13229,15 +13304,22 @@ class SecurityEventFilterChain(IdsCommonElement):
         """
         return self.aggregation
 
-    def setAggregation(self, value: Optional[SecurityEventAggregationFilter]) -> SecurityEventFilterChain:
+    def createAggregation(self, short_name: str) -> SecurityEventAggregationFilter:
         """
         This aggregation represents the aggregation filter in the filter chain. Tags: atp.Status=candidate
 
-        A None value is a no-op and does not overwrite an existing aggregation.
+        Args:
+            short_name: The short name of the SecurityEventAggregationFilter
+
+        Returns:
+            The created (or existing) SecurityEventAggregationFilter
         """
-        if value is not None:
-            self.aggregation = value
-        return self
+        if self.aggregation is not None and self.aggregation.getShortName() == short_name:
+            return self.aggregation
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import SecurityEventAggregationFilter
+
+        self.aggregation = SecurityEventAggregationFilter(self, short_name)
+        return self.aggregation
 
     def getOneEveryN(self) -> Optional[SecurityEventOneEveryNFilter]:
         """
@@ -13245,15 +13327,22 @@ class SecurityEventFilterChain(IdsCommonElement):
         """
         return self.oneEveryN
 
-    def setOneEveryN(self, value: Optional[SecurityEventOneEveryNFilter]) -> SecurityEventFilterChain:
+    def createOneEveryN(self, short_name: str) -> SecurityEventOneEveryNFilter:
         """
         This aggregation represents the sampling filter in the filter chain. Tags: atp.Status=candidate
 
-        A None value is a no-op and does not overwrite an existing oneEveryN.
+        Args:
+            short_name: The short name of the SecurityEventOneEveryNFilter
+
+        Returns:
+            The created (or existing) SecurityEventOneEveryNFilter
         """
-        if value is not None:
-            self.oneEveryN = value
-        return self
+        if self.oneEveryN is not None and self.oneEveryN.getShortName() == short_name:
+            return self.oneEveryN
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import SecurityEventOneEveryNFilter
+
+        self.oneEveryN = SecurityEventOneEveryNFilter(self, short_name)
+        return self.oneEveryN
 
     def getState(self) -> Optional[SecurityEventStateFilter]:
         """
@@ -13261,15 +13350,22 @@ class SecurityEventFilterChain(IdsCommonElement):
         """
         return self.state
 
-    def setState(self, value: Optional[SecurityEventStateFilter]) -> SecurityEventFilterChain:
+    def createState(self, short_name: str) -> SecurityEventStateFilter:
         """
         This aggregation represents the state filter in the event chain. Tags: atp.Status=candidate
 
-        A None value is a no-op and does not overwrite an existing state.
+        Args:
+            short_name: The short name of the SecurityEventStateFilter
+
+        Returns:
+            The created (or existing) SecurityEventStateFilter
         """
-        if value is not None:
-            self.state = value
-        return self
+        if self.state is not None and self.state.getShortName() == short_name:
+            return self.state
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import SecurityEventStateFilter
+
+        self.state = SecurityEventStateFilter(self, short_name)
+        return self.state
 
     def getThreshold(self) -> Optional[SecurityEventThresholdFilter]:
         """
@@ -13277,15 +13373,22 @@ class SecurityEventFilterChain(IdsCommonElement):
         """
         return self.threshold
 
-    def setThreshold(self, value: Optional[SecurityEventThresholdFilter]) -> SecurityEventFilterChain:
+    def createThreshold(self, short_name: str) -> SecurityEventThresholdFilter:
         """
         This aggregation represents the threshold filter in the filter chain. Tags: atp.Status=candidate
 
-        A None value is a no-op and does not overwrite an existing threshold.
+        Args:
+            short_name: The short name of the SecurityEventThresholdFilter
+
+        Returns:
+            The created (or existing) SecurityEventThresholdFilter
         """
-        if value is not None:
-            self.threshold = value
-        return self
+        if self.threshold is not None and self.threshold.getShortName() == short_name:
+            return self.threshold
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import SecurityEventThresholdFilter
+
+        self.threshold = SecurityEventThresholdFilter(self, short_name)
+        return self.threshold
 
 
 class SecurityEventContextMapping(IdsMapping, ABC):
@@ -13301,7 +13404,7 @@ class SecurityEventContextMapping(IdsMapping, ABC):
     # [x] setFilterChainRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getIdsmInstanceRef           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setIdsmInstanceRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] addMappedSecurityEvent       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createMappedSecurityEvent    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getMappedSecurityEvents      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
@@ -13351,12 +13454,22 @@ class SecurityEventContextMapping(IdsMapping, ABC):
             self.idsmInstanceRef = value
         return self
 
-    def addMappedSecurityEvent(self, value: SecurityEventContextProps) -> SecurityEventContextMapping:
+    def createMappedSecurityEvent(self, short_name: str) -> SecurityEventContextProps:
         """
         This aggregation represents (through further references) the SecurityEventDefinitions to be mapped to an IdsmInstance with additional mapping-dependent properties. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=mappedSecurityEvent.securityEventContextProps, mappedSecurityEvent.variationPoint.shortLabel atp.Status=candidate
+
+        Args:
+            short_name: The short name of the SecurityEventContextProps
+
+        Returns:
+            The created (or existing) SecurityEventContextProps
         """
-        self.mappedSecurityEvents.append(value)
-        return self
+        for item in self.mappedSecurityEvents:
+            if item.getShortName() == short_name:
+                return item
+        item = SecurityEventContextProps(self, short_name)
+        self.mappedSecurityEvents.append(item)
+        return item
 
     def getMappedSecurityEvents(self) -> List[SecurityEventContextProps]:
         """
@@ -13540,7 +13653,7 @@ class IdsmInstance(IdsCommonElement):
     # Spec: AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf, Table 4.19, p.45
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] addBlockState                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createBlockState                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getBlockStates                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] getEcuInstanceRef               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setEcuInstanceRef               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
@@ -13589,12 +13702,22 @@ class IdsmInstance(IdsCommonElement):
         # This reference identifies the applicable traffic limitation filter for all security events on the related EcuInstance. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=trafficLimitationFilter.idsmTrafficLimitation, trafficLimitationFilter.variationPoint.shortLabel atp.Status=candidate
         self.trafficLimitationFilterRefs: List[RefType] = []
 
-    def addBlockState(self, value: BlockState) -> IdsmInstance:
+    def createBlockState(self, short_name: str) -> BlockState:
         """
         This reference defines the BlockState in the collection BlockStateSet. Tags: atp.Status=candidate
+
+        Args:
+            short_name: The short name of the BlockState
+
+        Returns:
+            The created (or existing) BlockState
         """
-        self.blockStates.append(value)
-        return self
+        for item in self.blockStates:
+            if item.getShortName() == short_name:
+                return item
+        item = BlockState(self, short_name)
+        self.blockStates.append(item)
+        return item
 
     def getBlockStates(self) -> List[BlockState]:
         """
@@ -13734,7 +13857,7 @@ class LogAndTraceMessageCollectionSet(ARElement):
     # Spec: AUTOSAR_FO_TPS_LogAndTraceExtract.pdf, Table 3.1, p.12
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] addDltMessage         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createDltMessage      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getDltMessages        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
@@ -13743,12 +13866,22 @@ class LogAndTraceMessageCollectionSet(ARElement):
         # This is a DltMessage to be collected.
         self.dltMessages: List[DltMessage] = []
 
-    def addDltMessage(self, value: DltMessage) -> LogAndTraceMessageCollectionSet:
+    def createDltMessage(self, short_name: str) -> DltMessage:
         """
         This is a DltMessage to be collected.
+
+        Args:
+            short_name: The short name of the DltMessage
+
+        Returns:
+            The created (or existing) DltMessage
         """
-        self.dltMessages.append(value)
-        return self
+        for item in self.dltMessages:
+            if item.getShortName() == short_name:
+                return item
+        item = DltMessage(self, short_name)
+        self.dltMessages.append(item)
+        return item
 
     def getDltMessages(self) -> List[DltMessage]:
         """

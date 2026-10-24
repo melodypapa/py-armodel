@@ -133,7 +133,7 @@ class TestCpSoftwareClusterToResourceMappingRoundTrip:
         every field value.
         """
         mapping = SystemMapping(AUTOSAR.getInstance(), "mapping")
-        mapping.addSoftwareClusterToResourceMapping(CpSoftwareClusterToResourceMapping(mapping, "scr_mapping"))
+        mapping.createSoftwareClusterToResourceMapping("scr_mapping")
         stored = mapping.getSoftwareClusterToResourceMappings()[0]
         populated = _new_mapping("scr_mapping")
         stored.setProviderRef(populated.getProviderRef())

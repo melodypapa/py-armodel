@@ -86,3 +86,13 @@ class TestDocumentationListItemHelpersReader:
         assert def_item.getHelpEntry() is None
         assert def_item.getShortName() == "d2"
         assert def_item.getDef().getPs()[0].getL1s()[0].getValue() == "x"
+
+    def test_reads_empty_def_list_wrapper(self):
+        """An empty DEF-LIST wrapper (no DEF-ITEM) reads a DefList with no items."""
+        parser = ARXMLParser()
+        element = _block("<DEF-LIST></DEF-LIST>")
+
+        def_list = parser.readDefList(element, "DEF-LIST")
+
+        assert def_list is not None
+        assert def_list.getDefItems() == []

@@ -9,7 +9,7 @@ Classes:
 from typing import List, Optional, cast
 from abc import ABC
 
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingClock import TimingClock, TimingClockSyncAccuracy
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingClock import TDLETZoneClock, TimingClock, TimingClockSyncAccuracy
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import TimingCondition, TimingExtensionResource
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import ExecutionOrderConstraint
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint import TimingConstraint
@@ -31,7 +31,7 @@ class TimingExtension(ARElement, ABC):
     # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] addTimingClock                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] createTDLETZoneClock            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] getTimingClocks                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] createTimingClockSyncAccuracy   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] getTimingClockSyncAccuracies    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
@@ -77,11 +77,20 @@ class TimingExtension(ARElement, ABC):
         # The timing resource contains all instance references referred from within a timing condition formula of a timing view.
         self.timingResource: Optional[TimingExtensionResource] = None
 
-    def addTimingClock(self, value: Optional[TimingClock]) -> "TimingExtension":
-        """A list of abstract model Clocks. A None value is a no-op and does not append anything."""
-        if value is not None:
-            self.timingClocks.append(value)
-        return self
+    def createTDLETZoneClock(self, short_name: str) -> TDLETZoneClock:
+        """A list of abstract model Clocks.
+
+        Args:
+            short_name: The short name of the TDLETZoneClock
+
+        Returns:
+            The created (or existing) TDLETZoneClock
+        """
+        if not self.IsReferrableElementExists(short_name, TDLETZoneClock):
+            clock = TDLETZoneClock(self, short_name)
+            self.addReferrableElement(clock)
+            self.timingClocks.append(clock)
+        return cast(TDLETZoneClock, self.getReferrableElement(short_name, TDLETZoneClock))
 
     def getTimingClocks(self) -> List[TimingClock]:
         """A list of abstract model Clocks."""

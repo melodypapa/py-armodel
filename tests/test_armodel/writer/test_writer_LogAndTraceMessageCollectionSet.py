@@ -4,7 +4,6 @@ import xml.etree.ElementTree as ET
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import LogAndTraceMessageCollectionSet
-from armodel.models.M2.AUTOSARTemplates.LogAndTraceExtract import DltMessage
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 
@@ -18,7 +17,7 @@ class TestWriteLogAndTraceMessageCollectionSet:
 
     def test_write_with_items(self):
         value_set = LogAndTraceMessageCollectionSet(self._parent(), "ValueSet")
-        value_set.addDltMessage(DltMessage(value_set, "Message"))
+        value_set.createDltMessage("Message")
 
         container = ET.Element("ELEMENTS")
         ARXMLWriter().writeLogAndTraceMessageCollectionSet(container, value_set)
@@ -38,7 +37,7 @@ class TestWriteLogAndTraceMessageCollectionSet:
 
     def test_round_trip(self):
         value_set = LogAndTraceMessageCollectionSet(self._parent(), "ValueSet")
-        value_set.addDltMessage(DltMessage(value_set, "Message"))
+        value_set.createDltMessage("Message")
 
         container = ET.Element("ELEMENTS")
         ARXMLWriter().writeLogAndTraceMessageCollectionSet(container, value_set)

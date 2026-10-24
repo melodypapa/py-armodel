@@ -87,7 +87,6 @@ from armodel.models.M2.MSR.Documentation.Chapters import (
     ChapterContent,
     ChapterModel,
     ChapterOrMsrQuery,
-    Topic1,
     TopicContent,
     TopicContentOrMsrQuery,
     TopicOrMsrQuery,
@@ -1093,7 +1092,7 @@ class TestSwComponentTypeDocumentationRoundTrip:
         chapter = documentation.createChapter("ChapterWithMsr")
         chapter_model = ChapterModel()
         topic_query = TopicOrMsrQuery()
-        topic_query.addTopic1(Topic1(chapter, "TopicA"))
+        topic_query.createTopic1("TopicA")
         topic_query.setMsrQueryTopic1(MsrQueryTopic1())
         chapter_model.setTopic1(topic_query)
         subchapter_query = ChapterOrMsrQuery()

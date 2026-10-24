@@ -978,9 +978,7 @@ class TestWriteSwcTiming:
     def test_round_trip_swc_timing_full(self):
         parent = self._parent()
         timing = SwcTiming(parent, "Timing1")
-        clock = TDLETZoneClock(timing, "Clock1")
-        timing.addReferrableElement(clock)
-        timing.addTimingClock(clock)
+        timing.createTDLETZoneClock("Clock1")
         accuracy = timing.createTimingClockSyncAccuracy("Accuracy1")
         accuracy.setAccuracy(_mdt())
         condition = timing.createTimingCondition("Cond1")

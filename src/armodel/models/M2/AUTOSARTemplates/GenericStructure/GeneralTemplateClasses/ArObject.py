@@ -6,7 +6,7 @@ from __future__ import annotations
 
 
 from abc import ABC
-from typing import TYPE_CHECKING, Dict, List, Optional
+from typing import TYPE_CHECKING, Dict, List, Optional, cast
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 
@@ -17,7 +17,13 @@ if TYPE_CHECKING:
     )
     from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import ValueSpecification
     from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import DiagnosticParameterIdent
-    from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ClassContentConditional, ConstraintTailoring, SpecificationDocumentScope
+    from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+        AbstractClassTailoring,
+        ClassContentConditional,
+        ConcreteClassTailoring,
+        ConstraintTailoring,
+        SpecificationDocumentScope,
+    )
     from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ModelRestrictionTypes import VariationRestrictionWithSeverity
     from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import DiagnosticDataElement, DiagnosticDebounceAlgorithmProps, DiagnosticFunctionInhibitSource
 
@@ -339,7 +345,7 @@ class ClassTailoring(ARObject, ABC):
     # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 6.24, p.103
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] addClassContent             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createClassContent          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getClassContents            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] getMultiplicityRestriction  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setMultiplicityRestriction  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
@@ -361,12 +367,24 @@ class ClassTailoring(ARObject, ABC):
         # Specifies restrictions on the usage of variant handling. Tags: xml.sequenceOffset=20
         self.variationRestriction: Optional[VariationRestrictionWithSeverity] = None
 
-    def addClassContent(self, value: ClassContentConditional) -> ClassTailoring:
+    def createClassContent(self, short_name: str) -> ClassContentConditional:
         """
         Specifies the accepted / not accepted content of the class. All rules apply that fullfill the condition of the Class ContentConditional. Tags: xml.sequenceOffset=30
+
+        Args:
+            short_name: The short name of the ClassContentConditional
+
+        Returns:
+            The created (or existing) ClassContentConditional
         """
-        self.classContents.append(value)
-        return self
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ClassContentConditional
+
+        for item in self.classContents:
+            if item.getShortName() == short_name:
+                return item
+        item = ClassContentConditional(self, short_name)
+        self.classContents.append(item)
+        return item
 
     def getClassContents(self) -> List[ClassContentConditional]:
         """
@@ -1131,7 +1149,8 @@ class DiagnosticFunctionIdentifierInhibit(ARObject):
     # [x] setFunctionIdentifierRef  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getInhibitionMask         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] setInhibitionMask         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] addInhibitSource          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createInhibitSource        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addInhibitSource           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getInhibitSources         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     #
     # reader/writer [—] = Steps 5/6 N/A this pass — the XSD carries DIAGNOSTIC-FUNCTION-IDENTIFIER-INHIBIT only
@@ -1181,6 +1200,27 @@ class DiagnosticFunctionIdentifierInhibit(ARObject):
         if value is not None:
             self.inhibitionMask = value
         return self
+
+    def createInhibitSource(self, short_name: str) -> DiagnosticFunctionInhibitSource:
+        """
+        This represents a collection of DiagnosticFunctionInhibitSource that contribute to the configuration of the enclosing DiagnosticFunctionIdentiferInhibit.
+
+        Args:
+            short_name: The short name of the DiagnosticFunctionInhibitSource
+
+        Returns:
+            The created (or existing) DiagnosticFunctionInhibitSource
+        """
+        # Deferred import: Identifiable.py imports ARObject from this module, so a
+        # module-level import would be circular.
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import DiagnosticFunctionInhibitSource
+
+        for item in self.inhibitSources:
+            if item.getShortName() == short_name:
+                return item
+        item = DiagnosticFunctionInhibitSource(self, short_name)
+        self.addInhibitSource(item)
+        return item
 
     def addInhibitSource(self, value: Optional[DiagnosticFunctionInhibitSource]) -> DiagnosticFunctionIdentifierInhibit:
         """
@@ -2878,7 +2918,7 @@ class SpecificationScope(ARObject):
     # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 6.17, p.97
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] addSpecificationDocumentScope   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createSpecificationDocumentScope [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getSpecificationDocumentScopes  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self):
@@ -2887,12 +2927,24 @@ class SpecificationScope(ARObject):
         # The Autosar or custom specifications that contain that are considered in this Data Exchange Point.
         self.specificationDocumentScopes: List[SpecificationDocumentScope] = []
 
-    def addSpecificationDocumentScope(self, value: SpecificationDocumentScope) -> SpecificationScope:
+    def createSpecificationDocumentScope(self, short_name: str) -> SpecificationDocumentScope:
         """
         The Autosar or custom specifications that contain that are considered in this Data Exchange Point.
+
+        Args:
+            short_name: The short name of the SpecificationDocumentScope
+
+        Returns:
+            The created (or existing) SpecificationDocumentScope
         """
-        self.specificationDocumentScopes.append(value)
-        return self
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import SpecificationDocumentScope
+
+        for item in self.specificationDocumentScopes:
+            if item.getShortName() == short_name:
+                return item
+        item = SpecificationDocumentScope(self, short_name)
+        self.specificationDocumentScopes.append(item)
+        return item
 
     def getSpecificationDocumentScopes(self) -> List[SpecificationDocumentScope]:
         """
@@ -2974,9 +3026,10 @@ class DataFormatTailoring(ARObject):
     # DataExchangePoint.dataFormatTailoring member type — not an indexed all_classes.md row)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] addClassTailoring          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createAbstractClassTailoring [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createConcreteClassTailoring [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getClassTailorings         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] addConstraintTailoring     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createConstraintTailoring  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getConstraintTailorings    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self):
@@ -2988,12 +3041,43 @@ class DataFormatTailoring(ARObject):
         # Specification of tailorings of Constraints that are not explicitly owned by any Meta-Class Tags: xml.sequenceOffset=20
         self.constraintTailorings: List[ConstraintTailoring] = []
 
-    def addClassTailoring(self, value: ClassTailoring) -> DataFormatTailoring:
+    def createAbstractClassTailoring(self, short_name: str) -> AbstractClassTailoring:
         """
         Specification of tailorings of Meta Classes Tags: xml.sequenceOffset=10
+
+        Args:
+            short_name: The short name of the AbstractClassTailoring
+
+        Returns:
+            The created (or existing) AbstractClassTailoring
         """
-        self.classTailorings.append(value)
-        return self
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import AbstractClassTailoring
+
+        for existing in self.classTailorings:
+            if isinstance(existing, AbstractClassTailoring) and existing.getShortName() == short_name:
+                return existing
+        tailoring = AbstractClassTailoring(self, short_name)
+        self.classTailorings.append(cast(ClassTailoring, tailoring))
+        return tailoring
+
+    def createConcreteClassTailoring(self, short_name: str) -> ConcreteClassTailoring:
+        """
+        Specification of tailorings of Meta Classes Tags: xml.sequenceOffset=10
+
+        Args:
+            short_name: The short name of the ConcreteClassTailoring
+
+        Returns:
+            The created (or existing) ConcreteClassTailoring
+        """
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ConcreteClassTailoring
+
+        for existing in self.classTailorings:
+            if isinstance(existing, ConcreteClassTailoring) and existing.getShortName() == short_name:
+                return existing
+        tailoring = ConcreteClassTailoring(self, short_name)
+        self.classTailorings.append(cast(ClassTailoring, tailoring))
+        return tailoring
 
     def getClassTailorings(self) -> List[ClassTailoring]:
         """
@@ -3001,12 +3085,24 @@ class DataFormatTailoring(ARObject):
         """
         return self.classTailorings
 
-    def addConstraintTailoring(self, value: ConstraintTailoring) -> DataFormatTailoring:
+    def createConstraintTailoring(self, short_name: str) -> ConstraintTailoring:
         """
         Specification of tailorings of Constraints that are not explicitly owned by any Meta-Class Tags: xml.sequenceOffset=20
+
+        Args:
+            short_name: The short name of the ConstraintTailoring
+
+        Returns:
+            The created (or existing) ConstraintTailoring
         """
-        self.constraintTailorings.append(value)
-        return self
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ConstraintTailoring
+
+        for item in self.constraintTailorings:
+            if item.getShortName() == short_name:
+                return item
+        item = ConstraintTailoring(self, short_name)
+        self.constraintTailorings.append(item)
+        return item
 
     def getConstraintTailorings(self) -> List[ConstraintTailoring]:
         """

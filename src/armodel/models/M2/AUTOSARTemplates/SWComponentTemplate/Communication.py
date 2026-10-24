@@ -814,7 +814,7 @@ class ReceiverComSpec(RPortComSpec, ABC):
     # [x] getReceptionProps            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setReceptionProps            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getReplaceWith               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setReplaceWith               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createReplaceWith             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getSyncCounterInit           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setSyncCounterInit           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] addTransformationComSpecProps [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
@@ -981,13 +981,20 @@ class ReceiverComSpec(RPortComSpec, ABC):
         """
         return self.replaceWith
 
-    def setReplaceWith(self, value: Optional[VariableAccess]) -> ReceiverComSpec:
+    def createReplaceWith(self, short_name: str) -> VariableAccess:
         """
-        This aggregation is used to identify the AutosarData Prototype to be taken for sourcing an external replacement in the out-of-range and invalidValue handling. A None value is a no-op and does not overwrite an existing replaceWith.
+        This aggregation is used to identify the AutosarData Prototype to be taken for sourcing an external replacement in the out-of-range and invalidValue handling.
+
+        Args:
+            short_name: The short name of the VariableAccess
+
+        Returns:
+            The created (or existing) VariableAccess
         """
-        if value is not None:
-            self.replaceWith = value
-        return self
+        if self.replaceWith is not None and self.replaceWith.getShortName() == short_name:
+            return self.replaceWith
+        self.replaceWith = VariableAccess(self, short_name)
+        return self.replaceWith
 
     def getSyncCounterInit(self) -> Optional[PositiveInteger]:
         """

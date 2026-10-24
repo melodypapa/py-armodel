@@ -13,7 +13,6 @@ import pytest
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate import SystemMapping
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import SecOcCryptoServiceMapping
 from armodel.writer.arxml_writer import ARXMLWriter
 
 
@@ -40,8 +39,7 @@ def _ref(dest, value):
 
 def _new_mapping():
     mapping = SystemMapping(_MockParent(), "Mapping")
-    sec_oc = SecOcCryptoServiceMapping(mapping, "SecOcMap")
-    mapping.addCryptoServiceMapping(sec_oc)
+    sec_oc = mapping.createSecOcCryptoServiceMapping("SecOcMap")
     sec_oc.setAuthenticationRef(_ref("CRYPTO-SERVICE-PRIMITIVE", "/Crypto/Primitives/Auth"))
     sec_oc.setCryptoServiceKeyRef(_ref("CRYPTO-SERVICE-KEY", "/Crypto/Keys/Key1"))
     sec_oc.setCryptoServiceQueueRef(_ref("CRYPTO-SERVICE-QUEUE", "/Crypto/Queues/Q1"))
@@ -88,8 +86,7 @@ def test_write_empty_crypto_service_mappings_omits_wrapper():
 
 def test_write_sec_oc_mapping_without_refs_omits_ref_elements():
     mapping = SystemMapping(_MockParent(), "Mapping")
-    sec_oc = SecOcCryptoServiceMapping(mapping, "SecOcMap")
-    mapping.addCryptoServiceMapping(sec_oc)
+    mapping.createSecOcCryptoServiceMapping("SecOcMap")
     parent = ET.Element("ROOT")
     ARXMLWriter().writeSystemMapping(parent, mapping)
 

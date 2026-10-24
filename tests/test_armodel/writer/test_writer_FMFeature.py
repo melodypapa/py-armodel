@@ -6,7 +6,6 @@ from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import FMFeatureDecomposition
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import FMFeature
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Enumerations import BindingTimeEnum
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import FMAttributeDef, FMFeatureRelation, FMFeatureRestriction
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import CategoryString
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
@@ -21,7 +20,7 @@ class TestWriteFMFeature:
 
     def _build_full(self):
         feature = FMFeature(self._parent(), "Feature")
-        feature.addAttributeDef(FMAttributeDef(feature, "AttrDef"))
+        feature.createAttributeDef("AttrDef")
         decomposition = FMFeatureDecomposition()
         category = CategoryString()
         category.setValue("MANDATORYFEATURE")
@@ -33,8 +32,8 @@ class TestWriteFMFeature:
         minimum = BindingTimeEnum()
         minimum.setValue("PRE-COMPILE-TIME")
         feature.setMinimumIntendedBindingTime(minimum)
-        feature.addRelation(FMFeatureRelation(feature, "Relation"))
-        feature.addRestriction(FMFeatureRestriction(feature, "Restriction"))
+        feature.createRelation("Relation")
+        feature.createRestriction("Restriction")
         return feature
 
     def test_write_all_members(self):
@@ -68,7 +67,7 @@ class TestWriteFMFeature:
     def test_round_trip_via_ar_package(self):
         parent = self._parent()
         feature = parent.createFMFeature("Feature")
-        feature.addAttributeDef(FMAttributeDef(feature, "AttrDef"))
+        feature.createAttributeDef("AttrDef")
 
         pkg_element = ET.Element("AR-PACKAGE")
         ARXMLWriter().writeARPackageElement(pkg_element, feature)

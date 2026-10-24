@@ -2,7 +2,6 @@
 
 import xml.etree.ElementTree as ET
 
-from armodel.models.M2.MSR.Documentation.Chapters import Chapter
 from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryResultChapter
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
@@ -10,8 +9,8 @@ from armodel.writer.arxml_writer import ARXMLWriter
 
 def _build_full_result() -> MsrQueryResultChapter:
     result = MsrQueryResultChapter()
-    result.addChapter(Chapter(None, "ch1"))
-    result.addChapter(Chapter(None, "ch2"))
+    result.createChapter("ch1")
+    result.createChapter("ch2")
     return result
 
 

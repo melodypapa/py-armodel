@@ -72,8 +72,7 @@ def _full_config():
     config = LinSlaveConfig()
     config.setConfiguredNad(_int(3))
     config.setFunctionId(_pint(24))
-    ident = LinSlaveConfigIdent(config, "SlaveIdent")
-    config.setIdent(ident)
+    config.createIdent("SlaveIdent")
     config.setInitialNad(_int(1))
 
     frame = LinConfigurableFrame()
@@ -204,12 +203,11 @@ class TestSetLinSlaveConfig:
     @staticmethod
     def _config_with_referrable_ident():
         config = LinSlaveConfig()
-        ident = LinSlaveConfigIdent(config, "SlaveIdent")
+        ident = config.createIdent("SlaveIdent")
         fragment = ShortNameFragment()
         fragment.setRole(String().setValue("prefix"))
         fragment.setFragment(Identifier().setValue("PFX"))
         ident.addShortNameFragment(fragment)
-        config.setIdent(ident)
         return config
 
     def test_write_ident_referrable_payload(self, writer):

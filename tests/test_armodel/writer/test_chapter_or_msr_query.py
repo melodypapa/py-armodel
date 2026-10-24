@@ -10,7 +10,7 @@ import xml.etree.ElementTree as ET
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DateTime, String
-from armodel.models.M2.MSR.Documentation.Chapters import Chapter, ChapterModel, ChapterOrMsrQuery, Topic1, TopicOrMsrQuery
+from armodel.models.M2.MSR.Documentation.Chapters import ChapterModel, ChapterOrMsrQuery, TopicOrMsrQuery
 from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryChapter, MsrQueryProps
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
@@ -23,8 +23,8 @@ def _parent():
 def _full_query() -> ChapterOrMsrQuery:
     query = ChapterOrMsrQuery()
     query.setTimestamp(DateTime().setValue("2024-01-01T00:00:00+00:00"))
-    query.addChapter(Chapter(_parent(), "NestedA"))
-    query.addChapter(Chapter(_parent(), "NestedB"))
+    query.createChapter("NestedA")
+    query.createChapter("NestedB")
     query.setMsrQueryChapter(MsrQueryChapter().setMsrQueryProps(MsrQueryProps().setMsrQueryName(String().setValue("chapter-query"))))
     return query
 
@@ -77,10 +77,10 @@ class TestChapterOrMsrQueryWriter:
         attributes. See the synthetic-wrapper note in Chapters.py."""
         query = ChapterOrMsrQuery()
         query.setTimestamp(DateTime().setValue("2024-01-01T00:00:00+00:00"))
-        query.addChapter(Chapter(_parent(), "NestedA"))
+        query.createChapter("NestedA")
         topic_query = TopicOrMsrQuery()
         topic_query.setTimestamp(DateTime().setValue("2024-02-02T00:00:00+00:00"))
-        topic_query.addTopic1(Topic1(_parent(), "TopicA"))
+        topic_query.createTopic1("TopicA")
 
         element = ET.Element("CHAPTER")
         ARXMLWriter().writeChapterModel(element, ChapterModel().setChapter(query).setTopic1(topic_query))

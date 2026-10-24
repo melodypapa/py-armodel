@@ -178,8 +178,7 @@ class TestConsumedEventGroupRoundTrip:
         assert recovered.getSdClientTimerConfigRef() is None
 
 
-def _activation_group(short_name, member):
-    group = PduActivationRoutingGroup(MockParent(), short_name)
+def _activation_group(group, member):
     group.setEventGroupControlType(EventGroupControlTypeEnum().setValue(member))
     return group
 
@@ -188,8 +187,8 @@ class TestConsumedEventGroupPduActivationRoutingGroups:
     def test_write_pdu_activation_routing_groups(self, writer):
         parent = _parent()
         group = ConsumedEventGroup(MockParent(), "CEG")
-        group.addPduActivationRoutingGroup(_activation_group("PARG1", EventGroupControlTypeEnum.ACTIVATION_AND_TRIGGER_UNICAST))
-        group.addPduActivationRoutingGroup(_activation_group("PARG2", EventGroupControlTypeEnum.TRIGGER_UNICAST))
+        _activation_group(group.createPduActivationRoutingGroup("PARG1"), EventGroupControlTypeEnum.ACTIVATION_AND_TRIGGER_UNICAST)
+        _activation_group(group.createPduActivationRoutingGroup("PARG2"), EventGroupControlTypeEnum.TRIGGER_UNICAST)
         writer.writeConsumedEventGroup(parent, group)
 
         el = parent.find("CONSUMED-EVENT-GROUP")
@@ -204,8 +203,8 @@ class TestConsumedEventGroupPduActivationRoutingGroups:
     def test_round_trip_preserves_pdu_activation_routing_groups(self, writer, parser):
         parent = _parent()
         group = ConsumedEventGroup(MockParent(), "CEG")
-        group.addPduActivationRoutingGroup(_activation_group("PARG1", EventGroupControlTypeEnum.ACTIVATION_AND_TRIGGER_UNICAST))
-        group.addPduActivationRoutingGroup(_activation_group("PARG2", EventGroupControlTypeEnum.TRIGGER_UNICAST))
+        _activation_group(group.createPduActivationRoutingGroup("PARG1"), EventGroupControlTypeEnum.ACTIVATION_AND_TRIGGER_UNICAST)
+        _activation_group(group.createPduActivationRoutingGroup("PARG2"), EventGroupControlTypeEnum.TRIGGER_UNICAST)
         writer.writeConsumedEventGroup(parent, group)
 
         element = _namespaced_wrap(parent)

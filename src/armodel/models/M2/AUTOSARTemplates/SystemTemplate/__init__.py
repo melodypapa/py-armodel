@@ -159,7 +159,6 @@ class SystemMapping(Identifiable, VariationPointCapable):
     # [x] addComManagementMapping                             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] createComManagementMapping                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getComManagementMappings                            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] addCryptoServiceMapping                             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] createSecOcCryptoServiceMapping                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] createTlsCryptoServiceMapping                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getCryptoServiceMappings                            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -180,19 +179,19 @@ class SystemMapping(Identifiable, VariationPointCapable):
     # [x] getPortElementToComResourceMappings                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] addResourceEstimation                               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getResourceEstimations                              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] addResourceToApplicationPartitionMapping            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createResourceToApplicationPartitionMapping         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getResourceToApplicationPartitionMappings           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] addRteEventSeparation                               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createRteEventSeparation                            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getRteEventSeparations                              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] addRteEventToOsTaskProxyMapping                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createRteEventToOsTaskProxyMapping                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getRteEventToOsTaskProxyMappings                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] addSignalPathConstraint                             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getSignalPathConstraints                            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] addSoftwareClusterToApplicationPartitionMapping     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createSoftwareClusterToApplicationPartitionMapping  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getSoftwareClusterToApplicationPartitionMappings    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] addSoftwareClusterToResourceMapping                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createSoftwareClusterToResourceMapping              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getSoftwareClusterToResourceMappings                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] addSwClusterMapping                                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createSwClusterMapping                              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getSwClusterMappings                                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] addSwcToApplicationPartitionMapping                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] createSwcToApplicationPartitionMapping              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
@@ -201,9 +200,9 @@ class SystemMapping(Identifiable, VariationPointCapable):
     # [x] getSwImplMappings                                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] createSwcToEcuMapping                               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getSwMappings                                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] addSystemSignalGroupToComResourceMapping            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createSystemSignalGroupToComResourceMapping         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getSystemSignalGroupToComResourceMappings           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] addSystemSignalToComResourceMapping                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createSystemSignalToComResourceMapping              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getSystemSignalToComResourceMappings                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
@@ -358,16 +357,6 @@ class SystemMapping(Identifiable, VariationPointCapable):
         Mappings between Mode Management PortGroups and communication channels. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=comManagementMapping.shortName, comManagementMapping.variationPoint.shortLabel vh.latestBindingTime=systemDesignTime
         """
         return self.comManagementMappings
-
-    def addCryptoServiceMapping(self, value: Optional[CryptoServiceMapping]) -> "SystemMapping":
-        """
-        This aggregation represents the collection of crypto service mappings in the context of the enclosing System Mapping. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=cryptoServiceMapping.shortName, cryptoServiceMapping.variationPoint.shortLabel vh.latestBindingTime=postBuild
-
-        A None value is a no-op and does not add to cryptoServiceMappings.
-        """
-        if value is not None:
-            self.cryptoServiceMappings.append(value)
-        return self
 
     def createSecOcCryptoServiceMapping(self, short_name: str) -> SecOcCryptoServiceMapping:
         """
@@ -533,15 +522,22 @@ class SystemMapping(Identifiable, VariationPointCapable):
         """
         return self.resourceEstimations
 
-    def addResourceToApplicationPartitionMapping(self, value: Optional[CpSoftwareClusterResourceToApplicationPartitionMapping]) -> "SystemMapping":
+    def createResourceToApplicationPartitionMapping(self, short_name: str) -> CpSoftwareClusterResourceToApplicationPartitionMapping:
         """
         Maps a Software Cluster resource to an Application Partition to restrict the usage. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=resourceToApplicationPartitionMapping.shortName, resourceToApplicationPartitionMapping.variationPoint.shortLabel vh.latestBindingTime=systemDesignTime
 
-        A None value is a no-op and does not add to resourceToApplicationPartitionMappings.
+        Args:
+            short_name: The short name of the CpSoftwareClusterResourceToApplicationPartitionMapping
+
+        Returns:
+            The created (or existing) CpSoftwareClusterResourceToApplicationPartitionMapping
         """
-        if value is not None:
-            self.resourceToApplicationPartitionMappings.append(value)
-        return self
+        for item in self.resourceToApplicationPartitionMappings:
+            if item.getShortName() == short_name:
+                return item
+        item = CpSoftwareClusterResourceToApplicationPartitionMapping(self, short_name)
+        self.resourceToApplicationPartitionMappings.append(item)
+        return item
 
     def getResourceToApplicationPartitionMappings(self) -> List[CpSoftwareClusterResourceToApplicationPartitionMapping]:
         """
@@ -549,15 +545,22 @@ class SystemMapping(Identifiable, VariationPointCapable):
         """
         return self.resourceToApplicationPartitionMappings
 
-    def addRteEventSeparation(self, value: Optional[RteEventInSystemSeparation]) -> "SystemMapping":
+    def createRteEventSeparation(self, short_name: str) -> RteEventInSystemSeparation:
         """
         Separation constraint that limits the mapping freedom for the mapping of RteEvents to OsTasks in the System context.
 
-        A None value is a no-op and does not add to rteEventSeparations.
+        Args:
+            short_name: The short name of the RteEventInSystemSeparation
+
+        Returns:
+            The created (or existing) RteEventInSystemSeparation
         """
-        if value is not None:
-            self.rteEventSeparations.append(value)
-        return self
+        for item in self.rteEventSeparations:
+            if item.getShortName() == short_name:
+                return item
+        item = RteEventInSystemSeparation(self, short_name)
+        self.rteEventSeparations.append(item)
+        return item
 
     def getRteEventSeparations(self) -> List[RteEventInSystemSeparation]:
         """
@@ -565,15 +568,22 @@ class SystemMapping(Identifiable, VariationPointCapable):
         """
         return self.rteEventSeparations
 
-    def addRteEventToOsTaskProxyMapping(self, value: Optional[RteEventInSystemToOsTaskProxyMapping]) -> "SystemMapping":
+    def createRteEventToOsTaskProxyMapping(self, short_name: str) -> RteEventInSystemToOsTaskProxyMapping:
         """
         Constraint that enforces a mapping of RteEvent to a particular OsTask in the System context.
 
-        A None value is a no-op and does not add to rteEventToOsTaskProxyMappings.
+        Args:
+            short_name: The short name of the RteEventInSystemToOsTaskProxyMapping
+
+        Returns:
+            The created (or existing) RteEventInSystemToOsTaskProxyMapping
         """
-        if value is not None:
-            self.rteEventToOsTaskProxyMappings.append(value)
-        return self
+        for item in self.rteEventToOsTaskProxyMappings:
+            if item.getShortName() == short_name:
+                return item
+        item = RteEventInSystemToOsTaskProxyMapping(self, short_name)
+        self.rteEventToOsTaskProxyMappings.append(item)
+        return item
 
     def getRteEventToOsTaskProxyMappings(self) -> List[RteEventInSystemToOsTaskProxyMapping]:
         """
@@ -597,15 +607,22 @@ class SystemMapping(Identifiable, VariationPointCapable):
         """
         return self.signalPathConstraints
 
-    def addSoftwareClusterToApplicationPartitionMapping(self, value: Optional[CpSoftwareClusterToApplicationPartitionMapping]) -> "SystemMapping":
+    def createSoftwareClusterToApplicationPartitionMapping(self, short_name: str) -> CpSoftwareClusterToApplicationPartitionMapping:
         """
         The mapping of ApplicationPartitions to a CpSoftwareCluster. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=softwareClusterToApplicationPartitionMapping.shortName, softwareClusterToApplicationPartitionMapping.variationPoint.shortLabel vh.latestBindingTime=systemDesignTime
 
-        A None value is a no-op and does not add to softwareClusterToApplicationPartitionMappings.
+        Args:
+            short_name: The short name of the CpSoftwareClusterToApplicationPartitionMapping
+
+        Returns:
+            The created (or existing) CpSoftwareClusterToApplicationPartitionMapping
         """
-        if value is not None:
-            self.softwareClusterToApplicationPartitionMappings.append(value)
-        return self
+        for item in self.softwareClusterToApplicationPartitionMappings:
+            if item.getShortName() == short_name:
+                return item
+        item = CpSoftwareClusterToApplicationPartitionMapping(self, short_name)
+        self.softwareClusterToApplicationPartitionMappings.append(item)
+        return item
 
     def getSoftwareClusterToApplicationPartitionMappings(self) -> List[CpSoftwareClusterToApplicationPartitionMapping]:
         """
@@ -613,15 +630,22 @@ class SystemMapping(Identifiable, VariationPointCapable):
         """
         return self.softwareClusterToApplicationPartitionMappings
 
-    def addSoftwareClusterToResourceMapping(self, value: Optional[CpSoftwareClusterToResourceMapping]) -> "SystemMapping":
+    def createSoftwareClusterToResourceMapping(self, short_name: str) -> CpSoftwareClusterToResourceMapping:
         """
         maps a service resource to CP Software Clusters Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=softwareClusterToResourceMapping.shortName, softwareClusterToResourceMapping.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
 
-        A None value is a no-op and does not add to softwareClusterToResourceMappings.
+        Args:
+            short_name: The short name of the CpSoftwareClusterToResourceMapping
+
+        Returns:
+            The created (or existing) CpSoftwareClusterToResourceMapping
         """
-        if value is not None:
-            self.softwareClusterToResourceMappings.append(value)
-        return self
+        for item in self.softwareClusterToResourceMappings:
+            if item.getShortName() == short_name:
+                return item
+        item = CpSoftwareClusterToResourceMapping(self, short_name)
+        self.softwareClusterToResourceMappings.append(item)
+        return item
 
     def getSoftwareClusterToResourceMappings(self) -> List[CpSoftwareClusterToResourceMapping]:
         """
@@ -629,15 +653,22 @@ class SystemMapping(Identifiable, VariationPointCapable):
         """
         return self.softwareClusterToResourceMappings
 
-    def addSwClusterMapping(self, value: Optional[CpSoftwareClusterToEcuInstanceMapping]) -> "SystemMapping":
+    def createSwClusterMapping(self, short_name: str) -> CpSoftwareClusterToEcuInstanceMapping:
         """
         The mappings of SW cluster to ECUs. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=swClusterMapping.shortName, swClusterMapping.variationPoint.shortLabel vh.latestBindingTime=systemDesignTime
 
-        A None value is a no-op and does not add to swClusterMappings.
+        Args:
+            short_name: The short name of the CpSoftwareClusterToEcuInstanceMapping
+
+        Returns:
+            The created (or existing) CpSoftwareClusterToEcuInstanceMapping
         """
-        if value is not None:
-            self.swClusterMappings.append(value)
-        return self
+        for item in self.swClusterMappings:
+            if item.getShortName() == short_name:
+                return item
+        item = CpSoftwareClusterToEcuInstanceMapping(self, short_name)
+        self.swClusterMappings.append(item)
+        return item
 
     def getSwClusterMappings(self) -> List[CpSoftwareClusterToEcuInstanceMapping]:
         """
@@ -703,15 +734,22 @@ class SystemMapping(Identifiable, VariationPointCapable):
         """
         return self.swMappings
 
-    def addSystemSignalGroupToComResourceMapping(self, value: Optional[SystemSignalGroupToCommunicationResourceMapping]) -> "SystemMapping":
+    def createSystemSignalGroupToComResourceMapping(self, short_name: str) -> SystemSignalGroupToCommunicationResourceMapping:
         """
         Mapping of a communication resource to a SystemSignalGroup. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=systemSignalGroupToComResourceMapping.shortName, systemSignalGroupToComResourceMapping.variationPoint.shortLabel vh.latestBindingTime=systemDesignTime
 
-        A None value is a no-op and does not add to systemSignalGroupToComResourceMappings.
+        Args:
+            short_name: The short name of the SystemSignalGroupToCommunicationResourceMapping
+
+        Returns:
+            The created (or existing) SystemSignalGroupToCommunicationResourceMapping
         """
-        if value is not None:
-            self.systemSignalGroupToComResourceMappings.append(value)
-        return self
+        for item in self.systemSignalGroupToComResourceMappings:
+            if item.getShortName() == short_name:
+                return item
+        item = SystemSignalGroupToCommunicationResourceMapping(self, short_name)
+        self.systemSignalGroupToComResourceMappings.append(item)
+        return item
 
     def getSystemSignalGroupToComResourceMappings(self) -> List[SystemSignalGroupToCommunicationResourceMapping]:
         """
@@ -719,15 +757,22 @@ class SystemMapping(Identifiable, VariationPointCapable):
         """
         return self.systemSignalGroupToComResourceMappings
 
-    def addSystemSignalToComResourceMapping(self, value: Optional[SystemSignalToCommunicationResourceMapping]) -> "SystemMapping":
+    def createSystemSignalToComResourceMapping(self, short_name: str) -> SystemSignalToCommunicationResourceMapping:
         """
         Mapping of a communication resource to a SystemSignal. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=systemSignalToComResourceMapping.shortName, systemSignalToComResourceMapping.variationPoint.shortLabel vh.latestBindingTime=systemDesignTime
 
-        A None value is a no-op and does not add to systemSignalToComResourceMappings.
+        Args:
+            short_name: The short name of the SystemSignalToCommunicationResourceMapping
+
+        Returns:
+            The created (or existing) SystemSignalToCommunicationResourceMapping
         """
-        if value is not None:
-            self.systemSignalToComResourceMappings.append(value)
-        return self
+        for item in self.systemSignalToComResourceMappings:
+            if item.getShortName() == short_name:
+                return item
+        item = SystemSignalToCommunicationResourceMapping(self, short_name)
+        self.systemSignalToComResourceMappings.append(item)
+        return item
 
     def getSystemSignalToComResourceMappings(self) -> List[SystemSignalToCommunicationResourceMapping]:
         """

@@ -1228,12 +1228,72 @@ def _has_short_name(cls: str, base_map: Dict[str, List[str]]) -> bool:
     return cls == "Referrable" or "Referrable" in _all_bases(cls, base_map)
 
 
+@lru_cache(maxsize=None)
+def _is_abstract_class_cached(cls: str, base_items: Tuple[Tuple[str, Tuple[str, ...]], ...]) -> bool:
+    """Abstract meta-classes are marked two ways in this codebase: `ABC` in the
+    base list, and a `if type(self) is <Cls>: raise TypeError` guard in `__init__`
+    (the guard is what actually blocks instantiation)."""
+    base_map = {k: list(v) for k, v in base_items}
+    if "ABC" in base_map.get(cls, ()):
+        return True
+    for p in MODELS_DIR.rglob("*.py"):
+        try:
+            t = ast.parse(read(p))
+        except SyntaxError:
+            continue
+        for n in ast.walk(t):
+            if not isinstance(n, ast.ClassDef) or n.name != cls:
+                continue
+            for fn in n.body:
+                if not isinstance(fn, ast.FunctionDef) or fn.name != "__init__":
+                    continue
+                if "type(self) is %s" % cls in (ast.get_source_segment(read(p), fn) or ""):
+                    return True
+    return False
+
+
+def _is_abstract_class(cls: str, base_map: Dict[str, List[str]]) -> bool:
+    return _is_abstract_class_cached(cls, tuple(sorted((k, tuple(v)) for k, v in base_map.items())))
+
+
+@lru_cache(maxsize=None)
+def _concrete_subtypes_cached(cls: str, base_items: Tuple[Tuple[str, Tuple[str, ...]], ...]) -> Tuple[str, ...]:
+    """Every model class that derives from `cls` and is itself instantiable.
+
+    An abstract family root (`AttributeTailoring`, `ClassTailoring`, …) is never
+    constructed — the reader/writer dispatch on its concrete subtypes. A subtype
+    counts as concrete when it does not derive from `ABC` and does not declare
+    itself abstract through the `if type(self) is X: raise TypeError` guard the
+    model uses for abstract meta-classes."""
+    base_map = {k: list(v) for k, v in base_items}
+    out: List[str] = []
+    for sub in base_map:
+        if sub == cls or cls not in _all_bases(sub, base_map):
+            continue
+        if _is_abstract_class(sub, base_map):
+            continue
+        out.append(sub)
+    return tuple(out)
+
+
+def _concrete_subtypes(cls: str, base_map: Dict[str, List[str]]) -> List[str]:
+    return list(_concrete_subtypes_cached(cls, tuple(sorted((k, tuple(v)) for k, v in base_map.items()))))
+    return False
+
+
 def _check_create_shape(rep: Report, members: Dict[str, Set[str]], base_map: Dict[str, List[str]]) -> None:
     bad: List[str] = []
     for m, accs in sorted(members.items()):
         if not _has_short_name(m, base_map):
             continue
         if any(a.startswith("create") for a in accs):
+            continue
+        # An abstract family root (`AttributeTailoring`, `ClassTailoring`,
+        # `TimingClock`, …) is never instantiated, so it needs no factory of
+        # its own — Rule 0001.6 gives it one `createXxx<Subtype>(short_name)`
+        # factory per concrete subtype instead, and the class's own `create*`
+        # factories ARE those per-subtype factories.
+        if _is_abstract_class(m, base_map) and any(a.startswith("create") for a in _own_create_factories(members)):
             continue
         non_create = sorted(a for a in accs if a.startswith(("add", "set")))
         if non_create:
@@ -1244,6 +1304,14 @@ def _check_create_shape(rep: Report, members: Dict[str, Set[str]], base_map: Dic
             "Referrable child class(es) reached without a `createXxx(short_name)` factory — use create + get, not add/set (Rule 0001.6): %s"
             % ", ".join(bad[:6]),
         )
+
+
+def _own_create_factories(members: Dict[str, Set[str]]) -> Set[str]:
+    """Every `create*` accessor the class exposes for its own members."""
+    out: Set[str] = set()
+    for accs in members.values():
+        out |= {a for a in accs if a.startswith("create")}
+    return out
 
 
 def check_members(rep: Report, cls: str, node: ast.ClassDef, enum: bool) -> None:
@@ -1293,8 +1361,30 @@ def check_members(rep: Report, cls: str, node: ast.ClassDef, enum: bool) -> None
             # evidence for otherwise-invisible inline emission.
             mutators = tuple(a for a in maccs if a.startswith(("set", "add"))) if side == "parser" else ()
             getters = tuple(a for a in maccs if a.startswith("get")) if side == "writer" else ()
-            extra = ((m, "create" + m) + mutators + getters) if side == "parser" else (mutators + getters)
+            # The reader's own construction evidence for a member is the model's
+            # `create*` factory (`config.createIdent(...)`) — the factory is named
+            # after the ATTRIBUTE (`createIdent`), not always after the child type
+            # (`createLinSlaveConfigIdent`), so the member's own factory names
+            # are the evidence, not the type-derived guess.
+            creators = tuple(a for a in maccs if a.startswith("create")) if side == "parser" else ()
+            extra = ((m, "create" + m) + creators + mutators + getters) if side == "parser" else (mutators + getters)
             targets = {t for t in (pref + m, alt + m) + _MEMBER_ALIASES.get((side, m), ()) + extra if t in known_fns or t in extra}
+            # An abstract family root (e.g. `AttributeTailoring`, `ClassTailoring`)
+            # is never instantiated and never has a helper of its own — the
+            # reader/writer dispatch on its CONCRETE subtypes instead
+            # (`readPrimitiveAttributeTailoring`, `writeReferenceTailoring`, …).
+            # Rule 0001.7's polymorphic-dispatch pattern: the family's dispatch
+            # evidence is the subtype helper's, so the root inherits it.
+            targets |= {pref + sub for sub in _concrete_subtypes(m, base_map) if pref + sub in known_fns}
+            targets |= {alt + sub for sub in _concrete_subtypes(m, base_map) if alt + sub in known_fns}
+            # A family root whose subtypes are reached through a shared
+            # helper (`readClassTailoringContents` serves both class-tailoring
+            # subtypes) has no per-subtype helper to inherit — the model's
+            # per-subtype `create*` factory is the reader's dispatch evidence
+            # (the reader calls `createAbstractClassTailoring(...)`), and the
+            # writer reaches the family through the shared writer helper.
+            if _is_abstract_class(m, base_map) and side == "parser":
+                targets |= _own_create_factories(members)
             if not targets:
                 lack.append(m)
             else:

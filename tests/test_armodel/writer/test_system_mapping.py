@@ -14,10 +14,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate import System, SystemMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Dds import DdsCpISignalToDdsTopicMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.PncMapping import PncMapping
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import (
-    RteEventInSystemSeparation,
-    RteEventInSystemToOsTaskProxyMapping,
-)
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import ComponentClustering, ComponentSeparation, EcuResourceEstimation, J1939ControllerApplicationToJ1939NmNodeMapping
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
@@ -62,7 +58,7 @@ class TestWriteSystemMapping:
         mapping.addAppOsTaskProxyToEcuTaskProxyMapping(mapping.createAppOsTaskProxyToEcuTaskProxyMapping("AppOsTaskProxy"))
         mapping.addApplicationPartitionToEcuPartitionMapping(mapping.createApplicationPartitionToEcuPartitionMapping("AppPartition"))
         mapping.addComManagementMapping(mapping.createComManagementMapping("ComManagement"))
-        mapping.addCryptoServiceMapping(mapping.createSecOcCryptoServiceMapping("CryptoService"))
+        mapping.createSecOcCryptoServiceMapping("CryptoService")
         mapping.addDdsISignalToTopicMapping(DdsCpISignalToDdsTopicMapping())
         mapping.createECUMapping("EcuResourceMapping")
         mapping.addJ1939ControllerApplicationToJ1939NmNodeMapping(J1939ControllerApplicationToJ1939NmNodeMapping())
@@ -70,8 +66,8 @@ class TestWriteSystemMapping:
         mapping.addPncMapping(PncMapping())
         mapping.createPortElementToComResourceMapping("PortElement")
         mapping.addResourceEstimation(EcuResourceEstimation())
-        mapping.addRteEventSeparation(RteEventInSystemSeparation(mapping, "RteEventSeparation"))
-        mapping.addRteEventToOsTaskProxyMapping(RteEventInSystemToOsTaskProxyMapping(mapping, "RteEventToOsTaskProxy"))
+        mapping.createRteEventSeparation("RteEventSeparation")
+        mapping.createRteEventToOsTaskProxyMapping("RteEventToOsTaskProxy")
         mapping.addSwcToApplicationPartitionMapping(mapping.createSwcToApplicationPartitionMapping("SwcPartition"))
         mapping.createSwcToImplMapping("SwImpl")
         swc_mapping = mapping.createSwcToEcuMapping("SwMapping")

@@ -30,12 +30,14 @@ class TestIdsmProperties:
 
     def test_add_get_rate_limitation_filters(self):
         obj = self._obj()
-        limitation = IdsmRateLimitation(obj, "Rate")
-        assert obj.addRateLimitationFilter(limitation) is obj
+        limitation = obj.createRateLimitationFilter("Rate")
+        assert isinstance(limitation, IdsmRateLimitation)
         assert obj.getRateLimitationFilters() == [limitation]
+        assert obj.createRateLimitationFilter("Rate") is limitation
 
     def test_add_get_traffic_limitation_filters(self):
         obj = self._obj()
-        limitation = IdsmTrafficLimitation(obj, "Traffic")
-        assert obj.addTrafficLimitationFilter(limitation) is obj
+        limitation = obj.createTrafficLimitationFilter("Traffic")
+        assert isinstance(limitation, IdsmTrafficLimitation)
         assert obj.getTrafficLimitationFilters() == [limitation]
+        assert obj.createTrafficLimitationFilter("Traffic") is limitation

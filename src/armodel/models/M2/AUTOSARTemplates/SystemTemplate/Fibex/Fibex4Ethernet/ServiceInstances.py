@@ -91,14 +91,20 @@ class AbstractServiceInstance(Identifiable, VariationPointCapable, ABC):
         """The ServiceDiscovery module is able to activate and deactivate the PDU routing for ClientServerOperations (SOME/IP methods). Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=methodActivationRoutingGroup.shortName, methodActivationRoutingGroup.variationPoint.shortLabel vh.latestBindingTime=postBuild"""
         return self.methodActivationRoutingGroup
 
-    def setMethodActivationRoutingGroup(self, value: Optional[PduActivationRoutingGroup]) -> AbstractServiceInstance:
+    def createMethodActivationRoutingGroup(self, short_name: str) -> PduActivationRoutingGroup:
         """
         The ServiceDiscovery module is able to activate and deactivate the PDU routing for ClientServerOperations (SOME/IP methods). Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=methodActivationRoutingGroup.shortName, methodActivationRoutingGroup.variationPoint.shortLabel vh.latestBindingTime=postBuild
-        A None value is a no-op and does not overwrite an existing methodActivationRoutingGroup.
+
+        Args:
+            short_name: The short name of the PduActivationRoutingGroup
+
+        Returns:
+            The created (or existing) PduActivationRoutingGroup
         """
-        if value is not None:
-            self.methodActivationRoutingGroup = value
-        return self
+        if self.methodActivationRoutingGroup is not None and self.methodActivationRoutingGroup.getShortName() == short_name:
+            return self.methodActivationRoutingGroup
+        self.methodActivationRoutingGroup = PduActivationRoutingGroup(self, short_name)
+        return self.methodActivationRoutingGroup
 
     def addRoutingGroupRef(self, value: Optional[RefType]) -> AbstractServiceInstance:
         """
@@ -222,14 +228,22 @@ class ConsumedEventGroup(Identifiable, VariationPointCapable):
         """This reference defines the multicast address or a multicast address resource where the events of the event group are received. If the multicast address is determined via configuration and not at runtime via service discovery this reference points to the multicast address over which the events will be received. If the multicast address is determined at runtime via service discovery this reference shall be used to define the necessary local multicast address resources, i.e. RAM space in the TcpIp module in which the multicast address is stored at runtime. Please note that in this case the referenced address may be defined as ANY UDP port and ANY IP address since the multicast address will be received at runtime. If several multicast addresses are considered to be used the ConsumedEventGroup shall point to different ApplicationEndpoint objects to reserve the necessary resources in the configuration. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=eventMulticastAddress.applicationEndpoint, eventMulticastAddress.variationPoint.shortLabel vh.latestBindingTime=postBuild"""
         return self.eventMulticastAddressRefs
 
-    def addPduActivationRoutingGroup(self, value: Optional[PduActivationRoutingGroup]) -> ConsumedEventGroup:
+    def createPduActivationRoutingGroup(self, short_name: str) -> PduActivationRoutingGroup:
         """
         The ServiceDiscovery module is able to activate and deactivate the PDU routing for receiving events.
-        A None value is a no-op and does not append to pduActivationRoutingGroups.
+
+        Args:
+            short_name: The short name of the PduActivationRoutingGroup
+
+        Returns:
+            The created (or existing) PduActivationRoutingGroup
         """
-        if value is not None:
-            self.pduActivationRoutingGroups.append(value)
-        return self
+        for item in self.pduActivationRoutingGroups:
+            if item.getShortName() == short_name:
+                return item
+        item = PduActivationRoutingGroup(self, short_name)
+        self.pduActivationRoutingGroups.append(item)
+        return item
 
     def getPduActivationRoutingGroups(self) -> List[PduActivationRoutingGroup]:
         """The ServiceDiscovery module is able to activate and deactivate the PDU routing for receiving events."""
@@ -1298,14 +1312,22 @@ class EventHandler(Identifiable, VariationPointCapable):
             self.multicastThreshold = value
         return self
 
-    def addPduActivationRoutingGroup(self, value: Optional[PduActivationRoutingGroup]) -> EventHandler:
+    def createPduActivationRoutingGroup(self, short_name: str) -> PduActivationRoutingGroup:
         """
         The ServiceDiscovery module is able to activate and deactivate the PDU routing for events.
-        A None value is a no-op and does not append to pduActivationRoutingGroups.
+
+        Args:
+            short_name: The short name of the PduActivationRoutingGroup
+
+        Returns:
+            The created (or existing) PduActivationRoutingGroup
         """
-        if value is not None:
-            self.pduActivationRoutingGroups.append(value)
-        return self
+        for item in self.pduActivationRoutingGroups:
+            if item.getShortName() == short_name:
+                return item
+        item = PduActivationRoutingGroup(self, short_name)
+        self.pduActivationRoutingGroups.append(item)
+        return item
 
     def getPduActivationRoutingGroups(self) -> List[PduActivationRoutingGroup]:
         """The ServiceDiscovery module is able to activate and deactivate the PDU routing for events."""

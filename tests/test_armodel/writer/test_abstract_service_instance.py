@@ -191,8 +191,7 @@ class TestAbstractServiceInstanceRoundTrip:
         assert [r.getValue() for r in refs] == ["/Ether/RoutingGroup/RG3"]
 
 
-def _activation_group():
-    group = PduActivationRoutingGroup(MockParent(), "MARG1")
+def _activation_group(group):
     literal = ARLiteral()
     literal.setValue("deactivateAndTriggerUnicast")
     group.setEventGroupControlType(literal)
@@ -206,7 +205,7 @@ class TestMethodActivationRoutingGroupRoundTrip:
     def test_write_method_activation_routing_group_consumed_side(self, writer):
         parent = _parent()
         instance = ConsumedServiceInstance(MockParent(), "CSI")
-        instance.setMethodActivationRoutingGroup(_activation_group())
+        _activation_group(instance.createMethodActivationRoutingGroup("MARG1"))
         writer.writeConsumedServiceInstance(parent, instance)
 
         el = parent.find("CONSUMED-SERVICE-INSTANCE")
@@ -220,7 +219,7 @@ class TestMethodActivationRoutingGroupRoundTrip:
     def test_round_trip_preserves_method_activation_routing_group(self, writer, parser, tmp_path):
         parent = _parent()
         instance = ConsumedServiceInstance(MockParent(), "CSI")
-        instance.setMethodActivationRoutingGroup(_activation_group())
+        _activation_group(instance.createMethodActivationRoutingGroup("MARG1"))
         writer.writeConsumedServiceInstance(parent, instance)
 
         element = _namespaced_wrap(parent)
@@ -236,7 +235,7 @@ class TestMethodActivationRoutingGroupRoundTrip:
     def test_provided_side_method_activation_routing_group_round_trip(self, writer, parser, tmp_path):
         parent = _parent()
         instance = ProvidedServiceInstance(MockParent(), "PSI")
-        instance.setMethodActivationRoutingGroup(_activation_group())
+        _activation_group(instance.createMethodActivationRoutingGroup("MARG1"))
         writer.writeProvidedServiceInstance(parent, instance)
 
         element = _namespaced_wrap(parent)
@@ -262,8 +261,7 @@ class TestAbstractServiceInstanceHelperOwnership:
         PROVIDED-SERVICE-INSTANCE group elements (XSD complexType sequence).
         """
         instance = _full_provided_instance()
-        routing_group = PduActivationRoutingGroup(MockParent(), "marg1")
-        instance.setMethodActivationRoutingGroup(routing_group)
+        instance.createMethodActivationRoutingGroup("marg1")
 
         parent = _parent()
         writer.writeProvidedServiceInstance(parent, instance)

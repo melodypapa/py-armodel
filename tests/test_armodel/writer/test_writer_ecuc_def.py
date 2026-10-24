@@ -1655,14 +1655,13 @@ class TestWriterEcucConditionSpecification:
 class TestWriterEcucValidationCondition:
     """Tests for writing the ECUC-VALIDATION-CONDITION elements."""
 
-    def _build_validation_cond(self):
+    def _build_validation_cond(self, owner):
         from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
             EcucConditionFormula,
             EcucQueryExpression,
-            EcucValidationCondition,
         )
 
-        vc = EcucValidationCondition(None, "VC1")
+        vc = owner.createEcucValidationCond("VC1")
         query = vc.createEcucQuery("Q1")
         expr = EcucQueryExpression()
         gref = RefType()
@@ -1680,7 +1679,7 @@ class TestWriterEcucValidationCondition:
 
     def test_writes_validation_conds(self, writer):
         container = _make_container()
-        container.addEcucValidationCond(self._build_validation_cond())
+        self._build_validation_cond(container)
         parent = _parent()
         writer.writeEcucContainerDef(parent, container)
         conds_el = parent.find("ECUC-VALIDATION-CONDS")
@@ -1708,7 +1707,7 @@ class TestWriterEcucValidationCondition:
         pkg = autosar.createARPackage("VcPkg")
         module = pkg.createEcucModuleDef("Mod")
         container = module.createEcucParamConfContainerDef("Ct")
-        container.addEcucValidationCond(self._build_validation_cond())
+        self._build_validation_cond(container)
         with tempfile.NamedTemporaryFile(suffix=".arxml", delete=False) as tmp:
             tmp_path = tmp.name
         try:

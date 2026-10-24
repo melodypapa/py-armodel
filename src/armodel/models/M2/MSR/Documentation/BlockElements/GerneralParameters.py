@@ -530,7 +530,6 @@ class Prms(Paginateable):
     # [x] setLabel     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getLabel     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] createPrm    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] addPrm       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getPrms      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self):
@@ -568,25 +567,18 @@ class Prms(Paginateable):
         """
         This represents one particular parameter in the table.
 
+        Args:
+            short_name: The short name of the particular parameter in the table
+
         Returns:
             The created particular parameter in the table
         """
+        for prm in self.prm:
+            if prm.getShortName() == short_name:
+                return prm
         prm = GeneralParameter(self, short_name)
-        self.addPrm(prm)
+        self.prm.append(prm)
         return prm
-
-    def addPrm(self, value: Optional[GeneralParameter]) -> Prms:
-        """
-        This represents one particular parameter in the table.
-
-        A None value is a no-op and does not append anything.
-
-        Returns:
-            self for method chaining
-        """
-        if value is not None:
-            self.prm.append(value)
-        return self
 
     def getPrms(self) -> List[GeneralParameter]:
         """

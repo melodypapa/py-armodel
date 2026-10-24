@@ -4,7 +4,6 @@ import xml.etree.ElementTree as ET
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import IdsmProperties
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import IdsmRateLimitation, IdsmTrafficLimitation
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 
@@ -18,8 +17,8 @@ class TestWriteIdsmProperties:
 
     def _build_full(self):
         idsm_properties = IdsmProperties(self._parent(), "IdsmProperties")
-        idsm_properties.addRateLimitationFilter(IdsmRateLimitation(idsm_properties, "Rate"))
-        idsm_properties.addTrafficLimitationFilter(IdsmTrafficLimitation(idsm_properties, "Traffic"))
+        idsm_properties.createRateLimitationFilter("Rate")
+        idsm_properties.createTrafficLimitationFilter("Traffic")
         return idsm_properties
 
     def test_write_all_members(self):

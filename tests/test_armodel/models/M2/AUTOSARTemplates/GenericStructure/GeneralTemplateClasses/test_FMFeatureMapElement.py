@@ -32,15 +32,17 @@ class TestFMFeatureMapElement:
 
     def test_add_get_assertions(self):
         obj = self._obj()
-        assertion = FMFeatureMapAssertion(obj, "Assertion")
-        assert obj.addAssertion(assertion) is obj
+        assertion = obj.createAssertion("Assertion")
+        assert isinstance(assertion, FMFeatureMapAssertion)
         assert obj.getAssertions() == [assertion]
+        assert obj.createAssertion("Assertion") is assertion
 
     def test_add_get_conditions(self):
         obj = self._obj()
-        condition = FMFeatureMapCondition(obj, "Condition")
-        assert obj.addCondition(condition) is obj
+        condition = obj.createCondition("Condition")
+        assert isinstance(condition, FMFeatureMapCondition)
         assert obj.getConditions() == [condition]
+        assert obj.createCondition("Condition") is condition
 
     def test_add_get_post_build_variant_criterion_value_set_refs(self):
         obj = self._obj()

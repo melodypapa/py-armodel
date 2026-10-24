@@ -1358,20 +1358,16 @@ class TestDiagnosticFunctionIdentifierInhibit:
         assert result is obj  # method chaining with None
         assert obj.getInhibitionMask() is value  # None is a no-op
 
-    def test_add_inhibit_source(self):
+    def test_create_inhibit_source(self):
         """
-        Test addInhibitSource appends to the collection and None is a no-op.
+        Test createInhibitSource appends to the collection and reuses an existing short name.
         """
         obj = self._create_inhibit()
 
-        source = self._create_inhibit_source()
-        result = obj.addInhibitSource(source)
-        assert result is obj  # method chaining
+        source = obj.createInhibitSource("Source1")
+        assert isinstance(source, DiagnosticFunctionInhibitSource)
         assert obj.getInhibitSources() == [source]
-
-        result = obj.addInhibitSource(None)
-        assert result is obj  # method chaining with None
-        assert obj.getInhibitSources() == [source]  # None is a no-op
+        assert obj.createInhibitSource("Source1") is source
 
     def test_accessor_docstrings_are_spec_notes_verbatim(self):
         """

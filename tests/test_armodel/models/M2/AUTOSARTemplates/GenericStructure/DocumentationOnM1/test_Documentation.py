@@ -56,9 +56,10 @@ class TestDocumentation:
     def test_add_get_context(self):
         parent = _parent()
         documentation = Documentation(parent, "MyDoc")
-        context = DocumentationContext(parent, "Context1")
-        assert documentation.addContext(context) is documentation
+        context = documentation.createContext("Context1")
+        assert isinstance(context, DocumentationContext)
         assert documentation.getContexts() == [context]
+        assert documentation.createContext("Context1") is context
 
     def test_set_get_documentation_content(self):
         parent = _parent()

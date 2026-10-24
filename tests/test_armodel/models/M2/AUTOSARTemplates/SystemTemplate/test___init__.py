@@ -132,9 +132,9 @@ class TestSystemTemplate:
         assert "com_management_mapping" in mapping.getComManagementMappings()
         assert mapping == mapping.addComManagementMapping("com_management_mapping2")
 
-        mapping.addCryptoServiceMapping("crypto_service_mapping")
-        assert "crypto_service_mapping" in mapping.getCryptoServiceMappings()
-        assert mapping == mapping.addCryptoServiceMapping("crypto_service_mapping2")
+        mapping.createSecOcCryptoServiceMapping("crypto_service_mapping")
+        assert "crypto_service_mapping" in [m.getShortName() for m in mapping.getCryptoServiceMappings()]
+        mapping.createTlsCryptoServiceMapping("crypto_service_mapping2")
 
         mapping.addDataMapping("data_mapping")
         assert "data_mapping" in mapping.getDataMappings()
@@ -164,45 +164,45 @@ class TestSystemTemplate:
         assert "resource_estimation" in mapping.getResourceEstimations()
         assert mapping == mapping.addResourceEstimation("resource_estimation2")
 
-        mapping.addResourceToApplicationPartitionMapping("resource_app_mapping")
-        assert "resource_app_mapping" in mapping.getResourceToApplicationPartitionMappings()
-        assert mapping == mapping.addResourceToApplicationPartitionMapping("resource_app_mapping2")
+        mapping.createResourceToApplicationPartitionMapping("resource_app_mapping")
+        assert "resource_app_mapping" in [m.getShortName() for m in mapping.getResourceToApplicationPartitionMappings()]
+        mapping.createResourceToApplicationPartitionMapping("resource_app_mapping2")
 
-        mapping.addRteEventSeparation("rte_event_separation")
-        assert "rte_event_separation" in mapping.getRteEventSeparations()
-        assert mapping == mapping.addRteEventSeparation("rte_event_separation2")
+        mapping.createRteEventSeparation("rte_event_separation")
+        assert "rte_event_separation" in [m.getShortName() for m in mapping.getRteEventSeparations()]
+        mapping.createRteEventSeparation("rte_event_separation2")
 
-        mapping.addRteEventToOsTaskProxyMapping("rte_os_mapping")
-        assert "rte_os_mapping" in mapping.getRteEventToOsTaskProxyMappings()
-        assert mapping == mapping.addRteEventToOsTaskProxyMapping("rte_os_mapping2")
+        mapping.createRteEventToOsTaskProxyMapping("rte_os_mapping")
+        assert "rte_os_mapping" in [m.getShortName() for m in mapping.getRteEventToOsTaskProxyMappings()]
+        mapping.createRteEventToOsTaskProxyMapping("rte_os_mapping2")
 
         mapping.addSignalPathConstraint("signal_constraint")
         assert "signal_constraint" in mapping.getSignalPathConstraints()
         assert mapping == mapping.addSignalPathConstraint("signal_constraint2")
 
-        mapping.addSoftwareClusterToApplicationPartitionMapping("sw_cluster_app_mapping")
-        assert "sw_cluster_app_mapping" in mapping.getSoftwareClusterToApplicationPartitionMappings()
-        assert mapping == mapping.addSoftwareClusterToApplicationPartitionMapping("sw_cluster_app_mapping2")
+        mapping.createSoftwareClusterToApplicationPartitionMapping("sw_cluster_app_mapping")
+        assert "sw_cluster_app_mapping" in [m.getShortName() for m in mapping.getSoftwareClusterToApplicationPartitionMappings()]
+        mapping.createSoftwareClusterToApplicationPartitionMapping("sw_cluster_app_mapping2")
 
-        mapping.addSoftwareClusterToResourceMapping("sw_cluster_resource_mapping")
-        assert "sw_cluster_resource_mapping" in mapping.getSoftwareClusterToResourceMappings()
-        assert mapping == mapping.addSoftwareClusterToResourceMapping("sw_cluster_resource_mapping2")
+        mapping.createSoftwareClusterToResourceMapping("sw_cluster_resource_mapping")
+        assert "sw_cluster_resource_mapping" in [m.getShortName() for m in mapping.getSoftwareClusterToResourceMappings()]
+        mapping.createSoftwareClusterToResourceMapping("sw_cluster_resource_mapping2")
 
-        mapping.addSwClusterMapping("sw_cluster_mapping")
-        assert "sw_cluster_mapping" in mapping.getSwClusterMappings()
-        assert mapping == mapping.addSwClusterMapping("sw_cluster_mapping2")
+        mapping.createSwClusterMapping("sw_cluster_mapping")
+        assert "sw_cluster_mapping" in [m.getShortName() for m in mapping.getSwClusterMappings()]
+        mapping.createSwClusterMapping("sw_cluster_mapping2")
 
         mapping.addSwcToApplicationPartitionMapping("swc_app_mapping")
         assert "swc_app_mapping" in mapping.getSwcToApplicationPartitionMappings()
         assert mapping == mapping.addSwcToApplicationPartitionMapping("swc_app_mapping2")
 
-        mapping.addSystemSignalGroupToComResourceMapping("signal_group_mapping")
-        assert "signal_group_mapping" in mapping.getSystemSignalGroupToComResourceMappings()
-        assert mapping == mapping.addSystemSignalGroupToComResourceMapping("signal_group_mapping2")
+        mapping.createSystemSignalGroupToComResourceMapping("signal_group_mapping")
+        assert "signal_group_mapping" in [m.getShortName() for m in mapping.getSystemSignalGroupToComResourceMappings()]
+        mapping.createSystemSignalGroupToComResourceMapping("signal_group_mapping2")
 
-        mapping.addSystemSignalToComResourceMapping("signal_mapping")
-        assert "signal_mapping" in mapping.getSystemSignalToComResourceMappings()
-        assert mapping == mapping.addSystemSignalToComResourceMapping("signal_mapping2")
+        mapping.createSystemSignalToComResourceMapping("signal_mapping")
+        assert "signal_mapping" in [m.getShortName() for m in mapping.getSystemSignalToComResourceMappings()]
+        mapping.createSystemSignalToComResourceMapping("signal_mapping2")
 
         # Test create methods
         ecu_mapping = mapping.createECUMapping("ecu_mapping_name")

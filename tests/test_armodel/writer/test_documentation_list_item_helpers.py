@@ -10,9 +10,10 @@ import tempfile
 import xml.etree.ElementTree as ET
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import NameTokens, String, ViewTokens
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import NameToken, NameTokens, String, ViewTokens
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
 from armodel.models.M2.MSR.Documentation.BlockElements import DocumentationBlock
-from armodel.models.M2.MSR.Documentation.BlockElements.ListElements import DefList, IndentSample, ItemLabelPosEnum, LabeledItem, LabeledList
+from armodel.models.M2.MSR.Documentation.BlockElements.ListElements import DefItem, DefList, IndentSample, ItemLabelPosEnum, LabeledItem, LabeledList
 from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import ChapterEnumBreak, KeepWithPreviousEnum
 from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LLongName, LParagraph
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName, MultiLanguageParagraph
@@ -48,6 +49,57 @@ class TestDocumentationListItemHelpersWriter:
         writer.writeDefItem(parent, def_item)
 
         assert parent.find("DEF-ITEM").attrib["HELP-ENTRY"] == "def-topic"
+
+    def test_def_item_child_element_order_matches_xsd_offsets(self):
+        """Child elements in the XSD DEF-ITEM complexType order (offsets: DEF @ 20, VARIATION-POINT @ 10000; SHORT-NAME/LONG-NAME from the base groups, Rule 0001.11)."""
+        writer = _writer()
+        parent = ET.Element("PARENT")
+        def_list = DefList()
+        def_item = def_list.createDefItem("d1")
+        long_name = MultilanguageLongName()
+        l4 = LLongName()
+        l4.setL("EN")
+        l4.setValue("Definition")
+        long_name.addL4(l4)
+        def_item.setLongName(long_name)
+        variation_point = VariationPoint()
+        variation_point.setShortLabel(NameToken().setValue("VP"))
+        def_item.setVariationPoint(variation_point)
+        def_item.setDef(_make_block("def text"))
+
+        writer.writeDefItem(parent, def_item)
+
+        assert [child.tag for child in parent.find("DEF-ITEM")] == ["SHORT-NAME", "LONG-NAME", "DEF", "VARIATION-POINT"]
+
+    def test_def_item_variation_point_round_trips(self):
+        """The XSD-declared VARIATION-POINT (mmt.qualifiedName="DefItem.variationPoint") survives in both directions."""
+        writer = _writer()
+        parent = ET.Element("PARENT")
+        def_list = DefList()
+        def_item = def_list.createDefItem("d1")
+        variation_point = VariationPoint()
+        variation_point.setShortLabel(NameToken().setValue("DVP"))
+        def_item.setVariationPoint(variation_point)
+
+        writer.writeDefItem(parent, def_item)
+        parent.attrib["xmlns"] = "http://autosar.org/schema/r4.0"
+        def_item_element = ET.fromstring(ET.tostring(parent, encoding="unicode")).find("{http://autosar.org/schema/r4.0}DEF-ITEM")
+        assert [child.tag.replace("{http://autosar.org/schema/r4.0}", "") for child in def_item_element][-1] == "VARIATION-POINT"
+
+        reloaded = DefItem(def_list, "rvp")
+        ARXMLParser().readDefItem(def_item_element, reloaded)
+        assert reloaded.getVariationPoint().getShortLabel().getValue() == "DVP"
+
+    def test_empty_def_list_writes_no_def_item_children(self):
+        """An empty DefList emits the DEF-LIST wrapper with no DEF-ITEM children."""
+        writer = _writer()
+        parent = ET.Element("PARENT")
+
+        writer.writeDefList(parent, DefList())
+
+        def_list_element = parent.find("DEF-LIST")
+        assert def_list_element is not None
+        assert def_list_element.findall("DEF-ITEM") == []
 
     def test_writes_help_entry_on_labeled_item(self):
         """attributeGroup LABELED-ITEM declares HELP-ENTRY (AUTOSAR_00052.xsd)."""

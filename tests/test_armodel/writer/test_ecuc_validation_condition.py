@@ -69,7 +69,8 @@ class TestEcucValidationConditionRoundTrip:
         assert inner.index("<ECUC-QUERYS>") < inner.index("<VALIDATION-FORMULA>")
 
         root = ET.fromstring("<AUTOSAR xmlns='%s'>%s</AUTOSAR>" % (NS, inner))
-        reloaded = parser.readEcucValidationCondition(root[0][0])
+        reloaded_owner = EcucParamConfContainerDef(None, "Ct")
+        reloaded = parser.readEcucValidationCondition(root[0][0], reloaded_owner)
         assert reloaded is not None
         assert reloaded.getShortName() == "VC1"
         queries = reloaded.getEcucQueries()
@@ -87,12 +88,12 @@ class TestEcucValidationConditionRoundTrip:
 
     def test_aggregated_validation_conditions_round_trip(self, writer, parser):
         container = EcucParamConfContainerDef(None, "Ct")
-        validation_condition = EcucValidationCondition(container, "VC2")
+        validation_condition = container.createEcucValidationCond("VC2")
         query = validation_condition.createEcucQuery("GetAngle")
         expr = EcucQueryExpression()
         expr.setConfigElementDefLocalRef(_ref("/EcucDefs/Mod/Local", "ECUC-PARAM-CONF-CONTAINER-DEF"))
         query.setEcucQueryExpression(expr)
-        container.addEcucValidationCond(validation_condition)
+        container.createEcucValidationCond("VC2")
 
         parent = ET.Element("ECUC-PARAM-CONF-CONTAINER-DEF")
         writer.writeEcucValidationConditions(parent, container.getEcucValidationConds())

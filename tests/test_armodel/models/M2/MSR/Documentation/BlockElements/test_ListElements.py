@@ -664,7 +664,34 @@ class TestLabeledList:
 
 
 class TestDefItem:
-    """Test class for DefItem class."""
+    """Test class for DefItem class (Table 9.16, AUTOSAR_FO_TPS_GenericStructureTemplate)."""
+
+    DEF_NOTE = "This represents the definition part of the DefItem. Tags: xml.sequenceOffset=20"
+    HELP_ENTRY_NOTE = (
+        "This specifies an entry point in an online help system to be linked with the parent class. "
+        "The syntax shall be defined by the applied help system respectively help system generator. "
+        "Tags: xml.attribute=true"
+    )
+
+    def test_def_item_inheritance(self):
+        """DefItem shall derive from MultilanguageReferrable (Table 9.16 Base row, most-derived; covers Referrable/ARObject), Paginateable (covers DocumentViewSelectable) and carry the VariationPointCapable mixin (XSD 00052 group DEF-ITEM carries the VARIATION-POINT element, mmt.qualifiedName="DefItem.variationPoint")."""
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import MultilanguageReferrable
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
+        from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import DocumentViewSelectable, Paginateable
+
+        def_item = DefItem(DefList(), "DefItem1")
+        assert isinstance(def_item, MultilanguageReferrable)
+        assert isinstance(def_item, DocumentViewSelectable)
+        assert isinstance(def_item, Paginateable)
+        assert isinstance(def_item, VariationPointCapable)
+
+    def test_def_item_has_spec_note(self):
+        """The class docstring carries the Table 9.16 Note verbatim."""
+        assert cleandoc(DefItem.__doc__) == "This represents an entry in a definition list. The defined item is specified using shortName and longName."
+
+    def test_def_item_init_has_no_docstring(self):
+        """__init__ has no docstring (spec Notes live in inline member comments)."""
+        assert DefItem.__init__.__doc__ is None
 
     def test_def_item_initialization(self):
         """Test that a DefItem object can be initialized with default values."""
@@ -675,7 +702,7 @@ class TestDefItem:
         assert def_item.getShortName() == "DefItem1"
 
     def test_def_item_def_methods(self):
-        """Test the def getter and setter."""
+        """Test the def getter and setter (None is a no-op)."""
         from armodel.models.M2.MSR.Documentation.BlockElements import DocumentationBlock
 
         def_list = DefList()
@@ -683,14 +710,14 @@ class TestDefItem:
         def_block = DocumentationBlock()
 
         result = def_item.setDef(def_block)
-        assert def_item.getDef() == def_block
-        assert result == def_item
+        assert def_item.getDef() is def_block
+        assert result is def_item
 
         def_item.setDef(None)
-        assert def_item.getDef() == def_block
+        assert def_item.getDef() is def_block
 
     def test_def_item_help_entry_methods(self):
-        """Test the helpEntry getter and setter with the spec type String."""
+        """Test the helpEntry getter and setter with the spec type String (None is a no-op)."""
         def_list = DefList()
         def_item = DefItem(def_list, "DefItem1")
         help_entry = String().setValue("help")
@@ -698,10 +725,64 @@ class TestDefItem:
         result = def_item.setHelpEntry(help_entry)
         assert def_item.getHelpEntry() is help_entry
         assert def_item.getHelpEntry().getValue() == "help"
-        assert result == def_item
+        assert result is def_item
 
         def_item.setHelpEntry(None)
         assert def_item.getHelpEntry() is help_entry
+
+    def test_def_annotation_is_optional_documentation_block(self):
+        """getDef return and setDef value shall be Optional[DocumentationBlock] (Rule 0003, Table 9.16 Type DocumentationBlock, Mult 1; the spec attribute name `def` is kept as def_doc — Python keyword)."""
+        import typing
+
+        from armodel.models.M2.MSR.Documentation.BlockElements import DocumentationBlock
+
+        getter_hints = typing.get_type_hints(DefItem.getDef)
+        setter_hints = typing.get_type_hints(DefItem.setDef)
+        assert getter_hints["return"] == typing.Optional[DocumentationBlock]
+        assert setter_hints["value"] == typing.Optional[DocumentationBlock]
+
+    def test_help_entry_annotation_is_optional_string(self):
+        """getHelpEntry return and setHelpEntry value shall be Optional[String] (Rule 0003, Table 9.16 Type String, Mult 0..1)."""
+        import typing
+
+        getter_hints = typing.get_type_hints(DefItem.getHelpEntry)
+        setter_hints = typing.get_type_hints(DefItem.setHelpEntry)
+        assert getter_hints["return"] == typing.Optional[String]
+        assert setter_hints["value"] == typing.Optional[String]
+
+    def test_def_item_member_order(self):
+        """Field-to-spec cross-check: DefItem adds exactly the 2 Table 9.16 attribute rows over its base, in displayed order (def, helpEntry)."""
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import MultilanguageReferrable
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
+        from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import Paginateable
+
+        class _ConcreteBaseTrio(MultilanguageReferrable, Paginateable, VariationPointCapable):
+            pass
+
+        base_fields = set(vars(_ConcreteBaseTrio(DefList(), "BaseTrio")).keys())
+        own_fields = [key for key in vars(DefItem(DefList(), "DefItem1")).keys() if key not in base_fields]
+        assert own_fields == ["def_doc", "helpEntry"]
+
+    def test_def_item_accessor_order(self):
+        """Accessor pairs in spec row order (def, helpEntry), each single-valued pair getter-first (Rule 0001.11)."""
+        methods = [name for name in vars(DefItem) if not name.startswith("_")]
+        assert methods == ["getDef", "setDef", "getHelpEntry", "setHelpEntry"]
+
+    def test_def_member_notes_verbatim(self):
+        """The def Note is verbatim (incl. the Tags: tail, Rule 0012.2.5.3) on the __init__ comment and both accessors."""
+        source = inspect.getsource(DefItem.__init__)
+        assert self.DEF_NOTE in source
+
+        assert DefItem.getDef.__doc__.strip() == self.DEF_NOTE
+        assert DefItem.setDef.__doc__.strip() == self.DEF_NOTE + ". A None value is a no-op and does not overwrite an existing def."
+
+    def test_help_entry_member_notes_verbatim(self):
+        """The helpEntry Note is verbatim (incl. the Tags: tail, Rule 0012.2.5.3) on the __init__ comment and both accessors."""
+        source = inspect.getsource(DefItem.__init__)
+        assert self.HELP_ENTRY_NOTE in source
+
+        assert DefItem.getHelpEntry.__doc__.strip() == self.HELP_ENTRY_NOTE
+        assert DefItem.setHelpEntry.__doc__.strip() == self.HELP_ENTRY_NOTE + ". A None value is a no-op and does not overwrite an existing helpEntry."
 
 
 class TestDefList:

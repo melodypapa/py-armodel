@@ -10622,12 +10622,10 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.notImplemented("Unsupported timing requirement <%s>" % type(constraint).__name__)
 
     def writeTimingClockItem(self, parent_element: ET.Element, clock):
-        tag_map = ((TDLETZoneClock, "TDLET-ZONE-CLOCK", self.writeTDLETZoneClock),)
-        for cls, tag, writer_method in tag_map:
-            if isinstance(clock, cls):
-                child_element = ET.SubElement(parent_element, tag)
-                writer_method(child_element, clock)
-                return
+        if isinstance(clock, TDLETZoneClock):
+            child_element = ET.SubElement(parent_element, "TDLET-ZONE-CLOCK")
+            self.writeTDLETZoneClock(child_element, clock)
+            return
         self.notImplemented("Unsupported timing clock <%s>" % type(clock).__name__)
 
     def writeTimingExtension(self, element: ET.Element, extension: TimingExtension):

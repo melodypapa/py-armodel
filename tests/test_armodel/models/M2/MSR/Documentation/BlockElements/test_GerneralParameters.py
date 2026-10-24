@@ -42,13 +42,13 @@ class TestPrms:
         assert prms.setLabel(None) is prms
         assert prms.getLabel() is label
 
-    def test_add_prm(self):
+    def test_create_prm(self):
         prms = Prms()
-        prm = GeneralParameter(prms, "P1")
-        assert prms.addPrm(prm) is prms
+        prm = prms.createPrm("P1")
+        assert isinstance(prm, GeneralParameter)
         assert prms.getPrms() == [prm]
-        assert prms.addPrm(None) is prms
-        assert prms.getPrms() == [prm]
+        assert prms.createPrm("P1") is prm
+        assert len(prms.getPrms()) == 1
 
     def test_class_docstring_verbatim(self):
         assert cleandoc(Prms.__doc__) == ("This metaclass represents the ability to specify a parameter table." " It can be used e.g. to specify parameter tables in a data sheet.")

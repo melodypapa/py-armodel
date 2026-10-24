@@ -13,7 +13,6 @@ import pytest
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, RefType
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate import SystemMapping
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import TlsCryptoServiceMapping
 from armodel.writer.arxml_writer import ARXMLWriter
 
 NS = "http://autosar.org/schema/r4.0"
@@ -48,8 +47,7 @@ def _bool(value):
 
 def _new_mapping():
     mapping = SystemMapping(_MockParent(), "Mapping")
-    tls = TlsCryptoServiceMapping(mapping, "TlsMap")
-    mapping.addCryptoServiceMapping(tls)
+    tls = mapping.createTlsCryptoServiceMapping("TlsMap")
     tls.addKeyExchangeRef(_ref("/Crypto/Primitives/Ecdh"))
     tls.addKeyExchangeRef(_ref("/Crypto/Primitives/Dh"))
     tls.setUseClientAuthenticationRequest(_bool("true"))
@@ -77,8 +75,7 @@ def test_write_tls_crypto_service_mapping_xml():
 
 def test_write_empty_tls_crypto_service_mapping_omits_optional_tags():
     mapping = SystemMapping(_MockParent(), "Mapping")
-    tls = TlsCryptoServiceMapping(mapping, "EmptyTlsMap")
-    mapping.addCryptoServiceMapping(tls)
+    mapping.createTlsCryptoServiceMapping("EmptyTlsMap")
 
     parent = ET.Element("ROOT")
     ARXMLWriter().writeSystemMapping(parent, mapping)
