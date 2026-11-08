@@ -29,6 +29,7 @@ class TestLogAndTraceMessageCollectionSet:
 
     def test_add_get(self):
         obj = self._obj()
-        value = DltMessage(obj, "Message")
-        assert obj.addDltMessage(value) is obj
+        value = obj.createDltMessage("Message")
+        assert isinstance(value, DltMessage)
         assert obj.getDltMessages() == [value]
+        assert obj.createDltMessage("Message") is value

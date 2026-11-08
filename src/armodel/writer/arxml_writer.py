@@ -4848,7 +4848,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setMultiLanguageVerbatim(element, "VERBATIM", block.getVerbatim())
             for list in block.getLists():
                 self.setListElement(element, "LIST", list)
-            self.setDefList(element, block.getDefList())
+            self.writeDefList(element, block.getDefList())
             self.setLabeledList(element, block.getLabeledList())
             self.setMlFormula(element, "FORMULA", block.getFormula())
             self.setMlFigures(element, "FIGURE", block.getFigures())
@@ -4856,20 +4856,35 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setTraceableText(element, "TRACE", block.getTrace())
             self.setStructuredReq(element, block.getStructuredReq())
 
-    def setDefList(self, element: ET.Element, def_list: Optional[DefList]):
+    def writeDefList(self, element: ET.Element, def_list: Optional[DefList]):
         if def_list is not None:
             child_element = ET.SubElement(element, "DEF-LIST")
             self.writePaginateable(child_element, def_list)
             for def_item in def_list.getDefItems():
-                self.setDefItem(child_element, def_item)
+                self.writeDefItem(child_element, def_item)
             self.writeVariationPointCapable(child_element, def_list)
 
-    def setDefItem(self, element: ET.Element, def_item: DefItem):
+    def writeDefItem(self, element: ET.Element, def_item: DefItem):
         child_element = ET.SubElement(element, "DEF-ITEM")
         # The XSD DEF-ITEM complexType carries the REFERRABLE + MULTILANGUAGE-REFERRABLE
-        # groups (SHORT-NAME required) but NO IDENTIFIABLE group — writeReferrable, not
-        # writeIdentifiable (Rule 0027 / SPEC-BASE).
-        self.writeReferrable(child_element, def_item)
+        # groups (SHORT-NAME required) but NO IDENTIFIABLE group — writeMultilanguageReferrable,
+        # not writeIdentifiable (Rule 0027 / SPEC-BASE).
+        self.writeMultilanguageReferrable(child_element, def_item)
+        # SI/VIEW (DOCUMENT-VIEW-SELECTABLE) and BREAK/KEEP-WITH-PREVIOUS (PAGINATEABLE) are
+        # written as plain attributes: writePaginateable would re-invoke writeARObject on top
+        # of writeMultilanguageReferrable (rules 0013.1/0025).
+        si_value = def_item.getSi()
+        if si_value is not None:
+            child_element.attrib["SI"] = si_value.getValue()
+        view_value = def_item.getView()
+        if view_value is not None:
+            child_element.attrib["VIEW"] = view_value.getValue()
+        break_value = def_item.getBreak()
+        if break_value is not None:
+            child_element.attrib["BREAK"] = break_value.getValue()
+        keepWithPrevious_value = def_item.getKeepWithPrevious()
+        if keepWithPrevious_value is not None:
+            child_element.attrib["KEEP-WITH-PREVIOUS"] = keepWithPrevious_value.getValue()
         helpEntry_value = def_item.getHelpEntry()
         if helpEntry_value is not None:
             child_element.attrib["HELP-ENTRY"] = helpEntry_value.getValue()
@@ -4915,7 +4930,10 @@ class ARXMLWriter(AbstractARXMLWriter):
         if helpEntry_value is not None:
             child_element.attrib["HELP-ENTRY"] = helpEntry_value.getValue()
         self.setMultiLanguageOverviewParagraph(child_element, "ITEM-LABEL", labeled_item.getItemLabel())
-        self.writeDocumentationBlock(child_element, "ITEM-CONTENTS", labeled_item.getItemContents())
+        # The XSD LABELED-ITEM group embeds the DOCUMENTATION-BLOCK content INLINE
+        # via a choice (no ITEM-CONTENTS wrapper); the block's S/T have no attribute
+        # home here — the LABELED-ITEM element carries the identity (Rule 0027).
+        self.writeDocumentationBlockContent(child_element, labeled_item.getItemContents(), write_ar_object=False)
         self.writeVariationPointCapable(child_element, labeled_item)
 
     def setNote(self, element: ET.Element, note: Optional[Note]):
@@ -10605,12 +10623,10 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.notImplemented("Unsupported timing requirement <%s>" % type(constraint).__name__)
 
     def writeTimingClockItem(self, parent_element: ET.Element, clock):
-        tag_map = ((TDLETZoneClock, "TDLET-ZONE-CLOCK", self.writeTDLETZoneClock),)
-        for cls, tag, writer_method in tag_map:
-            if isinstance(clock, cls):
-                child_element = ET.SubElement(parent_element, tag)
-                writer_method(child_element, clock)
-                return
+        if isinstance(clock, TDLETZoneClock):
+            child_element = ET.SubElement(parent_element, "TDLET-ZONE-CLOCK")
+            self.writeTDLETZoneClock(child_element, clock)
+            return
         self.notImplemented("Unsupported timing clock <%s>" % type(clock).__name__)
 
     def writeTimingExtension(self, element: ET.Element, extension: TimingExtension):

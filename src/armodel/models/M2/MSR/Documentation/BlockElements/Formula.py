@@ -17,7 +17,8 @@ class MlFormula(Paginateable, VariationPointCapable):
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getFormulaCaption  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setFormulaCaption  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createFormulaCaption [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] setFormulaCaption  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getGenericMath     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setGenericMath     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] addLGraphic        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
@@ -52,6 +53,21 @@ class MlFormula(Paginateable, VariationPointCapable):
         Returns:
             The identification or heading of the formula
         """
+        return self.formulaCaption
+
+    def createFormulaCaption(self, short_name: str) -> Caption:
+        """
+        This element specifies the identification or heading of a formula. Tags: xml.sequenceOffset=20
+
+        Args:
+            short_name: The short name of the Caption
+
+        Returns:
+            The created (or existing) Caption
+        """
+        if self.formulaCaption is not None and self.formulaCaption.getShortName() == short_name:
+            return self.formulaCaption
+        self.formulaCaption = Caption(self, short_name)
         return self.formulaCaption
 
     def setFormulaCaption(self, value: Optional[Caption]) -> "MlFormula":

@@ -44,6 +44,7 @@ class TestFMFeatureSelectionSet:
 
     def test_add_get_selections(self):
         obj = self._obj()
-        selection = FMFeatureSelection(obj, "Selection")
-        assert obj.addSelection(selection) is obj
+        selection = obj.createSelection("Selection")
+        assert isinstance(selection, FMFeatureSelection)
         assert obj.getSelections() == [selection]
+        assert obj.createSelection("Selection") is selection

@@ -427,7 +427,7 @@ class SdgDef(ARElement):
     # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] addSdgClass     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createSdgClass  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getSdgClasses   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent, short_name: str):
@@ -436,15 +436,22 @@ class SdgDef(ARElement):
         # The owned sdgClasses which define the structure of the Sdgs Tags: xml.namePlural=SDG-CLASSES
         self.sdgClasses: List[SdgClass] = []
 
-    def addSdgClass(self, value: SdgClass):
+    def createSdgClass(self, short_name: str) -> SdgClass:
         """
         The owned sdgClasses which define the structure of the Sdgs Tags: xml.namePlural=SDG-CLASSES
 
-        A None value is a no-op and does not append anything.
+        Args:
+            short_name: The short name of the SdgClass
+
+        Returns:
+            The created (or existing) SdgClass
         """
-        if value is not None:
-            self.sdgClasses.append(value)
-        return self
+        for item in self.sdgClasses:
+            if item.getShortName() == short_name:
+                return item
+        item = SdgClass(self, short_name)
+        self.sdgClasses.append(item)
+        return item
 
     def getSdgClasses(self) -> List[SdgClass]:
         """

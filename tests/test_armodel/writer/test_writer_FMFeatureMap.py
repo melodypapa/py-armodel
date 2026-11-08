@@ -4,7 +4,6 @@ import xml.etree.ElementTree as ET
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import FMFeatureMap
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import FMFeatureMapElement
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 
@@ -18,7 +17,7 @@ class TestWriteFMFeatureMap:
 
     def test_write_with_mapping(self):
         feature_map = FMFeatureMap(self._parent(), "FeatureMap")
-        feature_map.addMapping(FMFeatureMapElement(feature_map, "Mapping"))
+        feature_map.createMapping("Mapping")
 
         container = ET.Element("ELEMENTS")
         ARXMLWriter().writeFMFeatureMap(container, feature_map)
@@ -38,7 +37,7 @@ class TestWriteFMFeatureMap:
 
     def test_round_trip(self):
         feature_map = FMFeatureMap(self._parent(), "FeatureMap")
-        feature_map.addMapping(FMFeatureMapElement(feature_map, "Mapping"))
+        feature_map.createMapping("Mapping")
 
         container = ET.Element("ELEMENTS")
         ARXMLWriter().writeFMFeatureMap(container, feature_map)

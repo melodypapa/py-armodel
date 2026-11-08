@@ -28,7 +28,6 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopolo
     LinMaster,
     LinOrderedConfigurableFrame,
     LinSlaveConfig,
-    LinSlaveConfigIdent,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import EcuInstance
 from armodel.parser.arxml_parser import ARXMLParser
@@ -108,7 +107,7 @@ def _build_master(pkg):
     master.setTimeBaseJitter(_time(0.001))
 
     slave1 = LinSlaveConfig()
-    slave1.setIdent(LinSlaveConfigIdent(slave1, "SlaveIdent"))
+    slave1.createIdent("SlaveIdent")
     slave1.setInitialNad(_int(1))
     slave1.setConfiguredNad(_int(3))
     master.addLinSlave(slave1)

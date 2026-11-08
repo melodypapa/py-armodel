@@ -1978,7 +1978,7 @@ class BswServiceDependency(ServiceDependency, VariationPointCapable):
     # [x] getAssignedEntryRole        [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
     # [x] addAssignedEntryRole        [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
     # [x] getIdent                    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
-    # [x] setIdent                    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] createIdent                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getServiceNeeds             [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
     # [x] setServiceNeeds             [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
 
@@ -2033,14 +2033,20 @@ class BswServiceDependency(ServiceDependency, VariationPointCapable):
         """
         return self.ident
 
-    def setIdent(self, value: Optional[BswServiceDependencyIdent]) -> BswServiceDependency:
+    def createIdent(self, short_name: str) -> BswServiceDependencyIdent:
         """
         This adds the ability to become referrable to BswService Dependency. Stereotypes: atpIdentityContributor Tags: xml.sequenceOffset=-100
-        A None value is a no-op and does not overwrite an existing ident.
+
+        Args:
+            short_name: The short name of the BswServiceDependencyIdent
+
+        Returns:
+            The created (or existing) BswServiceDependencyIdent
         """
-        if value is not None:
-            self.ident = value
-        return self
+        if self.ident is not None and self.ident.getShortName() == short_name:
+            return self.ident
+        self.ident = BswServiceDependencyIdent(self, short_name)
+        return self.ident
 
     def getServiceNeeds(self) -> Optional[ServiceNeeds]:
         """
@@ -2070,7 +2076,7 @@ class BswInternalBehavior(InternalBehavior):
     # [x] __init__                               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getArTypedPerInstanceMemories          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setArTypedPerInstanceMemories          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] addArTypedPerInstanceMemory            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createArTypedPerInstanceMemory              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getBswPerInstanceMemoryPolicies        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setBswPerInstanceMemoryPolicies        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] addBswPerInstanceMemoryPolicy          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
@@ -2097,7 +2103,7 @@ class BswInternalBehavior(InternalBehavior):
     # [x] addParameterPolicy                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getPerInstanceParameters               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setPerInstanceParameters               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] addPerInstanceParameter                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createPerInstanceParameter                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getReceptionPolicies                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] addReceptionPolicy                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getReleasedTriggerPolicies             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -2117,7 +2123,7 @@ class BswInternalBehavior(InternalBehavior):
     # [x] addTriggerDirectImplementation         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getVariationPointProxies               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setVariationPointProxies               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] addVariationPointProxy                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createVariationPointProxy                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] addModeSenderPolicy                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getModeSenderPolicies                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] createBswCalledEntity                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
@@ -2240,18 +2246,26 @@ class BswInternalBehavior(InternalBehavior):
             self.arTypedPerInstanceMemories = value
         return self
 
-    def addArTypedPerInstanceMemory(self, value: Optional[VariableDataPrototype]) -> BswInternalBehavior:
+    def createArTypedPerInstanceMemory(self, short_name: str) -> VariableDataPrototype:
         """
         Defines an AUTOSAR typed memory-block that needs to be available for each instance of the Basic Software Module. The aggregation of arTypedPerInstanceMemory is subject to variability with the purpose to support variability in the Basic Software Module's implementations. Typically different algorithms in the implementation are requiring different number of memory objects.
 
-        A None value is a no-op and does not append to the existing arTypedPerInstanceMemories.
 
         Returns:
-            self for method chaining
+        self for method chaining
+
+        Args:
+            short_name: The short name of the VariableDataPrototype
+
+        Returns:
+            The created (or existing) VariableDataPrototype
         """
-        if value is not None:
-            self.arTypedPerInstanceMemories.append(value)
-        return self
+        for item in self.arTypedPerInstanceMemories:
+            if item.getShortName() == short_name:
+                return item
+        item = VariableDataPrototype(self, short_name)
+        self.arTypedPerInstanceMemories.append(item)
+        return item
 
     def getBswPerInstanceMemoryPolicies(self):
         """
@@ -2507,18 +2521,26 @@ class BswInternalBehavior(InternalBehavior):
             self.perInstanceParameters = value
         return self
 
-    def addPerInstanceParameter(self, value: Optional[ParameterDataPrototype]) -> BswInternalBehavior:
+    def createPerInstanceParameter(self, short_name: str) -> ParameterDataPrototype:
         """
         Describes a read only memory object containing characteristic value(s) needed by this BswInternalBehavior. The role name perInstanceParameter is chosen in analogy to the similar role in the context of SwcInternalBehavior. In contrast to constantMemory, this object is not allocated locally by the module's code, but by the BSW Scheduler and it is accessed from the BSW module via the BSW Scheduler API. The main use case is the support of software emulation of calibration data. The aggregation is subject to variability with the purpose to support implementation variants.
 
-        A None value is a no-op and does not append to the existing perInstanceParameters.
 
         Returns:
-            self for method chaining
+        self for method chaining
+
+        Args:
+            short_name: The short name of the ParameterDataPrototype
+
+        Returns:
+            The created (or existing) ParameterDataPrototype
         """
-        if value is not None:
-            self.perInstanceParameters.append(value)
-        return self
+        for item in self.perInstanceParameters:
+            if item.getShortName() == short_name:
+                return item
+        item = ParameterDataPrototype(self, short_name)
+        self.perInstanceParameters.append(item)
+        return item
 
     def getReceptionPolicies(self):
         """
@@ -2702,18 +2724,26 @@ class BswInternalBehavior(InternalBehavior):
             self.variationPointProxies = value
         return self
 
-    def addVariationPointProxy(self, value: Optional[VariationPointProxy]) -> BswInternalBehavior:
+    def createVariationPointProxy(self, short_name: str) -> VariationPointProxy:
         """
         Proxy of a variation points in the C/C++ implementation.
 
-        A None value is a no-op and does not append to the existing variationPointProxies.
 
         Returns:
-            self for method chaining
+        self for method chaining
+
+        Args:
+            short_name: The short name of the VariationPointProxy
+
+        Returns:
+            The created (or existing) VariationPointProxy
         """
-        if value is not None:
-            self.variationPointProxies.append(value)
-        return self
+        for item in self.variationPointProxies:
+            if item.getShortName() == short_name:
+                return item
+        item = VariationPointProxy(self, short_name)
+        self.variationPointProxies.append(item)
+        return item
 
     def addModeSenderPolicy(self, policy: BswModeSenderPolicy):
         """

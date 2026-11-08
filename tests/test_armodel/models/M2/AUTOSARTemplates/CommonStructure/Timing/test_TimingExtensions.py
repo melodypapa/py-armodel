@@ -51,19 +51,20 @@ class TestTimingExtension:
         assert extension.getTimingRequirements() == []
         assert extension.getTimingResource() is None
 
-    def test_add_timing_clock(self):
+    def test_create_timing_clock(self):
         parent = _ar_package()
         extension = ConcreteTimingExtension(parent, "Ext1")
-        clock = TDLETZoneClock(extension, "Clock1")
-        extension.addReferrableElement(clock)
-        assert extension.addTimingClock(clock) is extension
+        clock = extension.createTDLETZoneClock("Clock1")
+        assert isinstance(clock, TDLETZoneClock)
+        assert clock.getShortName() == "Clock1"
         assert len(extension.getTimingClocks()) == 1
         assert extension.getTimingClocks()[0] is clock
+        assert extension.createTDLETZoneClock("Clock1") is clock
+        assert len(extension.getTimingClocks()) == 1
 
-    def test_add_timing_clock_none_noop(self):
+    def test_create_timing_clock_empty(self):
         parent = _ar_package()
         extension = ConcreteTimingExtension(parent, "Ext1")
-        assert extension.addTimingClock(None) is extension
         assert extension.getTimingClocks() == []
 
     def test_create_timing_clock_sync_accuracy(self):

@@ -76,6 +76,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     ServiceProviderEnum,
     StorageConditionStatusEnum,
     SupervisedEntityNeeds,
+    SymbolicNameProps,
     TracedFailure,
     TransientFault,
     VerificationStatusIndicationModeEnum,
@@ -937,8 +938,8 @@ class TestServiceDependency:
         service_dep.setDiagnosticRelevance(None)
         assert service_dep.getDiagnosticRelevance() == enum_val
 
-    def test_get_set_symbolic_name_props(self):
-        """Test getSymbolicNameProps and setSymbolicNameProps methods"""
+    def test_create_symbolic_name_props(self):
+        """Test createSymbolicNameProps and getSymbolicNameProps methods"""
         parent = AUTOSAR.getInstance()
         _ar_root = parent.createARPackage("AUTOSAR")
 
@@ -951,12 +952,13 @@ class TestServiceDependency:
 
         assert service_dep.getSymbolicNameProps() is None
 
-        class MockSymbolicNameProps:
-            pass
+        props = service_dep.createSymbolicNameProps("symProps")
+        assert isinstance(props, SymbolicNameProps)
+        assert props.getShortName() == "symProps"
+        assert service_dep.getSymbolicNameProps() == props
 
-        props = MockSymbolicNameProps()
-        result = service_dep.setSymbolicNameProps(props)
-        assert result is service_dep
+        # Creating the same short name returns the existing instance
+        assert service_dep.createSymbolicNameProps("symProps") is props
         assert service_dep.getSymbolicNameProps() == props
 
 

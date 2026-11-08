@@ -335,7 +335,7 @@ class LinSlaveConfig(ARObject):
     # [x] getFunctionId                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setFunctionId                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getIdent                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setIdent                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createIdent                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getInitialNad                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setInitialNad                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getLinConfigurableFrames        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -414,14 +414,20 @@ class LinSlaveConfig(ARObject):
         """This adds the ability to become referrable to LinSlave Config."""
         return self.ident
 
-    def setIdent(self, value: Optional[LinSlaveConfigIdent]) -> LinSlaveConfig:
+    def createIdent(self, short_name: str) -> LinSlaveConfigIdent:
         """
         This adds the ability to become referrable to LinSlave Config.
-        A None value is a no-op and does not overwrite an existing ident.
+
+        Args:
+            short_name: The short name of the LinSlaveConfigIdent
+
+        Returns:
+            The created (or existing) LinSlaveConfigIdent
         """
-        if value is not None:
-            self.ident = value
-        return self
+        if self.ident is not None and self.ident.getShortName() == short_name:
+            return self.ident
+        self.ident = LinSlaveConfigIdent(self, short_name)
+        return self.ident
 
     def getInitialNad(self) -> Optional[Integer]:
         """Initial NAD of the LIN slave."""

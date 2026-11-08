@@ -710,12 +710,6 @@ class MixedContentForOverviewParagraph(ARObject, AtpMixedString, ABC):
             self.xref = value
         return self
 
-    def getXrefTarget(self) -> Optional[XrefTarget]:
-        """
-        This element specifies a reference target which can be scattered throughout the text.
-        """
-        return self.xrefTarget
-
     def setXrefTarget(self, value: Optional[XrefTarget]) -> MixedContentForOverviewParagraph:
         """
         This element specifies a reference target which can be scattered throughout the text. A None value is a no-op and does not overwrite an existing xrefTarget.
@@ -723,6 +717,27 @@ class MixedContentForOverviewParagraph(ARObject, AtpMixedString, ABC):
         if value is not None:
             self.xrefTarget = value
         return self
+
+    def getXrefTarget(self) -> Optional[XrefTarget]:
+        """
+        This element specifies a reference target which can be scattered throughout the text.
+        """
+        return self.xrefTarget
+
+    def createXrefTarget(self, short_name: str) -> XrefTarget:
+        """
+        This element specifies a reference target which can be scattered throughout the text.
+
+        Args:
+            short_name: The short name of the XrefTarget
+
+        Returns:
+            The created (or existing) XrefTarget
+        """
+        if self.xrefTarget is not None and self.xrefTarget.getShortName() == short_name:
+            return self.xrefTarget
+        self.xrefTarget = XrefTarget(self, short_name)
+        return self.xrefTarget
 
 
 class LOverviewParagraph(MixedContentForOverviewParagraph, LanguageSpecific):
@@ -1091,6 +1106,21 @@ class MixedContentForParagraph(ARObject, ABC):
         """
         return self.std
 
+    def createStd(self, short_name: str) -> Std:
+        """
+        This is a refeernce to a standard.
+
+        Args:
+            short_name: The short name of the Std
+
+        Returns:
+            The created (or existing) Std
+        """
+        if self.std is not None and self.std.getShortName() == short_name:
+            return self.std
+        self.std = Std(self, short_name)
+        return self.std
+
     def setStd(self, value: Optional[Std]) -> MixedContentForParagraph:
         """
         This is a refeernce to a standard. A None value is a no-op and does not overwrite an existing std.
@@ -1161,6 +1191,21 @@ class MixedContentForParagraph(ARObject, ABC):
         """
         return self.xdoc
 
+    def createXdoc(self, short_name: str) -> Xdoc:
+        """
+        This is a reference to a printable external document.
+
+        Args:
+            short_name: The short name of the Xdoc
+
+        Returns:
+            The created (or existing) Xdoc
+        """
+        if self.xdoc is not None and self.xdoc.getShortName() == short_name:
+            return self.xdoc
+        self.xdoc = Xdoc(self, short_name)
+        return self.xdoc
+
     def setXdoc(self, value: Optional[Xdoc]) -> MixedContentForParagraph:
         """
         This is a reference to a printable external document. A None value is a no-op and does not overwrite an existing xdoc.
@@ -1173,6 +1218,21 @@ class MixedContentForParagraph(ARObject, ABC):
         """
         This represents a reference to an external file which usually cannot be printed.
         """
+        return self.xfile
+
+    def createXfile(self, short_name: str) -> Xfile:
+        """
+        This represents a reference to an external file which usually cannot be printed.
+
+        Args:
+            short_name: The short name of the Xfile
+
+        Returns:
+            The created (or existing) Xfile
+        """
+        if self.xfile is not None and self.xfile.getShortName() == short_name:
+            return self.xfile
+        self.xfile = Xfile(self, short_name)
         return self.xfile
 
     def setXfile(self, value: Optional[Xfile]) -> MixedContentForParagraph:
@@ -1197,12 +1257,6 @@ class MixedContentForParagraph(ARObject, ABC):
             self.xref = value
         return self
 
-    def getXrefTarget(self) -> Optional[XrefTarget]:
-        """
-        This element specifies a reference target which can be scattered throughout the text.
-        """
-        return self.xrefTarget
-
     def setXrefTarget(self, value: Optional[XrefTarget]) -> MixedContentForParagraph:
         """
         This element specifies a reference target which can be scattered throughout the text. A None value is a no-op and does not overwrite an existing xrefTarget.
@@ -1210,6 +1264,27 @@ class MixedContentForParagraph(ARObject, ABC):
         if value is not None:
             self.xrefTarget = value
         return self
+
+    def getXrefTarget(self) -> Optional[XrefTarget]:
+        """
+        This element specifies a reference target which can be scattered throughout the text.
+        """
+        return self.xrefTarget
+
+    def createXrefTarget(self, short_name: str) -> XrefTarget:
+        """
+        This element specifies a reference target which can be scattered throughout the text.
+
+        Args:
+            short_name: The short name of the XrefTarget
+
+        Returns:
+            The created (or existing) XrefTarget
+        """
+        if self.xrefTarget is not None and self.xrefTarget.getShortName() == short_name:
+            return self.xrefTarget
+        self.xrefTarget = XrefTarget(self, short_name)
+        return self.xrefTarget
 
 
 class LParagraph(MixedContentForParagraph, LanguageSpecific):

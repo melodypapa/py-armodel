@@ -89,9 +89,8 @@ class TestWriteSystemSignalGroupToCommunicationResourceMapping:
     def test_round_trip_via_system_mapping(self):
         system = System(parent=None, short_name="sys")
         system_mapping = system.createSystemMapping("sm")
-        mapping = SystemSignalGroupToCommunicationResourceMapping(system_mapping, "mapping")
+        mapping = system_mapping.createSystemSignalGroupToComResourceMapping("mapping")
         mapping.setSystemSignalGroupRef(_ref("/SignalGroups/MySignalGroup", "SYSTEM-SIGNAL-GROUP"))
-        system_mapping.addSystemSignalGroupToComResourceMapping(mapping)
 
         parent = ET.Element("PARENT")
         ARXMLWriter().writeSystemMappingSystemSignalGroupToComResourceMappings(parent, system_mapping)

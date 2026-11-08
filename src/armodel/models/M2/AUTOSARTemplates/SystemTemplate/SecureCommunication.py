@@ -118,7 +118,7 @@ class TlsCryptoServiceMapping(CryptoServiceMapping):
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] addKeyExchangeRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getKeyExchangeRefs    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] addTlsCipherSuite    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createTlsCipherSuite  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getTlsCipherSuites    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] getUseClientAuthenticationRequest    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setUseClientAuthenticationRequest    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
@@ -153,14 +153,22 @@ class TlsCryptoServiceMapping(CryptoServiceMapping):
         """This reference identifies the shared(i.e. applicable for each of the aggregated cipher suites) crypto service primitive for the execution of key exchange during the handshake phase."""
         return self.keyExchangeRefs
 
-    def addTlsCipherSuite(self, value: Optional[TlsCryptoCipherSuite]) -> TlsCryptoServiceMapping:
+    def createTlsCipherSuite(self, short_name: str) -> TlsCryptoCipherSuite:
         """
         This aggregation represents the collection of supported cipher suites.
-        A None value is a no-op and does not extend the tlsCipherSuites list.
+
+        Args:
+            short_name: The short name of the TlsCryptoCipherSuite
+
+        Returns:
+            The created (or existing) TlsCryptoCipherSuite
         """
-        if value is not None:
-            self.tlsCipherSuites.append(value)
-        return self
+        for item in self.tlsCipherSuites:
+            if item.getShortName() == short_name:
+                return item
+        item = TlsCryptoCipherSuite(self, short_name)
+        self.tlsCipherSuites.append(item)
+        return item
 
     def getTlsCipherSuites(self) -> List[TlsCryptoCipherSuite]:
         """This aggregation represents the collection of supported cipher suites."""
@@ -222,7 +230,7 @@ class TlsCryptoCipherSuite(Identifiable):
     # [x] getPriority                             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setPriority                             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getProps                                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setProps                                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createProps                             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getPskIdentity                          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setPskIdentity                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getRemoteCertificateRef                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -398,14 +406,20 @@ class TlsCryptoCipherSuite(Identifiable):
         """The aggregated TlsCryptoCipherSuiteProps provide details for the TLS Cipher Suite."""
         return self.props
 
-    def setProps(self, value: Optional[TlsCryptoCipherSuiteProps]) -> TlsCryptoCipherSuite:
+    def createProps(self, short_name: str) -> TlsCryptoCipherSuiteProps:
         """
         The aggregated TlsCryptoCipherSuiteProps provide details for the TLS Cipher Suite.
-        A None value is a no-op and does not overwrite an existing props.
+
+        Args:
+            short_name: The short name of the TlsCryptoCipherSuiteProps
+
+        Returns:
+            The created (or existing) TlsCryptoCipherSuiteProps
         """
-        if value is not None:
-            self.props = value
-        return self
+        if self.props is not None and self.props.getShortName() == short_name:
+            return self.props
+        self.props = TlsCryptoCipherSuiteProps(self, short_name)
+        return self.props
 
     def getPskIdentity(self) -> Optional[TlsPskIdentity]:
         """Pre-shared key identity shared during the handshake among the communication parties, to establish a TLS connection if the handshake is based on the existence of a pre-shared key."""

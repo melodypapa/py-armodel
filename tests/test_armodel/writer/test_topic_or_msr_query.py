@@ -10,7 +10,7 @@ import xml.etree.ElementTree as ET
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DateTime, String
-from armodel.models.M2.MSR.Documentation.Chapters import ChapterModel, Topic1, TopicOrMsrQuery
+from armodel.models.M2.MSR.Documentation.Chapters import ChapterModel, TopicOrMsrQuery
 from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryProps, MsrQueryTopic1
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
@@ -23,8 +23,8 @@ def _parent():
 def _full_query() -> TopicOrMsrQuery:
     query = TopicOrMsrQuery()
     query.setTimestamp(DateTime().setValue("2024-01-01T00:00:00+00:00"))
-    query.addTopic1(Topic1(_parent(), "TopicA"))
-    query.addTopic1(Topic1(_parent(), "TopicB"))
+    query.createTopic1("TopicA")
+    query.createTopic1("TopicB")
     query.setMsrQueryTopic1(MsrQueryTopic1().setMsrQueryProps(MsrQueryProps().setMsrQueryName(String().setValue("topic-query"))))
     return query
 

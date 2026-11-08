@@ -272,11 +272,10 @@ class TestEcucDefinitionElement:
         assert result == container_def
         assert container_def.getEcucCond() == condition_spec
 
-        # Test addEcucValidationCond
-        validation_condition = EcucValidationCondition(parent, "TestValidation")
-        result = container_def.addEcucValidationCond(validation_condition)
-        assert result == container_def
+        # Test createEcucValidationCond
+        validation_condition = container_def.createEcucValidationCond("TestValidation")
         assert validation_condition in container_def.getEcucValidationConds()
+        assert container_def.createEcucValidationCond("TestValidation") is validation_condition
 
         # Test setLowerMultiplicity
         result = container_def.setLowerMultiplicity(1)

@@ -177,7 +177,7 @@ class EcucDefinitionElement(Identifiable, ABC):
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.6, p.46
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] addEcucValidationCond        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createEcucValidationCond     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getEcucCond                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] getEcucValidationConds       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] getLowerMultiplicity         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -239,14 +239,22 @@ class EcucDefinitionElement(Identifiable, ABC):
         """
         return self.ecucValidationConds
 
-    def addEcucValidationCond(self, value: EcucValidationCondition):
+    def createEcucValidationCond(self, short_name: str) -> EcucValidationCondition:
         """
         Collection of validation conditions which all need to evaluate to true in order to indicate a valid validation condition of the EcucDefinitionElement.
-        A None value is a no-op.
+
+        Args:
+            short_name: The short name of the EcucValidationCondition
+
+        Returns:
+            The created (or existing) EcucValidationCondition
         """
-        if value is not None:
-            self.ecucValidationConds.append(value)
-        return self
+        for item in self.ecucValidationConds:
+            if item.getShortName() == short_name:
+                return item
+        item = EcucValidationCondition(self, short_name)
+        self.ecucValidationConds.append(item)
+        return item
 
     def getLowerMultiplicity(self) -> Optional[PositiveInteger]:
         """

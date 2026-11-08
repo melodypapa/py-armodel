@@ -58,16 +58,13 @@ class TestMlFormula:
         assert formula.getGenericMath() == generic_math
 
     def test_ml_formula_formula_caption_methods(self):
-        """Test the formulaCaption getter and setter."""
+        """Test the formulaCaption getter and create factory."""
         formula = MlFormula()
-        caption = Caption(None, "cap")
-
-        result = formula.setFormulaCaption(caption)
-        assert formula.getFormulaCaption() == caption
-        assert result == formula
-
-        formula.setFormulaCaption(None)
-        assert formula.getFormulaCaption() == caption
+        caption = formula.createFormulaCaption("cap")
+        assert isinstance(caption, Caption)
+        assert caption.getShortName() == "cap"
+        assert formula.getFormulaCaption() is caption
+        assert formula.createFormulaCaption("cap") is caption
 
     def test_ml_formula_l_graphics_methods(self):
         """Test adding and getting LGraphic objects."""

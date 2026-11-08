@@ -133,6 +133,7 @@ class ItemLabelPosEnum(AREnum):
 
     # ItemLabelPosEnum method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.14, p.297
+    # Spec verified: R23-11 (2026-10-20, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on IndentSample.itemLabelPos
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
@@ -161,6 +162,7 @@ class IndentSample(ARObject):
 
     # IndentSample method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.13, p.297
+    # Spec verified: R23-11 (2026-10-19, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getItemLabelPos  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -171,27 +173,21 @@ class IndentSample(ARObject):
     def __init__(self):
         super().__init__()
 
-        # The position of the label in case the label is too long. The default is "NO-NEWLINE"
+        # The position of the label in case the label is too long. The default is "NO-NEWLINE" Tags: xml.attribute=true
         self.itemLabelPos: Optional[ItemLabelPosEnum] = None
 
-        # This represents the indent sample in one particular language.
+        # This represents the indent sample in one particular language. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
         self.l2s: List[LOverviewParagraph] = []
 
     def getItemLabelPos(self) -> Optional[ItemLabelPosEnum]:
         """
-        The position of the label in case the label is too long. The default is "NO-NEWLINE"
-
-        Returns:
-            The position of the label
+        The position of the label in case the label is too long. The default is "NO-NEWLINE" Tags: xml.attribute=true
         """
         return self.itemLabelPos
 
     def setItemLabelPos(self, value: Optional[ItemLabelPosEnum]) -> IndentSample:
         """
-        The position of the label in case the label is too long. The default is "NO-NEWLINE". A None value is a no-op and does not overwrite an existing itemLabelPos.
-
-        Returns:
-            self for method chaining
+        The position of the label in case the label is too long. The default is "NO-NEWLINE" Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing itemLabelPos.
         """
         if value is not None:
             self.itemLabelPos = value
@@ -199,10 +195,7 @@ class IndentSample(ARObject):
 
     def addL2(self, value: Optional[LOverviewParagraph]) -> IndentSample:
         """
-        This represents the indent sample in one particular language. A None value is a no-op and is not appended.
-
-        Returns:
-            self for method chaining
+        This represents the indent sample in one particular language. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false. A None value is a no-op and is not appended.
         """
         if value is not None:
             self.l2s.append(value)
@@ -210,10 +203,7 @@ class IndentSample(ARObject):
 
     def getL2s(self) -> List[LOverviewParagraph]:
         """
-        This represents the indent sample in one particular language.
-
-        Returns:
-            The indent samples in particular languages
+        This represents the indent sample in one particular language. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
         """
         return self.l2s
 
@@ -225,6 +215,7 @@ class LabeledItem(Paginateable, VariationPointCapable):
 
     # LabeledItem method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.12, p.296
+    # Spec verified: R23-11 (2026-10-19, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getHelpEntry        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -237,30 +228,24 @@ class LabeledItem(Paginateable, VariationPointCapable):
     def __init__(self):
         super().__init__()
 
-        # This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator.
+        # This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator. Tags: xml.attribute=true
         self.helpEntry: Optional[String] = None
 
-        # This represents the actual content of the item. It is composed of a DocumentationBlock. This way it is possible to use simple paragraphs to nested lists, formula, figures or notes.
+        # This represents the actual content of the item. It is composed of a DocumentationBlock. This way it is possible to use simple paragraphs to nested lists, formula, figures or notes. Tags: xml.roleElement=false xml.roleWrapperElement=false xml.sequenceOffset=30 xml.typeElement=false xml.typeWrapperElement=false
         self.itemContents: Optional[DocumentationBlock] = None
 
-        # This is the label of the item.
+        # This is the label of the item. Tags: xml.sequenceOffset=20
         self.itemLabel: Optional[MultiLanguageOverviewParagraph] = None
 
     def getHelpEntry(self) -> Optional[String]:
         """
-        This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator.
-
-        Returns:
-            The entry point in an online help system
+        This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator. Tags: xml.attribute=true
         """
         return self.helpEntry
 
     def setHelpEntry(self, value: Optional[String]) -> LabeledItem:
         """
-        This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator. A None value is a no-op and does not overwrite an existing helpEntry.
-
-        Returns:
-            self for method chaining
+        This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing helpEntry.
         """
         if value is not None:
             self.helpEntry = value
@@ -268,19 +253,13 @@ class LabeledItem(Paginateable, VariationPointCapable):
 
     def getItemContents(self) -> Optional[DocumentationBlock]:
         """
-        This represents the actual content of the item. It is composed of a DocumentationBlock. This way it is possible to use simple paragraphs to nested lists, formula, figures or notes.
-
-        Returns:
-            The actual content of the item
+        This represents the actual content of the item. It is composed of a DocumentationBlock. This way it is possible to use simple paragraphs to nested lists, formula, figures or notes. Tags: xml.roleElement=false xml.roleWrapperElement=false xml.sequenceOffset=30 xml.typeElement=false xml.typeWrapperElement=false
         """
         return self.itemContents
 
     def setItemContents(self, value: Optional[DocumentationBlock]) -> LabeledItem:
         """
-        This represents the actual content of the item. It is composed of a DocumentationBlock. This way it is possible to use simple paragraphs to nested lists, formula, figures or notes. A None value is a no-op and does not overwrite an existing itemContents.
-
-        Returns:
-            self for method chaining
+        This represents the actual content of the item. It is composed of a DocumentationBlock. This way it is possible to use simple paragraphs to nested lists, formula, figures or notes. Tags: xml.roleElement=false xml.roleWrapperElement=false xml.sequenceOffset=30 xml.typeElement=false xml.typeWrapperElement=false. A None value is a no-op and does not overwrite an existing itemContents.
         """
         if value is not None:
             self.itemContents = value
@@ -288,19 +267,13 @@ class LabeledItem(Paginateable, VariationPointCapable):
 
     def getItemLabel(self) -> Optional[MultiLanguageOverviewParagraph]:
         """
-        This is the label of the item.
-
-        Returns:
-            The label of the item
+        This is the label of the item. Tags: xml.sequenceOffset=20
         """
         return self.itemLabel
 
     def setItemLabel(self, value: Optional[MultiLanguageOverviewParagraph]) -> LabeledItem:
         """
-        This is the label of the item. A None value is a no-op and does not overwrite an existing itemLabel.
-
-        Returns:
-            self for method chaining
+        This is the label of the item. Tags: xml.sequenceOffset=20. A None value is a no-op and does not overwrite an existing itemLabel.
         """
         if value is not None:
             self.itemLabel = value
@@ -314,6 +287,7 @@ class LabeledList(Paginateable, VariationPointCapable):
 
     # LabeledList method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.11, p.296
+    # Spec verified: R23-11 (2026-10-18, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getIndentSample     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -324,27 +298,21 @@ class LabeledList(Paginateable, VariationPointCapable):
     def __init__(self):
         super().__init__()
 
-        # This is a sample item. This sample is used by a rendering system to measure out the width of indentation. Since this depends on the particular fontsize etc. the indentation cannot be specified e.g. in mm.
+        # This is a sample item. This sample is used by a rendering system to measure out the width of indentation. Since this depends on the particular fontsize etc. the indentation cannot be specified e.g. in mm. Tags: xml.sequenceOffset=20
         self.indentSample: Optional[IndentSample] = None
 
-        # This represents one particular item in the labeled list.
+        # This represents one particular item in the labeled list. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=labeledItem, labeledItem.variationPoint.shortLabel vh.latestBindingTime=postBuild xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=30 xml.typeElement=false xml.typeWrapperElement=false
         self.labeledItems: List[LabeledItem] = []
 
     def getIndentSample(self) -> Optional[IndentSample]:
         """
-        This is a sample item. This sample is used by a rendering system to measure out the width of indentation. Since this depends on the particular fontsize etc. the indentation cannot be specified e.g. in mm.
-
-        Returns:
-            The sample item
+        This is a sample item. This sample is used by a rendering system to measure out the width of indentation. Since this depends on the particular fontsize etc. the indentation cannot be specified e.g. in mm. Tags: xml.sequenceOffset=20
         """
         return self.indentSample
 
     def setIndentSample(self, value: Optional[IndentSample]) -> LabeledList:
         """
-        This is a sample item. This sample is used by a rendering system to measure out the width of indentation. Since this depends on the particular fontsize etc. the indentation cannot be specified e.g. in mm. A None value is a no-op and does not overwrite an existing indentSample.
-
-        Returns:
-            self for method chaining
+        This is a sample item. This sample is used by a rendering system to measure out the width of indentation. Since this depends on the particular fontsize etc. the indentation cannot be specified e.g. in mm. Tags: xml.sequenceOffset=20. A None value is a no-op and does not overwrite an existing indentSample.
         """
         if value is not None:
             self.indentSample = value
@@ -352,10 +320,7 @@ class LabeledList(Paginateable, VariationPointCapable):
 
     def addLabeledItem(self, value: Optional[LabeledItem]) -> LabeledList:
         """
-        This represents one particular item in the labeled list. A None value is a no-op and is not appended.
-
-        Returns:
-            self for method chaining
+        This represents one particular item in the labeled list. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=labeledItem, labeledItem.variationPoint.shortLabel vh.latestBindingTime=postBuild xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=30 xml.typeElement=false xml.typeWrapperElement=false. A None value is a no-op and is not appended.
         """
         if value is not None:
             self.labeledItems.append(value)
@@ -363,10 +328,7 @@ class LabeledList(Paginateable, VariationPointCapable):
 
     def getLabeledItems(self) -> List[LabeledItem]:
         """
-        This represents one particular item in the labeled list.
-
-        Returns:
-            The items in the labeled list
+        This represents one particular item in the labeled list. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=labeledItem, labeledItem.variationPoint.shortLabel vh.latestBindingTime=postBuild xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=30 xml.typeElement=false xml.typeWrapperElement=false
         """
         return self.labeledItems
 
@@ -388,21 +350,21 @@ class DefItem(MultilanguageReferrable, Paginateable, VariationPointCapable):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        # This represents the definition part of the DefItem.
+        # This represents the definition part of the DefItem. Tags: xml.sequenceOffset=20
         self.def_doc: Optional[DocumentationBlock] = None
 
-        # This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator.
+        # This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator. Tags: xml.attribute=true
         self.helpEntry: Optional[String] = None
 
     def getDef(self) -> Optional[DocumentationBlock]:
         """
-        This represents the definition part of the DefItem.
+        This represents the definition part of the DefItem. Tags: xml.sequenceOffset=20
         """
         return self.def_doc
 
     def setDef(self, value: Optional[DocumentationBlock]) -> DefItem:
         """
-        This represents the definition part of the DefItem. A None value is a no-op and does not overwrite an existing def.
+        This represents the definition part of the DefItem. Tags: xml.sequenceOffset=20. A None value is a no-op and does not overwrite an existing def.
         """
         if value is not None:
             self.def_doc = value
@@ -410,13 +372,13 @@ class DefItem(MultilanguageReferrable, Paginateable, VariationPointCapable):
 
     def getHelpEntry(self) -> Optional[String]:
         """
-        This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator.
+        This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator. Tags: xml.attribute=true
         """
         return self.helpEntry
 
     def setHelpEntry(self, value: Optional[String]) -> DefItem:
         """
-        This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator. A None value is a no-op and does not overwrite an existing helpEntry.
+        This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing helpEntry.
         """
         if value is not None:
             self.helpEntry = value
@@ -432,29 +394,35 @@ class DefList(Paginateable, VariationPointCapable):
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.15, p.298
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] addDefItem     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createDefItem  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getDefItems    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        # This is one entry in the definition list.
+        # This is one entry in the definition list. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=defItem.shortName, defItem.variation Point.shortLabel vh.latestBindingTime=postBuild xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
         self.defItems: List[DefItem] = []
 
-    def addDefItem(self, value: Optional[DefItem]) -> DefList:
+    def createDefItem(self, short_name: str) -> DefItem:
         """
-        This is one entry in the definition list. A None value is a no-op and is not appended.
+        This is one entry in the definition list. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=defItem.shortName, defItem.variation Point.shortLabel vh.latestBindingTime=postBuild xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
+
+        Args:
+            short_name: The short name of the definition list entry
 
         Returns:
-            self for method chaining
+            The created (or existing) definition list entry
         """
-        if value is not None:
-            self.defItems.append(value)
-        return self
+        for def_item in self.defItems:
+            if def_item.getShortName() == short_name:
+                return def_item
+        def_item = DefItem(self, short_name)
+        self.defItems.append(def_item)
+        return def_item
 
     def getDefItems(self) -> List[DefItem]:
         """
-        This is one entry in the definition list.
+        This is one entry in the definition list. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=defItem.shortName, defItem.variation Point.shortLabel vh.latestBindingTime=postBuild xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
 
         Returns:
             The entries in the definition list

@@ -2766,17 +2766,16 @@ class TestBswInternalBehaviorFullSync:
         ar_root = document.createARPackage("AUTOSAR")
         return BswInternalBehavior(ar_root, "test_internal_behavior")
 
-    def test_add_ar_typed_per_instance_memory(self):
+    def test_create_ar_typed_per_instance_memory(self):
         behavior = self._make_behavior()
-        prototype = VariableDataPrototype(parent=behavior, short_name="mem")
+        prototype = behavior.createArTypedPerInstanceMemory("mem")
 
-        result = behavior.addArTypedPerInstanceMemory(prototype)
-
-        assert result == behavior
+        assert isinstance(prototype, VariableDataPrototype)
+        assert prototype.getShortName() == "mem"
         assert behavior.getArTypedPerInstanceMemories() == [prototype]
 
-        # Adding None is a no-op: the list is unchanged
-        behavior.addArTypedPerInstanceMemory(None)
+        # Creating the same short name returns the existing instance
+        assert behavior.createArTypedPerInstanceMemory("mem") is prototype
         assert behavior.getArTypedPerInstanceMemories() == [prototype]
 
     def test_add_exclusive_area_policy(self):
@@ -2815,16 +2814,15 @@ class TestBswInternalBehaviorFullSync:
         assert result == behavior
         assert behavior.getModeReceiverPolicies() == []
 
-    def test_add_per_instance_parameter(self):
+    def test_create_per_instance_parameter(self):
         behavior = self._make_behavior()
-        prototype = ParameterDataPrototype(parent=behavior, short_name="pip")
+        prototype = behavior.createPerInstanceParameter("pip")
 
-        result = behavior.addPerInstanceParameter(prototype)
-
-        assert result == behavior
+        assert isinstance(prototype, ParameterDataPrototype)
+        assert prototype.getShortName() == "pip"
         assert behavior.getPerInstanceParameters() == [prototype]
 
-        behavior.addPerInstanceParameter(None)
+        assert behavior.createPerInstanceParameter("pip") is prototype
         assert behavior.getPerInstanceParameters() == [prototype]
 
     def test_add_trigger_direct_implementation(self):
@@ -2839,16 +2837,15 @@ class TestBswInternalBehaviorFullSync:
         behavior.addTriggerDirectImplementation(None)
         assert behavior.getTriggerDirectImplementations() == [implementation]
 
-    def test_add_variation_point_proxy(self):
+    def test_create_variation_point_proxy(self):
         behavior = self._make_behavior()
-        proxy = VariationPointProxy(parent=behavior, short_name="vp")
+        proxy = behavior.createVariationPointProxy("vp")
 
-        result = behavior.addVariationPointProxy(proxy)
-
-        assert result == behavior
+        assert isinstance(proxy, VariationPointProxy)
+        assert proxy.getShortName() == "vp"
         assert behavior.getVariationPointProxies() == [proxy]
 
-        behavior.addVariationPointProxy(None)
+        assert behavior.createVariationPointProxy("vp") is proxy
         assert behavior.getVariationPointProxies() == [proxy]
 
 
@@ -2978,19 +2975,13 @@ class TestBswServiceDependency:
         assert result == dependency
         assert dependency.getAssignedDataType() == data_type
 
-    def test_get_set_ident(self):
+    def test_create_ident(self):
         dependency = BswServiceDependency()
-        ident = BswServiceDependencyIdent(dependency, "test_ident")
+        ident = dependency.createIdent("test_ident")
 
-        result = dependency.setIdent(ident)
-
-        assert result == dependency
+        assert isinstance(ident, BswServiceDependencyIdent)
         assert dependency.getIdent() == ident
-
-        # Setting None should not change the value
-        result = dependency.setIdent(None)
-        assert result == dependency
-        assert dependency.getIdent() == ident
+        assert dependency.createIdent("test_ident") is ident
 
     def test_get_set_service_needs(self):
         dependency = BswServiceDependency()
@@ -3008,16 +2999,13 @@ class TestBswServiceDependency:
 
     def test_get_set_symbolic_name_props(self):
         dependency = BswServiceDependency()
-        props = SymbolicNameProps(dependency, "symProps")
+        props = dependency.createSymbolicNameProps("symProps")
 
-        result = dependency.setSymbolicNameProps(props)
-
-        assert result == dependency
+        assert isinstance(props, SymbolicNameProps)
         assert dependency.getSymbolicNameProps() == props
 
-        # Setting None should not change the value
-        result = dependency.setSymbolicNameProps(None)
-        assert result == dependency
+        # Creating the same short name returns the existing instance
+        assert dependency.createSymbolicNameProps("symProps") is props
         assert dependency.getSymbolicNameProps() == props
 
 

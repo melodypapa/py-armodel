@@ -2,7 +2,6 @@
 
 import xml.etree.ElementTree as ET
 
-from armodel.models.M2.MSR.Documentation.Chapters import Topic1
 from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryResultTopic1
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
@@ -10,8 +9,8 @@ from armodel.writer.arxml_writer import ARXMLWriter
 
 def _build_full_result() -> MsrQueryResultTopic1:
     result = MsrQueryResultTopic1()
-    result.addTopic1(Topic1(None, "topic-1"))
-    result.addTopic1(Topic1(None, "topic-2"))
+    result.createTopic1("topic-1")
+    result.createTopic1("topic-2")
     return result
 
 

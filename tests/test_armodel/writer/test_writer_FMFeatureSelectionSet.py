@@ -4,7 +4,6 @@ import xml.etree.ElementTree as ET
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import FMFeatureSelectionSet
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import FMFeatureSelection
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
@@ -21,7 +20,7 @@ class TestWriteFMFeatureSelectionSet:
         selection_set = FMFeatureSelectionSet(self._parent(), "SelectionSet")
         selection_set.addFeatureModelRef(RefType().setValue("/Pkg/FeatureModel").setDest("FM-FEATURE-MODEL"))
         selection_set.addIncludeRef(RefType().setValue("/Pkg/OtherSet").setDest("FM-FEATURE-SELECTION-SET"))
-        selection_set.addSelection(FMFeatureSelection(selection_set, "Selection"))
+        selection_set.createSelection("Selection")
         return selection_set
 
     def test_write_all_members(self):

@@ -3,7 +3,6 @@
 import xml.etree.ElementTree as ET
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import String
-from armodel.models.M2.MSR.Documentation.Chapters import Chapter
 from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryChapter, MsrQueryProps, MsrQueryResultChapter
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
@@ -15,7 +14,7 @@ def _build_full_msr_query_chapter() -> MsrQueryChapter:
     props.setMsrQueryName(String().setValue("query-1"))
     msr_query_chapter.setMsrQueryProps(props)
     result = MsrQueryResultChapter()
-    result.addChapter(Chapter(None, "ch1"))
+    result.createChapter("ch1")
     msr_query_chapter.setMsrQueryResultChapter(result)
     return msr_query_chapter
 

@@ -38,10 +38,15 @@ class TestApplicationInterface:
         assert obj.setAttributes([field]) is obj
         assert obj.getAttributes() == [field]
 
-    def test_add_attribute(self):
+    def test_create_attribute(self):
         obj = self._interface()
-        field = Field(obj, "Field1")
-        assert obj.addAttribute(field) is obj
+        field = obj.createAttribute("Field1")
+        field.setHasGetter(True)
+        assert isinstance(field, Field)
+        assert obj.getAttributes() == [field]
+        field2 = obj.createAttribute("Field1")
+        assert field2 is field
+        field2.setHasGetter(True)
         assert obj.getAttributes() == [field]
 
     def test_get_set_commands(self):
@@ -50,11 +55,12 @@ class TestApplicationInterface:
         assert obj.setCommands([operation]) is obj
         assert obj.getCommands() == [operation]
 
-    def test_add_command(self):
+    def test_create_command(self):
         obj = self._interface()
-        operation = ClientServerOperation(obj, "Operation1")
-        assert obj.addCommand(operation) is obj
+        operation = obj.createCommand("Operation1")
+        assert isinstance(operation, ClientServerOperation)
         assert obj.getCommands() == [operation]
+        assert obj.createCommand("Operation1") is operation
 
     def test_get_set_indications(self):
         obj = self._interface()
@@ -62,8 +68,9 @@ class TestApplicationInterface:
         assert obj.setIndications([indication]) is obj
         assert obj.getIndications() == [indication]
 
-    def test_add_indication(self):
+    def test_create_indication(self):
         obj = self._interface()
-        indication = VariableDataPrototype(obj, "Indication1")
-        assert obj.addIndication(indication) is obj
+        indication = obj.createIndication("Indication1")
+        assert isinstance(indication, VariableDataPrototype)
         assert obj.getIndications() == [indication]
+        assert obj.createIndication("Indication1") is indication

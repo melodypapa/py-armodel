@@ -29,6 +29,7 @@ class TestFMFeatureMap:
 
     def test_add_get_mappings(self):
         obj = self._obj()
-        mapping = FMFeatureMapElement(obj, "Mapping")
-        assert obj.addMapping(mapping) is obj
+        mapping = obj.createMapping("Mapping")
+        assert isinstance(mapping, FMFeatureMapElement)
         assert obj.getMappings() == [mapping]
+        assert obj.createMapping("Mapping") is mapping

@@ -49,7 +49,7 @@ def parser():
 
 def _new_assignment(short_name="TA1", priorities=(1, 2), traffic_class=3):
     details = CouplingPortDetails()
-    assignment = CouplingPortTrafficClassAssignment(details, short_name)
+    assignment = details.createEthernetTrafficClassAssignment(short_name)
     for p in priorities:
         priority = PositiveInteger()
         priority.setValue(str(p))
@@ -63,7 +63,6 @@ def _new_assignment(short_name="TA1", priorities=(1, 2), traffic_class=3):
 class TestWriteCouplingPortTrafficClassAssignment:
     def test_write_all_fields(self, writer):
         details, assignment = _new_assignment()
-        details.addEthernetTrafficClassAssignment(assignment)
         parent = ET.Element("PARENT")
         writer.setCouplingPortDetails(parent, "COUPLING-PORT-DETAILS", details)
         details_element = parent.find("COUPLING-PORT-DETAILS")
@@ -82,11 +81,10 @@ class TestWriteCouplingPortTrafficClassAssignment:
 
     def test_write_omits_prioritys_wrapper_when_empty(self, writer):
         details = CouplingPortDetails()
-        assignment = CouplingPortTrafficClassAssignment(details, "TA2")
+        assignment = details.createEthernetTrafficClassAssignment("TA2")
         tc = PositiveInteger()
         tc.setValue("5")
         assignment.setTrafficClass(tc)
-        details.addEthernetTrafficClassAssignment(assignment)
         parent = ET.Element("PARENT")
         writer.setCouplingPortDetails(parent, "COUPLING-PORT-DETAILS", details)
         item = parent.find("COUPLING-PORT-DETAILS/ETHERNET-TRAFFIC-CLASS-ASSIGNMENTS/COUPLING-PORT-TRAFFIC-CLASS-ASSIGNMENT")
@@ -106,7 +104,6 @@ class TestWriteCouplingPortTrafficClassAssignment:
 class TestCouplingPortTrafficClassAssignmentRoundTrip:
     def test_round_trip_preserves_all_values(self, writer, parser):
         details, assignment = _new_assignment()
-        details.addEthernetTrafficClassAssignment(assignment)
         parent = ET.Element("PARENT")
         writer.setCouplingPortDetails(parent, "COUPLING-PORT-DETAILS", details)
         details_element = _serialize_and_wrap(parent)

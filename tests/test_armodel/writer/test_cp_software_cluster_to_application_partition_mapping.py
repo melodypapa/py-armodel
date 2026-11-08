@@ -84,9 +84,8 @@ class TestWriteCpSoftwareClusterToApplicationPartitionMapping:
     def test_round_trip_via_system_mapping(self):
         system = System(parent=None, short_name="sys")
         system_mapping = system.createSystemMapping("sm")
-        mapping = CpSoftwareClusterToApplicationPartitionMapping(system_mapping, "mapping")
+        mapping = system_mapping.createSoftwareClusterToApplicationPartitionMapping("mapping")
         mapping.setSoftwareClusterRef(_ref("/Clusters/MyCluster", "CP-SOFTWARE-CLUSTER"))
-        system_mapping.addSoftwareClusterToApplicationPartitionMapping(mapping)
 
         parent = ET.Element("PARENT")
         ARXMLWriter().writeSystemMappingSoftwareClusterToApplicationPartitionMappings(parent, system_mapping)

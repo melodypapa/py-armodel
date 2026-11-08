@@ -31,13 +31,13 @@ class ApplicationInterface(PortInterface):
     # [x] __init__         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getAttributes    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setAttributes    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] addAttribute     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createAttribute  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getCommands      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setCommands      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] addCommand       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createCommand    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getIndications   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setIndications   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] addIndication    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createIndication [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -64,12 +64,22 @@ class ApplicationInterface(PortInterface):
         self.attributes = value
         return self
 
-    def addAttribute(self, value: Field) -> "ApplicationInterface":
+    def createAttribute(self, short_name: str) -> Field:
         """
         This represents the set of attributes defined in the context of an Abstract Platform ApplicationInterface. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=attribute.shortName, attribute.variation Point.shortLabel atp.Status=draft vh.latestBindingTime=blueprintDerivationTime
+
+        Args:
+            short_name: The short name of the Field
+
+        Returns:
+            The created (or existing) Field
         """
-        self.attributes.append(value)
-        return self
+        for item in self.attributes:
+            if item.getShortName() == short_name:
+                return item
+        item = Field(self, short_name)
+        self.attributes.append(item)
+        return item
 
     def getCommands(self) -> List[ClientServerOperation]:
         """
@@ -84,12 +94,22 @@ class ApplicationInterface(PortInterface):
         self.commands = value
         return self
 
-    def addCommand(self, value: ClientServerOperation) -> "ApplicationInterface":
+    def createCommand(self, short_name: str) -> ClientServerOperation:
         """
         This represents the collection of commands or function calls (with optional data arguments) defined in the context of an ApplicationInterface. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=command.shortName, command.variation Point.shortLabel atp.Status=draft vh.latestBindingTime=blueprintDerivationTime
+
+        Args:
+            short_name: The short name of the ClientServerOperation
+
+        Returns:
+            The created (or existing) ClientServerOperation
         """
-        self.commands.append(value)
-        return self
+        for item in self.commands:
+            if item.getShortName() == short_name:
+                return item
+        item = ClientServerOperation(self, short_name)
+        self.commands.append(item)
+        return item
 
     def getIndications(self) -> List[VariableDataPrototype]:
         """
@@ -104,9 +124,19 @@ class ApplicationInterface(PortInterface):
         self.indications = value
         return self
 
-    def addIndication(self, value: VariableDataPrototype) -> "ApplicationInterface":
+    def createIndication(self, short_name: str) -> VariableDataPrototype:
         """
         This represents the collection of indication or events (with optional data argument) defined in the context of an ApplicationInterface. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=indication.shortName, indication.variation Point.shortLabel atp.Status=draft vh.latestBindingTime=blueprintDerivationTime
+
+        Args:
+            short_name: The short name of the VariableDataPrototype
+
+        Returns:
+            The created (or existing) VariableDataPrototype
         """
-        self.indications.append(value)
-        return self
+        for item in self.indications:
+            if item.getShortName() == short_name:
+                return item
+        item = VariableDataPrototype(self, short_name)
+        self.indications.append(item)
+        return item

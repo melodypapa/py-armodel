@@ -3,7 +3,7 @@
 import xml.etree.ElementTree as ET
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import FMFeatureMapAssertion, FMFeatureMapCondition, FMFeatureMapElement
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import FMFeatureMapElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
@@ -18,10 +18,8 @@ class TestWriteFMFeatureMapElement:
 
     def _build_full(self):
         map_element = FMFeatureMapElement(self._parent(), "MapElement")
-        assertion = FMFeatureMapAssertion(map_element, "Assertion")
-        map_element.addAssertion(assertion)
-        condition = FMFeatureMapCondition(map_element, "Condition")
-        map_element.addCondition(condition)
+        map_element.createAssertion("Assertion")
+        map_element.createCondition("Condition")
         map_element.addPostBuildVariantCriterionValueSetRef(RefType().setValue("/Pkg/PostBuildValueSet").setDest("POST-BUILD-VARIANT-CRITERION-VALUE-SET"))
         map_element.addSwSystemconstantValueSetRef(RefType().setValue("/Pkg/SwSystemconstantValueSet").setDest("SW-SYSTEMCONSTANT-VALUE-SET"))
         return map_element

@@ -681,7 +681,7 @@ class TestReceiverComSpec:
         assert ReceiverComSpec.setReceptionProps.__doc__.strip() == reception_props_note + " A None value is a no-op and does not overwrite an existing receptionProps."
         replace_with_note = "This aggregation is used to identify the AutosarData Prototype to be taken for sourcing an external replacement in the out-of-range and invalidValue handling."
         assert ReceiverComSpec.getReplaceWith.__doc__.strip() == replace_with_note
-        assert ReceiverComSpec.setReplaceWith.__doc__.strip() == replace_with_note + " A None value is a no-op and does not overwrite an existing replaceWith."
+        assert ReceiverComSpec.createReplaceWith.__doc__.strip().startswith(replace_with_note)
         sync_counter_init_note = (
             "Number of Data required for validating the consistency of the counter that shall be received with a valid counter (i.e. counter within the allowed "
             "lock-in range) after the detection of an unexpected behavior of a received counter. "
@@ -794,18 +794,17 @@ class TestReceiverComSpec:
         assert receiver.getReceptionProps() == props
 
     def test_replace_with(self):
-        """Test replaceWith getter and setter with round-trip and None no-op."""
+        """Test replaceWith getter and create factory with round-trip."""
         from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import VariableAccess
 
         receiver = NonqueuedReceiverComSpec()
         assert receiver.getReplaceWith() is None
 
-        access = VariableAccess(None, "TestAccess")
-        result = receiver.setReplaceWith(access)
-        assert result is receiver
+        access = receiver.createReplaceWith("TestAccess")
+        assert isinstance(access, VariableAccess)
         assert receiver.getReplaceWith() == access
 
-        receiver.setReplaceWith(None)
+        assert receiver.createReplaceWith("TestAccess") is access
         assert receiver.getReplaceWith() == access
 
     def test_sync_counter_init(self):

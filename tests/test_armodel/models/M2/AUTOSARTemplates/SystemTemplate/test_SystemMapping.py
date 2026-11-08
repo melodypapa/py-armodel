@@ -117,6 +117,14 @@ CREATE_FACTORIES = [
     ("createSwcToApplicationPartitionMapping", "swcToApplicationPartitionMappings"),
     ("createSwcToImplMapping", "swImplMappings"),
     ("createSwcToEcuMapping", "swMappings"),
+    ("createRteEventSeparation", "rteEventSeparations"),
+    ("createRteEventToOsTaskProxyMapping", "rteEventToOsTaskProxyMappings"),
+    ("createSwClusterMapping", "swClusterMappings"),
+    ("createResourceToApplicationPartitionMapping", "resourceToApplicationPartitionMappings"),
+    ("createSoftwareClusterToApplicationPartitionMapping", "softwareClusterToApplicationPartitionMappings"),
+    ("createSoftwareClusterToResourceMapping", "softwareClusterToResourceMappings"),
+    ("createSystemSignalToComResourceMapping", "systemSignalToComResourceMappings"),
+    ("createSystemSignalGroupToComResourceMapping", "systemSignalGroupToComResourceMappings"),
 ]
 
 
@@ -151,12 +159,26 @@ class TestSystemMapping:
 
     def test_attribute_docstrings_are_spec_notes(self):
         """Test that the adder and getter docstrings carry the attribute Notes verbatim (Table 5.1)"""
-        adder_exceptions = {"ecuResourceMapping", "swImplMapping", "swMapping"}
+        adder_exceptions = {"cryptoServiceMapping", "ecuResourceMapping", "swImplMapping", "swMapping"}
+        create_only_attrs = {
+            "resourceToApplicationPartitionMapping",
+            "rteEventSeparation",
+            "rteEventToOsTaskProxyMapping",
+            "softwareClusterToApplicationPartitionMapping",
+            "softwareClusterToResourceMapping",
+            "swClusterMapping",
+            "systemSignalGroupToComResourceMapping",
+            "systemSignalToComResourceMapping",
+        }
         for attr, note in ATTRIBUTE_NOTES.items():
             field = _field_of(attr)
             getter = getattr(SystemMapping, "get" + field[0].upper() + field[1:])
             assert getter.__doc__.strip() == note, "getter docstring drift: %s" % field
             if attr in adder_exceptions:
+                assert not hasattr(SystemMapping, "add" + attr[0].upper() + attr[1:]), "unexpected adder: %s" % attr
+            elif attr in create_only_attrs:
+                factory = getattr(SystemMapping, "create" + attr[0].upper() + attr[1:])
+                assert factory.__doc__.strip().startswith(note), "factory docstring drift: %s" % attr
                 assert not hasattr(SystemMapping, "add" + attr[0].upper() + attr[1:]), "unexpected adder: %s" % attr
             else:
                 adder = getattr(SystemMapping, "add" + attr[0].upper() + attr[1:])
@@ -165,7 +187,17 @@ class TestSystemMapping:
 
     def test_add_get_round_trip(self):
         """Test every mapping list: default empty, append, chaining, None no-op"""
-        create_only_fields = {"ecuResourceMappings", "swImplMappings", "swMappings"}
+        create_only_fields = {"cryptoServiceMappings", "ecuResourceMappings", "swImplMappings", "swMappings"}
+        create_factory_fields = {
+            "resourceToApplicationPartitionMappings",
+            "rteEventSeparations",
+            "rteEventToOsTaskProxyMappings",
+            "softwareClusterToApplicationPartitionMappings",
+            "softwareClusterToResourceMappings",
+            "swClusterMappings",
+            "systemSignalGroupToComResourceMappings",
+            "systemSignalToComResourceMappings",
+        }
         for field, factory in MEMBER_FACTORIES.items():
             mapping = self._create()
             attr = field[:-1]
@@ -174,6 +206,13 @@ class TestSystemMapping:
             member = factory(AUTOSAR.getInstance())
             assert getter() == []
             if field in create_only_fields:
+                continue
+            if field in create_factory_fields:
+                create = getattr(mapping, "create" + attr[0].upper() + attr[1:])
+                created = create("FactoryMember")
+                assert getter() == [created]
+                assert isinstance(getter(), list)
+                assert create("FactoryMember") is created
                 continue
             adder = getattr(mapping, "add" + attr[0].upper() + attr[1:])
             assert mapping == adder(member)

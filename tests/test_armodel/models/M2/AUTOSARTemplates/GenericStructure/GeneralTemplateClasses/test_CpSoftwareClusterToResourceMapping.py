@@ -180,5 +180,5 @@ class TestCpSoftwareClusterToResourceMapping:
 
         system = pkg.createSystem("system")
         system_mapping = system.createSystemMapping("system_mapping")
-        system_mapping.addSoftwareClusterToResourceMapping(CpSoftwareClusterToResourceMapping(system_mapping, "scr_mapping2"))
+        system_mapping.createSoftwareClusterToResourceMapping("scr_mapping2")
         assert isinstance(system_mapping.getSoftwareClusterToResourceMappings()[0], CpSoftwareClusterToResourceMapping)

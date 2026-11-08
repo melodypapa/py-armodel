@@ -349,14 +349,11 @@ class TestEthernetTopology:
         assert regeneration.getShortName() == "TestRegeneration"
         assert regeneration in details.getEthernetPriorityRegenerations()
 
-        # Test adding ethernet traffic class assignment with method chaining
-        assignment = CouplingPortTrafficClassAssignment(details, "TestAssignment")
-        result = details.addEthernetTrafficClassAssignment(assignment)
+        # Test creating ethernet traffic class assignment with method chaining
+        assignment = details.createEthernetTrafficClassAssignment("TestAssignment")
         assert details.getEthernetTrafficClassAssignments() == [assignment]
-        assert result == details  # Test method chaining
-
-        result = details.addEthernetTrafficClassAssignment(None)
-        assert details.getEthernetTrafficClassAssignments() == [assignment]
+        assert assignment.getShortName() == "TestAssignment"
+        assert details.createEthernetTrafficClassAssignment("TestAssignment") is assignment
 
         # Test global time props with method chaining
         time_props = MockParent()

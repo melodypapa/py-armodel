@@ -74,11 +74,12 @@ class TestSdgDef:
         assert sdg_def.getShortName() == "MySdgDef"
         assert sdg_def.getSdgClasses() == []
 
-    def test_add_sdg_class(self):
+    def test_create_sdg_class(self):
         sdg_def = _make_sdg_def()
-        sdg_class = SdgClass(sdg_def, "MySdgClass")
-        assert sdg_def.addSdgClass(sdg_class) is sdg_def
+        sdg_class = sdg_def.createSdgClass("MySdgClass")
+        assert isinstance(sdg_class, SdgClass)
         assert sdg_def.getSdgClasses() == [sdg_class]
+        assert sdg_def.createSdgClass("MySdgClass") is sdg_class
 
 
 class TestSdgClass:

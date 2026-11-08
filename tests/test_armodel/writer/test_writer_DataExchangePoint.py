@@ -5,7 +5,6 @@ import xml.etree.ElementTree as ET
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import Baseline, DataFormatTailoring, SpecificationScope
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import DataExchangePoint
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ConcreteClassTailoring, ConstraintTailoring, SpecificationDocumentScope
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DataExchangePointKind, String
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
@@ -29,12 +28,11 @@ class TestWriteDataExchangePoint:
         baseline.addStandardRevision(revision)
         dep.setReferencedBaseline(baseline)
         spec_scope = SpecificationScope()
-        doc_scope = SpecificationDocumentScope(spec_scope, "DocScope")
-        spec_scope.addSpecificationDocumentScope(doc_scope)
+        spec_scope.createSpecificationDocumentScope("DocScope")
         dep.setSpecificationScope(spec_scope)
         dft = DataFormatTailoring()
-        dft.addConstraintTailoring(ConstraintTailoring(dft, "ConstraintTailoring"))
-        dft.addClassTailoring(ConcreteClassTailoring(dft, "ClassTailoring"))
+        dft.createConstraintTailoring("ConstraintTailoring")
+        dft.createConcreteClassTailoring("ClassTailoring")
         dep.setDataFormatTailoring(dft)
 
         container = ET.Element("ELEMENTS")

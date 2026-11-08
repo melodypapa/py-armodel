@@ -17,9 +17,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, String
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate import SystemMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import (
-    TlsCryptoCipherSuite,
-    TlsCryptoCipherSuiteProps,
-    TlsCryptoServiceMapping,
     TlsPskIdentity,
     TlsVersionEnum,
 )
@@ -65,11 +62,9 @@ def _string(value):
 
 def _new_mapping_with_suite():
     mapping = SystemMapping(_MockParent(), "Mapping")
-    tls = TlsCryptoServiceMapping(mapping, "TlsMap")
-    mapping.addCryptoServiceMapping(tls)
+    tls = mapping.createTlsCryptoServiceMapping("TlsMap")
 
-    suite = TlsCryptoCipherSuite(tls, "Suite1")
-    tls.addTlsCipherSuite(suite)
+    suite = tls.createTlsCipherSuite("Suite1")
     suite.setAuthenticationRef(_ref("CRYPTO-SERVICE-PRIMITIVE", "/Crypto/Primitives/Mac"))
     suite.setCertificateRef(_ref("CRYPTO-SERVICE-CERTIFICATE", "/Crypto/Certs/Local"))
     suite.setCipherSuiteId(_pos_int("4865"))
@@ -81,11 +76,10 @@ def _new_mapping_with_suite():
     suite.addKeyExchangeRef(_ref("CRYPTO-SERVICE-PRIMITIVE", "/Crypto/Primitives/Ecdh"))
     suite.addKeyExchangeRef(_ref("CRYPTO-SERVICE-PRIMITIVE", "/Crypto/Primitives/Dh"))
     suite.setPriority(_pos_int("10"))
-    props = TlsCryptoCipherSuiteProps(suite, "Props1")
+    props = suite.createProps("Props1")
     from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean
 
     props.setTcpIpTlsUseSecurityExtensionForceEncryptThenMac(Boolean().setValue("true"))
-    suite.setProps(props)
     psk = TlsPskIdentity()
     psk.setPreSharedKeyRef(_ref("CRYPTO-SERVICE-KEY", "/Crypto/Keys/Psk"))
     psk.setPskIdentity(_string("psk-id"))
@@ -161,10 +155,8 @@ def test_write_tls_crypto_cipher_suite_xsd_element_order():
 
 def test_write_empty_tls_crypto_cipher_suite_omits_optional_tags():
     mapping = SystemMapping(_MockParent(), "Mapping")
-    tls = TlsCryptoServiceMapping(mapping, "TlsMap")
-    mapping.addCryptoServiceMapping(tls)
-    suite = TlsCryptoCipherSuite(tls, "EmptySuite")
-    tls.addTlsCipherSuite(suite)
+    tls = mapping.createTlsCryptoServiceMapping("TlsMap")
+    tls.createTlsCipherSuite("EmptySuite")
 
     node = _write(mapping)
     suite_elem = node.find("CRYPTO-SERVICE-MAPPINGS/TLS-CRYPTO-SERVICE-MAPPING/TLS-CIPHER-SUITES/TLS-CRYPTO-CIPHER-SUITE")

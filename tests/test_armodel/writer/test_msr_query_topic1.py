@@ -3,7 +3,6 @@
 import xml.etree.ElementTree as ET
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import String
-from armodel.models.M2.MSR.Documentation.Chapters import Topic1
 from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryProps, MsrQueryResultTopic1, MsrQueryTopic1
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
@@ -11,7 +10,7 @@ from armodel.writer.arxml_writer import ARXMLWriter
 
 def _build_full_topic_query() -> MsrQueryTopic1:
     result = MsrQueryResultTopic1()
-    result.addTopic1(Topic1(None, "topic-1"))
+    result.createTopic1("topic-1")
     props = MsrQueryProps().setMsrQueryName(String().setValue("topic-query"))
     return MsrQueryTopic1().setMsrQueryProps(props).setMsrQueryResultTopic1(result)
 

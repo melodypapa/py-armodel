@@ -328,7 +328,7 @@ class ChapterOrMsrQuery(ARObject):
     # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] addChapter          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createChapter        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getChapters         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setMsrQueryChapter  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getMsrQueryChapter  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -357,21 +357,25 @@ class ChapterOrMsrQuery(ARObject):
         # This represents automatically contributed chapters provided by an msrquery. Tags: xml.sequenceOffset=220
         self.msrQueryChapter: Optional[MsrQueryChapter] = None
 
-    def addChapter(self, value: Optional[Chapter]) -> ChapterOrMsrQuery:
+    def createChapter(self, short_name: str) -> Chapter:
         """
         This establishes a subschapter. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=chapter.shortName, chapter.variationPoint.shortLabel vh.latestBindingTime=postBuild xml.sequenceOffset=210
 
         DEVIATION (user-confirmed 2026-10-11): the list shape is kept although the spec `Mult.`
         column renders `1` — XSD CHAPTER-OR-MSR-QUERY declares pureMM.maxOccurs="-1" (unbounded).
 
-        A None value is a no-op and does not append anything.
+        Args:
+            short_name: The short name of the Chapter
 
         Returns:
-            self for method chaining
+            The created (or existing) Chapter
         """
-        if value is not None:
-            self.chapters.append(value)
-        return self
+        for item in self.chapters:
+            if item.getShortName() == short_name:
+                return item
+        item = Chapter(self, short_name)
+        self.chapters.append(item)
+        return item
 
     def getChapters(self) -> List[Chapter]:
         """
@@ -417,7 +421,7 @@ class TopicOrMsrQuery(ARObject):
     # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] setMsrQueryTopic1    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getMsrQueryTopic1    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] addTopic1            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createTopic1         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getTopic1s           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     #
     # NOTE: the inherited ARObject level (S/T) is deliberately not serialized by this class.
@@ -466,21 +470,25 @@ class TopicOrMsrQuery(ARObject):
         """
         return self.msrQueryTopic1
 
-    def addTopic1(self, value: Optional[Topic1]) -> TopicOrMsrQuery:
+    def createTopic1(self, short_name: str) -> Topic1:
         """
         This is used to create particular topics within a chapter. A topic is similar to a subchapter, but cannot be nested and will not appear in the table of contents of the document. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=topic1.shortName, topic1.variationPoint.shortLabel vh.latestBindingTime=postBuild xml.sequenceOffset=180
 
         DEVIATION (user-confirmed 2026-10-11): the list shape is kept although the spec `Mult.`
         column renders `1` — XSD TOPIC-OR-MSR-QUERY declares pureMM.maxOccurs="-1" (unbounded).
 
-        A None value is a no-op and does not append anything.
+        Args:
+            short_name: The short name of the Topic1
 
         Returns:
-            self for method chaining
+            The created (or existing) Topic1
         """
-        if value is not None:
-            self.topic1s.append(value)
-        return self
+        for item in self.topic1s:
+            if item.getShortName() == short_name:
+                return item
+        item = Topic1(self, short_name)
+        self.topic1s.append(item)
+        return item
 
     def getTopic1s(self) -> List[Topic1]:
         """

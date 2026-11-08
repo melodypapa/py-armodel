@@ -1207,13 +1207,13 @@ class TestEcucDefinitionElement:
         obj.setUpperMultiplicityInfinite(None)
         assert obj.getUpperMultiplicityInfinite() is True  # None is a no-op
 
-    def test_add_get_ecuc_validation_conds(self):
+    def test_create_get_ecuc_validation_conds(self):
         obj = self._make()
-        cond = EcucValidationCondition(AUTOSAR.getInstance(), "C1")
-        assert obj.addEcucValidationCond(cond) is obj
+        cond = obj.createEcucValidationCond("C1")
+        assert isinstance(cond, EcucValidationCondition)
         assert obj.getEcucValidationConds() == [cond]
-        obj.addEcucValidationCond(None)
-        assert len(obj.getEcucValidationConds()) == 1  # None is a no-op
+        assert obj.createEcucValidationCond("C1") is cond
+        assert len(obj.getEcucValidationConds()) == 1
 
 
 class TestEcucContainerDef:

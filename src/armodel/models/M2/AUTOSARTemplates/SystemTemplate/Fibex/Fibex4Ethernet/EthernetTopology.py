@@ -2135,7 +2135,7 @@ class CouplingPortDetails(ARObject):
     # [x] createCouplingPortShaper            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] createEthernetPriorityRegeneration  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getEthernetPriorityRegenerations    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] addEthernetTrafficClassAssignment   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createEthernetTrafficClassAssignment [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getEthernetTrafficClassAssignments  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] getGlobalTimeProps                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setGlobalTimeProps                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
@@ -2197,14 +2197,22 @@ class CouplingPortDetails(ARObject):
         """Defines a priority regeneration where the ingress priority is replaced by regenerated priority."""
         return self.ethernetPriorityRegenerations
 
-    def addEthernetTrafficClassAssignment(self, value: Optional[CouplingPortTrafficClassAssignment]) -> CouplingPortDetails:
+    def createEthernetTrafficClassAssignment(self, short_name: str) -> CouplingPortTrafficClassAssignment:
         """
         Defines the ingress port to EthernetTrafficClass assignment.
-        A None value is a no-op and does not append to ethernetTrafficClassAssignments.
+
+        Args:
+            short_name: The short name of the CouplingPortTrafficClassAssignment
+
+        Returns:
+            The created (or existing) CouplingPortTrafficClassAssignment
         """
-        if value is not None:
-            self.ethernetTrafficClassAssignments.append(value)
-        return self
+        for item in self.ethernetTrafficClassAssignments:
+            if item.getShortName() == short_name:
+                return item
+        item = CouplingPortTrafficClassAssignment(self, short_name)
+        self.ethernetTrafficClassAssignments.append(item)
+        return item
 
     def getEthernetTrafficClassAssignments(self) -> List[CouplingPortTrafficClassAssignment]:
         """Defines the ingress port to EthernetTrafficClass assignment."""

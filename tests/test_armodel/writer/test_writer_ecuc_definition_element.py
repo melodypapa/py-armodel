@@ -14,7 +14,7 @@ import xml.etree.ElementTree as ET
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucConditionSpecification, EcucDefinitionElement, EcucScopeEnum, EcucValidationCondition
+from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucConditionSpecification, EcucDefinitionElement, EcucScopeEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, PositiveInteger, RefType
 from armodel.writer.arxml_writer import ARXMLWriter
 
@@ -50,8 +50,7 @@ class TestWriteEcucDefinitionElement:
         """Test that all attributes are emitted in XSD order with the spec values."""
         holder = self._make()
         holder.setRelatedTraceItemRef(RefType().setValue("/EcucId/Trace").setDest("TRACEABLE"))
-        val_cond = EcucValidationCondition(AUTOSAR.getInstance(), "C1")
-        holder.addEcucValidationCond(val_cond)
+        holder.createEcucValidationCond("C1")
         ecuc_cond = EcucConditionSpecification()
         holder.setEcucCond(ecuc_cond)
         lower = PositiveInteger()

@@ -1,7 +1,7 @@
 import xml.etree.ElementTree as ET
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, NameToken, String
-from armodel.models.M2.MSR.Documentation.BlockElements import Caption, Row, Table, Tbody, Tgroup
+from armodel.models.M2.MSR.Documentation.BlockElements import Row, Table, Tbody, Tgroup
 from armodel.models.M2.MSR.Documentation.BlockElements.OasisExchangeTable import (
     FloatEnum,
     FrameEnum,
@@ -25,7 +25,7 @@ class TestTable:
         table.setPgwide(NameToken().setValue("PGWIDE"))
         table.setRowsep(TableSeparatorString().setValue("0"))
         table.setTabstyle(NameToken().setValue("style"))
-        table.setTableCaption(Caption(None, "cap"))
+        table.createTableCaption("cap")
         table.addTgroup(Tgroup().setCols(Integer().setValue(1)).setTbody(Tbody().addRow(Row())))
         element = ET.Element("TABLE")
 
@@ -58,7 +58,7 @@ class TestTable:
         table.setFloat(FloatEnum().setValue(FloatEnum.FLOAT))
         table.setFrame(FrameEnum().setValue(FrameEnum.ALL))
         table.setOrient(OrientEnum().setValue(OrientEnum.PORT))
-        table.setTableCaption(Caption(None, "cap"))
+        table.createTableCaption("cap")
         table.addTgroup(Tgroup().setCols(Integer().setValue(2)).setTbody(Tbody().addRow(Row())))
         element = ET.Element("TABLE")
         ARXMLWriter().writeTable(element, table)

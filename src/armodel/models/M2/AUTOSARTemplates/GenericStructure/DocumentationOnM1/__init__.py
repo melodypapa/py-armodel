@@ -47,7 +47,7 @@ class Documentation(ARElement):
     # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] addContext                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] createContext                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] getContexts                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] setDocumentationContent     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] getDocumentationContent     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
@@ -61,18 +61,22 @@ class Documentation(ARElement):
         # This is the content of the documentation related to the specified contexts.
         self.documentationContent: Optional[PredefinedChapter] = None
 
-    def addContext(self, value: DocumentationContext) -> Documentation:
+    def createContext(self, short_name: str) -> DocumentationContext:
         """
         This is the context of the particular documentation.
 
-        A None value is a no-op and does not append an existing context.
+        Args:
+            short_name: The short name of the DocumentationContext
 
         Returns:
-            self for method chaining
+            The created (or existing) DocumentationContext
         """
-        if value is not None:
-            self.contexts.append(value)
-        return self
+        for item in self.contexts:
+            if item.getShortName() == short_name:
+                return item
+        item = DocumentationContext(self, short_name)
+        self.contexts.append(item)
+        return item
 
     def getContexts(self) -> List[DocumentationContext]:
         """

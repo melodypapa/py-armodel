@@ -15,7 +15,6 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Serv
     ApplicationEndpoint,
     EventGroupControlTypeEnum,
     EventHandler,
-    PduActivationRoutingGroup,
     PduCollectionSemanticsEnum,
     PduCollectionTriggerEnum,
     ProvidedServiceInstance,
@@ -247,21 +246,18 @@ class TestWriteEventHandler:
         multicast_ref.setValue("/mc1")
         threshold = PositiveInteger()
         threshold.setValue("2")
-        routing_group = PduActivationRoutingGroup(parent=None, short_name="parg1")
-        control_type = EventGroupControlTypeEnum().setValue(EventGroupControlTypeEnum.ACTIVATION_MULTICAST)
-        routing_group.setEventGroupControlType(control_type)
-        routing_ref = RefType()
-        routing_ref.setDest("SO-AD-ROUTING-GROUP")
-        routing_ref.setValue("/rg1")
-        timing_ref = RefType()
-        timing_ref.setDest("SOMEIP-SD-SERVER-EVENT-GROUP-TIMING-CONFIG")
-        timing_ref.setValue("/timing1")
+        handler.createPduActivationRoutingGroup("parg1").setEventGroupControlType(EventGroupControlTypeEnum().setValue(EventGroupControlTypeEnum.ACTIVATION_MULTICAST))
         handler.addConsumedEventGroupRef(group_ref)
         handler.setEventGroupIdentifier(event_group_identifier)
         handler.setEventMulticastAddressRef(multicast_ref)
         handler.setMulticastThreshold(threshold)
-        handler.addPduActivationRoutingGroup(routing_group)
+        routing_ref = RefType()
+        routing_ref.setDest("SO-AD-ROUTING-GROUP")
+        routing_ref.setValue("/rg1")
         handler.addRoutingGroupRef(routing_ref)
+        timing_ref = RefType()
+        timing_ref.setDest("SOMEIP-SD-SERVER-EVENT-GROUP-TIMING-CONFIG")
+        timing_ref.setValue("/timing1")
         handler.setSdServerEgTimingConfigRef(timing_ref)
 
         parent = _parent()

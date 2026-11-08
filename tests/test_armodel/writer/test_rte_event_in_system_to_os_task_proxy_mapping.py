@@ -112,12 +112,11 @@ class TestWriteRteEventInSystemToOsTaskProxyMapping:
     def test_round_trip_via_system_mapping(self):
         system = System(parent=None, short_name="sys")
         system_mapping = system.createSystemMapping("sm")
-        mapping = RteEventInSystemToOsTaskProxyMapping(system_mapping, "Map1")
+        mapping = system_mapping.createRteEventToOsTaskProxyMapping("Map1")
         offset = Integer()
         offset.setValue("5")
         mapping.setOffset(offset)
         mapping.setOsTaskProxyRef(_ref("/OsTaskProxies/TaskProxy2", "OS-TASK-PROXY"))
-        system_mapping.addRteEventToOsTaskProxyMapping(mapping)
 
         parent = ET.Element("PARENT")
         ARXMLWriter().writeSystemMappingRteEventToOsTaskProxyMappings(parent, system_mapping)

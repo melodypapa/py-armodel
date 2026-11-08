@@ -927,17 +927,14 @@ class TestConsumedEventGroup:
         group.addEventMulticastAddressRef(None)
         assert group.getEventMulticastAddressRefs() == [ref1, ref2]
 
-    def test_add_get_pdu_activation_routing_groups(self):
+    def test_create_get_pdu_activation_routing_groups(self):
         group = self._group()
-        routing_group1 = PduActivationRoutingGroup(group, "parg1")
-        routing_group2 = PduActivationRoutingGroup(group, "parg2")
+        routing_group1 = group.createPduActivationRoutingGroup("parg1")
+        routing_group2 = group.createPduActivationRoutingGroup("parg2")
+        assert isinstance(routing_group1, PduActivationRoutingGroup)
 
-        assert group.addPduActivationRoutingGroup(routing_group1) is group
-        group.addPduActivationRoutingGroup(routing_group2)
         assert group.getPduActivationRoutingGroups() == [routing_group1, routing_group2]
-
-        group.addPduActivationRoutingGroup(None)
-        assert group.getPduActivationRoutingGroups() == [routing_group1, routing_group2]
+        assert group.createPduActivationRoutingGroup("parg1") is routing_group1
 
     def test_get_set_priority(self):
         group = self._group()
@@ -1003,18 +1000,24 @@ class TestConsumedEventGroup:
             self.AUTO_REQUIRE_NOTE: ("getAutoRequire", "setAutoRequire"),
             self.EVENT_GROUP_IDENTIFIER_NOTE: ("getEventGroupIdentifier", "setEventGroupIdentifier"),
             self.EVENT_MULTICAST_ADDRESS_NOTE: ("addEventMulticastAddressRef", "getEventMulticastAddressRefs"),
-            self.PDU_ACTIVATION_ROUTING_GROUP_NOTE: ("addPduActivationRoutingGroup", "getPduActivationRoutingGroups"),
+            self.PDU_ACTIVATION_ROUTING_GROUP_NOTE: ("createPduActivationRoutingGroup", "getPduActivationRoutingGroups"),
             self.PRIORITY_NOTE: ("getPriority", "setPriority"),
             self.ROUTING_GROUP_NOTE: ("addRoutingGroupRef", "getRoutingGroupRefs"),
             self.SD_CLIENT_CONFIG_NOTE: ("getSdClientConfig", "setSdClientConfig"),
             self.SD_CLIENT_TIMER_CONFIG_NOTE: ("getSdClientTimerConfigRef", "setSdClientTimerConfigRef"),
         }
         for note, (getter, setter) in accessors.items():
-            assert inspect.cleandoc(getattr(ConsumedEventGroup, getter).__doc__).split("\nA None value")[0] == note
+            doc = inspect.cleandoc(getattr(ConsumedEventGroup, getter).__doc__)
+            if "\nArgs:" in doc:
+                doc = doc.split("\nArgs:")[0].strip()
+            assert doc.split("\nA None value")[0] == note
             assert inspect.cleandoc(getattr(ConsumedEventGroup, setter).__doc__).split("\nA None value")[0] == note
             assert note in inspect.getsource(ConsumedEventGroup.__init__)
         for note, field in list_adds.items():
-            assert ("A None value is a no-op and does not append to %s." % field) in inspect.cleandoc(getattr(ConsumedEventGroup, accessors[note][0]).__doc__)
+            add_name = accessors[note][0]
+            if add_name.startswith("create"):
+                continue
+            assert ("A None value is a no-op and does not append to %s." % field) in inspect.cleandoc(getattr(ConsumedEventGroup, add_name).__doc__)
         for note, field in scalar_setters.items():
             assert ("A None value is a no-op and does not overwrite an existing %s." % field) in inspect.cleandoc(getattr(ConsumedEventGroup, accessors[note][1]).__doc__)
 
@@ -1373,16 +1376,13 @@ class TestAbstractServiceInstance:
         instance.setMajorVersion(None)
         assert instance.getMajorVersion() is value
 
-    def test_get_set_methodActivationRoutingGroup(self):
-        """Test get/set methodActivationRoutingGroup with chaining and None no-op (placeholder type)."""
+    def test_create_get_methodActivationRoutingGroup(self):
+        """Test create/get methodActivationRoutingGroup with reuse on duplicate short name."""
         instance = self._instance()
-        value = MockParent()
-
-        assert instance.setMethodActivationRoutingGroup(value) is instance
+        value = instance.createMethodActivationRoutingGroup("MARG1")
+        assert isinstance(value, PduActivationRoutingGroup)
         assert instance.getMethodActivationRoutingGroup() is value
-
-        instance.setMethodActivationRoutingGroup(None)
-        assert instance.getMethodActivationRoutingGroup() is value
+        assert instance.createMethodActivationRoutingGroup("MARG1") is value
 
     def test_add_get_routingGroupRefs(self):
         """Test add/get routingGroupRefs append order and None no-op."""
@@ -1438,7 +1438,7 @@ class TestAbstractServiceInstance:
         )
         assert inspect.cleandoc(AbstractServiceInstance.getMethodActivationRoutingGroup.__doc__) == expected
         assert (
-            inspect.cleandoc(AbstractServiceInstance.setMethodActivationRoutingGroup.__doc__) == expected + "\nA None value is a no-op and does not overwrite an existing methodActivationRoutingGroup."
+            inspect.cleandoc(AbstractServiceInstance.createMethodActivationRoutingGroup.__doc__).split("\nArgs:")[0].strip() == expected
         )
         assert expected in inspect.getsource(AbstractServiceInstance.__init__)
 
@@ -2071,17 +2071,14 @@ class TestEventHandler:
 
     def test_pdu_activation_routing_groups(self):
         """
-        Test pduActivationRoutingGroups append semantics and None no-op.
+        Test createPduActivationRoutingGroup append semantics and reuse on duplicate short name.
         """
         handler = self._new_handler()
-        group = PduActivationRoutingGroup(MockParent(), "PARG1")
+        group = handler.createPduActivationRoutingGroup("PARG1")
+        assert isinstance(group, PduActivationRoutingGroup)
 
-        result = handler.addPduActivationRoutingGroup(group)
         assert handler.getPduActivationRoutingGroups() == [group]
-        assert result == handler  # method chaining
-
-        handler.addPduActivationRoutingGroup(None)
-        assert handler.getPduActivationRoutingGroups() == [group]
+        assert handler.createPduActivationRoutingGroup("PARG1") is group
 
     def test_sd_server_eg_timing_config_ref(self):
         """

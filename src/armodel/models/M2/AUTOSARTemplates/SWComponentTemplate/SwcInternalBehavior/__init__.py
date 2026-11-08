@@ -620,7 +620,7 @@ class SwcInternalBehavior(InternalBehavior, VariationPointCapable):
     # [x] setSupportsMultipleInstantiation             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] addInstantiationDataDefProps                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getInstantiationDataDefPropss                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] addVariationPointProxy                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createVariationPointProxy                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getVariationPointProxies                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
@@ -1163,13 +1163,22 @@ class SwcInternalBehavior(InternalBehavior, VariationPointCapable):
         """
         return self.instantiationDataDefProps
 
-    def addVariationPointProxy(self, value: Optional[VariationPointProxy]) -> "SwcInternalBehavior":
+    def createVariationPointProxy(self, short_name: str) -> VariationPointProxy:
         """
-        Proxy of a variation points in the C/C++ implementation. Stereotypes: atpSplitable Tags: atp.Splitkey=variationPointProxy.shortName A None value is a no-op and does not append to variationPointProxies.
+        Proxy of a variation points in the C/C++ implementation. Stereotypes: atpSplitable Tags: atp.Splitkey=variationPointProxy.shortName
+
+        Args:
+            short_name: The short name of the VariationPointProxy
+
+        Returns:
+            The created (or existing) VariationPointProxy
         """
-        if value is not None:
-            self.variationPointProxies.append(value)
-        return self
+        for item in self.variationPointProxies:
+            if item.getShortName() == short_name:
+                return item
+        item = VariationPointProxy(self, short_name)
+        self.variationPointProxies.append(item)
+        return item
 
     def getVariationPointProxies(self) -> List[VariationPointProxy]:
         """

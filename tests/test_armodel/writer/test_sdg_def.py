@@ -24,7 +24,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.SpecialDataDef import (
     SdgAggregationWithVariation,
-    SdgClass,
     SdgForeignReference,
     SdgForeignReferenceWithVariation,
     SdgPrimitiveAttribute,
@@ -54,11 +53,10 @@ class TestSdgDefRoundTrip:
         root = document.createARPackage("AUTOSAR")
         sdg_def = root.createSdgDef("MySdgDef")
 
-        sdg_class = SdgClass(sdg_def, "MySdgClass")
+        sdg_class = sdg_def.createSdgClass("MySdgClass")
         sdg_class.setGid(NameToken().setValue("MY-CLASS-GID"))
         sdg_class.setExtendsMetaClass(MetaClassName().setValue("ArPackage"))
         sdg_class.setCaption(Boolean().setValue(True))
-        sdg_def.addSdgClass(sdg_class)
 
         prim = SdgPrimitiveAttribute(sdg_class, "Severity")
         prim.setGid(NameToken().setValue("SEVERITY"))

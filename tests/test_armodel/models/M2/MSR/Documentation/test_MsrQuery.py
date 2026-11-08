@@ -2,7 +2,7 @@
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import NameToken, String
 from armodel.models.M2.MSR.Documentation.BlockElements import DocumentationBlock
-from armodel.models.M2.MSR.Documentation.Chapters import Chapter, Topic1, TopicContent
+from armodel.models.M2.MSR.Documentation.Chapters import TopicContent
 from armodel.models.M2.MSR.Documentation.MsrQuery import (
     MsrQueryArg,
     MsrQueryChapter,
@@ -139,18 +139,13 @@ class TestMsrQueryResultChapter:
         assert result.chapters == []
 
     def test_msr_query_result_chapter_add_methods(self):
-        """Test adding chapters with insertion order and None no-op."""
+        """Test creating chapters with insertion order and reuse."""
         result = MsrQueryResultChapter()
-        chapter1 = Chapter(None, "ch1")
-        chapter2 = Chapter(None, "ch2")
+        chapter1 = result.createChapter("ch1")
+        chapter2 = result.createChapter("ch2")
 
-        ret = result.addChapter(chapter1)
-        result.addChapter(chapter2)
         assert result.getChapters() == [chapter1, chapter2]
-        assert ret == result
-
-        result.addChapter(None)
-        assert result.getChapters() == [chapter1, chapter2]
+        assert result.createChapter("ch1") is chapter1
 
 
 class TestMsrQueryResultTopic1:
@@ -162,19 +157,13 @@ class TestMsrQueryResultTopic1:
         assert result.topic1 == []
 
     def test_msr_query_result_topic1_add_methods(self):
-        """Test adding topics with insertion order and None no-op."""
+        """Test creating topics with insertion order and reuse."""
         result = MsrQueryResultTopic1()
-        topic1 = Topic1(None, "topic-1")
-        topic2 = Topic1(None, "topic-2")
+        topic1 = result.createTopic1("topic-1")
+        topic2 = result.createTopic1("topic-2")
 
-        ret = result.addTopic1(topic1)
-        result.addTopic1(topic2)
         assert result.getTopic1s() == [topic1, topic2]
-        assert ret == result
-
-        result.addTopic1(None)
-        assert result.getTopic1s() == [topic1, topic2]
-        assert ret == result
+        assert result.createTopic1("topic-1") is topic1
 
 
 class TestMsrQueryTopic1:

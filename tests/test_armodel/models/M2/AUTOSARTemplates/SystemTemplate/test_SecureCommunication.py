@@ -1059,14 +1059,13 @@ class Test_TlsCryptoCipherSuiteSpec:
         suite.addSignatureSchemeRef(None)
         assert [r.getValue() for r in suite.getSignatureSchemeRefs()] == ["/Crypto/SignatureSchemes/S1", "/Crypto/SignatureSchemes/S2"]
 
-    def test_get_set_props(self):
+    def test_create_props(self):
         parent = MockParent()
         suite = TlsCryptoCipherSuite(parent, "suite")
-        props = TlsCryptoCipherSuiteProps(parent, "props")
-        assert suite.setProps(props) is suite
+        props = suite.createProps("props")
+        assert isinstance(props, TlsCryptoCipherSuiteProps)
         assert suite.getProps() is props
-        suite.setProps(None)
-        assert suite.getProps() is props
+        assert suite.createProps("props") is props
 
     def test_get_set_psk_identity(self):
         parent = MockParent()
@@ -1089,9 +1088,10 @@ class Test_TlsCryptoCipherSuiteSpec:
     def test_consumer_typed_tls_cipher_suites_list(self):
         # extend pass — TlsCryptoServiceMapping.tlsCipherSuites becomes a typed TlsCryptoCipherSuite list
         mapping = TlsCryptoServiceMapping(MockParent(), "mapping")
-        suite = TlsCryptoCipherSuite(mapping, "suite")
-        assert mapping.addTlsCipherSuite(suite) is mapping
+        suite = mapping.createTlsCipherSuite("suite")
+        assert isinstance(suite, TlsCryptoCipherSuite)
         assert mapping.getTlsCipherSuites() == [suite]
+        assert mapping.createTlsCipherSuite("suite") is suite
 
 
 class Test_TlsVersionEnum:

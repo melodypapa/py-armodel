@@ -596,17 +596,17 @@ class TestSwcInternalBehavior:
         assert len(behavior.getInstantiationDataDefPropss()) == 1
 
     def test_swc_internal_behavior_variation_point_proxy_accessors(self):
-        """Test addVariationPointProxy/getVariationPointProxies (incl. None no-op)."""
+        """Test createVariationPointProxy/getVariationPointProxies."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         behavior = SwcInternalBehavior(ar_root, "TestSwcInternalBehavior")
 
         from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.VariantHandling import VariationPointProxy
 
-        proxy = VariationPointProxy(ar_root, "TestProxy")
-        assert behavior.addVariationPointProxy(proxy) is behavior
+        proxy = behavior.createVariationPointProxy("TestProxy")
+        assert isinstance(proxy, VariationPointProxy)
         assert proxy in behavior.getVariationPointProxies()
-        behavior.addVariationPointProxy(None)
+        assert behavior.createVariationPointProxy("TestProxy") is proxy
         assert len(behavior.getVariationPointProxies()) == 1
 
     def test_swc_internal_behavior_class_docstring_verbatim(self):

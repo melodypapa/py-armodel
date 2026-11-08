@@ -104,11 +104,10 @@ class TestWriteRteEventInSystemSeparation:
     def test_round_trip_via_system_mapping(self):
         system = System(parent=None, short_name="sys")
         system_mapping = system.createSystemMapping("sm")
-        separation = RteEventInSystemSeparation(system_mapping, "Sep1")
+        separation = system_mapping.createRteEventSeparation("Sep1")
         iref = RteEventInSystemInstanceRef()
         iref.setTargetRteEventRef(_ref("/Root/SwcA/Ev1", "RTE-EVENT"))
         separation.addRteEventIRef(iref)
-        system_mapping.addRteEventSeparation(separation)
 
         parent = ET.Element("PARENT")
         ARXMLWriter().writeSystemMappingRteEventSeparations(parent, system_mapping)
