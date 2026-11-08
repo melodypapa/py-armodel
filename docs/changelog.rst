@@ -1,8 +1,13 @@
 Changelog
 =========
 
-Version 1.9.8 (Current)
+Version 1.9.9 (Current)
 -----------------------
+
+* Bumped project version metadata to 1.9.9
+
+Version 1.9.8
+-------------
 
 * Synced the remaining Group19–Group22 queue classes to the AUTOSAR R23-11
   spec: 35 classes, including the 12-class ``SdgDef`` family (new
